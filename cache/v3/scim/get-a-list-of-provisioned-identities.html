@@ -1,0 +1,89 @@
+<h2>
+    <a id="get-a-list-of-provisioned-identities" class="anchor" href="#get-a-list-of-provisioned-identities" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get a list of provisioned identities</h2>
+<pre><code>GET https://api.github.com/scim/v2/organizations/:organization/Users
+</code></pre>
+<h3>
+    <a id="parameters" class="anchor" href="#parameters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>startIndex</code></td>
+            <td><code>integer</code></td>
+            <td>Used for pagination: the index of the first result to return</td>
+        </tr>
+        <tr>
+            <td><code>count</code></td>
+            <td><code>integer</code></td>
+            <td>Used for pagination: the number of results to return</td>
+        </tr>
+        <tr>
+            <td><code>filter</code></td>
+            <td><code>string</code></td>
+            <td>Only <code>eq</code> type filters are supported</td>
+        </tr>
+    </tbody>
+</table>
+<h4>
+    <a id="filter-parameter" class="anchor" href="#filter-parameter" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Filter parameter</h4>
+<p>You can filter results with the <code>id</code>, <code>userName</code>, <code>emails</code> and <code>external_id</code> query parameters.</p>
+<pre><code>GET https://api.github.com/scim/v2/organizations/:organization/Users?filter=userName eq user@example.com
+</code></pre>
+<h3>
+    <a id="response" class="anchor" href="#response" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<p>Retrieves a paginated list of all provisioned organization members, including pending invitations.</p>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;schemas&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">&quot;urn:ietf:params:scim:api:messages:2.0:ListResponse&quot;</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nt">&quot;totalResults&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;itemsPerPage&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;startIndex&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;Resources&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;schemas&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">&quot;urn:ietf:params:scim:schemas:core:2.0:User&quot;</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;8773fe-ffff-42837498757&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;externalId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;239482347928374&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;userName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mona@example.com&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">&quot;givenName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mona&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;familyName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;octocat&quot;</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">&quot;active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;meta&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">&quot;resourceType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;User&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;created&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2017-03-09T16:11:13-05:00&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;lastModified&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2017-03-09T16:11:13-05:00&quot;</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;schemas&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">&quot;urn:ietf:params:scim:schemas:core:2.0:User&quot;</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;77563764-eb6-24-0598234-958243&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;externalId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sdfoiausdofiua&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;userName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;hubot@example.com&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">&quot;givenName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;hu&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;familyName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bot&quot;</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">&quot;active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;meta&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">&quot;resourceType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;User&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;created&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2017-03-09T16:11:13-05:00&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;lastModified&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2017-03-09T16:11:13-05:00&quot;</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>

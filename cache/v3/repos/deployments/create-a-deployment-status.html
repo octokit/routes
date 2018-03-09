@@ -1,0 +1,112 @@
+<h2>
+    <a id="create-a-deployment-status" class="anchor" href="#create-a-deployment-status" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a deployment status<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info"
+        title="Enabled for GitHub Apps"></a>
+</h2>
+<p>Users with push access can create deployment statuses for a given deployment:</p>
+<pre><code>POST /repos/:owner/:repo/deployments/:id/statuses
+</code></pre>
+<h3>
+    <a id="parameters-3" class="anchor" href="#parameters-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>state</code></td>
+            <td><code>string</code></td>
+            <td>
+                <strong>Required</strong>. The state of the status. Can be one of <code>error</code>, <code>failure</code>, <code>inactive</code>, <code>pending</code>, or <code>success</code>. <strong>The <code>inactive</code> state requires a custom media type to be specified. Please see more in the alert below.</strong>
+            </td>
+        </tr>
+        <tr>
+            <td><code>target_url</code></td>
+            <td><code>string</code></td>
+            <td>The target URL to associate with this status. This URL should contain output to keep the user updated while the task is running or serve as historical information for what happened in the deployment. Default: <code>&quot;&quot;</code>
+            </td>
+        </tr>
+        <tr>
+            <td><code>log_url</code></td>
+            <td><code>string</code></td>
+            <td>This is functionally equivalent to <code>target_url</code>. We will continue accept <code>target_url</code> to support legacy uses, but we recommend modifying this to the new name to avoid confusion. Default: <code>&quot;&quot;</code> <strong>This parameter requires a custom media type to be specified. Please see more in the alert below.</strong>
+            </td>
+        </tr>
+        <tr>
+            <td><code>description</code></td>
+            <td><code>string</code></td>
+            <td>A short description of the status. Maximum length of 140 characters. Default: <code>&quot;&quot;</code>
+            </td>
+        </tr>
+        <tr>
+            <td><code>environment_url</code></td>
+            <td><code>string</code></td>
+            <td>Sets the URL for accessing your environment. Default: <code>&quot;&quot;</code> <strong>This parameter requires a custom media type to be specified. Please see more in the alert below.</strong>
+            </td>
+        </tr>
+        <tr>
+            <td><code>auto_inactive</code></td>
+            <td><code>boolean</code></td>
+            <td>Adds a new <code>inactive</code> status to all non-transient, non-production environment deployments with the same repository and environment name as the created status&apos;s deployment. Default: <code>true</code> <strong>This parameter requires a custom media type to be specified. Please see more in the alert below.</strong>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div class="alert tip">
+
+    <p>The new <code>inactive</code> state, rename of the <code>target_url</code> parameter to <code>log_url</code>, and new <code>environment_url</code> and <code>auto_inactive</code> parameters are currently available for developers to preview. During
+        the preview period, the API may change without advance notice. Please see the <a href="/changes/2016-04-06-deployment-and-deployment-status-enhancements">blog post</a> for full details.</p>
+
+    <p>To access the API during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+    <pre><code>application/vnd.github.ant-man-preview+json
+</code></pre>
+
+</div>
+<h4>
+    <a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h4>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;target_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://example.com/deployment/42/output&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Deployment finished successfully.&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+    <a id="response-4" class="anchor" href="#response-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 201 Created
+Location: https://api.github.com/repos/octocat/example/deployments/42/statuses/1
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/example/deployments/42/statuses/1&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;creator&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;login&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;octocat&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;avatar_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/images/error/octocat_happy.gif&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;gravatar_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;html_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/octocat&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;followers_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/followers&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;following_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/following{/other_user}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;gists_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/gists{/gist_id}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;starred_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/starred{/owner}{/repo}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;subscriptions_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/subscriptions&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;organizations_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/orgs&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;repos_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/repos&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;events_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/events{/privacy}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;received_events_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/received_events&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;User&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;site_admin&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Deployment finished successfully.&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;target_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://example.com/deployment/42/output&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2012-07-20T01:19:13Z&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2012-07-20T01:19:13Z&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;deployment_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/example/deployments/42&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;repository_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/example&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>

@@ -1,0 +1,130 @@
+<h2>
+    <a id="tag-signature-verification" class="anchor" href="#tag-signature-verification" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tag signature verification</h2>
+<pre><code>GET /repos/:owner/:repo/git/tags/:sha
+</code></pre>
+<h3>
+    <a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;tag&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;v0.0.1&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;sha&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;940bd336248efae0f9ee5bc7b2d5c985887b16ac&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Hello-World/git/tags/940bd336248efae0f9ee5bc7b2d5c985887b16ac&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;initial version&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;tagger&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Scott Chacon&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;schacon@gmail.com&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2014-11-07T22:01:45Z&quot;</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">&quot;object&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;commit&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;sha&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;c3d0be41ecbe669545ee3e94d31ed9a4bc91ee3c&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Hello-World/git/commits/c3d0be41ecbe669545ee3e94d31ed9a4bc91ee3c&quot;</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">&quot;verification&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;verified&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;reason&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;valid&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;-----BEGIN PGP MESSAGE-----\n...\n-----END PGP MESSAGE-----&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;payload&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object c3d0be41ecbe669545ee3e94d31ed9a4bc91ee3c\n...&quot;</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+    <a id="the-verification-object" class="anchor" href="#the-verification-object" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>The <code>verification</code> object</h3>
+<p>The response will include a <code>verification</code> field whose value is an object describing the result of verifying the tag&apos;s signature. The following fields are included in the <code>verification</code> object:</p>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>verified</code></td>
+            <td><code>boolean</code></td>
+            <td>Does GitHub consider the signature in this tag to be verified?</td>
+        </tr>
+        <tr>
+            <td><code>reason</code></td>
+            <td><code>string</code></td>
+            <td>The reason for <code>verified</code> value. Possible values and their meanings are enumerated in the table below.</td>
+        </tr>
+        <tr>
+            <td><code>signature</code></td>
+            <td><code>string</code></td>
+            <td>The signature that was extracted from the tag.</td>
+        </tr>
+        <tr>
+            <td><code>payload</code></td>
+            <td><code>string</code></td>
+            <td>The value that was signed.</td>
+        </tr>
+    </tbody>
+</table>
+<h4>
+    <a id="the-reason-field" class="anchor" href="#the-reason-field" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>The <code>reason</code> field</h4>
+<p>The following are possible <code>reason</code>s that may be included in the <code>verification</code> object:</p>
+<table>
+    <thead>
+        <tr>
+            <th>Value</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>expired_key</code></td>
+            <td>The key that made the signature is expired.</td>
+        </tr>
+        <tr>
+            <td><code>not_signing_key</code></td>
+            <td>The &quot;signing&quot; flag is not among the usage flags in the GPG key that made the signature.</td>
+        </tr>
+        <tr>
+            <td><code>gpgverify_error</code></td>
+            <td>There was an error communicating with the signature-verification service.</td>
+        </tr>
+        <tr>
+            <td><code>gpgverify_unavailable</code></td>
+            <td>The signature-verification service is currently unavailable.</td>
+        </tr>
+        <tr>
+            <td><code>unsigned</code></td>
+            <td>The object does not include a signature.</td>
+        </tr>
+        <tr>
+            <td><code>unkown_signature_type</code></td>
+            <td>A non-PGP signature was found in the tag.</td>
+        </tr>
+        <tr>
+            <td><code>no_user</code></td>
+            <td>No user was associated with the <code>tagger</code> email address in the tag.</td>
+        </tr>
+        <tr>
+            <td><code>unverified_email</code></td>
+            <td>The <code>tagger</code> email address in the tag was associated with a user, but the email address is not verified on her/his account.</td>
+        </tr>
+        <tr>
+            <td><code>bad_email</code></td>
+            <td>The <code>tagger</code> email address in the tag is not included in the identities of the PGP key that made the signature.</td>
+        </tr>
+        <tr>
+            <td><code>unknown_key</code></td>
+            <td>The key that made the signature has not been registered with any user&apos;s account.</td>
+        </tr>
+        <tr>
+            <td><code>malformed_signature</code></td>
+            <td>There was an error parsing the signature.</td>
+        </tr>
+        <tr>
+            <td><code>invalid</code></td>
+            <td>The signature could not be cryptographically verified using the key whose key-id was found in the signature.</td>
+        </tr>
+        <tr>
+            <td><code>valid</code></td>
+            <td>None of the above errors applied, so the signature is considered to be verified.</td>
+        </tr>
+    </tbody>
+</table>
