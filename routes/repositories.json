@@ -7,30 +7,53 @@
     "params": [
       {
         "name": "visibility",
-        "type": "string",
+        "type": [
+          "all",
+          "public",
+          "private"
+        ],
+        "required": false,
         "description": "Can be one of `all`, `public`, or `private`.",
         "default": "all"
       },
       {
         "name": "affiliation",
         "type": "string",
+        "required": false,
         "description": "Comma-separated list of values. Can include:  \n\\* `owner`: Repositories that are owned by the authenticated user.  \n\\* `collaborator`: Repositories that the user has been added to as a collaborator.  \n\\* `organization_member`: Repositories that the user has access to through being a member of an organization. This includes every repository on every team that the user is on.  \n  \nDefault: `owner,collaborator,organization_member`"
       },
       {
         "name": "type",
-        "type": "string",
+        "type": [
+          "all",
+          "owner",
+          "public",
+          "private",
+          "member"
+        ],
+        "required": false,
         "description": "Can be one of `all`, `owner`, `public`, `private`, `member`.",
         "default": "allWill cause a 422 error if used in the same request as visibility or affiliation."
       },
       {
         "name": "sort",
-        "type": "string",
+        "type": [
+          "created",
+          "updated",
+          "pushed",
+          "full_name"
+        ],
+        "required": false,
         "description": "Can be one of `created`, `updated`, `pushed`, `full_name`.",
         "default": "full_name"
       },
       {
         "name": "direction",
-        "type": "string",
+        "type": [
+          "asc",
+          "desc"
+        ],
+        "required": false,
         "description": "Can be one of `asc` or `desc`.",
         "default": "when using full_name: asc; otherwise desc"
       }
@@ -45,19 +68,34 @@
     "params": [
       {
         "name": "type",
-        "type": "string",
+        "type": [
+          "all",
+          "owner",
+          "member"
+        ],
+        "required": false,
         "description": "Can be one of `all`, `owner`, `member`.",
         "default": "owner"
       },
       {
         "name": "sort",
-        "type": "string",
+        "type": [
+          "created",
+          "updated",
+          "pushed",
+          "full_name"
+        ],
+        "required": false,
         "description": "Can be one of `created`, `updated`, `pushed`, `full_name`.",
         "default": "full_name"
       },
       {
         "name": "direction",
-        "type": "string",
+        "type": [
+          "asc",
+          "desc"
+        ],
+        "required": false,
         "description": "Can be one of `asc` or `desc`.",
         "default": "when using full_name: asc, otherwise desc"
       }
@@ -72,7 +110,15 @@
     "params": [
       {
         "name": "type",
-        "type": "string",
+        "type": [
+          "all",
+          "public",
+          "private",
+          "forks",
+          "sources",
+          "member"
+        ],
+        "required": false,
         "description": "Can be one of `all`, `public`, `private`, `forks`, `sources`, `member`.",
         "default": "all"
       }
@@ -88,6 +134,7 @@
       {
         "name": "since",
         "type": "string",
+        "required": false,
         "description": "The integer ID of the last Repository that you've seen."
       }
     ],
@@ -120,68 +167,101 @@
       {
         "name": "name",
         "type": "string",
-        "description": "**Required**. The name of the repository."
+        "required": true,
+        "description": "The name of the repository."
       },
       {
         "name": "description",
         "type": "string",
+        "required": false,
         "description": "A short description of the repository."
       },
       {
         "name": "homepage",
         "type": "string",
+        "required": false,
         "description": "A URL with more information about the repository."
       },
       {
         "name": "private",
-        "type": "boolean",
+        "type": [
+          "true",
+          "false"
+        ],
+        "required": false,
         "description": "Either `true` to make the repository private or `false` to make it public. Creating private repositories requires a paid GitHub account.",
         "default": "false.Note: You will get a 422 error if the organization restricts changing repository visibility to organization owners and a non-owner tries to change the value of private."
       },
       {
         "name": "has_issues",
-        "type": "boolean",
+        "type": [
+          "true",
+          "false"
+        ],
+        "required": false,
         "description": "Either `true` to enable issues for this repository or `false` to disable them.",
         "default": "true."
       },
       {
         "name": "has_projects",
-        "type": "boolean",
+        "type": [
+          "true",
+          "false"
+        ],
+        "required": false,
         "description": "Either `true` to enable projects for this repository or `false` to disable them.",
         "default": "true. Note: If you're creating a repository in an organization that has disabled repository projects, the default is false, and if you pass true, the API returns an error."
       },
       {
         "name": "has_wiki",
-        "type": "boolean",
+        "type": [
+          "true",
+          "false"
+        ],
+        "required": false,
         "description": "Either `true` to enable the wiki for this repository or `false` to disable it.",
         "default": "true."
       },
       {
         "name": "default_branch",
         "type": "String",
+        "required": false,
         "description": "Updates the default branch for this repository."
       },
       {
         "name": "allow_squash_merge",
-        "type": "boolean",
+        "type": [
+          "true",
+          "false"
+        ],
+        "required": false,
         "description": "Either `true` to allow squash-merging pull requests, or `false` to prevent squash-merging.",
         "default": "true"
       },
       {
         "name": "allow_merge_commit",
-        "type": "boolean",
+        "type": [
+          "true",
+          "false"
+        ],
+        "required": false,
         "description": "Either `true` to allow merging pull requests with a merge commit, or `false` to prevent merging pull requests with merge commits.",
         "default": "true"
       },
       {
         "name": "allow_rebase_merge",
-        "type": "boolean",
+        "type": [
+          "true",
+          "false"
+        ],
+        "required": false,
         "description": "Either `true` to allow rebase-merging pull requests, or `false` to prevent rebase-merging.",
         "default": "true"
       },
       {
         "name": "archived",
         "type": "boolean",
+        "required": false,
         "description": "`true` to archive this repository. **Note**: You cannot unarchive repositories through the API.",
         "default": "false"
       }
@@ -205,7 +285,8 @@
       {
         "name": "names",
         "type": "array of strings",
-        "description": "**Required**. An array of topics to add to the repository. Pass one or more topics to _replace_ the set of existing topics. Send an empty array (`[]`) to clear all topics from the repository."
+        "required": true,
+        "description": "An array of topics to add to the repository. Pass one or more topics to _replace_ the set of existing topics. Send an empty array (`[]`) to clear all topics from the repository."
       }
     ],
     "documentationUrl": "https://developer.github.com/v3/repos/#replace-all-topics-for-a-repository"
@@ -219,6 +300,7 @@
       {
         "name": "anon",
         "type": "string",
+        "required": false,
         "description": "Set to `1` or `true` to include anonymous contributors in results."
       }
     ],
@@ -265,11 +347,13 @@
       {
         "name": "new_owner",
         "type": "string",
+        "required": false,
         "description": "**Required:** The username or organization name the repository will be transferred to."
       },
       {
         "name": "team_id",
         "type": "array of integers",
+        "required": false,
         "description": "ID of the team or teams to add to the repository. Teams can only be added to organization-owned repositories."
       }
     ],
