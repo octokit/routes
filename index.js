@@ -13,6 +13,10 @@ const normalizeHtml = require('js-beautify').html
 
 const BASE_URL = 'https://developer.github.com/v3/'
 
+const REQUIRED_REGEXP = /^\*\*Required\*\*\. /
+const CAN_BE_ONE_OF_REGEXP = /^Can be one of (`[a-z]+`)(, `[a-z]+`)*/
+const EITHER_REGEXP = /^Either (`[a-z]+`)/
+
 mkdirp.sync('cache')
 mkdirp.sync('routes')
 
@@ -178,9 +182,27 @@ async function getEndpoints (page) {
 
               const text = $(el).text().trim()
               const defaultValue = (text.match(/ Default: (.*)$/) || []).pop()
+              let description = turndown($(el).html().trim().replace(/ Default: .*$/, ''))
+
+              const isRequired = REQUIRED_REGEXP.test(description)
+
+              if (isRequired) {
+                description = description.replace(REQUIRED_REGEXP, '')
+              }
+
+              let enumValues
+              if (CAN_BE_ONE_OF_REGEXP.test(description)) {
+                // enumValues = description.replace('Can be one of ', '').replace(/ or /g, '').split(/[, \.]/).filter((term) => term[0] === '`').map((term) => term.substring(1, term.length - 1))
+                enumValues = description.replace(/[,\.]/g, '').split(' ').filter((term) => term[0] === '`' && term[term.length - 1] === '`').map((term) => term.substring(1, term.length - 1))
+              } else if (EITHER_REGEXP.test(description)) {
+                // Include only words that begin and end with backticks (ignore all others)
+                enumValues = description.replace(/[,\.]/g, '').split(' ').filter((term) => term[0] === '`' && term[term.length - 1] === '`').map((term) => term.substring(1, term.length - 1))
+              }
 
               return {
-                description: turndown($(el).html().trim().replace(/ Default: .*$/, '')),
+                isRequired,
+                enumValues,
+                description,
                 defaultValue
               }
             })
@@ -188,7 +210,8 @@ async function getEndpoints (page) {
 
           return {
             name,
-            type,
+            type: descriptionAndDefault.enumValues || type,
+            required: descriptionAndDefault.isRequired,
             description: descriptionAndDefault.description,
             default: descriptionAndDefault.defaultValue
           }
