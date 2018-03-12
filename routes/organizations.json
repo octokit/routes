@@ -1,0 +1,112 @@
+[
+  {
+    "name": "List your organizations",
+    "method": "GET",
+    "path": "/user/orgs",
+    "description": "List organizations for the authenticated user.\n\n### [](#oauth-scope-requirements)OAuth scope requirements\n\nThis only lists organizations that your authorization allows you to operate on in some way (e.g., you can list teams with `read:org` scope, you can publicize your organization membership with `user` scope, etc.). Therefore, this API requires at least `user` or `read:org` scope. OAuth requests with insufficient scope receive a `403 Forbidden` response.",
+    "params": [],
+    "documentationUrl": "https://developer.github.com/v3/orgs/#list-your-organizations"
+  },
+  {
+    "name": "List all organizations",
+    "method": "GET",
+    "path": "/organizations",
+    "description": "Lists all organizations, in the order that they were created on GitHub.\n\n**Note:** Pagination is powered exclusively by the `since` parameter. Use the [Link header](/v3/#link-header) to get the URL for the next page of organizations.",
+    "params": [
+      {
+        "name": "since",
+        "type": "string",
+        "description": "The integer ID of the last Organization that you've seen.",
+        "required": false
+      }
+    ],
+    "documentationUrl": "https://developer.github.com/v3/orgs/#list-all-organizations"
+  },
+  {
+    "name": "List user organizations",
+    "method": "GET",
+    "path": "/users/:username/orgs",
+    "description": "List [public organization memberships](https://help.github.com/articles/publicizing-or-concealing-organization-membership) for the specified user.\n\nThis method only lists _public_ memberships, regardless of authentication. If you need to fetch all of the organization memberships (public and private) for the authenticated user, use the [List your organizations](#list-your-organizations) API instead.",
+    "params": [],
+    "documentationUrl": "https://developer.github.com/v3/orgs/#list-user-organizations"
+  },
+  {
+    "name": "Get an organization",
+    "method": "GET",
+    "path": "/orgs/:org",
+    "description": "",
+    "params": [],
+    "documentationUrl": "https://developer.github.com/v3/orgs/#get-an-organization"
+  },
+  {
+    "name": "Edit an organization",
+    "method": "PATCH",
+    "path": "/orgs/:org",
+    "description": "",
+    "params": [
+      {
+        "name": "billing_email",
+        "type": "string",
+        "description": "Billing email address. This address is not publicized.",
+        "required": false
+      },
+      {
+        "name": "company",
+        "type": "string",
+        "description": "The company name.",
+        "required": false
+      },
+      {
+        "name": "email",
+        "type": "string",
+        "description": "The publicly visible email address.",
+        "required": false
+      },
+      {
+        "name": "location",
+        "type": "string",
+        "description": "The location.",
+        "required": false
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "description": "The shorthand name of the company.",
+        "required": false
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "description": "The description of the company.",
+        "required": false
+      },
+      {
+        "name": "has_organization_projects",
+        "type": "boolean",
+        "description": "Toggles whether organization projects are enabled for the organization.",
+        "required": false
+      },
+      {
+        "name": "has_repository_projects",
+        "type": "boolean",
+        "description": "Toggles whether repository projects are enabled for repositories that belong to the organization.",
+        "required": false
+      },
+      {
+        "name": "default_repository_permission",
+        "type": "string",
+        "description": "Default permission level members have for organization repositories:  \n\\* `read` \\- can pull, but not push to or administer this repository.  \n\\* `write` \\- can pull and push, but not administer this repository.  \n\\* `admin` \\- can pull, push, and administer this repository.  \n\\* `none` \\- no permissions granted by default.",
+        "default": "read",
+        "required": false
+      },
+      {
+        "name": "members_can_create_repositories",
+        "type": "boolean",
+        "description": "Toggles ability of non-admin organization members to create repositories  \n\\* `true` \\- all organization members can create repositories.  \n\\* `false` \\- only admin members can create repositories.",
+        "default": "true",
+        "required": false
+      }
+    ],
+    "documentationUrl": "https://developer.github.com/v3/orgs/#edit-an-organization"
+  }
+]

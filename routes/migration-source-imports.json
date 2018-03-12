@@ -1,0 +1,137 @@
+[
+  {
+    "name": "Start an import",
+    "method": "PUT",
+    "path": "/repos/:owner/:repo/import",
+    "description": "Start a source import to a GitHub repository using GitHub Importer.",
+    "params": [
+      {
+        "name": "vcs_url",
+        "type": "url",
+        "description": "**Required** The URL of the originating repository.",
+        "required": false
+      },
+      {
+        "name": "vcs",
+        "type": "string",
+        "description": "The originating VCS type. Can be one of `subversion`, `git`, `mercurial`, or `tfvc`. Please be aware that without this parameter, the import job will take additional time to detect the VCS type before beginning the import. This detection step will be reflected in the response.",
+        "required": false
+      },
+      {
+        "name": "vcs_username",
+        "type": "string",
+        "description": "If authentication is required, the username to provide to `vcs_url`.",
+        "required": false
+      },
+      {
+        "name": "vcs_password",
+        "type": "string",
+        "description": "If authentication is required, the password to provide to `vcs_url`.",
+        "required": false
+      },
+      {
+        "name": "tfvc_project",
+        "type": "string",
+        "description": "For a tfvc import, the name of the project that is being imported.",
+        "required": false
+      }
+    ],
+    "documentationUrl": "https://developer.github.com/v3/migration/source_imports/#start-an-import"
+  },
+  {
+    "name": "Get import progress",
+    "method": "GET",
+    "path": "/repos/:owner/:repo/import",
+    "description": "View the progress of an import.",
+    "params": [],
+    "documentationUrl": "https://developer.github.com/v3/migration/source_imports/#get-import-progress"
+  },
+  {
+    "name": "Update existing import",
+    "method": "PATCH",
+    "path": "/repos/:owner/:repo/import",
+    "description": "An import can be updated with credentials or a project choice by passing in the appropriate parameters in this API request. If no parameters are provided, the import will be restarted.",
+    "params": [
+      {
+        "name": "vcs_username",
+        "type": "string",
+        "description": "The username to provide to the originating repository.",
+        "required": false
+      },
+      {
+        "name": "vcs_password",
+        "type": "string",
+        "description": "The password to provide to the originating repository.",
+        "required": false
+      }
+    ],
+    "documentationUrl": "https://developer.github.com/v3/migration/source_imports/#update-existing-import"
+  },
+  {
+    "name": "Get commit authors",
+    "method": "GET",
+    "path": "/repos/:owner/:repo/import/authors",
+    "description": "Each type of source control system represents authors in a different way. For example, a Git commit author has a display name and an email address, but a Subversion commit author just has a username. The GitHub Importer will make the author information valid, but the author might not be correct. For example, it will change the bare Subversion username `hubot` into something like `hubot <hubot@12341234-abab-fefe-8787-fedcba987654>`.\n\nThis API method and the \"Map a commit author\" method allow you to provide correct Git author information.",
+    "params": [
+      {
+        "name": "since",
+        "type": "string",
+        "description": "Only authors found after this id are returned. Provide the highest author ID you've seen so far. New authors may be added to the list at any point while the importer is performing the `raw` step.",
+        "required": false
+      }
+    ],
+    "documentationUrl": "https://developer.github.com/v3/migration/source_imports/#get-commit-authors"
+  },
+  {
+    "name": "Map a commit author",
+    "method": "PATCH",
+    "path": "/repos/:owner/:repo/import/authors/:author_id",
+    "description": "Update an author's identity for the import. Your application can continue updating authors any time before you push new commits to the repository.",
+    "params": [
+      {
+        "name": "email",
+        "type": "string",
+        "description": "The new Git author email.",
+        "required": false
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "description": "The new Git author name.",
+        "required": false
+      }
+    ],
+    "documentationUrl": "https://developer.github.com/v3/migration/source_imports/#map-a-commit-author"
+  },
+  {
+    "name": "Set Git LFS preference",
+    "method": "PATCH",
+    "path": "/repos/:owner/:repo/import/lfs",
+    "description": "You can import repositories from Subversion, Mercurial, and TFS that include files larger than 100MB. This ability is powered by [Git LFS](https://git-lfs.github.com). You can learn more about our LFS feature and working with large files [on our help site](https://help.github.com/articles/versioning-large-files/).",
+    "params": [
+      {
+        "name": "use_lfs",
+        "type": "string",
+        "description": "**Required** Can be one of `opt_in` (large files will be stored using Git LFS) or `opt_out` (large files will be removed during the import).",
+        "required": false
+      }
+    ],
+    "documentationUrl": "https://developer.github.com/v3/migration/source_imports/#set-git-lfs-preference"
+  },
+  {
+    "name": "Get large files",
+    "method": "GET",
+    "path": "/repos/:owner/:repo/import/large_files",
+    "description": "List files larger than 100MB found during the import",
+    "params": [],
+    "documentationUrl": "https://developer.github.com/v3/migration/source_imports/#get-large-files"
+  },
+  {
+    "name": "Cancel an import",
+    "method": "DELETE",
+    "path": "/repos/:owner/:repo/import",
+    "description": "Stop an import for a repository.",
+    "params": [],
+    "documentationUrl": "https://developer.github.com/v3/migration/source_imports/#cancel-an-import"
+  }
+]

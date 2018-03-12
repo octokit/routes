@@ -1,0 +1,208 @@
+[
+  {
+    "name": "List releases for a repository",
+    "method": "GET",
+    "path": "/repos/:owner/:repo/releases",
+    "description": "This returns a list of releases, which does not include regular Git tags that have not been associated with a release. To get a list of Git tags, use the [Repository Tags API](/v3/repos/#list-tags).\n\nInformation about published releases are available to everyone. Only users with push access will receive listings for draft releases.",
+    "params": [],
+    "documentationUrl": "https://developer.github.com/v3/repos/releases/#list-releases-for-a-repository"
+  },
+  {
+    "name": "Get a single release",
+    "method": "GET",
+    "path": "/repos/:owner/:repo/releases/:id",
+    "description": "",
+    "params": [],
+    "documentationUrl": "https://developer.github.com/v3/repos/releases/#get-a-single-release"
+  },
+  {
+    "name": "Get the latest release",
+    "method": "GET",
+    "path": "/repos/:owner/:repo/releases/latest",
+    "description": "View the latest published full release for the repository. Draft releases and prereleases are not returned by this endpoint.",
+    "params": [],
+    "documentationUrl": "https://developer.github.com/v3/repos/releases/#get-the-latest-release"
+  },
+  {
+    "name": "Get a release by tag name",
+    "method": "GET",
+    "path": "/repos/:owner/:repo/releases/tags/:tag",
+    "description": "Get a published release with the specified tag.",
+    "params": [],
+    "documentationUrl": "https://developer.github.com/v3/repos/releases/#get-a-release-by-tag-name"
+  },
+  {
+    "name": "Create a release",
+    "method": "POST",
+    "path": "/repos/:owner/:repo/releases",
+    "description": "Users with push access to the repository can create a release.",
+    "params": [
+      {
+        "name": "tag_name",
+        "type": "string",
+        "description": "The name of the tag.",
+        "required": true
+      },
+      {
+        "name": "target_commitish",
+        "type": "string",
+        "description": "Specifies the commitish value that determines where the Git tag is created from. Can be any branch or commit SHA. Unused if the Git tag already exists.",
+        "default": "the repository's default branch (usually master).",
+        "required": false
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "description": "The name of the release.",
+        "required": false
+      },
+      {
+        "name": "body",
+        "type": "string",
+        "description": "Text describing the contents of the tag.",
+        "required": false
+      },
+      {
+        "name": "draft",
+        "type": "boolean",
+        "description": "`true` to create a draft (unpublished) release, `false` to create a published one.",
+        "default": "false",
+        "required": false
+      },
+      {
+        "name": "prerelease",
+        "type": "boolean",
+        "description": "`true` to identify the release as a prerelease. `false` to identify the release as a full release.",
+        "default": "false",
+        "required": false
+      }
+    ],
+    "documentationUrl": "https://developer.github.com/v3/repos/releases/#create-a-release"
+  },
+  {
+    "name": "Edit a release",
+    "method": "PATCH",
+    "path": "/repos/:owner/:repo/releases/:id",
+    "description": "Users with push access to the repository can edit a release.",
+    "params": [
+      {
+        "name": "tag_name",
+        "type": "string",
+        "description": "The name of the tag.",
+        "required": false
+      },
+      {
+        "name": "target_commitish",
+        "type": "string",
+        "description": "Specifies the commitish value that determines where the Git tag is created from. Can be any branch or commit SHA. Unused if the Git tag already exists.",
+        "default": "the repository's default branch (usually master).",
+        "required": false
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "description": "The name of the release.",
+        "required": false
+      },
+      {
+        "name": "body",
+        "type": "string",
+        "description": "Text describing the contents of the tag.",
+        "required": false
+      },
+      {
+        "name": "draft",
+        "type": "boolean",
+        "description": "`true` makes the release a draft, and `false` publishes the release.",
+        "required": false
+      },
+      {
+        "name": "prerelease",
+        "type": "boolean",
+        "description": "`true` to identify the release as a prerelease, `false` to identify the release as a full release.",
+        "required": false
+      }
+    ],
+    "documentationUrl": "https://developer.github.com/v3/repos/releases/#edit-a-release"
+  },
+  {
+    "name": "Delete a release",
+    "method": "DELETE",
+    "path": "/repos/:owner/:repo/releases/:id",
+    "description": "Users with push access to the repository can delete a release.",
+    "params": [],
+    "documentationUrl": "https://developer.github.com/v3/repos/releases/#delete-a-release"
+  },
+  {
+    "name": "List assets for a release",
+    "method": "GET",
+    "path": "/repos/:owner/:repo/releases/:id/assets",
+    "description": "",
+    "params": [],
+    "documentationUrl": "https://developer.github.com/v3/repos/releases/#list-assets-for-a-release"
+  },
+  {
+    "name": "Upload a release asset",
+    "method": "POST",
+    "path": "https://<upload_url>/repos/:owner/:repo/releases/:id/assets?name=foo.zip",
+    "description": "This endpoint makes use of [a Hypermedia relation](/v3/#hypermedia) to determine which URL to access. This endpoint is provided by a URI template in [the release's API response](#get-a-single-release). You need to use an HTTP client which supports [SNI](http://en.wikipedia.org/wiki/Server_Name_Indication) to make calls to this endpoint.\n\nThe asset data is expected in its raw binary form, rather than JSON. Everything else about the endpoint is the same as the rest of the API. For example, you'll still need to pass your authentication to be able to upload an asset.",
+    "params": [
+      {
+        "name": "Content-Type",
+        "type": "string",
+        "description": "The content type of the asset. This should be set in the Header. Example: `\"application/zip\"`. For a list of acceptable types, refer this list of [media types](https://www.iana.org/assignments/media-types/media-types.xhtml).",
+        "required": true
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "description": "The file name of the asset. This should be set in a URI query parameter.",
+        "required": true
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "description": "An alternate short description of the asset. Used in place of the filename. This should be set in a URI query parameter.",
+        "required": false
+      }
+    ],
+    "documentationUrl": "https://developer.github.com/v3/repos/releases/#upload-a-release-asset"
+  },
+  {
+    "name": "Get a single release asset",
+    "method": "GET",
+    "path": "/repos/:owner/:repo/releases/assets/:id",
+    "description": "",
+    "params": [],
+    "documentationUrl": "https://developer.github.com/v3/repos/releases/#get-a-single-release-asset"
+  },
+  {
+    "name": "Edit a release asset",
+    "method": "PATCH",
+    "path": "/repos/:owner/:repo/releases/assets/:id",
+    "description": "Users with push access to the repository can edit a release asset.",
+    "params": [
+      {
+        "name": "name",
+        "type": "string",
+        "description": "The file name of the asset.",
+        "required": false
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "description": "An alternate short description of the asset. Used in place of the filename.",
+        "required": false
+      }
+    ],
+    "documentationUrl": "https://developer.github.com/v3/repos/releases/#edit-a-release-asset"
+  },
+  {
+    "name": "Delete a release asset",
+    "method": "DELETE",
+    "path": "/repos/:owner/:repo/releases/assets/:id",
+    "description": "",
+    "params": [],
+    "documentationUrl": "https://developer.github.com/v3/repos/releases/#delete-a-release-asset"
+  }
+]
