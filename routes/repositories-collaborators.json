@@ -1,0 +1,56 @@
+[
+  {
+    "name": "List collaborators",
+    "method": "GET",
+    "path": "/repos/:owner/:repo/collaborators",
+    "description": "**Note:** The Nested Teams API is currently available for developers to preview. See the [blog post](/changes/2017-08-30-preview-nested-teams) for full details. To access the API, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n    application/vnd.github.hellcat-preview+json\n    \n\n**Warning:** The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact [GitHub support](https://github.com/contact).\n\n    GET /repos/:owner/:repo/collaborators\n    \n\nFor organization-owned repositories, the list of collaborators includes outside collaborators, organization members with access through team memberships, organization members with access through default organization permissions, and organization owners.\n\nIf you pass the `hellcat-preview` media type, team members will include the members of child teams.\n\n### [](#parameters)Parameters\n\nName\n\nType\n\nDescription\n\n`affiliation`\n\n`string`\n\nFilter collaborators returned by their affiliation. Can be one of:  \n\\* `outside`: All outside collaborators of an organization-owned repository.  \n\\* `direct`: All collaborators with permissions to an organization-owned repository, regardless of organization membership status.  \n\\* `all`: All collaborators the authenticated user can see.  \nDefault: `all`  \n\n### [](#response)Response\n\n    Status: 200 OK\n    Link: <https://api.github.com/resource?page=2>; rel=\"next\",\n          <https://api.github.com/resource?page=5>; rel=\"last\"\n    \n\n    [\n      {\n        \"login\": \"octocat\",\n        \"id\": 1,\n        \"avatar_url\": \"https://github.com/images/error/octocat_happy.gif\",\n        \"gravatar_id\": \"\",\n        \"url\": \"https://api.github.com/users/octocat\",\n        \"html_url\": \"https://github.com/octocat\",\n        \"followers_url\": \"https://api.github.com/users/octocat/followers\",\n        \"following_url\": \"https://api.github.com/users/octocat/following{/other_user}\",\n        \"gists_url\": \"https://api.github.com/users/octocat/gists{/gist_id}\",\n        \"starred_url\": \"https://api.github.com/users/octocat/starred{/owner}{/repo}\",\n        \"subscriptions_url\": \"https://api.github.com/users/octocat/subscriptions\",\n        \"organizations_url\": \"https://api.github.com/users/octocat/orgs\",\n        \"repos_url\": \"https://api.github.com/users/octocat/repos\",\n        \"events_url\": \"https://api.github.com/users/octocat/events{/privacy}\",\n        \"received_events_url\": \"https://api.github.com/users/octocat/received_events\",\n        \"type\": \"User\",\n        \"site_admin\": false,\n        \"permissions\": {\n          \"pull\": true,\n          \"push\": true,\n          \"admin\": false\n        }\n      }\n    ]",
+    "params": [
+      {
+        "name": "affiliation",
+        "type": "string",
+        "description": "Filter collaborators returned by their affiliation. Can be one of:  \n\\* `outside`: All outside collaborators of an organization-owned repository.  \n\\* `direct`: All collaborators with permissions to an organization-owned repository, regardless of organization membership status.  \n\\* `all`: All collaborators the authenticated user can see.  \nDefault: `all`",
+        "required": false
+      }
+    ],
+    "documentationUrl": "https://developer.github.com/v3/repos/collaborators/#list-collaborators"
+  },
+  {
+    "name": "Check if a user is a collaborator",
+    "method": "GET",
+    "path": "/repos/:owner/:repo/collaborators/:username",
+    "description": "**Note:** The Nested Teams API is currently available for developers to preview. See the [blog post](/changes/2017-08-30-preview-nested-teams) for full details. To access the API, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n    application/vnd.github.hellcat-preview+json\n    \n\n**Warning:** The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact [GitHub support](https://github.com/contact).\n\n    GET /repos/:owner/:repo/collaborators/:username\n    \n\nFor organization-owned repositories, the list of collaborators includes outside collaborators, organization members with access through team memberships, organization members with access through default organization permissions, and organization owners.\n\nIf you pass the `hellcat-preview` media type, team members will include the members of child teams.\n\n### [](#response-if-user-is-a-collaborator)Response if user is a collaborator\n\n    Status: 204 No Content\n    \n\n### [](#response-if-user-is-not-a-collaborator)Response if user is not a collaborator\n\n    Status: 404 Not Found",
+    "params": [],
+    "documentationUrl": "https://developer.github.com/v3/repos/collaborators/#check-if-a-user-is-a-collaborator"
+  },
+  {
+    "name": "Review a user's permission level",
+    "method": "GET",
+    "path": "/repos/:owner/:repo/collaborators/:username/permission",
+    "description": "",
+    "params": [],
+    "documentationUrl": "https://developer.github.com/v3/repos/collaborators/#review-a-users-permission-level"
+  },
+  {
+    "name": "Add user as a collaborator",
+    "method": "PUT",
+    "path": "/repos/:owner/:repo/collaborators/:username",
+    "description": "",
+    "params": [
+      {
+        "name": "permission",
+        "type": "string",
+        "description": "The permission to grant the collaborator. **Only valid on organization-owned repositories.** Can be one of:  \n\\* `pull` \\- can pull, but not push to or administer this repository.  \n\\* `push` \\- can pull and push, but not administer this repository.  \n\\* `admin` \\- can pull, push and administer this repository.  \nDefault: `push`",
+        "required": false
+      }
+    ],
+    "documentationUrl": "https://developer.github.com/v3/repos/collaborators/#add-user-as-a-collaborator"
+  },
+  {
+    "name": "Remove user as a collaborator",
+    "method": "DELETE",
+    "path": "/repos/:owner/:repo/collaborators/:username",
+    "description": "",
+    "params": [],
+    "documentationUrl": "https://developer.github.com/v3/repos/collaborators/#remove-user-as-a-collaborator"
+  }
+]

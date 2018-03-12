@@ -1,0 +1,64 @@
+[
+  {
+    "name": "List comments",
+    "method": "GET",
+    "path": "/teams/:team_id/discussions/:discussion_number/comments",
+    "description": "List all comments on a team discussion. OAuth access tokens require the `read:discussion` [scope](/apps/building-oauth-apps/scopes-for-oauth-apps/).",
+    "params": [
+      {
+        "name": "direction",
+        "type": "string",
+        "description": "Sorts the discussion comments by the date they were created. To return the oldest comments first, set to `asc`. Can be one of `asc` or `desc`.",
+        "default": "desc",
+        "required": false
+      }
+    ],
+    "documentationUrl": "https://developer.github.com/v3/teams/discussion_comments/#list-comments"
+  },
+  {
+    "name": "Get a single comment",
+    "method": "GET",
+    "path": "/teams/:team_id/discussions/:discussion_number/comments/:comment_number",
+    "description": "**Note:** The team discussions API is currently available for developers to preview. See the [blog post](/changes/2018-02-07-team-discussions-api) for full details. To access the API during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n    application/vnd.github.echo-preview+json\n    \n\n**Warning:** The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact [GitHub support](https://github.com/contact).\n\nGet a specific comment on a team discussion. OAuth access tokens require the `read:discussion` [scope](/apps/building-oauth-apps/scopes-for-oauth-apps/).\n\n    GET /teams/:team_id/discussions/:discussion_number/comments/:comment_number\n    \n\n### [](#response-1)Response\n\n    Status: 200 OK\n    \n\n    {\n      \"author\": {\n        \"login\": \"octocat\",\n        \"id\": 1,\n        \"avatar_url\": \"https://github.com/images/error/octocat_happy.gif\",\n        \"gravatar_id\": \"\",\n        \"url\": \"https://api.github.com/users/octocat\",\n        \"html_url\": \"https://github.com/octocat\",\n        \"followers_url\": \"https://api.github.com/users/octocat/followers\",\n        \"following_url\": \"https://api.github.com/users/octocat/following{/other_user}\",\n        \"gists_url\": \"https://api.github.com/users/octocat/gists{/gist_id}\",\n        \"starred_url\": \"https://api.github.com/users/octocat/starred{/owner}{/repo}\",\n        \"subscriptions_url\": \"https://api.github.com/users/octocat/subscriptions\",\n        \"organizations_url\": \"https://api.github.com/users/octocat/orgs\",\n        \"repos_url\": \"https://api.github.com/users/octocat/repos\",\n        \"events_url\": \"https://api.github.com/users/octocat/events{/privacy}\",\n        \"received_events_url\": \"https://api.github.com/users/octocat/received_events\",\n        \"type\": \"User\",\n        \"site_admin\": false\n      },\n      \"body\": \"Do you like apples?\",\n      \"body_html\": \"<p>Do you like apples?</p>\",\n      \"body_version\": \"5eb32b219cdc6a5a9b29ba5d6caa9c51\",\n      \"created_at\": \"2018-01-15T23:53:58Z\",\n      \"last_edited_at\": null,\n      \"discussion_url\": \"https://api.github.com/teams/2403582/discussions/1\",\n      \"html_url\": \"https://github.com/orgs/github/teams/justice-league/discussions/1/comments/1\",\n      \"number\": 1,\n      \"updated_at\": \"2018-01-15T23:53:58Z\",\n      \"url\": \"https://api.github.com/teams/2403582/discussions/1/comments/1\"\n    }",
+    "params": [],
+    "documentationUrl": "https://developer.github.com/v3/teams/discussion_comments/#get-a-single-comment"
+  },
+  {
+    "name": "Create a comment",
+    "method": "POST",
+    "path": "/teams/:team_id/discussions/:discussion_number/comments",
+    "description": "**Note:** The team discussions API is currently available for developers to preview. See the [blog post](/changes/2018-02-07-team-discussions-api) for full details. To access the API during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n    application/vnd.github.echo-preview+json\n    \n\n**Warning:** The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact [GitHub support](https://github.com/contact).\n\nCreates a new comment on a team discussion. OAuth access tokens require the `write:discussion` [scope](/apps/building-oauth-apps/scopes-for-oauth-apps/).\n\n    POST /teams/:team_id/discussions/:discussion_number/comments\n    \n\n### [](#parameters-1)Parameters\n\nName\n\nType\n\nDescription\n\n`body`\n\n`string`\n\n**Required**. The discussion comment's body text.\n\n### [](#example)Example\n\n    {\n      \"body\": \"Do you like apples?\"\n    }\n    \n\n### [](#response-2)Response\n\n    Status: 201 Created\n    \n\n    {\n      \"author\": {\n        \"login\": \"octocat\",\n        \"id\": 1,\n        \"avatar_url\": \"https://github.com/images/error/octocat_happy.gif\",\n        \"gravatar_id\": \"\",\n        \"url\": \"https://api.github.com/users/octocat\",\n        \"html_url\": \"https://github.com/octocat\",\n        \"followers_url\": \"https://api.github.com/users/octocat/followers\",\n        \"following_url\": \"https://api.github.com/users/octocat/following{/other_user}\",\n        \"gists_url\": \"https://api.github.com/users/octocat/gists{/gist_id}\",\n        \"starred_url\": \"https://api.github.com/users/octocat/starred{/owner}{/repo}\",\n        \"subscriptions_url\": \"https://api.github.com/users/octocat/subscriptions\",\n        \"organizations_url\": \"https://api.github.com/users/octocat/orgs\",\n        \"repos_url\": \"https://api.github.com/users/octocat/repos\",\n        \"events_url\": \"https://api.github.com/users/octocat/events{/privacy}\",\n        \"received_events_url\": \"https://api.github.com/users/octocat/received_events\",\n        \"type\": \"User\",\n        \"site_admin\": false\n      },\n      \"body\": \"Do you like apples?\",\n      \"body_html\": \"<p>Do you like apples?</p>\",\n      \"body_version\": \"5eb32b219cdc6a5a9b29ba5d6caa9c51\",\n      \"created_at\": \"2018-01-15T23:53:58Z\",\n      \"last_edited_at\": null,\n      \"discussion_url\": \"https://api.github.com/teams/2403582/discussions/1\",\n      \"html_url\": \"https://github.com/orgs/github/teams/justice-league/discussions/1/comments/1\",\n      \"number\": 1,\n      \"updated_at\": \"2018-01-15T23:53:58Z\",\n      \"url\": \"https://api.github.com/teams/2403582/discussions/1/comments/1\"\n    }",
+    "params": [
+      {
+        "name": "body",
+        "type": "string",
+        "description": "The discussion comment's body text.",
+        "required": true
+      }
+    ],
+    "documentationUrl": "https://developer.github.com/v3/teams/discussion_comments/#create-a-comment"
+  },
+  {
+    "name": "Edit a comment",
+    "method": "PATCH",
+    "path": "/teams/:team_id/discussions/:discussion_number/comments/:comment_number",
+    "description": "**Note:** The team discussions API is currently available for developers to preview. See the [blog post](/changes/2018-02-07-team-discussions-api) for full details. To access the API during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n    application/vnd.github.echo-preview+json\n    \n\n**Warning:** The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact [GitHub support](https://github.com/contact).\n\nEdits the body text of a discussion comment. OAuth access tokens require the `write:discussion` [scope](/apps/building-oauth-apps/scopes-for-oauth-apps/).\n\n    PATCH /teams/:team_id/discussions/:discussion_number/comments/:comment_number\n    \n\n### [](#parameters-2)Parameters\n\nName\n\nType\n\nDescription\n\n`body`\n\n`string`\n\n**Required**. The discussion comment's body text.\n\n### [](#example-1)Example\n\n    {\n      \"body\": \"Do you like pineapples?\"\n    }\n    \n\n### [](#response-3)Response\n\n    Status: 200 OK\n    \n\n    {\n      \"author\": {\n        \"login\": \"octocat\",\n        \"id\": 1,\n        \"avatar_url\": \"https://github.com/images/error/octocat_happy.gif\",\n        \"gravatar_id\": \"\",\n        \"url\": \"https://api.github.com/users/octocat\",\n        \"html_url\": \"https://github.com/octocat\",\n        \"followers_url\": \"https://api.github.com/users/octocat/followers\",\n        \"following_url\": \"https://api.github.com/users/octocat/following{/other_user}\",\n        \"gists_url\": \"https://api.github.com/users/octocat/gists{/gist_id}\",\n        \"starred_url\": \"https://api.github.com/users/octocat/starred{/owner}{/repo}\",\n        \"subscriptions_url\": \"https://api.github.com/users/octocat/subscriptions\",\n        \"organizations_url\": \"https://api.github.com/users/octocat/orgs\",\n        \"repos_url\": \"https://api.github.com/users/octocat/repos\",\n        \"events_url\": \"https://api.github.com/users/octocat/events{/privacy}\",\n        \"received_events_url\": \"https://api.github.com/users/octocat/received_events\",\n        \"type\": \"User\",\n        \"site_admin\": false\n      },\n      \"body\": \"Do you like pineapples?\",\n      \"body_html\": \"<p>Do you like pineapples?</p>\",\n      \"body_version\": \"e6907b24d9c93cc0c5024a7af5888116\",\n      \"created_at\": \"2018-01-15T23:53:58Z\",\n      \"last_edited_at\": \"2018-01-26T18:22:20Z\",\n      \"discussion_url\": \"https://api.github.com/teams/2403582/discussions/1\",\n      \"html_url\": \"https://github.com/orgs/github/teams/justice-league/discussions/1/comments/1\",\n      \"number\": 1,\n      \"updated_at\": \"2018-01-26T18:22:20Z\",\n      \"url\": \"https://api.github.com/teams/2403582/discussions/1/comments/1\"\n    }",
+    "params": [
+      {
+        "name": "body",
+        "type": "string",
+        "description": "The discussion comment's body text.",
+        "required": true
+      }
+    ],
+    "documentationUrl": "https://developer.github.com/v3/teams/discussion_comments/#edit-a-comment"
+  },
+  {
+    "name": "Delete a comment",
+    "method": "DELETE",
+    "path": "/teams/:team_id/discussions/:discussion_number/comments/:comment_number",
+    "description": "**Note:** The team discussions API is currently available for developers to preview. See the [blog post](/changes/2018-02-07-team-discussions-api) for full details. To access the API during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n    application/vnd.github.echo-preview+json\n    \n\n**Warning:** The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact [GitHub support](https://github.com/contact).\n\nDeletes a comment on a team discussion. OAuth access tokens require the `write:discussion` [scope](/apps/building-oauth-apps/scopes-for-oauth-apps/).\n\n    DELETE /teams/:team_id/discussions/:discussion_number/comments/:comment_number\n    \n\n### [](#response-4)Response\n\n    Status: 204 No Content",
+    "params": [],
+    "documentationUrl": "https://developer.github.com/v3/teams/discussion_comments/#delete-a-comment"
+  }
+]

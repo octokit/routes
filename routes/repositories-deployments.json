@@ -1,0 +1,203 @@
+[
+  {
+    "name": "List deployments",
+    "method": "GET",
+    "path": "/repos/:owner/:repo/deployments",
+    "description": "Simple filtering of deployments is available via query parameters:",
+    "params": [
+      {
+        "name": "sha",
+        "type": "string",
+        "description": "The SHA that was recorded at creation time.",
+        "default": "none",
+        "required": false
+      },
+      {
+        "name": "ref",
+        "type": "string",
+        "description": "The name of the ref. This can be a branch, tag, or SHA.",
+        "default": "none",
+        "required": false
+      },
+      {
+        "name": "task",
+        "type": "string",
+        "description": "The name of the task for the deployment (e.g., `deploy` or `deploy:migrations`).",
+        "default": "none",
+        "required": false
+      },
+      {
+        "name": "environment",
+        "type": "string",
+        "description": "The name of the environment that was deployed to (e.g., `staging` or `production`).",
+        "default": "none",
+        "required": false
+      }
+    ],
+    "documentationUrl": "https://developer.github.com/v3/repos/deployments/#list-deployments"
+  },
+  {
+    "name": "Get a single deployment",
+    "method": "GET",
+    "path": "/repos/:owner/:repo/deployments/:id",
+    "description": "",
+    "params": [],
+    "documentationUrl": "https://developer.github.com/v3/repos/deployments/#get-a-single-deployment"
+  },
+  {
+    "name": "Create a deployment",
+    "method": "POST",
+    "path": "/repos/:owner/:repo/deployments",
+    "description": "Deployments offer a few configurable parameters with sane defaults.\n\nThe `ref` parameter can be any named branch, tag, or SHA. At GitHub we often deploy branches and verify them before we merge a pull request.\n\nThe `environment` parameter allows deployments to be issued to different runtime environments. Teams often have multiple environments for verifying their applications, such as `production`, `staging`, and `qa`. This allows for easy tracking of which environments had deployments requested. The default environment is `production`.\n\nThe `auto_merge` parameter is used to ensure that the requested ref is not behind the repository's default branch. If the ref _is_ behind the default branch for the repository, we will attempt to merge it for you. If the merge succeeds, the API will return a successful merge commit. If merge conflicts prevent the merge from succeeding, the API will return a failure response.\n\nBy default, [commit statuses](/v3/repos/statuses) for every submitted context must be in a `success` state. The `required_contexts` parameter allows you to specify a subset of contexts that must be `success`, or to specify contexts that have not yet been submitted. You are not required to use commit statuses to deploy. If you do not require any contexts or create any commit statuses, the deployment will always succeed.\n\nThe `payload` parameter is available for any extra information that a deployment system might need. It is a JSON text field that will be passed on when a deployment event is dispatched.\n\nThe `task` parameter is used by the deployment system to allow different execution paths. In the web world this might be `deploy:migrations` to run schema changes on the system. In the compiled world this could be a flag to compile an application with debugging enabled.\n\nUsers with `repo` or `repo_deployment` scopes can create a deployment for a given ref:",
+    "params": [
+      {
+        "name": "ref",
+        "type": "string",
+        "description": "The ref to deploy. This can be a branch, tag, or SHA.",
+        "required": true
+      },
+      {
+        "name": "task",
+        "type": "string",
+        "description": "Specifies a task to execute (e.g., `deploy` or `deploy:migrations`).",
+        "default": "deploy",
+        "required": false
+      },
+      {
+        "name": "auto_merge",
+        "type": "boolean",
+        "description": "Attempts to automatically merge the default branch into the requested ref, if it is behind the default branch.",
+        "default": "true",
+        "required": false
+      },
+      {
+        "name": "required_contexts",
+        "type": "Array",
+        "description": "The status contexts to verify against commit status checks. If this parameter is omitted, then all unique contexts will be verified before a deployment is created. To bypass checking entirely pass an empty array. Defaults to all unique contexts.",
+        "required": false
+      },
+      {
+        "name": "payload",
+        "type": "string",
+        "description": "JSON payload with extra information about the deployment.",
+        "default": "\"\"",
+        "required": false
+      },
+      {
+        "name": "environment",
+        "type": "string",
+        "description": "Name for the target deployment environment (e.g., `production`, `staging`, `qa`).",
+        "default": "production",
+        "required": false
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "description": "Short description of the deployment.",
+        "default": "\"\"",
+        "required": false
+      },
+      {
+        "name": "transient_environment",
+        "type": "boolean",
+        "description": "Specifies if the given environment is specific to the deployment and will no longer exist at some point in the future.",
+        "default": "false This parameter requires a custom media type to be specified. Please see more in the alert below.",
+        "required": false
+      },
+      {
+        "name": "production_environment",
+        "type": "boolean",
+        "description": "Specifies if the given environment is one that end-users directly interact with.",
+        "default": "true when environment is production and false otherwise. This parameter requires a custom media type to be specified. Please see more in the alert below.",
+        "required": false
+      }
+    ],
+    "documentationUrl": "https://developer.github.com/v3/repos/deployments/#create-a-deployment"
+  },
+  {
+    "name": "List deployment statuses",
+    "method": "GET",
+    "path": "/repos/:owner/:repo/deployments/:id/statuses",
+    "description": "Users with pull access can view deployment statuses for a deployment:",
+    "params": [
+      {
+        "name": "id",
+        "type": "integer",
+        "description": "The deployment ID to list the statuses from.",
+        "required": true
+      }
+    ],
+    "documentationUrl": "https://developer.github.com/v3/repos/deployments/#list-deployment-statuses"
+  },
+  {
+    "name": "Get a single deployment status",
+    "method": "GET",
+    "path": "/repos/:owner/:repo/deployments/:id/statuses/:status_id",
+    "description": "This endpoint is part of the deployment and deployment status enhancement. During the preview period, the API may change without advance notice. Please see the [blog post](/changes/2016-04-06-deployment-and-deployment-status-enhancements) for full details.\n\nTo access the API during the Early Access period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n      application/vnd.github.ant-man-preview+json\n    \n\nUsers with pull access can view a deployment status for a deployment:\n\n    GET /repos/:owner/:repo/deployments/:id/statuses/:status_id\n    \n\n### [](#parameters-2)Parameters\n\nName\n\nType\n\nDescription\n\n`id`\n\n`integer`\n\n**Required**. The deployment ID to list the statuses from.\n\n`status_id`\n\n`integer`\n\n**Required**. The deployment status ID.\n\n### [](#response-3)Response\n\n    Status: 200 OK\n    \n\n    {\n      \"url\": \"https://api.github.com/repos/octocat/example/deployments/42/statuses/1\",\n      \"id\": 1,\n      \"state\": \"success\",\n      \"creator\": {\n        \"login\": \"octocat\",\n        \"id\": 1,\n        \"avatar_url\": \"https://github.com/images/error/octocat_happy.gif\",\n        \"gravatar_id\": \"\",\n        \"url\": \"https://api.github.com/users/octocat\",\n        \"html_url\": \"https://github.com/octocat\",\n        \"followers_url\": \"https://api.github.com/users/octocat/followers\",\n        \"following_url\": \"https://api.github.com/users/octocat/following{/other_user}\",\n        \"gists_url\": \"https://api.github.com/users/octocat/gists{/gist_id}\",\n        \"starred_url\": \"https://api.github.com/users/octocat/starred{/owner}{/repo}\",\n        \"subscriptions_url\": \"https://api.github.com/users/octocat/subscriptions\",\n        \"organizations_url\": \"https://api.github.com/users/octocat/orgs\",\n        \"repos_url\": \"https://api.github.com/users/octocat/repos\",\n        \"events_url\": \"https://api.github.com/users/octocat/events{/privacy}\",\n        \"received_events_url\": \"https://api.github.com/users/octocat/received_events\",\n        \"type\": \"User\",\n        \"site_admin\": false\n      },\n      \"description\": \"Deployment finished successfully.\",\n      \"target_url\": \"https://example.com/deployment/42/output\",\n      \"created_at\": \"2012-07-20T01:19:13Z\",\n      \"updated_at\": \"2012-07-20T01:19:13Z\",\n      \"deployment_url\": \"https://api.github.com/repos/octocat/example/deployments/42\",\n      \"repository_url\": \"https://api.github.com/repos/octocat/example\"\n    }\n    \n\n#### [](#deployment-statuses-created-by-users-via-integrations)Deployment statuses created by users via integrations\n\n**Note:** An additional `performed_via_github_app` object in the issue payload is currently available for developers to preview. For more information, see the [related blog post](/changes/2016-09-14-Integrations-Early-Access).\n\nTo access the API, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n    application/vnd.github.machine-man-preview\n    \n\n**Note:** If a user created a deployment status via a GitHub App, the `performed_via_github_app` key will contain information on that GitHub App.\n\n**Warning:** The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact [GitHub support](https://github.com/contact).",
+    "params": [
+      {
+        "name": "id",
+        "type": "integer",
+        "description": "The deployment ID to list the statuses from.",
+        "required": true
+      },
+      {
+        "name": "status_id",
+        "type": "integer",
+        "description": "The deployment status ID.",
+        "required": true
+      }
+    ],
+    "documentationUrl": "https://developer.github.com/v3/repos/deployments/#get-a-single-deployment-status"
+  },
+  {
+    "name": "Create a deployment status",
+    "method": "POST",
+    "path": "/repos/:owner/:repo/deployments/:id/statuses",
+    "description": "Users with push access can create deployment statuses for a given deployment:",
+    "params": [
+      {
+        "name": "state",
+        "type": "string",
+        "description": "The state of the status. Can be one of `error`, `failure`, `inactive`, `pending`, or `success`. **The `inactive` state requires a custom media type to be specified. Please see more in the alert below.**",
+        "required": true
+      },
+      {
+        "name": "target_url",
+        "type": "string",
+        "description": "The target URL to associate with this status. This URL should contain output to keep the user updated while the task is running or serve as historical information for what happened in the deployment.",
+        "default": "\"\"",
+        "required": false
+      },
+      {
+        "name": "log_url",
+        "type": "string",
+        "description": "This is functionally equivalent to `target_url`. We will continue accept `target_url` to support legacy uses, but we recommend modifying this to the new name to avoid confusion.",
+        "default": "\"\" This parameter requires a custom media type to be specified. Please see more in the alert below.",
+        "required": false
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "description": "A short description of the status. Maximum length of 140 characters.",
+        "default": "\"\"",
+        "required": false
+      },
+      {
+        "name": "environment_url",
+        "type": "string",
+        "description": "Sets the URL for accessing your environment.",
+        "default": "\"\" This parameter requires a custom media type to be specified. Please see more in the alert below.",
+        "required": false
+      },
+      {
+        "name": "auto_inactive",
+        "type": "boolean",
+        "description": "Adds a new `inactive` status to all non-transient, non-production environment deployments with the same repository and environment name as the created status's deployment.",
+        "default": "true This parameter requires a custom media type to be specified. Please see more in the alert below.",
+        "required": false
+      }
+    ],
+    "documentationUrl": "https://developer.github.com/v3/repos/deployments/#create-a-deployment-status"
+  }
+]

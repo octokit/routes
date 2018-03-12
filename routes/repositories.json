@@ -1,0 +1,339 @@
+[
+  {
+    "name": "List your repositories",
+    "method": "GET",
+    "path": "/user/repos",
+    "description": "List repositories that are accessible to the authenticated user.\n\nThis includes repositories owned by the authenticated user, repositories where the authenticated user is a collaborator, and repositories that the authenticated user has access to through an organization membership.",
+    "params": [
+      {
+        "name": "visibility",
+        "type": [
+          "all",
+          "public",
+          "private"
+        ],
+        "description": "Can be one of `all`, `public`, or `private`.",
+        "default": "all",
+        "required": false
+      },
+      {
+        "name": "affiliation",
+        "type": "string",
+        "description": "Comma-separated list of values. Can include:  \n\\* `owner`: Repositories that are owned by the authenticated user.  \n\\* `collaborator`: Repositories that the user has been added to as a collaborator.  \n\\* `organization_member`: Repositories that the user has access to through being a member of an organization. This includes every repository on every team that the user is on.  \n  \nDefault: `owner,collaborator,organization_member`",
+        "required": false
+      },
+      {
+        "name": "type",
+        "type": [
+          "all",
+          "owner",
+          "public",
+          "private",
+          "member"
+        ],
+        "description": "Can be one of `all`, `owner`, `public`, `private`, `member`.",
+        "default": "allWill cause a 422 error if used in the same request as visibility                or affiliation.",
+        "required": false
+      },
+      {
+        "name": "sort",
+        "type": [
+          "created",
+          "updated",
+          "pushed",
+          "full_name"
+        ],
+        "description": "Can be one of `created`, `updated`, `pushed`, `full_name`.",
+        "default": "full_name",
+        "required": false
+      },
+      {
+        "name": "direction",
+        "type": [
+          "asc",
+          "desc"
+        ],
+        "description": "Can be one of `asc` or `desc`.",
+        "default": "when using full_name: asc; otherwise desc",
+        "required": false
+      }
+    ],
+    "documentationUrl": "https://developer.github.com/v3/repos/#list-your-repositories"
+  },
+  {
+    "name": "List user repositories",
+    "method": "GET",
+    "path": "/users/:username/repos",
+    "description": "List public repositories for the specified user.",
+    "params": [
+      {
+        "name": "type",
+        "type": [
+          "all",
+          "owner",
+          "member"
+        ],
+        "description": "Can be one of `all`, `owner`, `member`.",
+        "default": "owner",
+        "required": false
+      },
+      {
+        "name": "sort",
+        "type": [
+          "created",
+          "updated",
+          "pushed",
+          "full_name"
+        ],
+        "description": "Can be one of `created`, `updated`, `pushed`, `full_name`.",
+        "default": "full_name",
+        "required": false
+      },
+      {
+        "name": "direction",
+        "type": [
+          "asc",
+          "desc"
+        ],
+        "description": "Can be one of `asc` or `desc`.",
+        "default": "when using full_name: asc, otherwise desc",
+        "required": false
+      }
+    ],
+    "documentationUrl": "https://developer.github.com/v3/repos/#list-user-repositories"
+  },
+  {
+    "name": "List organization repositories",
+    "method": "GET",
+    "path": "/orgs/:org/repos",
+    "description": "List repositories for the specified org.",
+    "params": [
+      {
+        "name": "type",
+        "type": [
+          "all",
+          "public",
+          "private",
+          "forks",
+          "sources",
+          "member"
+        ],
+        "description": "Can be one of `all`, `public`, `private`, `forks`, `sources`, `member`.",
+        "default": "all",
+        "required": false
+      }
+    ],
+    "documentationUrl": "https://developer.github.com/v3/repos/#list-organization-repositories"
+  },
+  {
+    "name": "List all public repositories",
+    "method": "GET",
+    "path": "/repositories",
+    "description": "This provides a dump of every public repository, in the order that they were created.\n\nNote: Pagination is powered exclusively by the `since` parameter. Use the [Link header](/v3/#link-header) to get the URL for the next page of repositories.",
+    "params": [
+      {
+        "name": "since",
+        "type": "string",
+        "description": "The integer ID of the last Repository that you've seen.",
+        "required": false
+      }
+    ],
+    "documentationUrl": "https://developer.github.com/v3/repos/#list-all-public-repositories"
+  },
+  {
+    "name": "Create",
+    "method": "POST",
+    "path": "/user/repos"
+  },
+  {
+    "name": "Create",
+    "method": "POST",
+    "path": "/orgs/:org/repos"
+  },
+  {
+    "name": "Get",
+    "method": "GET",
+    "path": "/repos/:owner/:repo",
+    "description": "",
+    "params": [],
+    "documentationUrl": "https://developer.github.com/v3/repos/#get"
+  },
+  {
+    "name": "Edit",
+    "method": "PATCH",
+    "path": "/repos/:owner/:repo",
+    "description": "",
+    "params": [
+      {
+        "name": "name",
+        "type": "string",
+        "description": "The name of the repository.",
+        "required": true
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "description": "A short description of the repository.",
+        "required": false
+      },
+      {
+        "name": "homepage",
+        "type": "string",
+        "description": "A URL with more information about the repository.",
+        "required": false
+      },
+      {
+        "name": "private",
+        "type": "boolean",
+        "description": "Either `true` to make the repository private or `false` to make it public. Creating private repositories requires a paid GitHub account. Default: `false`.  \n**Note**: You will get a `422` error if the organization restricts [changing repository visibility](https://help.github.com/articles/repository-permission-levels-for-an-organization#changing-the-visibility-of-repositories) to organization owners and a non-owner tries to change the value of private.",
+        "required": false
+      },
+      {
+        "name": "has_issues",
+        "type": "boolean",
+        "description": "Either `true` to enable issues for this repository or `false` to disable them.",
+        "default": "true.",
+        "required": false
+      },
+      {
+        "name": "has_projects",
+        "type": "boolean",
+        "description": "Either `true` to enable projects for this repository or `false` to disable them. Default: `true`. **Note:** If you're creating a repository in an organization that has disabled repository projects, the default is `false`, and if you pass `true`, the API returns an error.",
+        "required": false
+      },
+      {
+        "name": "has_wiki",
+        "type": "boolean",
+        "description": "Either `true` to enable the wiki for this repository or `false` to disable it.",
+        "default": "true.",
+        "required": false
+      },
+      {
+        "name": "default_branch",
+        "type": "String",
+        "description": "Updates the default branch for this repository.",
+        "required": false
+      },
+      {
+        "name": "allow_squash_merge",
+        "type": "boolean",
+        "description": "Either `true` to allow squash-merging pull requests, or `false` to prevent squash-merging.",
+        "default": "true",
+        "required": false
+      },
+      {
+        "name": "allow_merge_commit",
+        "type": "boolean",
+        "description": "Either `true` to allow merging pull requests with a merge commit, or `false` to prevent merging pull requests with merge commits.",
+        "default": "true",
+        "required": false
+      },
+      {
+        "name": "allow_rebase_merge",
+        "type": "boolean",
+        "description": "Either `true` to allow rebase-merging pull requests, or `false` to prevent rebase-merging.",
+        "default": "true",
+        "required": false
+      },
+      {
+        "name": "archived",
+        "type": "boolean",
+        "description": "`true` to archive this repository. **Note**: You cannot unarchive repositories through the API.",
+        "default": "false",
+        "required": false
+      }
+    ],
+    "documentationUrl": "https://developer.github.com/v3/repos/#edit"
+  },
+  {
+    "name": "List all topics for a repository",
+    "method": "GET",
+    "path": "/repos/:owner/:repo/topics",
+    "description": "**Note:** The `topics` property for repositories on GitHub is currently available for developers to preview. To view the `topics` property in calls that return repository results, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n    application/vnd.github.mercy-preview+json\n    \n\n**Warning:** The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact [GitHub support](https://github.com/contact).\n\n    GET /repos/:owner/:repo/topics\n    \n\n### [](#response-5)Response\n\n    Status: 200 OK\n    \n\n    {\n      \"names\": [\n        \"octocat\",\n        \"atom\",\n        \"electron\",\n        \"API\"\n      ]\n    }",
+    "params": [],
+    "documentationUrl": "https://developer.github.com/v3/repos/#list-all-topics-for-a-repository"
+  },
+  {
+    "name": "Replace all topics for a repository",
+    "method": "PUT",
+    "path": "/repos/:owner/:repo/topics",
+    "description": "**Note:** The `topics` property for repositories on GitHub is currently available for developers to preview. To view the `topics` property in calls that return repository results, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n    application/vnd.github.mercy-preview+json\n    \n\n**Warning:** The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact [GitHub support](https://github.com/contact).\n\n    PUT /repos/:owner/:repo/topics\n    \n\n### [](#input-2)Input\n\nName\n\nType\n\nDescription\n\n`names`\n\n`array` of `strings`\n\n**Required**. An array of topics to add to the repository. Pass one or more topics to _replace_ the set of existing topics. Send an empty array (`[]`) to clear all topics from the repository.\n\n### [](#example-2)Example\n\n    {\n      \"names\": [\n        \"octocat\",\n        \"atom\",\n        \"electron\",\n        \"API\"\n      ]\n    }\n    \n\n### [](#response-6)Response\n\n    Status: 200 OK\n    \n\n    {\n      \"names\": [\n        \"octocat\",\n        \"atom\",\n        \"electron\",\n        \"API\"\n      ]\n    }",
+    "params": [
+      {
+        "name": "names",
+        "type": "array of strings",
+        "description": "An array of topics to add to the repository. Pass one or more topics to _replace_ the set of existing topics. Send an empty array (`[]`) to clear all topics from the repository.",
+        "required": true
+      }
+    ],
+    "documentationUrl": "https://developer.github.com/v3/repos/#replace-all-topics-for-a-repository"
+  },
+  {
+    "name": "List contributors",
+    "method": "GET",
+    "path": "/repos/:owner/:repo/contributors",
+    "description": "Lists contributors to the specified repository and sorts them by the number of commits per contributor in descending order. This endpoint may return information that is a few hours old because the GitHub REST API v3 caches contributor data to improve performance.\n\nGitHub identifies contributors by author email address. This endpoint groups contribution counts by GitHub user, which includes all associated email addresses. To improve performance, only the first 500 author email addresses in the repository link to GitHub users. The rest will appear as anonymous contributors without associated GitHub user information.",
+    "params": [
+      {
+        "name": "anon",
+        "type": "string",
+        "description": "Set to `1` or `true` to include anonymous contributors in results.",
+        "required": false
+      }
+    ],
+    "documentationUrl": "https://developer.github.com/v3/repos/#list-contributors"
+  },
+  {
+    "name": "List languages",
+    "method": "GET",
+    "path": "/repos/:owner/:repo/languages",
+    "description": "Lists languages for the specified repository. The value shown for each language is the number of bytes of code written in that language.",
+    "params": [],
+    "documentationUrl": "https://developer.github.com/v3/repos/#list-languages"
+  },
+  {
+    "name": "List teams",
+    "method": "GET",
+    "path": "/repos/:owner/:repo/teams",
+    "description": "**Note:** The Nested Teams API is currently available for developers to preview. See the [blog post](/changes/2017-08-30-preview-nested-teams) for full details. To access the API, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n    application/vnd.github.hellcat-preview+json\n    \n\n**Warning:** The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact [GitHub support](https://github.com/contact).\n\n    GET /repos/:owner/:repo/teams\n    \n\n### [](#response-8)Response\n\n    Status: 200 OK\n    Link: <https://api.github.com/resource?page=2>; rel=\"next\",\n          <https://api.github.com/resource?page=5>; rel=\"last\"\n    \n\n    [\n      {\n        \"id\": 1,\n        \"url\": \"https://api.github.com/teams/1\",\n        \"name\": \"Justice League\",\n        \"slug\": \"justice-league\",\n        \"description\": \"A great team.\",\n        \"privacy\": \"closed\",\n        \"permission\": \"admin\",\n        \"members_url\": \"https://api.github.com/teams/1/members{/member}\",\n        \"repositories_url\": \"https://api.github.com/teams/1/repos\",\n        \"parent\": null\n      }\n    ]",
+    "params": [],
+    "documentationUrl": "https://developer.github.com/v3/repos/#list-teams"
+  },
+  {
+    "name": "List tags",
+    "method": "GET",
+    "path": "/repos/:owner/:repo/tags",
+    "description": "",
+    "params": [],
+    "documentationUrl": "https://developer.github.com/v3/repos/#list-tags"
+  },
+  {
+    "name": "Delete a repository",
+    "method": "DELETE",
+    "path": "/repos/:owner/:repo",
+    "description": "Deleting a repository requires admin access. If OAuth is used, the `delete_repo` scope is required.",
+    "params": [],
+    "documentationUrl": "https://developer.github.com/v3/repos/#delete-a-repository"
+  },
+  {
+    "name": "Transfer a repository",
+    "method": "POST",
+    "path": "/repos/:owner/:repo/transfer",
+    "description": "A transfer request will need to be accepted by the new owner when transferring a personal repository to another user. The response will contain the original `owner`, and the transfer will continue asynchronously. For more details on the requirements to transfer personal and organization-owned repositories, see [about repository transfers](https://help.github.com/articles/about-repository-transfers/).\n\n**Note:** The [Repository Transfer API](/changes/2017-11-09-repository-transfer-api-preview) is currently available for developers to preview. To access the API, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n    application/vnd.github.nightshade-preview+json\n    \n\n**Warning:** The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact [GitHub support](https://github.com/contact).\n\n    POST /repos/:owner/:repo/transfer\n    \n\n### [](#input-3)Input\n\nName\n\nType\n\nDescription\n\n`new_owner`\n\n`string`\n\n**Required:** The username or organization name the repository will be transferred to.\n\n`team_id`\n\n`array` of `integers`\n\nID of the team or teams to add to the repository. Teams can only be added to organization-owned repositories.\n\n### [](#example-3)Example\n\n    {\n      \"new_owner\": \"github\",\n      \"team_id\": [\n        12,\n        345\n      ]\n    }\n    \n\n### [](#response-11)Response\n\n    Status: 202 Accepted\n    \n\n    {\n      \"id\": 1296269,\n      \"owner\": {\n        \"login\": \"octocat\",\n        \"id\": 1,\n        \"avatar_url\": \"https://github.com/images/error/octocat_happy.gif\",\n        \"gravatar_id\": \"\",\n        \"url\": \"https://api.github.com/users/octocat\",\n        \"html_url\": \"https://github.com/octocat\",\n        \"followers_url\": \"https://api.github.com/users/octocat/followers\",\n        \"following_url\": \"https://api.github.com/users/octocat/following{/other_user}\",\n        \"gists_url\": \"https://api.github.com/users/octocat/gists{/gist_id}\",\n        \"starred_url\": \"https://api.github.com/users/octocat/starred{/owner}{/repo}\",\n        \"subscriptions_url\": \"https://api.github.com/users/octocat/subscriptions\",\n        \"organizations_url\": \"https://api.github.com/users/octocat/orgs\",\n        \"repos_url\": \"https://api.github.com/users/octocat/repos\",\n        \"events_url\": \"https://api.github.com/users/octocat/events{/privacy}\",\n        \"received_events_url\": \"https://api.github.com/users/octocat/received_events\",\n        \"type\": \"User\",\n        \"site_admin\": false\n      },\n      \"name\": \"Hello-World\",\n      \"full_name\": \"octocat/Hello-World\",\n      \"description\": \"This your first repo!\",\n      \"private\": false,\n      \"fork\": false,\n      \"url\": \"https://api.github.com/repos/octocat/Hello-World\",\n      \"html_url\": \"https://github.com/octocat/Hello-World\",\n      \"archive_url\": \"http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}\",\n      \"assignees_url\": \"http://api.github.com/repos/octocat/Hello-World/assignees{/user}\",\n      \"blobs_url\": \"http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}\",\n      \"branches_url\": \"http://api.github.com/repos/octocat/Hello-World/branches{/branch}\",\n      \"clone_url\": \"https://github.com/octocat/Hello-World.git\",\n      \"collaborators_url\": \"http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}\",\n      \"comments_url\": \"http://api.github.com/repos/octocat/Hello-World/comments{/number}\",\n      \"commits_url\": \"http://api.github.com/repos/octocat/Hello-World/commits{/sha}\",\n      \"compare_url\": \"http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}\",\n      \"contents_url\": \"http://api.github.com/repos/octocat/Hello-World/contents/{+path}\",\n      \"contributors_url\": \"http://api.github.com/repos/octocat/Hello-World/contributors\",\n      \"deployments_url\": \"http://api.github.com/repos/octocat/Hello-World/deployments\",\n      \"downloads_url\": \"http://api.github.com/repos/octocat/Hello-World/downloads\",\n      \"events_url\": \"http://api.github.com/repos/octocat/Hello-World/events\",\n      \"forks_url\": \"http://api.github.com/repos/octocat/Hello-World/forks\",\n      \"git_commits_url\": \"http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}\",\n      \"git_refs_url\": \"http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}\",\n      \"git_tags_url\": \"http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}\",\n      \"git_url\": \"git:github.com/octocat/Hello-World.git\",\n      \"hooks_url\": \"http://api.github.com/repos/octocat/Hello-World/hooks\",\n      \"issue_comment_url\": \"http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}\",\n      \"issue_events_url\": \"http://api.github.com/repos/octocat/Hello-World/issues/events{/number}\",\n      \"issues_url\": \"http://api.github.com/repos/octocat/Hello-World/issues{/number}\",\n      \"keys_url\": \"http://api.github.com/repos/octocat/Hello-World/keys{/key_id}\",\n      \"labels_url\": \"http://api.github.com/repos/octocat/Hello-World/labels{/name}\",\n      \"languages_url\": \"http://api.github.com/repos/octocat/Hello-World/languages\",\n      \"merges_url\": \"http://api.github.com/repos/octocat/Hello-World/merges\",\n      \"milestones_url\": \"http://api.github.com/repos/octocat/Hello-World/milestones{/number}\",\n      \"mirror_url\": \"git:git.example.com/octocat/Hello-World\",\n      \"notifications_url\": \"http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}\",\n      \"pulls_url\": \"http://api.github.com/repos/octocat/Hello-World/pulls{/number}\",\n      \"releases_url\": \"http://api.github.com/repos/octocat/Hello-World/releases{/id}\",\n      \"ssh_url\": \"git@github.com:octocat/Hello-World.git\",\n      \"stargazers_url\": \"http://api.github.com/repos/octocat/Hello-World/stargazers\",\n      \"statuses_url\": \"http://api.github.com/repos/octocat/Hello-World/statuses/{sha}\",\n      \"subscribers_url\": \"http://api.github.com/repos/octocat/Hello-World/subscribers\",\n      \"subscription_url\": \"http://api.github.com/repos/octocat/Hello-World/subscription\",\n      \"svn_url\": \"https://svn.github.com/octocat/Hello-World\",\n      \"tags_url\": \"http://api.github.com/repos/octocat/Hello-World/tags\",\n      \"teams_url\": \"http://api.github.com/repos/octocat/Hello-World/teams\",\n      \"trees_url\": \"http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}\",\n      \"homepage\": \"https://github.com\",\n      \"language\": null,\n      \"forks_count\": 9,\n      \"stargazers_count\": 80,\n      \"watchers_count\": 80,\n      \"size\": 108,\n      \"default_branch\": \"master\",\n      \"open_issues_count\": 0,\n      \"topics\": [\n        \"octocat\",\n        \"atom\",\n        \"electron\",\n        \"API\"\n      ],\n      \"has_issues\": true,\n      \"has_wiki\": true,\n      \"has_pages\": false,\n      \"has_downloads\": true,\n      \"archived\": false,\n      \"pushed_at\": \"2011-01-26T19:06:43Z\",\n      \"created_at\": \"2011-01-26T19:01:12Z\",\n      \"updated_at\": \"2011-01-26T19:14:43Z\",\n      \"permissions\": {\n        \"admin\": false,\n        \"push\": false,\n        \"pull\": true\n      },\n      \"allow_rebase_merge\": true,\n      \"allow_squash_merge\": true,\n      \"allow_merge_commit\": true,\n      \"subscribers_count\": 42,\n      \"network_count\": 0\n    }",
+    "params": [
+      {
+        "name": "new_owner",
+        "type": "string",
+        "description": "**Required:** The username or organization name the repository will be transferred to.",
+        "required": false
+      },
+      {
+        "name": "team_id",
+        "type": "array of integers",
+        "description": "ID of the team or teams to add to the repository. Teams can only be added to organization-owned repositories.",
+        "required": false
+      }
+    ],
+    "documentationUrl": "https://developer.github.com/v3/repos/#transfer-a-repository"
+  }
+]
