@@ -1,0 +1,57 @@
+<h2>
+    <a id="get-a-reference" class="anchor" href="#get-a-reference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get a Reference<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+<pre><code>GET /repos/:owner/:repo/git/refs/:ref
+</code></pre>
+<p>The <code>ref</code> in the URL must be formatted as <code>heads/branch</code>, not just <code>branch</code>. For example, the call to get the data for a branch named <code>skunkworkz/featureA</code> would be:</p>
+<pre><code>GET /repos/:owner/:repo/git/refs/heads/skunkworkz/featureA
+</code></pre>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;refs/heads/featureA&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Hello-World/git/refs/heads/featureA&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;object&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;commit&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;sha&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;aa218f56b14c9653891f9e74264a383fa43fefbd&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Hello-World/git/commits/aa218f56b14c9653891f9e74264a383fa43fefbd&quot;</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>If the <code>ref</code> doesn&apos;t exist in the repository, but existing refs start with <code>ref</code> they will be returned as an array. For example, a call to get the data for a branch named <code>feature</code>, which doesn&apos;t exist, would
+    return head refs including <code>featureA</code> and <code>featureB</code> which do.</p>
+<pre><code>GET /repos/:owner/:repo/git/refs/heads/feature
+</code></pre>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;refs/heads/feature-a&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Hello-World/git/refs/heads/feature-a&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;object&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;commit&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;sha&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;aa218f56b14c9653891f9e74264a383fa43fefbd&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Hello-World/git/commits/aa218f56b14c9653891f9e74264a383fa43fefbd&quot;</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;refs/heads/feature-b&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Hello-World/git/refs/heads/feature-b&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;object&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;commit&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;sha&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;612077ae6dffb4d2fbd8ce0cccaa58893b07b5ac&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Hello-World/git/commits/612077ae6dffb4d2fbd8ce0cccaa58893b07b5ac&quot;</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p>If the <code>ref</code> doesn&apos;t match an existing ref or any prefixes a 404 will be returned.</p>
+<pre><code>GET /repos/:owner/:repo/git/refs/heads/feature-branch-that-no-longer-exists
+</code></pre>
+<pre class="highlight highlight-headers"><code>Status: 404 Not Found
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Not Found&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;documentation_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://developer.github.com/v3&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
