@@ -2,6 +2,8 @@
 
 > machine-readable, always up-to-date GitHub REST API route specifications
 
+[![Build Status](https://travis-ci.org/gr2m/octokit-rest-routes.svg?branch=master)](https://travis-ci.org/gr2m/octokit-rest-routes)
+
 ⚠️ This module is work in progress. Feedback welcome :)
 
 ## Usage
