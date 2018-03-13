@@ -10,7 +10,7 @@ const fixtures = {
   out: require('./out.json')
 }
 
-test('https://developer.github.com/v3/pulls/#list-pull-requests to JSON', t => {
+test('https://developer.github.com/v3/markdown/#render-an-arbitrary-markdown-document to JSON', t => {
   const actual = endpointHtmlToJson(fixtures.in)
   t.deepEquals(actual, fixtures.out)
   t.end()
