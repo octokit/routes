@@ -20,7 +20,8 @@
       {
         "name": "affiliation",
         "type": "string",
-        "description": "Comma-separated list of values. Can include:  \n\\* `owner`: Repositories that are owned by the authenticated user.  \n\\* `collaborator`: Repositories that the user has been added to as a collaborator.  \n\\* `organization_member`: Repositories that the user has access to through being a member of an organization. This includes every repository on every team that the user is on.  \n  \nDefault: `owner,collaborator,organization_member`",
+        "description": "Comma-separated list of values. Can include:  \n\\* `owner`: Repositories that are owned by the authenticated user.  \n\\* `collaborator`: Repositories that the user has been added to as a collaborator.  \n\\* `organization_member`: Repositories that the user has access to through being a member of an organization. This includes every repository on every team that the user is on.",
+        "default": "owner,collaborator,organization_member",
         "required": false
       },
       {
@@ -31,10 +32,13 @@
           "owner",
           "public",
           "private",
-          "member"
+          "member",
+          "all",
+          "422",
+          "422"
         ],
-        "description": "Can be one of `all`, `owner`, `public`, `private`, `member`.",
-        "default": "allWill cause a 422 error if used in the same request as visibility                or affiliation.",
+        "description": "Can be one of `all`, `owner`, `public`, `private`, `member`. Default: `all`  \n  \nWill cause a `422` error if used in the same request as **visibility** or **affiliation**. Will cause a `422` error if used in the same request as **visibility** or **affiliation**.",
+        "default": "all",
         "required": false
       },
       {
@@ -58,7 +62,7 @@
           "desc"
         ],
         "description": "Can be one of `asc` or `desc`.",
-        "default": "when using full_name: asc; otherwise desc",
+        "default": "when using `full_name`: `asc`; otherwise `desc`",
         "required": false
       }
     ],
@@ -104,7 +108,7 @@
           "desc"
         ],
         "description": "Can be one of `asc` or `desc`.",
-        "default": "when using full_name: asc, otherwise desc",
+        "default": "when using `full_name`: `asc`, otherwise `desc`",
         "required": false
       }
     ],
@@ -202,9 +206,11 @@
           "true",
           "false",
           "false",
+          "422",
           "422"
         ],
-        "description": "Either `true` to make the repository private or `false` to make it public. Creating private repositories requires a paid GitHub account. Default: `false`.  \n**Note**: You will get a `422` error if the organization restricts [changing repository visibility](https://help.github.com/articles/repository-permission-levels-for-an-organization#changing-the-visibility-of-repositories) to organization owners and a non-owner tries to change the value of private.",
+        "description": "Either `true` to make the repository private or `false` to make it public. Creating private repositories requires a paid GitHub account. Default: `false`.  \n**Note**: You will get a `422` error if the organization restricts [changing repository visibility](https://help.github.com/articles/repository-permission-levels-for-an-organization#changing-the-visibility-of-repositories) to organization owners and a non-owner tries to change the value of private. **Note**: You will get a `422` error if the organization restricts [changing repository visibility](https://help.github.com/articles/repository-permission-levels-for-an-organization#changing-the-visibility-of-repositories) to organization owners and a non-owner tries to change the value of private.",
+        "default": "false",
         "required": false
       },
       {
@@ -215,7 +221,7 @@
           "false"
         ],
         "description": "Either `true` to enable issues for this repository or `false` to disable them.",
-        "default": "true.",
+        "default": "true",
         "required": false
       },
       {
@@ -224,11 +230,11 @@
         "options": [
           "true",
           "false",
-          "true",
           "false",
           "true"
         ],
-        "description": "Either `true` to enable projects for this repository or `false` to disable them. Default: `true`. **Note:** If you're creating a repository in an organization that has disabled repository projects, the default is `false`, and if you pass `true`, the API returns an error.",
+        "description": "Either `true` to enable projects for this repository or `false` to disable them. **Note:** If you're creating a repository in an organization that has disabled repository projects, the default is `false`, and if you pass `true`, the API returns an error.",
+        "default": "true",
         "required": false
       },
       {
@@ -239,12 +245,12 @@
           "false"
         ],
         "description": "Either `true` to enable the wiki for this repository or `false` to disable it.",
-        "default": "true.",
+        "default": "true",
         "required": false
       },
       {
         "name": "default_branch",
-        "type": "String",
+        "type": "string",
         "description": "Updates the default branch for this repository.",
         "required": false
       },
@@ -285,7 +291,7 @@
         "name": "archived",
         "type": "boolean",
         "description": "`true` to archive this repository. **Note**: You cannot unarchive repositories through the API.",
-        "default": "false",
+        "default": false,
         "required": false
       }
     ],
