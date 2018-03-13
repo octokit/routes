@@ -4,7 +4,7 @@
 
 [![Build Status](https://travis-ci.org/gr2m/octokit-rest-routes.svg?branch=master)](https://travis-ci.org/gr2m/octokit-rest-routes)
 
-⚠️ This module is work in progress. Feedback welcome :)
+⚠️ This module is work in progress. It does not follow [semantic versioning](https://semver.org/) yet. Feedback welcome :)
 
 ## Usage
 
