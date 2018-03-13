@@ -7,7 +7,8 @@
     "params": [
       {
         "name": "visibility",
-        "type": [
+        "type": "enum",
+        "options": [
           "all",
           "public",
           "private"
@@ -24,7 +25,8 @@
       },
       {
         "name": "type",
-        "type": [
+        "type": "enum",
+        "options": [
           "all",
           "owner",
           "public",
@@ -37,7 +39,8 @@
       },
       {
         "name": "sort",
-        "type": [
+        "type": "enum",
+        "options": [
           "created",
           "updated",
           "pushed",
@@ -49,7 +52,8 @@
       },
       {
         "name": "direction",
-        "type": [
+        "type": "enum",
+        "options": [
           "asc",
           "desc"
         ],
@@ -58,6 +62,7 @@
         "required": false
       }
     ],
+    "enabledForApps": false,
     "documentationUrl": "https://developer.github.com/v3/repos/#list-your-repositories"
   },
   {
@@ -68,7 +73,8 @@
     "params": [
       {
         "name": "type",
-        "type": [
+        "type": "enum",
+        "options": [
           "all",
           "owner",
           "member"
@@ -79,7 +85,8 @@
       },
       {
         "name": "sort",
-        "type": [
+        "type": "enum",
+        "options": [
           "created",
           "updated",
           "pushed",
@@ -91,7 +98,8 @@
       },
       {
         "name": "direction",
-        "type": [
+        "type": "enum",
+        "options": [
           "asc",
           "desc"
         ],
@@ -100,6 +108,7 @@
         "required": false
       }
     ],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/repos/#list-user-repositories"
   },
   {
@@ -110,7 +119,8 @@
     "params": [
       {
         "name": "type",
-        "type": [
+        "type": "enum",
+        "options": [
           "all",
           "public",
           "private",
@@ -123,6 +133,7 @@
         "required": false
       }
     ],
+    "enabledForApps": false,
     "documentationUrl": "https://developer.github.com/v3/repos/#list-organization-repositories"
   },
   {
@@ -138,6 +149,7 @@
         "required": false
       }
     ],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/repos/#list-all-public-repositories"
   },
   {
@@ -154,15 +166,16 @@
     "name": "Get",
     "method": "GET",
     "path": "/repos/:owner/:repo",
-    "description": "",
+    "description": "The `parent` and `source` objects are present when the repository is a fork. `parent` is the repository this repository was forked from, `source` is the ultimate source for the network.",
     "params": [],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/repos/#get"
   },
   {
     "name": "Edit",
     "method": "PATCH",
     "path": "/repos/:owner/:repo",
-    "description": "",
+    "description": "**Note**: To edit a repository's topics, use the [`topics` endpoint](#replace-all-topics-for-a-repository).",
     "params": [
       {
         "name": "name",
@@ -184,26 +197,47 @@
       },
       {
         "name": "private",
-        "type": "boolean",
+        "type": "enum",
+        "options": [
+          "true",
+          "false",
+          "false",
+          "422"
+        ],
         "description": "Either `true` to make the repository private or `false` to make it public. Creating private repositories requires a paid GitHub account. Default: `false`.  \n**Note**: You will get a `422` error if the organization restricts [changing repository visibility](https://help.github.com/articles/repository-permission-levels-for-an-organization#changing-the-visibility-of-repositories) to organization owners and a non-owner tries to change the value of private.",
         "required": false
       },
       {
         "name": "has_issues",
-        "type": "boolean",
+        "type": "enum",
+        "options": [
+          "true",
+          "false"
+        ],
         "description": "Either `true` to enable issues for this repository or `false` to disable them.",
         "default": "true.",
         "required": false
       },
       {
         "name": "has_projects",
-        "type": "boolean",
+        "type": "enum",
+        "options": [
+          "true",
+          "false",
+          "true",
+          "false",
+          "true"
+        ],
         "description": "Either `true` to enable projects for this repository or `false` to disable them. Default: `true`. **Note:** If you're creating a repository in an organization that has disabled repository projects, the default is `false`, and if you pass `true`, the API returns an error.",
         "required": false
       },
       {
         "name": "has_wiki",
-        "type": "boolean",
+        "type": "enum",
+        "options": [
+          "true",
+          "false"
+        ],
         "description": "Either `true` to enable the wiki for this repository or `false` to disable it.",
         "default": "true.",
         "required": false
@@ -216,21 +250,33 @@
       },
       {
         "name": "allow_squash_merge",
-        "type": "boolean",
+        "type": "enum",
+        "options": [
+          "true",
+          "false"
+        ],
         "description": "Either `true` to allow squash-merging pull requests, or `false` to prevent squash-merging.",
         "default": "true",
         "required": false
       },
       {
         "name": "allow_merge_commit",
-        "type": "boolean",
+        "type": "enum",
+        "options": [
+          "true",
+          "false"
+        ],
         "description": "Either `true` to allow merging pull requests with a merge commit, or `false` to prevent merging pull requests with merge commits.",
         "default": "true",
         "required": false
       },
       {
         "name": "allow_rebase_merge",
-        "type": "boolean",
+        "type": "enum",
+        "options": [
+          "true",
+          "false"
+        ],
         "description": "Either `true` to allow rebase-merging pull requests, or `false` to prevent rebase-merging.",
         "default": "true",
         "required": false
@@ -243,6 +289,7 @@
         "required": false
       }
     ],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/repos/#edit"
   },
   {
@@ -251,6 +298,7 @@
     "path": "/repos/:owner/:repo/topics",
     "description": "",
     "params": [],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/repos/#list-all-topics-for-a-repository"
   },
   {
@@ -266,13 +314,14 @@
         "required": true
       }
     ],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/repos/#replace-all-topics-for-a-repository"
   },
   {
     "name": "List contributors",
     "method": "GET",
     "path": "/repos/:owner/:repo/contributors",
-    "description": "Lists contributors to the specified repository and sorts them by the number of commits per contributor in descending order. This endpoint may return information that is a few hours old because the GitHub REST API v3 caches contributor data to improve performance.",
+    "description": "Lists contributors to the specified repository and sorts them by the number of commits per contributor in descending order. This endpoint may return information that is a few hours old because the GitHub REST API v3 caches contributor data to improve performance.\n\nGitHub identifies contributors by author email address. This endpoint groups contribution counts by GitHub user, which includes all associated email addresses. To improve performance, only the first 500 author email addresses in the repository link to GitHub users. The rest will appear as anonymous contributors without associated GitHub user information.",
     "params": [
       {
         "name": "anon",
@@ -281,6 +330,7 @@
         "required": false
       }
     ],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/repos/#list-contributors"
   },
   {
@@ -289,6 +339,7 @@
     "path": "/repos/:owner/:repo/languages",
     "description": "Lists languages for the specified repository. The value shown for each language is the number of bytes of code written in that language.",
     "params": [],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/repos/#list-languages"
   },
   {
@@ -297,6 +348,7 @@
     "path": "/repos/:owner/:repo/teams",
     "description": "",
     "params": [],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/repos/#list-teams"
   },
   {
@@ -305,14 +357,16 @@
     "path": "/repos/:owner/:repo/tags",
     "description": "",
     "params": [],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/repos/#list-tags"
   },
   {
     "name": "Delete a repository",
     "method": "DELETE",
     "path": "/repos/:owner/:repo",
-    "description": "Deleting a repository requires admin access. If OAuth is used, the `delete_repo` scope is required.",
+    "description": "Deleting a repository requires admin access. If OAuth is used, the `delete_repo` scope is required.\n\nIf an organization owner has configured the organization to prevent members from deleting organization-owned repositories, a member will get this response:",
     "params": [],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/repos/#delete-a-repository"
   },
   {
@@ -334,6 +388,7 @@
         "required": false
       }
     ],
+    "enabledForApps": false,
     "documentationUrl": "https://developer.github.com/v3/repos/#transfer-a-repository"
   }
 ]

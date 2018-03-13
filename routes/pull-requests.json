@@ -7,7 +7,8 @@
     "params": [
       {
         "name": "state",
-        "type": [
+        "type": "enum",
+        "options": [
           "open",
           "closed",
           "all"
@@ -43,21 +44,23 @@
         "required": false
       }
     ],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/pulls/#list-pull-requests"
   },
   {
     "name": "Get a single pull request",
     "method": "GET",
     "path": "/repos/:owner/:repo/pulls/:number",
-    "description": "",
+    "description": "Each time the pull request receives new commits, GitHub creates a merge commit to _test_ whether the pull request can be automatically merged into the base branch. (This _test_ commit is not added to the base branch or the head branch.)\n\nThe value of the `merge_commit_sha` attribute changes depending on the state of the pull request. Before a pull request is merged, the `merge_commit_sha` attribute holds the SHA of the _test_ merge commit. After a pull request is merged, the attribute changes depending on how the pull request was merged:\n\n*   If the pull request was merged as a merge commit, the attribute represents the SHA of the merge commit.\n*   If the pull request was merged via a squash, the attribute represents the SHA of the squashed commit on the base branch.\n*   If the pull request was rebased, the attribute represents the commit that the base branch was updated to.\n\nThe value of the `mergeable` attribute can be `true`, `false`, or `null`. If the value is `null`, this means that the mergeability hasn't been computed yet, and a background job was started to compute it. Give the job a few moments to complete, and then submit the request again. When the job is complete, the response will include a non-`null` value for the `mergeable` attribute.\n\nPass the appropriate [media type](/v3/media/#commits-commit-comparison-and-pull-requests) to fetch diff and patch formats.",
     "params": [],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/pulls/#get-a-single-pull-request"
   },
   {
     "name": "Create a pull request",
     "method": "POST",
     "path": "/repos/:owner/:repo/pulls",
-    "description": "",
+    "description": "You can also create a Pull Request from an existing Issue by passing an Issue number instead of `title` and `body`.",
     "params": [
       {
         "name": "title",
@@ -88,14 +91,9 @@
         "type": "boolean",
         "description": "Indicates whether [maintainers can modify](https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/) the pull request.",
         "required": false
-      },
-      {
-        "name": "issue",
-        "type": "integer",
-        "description": "The issue number in this repository to turn into a Pull Request.",
-        "required": true
       }
     ],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/pulls/#create-a-pull-request"
   },
   {
@@ -135,22 +133,25 @@
         "required": false
       }
     ],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/pulls/#update-a-pull-request"
   },
   {
     "name": "List commits on a pull request",
     "method": "GET",
     "path": "/repos/:owner/:repo/pulls/:number/commits",
-    "description": "",
+    "description": "**Note:** The response includes a maximum of 250 commits. To receive a complete commit list for pull requests with more than 250 commits, use the [Commit List API](/v3/repos/commits/#list-commits-on-a-repository).",
     "params": [],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/pulls/#list-commits-on-a-pull-request"
   },
   {
     "name": "List pull requests files",
     "method": "GET",
     "path": "/repos/:owner/:repo/pulls/:number/files",
-    "description": "",
+    "description": "**Note:** The response includes a maximum of 300 files.",
     "params": [],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/pulls/#list-pull-requests-files"
   },
   {
@@ -159,6 +160,7 @@
     "path": "/repos/:owner/:repo/pulls/:number/merge",
     "description": "",
     "params": [],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/pulls/#get-if-a-pull-request-has-been-merged"
   },
   {
@@ -192,6 +194,7 @@
         "required": false
       }
     ],
+    "enabledForApps": false,
     "documentationUrl": "https://developer.github.com/v3/pulls/#merge-a-pull-request-merge-button"
   }
 ]

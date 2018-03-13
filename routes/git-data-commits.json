@@ -5,13 +5,14 @@
     "path": "/repos/:owner/:repo/git/commits/:sha",
     "description": "",
     "params": [],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/git/commits/#get-a-commit"
   },
   {
     "name": "Create a Commit",
     "method": "POST",
     "path": "/repos/:owner/:repo/git/commits",
-    "description": "",
+    "description": "**Optional Parameters**\n\nYou can provide an additional `committer` parameter, which is an object containing information about the committer. Or, you can provide an `author` parameter, which is an object containing information about the author.\n\nThe `committer` section is optional and will be filled with the `author` data if omitted. If the `author` section is omitted, it will be filled in with the authenticated user's information and the current date.\n\nBoth the `author` and `committer` parameters have the same keys:\n\nYou can also provide an optional string `signature` parameter. This value will be added to the `gpgsig` header of the created commit. For a commit signature to be verifiable by Git or GitHub, it must be an ASCII-armored detached PGP signature over the string commit as it would be written to the object database.\n\n**Note**: To pass a `signature` parameter, you need to first manually create a valid PGP signature, which can be complicated. You may find it easier to [use the command line](https://git-scm.com/book/id/v2/Git-Tools-Signing-Your-Work) to create signed commits.\n\nIn this example, the payload that the signature is over would have been:\n\n",
     "params": [
       {
         "name": "message",
@@ -30,33 +31,16 @@
         "type": "array of strings",
         "description": "The SHAs of the commits that were the parents of this commit. If omitted or empty, the commit will be written as a root commit. For a single parent, an array of one SHA should be provided; for a merge commit, an array of more than one should be provided.",
         "required": true
-      },
-      {
-        "name": "name",
-        "type": "string",
-        "description": "The name of the author (or committer) of the commit",
-        "required": false
-      },
-      {
-        "name": "email",
-        "type": "string",
-        "description": "The email of the author (or committer) of the commit",
-        "required": false
-      },
-      {
-        "name": "date",
-        "type": "string",
-        "description": "Indicates when this commit was authored (or committed). This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.",
-        "required": false
       }
     ],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/git/commits/#create-a-commit"
   },
   {
     "name": "Commit signature verification",
     "method": "GET",
     "path": "/repos/:owner/:repo/git/commits/:sha",
-    "description": "",
+    "description": "**The verification object**\n\nThe response will include a `verification` field whose value is an object describing the result of verifying the commit's signature. The following fields are included in the `verification` object:\n\n**The reason field**\n\nThe following are possible `reason`s that may be included in the `verification` object:\n\n| Value                    | Description                                                                                                                       |\n| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |\n| `expired_key`            | The key that made the signature is expired.                                                                                       |\n| `not_signing_key`        | The \"signing\" flag is not among the usage flags in the GPG key that made the signature.                                           |\n| `gpgverify_error`        | There was an error communicating with the signature-verification service.                                                         |\n| `gpgverify_unavailable`  | The signature-verification service is currently unavailable.                                                                      |\n| `unsigned`               | The object does not include a signature.                                                                                          |\n| `unknown_signature_type` | A non-PGP signature was found in the commit.                                                                                      |\n| `no_user`                | No user was associated with the `committer` email address in the commit.                                                          |\n| `unverified_email`       | The `committer` email address in the commit was associated with a user, but the email address is not verified on her/his account. |\n| `bad_email`              | The `committer` email address in the commit is not included in the identities of the PGP key that made the signature.             |\n| `unknown_key`            | The key that made the signature has not been registered with any user's account.                                                  |\n| `malformed_signature`    | There was an error parsing the signature.                                                                                         |\n| `invalid`                | The signature could not be cryptographically verified using the key whose key-id was found in the signature.                      |\n| `valid`                  | None of the above errors applied, so the signature is considered to be verified.                                                  |",
     "params": [
       {
         "name": "verified",
@@ -83,6 +67,7 @@
         "required": false
       }
     ],
+    "enabledForApps": false,
     "documentationUrl": "https://developer.github.com/v3/git/commits/#commit-signature-verification"
   }
 ]

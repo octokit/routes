@@ -12,45 +12,50 @@
         "required": false
       }
     ],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/teams/members/#list-team-members"
   },
   {
     "name": "Get team member",
     "method": "GET",
     "path": "/teams/:id/members/:username",
-    "description": "### [](#deprecation-notice)Deprecation notice\n\nTo list members in a team, the team must be visible to the authenticated user.",
+    "description": "The \"Get team member\" API (described below) is deprecated.\n\nWe recommend using the [Get team membership API](/v3/teams/members/#get-team-membership) instead. It allows you to get both active and pending memberships.\n\nTo list members in a team, the team must be visible to the authenticated user.",
     "params": [],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/teams/members/#get-team-member"
   },
   {
     "name": "Add team member",
     "method": "PUT",
     "path": "/teams/:id/members/:username",
-    "description": "### [](#deprecation-notice-1)Deprecation notice\n\nTo add a user to a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with, and the user being added must already be a member of at least one other team on the same organization.",
+    "description": "The \"Add team member\" API (described below) is deprecated.\n\nWe recommend using the [Add team membership API](/v3/teams/members/#add-or-update-team-membership) instead. It allows you to invite new organization members to your teams.\n\nTo add a user to a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with, and the user being added must already be a member of at least one other team on the same organization.\n\nNote that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](/v3/#http-verbs).\"\n\nIf you attempt to add an organization to a team, you will get this:\n\nIf you attempt to add a user to a team and that user is not a member of at least one other team on the same organization, you will get this:",
     "params": [],
+    "enabledForApps": false,
     "documentationUrl": "https://developer.github.com/v3/teams/members/#add-team-member"
   },
   {
     "name": "Remove team member",
     "method": "DELETE",
     "path": "/teams/:id/members/:username",
-    "description": "### [](#deprecation-notice-2)Deprecation notice\n\nTo remove a user from a team, the authenticated user must have 'admin' permissions to the team or be an owner of the org that the team is associated with. NOTE: This does not delete the user, it just removes them from the team.",
+    "description": "The \"Remove team member\" API (described below) is deprecated.\n\nWe recommend using the [Remove team membership API](/v3/teams/members/#remove-team-membership) instead. It allows you to remove both active and pending memberships.\n\nTo remove a user from a team, the authenticated user must have 'admin' permissions to the team or be an owner of the org that the team is associated with. NOTE: This does not delete the user, it just removes them from the team.",
     "params": [],
+    "enabledForApps": false,
     "documentationUrl": "https://developer.github.com/v3/teams/members/#remove-team-member"
   },
   {
     "name": "Get team membership",
     "method": "GET",
     "path": "/teams/:id/memberships/:username",
-    "description": "If you pass the `hellcat-preview` media type, team members will include the members of child teams.\n\nTo get a user's membership with a team, the team must be visible to the authenticated user.",
+    "description": "If you pass the `hellcat-preview` media type, team members will include the members of child teams.\n\nTo get a user's membership with a team, the team must be visible to the authenticated user.\n\n**Note:** The `role` for organization owners returns as `maintainer`. For more information about `maintainer` roles, see [Create team](/v3/teams#create-team).",
     "params": [],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/teams/members/#get-team-membership"
   },
   {
     "name": "Add or update team membership",
     "method": "PUT",
     "path": "/teams/:id/memberships/:username",
-    "description": "If the user is already a member of the team's organization, this endpoint will add the user to the team. To add a membership between an organization member and a team, the authenticated user must be an organization owner or a maintainer of the team.\n\nIf the user is unaffiliated with the team's organization, this endpoint will send an invitation to the user via email. This newly-created membership will be in the \"pending\" state until the user accepts the invitation, at which point the membership will transition to the \"active\" state and the user will be added as a member of the team. To add a membership between an unaffiliated user and a team, the authenticated user must be an organization owner.\n\nIf the user is already a member of the team, this endpoint will update the role of the team member's role. To update the membership of a team member, the authenticated user must be an organization owner or a maintainer of the team.",
+    "description": "If the user is already a member of the team's organization, this endpoint will add the user to the team. To add a membership between an organization member and a team, the authenticated user must be an organization owner or a maintainer of the team.\n\nIf the user is unaffiliated with the team's organization, this endpoint will send an invitation to the user via email. This newly-created membership will be in the \"pending\" state until the user accepts the invitation, at which point the membership will transition to the \"active\" state and the user will be added as a member of the team. To add a membership between an unaffiliated user and a team, the authenticated user must be an organization owner.\n\nIf the user is already a member of the team, this endpoint will update the role of the team member's role. To update the membership of a team member, the authenticated user must be an organization owner or a maintainer of the team.\n\nIf you attempt to add an organization to a team, you will get this:",
     "params": [
       {
         "name": "role",
@@ -59,6 +64,7 @@
         "required": false
       }
     ],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/teams/members/#add-or-update-team-membership"
   },
   {
@@ -67,6 +73,7 @@
     "path": "/teams/:id/memberships/:username",
     "description": "To remove a membership between a user and a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with. NOTE: This does not delete the user, it just removes their membership from the team.",
     "params": [],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/teams/members/#remove-team-membership"
   },
   {
@@ -75,6 +82,7 @@
     "path": "/teams/:id/invitations",
     "description": "The return hash contains a `role` field which refers to the Organization Invitation role and will be one of the following values: `direct_member`, `admin`, `billing_manager`, `hiring_manager`, or `reinstate`. If the invitee is not a GitHub member, the `login` field in the return hash will be `null`.",
     "params": [],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/teams/members/#list-pending-team-invitations"
   }
 ]

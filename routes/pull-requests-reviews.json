@@ -3,8 +3,9 @@
     "name": "List reviews on a pull request",
     "method": "GET",
     "path": "/repos/:owner/:repo/pulls/:number/reviews",
-    "description": "",
+    "description": "The list of reviews returns in chronological order.",
     "params": [],
+    "enabledForApps": false,
     "documentationUrl": "https://developer.github.com/v3/pulls/reviews/#list-reviews-on-a-pull-request"
   },
   {
@@ -13,6 +14,7 @@
     "path": "/repos/:owner/:repo/pulls/:number/reviews/:id",
     "description": "",
     "params": [],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/pulls/reviews/#get-a-single-review"
   },
   {
@@ -21,6 +23,7 @@
     "path": "/repos/:owner/:repo/pulls/:number/reviews/:id",
     "description": "",
     "params": [],
+    "enabledForApps": false,
     "documentationUrl": "https://developer.github.com/v3/pulls/reviews/#delete-a-pending-review"
   },
   {
@@ -29,13 +32,14 @@
     "path": "/repos/:owner/:repo/pulls/:number/reviews/:id/comments",
     "description": "",
     "params": [],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/pulls/reviews/#get-comments-for-a-single-review"
   },
   {
     "name": "Create a pull request review",
     "method": "POST",
     "path": "/repos/:owner/:repo/pulls/:number/reviews",
-    "description": "",
+    "description": "When specifying draft review `comments`, you need to include the following values:\n\n**Note:** To comment on a specific line in a file, you need to first determine the _position_ of that line in the diff. The GitHub REST API v3 offers the `application/vnd.github.v3.diff` [media type](/v3/media/#commits-commit-comparison-and-pull-requests). To see a pull request diff, add this media type to the `Accept` header of a call to the [single pull request](/v3/pulls/#get-a-single-pull-request) endpoint.\n\nThe `position` value equals the number of lines down from the first \"@@\" hunk header in the file you want to add a comment. The line just below the \"@@\" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.",
     "params": [
       {
         "name": "commit_id",
@@ -60,26 +64,9 @@
         "type": "array of draft review comment objects",
         "description": "Use the following table to specify the location, destination, and contents of the draft review comment.",
         "required": false
-      },
-      {
-        "name": "path",
-        "type": "string",
-        "description": "**Required.** The relative path to the file that necessitates a review comment.",
-        "required": false
-      },
-      {
-        "name": "position",
-        "type": "integer",
-        "description": "**Required.** The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. For help finding the position value, read the note below.",
-        "required": false
-      },
-      {
-        "name": "body",
-        "type": "string",
-        "description": "**Required.** Text of the review comment.",
-        "required": false
       }
     ],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/pulls/reviews/#create-a-pull-request-review"
   },
   {
@@ -101,13 +88,14 @@
         "required": false
       }
     ],
+    "enabledForApps": false,
     "documentationUrl": "https://developer.github.com/v3/pulls/reviews/#submit-a-pull-request-review"
   },
   {
     "name": "Dismiss a pull request review",
     "method": "PUT",
     "path": "/repos/:owner/:repo/pulls/:number/reviews/:id/dismissals",
-    "description": "",
+    "description": "**Note:** To dismiss a pull request review on a [protected branch](/v3/repos/branches/), you must be a repository administrator or be included in the list of people or teams who can dismiss pull request reviews.",
     "params": [
       {
         "name": "message",
@@ -116,6 +104,7 @@
         "required": false
       }
     ],
+    "enabledForApps": false,
     "documentationUrl": "https://developer.github.com/v3/pulls/reviews/#dismiss-a-pull-request-review"
   }
 ]

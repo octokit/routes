@@ -3,7 +3,7 @@
     "name": "Members list",
     "method": "GET",
     "path": "/orgs/:org/members",
-    "description": "List all users who are members of an organization. If the authenticated user is also a member of this organization then both concealed and public members will be returned.",
+    "description": "List all users who are members of an organization. If the authenticated user is also a member of this organization then both concealed and public members will be returned.\n\n",
     "params": [
       {
         "name": "filter",
@@ -18,6 +18,7 @@
         "required": false
       }
     ],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#members-list"
   },
   {
@@ -26,6 +27,7 @@
     "path": "/orgs/:org/members/:username",
     "description": "Check if a user is, publicly or privately, a member of the organization.",
     "params": [],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#check-membership"
   },
   {
@@ -34,6 +36,7 @@
     "path": "/orgs/:org/members/:username",
     "description": "Removing a user from this list will remove them from all teams and they will no longer have any access to the organization's repositories.",
     "params": [],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#remove-a-member"
   },
   {
@@ -42,6 +45,7 @@
     "path": "/orgs/:org/public_members",
     "description": "Members of an organization can choose to have their membership publicized or not.",
     "params": [],
+    "enabledForApps": false,
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#public-members-list"
   },
   {
@@ -50,14 +54,16 @@
     "path": "/orgs/:org/public_members/:username",
     "description": "",
     "params": [],
+    "enabledForApps": false,
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#check-public-membership"
   },
   {
     "name": "Publicize a user's membership",
     "method": "PUT",
     "path": "/orgs/:org/public_members/:username",
-    "description": "The user can publicize their own membership. (A user cannot publicize the membership for another user.)",
+    "description": "The user can publicize their own membership. (A user cannot publicize the membership for another user.)\n\nNote that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](/v3/#http-verbs).\"",
     "params": [],
+    "enabledForApps": false,
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#publicize-a-users-membership"
   },
   {
@@ -66,6 +72,7 @@
     "path": "/orgs/:org/public_members/:username",
     "description": "",
     "params": [],
+    "enabledForApps": false,
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#conceal-a-users-membership"
   },
   {
@@ -74,13 +81,14 @@
     "path": "/orgs/:org/memberships/:username",
     "description": "In order to get a user's membership with an organization, the authenticated user must be an organization member.",
     "params": [],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#get-organization-membership"
   },
   {
     "name": "Add or update organization membership",
     "method": "PUT",
     "path": "/orgs/:org/memberships/:username",
-    "description": "In order to create or update a user's membership with an organization, the authenticated user must be an organization owner.\n\n*   If the authenticated user is _adding_ a member to the organization, the invited user will receive an email inviting them to the organization. The user's [membership status](#get-organization-membership) will be `pending` until they accept the invitation.\n    \n*   Authenticated users can _update_ a user's membership by passing the `role` parameter. If the authenticated user changes a member's role to `admin`, the affected user will receive an email notifying them that they've been made an organization owner. If the authenticated user changes an owner's role to `member`, no email will be sent.",
+    "description": "In order to create or update a user's membership with an organization, the authenticated user must be an organization owner.\n\n*   If the authenticated user is _adding_ a member to the organization, the invited user will receive an email inviting them to the organization. The user's [membership status](#get-organization-membership) will be `pending` until they accept the invitation.\n    \n*   Authenticated users can _update_ a user's membership by passing the `role` parameter. If the authenticated user changes a member's role to `admin`, the affected user will receive an email notifying them that they've been made an organization owner. If the authenticated user changes an owner's role to `member`, no email will be sent.\n\n**Rate limits**\n\nTo prevent abuse, the authenticated user is limited to 50 organization invitations per 24 hour period. If the organization is more than one month old or on a paid plan, the limit is 500 invitations per 24 hour period.",
     "params": [
       {
         "name": "role",
@@ -89,14 +97,16 @@
         "required": false
       }
     ],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#add-or-update-organization-membership"
   },
   {
     "name": "Remove organization membership",
     "method": "DELETE",
     "path": "/orgs/:org/memberships/:username",
-    "description": "In order to remove a user's membership with an organization, the authenticated user must be an organization owner.",
+    "description": "In order to remove a user's membership with an organization, the authenticated user must be an organization owner.\n\nIf the specified user is an active member of the organization, this will remove them from the organization. If the specified user has been invited to the organization, this will cancel their invitation. The specified user will receive an email notification in both cases.",
     "params": [],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#remove-organization-membership"
   },
   {
@@ -105,6 +115,7 @@
     "path": "/orgs/:org/invitations/:invitation_id/teams",
     "description": "List all teams associated with an invitation. In order to see invitations in an organization, the authenticated user must be an organization owner.",
     "params": [],
+    "enabledForApps": false,
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#list-organization-invitation-teams"
   },
   {
@@ -113,6 +124,7 @@
     "path": "/orgs/:org/invitations",
     "description": "The return hash contains a `role` field which refers to the Organization Invitation role and will be one of the following values: `direct_member`, `admin`, `billing_manager`, `hiring_manager`, or `reinstate`. If the invitee is not a GitHub member, the `login` field in the return hash will be `null`.",
     "params": [],
+    "enabledForApps": false,
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#list-pending-organization-invitations"
   },
   {
@@ -147,6 +159,7 @@
         "required": false
       }
     ],
+    "enabledForApps": false,
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#create-organization-invitation"
   },
   {
@@ -162,6 +175,7 @@
         "required": false
       }
     ],
+    "enabledForApps": false,
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#list-your-organization-memberships"
   },
   {
@@ -170,6 +184,7 @@
     "path": "/user/memberships/orgs/:org",
     "description": "",
     "params": [],
+    "enabledForApps": false,
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#get-your-organization-membership"
   },
   {
@@ -185,6 +200,7 @@
         "required": true
       }
     ],
+    "enabledForApps": false,
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#edit-your-organization-membership"
   }
 ]

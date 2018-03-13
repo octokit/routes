@@ -3,7 +3,7 @@
     "name": "Create a status",
     "method": "POST",
     "path": "/repos/:owner/:repo/statuses/:sha",
-    "description": "Users with push access can create commit statuses for a given ref:",
+    "description": "Users with push access can create commit statuses for a given ref:\n\nNote: there is a limit of 1000 statuses per `sha` and `context` within a repository. Attempts to create more than 1000 statuses will result in a validation error.",
     "params": [
       {
         "name": "state",
@@ -31,13 +31,14 @@
         "required": false
       }
     ],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/repos/statuses/#create-a-status"
   },
   {
     "name": "List statuses for a specific ref",
     "method": "GET",
     "path": "/repos/:owner/:repo/commits/:ref/statuses",
-    "description": "Users with pull access can view commit statuses for a given ref:",
+    "description": "Users with pull access can view commit statuses for a given ref:\n\nThis resource is also available via a legacy route: `GET /repos/:owner/:repo/statuses/:ref`.\n\nStatuses are returned in reverse chronological order. The first status in the list will be the latest one.",
     "params": [
       {
         "name": "ref",
@@ -46,13 +47,14 @@
         "required": true
       }
     ],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/repos/statuses/#list-statuses-for-a-specific-ref"
   },
   {
     "name": "Get the combined status for a specific ref",
     "method": "GET",
     "path": "/repos/:owner/:repo/commits/:ref/status",
-    "description": "Users with pull access can access a combined view of commit statuses for a given ref.",
+    "description": "Users with pull access can access a combined view of commit statuses for a given ref.\n\nThe most recent status for each context is returned, up to 100. This field [paginates](/v3/#pagination) if there are over 100 contexts.\n\nAdditionally, a combined `state` is returned. The `state` is one of:\n\n*   **failure** if any of the contexts report as `error` or `failure`\n*   **pending** if there are no statuses or a context is `pending`\n*   **success** if the latest status for all contexts is `success`",
     "params": [
       {
         "name": "ref",
@@ -61,6 +63,7 @@
         "required": true
       }
     ],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/repos/statuses/#get-the-combined-status-for-a-specific-ref"
   }
 ]

@@ -3,7 +3,7 @@
     "name": "List comments on a pull request",
     "method": "GET",
     "path": "/repos/:owner/:repo/pulls/:number/comments",
-    "description": "",
+    "description": "By default, review comments are ordered by ascending ID.\n\nAn additional `reactions` object in the review comment payload is currently available for developers to preview. During the preview period, the APIs may change without advance notice. Please see the [blog post](/changes/2016-05-12-reactions-api-preview) for full details.\n\nTo access the API you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.squirrel-girl-preview\n\n```\n\nThe `reactions` key will have the following payload where `url` can be used to construct the API location for [listing and creating](/v3/reactions) reactions.",
     "params": [
       {
         "name": "sort",
@@ -25,13 +25,14 @@
         "required": false
       }
     ],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/pulls/comments/#list-comments-on-a-pull-request"
   },
   {
     "name": "List comments in a repository",
     "method": "GET",
     "path": "/repos/:owner/:repo/pulls/comments",
-    "description": "",
+    "description": "By default, review comments are ordered by ascending ID.\n\nAn additional `reactions` object in the review comment payload is currently available for developers to preview. During the preview period, the APIs may change without advance notice. Please see the [blog post](/changes/2016-05-12-reactions-api-preview) for full details.\n\nTo access the API you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.squirrel-girl-preview\n\n```\n\nThe `reactions` key will have the following payload where `url` can be used to construct the API location for [listing and creating](/v3/reactions) reactions.",
     "params": [
       {
         "name": "sort",
@@ -53,21 +54,23 @@
         "required": false
       }
     ],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/pulls/comments/#list-comments-in-a-repository"
   },
   {
     "name": "Get a single comment",
     "method": "GET",
     "path": "/repos/:owner/:repo/pulls/comments/:id",
-    "description": "",
+    "description": "An additional `reactions` object in the review comment payload is currently available for developers to preview. During the preview period, the APIs may change without advance notice. Please see the [blog post](/changes/2016-05-12-reactions-api-preview) for full details.\n\nTo access the API you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.squirrel-girl-preview\n\n```\n\nThe `reactions` key will have the following payload where `url` can be used to construct the API location for [listing and creating](/v3/reactions) reactions.",
     "params": [],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/pulls/comments/#get-a-single-comment"
   },
   {
     "name": "Create a comment",
     "method": "POST",
     "path": "/repos/:owner/:repo/pulls/:number/comments",
-    "description": "",
+    "description": "**Note:** To comment on a specific line in a file, you need to first determine the _position_ of that line in the diff. The GitHub REST API v3 offers the `application/vnd.github.v3.diff` [media type](/v3/media/#commits-commit-comparison-and-pull-requests). To see a pull request diff, add this media type to the `Accept` header of a call to the [single pull request](/v3/pulls/#get-a-single-pull-request) endpoint.\n\nThe `position` value equals the number of lines down from the first \"@@\" hunk header in the file you want to add a comment. The line just below the \"@@\" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.\n\nInstead of passing `commit_id`, `path`, and `position`, you can reply to an existing pull request comment like this:",
     "params": [
       {
         "name": "body",
@@ -92,20 +95,9 @@
         "type": "integer",
         "description": "The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. For help finding the position value, read the note below.",
         "required": true
-      },
-      {
-        "name": "body",
-        "type": "string",
-        "description": "The text of the comment.",
-        "required": true
-      },
-      {
-        "name": "in_reply_to",
-        "type": "integer",
-        "description": "The comment ID to reply to. **Note**: This must be the ID of a _top-level comment_, not a reply to that comment. Replies to replies are not supported.",
-        "required": true
       }
     ],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/pulls/comments/#create-a-comment"
   },
   {
@@ -121,6 +113,7 @@
         "required": true
       }
     ],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/pulls/comments/#edit-a-comment"
   },
   {
@@ -129,6 +122,7 @@
     "path": "/repos/:owner/:repo/pulls/comments/:id",
     "description": "",
     "params": [],
+    "enabledForApps": true,
     "documentationUrl": "https://developer.github.com/v3/pulls/comments/#delete-a-comment"
   }
 ]
