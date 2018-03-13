@@ -3,10 +3,12 @@
 const {writeFileSync} = require('fs')
 const {join: joinPath} = require('path')
 
+const {flatten} = require('lodash')
 const mkdirp = require('mkdirp')
 
 const getDocPages = require('../lib/landing-page/get')
-const getEndpoints = require('../lib/documentation-page/get')
+const getEndpoint = require('../lib/endpoint/get')
+const getPageSections = require('../lib/documentation-page/get')
 const toRoutesFilename = require('../lib/page-to-routes-filename')
 
 mkdirp.sync('cache')
@@ -26,12 +28,17 @@ async function main () {
 
     console.log('')
     console.log(`🔭  ${i + 1}/${pages.length}: ${page.url}`)
-    const endpoints = await getEndpoints(page)
+    const sections = await getPageSections(page)
+    const endpoints = flatten(
+      await Promise.all(sections.map(section => getEndpoint(section.url)))
+    ).filter(Boolean)
 
     if (endpoints.length === 0) {
-      console.log(`ℹ️  No endpoints found`)
+      console.log(`ℹ️  No endpoints found in ${sections.length}`)
       return
     }
+
+    console.log(`ℹ️  ${endpoints.length} endpoints found in ${sections.length} sections`)
 
     const filename = toRoutesFilename(page)
     const filePath = joinPath('routes', filename)
