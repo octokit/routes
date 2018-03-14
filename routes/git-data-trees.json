@@ -1,27 +1,27 @@
 [
   {
     "name": "Get a Tree",
+    "enabledForApps": true,
     "method": "GET",
     "path": "/repos/:owner/:repo/git/trees/:sha",
-    "description": "If `truncated` is `true`, the number of items in the `tree` array exceeded our maximum limit. If you need to fetch more items, you can clone the repository and iterate over the Git data locally.",
     "params": [],
-    "enabledForApps": true,
+    "description": "If `truncated` is `true`, the number of items in the `tree` array exceeded our maximum limit. If you need to fetch more items, you can clone the repository and iterate over the Git data locally.",
     "documentationUrl": "https://developer.github.com/v3/git/trees/#get-a-tree"
   },
   {
     "name": "Get a Tree Recursively",
+    "enabledForApps": false,
     "method": "GET",
     "path": "/repos/:owner/:repo/git/trees/:sha?recursive=1",
-    "description": "If `truncated` is `true`, the number of items in the `tree` array exceeded our maximum limit. If you need to fetch more items, use the non-recursive method of fetching trees, and fetch one sub-tree at a time.",
     "params": [],
-    "enabledForApps": false,
+    "description": "If `truncated` is `true`, the number of items in the `tree` array exceeded our maximum limit. If you need to fetch more items, use the non-recursive method of fetching trees, and fetch one sub-tree at a time.",
     "documentationUrl": "https://developer.github.com/v3/git/trees/#get-a-tree-recursively"
   },
   {
     "name": "Create a Tree",
+    "enabledForApps": true,
     "method": "POST",
     "path": "/repos/:owner/:repo/git/trees",
-    "description": "The tree creation API will take nested entries as well. If both a tree and a nested path modifying that tree are specified, it will overwrite the contents of that tree with the new path contents and write a new tree out.\n\nThe `tree` parameter takes the following keys:",
     "params": [
       {
         "name": "tree",
@@ -30,13 +30,48 @@
         "required": true
       },
       {
+        "name": "tree.path",
+        "type": "string",
+        "description": "The file referenced in the tree",
+        "required": false
+      },
+      {
+        "name": "tree.mode",
+        "type": "string",
+        "description": "The file mode; one of `100644` for file (blob), `100755` for executable (blob), `040000` for subdirectory (tree), `160000` for submodule (commit), or `120000` for a blob that specifies the path of a symlink",
+        "required": false
+      },
+      {
+        "name": "tree.type",
+        "type": "enum",
+        "options": [
+          "blob",
+          "tree",
+          "commit"
+        ],
+        "description": "Either `blob`, `tree`, or `commit`",
+        "required": false
+      },
+      {
+        "name": "tree.sha",
+        "type": "string",
+        "description": "The SHA1 checksum ID of the object in the tree",
+        "required": false
+      },
+      {
+        "name": "tree.content",
+        "type": "string",
+        "description": "The content you want this file to have. GitHub will write this blob out and use that SHA for this entry. Use either this, or `tree.sha`.",
+        "required": false
+      },
+      {
         "name": "base_tree",
         "type": "string",
         "description": "The SHA1 of the tree you want to update with new data. If you don't set this, the commit will be created on top of everything; however, it will only contain your change, the rest of your files will show up as deleted.",
         "required": false
       }
     ],
-    "enabledForApps": true,
+    "description": "The tree creation API will take nested entries as well. If both a tree and a nested path modifying that tree are specified, it will overwrite the contents of that tree with the new path contents and write a new tree out.",
     "documentationUrl": "https://developer.github.com/v3/git/trees/#create-a-tree"
   }
 ]
