@@ -6,7 +6,7 @@ const {test} = require('tap')
 const toPagesJson = require('../../lib/landing-page/to-pages-json')
 
 const fixtures = {
-  in: readFileSync(resolvePath(__dirname, 'in.html')),
+  in: readFileSync(resolvePath(__dirname, 'in.html'), 'utf8'),
   out: require('./out.json')
 }
 

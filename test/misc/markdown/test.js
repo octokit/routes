@@ -6,7 +6,7 @@ const {test} = require('tap')
 const endpointHtmlToJson = require('../../../lib/endpoint/html-to-json')
 
 const fixtures = {
-  in: readFileSync(resolvePath(__dirname, 'in.html')),
+  in: readFileSync(resolvePath(__dirname, 'in.html'), 'utf8'),
   out: require('./out.json')
 }
 
