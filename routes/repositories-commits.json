@@ -1,9 +1,9 @@
 [
   {
     "name": "List commits on a repository",
+    "enabledForApps": true,
     "method": "GET",
     "path": "/repos/:owner/:repo/commits",
-    "description": "",
     "params": [
       {
         "name": "sha",
@@ -37,42 +37,44 @@
         "required": false
       }
     ],
-    "enabledForApps": true,
+    "description": "",
     "documentationUrl": "https://developer.github.com/v3/repos/commits/#list-commits-on-a-repository"
   },
   {
     "name": "Get a single commit",
+    "enabledForApps": true,
     "method": "GET",
     "path": "/repos/:owner/:repo/commits/:sha",
-    "description": "Diffs with binary data will have no 'patch' property. Pass the appropriate [media type](/v3/media/#commits-commit-comparison-and-pull-requests) to fetch diff and patch formats.",
     "params": [],
-    "enabledForApps": true,
+    "description": "Diffs with binary data will have no 'patch' property. Pass the appropriate [media type](/v3/media/#commits-commit-comparison-and-pull-requests) to fetch diff and patch formats.",
     "documentationUrl": "https://developer.github.com/v3/repos/commits/#get-a-single-commit"
   },
   {
     "name": "Get the SHA-1 of a commit reference",
+    "enabledForApps": true,
     "method": "GET",
     "path": "/repos/:owner/:repo/commits/:ref",
-    "description": "Users with read access can get the SHA-1 of a commit reference:\n\nTo access the API you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n\n\nTo check if a remote reference's SHA-1 is the same as your local reference's SHA-1, make a `GET` request and provide the current SHA-1 for the local reference as the ETag.\n\nThe SHA-1 of the commit reference.\n\n",
     "params": [],
-    "enabledForApps": true,
+    "description": "Users with read access can get the SHA-1 of a commit reference:\n\nTo access the API you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n\n\nTo check if a remote reference's SHA-1 is the same as your local reference's SHA-1, make a `GET` request and provide the current SHA-1 for the local reference as the ETag.\n\nThe SHA-1 of the commit reference.\n\n",
     "documentationUrl": "https://developer.github.com/v3/repos/commits/#get-the-sha-1-of-a-commit-reference"
   },
   {
     "name": "Compare two commits",
     "method": "GET",
-    "path": "/repos/:owner/:repo/compare/:base...:head"
+    "enabledForApps": false,
+    "documentationUrl": "https://developer.github.com/v3/repos/commits/#compare-two-commits"
   },
   {
     "name": "Compare two commits",
     "method": "GET",
-    "path": "/repos/:owner/:repo/compare/hubot:branchname...octocat:branchname"
+    "enabledForApps": false,
+    "documentationUrl": "https://developer.github.com/v3/repos/commits/#compare-two-commits"
   },
   {
     "name": "Commit signature verification",
+    "enabledForApps": false,
     "method": "GET",
     "path": "/repos/:owner/:repo/commits/:sha",
-    "description": "**The verification object**\n\nThe response will include a `verification` field whose value is an object describing the result of verifying the commit's signature. The following fields are included in the `verification` object:\n\n**The reason field**\n\nThe following are possible `reason`s that may be included in the `verification` object:\n\n| Value                    | Description                                                                                                                       |\n| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |\n| `expired_key`            | The key that made the signature is expired.                                                                                       |\n| `not_signing_key`        | The \"signing\" flag is not among the usage flags in the GPG key that made the signature.                                           |\n| `gpgverify_error`        | There was an error communicating with the signature-verification service.                                                         |\n| `gpgverify_unavailable`  | The signature-verification service is currently unavailable.                                                                      |\n| `unsigned`               | The object does not include a signature.                                                                                          |\n| `unknown_signature_type` | A non-PGP signature was found in the commit.                                                                                      |\n| `no_user`                | No user was associated with the `committer` email address in the commit.                                                          |\n| `unverified_email`       | The `committer` email address in the commit was associated with a user, but the email address is not verified on her/his account. |\n| `bad_email`              | The `committer` email address in the commit is not included in the identities of the PGP key that made the signature.             |\n| `unknown_key`            | The key that made the signature has not been registered with any user's account.                                                  |\n| `malformed_signature`    | There was an error parsing the signature.                                                                                         |\n| `invalid`                | The signature could not be cryptographically verified using the key whose key-id was found in the signature.                      |\n| `valid`                  | None of the above errors applied, so the signature is considered to be verified.                                                  |",
     "params": [
       {
         "name": "verified",
@@ -99,7 +101,7 @@
         "required": false
       }
     ],
-    "enabledForApps": false,
+    "description": "**The verification object**\n\n**The reason field**\n\nThe following are possible `reason`s that may be included in the `verification` object:\n\n| Value                    | Description                                                                                                                       |\n| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |\n| `expired_key`            | The key that made the signature is expired.                                                                                       |\n| `not_signing_key`        | The \"signing\" flag is not among the usage flags in the GPG key that made the signature.                                           |\n| `gpgverify_error`        | There was an error communicating with the signature-verification service.                                                         |\n| `gpgverify_unavailable`  | The signature-verification service is currently unavailable.                                                                      |\n| `unsigned`               | The object does not include a signature.                                                                                          |\n| `unknown_signature_type` | A non-PGP signature was found in the commit.                                                                                      |\n| `no_user`                | No user was associated with the `committer` email address in the commit.                                                          |\n| `unverified_email`       | The `committer` email address in the commit was associated with a user, but the email address is not verified on her/his account. |\n| `bad_email`              | The `committer` email address in the commit is not included in the identities of the PGP key that made the signature.             |\n| `unknown_key`            | The key that made the signature has not been registered with any user's account.                                                  |\n| `malformed_signature`    | There was an error parsing the signature.                                                                                         |\n| `invalid`                | The signature could not be cryptographically verified using the key whose key-id was found in the signature.                      |\n| `valid`                  | None of the above errors applied, so the signature is considered to be verified.                                                  |",
     "documentationUrl": "https://developer.github.com/v3/repos/commits/#commit-signature-verification"
   }
 ]

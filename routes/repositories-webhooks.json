@@ -1,27 +1,27 @@
 [
   {
     "name": "List hooks",
+    "enabledForApps": false,
     "method": "GET",
     "path": "/repos/:owner/:repo/hooks",
-    "description": "",
     "params": [],
-    "enabledForApps": false,
+    "description": "",
     "documentationUrl": "https://developer.github.com/v3/repos/hooks/#list-hooks"
   },
   {
     "name": "Get single hook",
+    "enabledForApps": false,
     "method": "GET",
     "path": "/repos/:owner/:repo/hooks/:id",
-    "description": "",
     "params": [],
-    "enabledForApps": false,
+    "description": "",
     "documentationUrl": "https://developer.github.com/v3/repos/hooks/#get-single-hook"
   },
   {
     "name": "Create a hook",
+    "enabledForApps": false,
     "method": "POST",
     "path": "/repos/:owner/:repo/hooks",
-    "description": "**Note**: Repository service hooks (like email or Campfire) can have at most one configured at a time. Creating hooks for a service that already has one configured will [update the existing hook](#edit-a-hook).\n\nRepositories can have multiple webhooks installed. Each webhook should have a unique `config`. Multiple webhooks can share the same `config` as long as those webhooks do not have any `events` that overlap.\n\nThe `config` object can accept the following keys:\n\nHere's how you can create a hook that posts payloads in JSON format:",
     "params": [
       {
         "name": "name",
@@ -34,6 +34,30 @@
         "type": "object",
         "description": "Key/value pairs to provide settings for this webhook. [These are defined below](#create-hook-config-params).",
         "required": true
+      },
+      {
+        "name": "config.url",
+        "type": "string",
+        "description": "**Required** The URL to which the payloads will be delivered.",
+        "required": false
+      },
+      {
+        "name": "config.content_type",
+        "type": "string",
+        "description": "The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`.",
+        "required": false
+      },
+      {
+        "name": "config.secret",
+        "type": "string",
+        "description": "If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value in the [`X-Hub-Signature`](/webhooks/#delivery-headers) header.",
+        "required": false
+      },
+      {
+        "name": "config.insecure_ssl",
+        "type": "string",
+        "description": "Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.**",
+        "required": false
       },
       {
         "name": "events",
@@ -50,20 +74,44 @@
         "required": false
       }
     ],
-    "enabledForApps": false,
+    "description": "**Note**: Repository service hooks (like email or Campfire) can have at most one configured at a time. Creating hooks for a service that already has one configured will [update the existing hook](#edit-a-hook).\n\nRepositories can have multiple webhooks installed. Each webhook should have a unique `config`. Multiple webhooks can share the same `config` as long as those webhooks do not have any `events` that overlap.\n\nHere's how you can create a hook that posts payloads in JSON format:",
     "documentationUrl": "https://developer.github.com/v3/repos/hooks/#create-a-hook"
   },
   {
     "name": "Edit a hook",
+    "enabledForApps": false,
     "method": "PATCH",
     "path": "/repos/:owner/:repo/hooks/:id",
-    "description": "The `config` object can accept the following keys:",
     "params": [
       {
         "name": "config",
         "type": "object",
         "description": "Key/value pairs to provide settings for this webhook. [These are defined below](#create-hook-config-params).",
         "required": true
+      },
+      {
+        "name": "config.url",
+        "type": "string",
+        "description": "**Required** The URL to which the payloads will be delivered.",
+        "required": false
+      },
+      {
+        "name": "config.content_type",
+        "type": "string",
+        "description": "The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`.",
+        "required": false
+      },
+      {
+        "name": "config.secret",
+        "type": "string",
+        "description": "If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value in the [`X-Hub-Signature`](/webhooks/#delivery-headers) header.",
+        "required": false
+      },
+      {
+        "name": "config.insecure_ssl",
+        "type": "string",
+        "description": "Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.**",
+        "required": false
       },
       {
         "name": "events",
@@ -92,34 +140,34 @@
         "required": false
       }
     ],
-    "enabledForApps": false,
+    "description": "",
     "documentationUrl": "https://developer.github.com/v3/repos/hooks/#edit-a-hook"
   },
   {
     "name": "Test a push hook",
+    "enabledForApps": false,
     "method": "POST",
     "path": "/repos/:owner/:repo/hooks/:id/tests",
-    "description": "This will trigger the hook with the latest push to the current repository if the hook is subscribed to `push` events. If the hook is not subscribed to `push` events, the server will respond with 204 but no test POST will be generated.\n\n**Note**: Previously `/repos/:owner/:repo/hooks/:id/test`",
     "params": [],
-    "enabledForApps": false,
+    "description": "This will trigger the hook with the latest push to the current repository if the hook is subscribed to `push` events. If the hook is not subscribed to `push` events, the server will respond with 204 but no test POST will be generated.\n\n**Note**: Previously `/repos/:owner/:repo/hooks/:id/test`",
     "documentationUrl": "https://developer.github.com/v3/repos/hooks/#test-a-push-hook"
   },
   {
     "name": "Ping a hook",
+    "enabledForApps": false,
     "method": "POST",
     "path": "/repos/:owner/:repo/hooks/:id/pings",
-    "description": "This will trigger a [ping event](/webhooks/#ping-event) to be sent to the hook.",
     "params": [],
-    "enabledForApps": false,
+    "description": "This will trigger a [ping event](/webhooks/#ping-event) to be sent to the hook.",
     "documentationUrl": "https://developer.github.com/v3/repos/hooks/#ping-a-hook"
   },
   {
     "name": "Delete a hook",
+    "enabledForApps": false,
     "method": "DELETE",
     "path": "/repos/:owner/:repo/hooks/:id",
-    "description": "",
     "params": [],
-    "enabledForApps": false,
+    "description": "",
     "documentationUrl": "https://developer.github.com/v3/repos/hooks/#delete-a-hook"
   }
 ]

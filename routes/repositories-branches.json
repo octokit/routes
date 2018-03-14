@@ -1,9 +1,9 @@
 [
   {
     "name": "List branches",
+    "enabledForApps": true,
     "method": "GET",
     "path": "/repos/:owner/:repo/branches",
-    "description": "",
     "params": [
       {
         "name": "protected",
@@ -12,37 +12,61 @@
         "required": false
       }
     ],
-    "enabledForApps": true,
+    "description": "",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#list-branches"
   },
   {
     "name": "Get branch",
+    "enabledForApps": true,
     "method": "GET",
     "path": "/repos/:owner/:repo/branches/:branch",
-    "description": "",
     "params": [],
-    "enabledForApps": true,
+    "description": "",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#get-branch"
   },
   {
     "name": "Get branch protection",
+    "enabledForApps": true,
     "method": "GET",
     "path": "/repos/:owner/:repo/branches/:branch/protection",
-    "description": "",
     "params": [],
-    "enabledForApps": true,
+    "description": "",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#get-branch-protection"
   },
   {
     "name": "Update branch protection",
+    "enabledForApps": true,
     "method": "PUT",
     "path": "/repos/:owner/:repo/branches/:branch/protection",
-    "description": "Protecting a branch requires admin or owner permissions to the repository.\n\nThe `required_status_checks` object must have the following keys:\n\nThe `required_pull_request_reviews` object must have the following keys:\n\nThe `dismissal_restrictions` object must have the following keys:\n\n**Note**: Passing new arrays of `users` and `teams` replaces their previous values.\n\nThe `restrictions` object must have the following keys:\n\n**Note**: The list of users and teams in total is limited to 100 items.",
     "params": [
+      {
+        "name": "dismissal_restrictions.users",
+        "type": "array",
+        "description": "The list of user `login`s with dismissal access",
+        "required": false
+      },
+      {
+        "name": "dismissal_restrictions.teams",
+        "type": "array",
+        "description": "The list of team `slug`s with dismissal access",
+        "required": false
+      },
       {
         "name": "required_status_checks",
         "type": "object",
         "description": "Require status checks to pass before merging. Set to `null` to disable.",
+        "required": true
+      },
+      {
+        "name": "required_status_checks.strict",
+        "type": "boolean",
+        "description": "Require branches to be up to date before merging.",
+        "required": true
+      },
+      {
+        "name": "required_status_checks.contexts",
+        "type": "array",
+        "description": "The list of status checks to require in order to merge into this branch",
         "required": true
       },
       {
@@ -58,38 +82,68 @@
         "required": true
       },
       {
+        "name": "required_pull_request_reviews.dismissal_restrictions",
+        "type": "object",
+        "description": "Specify which users and teams can dismiss pull request reviews. Pass an empty `dismissal_restrictions` object to disable. User and team `dismissal_restrictions` are only available for organization-owned repositories. Omit this parameter for personal repositories.",
+        "required": false
+      },
+      {
+        "name": "required_pull_request_reviews.dismiss_stale_reviews",
+        "type": "boolean",
+        "description": "Dismiss approved reviews automatically when a new commit is pushed.",
+        "required": false
+      },
+      {
+        "name": "required_pull_request_reviews.require_code_owner_reviews",
+        "type": "boolean",
+        "description": "Blocks merge until code owners have reviewed.",
+        "required": false
+      },
+      {
         "name": "restrictions",
         "type": "object",
         "description": "Restrict who can push to this branch. Team and user `restrictions` are only available for organization-owned repositories. Set to `null` to disable.",
         "required": true
+      },
+      {
+        "name": "restrictions.users",
+        "type": "array",
+        "description": "The list of user `login`s with push access",
+        "required": false
+      },
+      {
+        "name": "restrictions.teams",
+        "type": "array",
+        "description": "The list of team `slug`s with push access",
+        "required": false
       }
     ],
-    "enabledForApps": true,
+    "description": "Protecting a branch requires admin or owner permissions to the repository.\n\n**Note**: Passing new arrays of `users` and `teams` replaces their previous values.\n\n**Note**: The list of users and teams in total is limited to 100 items.",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#update-branch-protection"
   },
   {
     "name": "Remove branch protection",
+    "enabledForApps": true,
     "method": "DELETE",
     "path": "/repos/:owner/:repo/branches/:branch/protection",
-    "description": "",
     "params": [],
-    "enabledForApps": true,
+    "description": "",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#remove-branch-protection"
   },
   {
     "name": "Get required status checks of protected branch",
+    "enabledForApps": true,
     "method": "GET",
     "path": "/repos/:owner/:repo/branches/:branch/protection/required_status_checks",
-    "description": "",
     "params": [],
-    "enabledForApps": true,
+    "description": "",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#get-required-status-checks-of-protected-branch"
   },
   {
     "name": "Update required status checks of protected branch",
+    "enabledForApps": true,
     "method": "PATCH",
     "path": "/repos/:owner/:repo/branches/:branch/protection/required_status_checks",
-    "description": "Updating required status checks requires admin or owner permissions to the repository and branch protection to be enabled.\n\nThe object passed can have the following keys:",
     "params": [
       {
         "name": "strict",
@@ -104,73 +158,85 @@
         "required": false
       }
     ],
-    "enabledForApps": true,
+    "description": "Updating required status checks requires admin or owner permissions to the repository and branch protection to be enabled.",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#update-required-status-checks-of-protected-branch"
   },
   {
     "name": "Remove required status checks of protected branch",
+    "enabledForApps": true,
     "method": "DELETE",
     "path": "/repos/:owner/:repo/branches/:branch/protection/required_status_checks",
-    "description": "",
     "params": [],
-    "enabledForApps": true,
+    "description": "",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#remove-required-status-checks-of-protected-branch"
   },
   {
     "name": "List required status checks contexts of protected branch",
+    "enabledForApps": true,
     "method": "GET",
     "path": "/repos/:owner/:repo/branches/:branch/protection/required_status_checks/contexts",
-    "description": "",
     "params": [],
-    "enabledForApps": true,
+    "description": "",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#list-required-status-checks-contexts-of-protected-branch"
   },
   {
     "name": "Replace required status checks contexts of protected branch",
+    "enabledForApps": true,
     "method": "PUT",
     "path": "/repos/:owner/:repo/branches/:branch/protection/required_status_checks/contexts",
-    "description": "",
     "params": [],
-    "enabledForApps": true,
+    "description": "",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#replace-required-status-checks-contexts-of-protected-branch"
   },
   {
     "name": "Add required status checks contexts of protected branch",
+    "enabledForApps": true,
     "method": "POST",
     "path": "/repos/:owner/:repo/branches/:branch/protection/required_status_checks/contexts",
-    "description": "",
     "params": [],
-    "enabledForApps": true,
+    "description": "",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#add-required-status-checks-contexts-of-protected-branch"
   },
   {
     "name": "Remove required status checks contexts of protected branch",
+    "enabledForApps": true,
     "method": "DELETE",
     "path": "/repos/:owner/:repo/branches/:branch/protection/required_status_checks/contexts",
-    "description": "",
     "params": [],
-    "enabledForApps": true,
+    "description": "",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#remove-required-status-checks-contexts-of-protected-branch"
   },
   {
     "name": "Get pull request review enforcement of protected branch",
+    "enabledForApps": true,
     "method": "GET",
     "path": "/repos/:owner/:repo/branches/:branch/protection/required_pull_request_reviews",
-    "description": "",
     "params": [],
-    "enabledForApps": true,
+    "description": "",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#get-pull-request-review-enforcement-of-protected-branch"
   },
   {
     "name": "Update pull request review enforcement of protected branch",
+    "enabledForApps": true,
     "method": "PATCH",
     "path": "/repos/:owner/:repo/branches/:branch/protection/required_pull_request_reviews",
-    "description": "Updating pull request review enforcement requires admin or owner permissions to the repository and branch protection to be enabled.\n\nThe object passed can have the following keys:\n\nThe `dismissal_restrictions` object must have the following keys:\n\n**Note**: Passing new arrays of `users` and `teams` replaces their previous values.",
     "params": [
       {
         "name": "dismissal_restrictions",
         "type": "object",
         "description": "Specify which users and teams can dismiss pull request reviews. User and team `dismissal_restrictions` are only available for organization-owned repositories. Omit this parameter for personal repositories.",
+        "required": false
+      },
+      {
+        "name": "dismissal_restrictions.users",
+        "type": "array",
+        "description": "The list of user `login`s with dismissal access",
+        "required": false
+      },
+      {
+        "name": "dismissal_restrictions.teams",
+        "type": "array",
+        "description": "The list of team `slug`s with dismissal access",
         "required": false
       },
       {
@@ -186,160 +252,160 @@
         "required": false
       }
     ],
-    "enabledForApps": true,
+    "description": "Updating pull request review enforcement requires admin or owner permissions to the repository and branch protection to be enabled.\n\n**Note**: Passing new arrays of `users` and `teams` replaces their previous values.",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#update-pull-request-review-enforcement-of-protected-branch"
   },
   {
     "name": "Remove pull request review enforcement of protected branch",
+    "enabledForApps": true,
     "method": "DELETE",
     "path": "/repos/:owner/:repo/branches/:branch/protection/required_pull_request_reviews",
-    "description": "",
     "params": [],
-    "enabledForApps": true,
+    "description": "",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#remove-pull-request-review-enforcement-of-protected-branch"
   },
   {
     "name": "Get required signatures of protected branch",
+    "enabledForApps": true,
     "method": "GET",
     "path": "/repos/:owner/:repo/branches/:branch/protection/required_signatures",
-    "description": "When authenticated with admin or owner permissions to the repository, you can use this endpoint to check whether a branch requires signed commits. An enabled status of `true` indicates you must sign commits on this branch. For more information, see [Signing commits with GPG](https://help.github.com/articles/signing-commits-with-gpg) in GitHub Help.\n\n**Note**: You must enable branch protection to require signed commits.",
     "params": [],
-    "enabledForApps": true,
+    "description": "When authenticated with admin or owner permissions to the repository, you can use this endpoint to check whether a branch requires signed commits. An enabled status of `true` indicates you must sign commits on this branch. For more information, see [Signing commits with GPG](https://help.github.com/articles/signing-commits-with-gpg) in GitHub Help.\n\n**Note**: You must enable branch protection to require signed commits.",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#get-required-signatures-of-protected-branch"
   },
   {
     "name": "Add required signatures of protected branch",
+    "enabledForApps": true,
     "method": "POST",
     "path": "/repos/:owner/:repo/branches/:branch/protection/required_signatures",
-    "description": "When authenticated with admin or owner permissions to the repository, you can use this endpoint to require signed commits on a branch. You must enable branch protection to require signed commits.",
     "params": [],
-    "enabledForApps": true,
+    "description": "When authenticated with admin or owner permissions to the repository, you can use this endpoint to require signed commits on a branch. You must enable branch protection to require signed commits.",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#add-required-signatures-of-protected-branch"
   },
   {
     "name": "Remove required signatures of protected branch",
+    "enabledForApps": true,
     "method": "DELETE",
     "path": "/repos/:owner/:repo/branches/:branch/protection/required_signatures",
-    "description": "When authenticated with admin or owner permissions to the repository, you can use this endpoint to disable required signed commits on a branch. You must enable branch protection to require signed commits.",
     "params": [],
-    "enabledForApps": true,
+    "description": "When authenticated with admin or owner permissions to the repository, you can use this endpoint to disable required signed commits on a branch. You must enable branch protection to require signed commits.",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#remove-required-signatures-of-protected-branch"
   },
   {
     "name": "Get admin enforcement of protected branch",
+    "enabledForApps": true,
     "method": "GET",
     "path": "/repos/:owner/:repo/branches/:branch/protection/enforce_admins",
-    "description": "",
     "params": [],
-    "enabledForApps": true,
+    "description": "",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#get-admin-enforcement-of-protected-branch"
   },
   {
     "name": "Add admin enforcement of protected branch",
+    "enabledForApps": true,
     "method": "POST",
     "path": "/repos/:owner/:repo/branches/:branch/protection/enforce_admins",
-    "description": "Adding admin enforcement requires admin or owner permissions to the repository and branch protection to be enabled.",
     "params": [],
-    "enabledForApps": true,
+    "description": "Adding admin enforcement requires admin or owner permissions to the repository and branch protection to be enabled.",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#add-admin-enforcement-of-protected-branch"
   },
   {
     "name": "Remove admin enforcement of protected branch",
+    "enabledForApps": true,
     "method": "DELETE",
     "path": "/repos/:owner/:repo/branches/:branch/protection/enforce_admins",
-    "description": "Removing admin enforcement requires admin or owner permissions to the repository and branch protection to be enabled.",
     "params": [],
-    "enabledForApps": true,
+    "description": "Removing admin enforcement requires admin or owner permissions to the repository and branch protection to be enabled.",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#remove-admin-enforcement-of-protected-branch"
   },
   {
     "name": "Get restrictions of protected branch",
+    "enabledForApps": true,
     "method": "GET",
     "path": "/repos/:owner/:repo/branches/:branch/protection/restrictions",
-    "description": "**Note**: Teams and users `restrictions` are only available for organization-owned repositories.",
     "params": [],
-    "enabledForApps": true,
+    "description": "**Note**: Teams and users `restrictions` are only available for organization-owned repositories.",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#get-restrictions-of-protected-branch"
   },
   {
     "name": "Remove restrictions of protected branch",
+    "enabledForApps": true,
     "method": "DELETE",
     "path": "/repos/:owner/:repo/branches/:branch/protection/restrictions",
-    "description": "",
     "params": [],
-    "enabledForApps": true,
+    "description": "",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#remove-restrictions-of-protected-branch"
   },
   {
     "name": "List team restrictions of protected branch",
+    "enabledForApps": true,
     "method": "GET",
     "path": "/repos/:owner/:repo/branches/:branch/protection/restrictions/teams",
-    "description": "",
     "params": [],
-    "enabledForApps": true,
+    "description": "",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#list-team-restrictions-of-protected-branch"
   },
   {
     "name": "Replace team restrictions of protected branch",
+    "enabledForApps": true,
     "method": "PUT",
     "path": "/repos/:owner/:repo/branches/:branch/protection/restrictions/teams",
-    "description": "Pass the list of team `slug`s with push access.\n\n**Note**: The list of users and teams in total is limited to 100 items.",
     "params": [],
-    "enabledForApps": true,
+    "description": "Pass the list of team `slug`s with push access.\n\n**Note**: The list of users and teams in total is limited to 100 items.",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#replace-team-restrictions-of-protected-branch"
   },
   {
     "name": "Add team restrictions of protected branch",
+    "enabledForApps": true,
     "method": "POST",
     "path": "/repos/:owner/:repo/branches/:branch/protection/restrictions/teams",
-    "description": "Pass the list of team `slug`s with push access.\n\n**Note**: The list of users and teams in total is limited to 100 items.",
     "params": [],
-    "enabledForApps": true,
+    "description": "Pass the list of team `slug`s with push access.\n\n**Note**: The list of users and teams in total is limited to 100 items.",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#add-team-restrictions-of-protected-branch"
   },
   {
     "name": "Remove team restrictions of protected branch",
+    "enabledForApps": true,
     "method": "DELETE",
     "path": "/repos/:owner/:repo/branches/:branch/protection/restrictions/teams",
-    "description": "",
     "params": [],
-    "enabledForApps": true,
+    "description": "",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#remove-team-restrictions-of-protected-branch"
   },
   {
     "name": "List user restrictions of protected branch",
+    "enabledForApps": true,
     "method": "GET",
     "path": "/repos/:owner/:repo/branches/:branch/protection/restrictions/users",
-    "description": "",
     "params": [],
-    "enabledForApps": true,
+    "description": "",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#list-user-restrictions-of-protected-branch"
   },
   {
     "name": "Replace user restrictions of protected branch",
+    "enabledForApps": true,
     "method": "PUT",
     "path": "/repos/:owner/:repo/branches/:branch/protection/restrictions/users",
-    "description": "Pass the list of user `login`s with push access.\n\n**Note**: The list of users and teams in total is limited to 100 items.",
     "params": [],
-    "enabledForApps": true,
+    "description": "Pass the list of user `login`s with push access.\n\n**Note**: The list of users and teams in total is limited to 100 items.",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#replace-user-restrictions-of-protected-branch"
   },
   {
     "name": "Add user restrictions of protected branch",
+    "enabledForApps": true,
     "method": "POST",
     "path": "/repos/:owner/:repo/branches/:branch/protection/restrictions/users",
-    "description": "Pass the list of user `login`s with push access.\n\n**Note**: The list of users and teams in total is limited to 100 items.",
     "params": [],
-    "enabledForApps": true,
+    "description": "Pass the list of user `login`s with push access.\n\n**Note**: The list of users and teams in total is limited to 100 items.",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#add-user-restrictions-of-protected-branch"
   },
   {
     "name": "Remove user restrictions of protected branch",
+    "enabledForApps": true,
     "method": "DELETE",
     "path": "/repos/:owner/:repo/branches/:branch/protection/restrictions/users",
-    "description": "",
     "params": [],
-    "enabledForApps": true,
+    "description": "",
     "documentationUrl": "https://developer.github.com/v3/repos/branches/#remove-user-restrictions-of-protected-branch"
   }
 ]

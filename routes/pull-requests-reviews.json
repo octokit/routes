@@ -1,45 +1,45 @@
 [
   {
     "name": "List reviews on a pull request",
+    "enabledForApps": false,
     "method": "GET",
     "path": "/repos/:owner/:repo/pulls/:number/reviews",
-    "description": "The list of reviews returns in chronological order.",
     "params": [],
-    "enabledForApps": false,
+    "description": "The list of reviews returns in chronological order.",
     "documentationUrl": "https://developer.github.com/v3/pulls/reviews/#list-reviews-on-a-pull-request"
   },
   {
     "name": "Get a single review",
+    "enabledForApps": true,
     "method": "GET",
     "path": "/repos/:owner/:repo/pulls/:number/reviews/:id",
-    "description": "",
     "params": [],
-    "enabledForApps": true,
+    "description": "",
     "documentationUrl": "https://developer.github.com/v3/pulls/reviews/#get-a-single-review"
   },
   {
     "name": "Delete a pending review",
+    "enabledForApps": false,
     "method": "DELETE",
     "path": "/repos/:owner/:repo/pulls/:number/reviews/:id",
-    "description": "",
     "params": [],
-    "enabledForApps": false,
+    "description": "",
     "documentationUrl": "https://developer.github.com/v3/pulls/reviews/#delete-a-pending-review"
   },
   {
     "name": "Get comments for a single review",
+    "enabledForApps": true,
     "method": "GET",
     "path": "/repos/:owner/:repo/pulls/:number/reviews/:id/comments",
-    "description": "",
     "params": [],
-    "enabledForApps": true,
+    "description": "",
     "documentationUrl": "https://developer.github.com/v3/pulls/reviews/#get-comments-for-a-single-review"
   },
   {
     "name": "Create a pull request review",
+    "enabledForApps": true,
     "method": "POST",
     "path": "/repos/:owner/:repo/pulls/:number/reviews",
-    "description": "When specifying draft review `comments`, you need to include the following values:\n\n**Note:** To comment on a specific line in a file, you need to first determine the _position_ of that line in the diff. The GitHub REST API v3 offers the `application/vnd.github.v3.diff` [media type](/v3/media/#commits-commit-comparison-and-pull-requests). To see a pull request diff, add this media type to the `Accept` header of a call to the [single pull request](/v3/pulls/#get-a-single-pull-request) endpoint.\n\nThe `position` value equals the number of lines down from the first \"@@\" hunk header in the file you want to add a comment. The line just below the \"@@\" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.",
     "params": [
       {
         "name": "commit_id",
@@ -64,16 +64,34 @@
         "type": "array of draft review comment objects",
         "description": "Use the following table to specify the location, destination, and contents of the draft review comment.",
         "required": false
+      },
+      {
+        "name": "comments.path",
+        "type": "string",
+        "description": "**Required.** The relative path to the file that necessitates a review comment.",
+        "required": false
+      },
+      {
+        "name": "comments.position",
+        "type": "integer",
+        "description": "**Required.** The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. For help finding the position value, read the note below.",
+        "required": false
+      },
+      {
+        "name": "comments.body",
+        "type": "string",
+        "description": "**Required.** Text of the review comment.",
+        "required": false
       }
     ],
-    "enabledForApps": true,
+    "description": "**Note:** To comment on a specific line in a file, you need to first determine the _position_ of that line in the diff. The GitHub REST API v3 offers the `application/vnd.github.v3.diff` [media type](/v3/media/#commits-commit-comparison-and-pull-requests). To see a pull request diff, add this media type to the `Accept` header of a call to the [single pull request](/v3/pulls/#get-a-single-pull-request) endpoint.\n\nThe `position` value equals the number of lines down from the first \"@@\" hunk header in the file you want to add a comment. The line just below the \"@@\" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.",
     "documentationUrl": "https://developer.github.com/v3/pulls/reviews/#create-a-pull-request-review"
   },
   {
     "name": "Submit a pull request review",
+    "enabledForApps": false,
     "method": "POST",
     "path": "/repos/:owner/:repo/pulls/:number/reviews/:id/events",
-    "description": "",
     "params": [
       {
         "name": "body",
@@ -88,14 +106,14 @@
         "required": false
       }
     ],
-    "enabledForApps": false,
+    "description": "",
     "documentationUrl": "https://developer.github.com/v3/pulls/reviews/#submit-a-pull-request-review"
   },
   {
     "name": "Dismiss a pull request review",
+    "enabledForApps": false,
     "method": "PUT",
     "path": "/repos/:owner/:repo/pulls/:number/reviews/:id/dismissals",
-    "description": "**Note:** To dismiss a pull request review on a [protected branch](/v3/repos/branches/), you must be a repository administrator or be included in the list of people or teams who can dismiss pull request reviews.",
     "params": [
       {
         "name": "message",
@@ -104,7 +122,7 @@
         "required": false
       }
     ],
-    "enabledForApps": false,
+    "description": "**Note:** To dismiss a pull request review on a [protected branch](/v3/repos/branches/), you must be a repository administrator or be included in the list of people or teams who can dismiss pull request reviews.",
     "documentationUrl": "https://developer.github.com/v3/pulls/reviews/#dismiss-a-pull-request-review"
   }
 ]

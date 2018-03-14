@@ -1,9 +1,9 @@
 [
   {
     "name": "Start an import",
+    "enabledForApps": true,
     "method": "PUT",
     "path": "/repos/:owner/:repo/import",
-    "description": "Start a source import to a GitHub repository using GitHub Importer.",
     "params": [
       {
         "name": "vcs_url",
@@ -36,23 +36,23 @@
         "required": false
       }
     ],
-    "enabledForApps": true,
+    "description": "Start a source import to a GitHub repository using GitHub Importer.",
     "documentationUrl": "https://developer.github.com/v3/migration/source_imports/#start-an-import"
   },
   {
     "name": "Get import progress",
+    "enabledForApps": true,
     "method": "GET",
     "path": "/repos/:owner/:repo/import",
-    "description": "View the progress of an import.\n\n**Import status**\n\nThis section includes details about the possible values of the `status` field of the Import Progress response.\n\nAn import that does not have errors will progress through these steps:\n\n*   `detecting` \\- the \"detection\" step of the import is in progress because the request did not include a `vcs` parameter. The import is identifying the type of source control present at the URL.\n*   `importing` \\- the \"raw\" step of the import is in progress. This is where commit data is fetched from the original repository. The import progress response will include `commit_count` (the total number of raw commits that will be imported) and `percent` (0 - 100, the current progress through the import).\n*   `mapping` \\- the \"rewrite\" step of the import is in progress. This is where SVN branches are converted to Git branches, and where author updates are applied. The import progress response does not include progress information.\n*   `pushing` \\- the \"push\" step of the import is in progress. This is where the importer updates the repository on GitHub. The import progress response will include `push_percent`, which is the percent value reported by `git push` when it is \"Writing objects\".\n*   `complete` \\- the import is complete, and the repository is ready on GitHub.\n\nIf there are problems, you will see one of these in the `status` field:\n\n*   `auth_failed` \\- the import requires authentication in order to connect to the original repository. To update authentication for the import, please see the [Update Existing Import](#update-existing-import) section.\n*   `error` \\- the import encountered an error. The import progress response will include the `failed_step` and an error message. Contact [GitHub support](https://github.com/contact) for more information.\n*   `detection_needs_auth` \\- the importer requires authentication for the originating repository to continue detection. To update authentication for the import, please see the [Update Existing Import](#update-existing-import) section.\n*   `detection_found_nothing` \\- the importer didn't recognize any source control at the URL. To resolve, [Cancel the import](#cancel-an-import) and [retry](#start-an-import) with the correct URL.\n*   `detection_found_multiple` \\- the importer found several projects or repositories at the provided URL. When this is the case, the Import Progress response will also include a `project_choices` field with the possible project choices as values. To update project choice, please see the [Update Existing Import](#update-existing-import) section.\n\n**The project_choices field**\n\nWhen multiple projects are found at the provided URL, the response hash will include a `project_choices` field, the value of which is an array of hashes each representing a project choice. The exact key/value pairs of the project hashes will differ depending on the version control type.\n\n**Git LFS related fields**\n\nThis section includes details about Git LFS related fields that may be present in the Import Progress response.\n\n*   `use_lfs` \\- describes whether the import has been opted in or out of using Git LFS. The value can be `opt_in`, `opt_out`, or `undecided` if no action has been taken.\n*   `has_large_files` \\- the boolean value describing whether files larger than 100MB were found during the `importing` step.\n*   `large_files_size` \\- the total size in gigabytes of files larger than 100MB found in the originating repository.\n*   `large_files_count` \\- the total number of files larger than 100MB found in the originating repository. To see a list of these files, make a \"Get Large Files\" request.",
     "params": [],
-    "enabledForApps": true,
+    "description": "View the progress of an import.\n\n**Import status**\n\nThis section includes details about the possible values of the `status` field of the Import Progress response.\n\nAn import that does not have errors will progress through these steps:\n\n*   `detecting` \\- the \"detection\" step of the import is in progress because the request did not include a `vcs` parameter. The import is identifying the type of source control present at the URL.\n*   `importing` \\- the \"raw\" step of the import is in progress. This is where commit data is fetched from the original repository. The import progress response will include `commit_count` (the total number of raw commits that will be imported) and `percent` (0 - 100, the current progress through the import).\n*   `mapping` \\- the \"rewrite\" step of the import is in progress. This is where SVN branches are converted to Git branches, and where author updates are applied. The import progress response does not include progress information.\n*   `pushing` \\- the \"push\" step of the import is in progress. This is where the importer updates the repository on GitHub. The import progress response will include `push_percent`, which is the percent value reported by `git push` when it is \"Writing objects\".\n*   `complete` \\- the import is complete, and the repository is ready on GitHub.\n\nIf there are problems, you will see one of these in the `status` field:\n\n*   `auth_failed` \\- the import requires authentication in order to connect to the original repository. To update authentication for the import, please see the [Update Existing Import](#update-existing-import) section.\n*   `error` \\- the import encountered an error. The import progress response will include the `failed_step` and an error message. Contact [GitHub support](https://github.com/contact) for more information.\n*   `detection_needs_auth` \\- the importer requires authentication for the originating repository to continue detection. To update authentication for the import, please see the [Update Existing Import](#update-existing-import) section.\n*   `detection_found_nothing` \\- the importer didn't recognize any source control at the URL. To resolve, [Cancel the import](#cancel-an-import) and [retry](#start-an-import) with the correct URL.\n*   `detection_found_multiple` \\- the importer found several projects or repositories at the provided URL. When this is the case, the Import Progress response will also include a `project_choices` field with the possible project choices as values. To update project choice, please see the [Update Existing Import](#update-existing-import) section.\n\n**The project_choices field**\n\nWhen multiple projects are found at the provided URL, the response hash will include a `project_choices` field, the value of which is an array of hashes each representing a project choice. The exact key/value pairs of the project hashes will differ depending on the version control type.\n\n**Git LFS related fields**\n\nThis section includes details about Git LFS related fields that may be present in the Import Progress response.\n\n*   `use_lfs` \\- describes whether the import has been opted in or out of using Git LFS. The value can be `opt_in`, `opt_out`, or `undecided` if no action has been taken.\n*   `has_large_files` \\- the boolean value describing whether files larger than 100MB were found during the `importing` step.\n*   `large_files_size` \\- the total size in gigabytes of files larger than 100MB found in the originating repository.\n*   `large_files_count` \\- the total number of files larger than 100MB found in the originating repository. To see a list of these files, make a \"Get Large Files\" request.",
     "documentationUrl": "https://developer.github.com/v3/migration/source_imports/#get-import-progress"
   },
   {
     "name": "Update existing import",
+    "enabledForApps": true,
     "method": "PATCH",
     "path": "/repos/:owner/:repo/import",
-    "description": "An import can be updated with credentials or a project choice by passing in the appropriate parameters in this API request. If no parameters are provided, the import will be restarted.\n\nSome servers (e.g. TFS servers) can have several projects at a single URL. In those cases the import progress will have the status `detection_found_multiple` and the Import Progress response will include a `project_choices` array. You can select the project to import by providing one of the objects in the `project_choices` array in the update request.\n\nThe following example demonstrates the workflow for updating an import with \"project1\" as the project choice. Given a `project_choices` array like such:\n\nTo restart an import, no parameters are provided in the update request.",
     "params": [
       {
         "name": "vcs_username",
@@ -67,14 +67,14 @@
         "required": false
       }
     ],
-    "enabledForApps": true,
+    "description": "An import can be updated with credentials or a project choice by passing in the appropriate parameters in this API request. If no parameters are provided, the import will be restarted.\n\nSome servers (e.g. TFS servers) can have several projects at a single URL. In those cases the import progress will have the status `detection_found_multiple` and the Import Progress response will include a `project_choices` array. You can select the project to import by providing one of the objects in the `project_choices` array in the update request.\n\nThe following example demonstrates the workflow for updating an import with \"project1\" as the project choice. Given a `project_choices` array like such:\n\nTo restart an import, no parameters are provided in the update request.",
     "documentationUrl": "https://developer.github.com/v3/migration/source_imports/#update-existing-import"
   },
   {
     "name": "Get commit authors",
+    "enabledForApps": true,
     "method": "GET",
     "path": "/repos/:owner/:repo/import/authors",
-    "description": "Each type of source control system represents authors in a different way. For example, a Git commit author has a display name and an email address, but a Subversion commit author just has a username. The GitHub Importer will make the author information valid, but the author might not be correct. For example, it will change the bare Subversion username `hubot` into something like `hubot <hubot@12341234-abab-fefe-8787-fedcba987654>`.\n\nThis API method and the \"Map a commit author\" method allow you to provide correct Git author information.",
     "params": [
       {
         "name": "since",
@@ -83,14 +83,14 @@
         "required": false
       }
     ],
-    "enabledForApps": true,
+    "description": "Each type of source control system represents authors in a different way. For example, a Git commit author has a display name and an email address, but a Subversion commit author just has a username. The GitHub Importer will make the author information valid, but the author might not be correct. For example, it will change the bare Subversion username `hubot` into something like `hubot <hubot@12341234-abab-fefe-8787-fedcba987654>`.\n\nThis API method and the \"Map a commit author\" method allow you to provide correct Git author information.",
     "documentationUrl": "https://developer.github.com/v3/migration/source_imports/#get-commit-authors"
   },
   {
     "name": "Map a commit author",
+    "enabledForApps": true,
     "method": "PATCH",
     "path": "/repos/:owner/:repo/import/authors/:author_id",
-    "description": "Update an author's identity for the import. Your application can continue updating authors any time before you push new commits to the repository.",
     "params": [
       {
         "name": "email",
@@ -105,14 +105,14 @@
         "required": false
       }
     ],
-    "enabledForApps": true,
+    "description": "Update an author's identity for the import. Your application can continue updating authors any time before you push new commits to the repository.",
     "documentationUrl": "https://developer.github.com/v3/migration/source_imports/#map-a-commit-author"
   },
   {
     "name": "Set Git LFS preference",
+    "enabledForApps": true,
     "method": "PATCH",
     "path": "/repos/:owner/:repo/import/lfs",
-    "description": "You can import repositories from Subversion, Mercurial, and TFS that include files larger than 100MB. This ability is powered by [Git LFS](https://git-lfs.github.com). You can learn more about our LFS feature and working with large files [on our help site](https://help.github.com/articles/versioning-large-files/).",
     "params": [
       {
         "name": "use_lfs",
@@ -121,25 +121,25 @@
         "required": false
       }
     ],
-    "enabledForApps": true,
+    "description": "You can import repositories from Subversion, Mercurial, and TFS that include files larger than 100MB. This ability is powered by [Git LFS](https://git-lfs.github.com). You can learn more about our LFS feature and working with large files [on our help site](https://help.github.com/articles/versioning-large-files/).",
     "documentationUrl": "https://developer.github.com/v3/migration/source_imports/#set-git-lfs-preference"
   },
   {
     "name": "Get large files",
+    "enabledForApps": true,
     "method": "GET",
     "path": "/repos/:owner/:repo/import/large_files",
-    "description": "List files larger than 100MB found during the import",
     "params": [],
-    "enabledForApps": true,
+    "description": "List files larger than 100MB found during the import",
     "documentationUrl": "https://developer.github.com/v3/migration/source_imports/#get-large-files"
   },
   {
     "name": "Cancel an import",
+    "enabledForApps": true,
     "method": "DELETE",
     "path": "/repos/:owner/:repo/import",
-    "description": "Stop an import for a repository.",
     "params": [],
-    "enabledForApps": true,
+    "description": "Stop an import for a repository.",
     "documentationUrl": "https://developer.github.com/v3/migration/source_imports/#cancel-an-import"
   }
 ]
