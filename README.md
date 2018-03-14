@@ -27,13 +27,15 @@ Here is an excerpt for reference
   "repositories": [
     {
       "name": "List your repositories",
+      "enabledForApps": false,
       "method": "GET",
       "path": "/user/repos",
       "description": "List repositories that are accessible to ...",
       "params": [
         {
           "name": "visibility",
-          "type": [
+          "type": "enum",
+          "options": [
             "all",
             "public",
             "private"
