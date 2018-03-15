@@ -12,6 +12,7 @@ const fixtures = {
 
 test('https://developer.github.com/v3/issues/#list-issues to JSON', t => {
   const actual = endpointHtmlToJson(fixtures.in)
+
   t.deepEquals(actual, fixtures.out)
   t.end()
 })
