@@ -1,5 +1,5 @@
 const {resolve: resolvePath} = require('path')
-const {readFileSync} = require('fs')
+const {readFileSync} = require('fs-extra')
 
 const {test} = require('tap')
 
@@ -10,8 +10,8 @@ const fixtures = {
   out: require('./out.json')
 }
 
-test('https://developer.github.com/v3/git/commits/#create-a-commit to JSON', t => {
-  const actual = endpointHtmlToJson(fixtures.in)
+test('https://developer.github.com/v3/git/commits/#create-a-commit to JSON', async t => {
+  const actual = await endpointHtmlToJson(fixtures.in)
   t.deepEquals(actual, fixtures.out)
   t.end()
 })
