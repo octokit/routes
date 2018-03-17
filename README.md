@@ -89,9 +89,11 @@ Loads HTML of each documentation page, finds sections in page.
 ### 3. In each section, finds endpoints
 
 - Some sections don’t have endpoints, such as [Notifications Reasons](https://developer.github.com/v3/activity/notifications/#notification-reasons)
-- Some sections have multiple endpoints [#3](https://github.com/gr2m/octokit-rest-routes/issues/3)
+- Some sections have multiple endpoints, see [#3](https://github.com/gr2m/octokit-rest-routes/issues/3)
 
 Loads HTML of documentation page section. Turns it into [`routes/*.json`](routes/) file.
+In some cases the HTML cannot be turned into an endpoint using the implemented patterns.
+For these cases [custom overrides](lib/endpoint/overrides) are defined.
 
 ## LICENSE
 
