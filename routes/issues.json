@@ -1,20 +1,173 @@
 [
   {
-    "name": "List issues",
     "method": "GET",
+    "path": "/issues",
     "enabledForApps": false,
+    "name": "List all issues assigned to the authenticated user across all visible repositories including owned repositories, member repositories, and organization repositories",
+    "params": [
+      {
+        "name": "filter",
+        "type": "enum",
+        "options": [
+          "assigned",
+          "created",
+          "mentioned",
+          "subscribed",
+          "all"
+        ],
+        "description": "Indicates which sorts of issues to return. Can be one of:  \n\\* `assigned`: Issues assigned to you  \n\\* `created`: Issues created by you  \n\\* `mentioned`: Issues mentioning you  \n\\* `subscribed`: Issues you're subscribed to updates for  \n\\* `all`: All issues the authenticated user can see, regardless of participation or creation",
+        "default": "assigned",
+        "required": false
+      },
+      {
+        "name": "state",
+        "type": "string",
+        "description": "Indicates the state of the issues to return. Can be either `open`, `closed`, or `all`.",
+        "default": "open",
+        "required": false
+      },
+      {
+        "name": "labels",
+        "type": "string",
+        "description": "A list of comma separated label names. Example: `bug,ui,@high`",
+        "required": false
+      },
+      {
+        "name": "sort",
+        "type": "string",
+        "description": "What to sort results by. Can be either `created`, `updated`, `comments`.",
+        "default": "created",
+        "required": false
+      },
+      {
+        "name": "direction",
+        "type": "string",
+        "description": "The direction of the sort. Can be either `asc` or `desc`.",
+        "default": "desc",
+        "required": false
+      },
+      {
+        "name": "since",
+        "type": "string",
+        "description": "Only issues updated at or after this time are returned. This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.",
+        "required": false
+      }
+    ],
+    "description": "**Note**: In the past, pull requests and issues were more closely aligned than they are now. As far as the API is concerned, every pull request is an issue, but not every issue is a pull request.\n\nThis endpoint may also return pull requests in the response. If an issue _is_ a pull request, the object will include a `pull_request` key.\n\nYou can use the `filter` query parameter to fetch issues that are not necessarily assigned to you. See the table below for more information.\n\n\n\n**Note:** If a user opened an issue via a GitHub App, the `performed_via_github_app` key contains information on that GitHub App.",
     "documentationUrl": "https://developer.github.com/v3/issues/#list-issues"
   },
   {
-    "name": "List issues",
     "method": "GET",
+    "path": "/user/issues",
     "enabledForApps": false,
+    "name": "List all issues across owned and member repositories assigned to the authenticated user",
+    "params": [
+      {
+        "name": "filter",
+        "type": "enum",
+        "options": [
+          "assigned",
+          "created",
+          "mentioned",
+          "subscribed",
+          "all"
+        ],
+        "description": "Indicates which sorts of issues to return. Can be one of:  \n\\* `assigned`: Issues assigned to you  \n\\* `created`: Issues created by you  \n\\* `mentioned`: Issues mentioning you  \n\\* `subscribed`: Issues you're subscribed to updates for  \n\\* `all`: All issues the authenticated user can see, regardless of participation or creation",
+        "default": "assigned",
+        "required": false
+      },
+      {
+        "name": "state",
+        "type": "string",
+        "description": "Indicates the state of the issues to return. Can be either `open`, `closed`, or `all`.",
+        "default": "open",
+        "required": false
+      },
+      {
+        "name": "labels",
+        "type": "string",
+        "description": "A list of comma separated label names. Example: `bug,ui,@high`",
+        "required": false
+      },
+      {
+        "name": "sort",
+        "type": "string",
+        "description": "What to sort results by. Can be either `created`, `updated`, `comments`.",
+        "default": "created",
+        "required": false
+      },
+      {
+        "name": "direction",
+        "type": "string",
+        "description": "The direction of the sort. Can be either `asc` or `desc`.",
+        "default": "desc",
+        "required": false
+      },
+      {
+        "name": "since",
+        "type": "string",
+        "description": "Only issues updated at or after this time are returned. This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.",
+        "required": false
+      }
+    ],
+    "description": "**Note**: In the past, pull requests and issues were more closely aligned than they are now. As far as the API is concerned, every pull request is an issue, but not every issue is a pull request.\n\nThis endpoint may also return pull requests in the response. If an issue _is_ a pull request, the object will include a `pull_request` key.\n\nYou can use the `filter` query parameter to fetch issues that are not necessarily assigned to you. See the table below for more information.\n\n\n\n**Note:** If a user opened an issue via a GitHub App, the `performed_via_github_app` key contains information on that GitHub App.",
     "documentationUrl": "https://developer.github.com/v3/issues/#list-issues"
   },
   {
-    "name": "List issues",
     "method": "GET",
+    "path": "/orgs/:org/issues",
     "enabledForApps": false,
+    "name": "List all issues for a given organization assigned to the authenticated user",
+    "params": [
+      {
+        "name": "filter",
+        "type": "enum",
+        "options": [
+          "assigned",
+          "created",
+          "mentioned",
+          "subscribed",
+          "all"
+        ],
+        "description": "Indicates which sorts of issues to return. Can be one of:  \n\\* `assigned`: Issues assigned to you  \n\\* `created`: Issues created by you  \n\\* `mentioned`: Issues mentioning you  \n\\* `subscribed`: Issues you're subscribed to updates for  \n\\* `all`: All issues the authenticated user can see, regardless of participation or creation",
+        "default": "assigned",
+        "required": false
+      },
+      {
+        "name": "state",
+        "type": "string",
+        "description": "Indicates the state of the issues to return. Can be either `open`, `closed`, or `all`.",
+        "default": "open",
+        "required": false
+      },
+      {
+        "name": "labels",
+        "type": "string",
+        "description": "A list of comma separated label names. Example: `bug,ui,@high`",
+        "required": false
+      },
+      {
+        "name": "sort",
+        "type": "string",
+        "description": "What to sort results by. Can be either `created`, `updated`, `comments`.",
+        "default": "created",
+        "required": false
+      },
+      {
+        "name": "direction",
+        "type": "string",
+        "description": "The direction of the sort. Can be either `asc` or `desc`.",
+        "default": "desc",
+        "required": false
+      },
+      {
+        "name": "since",
+        "type": "string",
+        "description": "Only issues updated at or after this time are returned. This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.",
+        "required": false
+      }
+    ],
+    "description": "**Note**: In the past, pull requests and issues were more closely aligned than they are now. As far as the API is concerned, every pull request is an issue, but not every issue is a pull request.\n\nThis endpoint may also return pull requests in the response. If an issue _is_ a pull request, the object will include a `pull_request` key.\n\nYou can use the `filter` query parameter to fetch issues that are not necessarily assigned to you. See the table below for more information.\n\n\n\n**Note:** If a user opened an issue via a GitHub App, the `performed_via_github_app` key contains information on that GitHub App.",
     "documentationUrl": "https://developer.github.com/v3/issues/#list-issues"
   },
   {
@@ -81,7 +234,7 @@
         "required": false
       }
     ],
-    "description": "**Note**: In the past, pull requests and issues were more closely aligned than they are now. As far as the API is concerned, every pull request is an issue, but not every issue is a pull request.\n\nThis endpoint may also return pull requests in the response. If an issue _is_ a pull request, the object will include a `pull_request` key.\n\nAn additional `reactions` object in the issue payload is currently available for developers to preview. During the preview period, the APIs may change without advance notice. Please see the [blog post](/changes/2016-05-12-reactions-api-preview) for full details.\n\nTo access the API you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.squirrel-girl-preview\n\n```\n\nThe `reactions` key will have the following payload where `url` can be used to construct the API location for [listing and creating](/v3/reactions) reactions.\n\n\n\n**Note:** An additional `performed_via_github_app` object in the issue payload is currently available for developers to preview. For more information, see the [related blog post](/changes/2016-09-14-Integrations-Early-Access).\n\nTo access the API, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.machine-man-preview\n\n```\n\n**Note:** If a user opened an issue via a GitHub App, the `performed_via_github_app` key contains information on that GitHub App.",
+    "description": "**Note**: In the past, pull requests and issues were more closely aligned than they are now. As far as the API is concerned, every pull request is an issue, but not every issue is a pull request.\n\nThis endpoint may also return pull requests in the response. If an issue _is_ a pull request, the object will include a `pull_request` key.\n\n\n\n**Note:** If a user opened an issue via a GitHub App, the `performed_via_github_app` key contains information on that GitHub App.",
     "documentationUrl": "https://developer.github.com/v3/issues/#list-issues-for-a-repository"
   },
   {
@@ -90,7 +243,7 @@
     "method": "GET",
     "path": "/repos/:owner/:repo/issues/:number",
     "params": [],
-    "description": "**Note**: In the past, pull requests and issues were more closely aligned than they are now. As far as the API is concerned, every pull request is an issue, but not every issue is a pull request.\n\nThis endpoint may also return pull requests in the response. If an issue _is_ a pull request, the object will include a `pull_request` key.\n\nAn additional `reactions` object in the issue payload is currently available for developers to preview. During the preview period, the APIs may change without advance notice. Please see the [blog post](/changes/2016-05-12-reactions-api-preview) for full details.\n\nTo access the API you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.squirrel-girl-preview\n\n```\n\nThe `reactions` key will have the following payload where `url` can be used to construct the API location for [listing and creating](/v3/reactions) reactions.",
+    "description": "**Note**: In the past, pull requests and issues were more closely aligned than they are now. As far as the API is concerned, every pull request is an issue, but not every issue is a pull request.\n\nThis endpoint may also return pull requests in the response. If an issue _is_ a pull request, the object will include a `pull_request` key.",
     "documentationUrl": "https://developer.github.com/v3/issues/#get-a-single-issue"
   },
   {
