@@ -190,6 +190,10 @@
     <option value="/v3/reactions/#list-reactions-for-an-issue">Issue</option>
     <option value="/v3/reactions/#list-reactions-for-an-issue-comment">Issue Comment</option>
     <option value="/v3/reactions/#list-reactions-for-a-pull-request-review-comment">Pull Request Review Comment</option>
+    
+    <option value="/v3/reactions/#list-reactions-for-a-team-discussion">Team Discussion</option>
+    <option value="/v3/reactions/#list-reactions-for-a-team-discussion-comment">Team Discussion Comment</option>
+    
   </optgroup>
 
   <optgroup label="Repositories">
@@ -451,6 +455,21 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                         title="Enabled for GitHub Apps"></a>
                 </h2>
 
+                <div class="alert note">
+
+                    <p><strong>Note:</strong> The Protected Branches API now has a setting for requiring a specified number of approving pull request reviews before merging. This feature is currently available for developers to preview. See the <a href="/changes/2018-03-16-protected-branches-required-approving-reviews">blog post</a>                        for full details. To access the API during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+                    <pre><code>application/vnd.github.luke-cage-preview+json
+</code></pre>
+
+                </div>
+
+                <div class="alert warning">
+
+                    <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
+
+                </div>
+
                 <pre><code>GET /repos/:owner/:repo/branches/:branch/protection
 </code></pre>
 
@@ -518,7 +537,8 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
       </span><span class="p">]</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="nt">"dismiss_stale_reviews"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"require_code_owner_reviews"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="nt">"require_code_owner_reviews"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"required_approving_review_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="nt">"restrictions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World/branches/master/protection/restrictions"</span><span class="p">,</span><span class="w">
@@ -568,6 +588,21 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                     <a id="update-branch-protection" class="anchor" href="#update-branch-protection" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Update branch protection<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info"
                         title="Enabled for GitHub Apps"></a>
                 </h2>
+
+                <div class="alert note">
+
+                    <p><strong>Note:</strong> The Protected Branches API now has a setting for requiring a specified number of approving pull request reviews before merging. This feature is currently available for developers to preview. See the <a href="/changes/2018-03-16-protected-branches-required-approving-reviews">blog post</a>                        for full details. To access the API during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+                    <pre><code>application/vnd.github.luke-cage-preview+json
+</code></pre>
+
+                </div>
+
+                <div class="alert warning">
+
+                    <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
+
+                </div>
 
                 <p>Protecting a branch requires admin or owner permissions to the repository.</p>
 
@@ -659,12 +694,17 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                         <tr>
                             <td><code>dismiss_stale_reviews</code></td>
                             <td><code>boolean</code></td>
-                            <td>Dismiss approved reviews automatically when a new commit is pushed.</td>
+                            <td>Set to <code>true</code> if you want to automatically dismiss approved reviews when someone pushes a new commit.</td>
                         </tr>
                         <tr>
                             <td><code>require_code_owner_reviews</code></td>
                             <td><code>boolean</code></td>
-                            <td>Blocks merge until code owners have reviewed.</td>
+                            <td>Blocks merging pull requests until code owners review them.</td>
+                        </tr>
+                        <tr>
+                            <td><code>required_approving_review_count</code></td>
+                            <td><code>integer</code></td>
+                            <td>Specify the number of reviewers required to approve pull requests. Use a number between 1 and 6.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -750,7 +790,8 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
       </span><span class="p">]</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="nt">"dismiss_stale_reviews"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"require_code_owner_reviews"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="nt">"require_code_owner_reviews"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"required_approving_review_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="nt">"restrictions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nt">"users"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
@@ -828,7 +869,8 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
       </span><span class="p">]</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="nt">"dismiss_stale_reviews"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"require_code_owner_reviews"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="nt">"require_code_owner_reviews"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"required_approving_review_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="nt">"restrictions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World/branches/master/protection/restrictions"</span><span class="p">,</span><span class="w">
@@ -1108,6 +1150,21 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                     pull request review enforcement of protected branch<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
                 </h2>
 
+                <div class="alert note">
+
+                    <p><strong>Note:</strong> The Protected Branches API now has a setting for requiring a specified number of approving pull request reviews before merging. This feature is currently available for developers to preview. See the <a href="/changes/2018-03-16-protected-branches-required-approving-reviews">blog post</a>                        for full details. To access the API during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+                    <pre><code>application/vnd.github.luke-cage-preview+json
+</code></pre>
+
+                </div>
+
+                <div class="alert warning">
+
+                    <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
+
+                </div>
+
                 <pre><code>GET /repos/:owner/:repo/branches/:branch/protection/required_pull_request_reviews
 </code></pre>
 
@@ -1158,7 +1215,8 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
     </span><span class="p">]</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="nt">"dismiss_stale_reviews"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"require_code_owner_reviews"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+  </span><span class="nt">"require_code_owner_reviews"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"required_approving_review_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -1167,6 +1225,21 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                     <a id="update-pull-request-review-enforcement-of-protected-branch" class="anchor" href="#update-pull-request-review-enforcement-of-protected-branch" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Update
                     pull request review enforcement of protected branch<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
                 </h2>
+
+                <div class="alert note">
+
+                    <p><strong>Note:</strong> The Protected Branches API now has a setting for requiring a specified number of approving pull request reviews before merging. This feature is currently available for developers to preview. See the <a href="/changes/2018-03-16-protected-branches-required-approving-reviews">blog post</a>                        for full details. To access the API during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+                    <pre><code>application/vnd.github.luke-cage-preview+json
+</code></pre>
+
+                </div>
+
+                <div class="alert warning">
+
+                    <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
+
+                </div>
 
                 <p>Updating pull request review enforcement requires admin or owner permissions to the repository and branch protection to be enabled.</p>
 
@@ -1190,17 +1263,23 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                         <tr>
                             <td><code>dismissal_restrictions</code></td>
                             <td><code>object</code></td>
-                            <td>Specify which users and teams can dismiss pull request reviews. User and team <code>dismissal_restrictions</code> are only available for organization-owned repositories. Omit this parameter for personal repositories.</td>
+                            <td>Specify which users and teams can dismiss pull request reviews. Pass an empty <code>dismissal_restrictions</code> object to disable. User and team <code>dismissal_restrictions</code> are only available for organization-owned
+                                repositories. Omit this parameter for personal repositories.</td>
                         </tr>
                         <tr>
                             <td><code>dismiss_stale_reviews</code></td>
                             <td><code>boolean</code></td>
-                            <td>Dismiss approved reviews automatically when a new commit is pushed.</td>
+                            <td>Set to <code>true</code> if you want to automatically dismiss approved reviews when someone pushes a new commit.</td>
                         </tr>
                         <tr>
                             <td><code>require_code_owner_reviews</code></td>
                             <td><code>boolean</code></td>
-                            <td>Blocks merge until code owners have reviewed.</td>
+                            <td>Blocks merging pull requests until code owners have reviewed.</td>
+                        </tr>
+                        <tr>
+                            <td><code>required_approving_review_count</code></td>
+                            <td><code>integer</code></td>
+                            <td>Specifies the number of reviewers required to approve pull requests. Use a number between 1 and 6.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1248,7 +1327,8 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
     </span><span class="p">]</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="nt">"dismiss_stale_reviews"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"require_code_owner_reviews"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+  </span><span class="nt">"require_code_owner_reviews"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"required_approving_review_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -1303,7 +1383,8 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
     </span><span class="p">]</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="nt">"dismiss_stale_reviews"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"require_code_owner_reviews"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+  </span><span class="nt">"require_code_owner_reviews"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"required_approving_review_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -1330,7 +1411,6 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                     <p><strong>Note:</strong> Protected Branches API can now manage a setting for requiring signed commits. This feature is currently available for developers to preview. See the <a href="/changes/2018-02-22-protected-branches-required-signatures">blog post</a>                        for full details. To access the API during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
 
                     <pre><code>application/vnd.github.zzzax-preview+json
-
 </code></pre>
 
                 </div>
@@ -1373,7 +1453,6 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                     <p><strong>Note:</strong> Protected Branches API can now manage a setting for requiring signed commits. This feature is currently available for developers to preview. See the <a href="/changes/2018-02-22-protected-branches-required-signatures">blog post</a>                        for full details. To access the API during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
 
                     <pre><code>application/vnd.github.zzzax-preview+json
-
 </code></pre>
 
                 </div>
@@ -1413,7 +1492,6 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                     <p><strong>Note:</strong> Protected Branches API can now manage a setting for requiring signed commits. This feature is currently available for developers to preview. See the <a href="/changes/2018-02-22-protected-branches-required-signatures">blog post</a>                        for full details. To access the API during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
 
                     <pre><code>application/vnd.github.zzzax-preview+json
-
 </code></pre>
 
                 </div>
@@ -2120,6 +2198,10 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
     <option value="/v3/reactions/#list-reactions-for-an-issue">Issue</option>
     <option value="/v3/reactions/#list-reactions-for-an-issue-comment">Issue Comment</option>
     <option value="/v3/reactions/#list-reactions-for-a-pull-request-review-comment">Pull Request Review Comment</option>
+    
+    <option value="/v3/reactions/#list-reactions-for-a-team-discussion">Team Discussion</option>
+    <option value="/v3/reactions/#list-reactions-for-a-team-discussion-comment">Team Discussion Comment</option>
+    
   </optgroup>
 
   <optgroup label="Repositories">
@@ -2330,6 +2412,10 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                                 <li><a href="/v3/reactions/#list-reactions-for-an-issue">Issue</a></li>
                                 <li><a href="/v3/reactions/#list-reactions-for-an-issue-comment">Issue Comment</a></li>
                                 <li><a href="/v3/reactions/#list-reactions-for-a-pull-request-review-comment">Pull Request Review Comment</a></li>
+
+                                <li><a href="/v3/reactions/#list-reactions-for-a-team-discussion">Team Discussion</a></li>
+                                <li><a href="/v3/reactions/#list-reactions-for-a-team-discussion-comment">Team Discussion Comment</a></li>
+
                             </ul>
                         </li>
                         <li class="js-topic">

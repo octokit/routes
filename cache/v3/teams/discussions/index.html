@@ -190,6 +190,10 @@
     <option value="/v3/reactions/#list-reactions-for-an-issue">Issue</option>
     <option value="/v3/reactions/#list-reactions-for-an-issue-comment">Issue Comment</option>
     <option value="/v3/reactions/#list-reactions-for-a-pull-request-review-comment">Pull Request Review Comment</option>
+    
+    <option value="/v3/reactions/#list-reactions-for-a-team-discussion">Team Discussion</option>
+    <option value="/v3/reactions/#list-reactions-for-a-team-discussion-comment">Team Discussion Comment</option>
+    
   </optgroup>
 
   <optgroup label="Repositories">
@@ -294,6 +298,11 @@
                 <p>The team discussions API allows you to get, create, edit, and delete discussion posts on a team's page. You can use team discussions to have conversations that are not specific to a repository or project. Any member of the team's <a href="/v3/orgs">organization</a>                    can create and read public discussion posts. For more details, see "<a href="https://help.github.com/articles/about-team-discussions/">About team discussions</a>." To learn more about commenting on a discussion post, see the <a href="/v3/teams/discussion_comments">team discussion comments API</a>.
                     This API is only available to authenticated members of the team's organization.</p>
 
+                <h2>
+                    <a id="list-discussions" class="anchor" href="#list-discussions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List discussions<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info"
+                        title="Enabled for GitHub Apps"></a>
+                </h2>
+
                 <div class="alert note">
 
                     <p><strong>Note:</strong> The team discussions API is currently available for developers to preview. See the <a href="/changes/2018-02-07-team-discussions-api">blog post</a> for full details. To access the API during the preview period,
@@ -304,14 +313,21 @@
 
                 </div>
 
+                <div class="alert note">
+
+                    <p><strong>Note:</strong> The <a href="/v3/reactions/">reactions API</a> is available for developers to preview. The <code>url</code> can be used to construct the API location for <a href="/v3/reactions">listing and creating</a> reactions.
+                        See the <a href="/changes/2016-05-12-reactions-api-preview">blog post</a> for full details. To receive the <code>reactions</code> object in the response for this endpoint you must provide a custom <a href="/v3/media">media type</a>                        in the <code>Accept</code> header:</p>
+
+                    <pre><code>application/vnd.github.squirrel-girl-preview
+</code></pre>
+
+                </div>
+
                 <div class="alert warning">
 
                     <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
 
                 </div>
-
-                <h2>
-                    <a id="list-discussions" class="anchor" href="#list-discussions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List discussions</h2>
 
                 <p>List all discussions on a team's page. OAuth access tokens require the <code>read:discussion</code> <a href="/apps/building-oauth-apps/scopes-for-oauth-apps/">scope</a>.</p>
 
@@ -383,14 +399,26 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
     </span><span class="nt">"team_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/2343027"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Our first team post"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-01-25T18:56:31Z"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/2343027/discussions/1"</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/2343027/discussions/1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"reactions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/2343027/discussions/1/reactions"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"total_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"+1"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"-1"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"laugh"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"confused"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"heart"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"hooray"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+    </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 
 
                 <h2>
-                    <a id="get-a-single-discussion" class="anchor" href="#get-a-single-discussion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get a single discussion</h2>
+                    <a id="get-a-single-discussion" class="anchor" href="#get-a-single-discussion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get a single discussion<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info"
+                        title="Enabled for GitHub Apps"></a>
+                </h2>
 
                 <div class="alert note">
 
@@ -398,6 +426,16 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                         you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
 
                     <pre><code>application/vnd.github.echo-preview+json
+</code></pre>
+
+                </div>
+
+                <div class="alert note">
+
+                    <p><strong>Note:</strong> The <a href="/v3/reactions/">reactions API</a> is available for developers to preview. The <code>url</code> can be used to construct the API location for <a href="/v3/reactions">listing and creating</a> reactions.
+                        See the <a href="/changes/2016-05-12-reactions-api-preview">blog post</a> for full details. To receive the <code>reactions</code> object in the response for this endpoint you must provide a custom <a href="/v3/media">media type</a>                        in the <code>Accept</code> header:</p>
+
+                    <pre><code>application/vnd.github.squirrel-girl-preview
 </code></pre>
 
                 </div>
@@ -454,13 +492,25 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
   </span><span class="nt">"team_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/2343027"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Our first team post"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-01-25T18:56:31Z"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/2343027/discussions/1"</span><span class="w">
+  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/2343027/discussions/1"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"reactions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/2343027/discussions/1/reactions"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"total_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"+1"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"-1"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"laugh"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"confused"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"heart"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"hooray"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+  </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
 
                 <h2>
-                    <a id="create-a-discussion" class="anchor" href="#create-a-discussion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a discussion</h2>
+                    <a id="create-a-discussion" class="anchor" href="#create-a-discussion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a discussion<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info"
+                        title="Enabled for GitHub Apps"></a>
+                </h2>
 
                 <div class="alert note">
 
@@ -468,6 +518,16 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                         you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
 
                     <pre><code>application/vnd.github.echo-preview+json
+</code></pre>
+
+                </div>
+
+                <div class="alert note">
+
+                    <p><strong>Note:</strong> The <a href="/v3/reactions/">reactions API</a> is available for developers to preview. The <code>url</code> can be used to construct the API location for <a href="/v3/reactions">listing and creating</a> reactions.
+                        See the <a href="/changes/2016-05-12-reactions-api-preview">blog post</a> for full details. To receive the <code>reactions</code> object in the response for this endpoint you must provide a custom <a href="/v3/media">media type</a>                        in the <code>Accept</code> header:</p>
+
+                    <pre><code>application/vnd.github.squirrel-girl-preview
 </code></pre>
 
                 </div>
@@ -567,13 +627,25 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
   </span><span class="nt">"team_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/2343027"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Our first team post"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-01-25T18:56:31Z"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/2343027/discussions/1"</span><span class="w">
+  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/2343027/discussions/1"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"reactions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/2343027/discussions/1/reactions"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"total_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"+1"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"-1"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"laugh"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"confused"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"heart"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"hooray"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+  </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
 
                 <h2>
-                    <a id="edit-a-discussion" class="anchor" href="#edit-a-discussion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Edit a discussion</h2>
+                    <a id="edit-a-discussion" class="anchor" href="#edit-a-discussion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Edit a discussion<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info"
+                        title="Enabled for GitHub Apps"></a>
+                </h2>
 
                 <div class="alert note">
 
@@ -581,6 +653,16 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                         you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
 
                     <pre><code>application/vnd.github.echo-preview+json
+</code></pre>
+
+                </div>
+
+                <div class="alert note">
+
+                    <p><strong>Note:</strong> The <a href="/v3/reactions/">reactions API</a> is available for developers to preview. The <code>url</code> can be used to construct the API location for <a href="/v3/reactions">listing and creating</a> reactions.
+                        See the <a href="/changes/2016-05-12-reactions-api-preview">blog post</a> for full details. To receive the <code>reactions</code> object in the response for this endpoint you must provide a custom <a href="/v3/media">media type</a>                        in the <code>Accept</code> header:</p>
+
+                    <pre><code>application/vnd.github.squirrel-girl-preview
 </code></pre>
 
                 </div>
@@ -671,13 +753,25 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
   </span><span class="nt">"team_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/2343027"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Welcome to our first team post"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-01-26T18:22:20Z"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/2343027/discussions/1"</span><span class="w">
+  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/2343027/discussions/1"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"reactions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/2343027/discussions/1/reactions"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"total_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"+1"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"-1"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"laugh"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"confused"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"heart"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"hooray"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+  </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
 
                 <h2>
-                    <a id="delete-a-discussion" class="anchor" href="#delete-a-discussion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Delete a discussion</h2>
+                    <a id="delete-a-discussion" class="anchor" href="#delete-a-discussion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Delete a discussion<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info"
+                        title="Enabled for GitHub Apps"></a>
+                </h2>
 
                 <div class="alert note">
 
@@ -820,6 +914,10 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
     <option value="/v3/reactions/#list-reactions-for-an-issue">Issue</option>
     <option value="/v3/reactions/#list-reactions-for-an-issue-comment">Issue Comment</option>
     <option value="/v3/reactions/#list-reactions-for-a-pull-request-review-comment">Pull Request Review Comment</option>
+    
+    <option value="/v3/reactions/#list-reactions-for-a-team-discussion">Team Discussion</option>
+    <option value="/v3/reactions/#list-reactions-for-a-team-discussion-comment">Team Discussion Comment</option>
+    
   </optgroup>
 
   <optgroup label="Repositories">
@@ -1030,6 +1128,10 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                                 <li><a href="/v3/reactions/#list-reactions-for-an-issue">Issue</a></li>
                                 <li><a href="/v3/reactions/#list-reactions-for-an-issue-comment">Issue Comment</a></li>
                                 <li><a href="/v3/reactions/#list-reactions-for-a-pull-request-review-comment">Pull Request Review Comment</a></li>
+
+                                <li><a href="/v3/reactions/#list-reactions-for-a-team-discussion">Team Discussion</a></li>
+                                <li><a href="/v3/reactions/#list-reactions-for-a-team-discussion-comment">Team Discussion Comment</a></li>
+
                             </ul>
                         </li>
                         <li class="js-topic">
