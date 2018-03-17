@@ -190,6 +190,10 @@
     <option value="/v3/reactions/#list-reactions-for-an-issue">Issue</option>
     <option value="/v3/reactions/#list-reactions-for-an-issue-comment">Issue Comment</option>
     <option value="/v3/reactions/#list-reactions-for-a-pull-request-review-comment">Pull Request Review Comment</option>
+    
+    <option value="/v3/reactions/#list-reactions-for-a-team-discussion">Team Discussion</option>
+    <option value="/v3/reactions/#list-reactions-for-a-team-discussion-comment">Team Discussion Comment</option>
+    
   </optgroup>
 
   <optgroup label="Repositories">
@@ -293,6 +297,10 @@
                     <li><a href="#create-reaction-for-an-issue-comment" id="markdown-toc-create-reaction-for-an-issue-comment">Create reaction for an issue comment</a></li>
                     <li><a href="#list-reactions-for-a-pull-request-review-comment" id="markdown-toc-list-reactions-for-a-pull-request-review-comment">List reactions for a pull request review comment</a></li>
                     <li><a href="#create-reaction-for-a-pull-request-review-comment" id="markdown-toc-create-reaction-for-a-pull-request-review-comment">Create reaction for a pull request review comment</a></li>
+                    <li><a href="#list-reactions-for-a-team-discussion" id="markdown-toc-list-reactions-for-a-team-discussion">List reactions for a team discussion</a></li>
+                    <li><a href="#create-reaction-for-a-team-discussion" id="markdown-toc-create-reaction-for-a-team-discussion">Create reaction for a team discussion</a></li>
+                    <li><a href="#list-reactions-for-a-team-discussion-comment" id="markdown-toc-list-reactions-for-a-team-discussion-comment">List reactions for a team discussion comment</a></li>
+                    <li><a href="#create-reaction-for-a-team-discussion-comment" id="markdown-toc-create-reaction-for-a-team-discussion-comment">Create reaction for a team discussion comment</a></li>
                     <li><a href="#delete-a-reaction" id="markdown-toc-delete-a-reaction">Delete a reaction</a></li>
                 </ul>
 
@@ -367,6 +375,24 @@
                         class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
                 </h2>
 
+                <div class="alert note">
+
+                    <p><strong>Note:</strong> APIs for managing reactions are currently available for developers to preview. See the <a href="/changes/2016-05-12-reactions-api-preview">blog post</a> for full details. To access the API during the preview
+                        period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+                    <pre><code>  application/vnd.github.squirrel-girl-preview+json
+</code></pre>
+
+                </div>
+
+                <div class="alert warning">
+
+                    <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
+
+                </div>
+
+                <p>List the reactions to a <a href="/v3/repos/comments/">commit comment</a>.</p>
+
                 <pre><code>GET /repos/:owner/:repo/comments/:id/reactions
 </code></pre>
 
@@ -385,7 +411,7 @@
                         <tr>
                             <td><code>content</code></td>
                             <td><code>string</code></td>
-                            <td>Indicates which type of reaction to return.</td>
+                            <td>Returns a single <a href="/v3/reactions/#reaction-types">reaction type</a>. Omit this parameter to list all reactions to a commit comment.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -431,6 +457,24 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                 <h2>
                     <a id="create-reaction-for-a-commit-comment" class="anchor" href="#create-reaction-for-a-commit-comment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create reaction for a commit comment</h2>
 
+                <div class="alert note">
+
+                    <p><strong>Note:</strong> APIs for managing reactions are currently available for developers to preview. See the <a href="/changes/2016-05-12-reactions-api-preview">blog post</a> for full details. To access the API during the preview
+                        period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+                    <pre><code>  application/vnd.github.squirrel-girl-preview+json
+</code></pre>
+
+                </div>
+
+                <div class="alert warning">
+
+                    <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
+
+                </div>
+
+                <p>Create a reaction to a <a href="/v3/repos/comments/">commit comment</a>. A response with a <code>Status: 200 OK</code> means that you already added the reaction type to this commit comment.</p>
+
                 <pre><code>POST /repos/:owner/:repo/comments/:id/reactions
 </code></pre>
 
@@ -450,10 +494,13 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                             <td><code>content</code></td>
                             <td><code>string</code></td>
                             <td>
-                                <strong>Required</strong>. The reaction type</td>
+                                <strong>Required</strong>. The <a href="/v3/reactions/#reaction-types">reaction type</a> to add to the commit comment.</td>
                         </tr>
                     </tbody>
                 </table>
+
+                <h3>
+                    <a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 
                 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"heart"</span><span class="w">
@@ -463,12 +510,6 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
                 <h3>
                     <a id="response-1" class="anchor" href="#response-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
-
-                <div class="alert tip">
-
-                    <p>If you have already created a reaction of type <code>content</code>, the previously created reaction will be returned with <code>Status: 200 OK</code>.</p>
-
-                </div>
 
                 <pre class="highlight highlight-headers"><code>Status: 201 Created
 </code></pre>
@@ -506,6 +547,24 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                         title="Enabled for GitHub Apps"></a>
                 </h2>
 
+                <div class="alert note">
+
+                    <p><strong>Note:</strong> APIs for managing reactions are currently available for developers to preview. See the <a href="/changes/2016-05-12-reactions-api-preview">blog post</a> for full details. To access the API during the preview
+                        period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+                    <pre><code>  application/vnd.github.squirrel-girl-preview+json
+</code></pre>
+
+                </div>
+
+                <div class="alert warning">
+
+                    <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
+
+                </div>
+
+                <p>List the reactions to an <a href="/v3/issues/">issue</a>.</p>
+
                 <pre><code>GET /repos/:owner/:repo/issues/:number/reactions
 </code></pre>
 
@@ -524,7 +583,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                         <tr>
                             <td><code>content</code></td>
                             <td><code>string</code></td>
-                            <td>Indicates which type of reaction to return.</td>
+                            <td>Returns a single <a href="/v3/reactions/#reaction-types">reaction type</a>. Omit this parameter to list all reactions to an issue.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -570,6 +629,24 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                 <h2>
                     <a id="create-reaction-for-an-issue" class="anchor" href="#create-reaction-for-an-issue" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create reaction for an issue</h2>
 
+                <div class="alert note">
+
+                    <p><strong>Note:</strong> APIs for managing reactions are currently available for developers to preview. See the <a href="/changes/2016-05-12-reactions-api-preview">blog post</a> for full details. To access the API during the preview
+                        period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+                    <pre><code>  application/vnd.github.squirrel-girl-preview+json
+</code></pre>
+
+                </div>
+
+                <div class="alert warning">
+
+                    <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
+
+                </div>
+
+                <p>Create a reaction to an <a href="/v3/issues/">issue</a>. A response with a <code>Status: 200 OK</code> means that you already added the reaction type to this issue.</p>
+
                 <pre><code>POST /repos/:owner/:repo/issues/:number/reactions
 </code></pre>
 
@@ -589,10 +666,13 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                             <td><code>content</code></td>
                             <td><code>string</code></td>
                             <td>
-                                <strong>Required</strong>. The reaction type</td>
+                                <strong>Required</strong>. The <a href="/v3/reactions/#reaction-types">reaction type</a> to add to the issue.</td>
                         </tr>
                     </tbody>
                 </table>
+
+                <h3>
+                    <a id="example-1" class="anchor" href="#example-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 
                 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"heart"</span><span class="w">
@@ -602,12 +682,6 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
                 <h3>
                     <a id="response-3" class="anchor" href="#response-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
-
-                <div class="alert tip">
-
-                    <p>If you have already created a reaction of type <code>content</code>, the previously created reaction will be returned with <code>Status: 200 OK</code>.</p>
-
-                </div>
 
                 <pre class="highlight highlight-headers"><code>Status: 201 Created
 </code></pre>
@@ -645,6 +719,24 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                         class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
                 </h2>
 
+                <div class="alert note">
+
+                    <p><strong>Note:</strong> APIs for managing reactions are currently available for developers to preview. See the <a href="/changes/2016-05-12-reactions-api-preview">blog post</a> for full details. To access the API during the preview
+                        period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+                    <pre><code>  application/vnd.github.squirrel-girl-preview+json
+</code></pre>
+
+                </div>
+
+                <div class="alert warning">
+
+                    <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
+
+                </div>
+
+                <p>List the reactions to an <a href="/v3/issues/comments/">issue comment</a>.</p>
+
                 <pre><code>GET /repos/:owner/:repo/issues/comments/:id/reactions
 </code></pre>
 
@@ -663,7 +755,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                         <tr>
                             <td><code>content</code></td>
                             <td><code>string</code></td>
-                            <td>Indicates which type of reaction to return.</td>
+                            <td>Returns a single <a href="/v3/reactions/#reaction-types">reaction type</a>. Omit this parameter to list all reactions to an issue comment.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -709,6 +801,24 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                 <h2>
                     <a id="create-reaction-for-an-issue-comment" class="anchor" href="#create-reaction-for-an-issue-comment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create reaction for an issue comment</h2>
 
+                <div class="alert note">
+
+                    <p><strong>Note:</strong> APIs for managing reactions are currently available for developers to preview. See the <a href="/changes/2016-05-12-reactions-api-preview">blog post</a> for full details. To access the API during the preview
+                        period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+                    <pre><code>  application/vnd.github.squirrel-girl-preview+json
+</code></pre>
+
+                </div>
+
+                <div class="alert warning">
+
+                    <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
+
+                </div>
+
+                <p>Create a reaction to an <a href="/v3/issues/comments/">issue comment</a>. A response with a <code>Status: 200 OK</code> means that you already added the reaction type to this issue comment.</p>
+
                 <pre><code>POST /repos/:owner/:repo/issues/comments/:id/reactions
 </code></pre>
 
@@ -728,10 +838,13 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                             <td><code>content</code></td>
                             <td><code>string</code></td>
                             <td>
-                                <strong>Required</strong>. The reaction type</td>
+                                <strong>Required</strong>. The <a href="/v3/reactions/#reaction-types">reaction type</a> to add to the issue comment.</td>
                         </tr>
                     </tbody>
                 </table>
+
+                <h3>
+                    <a id="example-2" class="anchor" href="#example-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 
                 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"heart"</span><span class="w">
@@ -741,12 +854,6 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
                 <h3>
                     <a id="response-5" class="anchor" href="#response-5" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
-
-                <div class="alert tip">
-
-                    <p>If you have already created a reaction of type <code>content</code>, the previously created reaction will be returned with <code>Status: 200 OK</code>.</p>
-
-                </div>
 
                 <pre class="highlight highlight-headers"><code>Status: 201 Created
 </code></pre>
@@ -784,6 +891,24 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                     a pull request review comment<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
                 </h2>
 
+                <div class="alert note">
+
+                    <p><strong>Note:</strong> APIs for managing reactions are currently available for developers to preview. See the <a href="/changes/2016-05-12-reactions-api-preview">blog post</a> for full details. To access the API during the preview
+                        period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+                    <pre><code>  application/vnd.github.squirrel-girl-preview+json
+</code></pre>
+
+                </div>
+
+                <div class="alert warning">
+
+                    <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
+
+                </div>
+
+                <p>List the reactions to a <a href="/v3/pulls/comments/">pull request review comment</a>.</p>
+
                 <pre><code>GET /repos/:owner/:repo/pulls/comments/:id/reactions
 </code></pre>
 
@@ -802,7 +927,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                         <tr>
                             <td><code>content</code></td>
                             <td><code>string</code></td>
-                            <td>Indicates which type of reaction to return.</td>
+                            <td>Returns a single <a href="/v3/reactions/#reaction-types">reaction type</a>. Omit this parameter to list all reactions to a pull request review comment.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -849,6 +974,24 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                     <a id="create-reaction-for-a-pull-request-review-comment" class="anchor" href="#create-reaction-for-a-pull-request-review-comment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create reaction
                     for a pull request review comment</h2>
 
+                <div class="alert note">
+
+                    <p><strong>Note:</strong> APIs for managing reactions are currently available for developers to preview. See the <a href="/changes/2016-05-12-reactions-api-preview">blog post</a> for full details. To access the API during the preview
+                        period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+                    <pre><code>  application/vnd.github.squirrel-girl-preview+json
+</code></pre>
+
+                </div>
+
+                <div class="alert warning">
+
+                    <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
+
+                </div>
+
+                <p>Create a reaction to a <a href="/v3/pulls/comments/">pull request review comment</a>. A response with a <code>Status: 200 OK</code> means that you already added the reaction type to this pull request review comment.</p>
+
                 <pre><code>POST /repos/:owner/:repo/pulls/comments/:id/reactions
 </code></pre>
 
@@ -868,10 +1011,13 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                             <td><code>content</code></td>
                             <td><code>string</code></td>
                             <td>
-                                <strong>Required</strong>. The reaction type</td>
+                                <strong>Required</strong>. The <a href="/v3/reactions/#reaction-types">reaction type</a> to add to the pull request review comment.</td>
                         </tr>
                     </tbody>
                 </table>
+
+                <h3>
+                    <a id="example-3" class="anchor" href="#example-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 
                 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"heart"</span><span class="w">
@@ -882,11 +1028,391 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                 <h3>
                     <a id="response-7" class="anchor" href="#response-7" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
-                <div class="alert tip">
+                <pre class="highlight highlight-headers"><code>Status: 201 Created
+</code></pre>
 
-                    <p>If you have already created a reaction of type <code>content</code>, the previously created reaction will be returned with <code>Status: 200 OK</code>.</p>
+
+                <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"avatar_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/images/error/octocat_happy.gif"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gravatar_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"followers_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/followers"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"following_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/following{/other_user}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gists_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/gists{/gist_id}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"starred_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/starred{/owner}{/repo}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"subscriptions_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/subscriptions"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"organizations_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/orgs"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"repos_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/repos"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/events{/privacy}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"received_events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/received_events"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"site_admin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"heart"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-05-20T20:09:31Z"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+
+                <h2>
+                    <a id="list-reactions-for-a-team-discussion" class="anchor" href="#list-reactions-for-a-team-discussion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List reactions for a team discussion<a href="/apps/"
+                        class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+                </h2>
+
+                <div class="alert note">
+
+                    <p><strong>Note:</strong> The team discussions API is currently available for developers to preview. See the <a href="/changes/2018-02-07-team-discussions-api">blog post</a> for full details. To access the API during the preview period,
+                        you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+                    <pre><code>application/vnd.github.echo-preview+json
+</code></pre>
 
                 </div>
+
+                <div class="alert note">
+
+                    <p><strong>Note:</strong> APIs for managing reactions are currently available for developers to preview. See the <a href="/changes/2016-05-12-reactions-api-preview">blog post</a> for full details. To access the API during the preview
+                        period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+                    <pre><code>  application/vnd.github.squirrel-girl-preview+json
+</code></pre>
+
+                </div>
+
+                <div class="alert warning">
+
+                    <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
+
+                </div>
+
+                <p>List the reactions to a <a href="/v3/teams/discussions/">team discussion</a>. OAuth access tokens require the <code>read:discussion</code> <a href="/apps/building-oauth-apps/scopes-for-oauth-apps/">scope</a>.</p>
+
+                <pre><code>GET /teams/:team_id/discussions/:discussion_number/reactions
+</code></pre>
+
+                <h3>
+                    <a id="parameters-8" class="anchor" href="#parameters-8" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>content</code></td>
+                            <td><code>string</code></td>
+                            <td>Returns a single <a href="/v3/reactions/#reaction-types">reaction type</a>. Omit this parameter to list all reactions to a team discussion.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>
+                    <a id="response-8" class="anchor" href="#response-8" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+
+                <pre class="highlight highlight-headers"><code>Status: 200 OK
+Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
+      &lt;https://api.github.com/resource?page=5&gt;; rel="last"
+</code></pre>
+
+
+                <pre class="highlight highlight-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"avatar_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/images/error/octocat_happy.gif"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"gravatar_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"followers_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/followers"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"following_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/following{/other_user}"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"gists_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/gists{/gist_id}"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"starred_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/starred{/owner}{/repo}"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"subscriptions_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/subscriptions"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"organizations_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/orgs"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"repos_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/repos"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/events{/privacy}"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"received_events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/received_events"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"site_admin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"heart"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-05-20T20:09:31Z"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+
+                <h2>
+                    <a id="create-reaction-for-a-team-discussion" class="anchor" href="#create-reaction-for-a-team-discussion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create reaction for a team discussion</h2>
+
+                <div class="alert note">
+
+                    <p><strong>Note:</strong> The team discussions API is currently available for developers to preview. See the <a href="/changes/2018-02-07-team-discussions-api">blog post</a> for full details. To access the API during the preview period,
+                        you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+                    <pre><code>application/vnd.github.echo-preview+json
+</code></pre>
+
+                </div>
+
+                <div class="alert note">
+
+                    <p><strong>Note:</strong> APIs for managing reactions are currently available for developers to preview. See the <a href="/changes/2016-05-12-reactions-api-preview">blog post</a> for full details. To access the API during the preview
+                        period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+                    <pre><code>  application/vnd.github.squirrel-girl-preview+json
+</code></pre>
+
+                </div>
+
+                <div class="alert warning">
+
+                    <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
+
+                </div>
+
+                <p>Create a reaction to a <a href="/v3/teams/discussions/">team discussion</a>. OAuth access tokens require the <code>read:discussion</code> <a href="/apps/building-oauth-apps/scopes-for-oauth-apps/">scope</a>. A response with a <code>Status: 200 OK</code>                    means that you already added the reaction type to this team discussion.</p>
+
+                <pre><code>POST /teams/:team_id/discussions/:discussion_number/reactions
+</code></pre>
+
+                <h3>
+                    <a id="parameters-9" class="anchor" href="#parameters-9" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>content</code></td>
+                            <td><code>string</code></td>
+                            <td>
+                                <strong>Required</strong>. The <a href="/v3/reactions/#reaction-types">reaction type</a> to add to the team discussion.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>
+                    <a id="example-4" class="anchor" href="#example-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+
+                <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"heart"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+
+                <h3>
+                    <a id="response-9" class="anchor" href="#response-9" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+
+                <pre class="highlight highlight-headers"><code>Status: 201 Created
+</code></pre>
+
+
+                <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"avatar_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/images/error/octocat_happy.gif"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gravatar_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"followers_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/followers"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"following_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/following{/other_user}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gists_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/gists{/gist_id}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"starred_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/starred{/owner}{/repo}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"subscriptions_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/subscriptions"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"organizations_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/orgs"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"repos_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/repos"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/events{/privacy}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"received_events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/received_events"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"site_admin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"heart"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-05-20T20:09:31Z"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+
+                <h2>
+                    <a id="list-reactions-for-a-team-discussion-comment" class="anchor" href="#list-reactions-for-a-team-discussion-comment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List reactions for a team
+                    discussion comment<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+                </h2>
+
+                <div class="alert note">
+
+                    <p><strong>Note:</strong> The team discussions API is currently available for developers to preview. See the <a href="/changes/2018-02-07-team-discussions-api">blog post</a> for full details. To access the API during the preview period,
+                        you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+                    <pre><code>application/vnd.github.echo-preview+json
+</code></pre>
+
+                </div>
+
+                <div class="alert note">
+
+                    <p><strong>Note:</strong> APIs for managing reactions are currently available for developers to preview. See the <a href="/changes/2016-05-12-reactions-api-preview">blog post</a> for full details. To access the API during the preview
+                        period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+                    <pre><code>  application/vnd.github.squirrel-girl-preview+json
+</code></pre>
+
+                </div>
+
+                <div class="alert warning">
+
+                    <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
+
+                </div>
+
+                <p>List the reactions to a <a href="/v3/teams/discussion_comments/">team discussion comment</a>. OAuth access tokens require the <code>read:discussion</code> <a href="/apps/building-oauth-apps/scopes-for-oauth-apps/">scope</a>.</p>
+
+                <pre><code>GET /teams/:team_id/discussions/:discussion_number/comments/:comment_number/reactions
+</code></pre>
+
+                <h3>
+                    <a id="parameters-10" class="anchor" href="#parameters-10" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>content</code></td>
+                            <td><code>string</code></td>
+                            <td>Returns a single <a href="/v3/reactions/#reaction-types">reaction type</a>. Omit this parameter to list all reactions to a team discussion comment.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>
+                    <a id="response-10" class="anchor" href="#response-10" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+
+                <pre class="highlight highlight-headers"><code>Status: 200 OK
+Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
+      &lt;https://api.github.com/resource?page=5&gt;; rel="last"
+</code></pre>
+
+
+                <pre class="highlight highlight-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"avatar_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/images/error/octocat_happy.gif"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"gravatar_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"followers_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/followers"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"following_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/following{/other_user}"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"gists_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/gists{/gist_id}"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"starred_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/starred{/owner}{/repo}"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"subscriptions_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/subscriptions"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"organizations_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/orgs"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"repos_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/repos"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/events{/privacy}"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"received_events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/received_events"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"site_admin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"heart"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-05-20T20:09:31Z"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+
+                <h2>
+                    <a id="create-reaction-for-a-team-discussion-comment" class="anchor" href="#create-reaction-for-a-team-discussion-comment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create reaction for a team
+                    discussion comment</h2>
+
+                <div class="alert note">
+
+                    <p><strong>Note:</strong> The team discussions API is currently available for developers to preview. See the <a href="/changes/2018-02-07-team-discussions-api">blog post</a> for full details. To access the API during the preview period,
+                        you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+                    <pre><code>application/vnd.github.echo-preview+json
+</code></pre>
+
+                </div>
+
+                <div class="alert note">
+
+                    <p><strong>Note:</strong> APIs for managing reactions are currently available for developers to preview. See the <a href="/changes/2016-05-12-reactions-api-preview">blog post</a> for full details. To access the API during the preview
+                        period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+                    <pre><code>  application/vnd.github.squirrel-girl-preview+json
+</code></pre>
+
+                </div>
+
+                <div class="alert warning">
+
+                    <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
+
+                </div>
+
+                <p>Create a reaction to a <a href="/v3/teams/discussion_comments/">team discussion comment</a>. OAuth access tokens require the <code>read:discussion</code> <a href="/apps/building-oauth-apps/scopes-for-oauth-apps/">scope</a>. A response
+                    with a <code>Status: 200 OK</code> means that you already added the reaction type to this team discussion comment.</p>
+
+                <pre><code>POST /teams/:team_id/discussions/:discussion_number/comments/:comment_number/reactions
+</code></pre>
+
+                <h3>
+                    <a id="parameters-11" class="anchor" href="#parameters-11" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>content</code></td>
+                            <td><code>string</code></td>
+                            <td>
+                                <strong>Required</strong>. The <a href="/v3/reactions/#reaction-types">reaction type</a> to add to the team discussion comment.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>
+                    <a id="example-5" class="anchor" href="#example-5" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+
+                <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"heart"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+
+                <h3>
+                    <a id="response-11" class="anchor" href="#response-11" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
                 <pre class="highlight highlight-headers"><code>Status: 201 Created
 </code></pre>
@@ -922,11 +1448,39 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                 <h2>
                     <a id="delete-a-reaction" class="anchor" href="#delete-a-reaction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Delete a reaction</h2>
 
+                <div class="alert note">
+
+                    <p><strong>Note:</strong> The team discussions API is currently available for developers to preview. See the <a href="/changes/2018-02-07-team-discussions-api">blog post</a> for full details. To access the API during the preview period,
+                        you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+                    <pre><code>application/vnd.github.echo-preview+json
+</code></pre>
+
+                </div>
+
+                <div class="alert note">
+
+                    <p><strong>Note:</strong> APIs for managing reactions are currently available for developers to preview. See the <a href="/changes/2016-05-12-reactions-api-preview">blog post</a> for full details. To access the API during the preview
+                        period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+                    <pre><code>  application/vnd.github.squirrel-girl-preview+json
+</code></pre>
+
+                </div>
+
+                <div class="alert warning">
+
+                    <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
+
+                </div>
+
+                <p>OAuth access tokens require the <code>read:discussion</code> <a href="/apps/building-oauth-apps/scopes-for-oauth-apps/">scope</a>, when deleting a <a href="/v3/teams/discussions/">team discussion</a> or <a href="/v3/teams/discussion_comments/">team discussion comment</a>.</p>
+
                 <pre><code>DELETE /reactions/:id
 </code></pre>
 
                 <h3>
-                    <a id="response-8" class="anchor" href="#response-8" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+                    <a id="response-12" class="anchor" href="#response-12" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
                 <pre class="highlight highlight-headers"><code>Status: 204 No Content
 </code></pre>
@@ -1045,6 +1599,10 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
     <option value="/v3/reactions/#list-reactions-for-an-issue">Issue</option>
     <option value="/v3/reactions/#list-reactions-for-an-issue-comment">Issue Comment</option>
     <option value="/v3/reactions/#list-reactions-for-a-pull-request-review-comment">Pull Request Review Comment</option>
+    
+    <option value="/v3/reactions/#list-reactions-for-a-team-discussion">Team Discussion</option>
+    <option value="/v3/reactions/#list-reactions-for-a-team-discussion-comment">Team Discussion Comment</option>
+    
   </optgroup>
 
   <optgroup label="Repositories">
@@ -1255,6 +1813,10 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
                                 <li><a href="/v3/reactions/#list-reactions-for-an-issue">Issue</a></li>
                                 <li><a href="/v3/reactions/#list-reactions-for-an-issue-comment">Issue Comment</a></li>
                                 <li><a href="/v3/reactions/#list-reactions-for-a-pull-request-review-comment">Pull Request Review Comment</a></li>
+
+                                <li><a href="/v3/reactions/#list-reactions-for-a-team-discussion">Team Discussion</a></li>
+                                <li><a href="/v3/reactions/#list-reactions-for-a-team-discussion-comment">Team Discussion Comment</a></li>
+
                             </ul>
                         </li>
                         <li class="js-topic">
