@@ -1,0 +1,58 @@
+{
+  "name": "Create a deployment status",
+  "enabledForApps": true,
+  "method": "POST",
+  "path": "/repos/:owner/:repo/deployments/:id/statuses",
+  "params": [
+    {
+      "name": "state",
+      "type": "enum",
+      "options": [
+        "error",
+        "failure",
+        "inactive",
+        "pending",
+        "success"
+      ],
+      "description": "The state of the status. Can be one of `error`, `failure`, `inactive`, `pending`, or `success`. **The `inactive` state requires a custom media type to be specified. Please see more in the alert below.**",
+      "required": true
+    },
+    {
+      "name": "target_url",
+      "type": "string",
+      "description": "The target URL to associate with this status. This URL should contain output to keep the user updated while the task is running or serve as historical information for what happened in the deployment.",
+      "default": "\"\"",
+      "required": false
+    },
+    {
+      "name": "log_url",
+      "type": "string",
+      "description": "This is functionally equivalent to `target_url`. We will continue accept `target_url` to support legacy uses, but we recommend modifying this to the new name to avoid confusion. **This parameter requires a custom media type to be specified. Please see more in the alert below.**",
+      "default": "\"\"",
+      "required": false
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "description": "A short description of the status. Maximum length of 140 characters.",
+      "default": "\"\"",
+      "required": false
+    },
+    {
+      "name": "environment_url",
+      "type": "string",
+      "description": "Sets the URL for accessing your environment. **This parameter requires a custom media type to be specified. Please see more in the alert below.**",
+      "default": "\"\"",
+      "required": false
+    },
+    {
+      "name": "auto_inactive",
+      "type": "boolean",
+      "description": "Adds a new `inactive` status to all non-transient, non-production environment deployments with the same repository and environment name as the created status's deployment. **This parameter requires a custom media type to be specified. Please see more in the alert below.**",
+      "default": true,
+      "required": false
+    }
+  ],
+  "description": "Users with push access can create deployment statuses for a given deployment:",
+  "documentationUrl": "https://developer.github.com/v3/repos/deployments/#create-a-deployment-status"
+}

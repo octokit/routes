@@ -1,0 +1,579 @@
+[
+  {
+    "name": "List comments on a pull request",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/pulls/:number/comments",
+    "params": [
+      {
+        "name": "sort",
+        "type": "string",
+        "description": "Can be either `created` or `updated` comments.",
+        "default": "created",
+        "required": false
+      },
+      {
+        "name": "direction",
+        "type": "string",
+        "description": "Can be either `asc` or `desc`. Ignored without `sort` parameter.",
+        "required": false
+      },
+      {
+        "name": "since",
+        "type": "string",
+        "description": "This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. Only returns comments `updated` at or after this time.",
+        "required": false
+      }
+    ],
+    "description": "By default, review comments are ordered by ascending ID.",
+    "documentationUrl": "https://developer.github.com/v3/pulls/comments/#list-comments-on-a-pull-request"
+  },
+  {
+    "name": "List comments in a repository",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/pulls/comments",
+    "params": [
+      {
+        "name": "sort",
+        "type": "string",
+        "description": "Can be either `created` or `updated` comments.",
+        "default": "created",
+        "required": false
+      },
+      {
+        "name": "direction",
+        "type": "string",
+        "description": "Can be either `asc` or `desc`. Ignored without `sort` parameter.",
+        "required": false
+      },
+      {
+        "name": "since",
+        "type": "string",
+        "description": "This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. Only returns comments `updated` at or after this time.",
+        "required": false
+      }
+    ],
+    "description": "By default, review comments are ordered by ascending ID.",
+    "documentationUrl": "https://developer.github.com/v3/pulls/comments/#list-comments-in-a-repository"
+  },
+  {
+    "name": "Get a single comment",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/pulls/comments/:id",
+    "params": [],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/pulls/comments/#get-a-single-comment"
+  },
+  {
+    "name": "Create a comment",
+    "enabledForApps": true,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/pulls/:number/comments",
+    "params": [
+      {
+        "name": "body",
+        "type": "string",
+        "description": "The text of the comment.",
+        "required": true
+      },
+      {
+        "name": "commit_id",
+        "type": "string",
+        "description": "The SHA of the commit needing a comment. Not using the latest commit SHA may render your comment outdated if a subsequent commit modifies the line you specify as the `position`.",
+        "required": true
+      },
+      {
+        "name": "path",
+        "type": "string",
+        "description": "The relative path to the file that necessitates a comment.",
+        "required": true
+      },
+      {
+        "name": "position",
+        "type": "integer",
+        "description": "The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. For help finding the position value, read the note below.",
+        "required": true
+      }
+    ],
+    "description": "**Note:** To comment on a specific line in a file, you need to first determine the _position_ of that line in the diff. The GitHub REST API v3 offers the `application/vnd.github.v3.diff` [media type](/v3/media/#commits-commit-comparison-and-pull-requests). To see a pull request diff, add this media type to the `Accept` header of a call to the [single pull request](/v3/pulls/#get-a-single-pull-request) endpoint.\n\nThe `position` value equals the number of lines down from the first \"@@\" hunk header in the file you want to add a comment. The line just below the \"@@\" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.",
+    "documentationUrl": "https://developer.github.com/v3/pulls/comments/#create-a-comment"
+  },
+  {
+    "name": "Create a comment (alternative)",
+    "enabledForApps": true,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/pulls/:number/comments",
+    "params": [
+      {
+        "name": "body",
+        "type": "string",
+        "description": "The text of the comment.",
+        "required": true
+      },
+      {
+        "name": "commit_id",
+        "type": "string",
+        "description": "The SHA of the commit needing a comment. Not using the latest commit SHA may render your comment outdated if a subsequent commit modifies the line you specify as the `position`.",
+        "required": true
+      },
+      {
+        "name": "path",
+        "type": "string",
+        "description": "The relative path to the file that necessitates a comment.",
+        "required": true
+      },
+      {
+        "name": "position",
+        "type": "integer",
+        "description": "The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. For help finding the position value, read the note below.",
+        "required": true
+      }
+    ],
+    "description": "**Note:** To comment on a specific line in a file, you need to first determine the _position_ of that line in the diff. The GitHub REST API v3 offers the `application/vnd.github.v3.diff` [media type](/v3/media/#commits-commit-comparison-and-pull-requests). To see a pull request diff, add this media type to the `Accept` header of a call to the [single pull request](/v3/pulls/#get-a-single-pull-request) endpoint.\n\nThe `position` value equals the number of lines down from the first \"@@\" hunk header in the file you want to add a comment. The line just below the \"@@\" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.",
+    "documentationUrl": "https://developer.github.com/v3/pulls/comments/#create-a-comment"
+  },
+  {
+    "name": "Edit a comment",
+    "enabledForApps": true,
+    "method": "PATCH",
+    "path": "/repos/:owner/:repo/pulls/comments/:id",
+    "params": [
+      {
+        "name": "body",
+        "type": "string",
+        "description": "The text of the comment.",
+        "required": true
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/pulls/comments/#edit-a-comment"
+  },
+  {
+    "name": "Delete a comment",
+    "enabledForApps": true,
+    "method": "DELETE",
+    "path": "/repos/:owner/:repo/pulls/comments/:id",
+    "params": [],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/pulls/comments/#delete-a-comment"
+  },
+  {
+    "name": "List pull requests",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/pulls",
+    "params": [
+      {
+        "name": "state",
+        "type": "enum",
+        "options": [
+          "open",
+          "closed",
+          "all"
+        ],
+        "description": "Either `open`, `closed`, or `all` to filter by state.",
+        "default": "open",
+        "required": false
+      },
+      {
+        "name": "head",
+        "type": "string",
+        "description": "Filter pulls by head user and branch name in the format of `user:ref-name`. Example: `github:new-script-format`.",
+        "required": false
+      },
+      {
+        "name": "base",
+        "type": "string",
+        "description": "Filter pulls by base branch name. Example: `gh-pages`.",
+        "required": false
+      },
+      {
+        "name": "sort",
+        "type": "string",
+        "description": "What to sort results by. Can be either `created`, `updated`, `popularity` (comment count) or `long-running` (age, filtering by pulls updated in the last month).",
+        "default": "created",
+        "required": false
+      },
+      {
+        "name": "direction",
+        "type": "string",
+        "description": "The direction of the sort. Can be either `asc` or `desc`.",
+        "default": "`desc` when sort is `created` or sort is not specified, otherwise `asc`",
+        "required": false
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/pulls/#list-pull-requests"
+  },
+  {
+    "name": "Get a single pull request",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/pulls/:number",
+    "params": [],
+    "description": "Each time the pull request receives new commits, GitHub creates a merge commit to _test_ whether the pull request can be automatically merged into the base branch. (This _test_ commit is not added to the base branch or the head branch.)\n\nThe value of the `merge_commit_sha` attribute changes depending on the state of the pull request. Before a pull request is merged, the `merge_commit_sha` attribute holds the SHA of the _test_ merge commit. After a pull request is merged, the attribute changes depending on how the pull request was merged:\n\n*   If the pull request was merged as a merge commit, the attribute represents the SHA of the merge commit.\n*   If the pull request was merged via a squash, the attribute represents the SHA of the squashed commit on the base branch.\n*   If the pull request was rebased, the attribute represents the commit that the base branch was updated to.\n\nThe value of the `mergeable` attribute can be `true`, `false`, or `null`. If the value is `null`, this means that the mergeability hasn't been computed yet, and a background job was started to compute it. Give the job a few moments to complete, and then submit the request again. When the job is complete, the response will include a non-`null` value for the `mergeable` attribute.\n\nPass the appropriate [media type](/v3/media/#commits-commit-comparison-and-pull-requests) to fetch diff and patch formats.",
+    "documentationUrl": "https://developer.github.com/v3/pulls/#get-a-single-pull-request"
+  },
+  {
+    "name": "Create a pull request",
+    "enabledForApps": true,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/pulls",
+    "params": [
+      {
+        "name": "title",
+        "type": "string",
+        "description": "The title of the pull request.",
+        "required": true
+      },
+      {
+        "name": "head",
+        "type": "string",
+        "description": "The name of the branch where your changes are implemented. For cross-repository pull requests in the same network, namespace `head` with a user like this: `username:branch`.",
+        "required": true
+      },
+      {
+        "name": "base",
+        "type": "string",
+        "description": "The name of the branch you want the changes pulled into. This should be an existing branch on the current repository. You cannot submit a pull request to one repository that requests a merge to a base of another repository.",
+        "required": true
+      },
+      {
+        "name": "body",
+        "type": "string",
+        "description": "The contents of the pull request.",
+        "required": false
+      },
+      {
+        "name": "maintainer_can_modify",
+        "type": "boolean",
+        "description": "Indicates whether [maintainers can modify](https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/) the pull request.",
+        "required": false
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/pulls/#create-a-pull-request"
+  },
+  {
+    "name": "Create a pull request (alternative)",
+    "enabledForApps": true,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/pulls",
+    "params": [
+      {
+        "name": "title",
+        "type": "string",
+        "description": "The title of the pull request.",
+        "required": true
+      },
+      {
+        "name": "head",
+        "type": "string",
+        "description": "The name of the branch where your changes are implemented. For cross-repository pull requests in the same network, namespace `head` with a user like this: `username:branch`.",
+        "required": true
+      },
+      {
+        "name": "base",
+        "type": "string",
+        "description": "The name of the branch you want the changes pulled into. This should be an existing branch on the current repository. You cannot submit a pull request to one repository that requests a merge to a base of another repository.",
+        "required": true
+      },
+      {
+        "name": "body",
+        "type": "string",
+        "description": "The contents of the pull request.",
+        "required": false
+      },
+      {
+        "name": "maintainer_can_modify",
+        "type": "boolean",
+        "description": "Indicates whether [maintainers can modify](https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/) the pull request.",
+        "required": false
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/pulls/#create-a-pull-request"
+  },
+  {
+    "name": "Update a pull request",
+    "enabledForApps": true,
+    "method": "PATCH",
+    "path": "/repos/:owner/:repo/pulls/:number",
+    "params": [
+      {
+        "name": "title",
+        "type": "string",
+        "description": "The title of the pull request.",
+        "required": false
+      },
+      {
+        "name": "body",
+        "type": "string",
+        "description": "The contents of the pull request.",
+        "required": false
+      },
+      {
+        "name": "state",
+        "type": "string",
+        "description": "State of this Pull Request. Either `open` or `closed`.",
+        "required": false
+      },
+      {
+        "name": "base",
+        "type": "string",
+        "description": "The name of the branch you want your changes pulled into. This should be an existing branch on the current repository. You cannot update the base branch on a pull request to point to another repository.",
+        "required": false
+      },
+      {
+        "name": "maintainer_can_modify",
+        "type": "boolean",
+        "description": "Indicates whether [maintainers can modify](https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/) the pull request.",
+        "required": false
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/pulls/#update-a-pull-request"
+  },
+  {
+    "name": "List commits on a pull request",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/pulls/:number/commits",
+    "params": [],
+    "description": "**Note:** The response includes a maximum of 250 commits. To receive a complete commit list for pull requests with more than 250 commits, use the [Commit List API](/v3/repos/commits/#list-commits-on-a-repository).",
+    "documentationUrl": "https://developer.github.com/v3/pulls/#list-commits-on-a-pull-request"
+  },
+  {
+    "name": "List pull requests files",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/pulls/:number/files",
+    "params": [],
+    "description": "**Note:** The response includes a maximum of 300 files.",
+    "documentationUrl": "https://developer.github.com/v3/pulls/#list-pull-requests-files"
+  },
+  {
+    "name": "Get if a pull request has been merged",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/pulls/:number/merge",
+    "params": [],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/pulls/#get-if-a-pull-request-has-been-merged"
+  },
+  {
+    "name": "Merge a pull request (Merge Button)",
+    "enabledForApps": false,
+    "method": "PUT",
+    "path": "/repos/:owner/:repo/pulls/:number/merge",
+    "params": [
+      {
+        "name": "commit_title",
+        "type": "string",
+        "description": "Title for the automatic commit message.",
+        "required": false
+      },
+      {
+        "name": "commit_message",
+        "type": "string",
+        "description": "Extra detail to append to automatic commit message.",
+        "required": false
+      },
+      {
+        "name": "sha",
+        "type": "string",
+        "description": "SHA that pull request head must match to allow merge.",
+        "required": false
+      },
+      {
+        "name": "merge_method",
+        "type": "string",
+        "description": "Merge method to use. Possible values are `merge`, `squash` or `rebase`. Default is `merge`.",
+        "required": false
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/pulls/#merge-a-pull-request-merge-button"
+  },
+  {
+    "name": "List review requests",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/pulls/:number/requested_reviewers",
+    "params": [],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/pulls/review_requests/#list-review-requests"
+  },
+  {
+    "name": "Create a review request",
+    "enabledForApps": false,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/pulls/:number/requested_reviewers",
+    "params": [
+      {
+        "name": "reviewers",
+        "type": "array of strings",
+        "description": "An array of user `login`s that will be requested.",
+        "required": false
+      },
+      {
+        "name": "team_reviewers",
+        "type": "array of strings",
+        "description": "An array of team `slug`s that will be requested.",
+        "required": false
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/pulls/review_requests/#create-a-review-request"
+  },
+  {
+    "name": "Delete a review request",
+    "enabledForApps": false,
+    "method": "DELETE",
+    "path": "/repos/:owner/:repo/pulls/:number/requested_reviewers",
+    "params": [
+      {
+        "name": "reviewers",
+        "type": "array of strings",
+        "description": "An array of user `login`s that will be removed.",
+        "required": false
+      },
+      {
+        "name": "team_reviewers",
+        "type": "array of strings",
+        "description": "An array of team `slug`s that will be removed.",
+        "required": false
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/pulls/review_requests/#delete-a-review-request"
+  },
+  {
+    "name": "List reviews on a pull request",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/pulls/:number/reviews",
+    "params": [],
+    "description": "The list of reviews returns in chronological order.",
+    "documentationUrl": "https://developer.github.com/v3/pulls/reviews/#list-reviews-on-a-pull-request"
+  },
+  {
+    "name": "Get a single review",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/pulls/:number/reviews/:id",
+    "params": [],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/pulls/reviews/#get-a-single-review"
+  },
+  {
+    "name": "Delete a pending review",
+    "enabledForApps": false,
+    "method": "DELETE",
+    "path": "/repos/:owner/:repo/pulls/:number/reviews/:id",
+    "params": [],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/pulls/reviews/#delete-a-pending-review"
+  },
+  {
+    "name": "Get comments for a single review",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/pulls/:number/reviews/:id/comments",
+    "params": [],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/pulls/reviews/#get-comments-for-a-single-review"
+  },
+  {
+    "name": "Create a pull request review",
+    "enabledForApps": true,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/pulls/:number/reviews",
+    "params": [
+      {
+        "name": "commit_id",
+        "type": "string",
+        "description": "The SHA of the commit that needs a review. Not using the latest commit SHA may render your review comment outdated if a subsequent commit modifies the line you specify as the `position`. Defaults to the most recent commit in the pull request when you do not specify a value.",
+        "required": false
+      },
+      {
+        "name": "body",
+        "type": "string",
+        "description": "**Required** when using `REQUEST_CHANGES` or `COMMENT` for the `event` parameter. The body text of the pull request review.",
+        "required": false
+      },
+      {
+        "name": "event",
+        "type": "string",
+        "description": "The review action you want to perform. The review actions include: `APPROVE`, `REQUEST_CHANGES`, or `COMMENT`. By leaving this blank, you set the review action state to `PENDING`, which means you will need to [submit the pull request review](/v3/pulls/reviews/#submit-a-pull-request-review) when you are ready.",
+        "required": false
+      },
+      {
+        "name": "comments",
+        "type": "array of draft review comment objects",
+        "description": "Use the following table to specify the location, destination, and contents of the draft review comment.",
+        "required": false
+      },
+      {
+        "name": "comments.path",
+        "type": "string",
+        "description": "**Required.** The relative path to the file that necessitates a review comment.",
+        "required": false
+      },
+      {
+        "name": "comments.position",
+        "type": "integer",
+        "description": "**Required.** The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. For help finding the position value, read the note below.",
+        "required": false
+      },
+      {
+        "name": "comments.body",
+        "type": "string",
+        "description": "**Required.** Text of the review comment.",
+        "required": false
+      }
+    ],
+    "description": "**Note:** To comment on a specific line in a file, you need to first determine the _position_ of that line in the diff. The GitHub REST API v3 offers the `application/vnd.github.v3.diff` [media type](/v3/media/#commits-commit-comparison-and-pull-requests). To see a pull request diff, add this media type to the `Accept` header of a call to the [single pull request](/v3/pulls/#get-a-single-pull-request) endpoint.\n\nThe `position` value equals the number of lines down from the first \"@@\" hunk header in the file you want to add a comment. The line just below the \"@@\" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.",
+    "documentationUrl": "https://developer.github.com/v3/pulls/reviews/#create-a-pull-request-review"
+  },
+  {
+    "name": "Submit a pull request review",
+    "enabledForApps": false,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/pulls/:number/reviews/:id/events",
+    "params": [
+      {
+        "name": "body",
+        "type": "string",
+        "description": "The body text of the pull request review",
+        "required": false
+      },
+      {
+        "name": "event",
+        "type": "string",
+        "description": "**Required.** The review action you want to perform. The review actions include: `APPROVE`, `REQUEST_CHANGES`, or `COMMENT`. When you leave this blank, the API returns _HTTP 422 (Unrecognizable entity)_ and sets the review action state to `PENDING`, which means you will need to re-submit the pull request review using a review action.",
+        "required": false
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/pulls/reviews/#submit-a-pull-request-review"
+  },
+  {
+    "name": "Dismiss a pull request review",
+    "enabledForApps": false,
+    "method": "PUT",
+    "path": "/repos/:owner/:repo/pulls/:number/reviews/:id/dismissals",
+    "params": [
+      {
+        "name": "message",
+        "type": "string",
+        "description": "**Required.** The message for the pull request review dismissal",
+        "required": false
+      }
+    ],
+    "description": "**Note:** To dismiss a pull request review on a [protected branch](/v3/repos/branches/), you must be a repository administrator or be included in the list of people or teams who can dismiss pull request reviews.",
+    "documentationUrl": "https://developer.github.com/v3/pulls/reviews/#dismiss-a-pull-request-review"
+  }
+]
