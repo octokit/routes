@@ -25,9 +25,16 @@ jobs:
     - stage: release
       script: semantic-release --debug
       env: 'semantic-release'
+    - stage: cron
+      script: bin/octokit-rest-routes.js update
+      env: 'cron job'
 
 stages:
-  - lint
-  - test
+  - name: lint
+    if: NOT type IN (cron)
+  - name: test
+    if: NOT type IN (cron)
   - name: release
     if: branch = master AND type IN (push)
+  - name: cron
+    if: type IN (cron)
