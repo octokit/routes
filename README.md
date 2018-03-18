@@ -17,6 +17,14 @@ returns an object with keys being the route scopes such as `activity`, `issues`,
 
 The value for each scope is an array of REST API endpoint specification.
 
+If you don’t need all routes definitions, you can require a scope or a specific
+route definition instead
+
+```js
+const REPO_ROUTES = require('@gr2m/octokit-rest-routes/routes/repos')
+const GET_REPO_ROUTE = require('@gr2m/octokit-rest-routes/routes/repos/get')
+```
+
 ## Example
 
 Here is an excerpt for reference
@@ -67,8 +75,6 @@ and a ton of regular expressions :)
 
 For simpler local testing and tracking of changes all loaded pages are cached
 in the [`cache/`](cache/) folder.
-
-⚠️ TBD: cron job to send pull request on changes ([#12](https://github.com/gr2m/octokit-rest-routes/issues/12))
 
 ### 1. Find documentation pages
 
