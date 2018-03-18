@@ -1,0 +1,377 @@
+[
+  {
+    "name": "Get a Reference",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/git/refs/:ref",
+    "description": "Returns a branch or tag reference. Other than the [REST API](https://developer.github.com/v3/git/refs/#get-a-reference) it always returns a single reference. If the REST API returns with an array then the method responds with an error.",
+    "params": [
+      {
+        "name": "ref",
+        "type": "string",
+        "description": "Must be formatted as `heads/branch`, not just `branch`",
+        "required": true
+      }
+    ],
+    "isOverride": true,
+    "documentationUrl": "https://developer.github.com/v3/git/refs/#get-a-reference"
+  },
+  {
+    "name": "Get all References",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/git/refs/:namespace",
+    "description": "This will return an array of all the references on the system, including things like notes and stashes if they exist on the server",
+    "params": [
+      {
+        "name": "namespace",
+        "type": "string",
+        "description": "Filter by sub-namespace (reference prefix). Most commen examples would be `'heads/'` and `'tags/'` to retrieve branches or tags",
+        "required": false
+      }
+    ],
+    "isOverride": true,
+    "documentationUrl": "https://developer.github.com/v3/git/refs/#get-all-references"
+  },
+  {
+    "name": "Create a Reference",
+    "enabledForApps": true,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/git/refs",
+    "params": [
+      {
+        "name": "ref",
+        "type": "type",
+        "description": "The name of the fully qualified reference (ie: `refs/heads/master`). If it doesn't start with 'refs' and have at least two slashes, it will be rejected.",
+        "required": true
+      },
+      {
+        "name": "sha",
+        "type": "type",
+        "description": "The SHA1 value to set this reference to",
+        "required": true
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/git/refs/#create-a-reference"
+  },
+  {
+    "name": "Update a Reference",
+    "enabledForApps": true,
+    "method": "PATCH",
+    "path": "/repos/:owner/:repo/git/refs/:ref",
+    "params": [
+      {
+        "name": "sha",
+        "type": "type",
+        "description": "The SHA1 value to set this reference to",
+        "required": true
+      },
+      {
+        "name": "force",
+        "type": "boolean",
+        "description": "Indicates whether to force the update or to make sure the update is a fast-forward update. Leaving this out or setting it to `false` will make sure you're not overwriting work.",
+        "default": false,
+        "required": false
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/git/refs/#update-a-reference"
+  },
+  {
+    "name": "Delete a Reference",
+    "enabledForApps": true,
+    "params": [],
+    "description": "Example: Deleting a branch:\n\n```\nDELETE /repos/octocat/Hello-World/git/refs/heads/feature-a\n```\n\nExample: Deleting a tag:\n\n```\nDELETE /repos/octocat/Hello-World/git/refs/tags/v1.0\n```",
+    "documentationUrl": "https://developer.github.com/v3/git/refs/#delete-a-reference"
+  },
+  {
+    "name": "Get a Tag",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/git/tags/:sha",
+    "params": [],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/git/tags/#get-a-tag"
+  },
+  {
+    "name": "Create a Tag Object",
+    "enabledForApps": true,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/git/tags",
+    "params": [
+      {
+        "name": "tag",
+        "type": "string",
+        "description": "The tag",
+        "required": false
+      },
+      {
+        "name": "message",
+        "type": "string",
+        "description": "The tag message",
+        "required": false
+      },
+      {
+        "name": "object",
+        "type": "string",
+        "description": "The SHA of the git object this is tagging",
+        "required": false
+      },
+      {
+        "name": "type",
+        "type": "string",
+        "description": "The type of the object we're tagging. Normally this is a `commit` but it can also be a `tree` or a `blob`.",
+        "required": false
+      },
+      {
+        "name": "tagger",
+        "type": "object",
+        "description": "An object with information about the individual creating the tag.",
+        "required": false
+      },
+      {
+        "name": "tagger.name",
+        "type": "string",
+        "description": "The name of the author of the tag",
+        "required": false
+      },
+      {
+        "name": "tagger.email",
+        "type": "string",
+        "description": "The email of the author of the tag",
+        "required": false
+      },
+      {
+        "name": "tagger.date",
+        "type": "string",
+        "description": "When this object was tagged. This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.",
+        "required": false
+      }
+    ],
+    "description": "Note that creating a tag object does not create the reference that makes a tag in Git. If you want to create an annotated tag in Git, you have to do this call to create the tag object, and then [create](/v3/git/refs/#create-a-reference) the `refs/tags/[tag]` reference. If you want to create a lightweight tag, you only have to [create](/v3/git/refs/#create-a-reference) the tag reference - this call would be unnecessary.",
+    "documentationUrl": "https://developer.github.com/v3/git/tags/#create-a-tag-object"
+  },
+  {
+    "name": "Tag signature verification",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/git/tags/:sha",
+    "params": [
+      {
+        "name": "verified",
+        "type": "boolean",
+        "description": "Does GitHub consider the signature in this tag to be verified?",
+        "required": false
+      },
+      {
+        "name": "reason",
+        "type": "string",
+        "description": "The reason for `verified` value. Possible values and their meanings are enumerated in the table below.",
+        "required": false
+      },
+      {
+        "name": "signature",
+        "type": "string",
+        "description": "The signature that was extracted from the tag.",
+        "required": false
+      },
+      {
+        "name": "payload",
+        "type": "string",
+        "description": "The value that was signed.",
+        "required": false
+      }
+    ],
+    "description": "**The verification object**\n\n**The reason field**\n\nThe following are possible `reason`s that may be included in the `verification` object:\n\n| Value                   | Description                                                                                                                 |\n| ----------------------- | --------------------------------------------------------------------------------------------------------------------------- |\n| `expired_key`           | The key that made the signature is expired.                                                                                 |\n| `not_signing_key`       | The \"signing\" flag is not among the usage flags in the GPG key that made the signature.                                     |\n| `gpgverify_error`       | There was an error communicating with the signature-verification service.                                                   |\n| `gpgverify_unavailable` | The signature-verification service is currently unavailable.                                                                |\n| `unsigned`              | The object does not include a signature.                                                                                    |\n| `unkown_signature_type` | A non-PGP signature was found in the tag.                                                                                   |\n| `no_user`               | No user was associated with the `tagger` email address in the tag.                                                          |\n| `unverified_email`      | The `tagger` email address in the tag was associated with a user, but the email address is not verified on her/his account. |\n| `bad_email`             | The `tagger` email address in the tag is not included in the identities of the PGP key that made the signature.             |\n| `unknown_key`           | The key that made the signature has not been registered with any user's account.                                            |\n| `malformed_signature`   | There was an error parsing the signature.                                                                                   |\n| `invalid`               | The signature could not be cryptographically verified using the key whose key-id was found in the signature.                |\n| `valid`                 | None of the above errors applied, so the signature is considered to be verified.                                            |",
+    "documentationUrl": "https://developer.github.com/v3/git/tags/#tag-signature-verification"
+  },
+  {
+    "name": "Get a Commit",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/git/commits/:sha",
+    "params": [],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/git/commits/#get-a-commit"
+  },
+  {
+    "name": "Create a Commit",
+    "enabledForApps": true,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/git/commits",
+    "params": [
+      {
+        "name": "message",
+        "type": "string",
+        "description": "The commit message",
+        "required": true
+      },
+      {
+        "name": "tree",
+        "type": "string",
+        "description": "The SHA of the tree object this commit points to",
+        "required": true
+      },
+      {
+        "name": "parents",
+        "type": "array of strings",
+        "description": "The SHAs of the commits that were the parents of this commit. If omitted or empty, the commit will be written as a root commit. For a single parent, an array of one SHA should be provided; for a merge commit, an array of more than one should be provided.",
+        "required": true
+      },
+      {
+        "name": "committer",
+        "type": "object",
+        "description": "object containing information about the committer."
+      },
+      {
+        "name": "author",
+        "type": "object",
+        "description": "object containing information about the author."
+      }
+    ],
+    "description": "The `committer` section is optional and will be filled with the `author` data if omitted. If the `author` section is omitted, it will be filled in with the authenticated user's information and the current date.\n\nBoth the `author` and `committer` parameters have the same keys:\n\n| name  | type   | description                                                                                                             |\n| ----- | ------ | ----------------------------------------------------------------------------------------------------------------------- |\n| name  | string | The name of the author (or committer) of the commit                                                                     |\n| email | string | The email of the author (or committer) of the commit                                                                    |\n| date  | string | Indicates when this commit was authored (or committed). This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. |\n\nYou can also provide an optional string `signature` parameter. This value will be added to the `gpgsig` header of the created commit. For a commit signature to be verifiable by Git or GitHub, it must be an ASCII-armored detached PGP signature over the string commit as it would be written to the object database.\n\n**Note**: To pass a `signature` parameter, you need to first manually create a valid PGP signature, which can be complicated. You may find it easier to [use the command line](https://git-scm.com/book/id/v2/Git-Tools-Signing-Your-Work) to create signed commits.\n\nIn this example, the payload that the signature is over would have been:\n\n",
+    "documentationUrl": "https://developer.github.com/v3/git/commits/#create-a-commit"
+  },
+  {
+    "name": "Commit signature verification",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/git/commits/:sha",
+    "params": [
+      {
+        "name": "verified",
+        "type": "boolean",
+        "description": "Does GitHub consider the signature in this commit to be verified?",
+        "required": false
+      },
+      {
+        "name": "reason",
+        "type": "string",
+        "description": "The reason for `verified` value. Possible values and their meanings are enumerated in the table below.",
+        "required": false
+      },
+      {
+        "name": "signature",
+        "type": "string",
+        "description": "The signature that was extracted from the commit.",
+        "required": false
+      },
+      {
+        "name": "payload",
+        "type": "string",
+        "description": "The value that was signed.",
+        "required": false
+      }
+    ],
+    "description": "**The verification object**\n\n**The reason field**\n\nThe following are possible `reason`s that may be included in the `verification` object:\n\n| Value                    | Description                                                                                                                       |\n| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |\n| `expired_key`            | The key that made the signature is expired.                                                                                       |\n| `not_signing_key`        | The \"signing\" flag is not among the usage flags in the GPG key that made the signature.                                           |\n| `gpgverify_error`        | There was an error communicating with the signature-verification service.                                                         |\n| `gpgverify_unavailable`  | The signature-verification service is currently unavailable.                                                                      |\n| `unsigned`               | The object does not include a signature.                                                                                          |\n| `unknown_signature_type` | A non-PGP signature was found in the commit.                                                                                      |\n| `no_user`                | No user was associated with the `committer` email address in the commit.                                                          |\n| `unverified_email`       | The `committer` email address in the commit was associated with a user, but the email address is not verified on her/his account. |\n| `bad_email`              | The `committer` email address in the commit is not included in the identities of the PGP key that made the signature.             |\n| `unknown_key`            | The key that made the signature has not been registered with any user's account.                                                  |\n| `malformed_signature`    | There was an error parsing the signature.                                                                                         |\n| `invalid`                | The signature could not be cryptographically verified using the key whose key-id was found in the signature.                      |\n| `valid`                  | None of the above errors applied, so the signature is considered to be verified.                                                  |",
+    "documentationUrl": "https://developer.github.com/v3/git/commits/#commit-signature-verification"
+  },
+  {
+    "name": "Get a Blob",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/git/blobs/:sha",
+    "params": [],
+    "description": "The `content` in the response will always be Base64 encoded.\n\n_Note_: This API supports blobs up to 100 megabytes in size.",
+    "documentationUrl": "https://developer.github.com/v3/git/blobs/#get-a-blob"
+  },
+  {
+    "name": "Create a Blob",
+    "enabledForApps": true,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/git/blobs",
+    "params": [
+      {
+        "name": "content",
+        "type": "string",
+        "description": "The new blob's content.",
+        "required": true
+      },
+      {
+        "name": "encoding",
+        "type": "string",
+        "description": "The encoding used for `content`. Currently, `\"utf-8\"` and `\"base64\"` are supported.",
+        "default": "\"utf-8\"",
+        "required": false
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/git/blobs/#create-a-blob"
+  },
+  {
+    "name": "Get a Tree",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/git/trees/:sha",
+    "params": [],
+    "description": "If `truncated` is `true`, the number of items in the `tree` array exceeded our maximum limit. If you need to fetch more items, you can clone the repository and iterate over the Git data locally.",
+    "documentationUrl": "https://developer.github.com/v3/git/trees/#get-a-tree"
+  },
+  {
+    "name": "Get a Tree Recursively",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/git/trees/:sha?recursive=1",
+    "params": [],
+    "description": "If `truncated` is `true`, the number of items in the `tree` array exceeded our maximum limit. If you need to fetch more items, use the non-recursive method of fetching trees, and fetch one sub-tree at a time.",
+    "documentationUrl": "https://developer.github.com/v3/git/trees/#get-a-tree-recursively"
+  },
+  {
+    "name": "Create a Tree",
+    "enabledForApps": true,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/git/trees",
+    "params": [
+      {
+        "name": "tree",
+        "type": "array of objects",
+        "description": "Objects (of `path`, `mode`, `type`, and `sha`) specifying a tree structure",
+        "required": true
+      },
+      {
+        "name": "tree.path",
+        "type": "string",
+        "description": "The file referenced in the tree",
+        "required": false
+      },
+      {
+        "name": "tree.mode",
+        "type": "string",
+        "description": "The file mode; one of `100644` for file (blob), `100755` for executable (blob), `040000` for subdirectory (tree), `160000` for submodule (commit), or `120000` for a blob that specifies the path of a symlink",
+        "required": false
+      },
+      {
+        "name": "tree.type",
+        "type": "enum",
+        "options": [
+          "blob",
+          "tree",
+          "commit"
+        ],
+        "description": "Either `blob`, `tree`, or `commit`",
+        "required": false
+      },
+      {
+        "name": "tree.sha",
+        "type": "string",
+        "description": "The SHA1 checksum ID of the object in the tree",
+        "required": false
+      },
+      {
+        "name": "tree.content",
+        "type": "string",
+        "description": "The content you want this file to have. GitHub will write this blob out and use that SHA for this entry. Use either this, or `tree.sha`.",
+        "required": false
+      },
+      {
+        "name": "base_tree",
+        "type": "string",
+        "description": "The SHA1 of the tree you want to update with new data. If you don't set this, the commit will be created on top of everything; however, it will only contain your change, the rest of your files will show up as deleted.",
+        "required": false
+      }
+    ],
+    "description": "The tree creation API will take nested entries as well. If both a tree and a nested path modifying that tree are specified, it will overwrite the contents of that tree with the new path contents and write a new tree out.",
+    "documentationUrl": "https://developer.github.com/v3/git/trees/#create-a-tree"
+  }
+]

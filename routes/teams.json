@@ -198,5 +198,263 @@
     "params": [],
     "description": "List all of the teams across all of the organizations to which the authenticated user belongs. This method requires `user`, `repo`, or `read:org` [scope](/apps/building-integrations/setting-up-and-registering-oauth-apps/about-scopes-for-oauth-apps/) when authenticating via [OAuth](/apps/building-integrations/setting-up-and-registering-oauth-apps/).",
     "documentationUrl": "https://developer.github.com/v3/teams/#list-user-teams"
+  },
+  {
+    "name": "List discussions",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/teams/:team_id/discussions",
+    "params": [
+      {
+        "name": "direction",
+        "type": "enum",
+        "options": [
+          "asc",
+          "desc"
+        ],
+        "description": "Sorts the discussion comments by the date they were created. To return the oldest comments first, set to `asc`. Can be one of `asc` or `desc`.",
+        "default": "desc",
+        "required": false
+      }
+    ],
+    "description": "List all discussions on a team's page. OAuth access tokens require the `read:discussion` [scope](/apps/building-oauth-apps/scopes-for-oauth-apps/).",
+    "documentationUrl": "https://developer.github.com/v3/teams/discussions/#list-discussions"
+  },
+  {
+    "name": "Get a single discussion",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/teams/:team_id/discussions/:discussion_number",
+    "params": [],
+    "description": "Get a specific discussion on a team's page. OAuth access tokens require the `read:discussion` [scope](/apps/building-oauth-apps/scopes-for-oauth-apps/).",
+    "documentationUrl": "https://developer.github.com/v3/teams/discussions/#get-a-single-discussion"
+  },
+  {
+    "name": "Create a discussion",
+    "enabledForApps": true,
+    "method": "POST",
+    "path": "/teams/:team_id/discussions",
+    "params": [
+      {
+        "name": "title",
+        "type": "string",
+        "description": "The discussion post's title.",
+        "required": true
+      },
+      {
+        "name": "body",
+        "type": "string",
+        "description": "The discussion post's body text.",
+        "required": true
+      },
+      {
+        "name": "private",
+        "type": "boolean",
+        "description": "Private posts are only visible to team members, organization owners, and team maintainers. Public posts are visible to all members of the organization. Set to `true` to create a private post.",
+        "default": false,
+        "required": false
+      }
+    ],
+    "description": "Creates a new discussion post on a team's page. OAuth access tokens require the `write:discussion` [scope](/apps/building-oauth-apps/scopes-for-oauth-apps/).",
+    "documentationUrl": "https://developer.github.com/v3/teams/discussions/#create-a-discussion"
+  },
+  {
+    "name": "Edit a discussion",
+    "enabledForApps": true,
+    "method": "PATCH",
+    "path": "/teams/:team_id/discussions/:discussion_number",
+    "params": [
+      {
+        "name": "title",
+        "type": "string",
+        "description": "The discussion post's title.",
+        "required": false
+      },
+      {
+        "name": "body",
+        "type": "string",
+        "description": "The discussion post's body text.",
+        "required": false
+      }
+    ],
+    "description": "Edits the title and body text of a discussion post. Only the parameters you provide are updated. OAuth access tokens require the `write:discussion` [scope](/apps/building-oauth-apps/scopes-for-oauth-apps/).",
+    "documentationUrl": "https://developer.github.com/v3/teams/discussions/#edit-a-discussion"
+  },
+  {
+    "name": "Delete a discussion",
+    "enabledForApps": true,
+    "method": "DELETE",
+    "path": "/teams/:team_id/discussions/:discussion_number",
+    "params": [],
+    "description": "Delete a discussion from a team's page. OAuth access tokens require the `write:discussion` [scope](/apps/building-oauth-apps/scopes-for-oauth-apps/).",
+    "documentationUrl": "https://developer.github.com/v3/teams/discussions/#delete-a-discussion"
+  },
+  {
+    "name": "List comments",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/teams/:team_id/discussions/:discussion_number/comments",
+    "params": [
+      {
+        "name": "direction",
+        "type": "enum",
+        "options": [
+          "asc",
+          "desc"
+        ],
+        "description": "Sorts the discussion comments by the date they were created. To return the oldest comments first, set to `asc`. Can be one of `asc` or `desc`.",
+        "default": "desc",
+        "required": false
+      }
+    ],
+    "description": "List all comments on a team discussion. OAuth access tokens require the `read:discussion` [scope](/apps/building-oauth-apps/scopes-for-oauth-apps/).",
+    "documentationUrl": "https://developer.github.com/v3/teams/discussion_comments/#list-comments"
+  },
+  {
+    "name": "Get a single comment",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/teams/:team_id/discussions/:discussion_number/comments/:comment_number",
+    "params": [],
+    "description": "Get a specific comment on a team discussion. OAuth access tokens require the `read:discussion` [scope](/apps/building-oauth-apps/scopes-for-oauth-apps/).",
+    "documentationUrl": "https://developer.github.com/v3/teams/discussion_comments/#get-a-single-comment"
+  },
+  {
+    "name": "Create a comment",
+    "enabledForApps": true,
+    "method": "POST",
+    "path": "/teams/:team_id/discussions/:discussion_number/comments",
+    "params": [
+      {
+        "name": "body",
+        "type": "string",
+        "description": "The discussion comment's body text.",
+        "required": true
+      }
+    ],
+    "description": "Creates a new comment on a team discussion. OAuth access tokens require the `write:discussion` [scope](/apps/building-oauth-apps/scopes-for-oauth-apps/).",
+    "documentationUrl": "https://developer.github.com/v3/teams/discussion_comments/#create-a-comment"
+  },
+  {
+    "name": "Edit a comment",
+    "enabledForApps": true,
+    "method": "PATCH",
+    "path": "/teams/:team_id/discussions/:discussion_number/comments/:comment_number",
+    "params": [
+      {
+        "name": "body",
+        "type": "string",
+        "description": "The discussion comment's body text.",
+        "required": true
+      }
+    ],
+    "description": "Edits the body text of a discussion comment. OAuth access tokens require the `write:discussion` [scope](/apps/building-oauth-apps/scopes-for-oauth-apps/).",
+    "documentationUrl": "https://developer.github.com/v3/teams/discussion_comments/#edit-a-comment"
+  },
+  {
+    "name": "Delete a comment",
+    "enabledForApps": true,
+    "method": "DELETE",
+    "path": "/teams/:team_id/discussions/:discussion_number/comments/:comment_number",
+    "params": [],
+    "description": "Deletes a comment on a team discussion. OAuth access tokens require the `write:discussion` [scope](/apps/building-oauth-apps/scopes-for-oauth-apps/).",
+    "documentationUrl": "https://developer.github.com/v3/teams/discussion_comments/#delete-a-comment"
+  },
+  {
+    "name": "List team members",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/teams/:id/members",
+    "params": [
+      {
+        "name": "role",
+        "type": "enum",
+        "options": [
+          "member",
+          "maintainer",
+          "all"
+        ],
+        "description": "Filters members returned by their role in the team. Can be one of:  \n\\* `member` \\- normal members of the team.  \n\\* `maintainer` \\- team maintainers.  \n\\* `all` \\- all members of the team.",
+        "default": "all",
+        "required": false
+      }
+    ],
+    "description": "If you pass the `hellcat-preview` media type, team members will include the members of child teams.",
+    "documentationUrl": "https://developer.github.com/v3/teams/members/#list-team-members"
+  },
+  {
+    "name": "Get team member",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/teams/:id/members/:username",
+    "params": [],
+    "description": "The \"Get team member\" API (described below) is deprecated.\n\nWe recommend using the [Get team membership API](/v3/teams/members/#get-team-membership) instead. It allows you to get both active and pending memberships.\n\nTo list members in a team, the team must be visible to the authenticated user.",
+    "documentationUrl": "https://developer.github.com/v3/teams/members/#get-team-member"
+  },
+  {
+    "name": "Add team member",
+    "enabledForApps": false,
+    "method": "PUT",
+    "path": "/teams/:id/members/:username",
+    "params": [],
+    "description": "The \"Add team member\" API (described below) is deprecated.\n\nWe recommend using the [Add team membership API](/v3/teams/members/#add-or-update-team-membership) instead. It allows you to invite new organization members to your teams.\n\nTo add a user to a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with, and the user being added must already be a member of at least one other team on the same organization.\n\nNote that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](/v3/#http-verbs).\"\n\nIf you attempt to add an organization to a team, you will get this:\n\nIf you attempt to add a user to a team and that user is not a member of at least one other team on the same organization, you will get this:",
+    "documentationUrl": "https://developer.github.com/v3/teams/members/#add-team-member"
+  },
+  {
+    "name": "Remove team member",
+    "enabledForApps": false,
+    "method": "DELETE",
+    "path": "/teams/:id/members/:username",
+    "params": [],
+    "description": "The \"Remove team member\" API (described below) is deprecated.\n\nWe recommend using the [Remove team membership API](/v3/teams/members/#remove-team-membership) instead. It allows you to remove both active and pending memberships.\n\nTo remove a user from a team, the authenticated user must have 'admin' permissions to the team or be an owner of the org that the team is associated with. NOTE: This does not delete the user, it just removes them from the team.",
+    "documentationUrl": "https://developer.github.com/v3/teams/members/#remove-team-member"
+  },
+  {
+    "name": "Get team membership",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/teams/:id/memberships/:username",
+    "params": [],
+    "description": "If you pass the `hellcat-preview` media type, team members will include the members of child teams.\n\nTo get a user's membership with a team, the team must be visible to the authenticated user.\n\n**Note:** The `role` for organization owners returns as `maintainer`. For more information about `maintainer` roles, see [Create team](/v3/teams#create-team).",
+    "documentationUrl": "https://developer.github.com/v3/teams/members/#get-team-membership"
+  },
+  {
+    "name": "Add or update team membership",
+    "enabledForApps": true,
+    "method": "PUT",
+    "path": "/teams/:id/memberships/:username",
+    "params": [
+      {
+        "name": "role",
+        "type": "enum",
+        "options": [
+          "member",
+          "maintainer"
+        ],
+        "description": "The role that this user should have in the team. Can be one of:  \n\\* `member` \\- a normal member of the team.  \n\\* `maintainer` \\- a team maintainer. Able to add/remove other team members, promote other team members to team maintainer, and edit the team's name and description.",
+        "default": "member",
+        "required": false
+      }
+    ],
+    "description": "If the user is already a member of the team's organization, this endpoint will add the user to the team. To add a membership between an organization member and a team, the authenticated user must be an organization owner or a maintainer of the team.\n\nIf the user is unaffiliated with the team's organization, this endpoint will send an invitation to the user via email. This newly-created membership will be in the \"pending\" state until the user accepts the invitation, at which point the membership will transition to the \"active\" state and the user will be added as a member of the team. To add a membership between an unaffiliated user and a team, the authenticated user must be an organization owner.\n\nIf the user is already a member of the team, this endpoint will update the role of the team member's role. To update the membership of a team member, the authenticated user must be an organization owner or a maintainer of the team.\n\nIf you attempt to add an organization to a team, you will get this:",
+    "documentationUrl": "https://developer.github.com/v3/teams/members/#add-or-update-team-membership"
+  },
+  {
+    "name": "Remove team membership",
+    "enabledForApps": true,
+    "method": "DELETE",
+    "path": "/teams/:id/memberships/:username",
+    "params": [],
+    "description": "To remove a membership between a user and a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with. NOTE: This does not delete the user, it just removes their membership from the team.",
+    "documentationUrl": "https://developer.github.com/v3/teams/members/#remove-team-membership"
+  },
+  {
+    "name": "List pending team invitations",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/teams/:id/invitations",
+    "params": [],
+    "description": "The return hash contains a `role` field which refers to the Organization Invitation role and will be one of the following values: `direct_member`, `admin`, `billing_manager`, `hiring_manager`, or `reinstate`. If the invitee is not a GitHub member, the `login` field in the return hash will be `null`.",
+    "documentationUrl": "https://developer.github.com/v3/teams/members/#list-pending-team-invitations"
   }
 ]
