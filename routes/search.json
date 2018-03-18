@@ -208,5 +208,119 @@
     ],
     "description": "Find labels in a repository with names or descriptions that match search keywords. Returns up to 100 results [per page](/v3/#pagination).\n\nSuppose you want to find labels in the `linguist` repository that match `bug`, `defect`, or `enhancement`. Your query might look like this:\n\nThe labels that best match for the query appear first in the search results.\n\n**Highlighting label search results**\n\nYou might want to highlight the matching search terms when displaying search results. The API offers additional metadata to support this use case. To get this metadata in your search results, specify the `text-match` media type in your `Accept` header. For example, via cURL, the above query would look like this:\n\nThis produces the same JSON payload as above, with an extra key called `text_matches`, an array of objects. These objects provide information such as the position of your search terms within the text, as well as the `property` that included the search term.\n\nWhen searching for labels, you can get text match metadata for the label **name** and **description** fields. For details on the attributes present in the `text_matches` array, see [text match metadata](#text-match-metadata).",
     "documentationUrl": "https://developer.github.com/v3/search/#search-labels"
+  },
+  {
+    "name": "Search issues",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/legacy/issues/search/:owner/:repository/:state/:keyword",
+    "params": [
+      {
+        "name": "state",
+        "type": "string",
+        "description": "Indicates the state of the issues to return. Can be either `open` or `closed`.",
+        "required": false
+      },
+      {
+        "name": "keyword",
+        "type": "string",
+        "description": "The search term.",
+        "required": false
+      }
+    ],
+    "description": "Find issues by state and keyword.",
+    "documentationUrl": "https://developer.github.com/v3/search/legacy/#search-issues"
+  },
+  {
+    "name": "Search repositories",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/legacy/repos/search/:keyword",
+    "params": [
+      {
+        "name": "keyword",
+        "type": "string",
+        "description": "The search term",
+        "required": false
+      },
+      {
+        "name": "language",
+        "type": "string",
+        "description": "Filter results by language",
+        "required": false
+      },
+      {
+        "name": "start_page",
+        "type": "string",
+        "description": "The page number to fetch",
+        "required": false
+      },
+      {
+        "name": "sort",
+        "type": "string",
+        "description": "The sort field. One of `stars`, `forks`, or `updated`.",
+        "default": "results are sorted by best match.",
+        "required": false
+      },
+      {
+        "name": "order",
+        "type": "string",
+        "description": "The sort field. if `sort` param is provided. Can be either `asc` or `desc`.",
+        "required": false
+      }
+    ],
+    "description": "Find repositories by keyword. Note, this legacy method does not follow the v3 pagination pattern. This method returns up to 100 results per page and pages can be fetched using the `start_page` parameter.",
+    "documentationUrl": "https://developer.github.com/v3/search/legacy/#search-repositories"
+  },
+  {
+    "name": "Search users",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/legacy/user/search/:keyword",
+    "params": [
+      {
+        "name": "keyword",
+        "type": "string",
+        "description": "The search term",
+        "required": false
+      },
+      {
+        "name": "start_page",
+        "type": "string",
+        "description": "The page number to fetch",
+        "required": false
+      },
+      {
+        "name": "sort",
+        "type": "string",
+        "description": "The sort field. One of `stars`, `forks`, or `updated`.",
+        "default": "results are sorted by best match.",
+        "required": false
+      },
+      {
+        "name": "order",
+        "type": "string",
+        "description": "The sort field. if `sort` param is provided. Can be either `asc` or `desc`.",
+        "required": false
+      }
+    ],
+    "description": "Find users by keyword.",
+    "documentationUrl": "https://developer.github.com/v3/search/legacy/#search-users"
+  },
+  {
+    "name": "Email search",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/legacy/user/email/:email",
+    "params": [
+      {
+        "name": "email",
+        "type": "string",
+        "description": "The email address",
+        "required": false
+      }
+    ],
+    "description": "This API call is added for compatibility reasons only. There's no guarantee that full email searches will always be available. The `@` character in the address must be left unencoded. Searches only against public email addresses (as configured on the user's GitHub profile).",
+    "documentationUrl": "https://developer.github.com/v3/search/legacy/#email-search"
   }
 ]

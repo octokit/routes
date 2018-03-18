@@ -1,0 +1,40 @@
+{
+  "name": "Create organization invitation",
+  "enabledForApps": false,
+  "method": "POST",
+  "path": "/orgs/:org/invitations",
+  "params": [
+    {
+      "name": "invitee_id",
+      "type": "integer",
+      "description": "GitHub user ID for the person you are inviting. Not required if you provide `email`.",
+      "required": true
+    },
+    {
+      "name": "email",
+      "type": "string",
+      "description": "Email address of the person you are inviting, which can be an existing GitHub user. Not required if you provide `invitee_id`.",
+      "required": true
+    },
+    {
+      "name": "role",
+      "type": "enum",
+      "options": [
+        "admin",
+        "direct_member",
+        "billing_manager"
+      ],
+      "description": "Specify role for new member. Can be one of:  \n\\* `admin` \\- Organization owners with full administrative rights to the organization and complete access to all repositories and teams.  \n\\* `direct_member` \\- Non-owner organization members with ability to see other members and join teams by invitation.  \n\\* `billing_manager` \\- Non-owner organization members with ability to manage the billing settings of your organization.",
+      "default": "direct_member",
+      "required": false
+    },
+    {
+      "name": "team_ids",
+      "type": "array",
+      "description": "Specify IDs for the teams you want to invite new members to.",
+      "required": false
+    }
+  ],
+  "description": "Invite people to an organization by using their GitHub user ID or their email address. In order to create invitations in an organization, the authenticated user must be an organization owner.",
+  "documentationUrl": "https://developer.github.com/v3/orgs/members/#create-organization-invitation"
+}

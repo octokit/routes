@@ -1,0 +1,603 @@
+[
+  {
+    "name": "List pre-receive hooks",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/orgs/:org/pre-receive-hooks",
+    "params": [],
+    "description": "List all pre-receive hooks that are enabled or testing for this organization as well as any disabled hooks that can be configured at the organization level. Globally disabled pre-receive hooks that do not allow downstream configuration are not listed.",
+    "documentationUrl": "https://developer.github.com/v3/orgs/pre_receive_hooks/#list-pre-receive-hooks"
+  },
+  {
+    "name": "Get a single pre-receive hook",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/orgs/:org:pre-receive-hooks/:id",
+    "params": [],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/orgs/pre_receive_hooks/#get-a-single-pre-receive-hook"
+  },
+  {
+    "name": "Update pre-receive hook enforcement",
+    "enabledForApps": false,
+    "method": "PATCH",
+    "path": "/orgs/:org/pre-receive-hooks/:id",
+    "params": [],
+    "description": "For pre-receive hooks which are allowed to be configured at the org level, you can set `enforcement` and `allow_downstream_configuration`",
+    "documentationUrl": "https://developer.github.com/v3/orgs/pre_receive_hooks/#update-pre-receive-hook-enforcement"
+  },
+  {
+    "name": "Remove enforcment overrides for a pre-receive hook",
+    "enabledForApps": false,
+    "method": "DELETE",
+    "path": "/orgs/:org/pre-receive-hooks/:id",
+    "params": [],
+    "description": "Removes any overrides for this hook at the org level for this org.",
+    "documentationUrl": "https://developer.github.com/v3/orgs/pre_receive_hooks/#remove-enforcment-overrides-for-a-pre-receive-hook"
+  },
+  {
+    "name": "List outside collaborators",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/orgs/:org/outside_collaborators",
+    "params": [
+      {
+        "name": "filter",
+        "type": "enum",
+        "options": [
+          "2fa_disabled",
+          "all"
+        ],
+        "description": "Filter the list of outside collaborators. Can be one of:  \n\\* `2fa_disabled`: Outside collaborators without [two-factor authentication](https://github.com/blog/1614-two-factor-authentication) enabled.  \n\\* `all`: All outside collaborators.",
+        "default": "all",
+        "required": false
+      }
+    ],
+    "description": "List all users who are outside collaborators of an organization.\n\n",
+    "documentationUrl": "https://developer.github.com/v3/orgs/outside_collaborators/#list-outside-collaborators"
+  },
+  {
+    "name": "Remove outside collaborator",
+    "enabledForApps": true,
+    "method": "DELETE",
+    "path": "/orgs/:org/outside_collaborators/:username",
+    "params": [],
+    "description": "Removing a user from this list will remove them from all the organization's repositories.",
+    "documentationUrl": "https://developer.github.com/v3/orgs/outside_collaborators/#remove-outside-collaborator"
+  },
+  {
+    "name": "Convert member to outside collaborator",
+    "enabledForApps": true,
+    "method": "PUT",
+    "path": "/orgs/:org/outside_collaborators/:username",
+    "params": [],
+    "description": "When an organization member is converted to an outside collaborator, they'll only have access to the repositories that their current team membership allows. The user will no longer be a member of the organization. For more information, see \"[Converting an organization member to an outside collaborator](https://help.github.com/articles/converting-an-organization-member-to-an-outside-collaborator/)\".",
+    "documentationUrl": "https://developer.github.com/v3/orgs/outside_collaborators/#convert-member-to-outside-collaborator"
+  },
+  {
+    "name": "List your organizations",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/user/orgs",
+    "params": [],
+    "description": "List organizations for the authenticated user.\n\n**OAuth scope requirements**\n\nThis only lists organizations that your authorization allows you to operate on in some way (e.g., you can list teams with `read:org` scope, you can publicize your organization membership with `user` scope, etc.). Therefore, this API requires at least `user` or `read:org` scope. OAuth requests with insufficient scope receive a `403 Forbidden` response.",
+    "documentationUrl": "https://developer.github.com/v3/orgs/#list-your-organizations"
+  },
+  {
+    "name": "List all organizations",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/organizations",
+    "params": [
+      {
+        "name": "since",
+        "type": "string",
+        "description": "The integer ID of the last Organization that you've seen.",
+        "required": false
+      }
+    ],
+    "description": "Lists all organizations, in the order that they were created on GitHub.\n\n**Note:** Pagination is powered exclusively by the `since` parameter. Use the [Link header](/v3/#link-header) to get the URL for the next page of organizations.",
+    "documentationUrl": "https://developer.github.com/v3/orgs/#list-all-organizations"
+  },
+  {
+    "name": "List user organizations",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/users/:username/orgs",
+    "params": [],
+    "description": "List [public organization memberships](https://help.github.com/articles/publicizing-or-concealing-organization-membership) for the specified user.\n\nThis method only lists _public_ memberships, regardless of authentication. If you need to fetch all of the organization memberships (public and private) for the authenticated user, use the [List your organizations](#list-your-organizations) API instead.",
+    "documentationUrl": "https://developer.github.com/v3/orgs/#list-user-organizations"
+  },
+  {
+    "name": "Get an organization",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/orgs/:org",
+    "params": [],
+    "description": "**Note:** Many Organization response values require the user making the request to be authenticated, an organization owner, and have the admin:org scope authorized.",
+    "documentationUrl": "https://developer.github.com/v3/orgs/#get-an-organization"
+  },
+  {
+    "name": "Edit an organization",
+    "enabledForApps": false,
+    "method": "PATCH",
+    "path": "/orgs/:org",
+    "params": [
+      {
+        "name": "billing_email",
+        "type": "string",
+        "description": "Billing email address. This address is not publicized.",
+        "required": false
+      },
+      {
+        "name": "company",
+        "type": "string",
+        "description": "The company name.",
+        "required": false
+      },
+      {
+        "name": "email",
+        "type": "string",
+        "description": "The publicly visible email address.",
+        "required": false
+      },
+      {
+        "name": "location",
+        "type": "string",
+        "description": "The location.",
+        "required": false
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "description": "The shorthand name of the company.",
+        "required": false
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "description": "The description of the company.",
+        "required": false
+      },
+      {
+        "name": "has_organization_projects",
+        "type": "boolean",
+        "description": "Toggles whether organization projects are enabled for the organization.",
+        "required": false
+      },
+      {
+        "name": "has_repository_projects",
+        "type": "boolean",
+        "description": "Toggles whether repository projects are enabled for repositories that belong to the organization.",
+        "required": false
+      },
+      {
+        "name": "default_repository_permission",
+        "type": "string",
+        "description": "Default permission level members have for organization repositories:  \n\\* `read` \\- can pull, but not push to or administer this repository.  \n\\* `write` \\- can pull and push, but not administer this repository.  \n\\* `admin` \\- can pull, push, and administer this repository.  \n\\* `none` \\- no permissions granted by default.",
+        "default": "read",
+        "required": false
+      },
+      {
+        "name": "members_can_create_repositories",
+        "type": "boolean",
+        "description": "Toggles ability of non-admin organization members to create repositories  \n\\* `true` \\- all organization members can create repositories.  \n\\* `false` \\- only admin members can create repositories.",
+        "default": true,
+        "required": false
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/orgs/#edit-an-organization"
+  },
+  {
+    "name": "List hooks",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/orgs/:org/hooks",
+    "params": [],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/orgs/hooks/#list-hooks"
+  },
+  {
+    "name": "Get single hook",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/orgs/:org/hooks/:id",
+    "params": [],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/orgs/hooks/#get-single-hook"
+  },
+  {
+    "name": "Create a hook",
+    "enabledForApps": false,
+    "method": "POST",
+    "path": "/orgs/:org/hooks",
+    "params": [
+      {
+        "name": "name",
+        "type": "string",
+        "description": "Must be passed as \"web\".",
+        "required": true
+      },
+      {
+        "name": "config",
+        "type": "object",
+        "description": "Key/value pairs to provide settings for this webhook. [These are defined below](#create-hook-config-params).",
+        "required": true
+      },
+      {
+        "name": "config.url",
+        "type": "string",
+        "description": "**Required** The URL to which the payloads will be delivered.",
+        "required": false
+      },
+      {
+        "name": "config.content_type",
+        "type": "string",
+        "description": "The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`.",
+        "required": false
+      },
+      {
+        "name": "config.secret",
+        "type": "string",
+        "description": "If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value in the [`X-Hub-Signature`](/webhooks/#delivery-headers) header.",
+        "required": false
+      },
+      {
+        "name": "config.insecure_ssl",
+        "type": "string",
+        "description": "Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.**",
+        "required": false
+      },
+      {
+        "name": "events",
+        "type": "array",
+        "description": "Determines what [events](/v3/activity/events/types/) the hook is triggered for.",
+        "default": "[\"push\"]",
+        "required": false
+      },
+      {
+        "name": "active",
+        "type": "boolean",
+        "description": "Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.",
+        "default": true,
+        "required": false
+      }
+    ],
+    "description": "Here's how you can create a hook that posts payloads in JSON format:",
+    "documentationUrl": "https://developer.github.com/v3/orgs/hooks/#create-a-hook"
+  },
+  {
+    "name": "Edit a hook",
+    "enabledForApps": false,
+    "method": "PATCH",
+    "path": "/orgs/:org/hooks/:id",
+    "params": [
+      {
+        "name": "config",
+        "type": "object",
+        "description": "Key/value pairs to provide settings for this webhook. [These are defined below](#update-hook-config-params).",
+        "required": true
+      },
+      {
+        "name": "config.url",
+        "type": "string",
+        "description": "**Required** The URL to which the payloads will be delivered.",
+        "required": false
+      },
+      {
+        "name": "config.content_type",
+        "type": "string",
+        "description": "The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`.",
+        "required": false
+      },
+      {
+        "name": "config.secret",
+        "type": "string",
+        "description": "If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value in the [`X-Hub-Signature`](/webhooks/#delivery-headers) header.",
+        "required": false
+      },
+      {
+        "name": "config.insecure_ssl",
+        "type": "string",
+        "description": "Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.**",
+        "required": false
+      },
+      {
+        "name": "events",
+        "type": "array",
+        "description": "Determines what [events](/v3/activity/events/types/) the hook is triggered for.",
+        "default": "[\"push\"]",
+        "required": false
+      },
+      {
+        "name": "active",
+        "type": "boolean",
+        "description": "Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.",
+        "default": true,
+        "required": false
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/orgs/hooks/#edit-a-hook"
+  },
+  {
+    "name": "Ping a hook",
+    "enabledForApps": false,
+    "method": "POST",
+    "path": "/orgs/:org/hooks/:id/pings",
+    "params": [],
+    "description": "This will trigger a [ping event](/webhooks/#ping-event) to be sent to the hook.",
+    "documentationUrl": "https://developer.github.com/v3/orgs/hooks/#ping-a-hook"
+  },
+  {
+    "name": "Delete a hook",
+    "enabledForApps": false,
+    "method": "DELETE",
+    "path": "/orgs/:org/hooks/:id",
+    "params": [],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/orgs/hooks/#delete-a-hook"
+  },
+  {
+    "name": "Members list",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/orgs/:org/members",
+    "params": [
+      {
+        "name": "filter",
+        "type": "enum",
+        "options": [
+          "2fa_disabled",
+          "all"
+        ],
+        "description": "Filter members returned in the list. Can be one of:  \n\\* `2fa_disabled` \\- Members without [two-factor authentication](https://github.com/blog/1614-two-factor-authentication) enabled. Available for organization owners.  \n\\* `all` \\- All members the authenticated user can see.",
+        "default": "all",
+        "required": false
+      },
+      {
+        "name": "role",
+        "type": "enum",
+        "options": [
+          "all",
+          "admin",
+          "member"
+        ],
+        "description": "Filter members returned by their role. Can be one of:  \n\\* `all` \\- All members of the organization, regardless of role.  \n\\* `admin` \\- Organization owners.  \n\\* `member` \\- Non-owner organization members.",
+        "default": "all",
+        "required": false
+      }
+    ],
+    "description": "List all users who are members of an organization. If the authenticated user is also a member of this organization then both concealed and public members will be returned.\n\n",
+    "documentationUrl": "https://developer.github.com/v3/orgs/members/#members-list"
+  },
+  {
+    "name": "Check membership",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/orgs/:org/members/:username",
+    "params": [],
+    "description": "Check if a user is, publicly or privately, a member of the organization.",
+    "documentationUrl": "https://developer.github.com/v3/orgs/members/#check-membership"
+  },
+  {
+    "name": "Remove a member",
+    "enabledForApps": true,
+    "method": "DELETE",
+    "path": "/orgs/:org/members/:username",
+    "params": [],
+    "description": "Removing a user from this list will remove them from all teams and they will no longer have any access to the organization's repositories.",
+    "documentationUrl": "https://developer.github.com/v3/orgs/members/#remove-a-member"
+  },
+  {
+    "name": "Public members list",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/orgs/:org/public_members",
+    "params": [],
+    "description": "Members of an organization can choose to have their membership publicized or not.",
+    "documentationUrl": "https://developer.github.com/v3/orgs/members/#public-members-list"
+  },
+  {
+    "name": "Check public membership",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/orgs/:org/public_members/:username",
+    "params": [],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/orgs/members/#check-public-membership"
+  },
+  {
+    "name": "Publicize a user's membership",
+    "enabledForApps": false,
+    "method": "PUT",
+    "path": "/orgs/:org/public_members/:username",
+    "params": [],
+    "description": "The user can publicize their own membership. (A user cannot publicize the membership for another user.)\n\nNote that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](/v3/#http-verbs).\"",
+    "documentationUrl": "https://developer.github.com/v3/orgs/members/#publicize-a-users-membership"
+  },
+  {
+    "name": "Conceal a user's membership",
+    "enabledForApps": false,
+    "method": "DELETE",
+    "path": "/orgs/:org/public_members/:username",
+    "params": [],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/orgs/members/#conceal-a-users-membership"
+  },
+  {
+    "name": "Get organization membership",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/orgs/:org/memberships/:username",
+    "params": [],
+    "description": "In order to get a user's membership with an organization, the authenticated user must be an organization member.",
+    "documentationUrl": "https://developer.github.com/v3/orgs/members/#get-organization-membership"
+  },
+  {
+    "name": "Add or update organization membership",
+    "enabledForApps": true,
+    "method": "PUT",
+    "path": "/orgs/:org/memberships/:username",
+    "params": [
+      {
+        "name": "role",
+        "type": "enum",
+        "options": [
+          "admin",
+          "member"
+        ],
+        "description": "The role to give the user in the organization. Can be one of:  \n\\* `admin` \\- The user will become an owner of the organization.  \n\\* `member` \\- The user will become a non-owner member of the organization.",
+        "default": "member",
+        "required": false
+      }
+    ],
+    "description": "In order to create or update a user's membership with an organization, the authenticated user must be an organization owner.\n\n*   If the authenticated user is _adding_ a member to the organization, the invited user will receive an email inviting them to the organization. The user's [membership status](#get-organization-membership) will be `pending` until they accept the invitation.\n    \n*   Authenticated users can _update_ a user's membership by passing the `role` parameter. If the authenticated user changes a member's role to `admin`, the affected user will receive an email notifying them that they've been made an organization owner. If the authenticated user changes an owner's role to `member`, no email will be sent.\n\n**Rate limits**\n\nTo prevent abuse, the authenticated user is limited to 50 organization invitations per 24 hour period. If the organization is more than one month old or on a paid plan, the limit is 500 invitations per 24 hour period.",
+    "documentationUrl": "https://developer.github.com/v3/orgs/members/#add-or-update-organization-membership"
+  },
+  {
+    "name": "Remove organization membership",
+    "enabledForApps": true,
+    "method": "DELETE",
+    "path": "/orgs/:org/memberships/:username",
+    "params": [],
+    "description": "In order to remove a user's membership with an organization, the authenticated user must be an organization owner.\n\nIf the specified user is an active member of the organization, this will remove them from the organization. If the specified user has been invited to the organization, this will cancel their invitation. The specified user will receive an email notification in both cases.",
+    "documentationUrl": "https://developer.github.com/v3/orgs/members/#remove-organization-membership"
+  },
+  {
+    "name": "List organization invitation teams",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/orgs/:org/invitations/:invitation_id/teams",
+    "params": [],
+    "description": "List all teams associated with an invitation. In order to see invitations in an organization, the authenticated user must be an organization owner.",
+    "documentationUrl": "https://developer.github.com/v3/orgs/members/#list-organization-invitation-teams"
+  },
+  {
+    "name": "List pending organization invitations",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/orgs/:org/invitations",
+    "params": [],
+    "description": "The return hash contains a `role` field which refers to the Organization Invitation role and will be one of the following values: `direct_member`, `admin`, `billing_manager`, `hiring_manager`, or `reinstate`. If the invitee is not a GitHub member, the `login` field in the return hash will be `null`.",
+    "documentationUrl": "https://developer.github.com/v3/orgs/members/#list-pending-organization-invitations"
+  },
+  {
+    "name": "Create organization invitation",
+    "enabledForApps": false,
+    "method": "POST",
+    "path": "/orgs/:org/invitations",
+    "params": [
+      {
+        "name": "invitee_id",
+        "type": "integer",
+        "description": "GitHub user ID for the person you are inviting. Not required if you provide `email`.",
+        "required": true
+      },
+      {
+        "name": "email",
+        "type": "string",
+        "description": "Email address of the person you are inviting, which can be an existing GitHub user. Not required if you provide `invitee_id`.",
+        "required": true
+      },
+      {
+        "name": "role",
+        "type": "enum",
+        "options": [
+          "admin",
+          "direct_member",
+          "billing_manager"
+        ],
+        "description": "Specify role for new member. Can be one of:  \n\\* `admin` \\- Organization owners with full administrative rights to the organization and complete access to all repositories and teams.  \n\\* `direct_member` \\- Non-owner organization members with ability to see other members and join teams by invitation.  \n\\* `billing_manager` \\- Non-owner organization members with ability to manage the billing settings of your organization.",
+        "default": "direct_member",
+        "required": false
+      },
+      {
+        "name": "team_ids",
+        "type": "array",
+        "description": "Specify IDs for the teams you want to invite new members to.",
+        "required": false
+      }
+    ],
+    "description": "Invite people to an organization by using their GitHub user ID or their email address. In order to create invitations in an organization, the authenticated user must be an organization owner.",
+    "documentationUrl": "https://developer.github.com/v3/orgs/members/#create-organization-invitation"
+  },
+  {
+    "name": "List your organization memberships",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/user/memberships/orgs",
+    "params": [
+      {
+        "name": "state",
+        "type": "string",
+        "description": "Indicates the state of the memberships to return. Can be either `active` or `pending`. If not specified, the API returns both active and pending memberships.",
+        "required": false
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/orgs/members/#list-your-organization-memberships"
+  },
+  {
+    "name": "Get your organization membership",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/user/memberships/orgs/:org",
+    "params": [],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/orgs/members/#get-your-organization-membership"
+  },
+  {
+    "name": "Edit your organization membership",
+    "enabledForApps": false,
+    "method": "PATCH",
+    "path": "/user/memberships/orgs/:org",
+    "params": [
+      {
+        "name": "state",
+        "type": "string",
+        "description": "The state that the membership should be in. Only `\"active\"` will be accepted.",
+        "required": true
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/orgs/members/#edit-your-organization-membership"
+  },
+  {
+    "name": "List blocked users",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/orgs/:org/blocks",
+    "params": [],
+    "description": "List the users blocked by an organization.",
+    "documentationUrl": "https://developer.github.com/v3/orgs/blocking/#list-blocked-users"
+  },
+  {
+    "name": "Check whether a user is blocked from an organization",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/orgs/:org/blocks/:username",
+    "params": [],
+    "description": "If the user is blocked:\n\nIf the user is not blocked:",
+    "documentationUrl": "https://developer.github.com/v3/orgs/blocking/#check-whether-a-user-is-blocked-from-an-organization"
+  },
+  {
+    "name": "Block a user",
+    "enabledForApps": false,
+    "method": "PUT",
+    "path": "/orgs/:org/blocks/:username",
+    "params": [],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/orgs/blocking/#block-a-user"
+  },
+  {
+    "name": "Unblock a user",
+    "enabledForApps": false,
+    "method": "DELETE",
+    "path": "/orgs/:org/blocks/:username",
+    "params": [],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/orgs/blocking/#unblock-a-user"
+  }
+]
