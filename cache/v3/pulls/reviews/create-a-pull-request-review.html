@@ -1,88 +1,84 @@
 <h2>
-    <a id="create-a-pull-request-review" class="anchor" href="#create-a-pull-request-review" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a pull request review<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info"
-        title="Enabled for GitHub Apps"></a>
+<a id="create-a-pull-request-review" class="anchor" href="#create-a-pull-request-review" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a pull request review<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 <pre><code>POST /repos/:owner/:repo/pulls/:number/reviews
 </code></pre>
 <h3>
-    <a id="input" class="anchor" href="#input" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Input</h3>
+<a id="input" class="anchor" href="#input" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Input</h3>
 <table>
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Description</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><code>commit_id</code></td>
-            <td><code>string</code></td>
-            <td>The SHA of the commit that needs a review. Not using the latest commit SHA may render your review comment outdated if a subsequent commit modifies the line you specify as the <code>position</code>. Defaults to the most recent commit in the
-                pull request when you do not specify a value.</td>
-        </tr>
-        <tr>
-            <td><code>body</code></td>
-            <td><code>string</code></td>
-            <td>
-                <strong>Required</strong> when using <code>REQUEST_CHANGES</code> or <code>COMMENT</code> for the <code>event</code> parameter. The body text of the pull request review.</td>
-        </tr>
-        <tr>
-            <td><code>event</code></td>
-            <td><code>string</code></td>
-            <td>The review action you want to perform. The review actions include: <code>APPROVE</code>, <code>REQUEST_CHANGES</code>, or <code>COMMENT</code>. By leaving this blank, you set the review action state to <code>PENDING</code>, which means you
-                will need to <a href="/v3/pulls/reviews/#submit-a-pull-request-review">submit the pull request review</a> when you are ready.</td>
-        </tr>
-        <tr>
-            <td><code>comments</code></td>
-            <td>
-                <code>array</code> of draft review comment <code>objects</code>
-            </td>
-            <td>Use the following table to specify the location, destination, and contents of the draft review comment.</td>
-        </tr>
-    </tbody>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>commit_id</code></td>
+<td><code>string</code></td>
+<td>The SHA of the commit that needs a review. Not using the latest commit SHA may render your review comment outdated if a subsequent commit modifies the line you specify as the <code>position</code>. Defaults to the most recent commit in the pull request when you do not specify a value.</td>
+</tr>
+<tr>
+<td><code>body</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required</strong> when using <code>REQUEST_CHANGES</code> or <code>COMMENT</code> for the <code>event</code> parameter. The body text of the pull request review.</td>
+</tr>
+<tr>
+<td><code>event</code></td>
+<td><code>string</code></td>
+<td>The review action you want to perform. The review actions include: <code>APPROVE</code>, <code>REQUEST_CHANGES</code>, or <code>COMMENT</code>. By leaving this blank, you set the review action state to <code>PENDING</code>, which means you will need to <a href="/v3/pulls/reviews/#submit-a-pull-request-review">submit the pull request review</a> when you are ready.</td>
+</tr>
+<tr>
+<td><code>comments</code></td>
+<td>
+<code>array</code> of draft review comment <code>objects</code>
+</td>
+<td>Use the following table to specify the location, destination, and contents of the draft review comment.</td>
+</tr>
+</tbody>
 </table>
 <p>When specifying draft review <code>comments</code>, you need to include the following values:</p>
 <table>
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Description</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><code>path</code></td>
-            <td><code>string</code></td>
-            <td>
-                <strong>Required.</strong> The relative path to the file that necessitates a review comment.</td>
-        </tr>
-        <tr>
-            <td><code>position</code></td>
-            <td><code>integer</code></td>
-            <td>
-                <strong>Required.</strong> The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. For help finding the position value, read the note below.</td>
-        </tr>
-        <tr>
-            <td><code>body</code></td>
-            <td><code>string</code></td>
-            <td>
-                <strong>Required.</strong> Text of the review comment.</td>
-        </tr>
-    </tbody>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>path</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required.</strong> The relative path to the file that necessitates a review comment.</td>
+</tr>
+<tr>
+<td><code>position</code></td>
+<td><code>integer</code></td>
+<td>
+<strong>Required.</strong> The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. For help finding the position value, read the note below.</td>
+</tr>
+<tr>
+<td><code>body</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required.</strong> Text of the review comment.</td>
+</tr>
+</tbody>
 </table>
 <div class="alert note">
 
-    <p><strong>Note:</strong> To comment on a specific line in a file, you need to first determine the <em>position</em> of that line in the diff. The GitHub REST API v3 offers the <code>application/vnd.github.v3.diff</code> <a href="/v3/media/#commits-commit-comparison-and-pull-requests">media type</a>.
-        To see a pull request diff, add this media type to the <code>Accept</code> header of a call to the <a href="/v3/pulls/#get-a-single-pull-request">single pull request</a> endpoint.</p>
+<p><strong>Note:</strong>
+To comment on a specific line in a file, you need to first determine the <em>position</em> of that line in the diff. The GitHub REST API v3 offers the <code>application/vnd.github.v3.diff</code> <a href="/v3/media/#commits-commit-comparison-and-pull-requests">media type</a>. To see a pull request diff, add this media type to the <code>Accept</code> header of a call to the <a href="/v3/pulls/#get-a-single-pull-request">single pull request</a> endpoint.</p>
 
-    <p>The <code>position</code> value equals the number of lines down from the first &quot;@@&quot; hunk header in the file you want to add a comment. The line just below the &quot;@@&quot; line is position 1, the next line is position 2, and so on. The
-        position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.</p>
+<p>The <code>position</code> value equals the number of lines down from the first &quot;@@&quot; hunk header in the file you want to add a comment. The line just below the &quot;@@&quot; line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.</p>
 
 </div>
 <h3>
-    <a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">&quot;commit_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ecdd80bb57125d7ba9641ffaa4d7d2c19d3f3091&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;body&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;This is close to perfect! Please address the suggested inline change.&quot;</span><span class="p">,</span><span class="w">
@@ -97,7 +93,7 @@
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <h3>
-    <a id="response-4" class="anchor" href="#response-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-4" class="anchor" href="#response-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 <pre class="highlight highlight-headers"><code>Status: 200 OK
 </code></pre>
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">

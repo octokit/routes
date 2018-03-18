@@ -1,59 +1,58 @@
 <h2>
-    <a id="search-labels" class="anchor" href="#search-labels" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Search labels<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+<a id="search-labels" class="anchor" href="#search-labels" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Search labels<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 <div class="alert note">
 
-    <p><strong>Note:</strong> You can now use emoji in label names, add descriptions to labels, and search for labels in a repository. See the <a href="/changes/2018-02-22-label-description-search-preview">blog post</a> for full details. To access these
-        features and receive payloads with this data during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+<p><strong>Note:</strong> You can now use emoji in label names, add descriptions to labels, and search for labels in a repository. See the <a href="/changes/2018-02-22-label-description-search-preview">blog post</a> for full details. To access these features and receive payloads with this data during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
 
-    <pre><code>application/vnd.github.symmetra-preview+json
+<pre><code>application/vnd.github.symmetra-preview+json
 </code></pre>
 
 </div>
 <div class="alert warning">
 
-    <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
 
 </div>
 <p>Find labels in a repository with names or descriptions that match search keywords. Returns up to 100 results <a href="/v3/#pagination">per page</a>.</p>
 <pre><code>GET /search/labels
 </code></pre>
 <h3>
-    <a id="parameters-6" class="anchor" href="#parameters-6" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+<a id="parameters-6" class="anchor" href="#parameters-6" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
 <table>
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Description</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><code>repository_id</code></td>
-            <td><code>integer</code></td>
-            <td>The id of the repository.</td>
-        </tr>
-        <tr>
-            <td><code>q</code></td>
-            <td><code>string</code></td>
-            <td>The search keywords.</td>
-        </tr>
-        <tr>
-            <td><code>sort</code></td>
-            <td><code>string</code></td>
-            <td>The sort field. Can be one of <code>created</code> or <code>updated</code>. Default: results are sorted by best match.</td>
-        </tr>
-        <tr>
-            <td><code>order</code></td>
-            <td><code>string</code></td>
-            <td>The sort order if the sort parameter is provided. Can be one of <code>asc</code> or <code>desc</code>. Default: <code>desc</code>
-            </td>
-        </tr>
-    </tbody>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>repository_id</code></td>
+<td><code>integer</code></td>
+<td>The id of the repository.</td>
+</tr>
+<tr>
+<td><code>q</code></td>
+<td><code>string</code></td>
+<td>The search keywords.</td>
+</tr>
+<tr>
+<td><code>sort</code></td>
+<td><code>string</code></td>
+<td>The sort field. Can be one of <code>created</code> or <code>updated</code>. Default: results are sorted by best match.</td>
+</tr>
+<tr>
+<td><code>order</code></td>
+<td><code>string</code></td>
+<td>The sort order if the sort parameter is provided. Can be one of <code>asc</code> or <code>desc</code>. Default: <code>desc</code>
+</td>
+</tr>
+</tbody>
 </table>
 <h4 id="label-search-example">
-    <a id="example-6" class="anchor" href="#example-6" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h4>
+<a id="example-6" class="anchor" href="#example-6" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h4>
 <p>Suppose you want to find labels in the <code>linguist</code> repository that match <code>bug</code>, <code>defect</code>, or <code>enhancement</code>. Your query might look like this:</p>
 <pre class="command-line">curl -H &apos;Accept: application/vnd.github.symmetra-preview+json&apos; \
   &apos;https://api.github.com/search/labels?repository_id=64778136&amp;q=bug+defect+enhancement&apos;
@@ -87,14 +86,20 @@
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <h3>
-    <a id="highlighting-label-search-results" class="anchor" href="#highlighting-label-search-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Highlighting label search results</h3>
-<p>You might want to highlight the matching search terms when displaying search results. The API offers additional metadata to support this use case. To get this metadata in your search results, specify the <code>text-match</code> media type in your <code>Accept</code>    header. For example, via cURL, the above query would look like this:</p>
+<a id="highlighting-label-search-results" class="anchor" href="#highlighting-label-search-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Highlighting label search results</h3>
+<p>You might want to highlight the matching search terms when
+displaying search results. The API offers additional metadata to support this
+use case. To get this metadata in your search results, specify the <code>text-match</code>
+media type in your <code>Accept</code> header. For example, via cURL, the above query would
+look like this:</p>
 <pre class="command-line">curl -H &apos;Accept: application/vnd.github.symmetra-preview+json, \
  application/vnd.github.v3.text-match+json&apos; \
   &apos;https://api.github.com/search/labels?repository_id=64778136&amp;q=bug+defect+enhancement&apos;
 </pre>
 <p>This produces the same JSON payload as above, with an extra key called
-    <code>text_matches</code>, an array of objects. These objects provide information such as the position of your search terms within the text, as well as the <code>property</code> that included the search term.</p>
+<code>text_matches</code>, an array of objects. These objects provide information such as
+the position of your search terms within the text, as well as the <code>property</code> that
+included the search term.</p>
 <p>When searching for labels, you can get text match metadata for the label <strong>name</strong> and <strong>description</strong> fields. For details on the attributes present in the <code>text_matches</code> array, see <a href="#text-match-metadata">text match metadata</a>.</p>
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">&quot;total_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
