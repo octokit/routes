@@ -1,5 +1,7 @@
 # octokit-rest-routes
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/octokit/routes.svg)](https://greenkeeper.io/)
+
 > machine-readable, always up-to-date GitHub REST API route specifications
 
 [![Build Status](https://travis-ci.org/octokit/routes.svg?branch=master)](https://travis-ci.org/octokit/routes)
