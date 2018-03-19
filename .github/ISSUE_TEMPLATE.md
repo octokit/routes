@@ -25,7 +25,14 @@
   "enabledForApps": false,
   "method": "GET",
   "path": "/user",
-  "params": [],
+  "params": [
+    {
+      "name": "foo",
+      "type": "string",
+      "description": "",
+      "required": false
+    }
+  ],
   "description": "Lists public and private profile information when authenticated through basic auth or OAuth with the `user` scope.\n\nLists public profile information when authenticated through OAuth without the `user` scope.",
   "documentationUrl": "https://developer.github.com/v3/users/#get-the-authenticated-user"
 }
