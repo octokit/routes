@@ -2,14 +2,14 @@
 
 > machine-readable, always up-to-date GitHub REST API route specifications
 
-[![Build Status](https://travis-ci.org/gr2m/octokit-rest-routes.svg?branch=master)](https://travis-ci.org/gr2m/octokit-rest-routes)
+[![Build Status](https://travis-ci.org/octokit/routes.svg?branch=master)](https://travis-ci.org/octokit/routes)
 
 ⚠️ This module is work in progress. It does not follow [semantic versioning](https://semver.org/) yet. Feedback welcome :)
 
 ## Usage
 
 ```
-const ROUTES = require('@gr2m/octokit-rest-routes')
+const ROUTES = require('@octokit/routes')
 ```
 
 returns an object with keys being the route scopes such as `activity`, `issues`,
@@ -21,8 +21,8 @@ If you don’t need all routes definitions, you can require a scope or a specifi
 route definition instead
 
 ```js
-const REPO_ROUTES = require('@gr2m/octokit-rest-routes/routes/repos')
-const GET_REPO_ROUTE = require('@gr2m/octokit-rest-routes/routes/repos/get')
+const REPO_ROUTES = require('@octokit/routes/routes/repos')
+const GET_REPO_ROUTE = require('@octokit/routes/routes/repos/get')
 ```
 
 ## Example
@@ -96,7 +96,7 @@ Loads HTML of each documentation page, finds sections in page.
 ### 3. In each section, finds endpoints
 
 - Some sections don’t have endpoints, such as [Notifications Reasons](https://developer.github.com/v3/activity/notifications/#notification-reasons)
-- Some sections have multiple endpoints, see [#3](https://github.com/gr2m/octokit-rest-routes/issues/3)
+- Some sections have multiple endpoints, see [#3](https://github.com/octokit/routes/issues/3)
 
 Loads HTML of documentation page section. Turns it into [`routes/*.json`](routes/) file.
 In some cases the HTML cannot be turned into an endpoint using the implemented patterns.
