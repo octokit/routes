@@ -2,7 +2,7 @@ const proxyquire = require('proxyquire')
 const {test} = require('tap')
 
 const parseUrlsOption = proxyquire('../../lib/options/urls', {
-  '../landing-page/get': () => ([
+  '../landing-page/get': (state) => ([
     {
       url: 'https://developer.github.com/v3/repos',
       scope: 'repos'
@@ -13,7 +13,7 @@ const parseUrlsOption = proxyquire('../../lib/options/urls', {
       subScope: 'branches'
     }
   ]),
-  '../documentation-page/get': (url) => {
+  '../documentation-page/get': (state, url) => {
     return [
       {
         id: 'section1',
@@ -27,31 +27,31 @@ const parseUrlsOption = proxyquire('../../lib/options/urls', {
       }
     ]
   }
-})
+}).bind(null, {})
 
-test('options.url === []', async t => {
+test('options.urls === []', async t => {
   const result = await parseUrlsOption([])
   t.deepEquals(result, [
-    'https://developer.github.com/v3/repos#section1',
-    'https://developer.github.com/v3/repos#section2',
-    'https://developer.github.com/v3/repos/branches#section1',
-    'https://developer.github.com/v3/repos/branches#section2'
+    'https://developer.github.com/v3/repos/#section1',
+    'https://developer.github.com/v3/repos/#section2',
+    'https://developer.github.com/v3/repos/branches/#section1',
+    'https://developer.github.com/v3/repos/branches/#section2'
   ])
   t.end()
 })
 
-test('options.url === undefined', async t => {
+test('options.urls === undefined', async t => {
   const result = await parseUrlsOption()
   t.deepEquals(result, [
-    'https://developer.github.com/v3/repos#section1',
-    'https://developer.github.com/v3/repos#section2',
-    'https://developer.github.com/v3/repos/branches#section1',
-    'https://developer.github.com/v3/repos/branches#section2'
+    'https://developer.github.com/v3/repos/#section1',
+    'https://developer.github.com/v3/repos/#section2',
+    'https://developer.github.com/v3/repos/branches/#section1',
+    'https://developer.github.com/v3/repos/branches/#section2'
   ])
   t.end()
 })
 
-test('options.url === ["https://foo.bar"]', async t => {
+test('options.urls === ["https://foo.bar"]', async t => {
   t.plan(1)
   try {
     await parseUrlsOption(['https://foo.bar'])
@@ -62,36 +62,36 @@ test('options.url === ["https://foo.bar"]', async t => {
   t.end()
 })
 
-test('options.url === ["https://developer.github.com/v3/repos/"]', async t => {
+test('options.urls === ["https://developer.github.com/v3/repos/"]', async t => {
   const result = await parseUrlsOption(['https://developer.github.com/v3/repos'])
   t.deepEquals(result, [
-    'https://developer.github.com/v3/repos#section1',
-    'https://developer.github.com/v3/repos#section2'
+    'https://developer.github.com/v3/repos/#section1',
+    'https://developer.github.com/v3/repos/#section2'
   ])
   t.end()
 })
 
-test('options.url === ["https://developer.github.com/v3/repos"] (no trailing /)', async t => {
+test('options.urls === ["https://developer.github.com/v3/repos"] (no trailing /)', async t => {
   const result = await parseUrlsOption(['https://developer.github.com/v3/repos'])
   t.deepEquals(result, [
-    'https://developer.github.com/v3/repos#section1',
-    'https://developer.github.com/v3/repos#section2'
+    'https://developer.github.com/v3/repos/#section1',
+    'https://developer.github.com/v3/repos/#section2'
   ])
   t.end()
 })
 
-test('options.url === ["https://developer.github.com/v3/repos/#get"]', async t => {
+test('options.urls === ["https://developer.github.com/v3/repos/#get"]', async t => {
   const result = await parseUrlsOption(['https://developer.github.com/v3/repos#get'])
   t.deepEquals(result, [
-    'https://developer.github.com/v3/repos#get'
+    'https://developer.github.com/v3/repos/#get'
   ])
   t.end()
 })
 
-test('options.url === ["https://developer.github.com/v3/repos#get"] (no trailing /)', async t => {
+test('options.urls === ["https://developer.github.com/v3/repos#get"] (no trailing /)', async t => {
   const result = await parseUrlsOption(['https://developer.github.com/v3/repos#get'])
   t.deepEquals(result, [
-    'https://developer.github.com/v3/repos#get'
+    'https://developer.github.com/v3/repos/#get'
   ])
   t.end()
 })
