@@ -2,9 +2,7 @@
 
 > machine-readable, always up-to-date GitHub REST API route specifications
 
-[![Build Status](https://travis-ci.org/octokit/routes.svg?branch=master)](https://travis-ci.org/octokit/routes)
-
-⚠️ This module is work in progress. It does not follow [semantic versioning](https://semver.org/) yet. Feedback welcome :)
+[![Build Status](https://travis-ci.org/octokit/routes.svg?branch=master)](https://travis-ci.org/octokit/routes) [![Greenkeeper badge](https://badges.greenkeeper.io/octokit/routes.svg)](https://greenkeeper.io/)
 
 ## Usage
 
