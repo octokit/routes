@@ -10,6 +10,8 @@
 const ROUTES = require('@octokit/routes')
 ```
 
+Or load the latest version from [octokit.github.io/routes/index.json](https://octokit.github.io/routes/index.json)
+
 returns an object with keys being the route scopes such as `activity`, `issues`,
 `repositories`, etc (one for navigation header in the sidebar at https://developer.github.com/v3/).
 
@@ -22,6 +24,11 @@ route definition instead
 const REPO_ROUTES = require('@octokit/routes/routes/repos')
 const GET_REPO_ROUTE = require('@octokit/routes/routes/repos/get')
 ```
+
+Or load the from
+
+- [octokit.github.io/routes/routes/repos.json](https://octokit.github.io/routes/routes/repos.json)
+- [octokit.github.io/routes/routes/repos/get.json](https://octokit.github.io/routes/routes/repos/get.json)
 
 ## Example
 
