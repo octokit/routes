@@ -1,16 +1,43 @@
-# octokit-rest-routes
+# Octokit routes
 
 > machine-readable, always up-to-date GitHub REST API route specifications
 
 [![Build Status](https://travis-ci.org/octokit/routes.svg?branch=master)](https://travis-ci.org/octokit/routes) [![Greenkeeper badge](https://badges.greenkeeper.io/octokit/routes.svg)](https://greenkeeper.io/)
 
-## Usage
+## Downloads
+
+- All routes: [octokit.github.io/routes/index.json](https://octokit.github.io/routes/index.json)
+- All routes for a scope, e.g. `repos`: [octokit.github.io/routes/routes/repos.json](https://octokit.github.io/routes/routes/repos.json)
+- A single route, e.g. `GET /repos/:owner/:repo`: [octokit.github.io/routes/routes/repos/get.json](https://octokit.github.io/routes/routes/repos/get.json)
+
+## Example
+
+Example route definition
+
+```
+{
+  "name": "Lock an issue",
+  "enabledForApps": true,
+  "method": "PUT",
+  "path": "/repos/:owner/:repo/issues/:number/lock",
+  "params": [
+    {
+      "name": "lock_reason",
+      "type": "string",
+      "description": "The reason for locking the issue or pull request conversation. Lock will fail if you don't use one of these reasons:  \n\\* `off-topic`  \n\\* `too heated`  \n\\* `resolved`  \n\\* `spam`",
+      "required": false
+    }
+  ],
+  "description": "Users with push access can lock an issue or pull request's conversation.\n\nNote that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](/v3/#http-verbs).\"",
+  "documentationUrl": "https://developer.github.com/v3/issues/#lock-an-issue"
+}
+```
+
+## Usage as Node module
 
 ```
 const ROUTES = require('@octokit/routes')
 ```
-
-Or load the latest version from [octokit.github.io/routes/index.json](https://octokit.github.io/routes/index.json)
 
 returns an object with keys being the route scopes such as `activity`, `issues`,
 `repositories`, etc (one for navigation header in the sidebar at https://developer.github.com/v3/).
@@ -23,48 +50,6 @@ route definition instead
 ```js
 const REPO_ROUTES = require('@octokit/routes/routes/repos')
 const GET_REPO_ROUTE = require('@octokit/routes/routes/repos/get')
-```
-
-Or load the from
-
-- [octokit.github.io/routes/routes/repos.json](https://octokit.github.io/routes/routes/repos.json)
-- [octokit.github.io/routes/routes/repos/get.json](https://octokit.github.io/routes/routes/repos/get.json)
-
-## Example
-
-Here is an excerpt for reference
-
-```
-{
-  ...
-  "repositories": [
-    {
-      "name": "List your repositories",
-      "enabledForApps": false,
-      "method": "GET",
-      "path": "/user/repos",
-      "description": "List repositories that are accessible to ...",
-      "params": [
-        {
-          "name": "visibility",
-          "type": "enum",
-          "options": [
-            "all",
-            "public",
-            "private"
-          ],
-          "description": "Can be one of `all`, `public`, or `private`.",
-          "default": "all",
-          "required": false
-        },
-        ...
-      ],
-      "documentationUrl": "https://developer.github.com/v3/repos/#list-your-repositories"
-    },
-    ...
-  ],
-  ...
-}
 ```
 
 ## How it works
