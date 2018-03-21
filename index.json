@@ -2295,8 +2295,46 @@
       "documentationUrl": "https://developer.github.com/v3/gists/comments/#delete-a-comment"
     },
     {
-      "name": "List a user's gists",
+      "method": "GET",
+      "path": "/users/:username/gists",
       "enabledForApps": false,
+      "name": "List public gists for the specified user",
+      "params": [
+        {
+          "name": "username",
+          "type": "string",
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "since",
+          "type": "string",
+          "description": "A timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. Only gists updated at or after this time are returned.",
+          "required": false
+        },
+        {
+          "name": "per_page",
+          "type": "number",
+          "required": false,
+          "description": "Results per page (max 100)",
+          "default": 30
+        },
+        {
+          "name": "page",
+          "type": "number",
+          "required": true,
+          "description": "Page number of the results to fetch.",
+          "default": 1
+        }
+      ],
+      "description": "",
+      "documentationUrl": "https://developer.github.com/v3/gists/#list-a-users-gists"
+    },
+    {
+      "method": "GET",
+      "path": "/gists",
+      "enabledForApps": false,
+      "name": "List the authenticated user's gists or if called anonymously, this will return all public gists",
       "params": [
         {
           "name": "since",
@@ -2319,7 +2357,7 @@
           "default": 1
         }
       ],
-      "description": "List public gists for the specified user:\n\nList the authenticated user's gists or if called anonymously, this will return all public gists:",
+      "description": "",
       "documentationUrl": "https://developer.github.com/v3/gists/#list-a-users-gists"
     },
     {
@@ -2743,7 +2781,28 @@
     {
       "name": "Delete a Reference",
       "enabledForApps": true,
-      "params": [],
+      "method": "DELETE",
+      "path": "/repos/:owner/:repo/git/refs/:ref",
+      "params": [
+        {
+          "name": "owner",
+          "type": "string",
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "repo",
+          "type": "string",
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "ref",
+          "type": "string",
+          "required": true,
+          "description": ""
+        }
+      ],
       "description": "Example: Deleting a branch:\n\n```\nDELETE /repos/octocat/Hello-World/git/refs/heads/feature-a\n```\n\nExample: Deleting a tag:\n\n```\nDELETE /repos/octocat/Hello-World/git/refs/tags/v1.0\n```",
       "documentationUrl": "https://developer.github.com/v3/git/refs/#delete-a-reference"
     },
@@ -9847,8 +9906,10 @@
       "documentationUrl": "https://developer.github.com/v3/repos/#list-all-public-repositories"
     },
     {
-      "name": "Create",
+      "method": "POST",
+      "path": "/user/repos",
       "enabledForApps": true,
+      "name": "Create a new repository for the authenticated user",
       "params": [
         {
           "name": "name",
@@ -9973,7 +10034,145 @@
           "required": false
         }
       ],
-      "description": "Create a new repository for the authenticated user.\n\n**Note**: There are two endpoints for creating a repository: one to create a repository on a user account, and one to create a repository in an organization. The organization endpoint is fully enabled for [GitHub Apps](/v3/apps/available-endpoints/), whereas the user endpoint is enabled only for [user-to-server requests](/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#user-to-server-requests).\n\nCreate a new repository in this organization. The authenticated user must be a member of the specified organization.\n\n**OAuth scope requirements**\n\nWhen using [OAuth](/apps/building-integrations/setting-up-and-registering-oauth-apps/about-scopes-for-oauth-apps/), authorizations must include:\n\n*   `public_repo` scope or `repo` scope to create a public repository\n*   `repo` scope to create a private repository",
+      "description": "**Note**: There are two endpoints for creating a repository: one to create a repository on a user account, and one to create a repository in an organization. The organization endpoint is fully enabled for [GitHub Apps](/v3/apps/available-endpoints/), whereas the user endpoint is enabled only for [user-to-server requests](/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#user-to-server-requests).\n\n**OAuth scope requirements**\n\nWhen using [OAuth](/apps/building-integrations/setting-up-and-registering-oauth-apps/about-scopes-for-oauth-apps/), authorizations must include:\n\n*   `public_repo` scope or `repo` scope to create a public repository\n*   `repo` scope to create a private repository",
+      "documentationUrl": "https://developer.github.com/v3/repos/#create"
+    },
+    {
+      "method": "POST",
+      "path": "/orgs/:org/repos",
+      "enabledForApps": true,
+      "name": "Create a new repository in this organization",
+      "params": [
+        {
+          "name": "org",
+          "type": "string",
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "The name of the repository.",
+          "required": true
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "description": "A short description of the repository.",
+          "required": false
+        },
+        {
+          "name": "homepage",
+          "type": "string",
+          "description": "A URL with more information about the repository.",
+          "required": false
+        },
+        {
+          "name": "private",
+          "type": "enum",
+          "options": [
+            "true",
+            "false"
+          ],
+          "description": "Either `true` to create a private repository or `false` to create a public one. Creating private repositories requires a paid GitHub account.",
+          "default": "false",
+          "required": false
+        },
+        {
+          "name": "has_issues",
+          "type": "enum",
+          "options": [
+            "true",
+            "false"
+          ],
+          "description": "Either `true` to enable issues for this repository or `false` to disable them.",
+          "default": "true",
+          "required": false
+        },
+        {
+          "name": "has_projects",
+          "type": "enum",
+          "options": [
+            "true",
+            "false",
+            "false",
+            "true"
+          ],
+          "description": "Either `true` to enable projects for this repository or `false` to disable them. **Note:** If you're creating a repository in an organization that has disabled repository projects, the default is `false`, and if you pass `true`, the API returns an error.",
+          "default": "true",
+          "required": false
+        },
+        {
+          "name": "has_wiki",
+          "type": "enum",
+          "options": [
+            "true",
+            "false"
+          ],
+          "description": "Either `true` to enable the wiki for this repository or `false` to disable it.",
+          "default": "true",
+          "required": false
+        },
+        {
+          "name": "team_id",
+          "type": "integer",
+          "description": "The id of the team that will be granted access to this repository. This is only valid when creating a repository in an organization.",
+          "required": false
+        },
+        {
+          "name": "auto_init",
+          "type": "boolean",
+          "description": "Pass `true` to create an initial commit with empty README.",
+          "default": false,
+          "required": false
+        },
+        {
+          "name": "gitignore_template",
+          "type": "string",
+          "description": "Desired language or platform [.gitignore template](https://github.com/github/gitignore) to apply. Use the name of the template without the extension. For example, \"Haskell\".",
+          "required": false
+        },
+        {
+          "name": "license_template",
+          "type": "string",
+          "description": "Choose an [open source license template](https://choosealicense.com/) that best suits your needs, and then use the [license keyword](https://help.github.com/articles/licensing-a-repository/#searching-github-by-license-type) as the `license_template` string. For example, \"mit\" or \"mpl-2.0\".",
+          "required": false
+        },
+        {
+          "name": "allow_squash_merge",
+          "type": "enum",
+          "options": [
+            "true",
+            "false"
+          ],
+          "description": "Either `true` to allow squash-merging pull requests, or `false` to prevent squash-merging.",
+          "default": "true",
+          "required": false
+        },
+        {
+          "name": "allow_merge_commit",
+          "type": "enum",
+          "options": [
+            "true",
+            "false"
+          ],
+          "description": "Either `true` to allow merging pull requests with a merge commit, or `false` to prevent merging pull requests with merge commits.",
+          "default": "true",
+          "required": false
+        },
+        {
+          "name": "allow_rebase_merge",
+          "type": "enum",
+          "options": [
+            "true",
+            "false"
+          ],
+          "description": "Either `true` to allow rebase-merging pull requests, or `false` to prevent rebase-merging.",
+          "default": "true",
+          "required": false
+        }
+      ],
+      "description": "**Note**: There are two endpoints for creating a repository: one to create a repository on a user account, and one to create a repository in an organization. The organization endpoint is fully enabled for [GitHub Apps](/v3/apps/available-endpoints/), whereas the user endpoint is enabled only for [user-to-server requests](/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#user-to-server-requests).\n\n**OAuth scope requirements**\n\nWhen using [OAuth](/apps/building-integrations/setting-up-and-registering-oauth-apps/about-scopes-for-oauth-apps/), authorizations must include:\n\n*   `public_repo` scope or `repo` scope to create a public repository\n*   `repo` scope to create a private repository",
       "documentationUrl": "https://developer.github.com/v3/repos/#create"
     },
     {
@@ -12965,7 +13164,34 @@
     {
       "name": "Compare two commits",
       "enabledForApps": false,
-      "params": [],
+      "method": "GET",
+      "path": "/repos/:owner/:repo/compare/:base...:head",
+      "params": [
+        {
+          "name": "owner",
+          "type": "string",
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "repo",
+          "type": "string",
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "base",
+          "type": "string",
+          "required": true,
+          "description": ""
+        },
+        {
+          "name": "head",
+          "type": "string",
+          "required": true,
+          "description": ""
+        }
+      ],
       "description": "Both `:base` and `:head` must be branch names in `:repo`. To compare branches across other repositories in the same network as `:repo`, use the format `<USERNAME>:branch`. For example:\n\n```\nGET /repos/:owner/:repo/compare/hubot:branchname...octocat:branchname\n```\n\nThe response from the API is equivalent to running the `git log base..head` command; however, commits are returned in reverse chronological order.\n\nPass the appropriate [media type](/v3/media/#commits-commit-comparison-and-pull-requests) to fetch diff and patch formats.\n\n**Working with large comparisons**\n\nThe response will include a comparison of up to 250 commits. If you are working with a larger commit range, you can use the [Commit List API](/v3/repos/commits/#list-commits-on-a-repository) to enumerate all commits in the range.\n\nFor comparisons with extremely large diffs, you may receive an error response indicating that the diff took too long to generate. You can typically resolve this error by using a smaller commit range.",
       "documentationUrl": "https://developer.github.com/v3/repos/commits/#compare-two-commits"
     },
@@ -13875,7 +14101,15 @@
     {
       "name": "Get a list of provisioned identities",
       "enabledForApps": false,
+      "method": "GET",
+      "path": "https://api.github.com/scim/v2/organizations/:organization/Users",
       "params": [
+        {
+          "name": "organization",
+          "type": "string",
+          "required": true,
+          "description": ""
+        },
         {
           "name": "startIndex",
           "type": "integer",
@@ -13895,7 +14129,7 @@
           "required": false
         }
       ],
-      "description": "**Filter parameter**\n\nYou can filter results with the `id`, `userName`, `emails` and `external_id` query parameters.\n\nRetrieves a paginated list of all provisioned organization members, including pending invitations.",
+      "description": "**Filter parameter**\n\nYou can filter results with the `id`, `userName`, `emails` and `external_id` query parameters.\n\n```\nGET https://api.github.com/scim/v2/organizations/:organization/Users?filter=userName\n```\n\nRetrieves a paginated list of all provisioned organization members, including pending invitations.",
       "documentationUrl": "https://developer.github.com/v3/scim/#get-a-list-of-provisioned-identities"
     },
     {
