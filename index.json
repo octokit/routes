@@ -3933,7 +3933,7 @@
       "name": "Update a label",
       "enabledForApps": true,
       "method": "PATCH",
-      "path": "/repos/:owner/:repo/labels/:name",
+      "path": "/repos/:owner/:repo/labels/:oldname",
       "params": [
         {
           "name": "owner",
@@ -3948,7 +3948,7 @@
           "description": ""
         },
         {
-          "name": "name",
+          "name": "oldname",
           "type": "string",
           "required": true,
           "description": ""
@@ -6904,43 +6904,13 @@
           "type": "boolean",
           "description": "Indicates whether [maintainers can modify](https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/) the pull request.",
           "required": false
-        },
-        {
-          "name": "title",
-          "type": "string",
-          "description": "The title of the pull request.",
-          "required": true
-        },
-        {
-          "name": "head",
-          "type": "string",
-          "description": "The name of the branch where your changes are implemented. For cross-repository pull requests in the same network, namespace `head` with a user like this: `username:branch`.",
-          "required": true
-        },
-        {
-          "name": "base",
-          "type": "string",
-          "description": "The name of the branch you want the changes pulled into. This should be an existing branch on the current repository. You cannot submit a pull request to one repository that requests a merge to a base of another repository.",
-          "required": true
-        },
-        {
-          "name": "body",
-          "type": "string",
-          "description": "The contents of the pull request.",
-          "required": false
-        },
-        {
-          "name": "maintainer_can_modify",
-          "type": "boolean",
-          "description": "Indicates whether [maintainers can modify](https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/) the pull request.",
-          "required": false
         }
       ],
       "description": "",
       "documentationUrl": "https://developer.github.com/v3/pulls/#create-a-pull-request"
     },
     {
-      "name": "Create a pull request (alternative)",
+      "name": "create a Pull Request from an existing Issue by passing an Issue number ",
       "enabledForApps": true,
       "method": "POST",
       "path": "/repos/:owner/:repo/pulls",
@@ -6958,9 +6928,9 @@
           "description": ""
         },
         {
-          "name": "title",
-          "type": "string",
-          "description": "The title of the pull request.",
+          "name": "issue",
+          "type": "integer",
+          "description": "The issue number in this repository to turn into a Pull Request.",
           "required": true
         },
         {
@@ -6974,42 +6944,6 @@
           "type": "string",
           "description": "The name of the branch you want the changes pulled into. This should be an existing branch on the current repository. You cannot submit a pull request to one repository that requests a merge to a base of another repository.",
           "required": true
-        },
-        {
-          "name": "body",
-          "type": "string",
-          "description": "The contents of the pull request.",
-          "required": false
-        },
-        {
-          "name": "maintainer_can_modify",
-          "type": "boolean",
-          "description": "Indicates whether [maintainers can modify](https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/) the pull request.",
-          "required": false
-        },
-        {
-          "name": "title",
-          "type": "string",
-          "description": "The title of the pull request.",
-          "required": true
-        },
-        {
-          "name": "head",
-          "type": "string",
-          "description": "The name of the branch where your changes are implemented. For cross-repository pull requests in the same network, namespace `head` with a user like this: `username:branch`.",
-          "required": true
-        },
-        {
-          "name": "base",
-          "type": "string",
-          "description": "The name of the branch you want the changes pulled into. This should be an existing branch on the current repository. You cannot submit a pull request to one repository that requests a merge to a base of another repository.",
-          "required": true
-        },
-        {
-          "name": "body",
-          "type": "string",
-          "description": "The contents of the pull request.",
-          "required": false
         },
         {
           "name": "maintainer_can_modify",
@@ -7748,30 +7682,6 @@
           "type": "integer",
           "description": "The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. For help finding the position value, read the note below.",
           "required": true
-        },
-        {
-          "name": "body",
-          "type": "string",
-          "description": "The text of the comment.",
-          "required": true
-        },
-        {
-          "name": "commit_id",
-          "type": "string",
-          "description": "The SHA of the commit needing a comment. Not using the latest commit SHA may render your comment outdated if a subsequent commit modifies the line you specify as the `position`.",
-          "required": true
-        },
-        {
-          "name": "path",
-          "type": "string",
-          "description": "The relative path to the file that necessitates a comment.",
-          "required": true
-        },
-        {
-          "name": "position",
-          "type": "integer",
-          "description": "The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. For help finding the position value, read the note below.",
-          "required": true
         }
       ],
       "description": "**Note:** To comment on a specific line in a file, you need to first determine the _position_ of that line in the diff. The GitHub REST API v3 offers the `application/vnd.github.v3.diff` [media type](/v3/media/#commits-commit-comparison-and-pull-requests). To see a pull request diff, add this media type to the `Accept` header of a call to the [single pull request](/v3/pulls/#get-a-single-pull-request) endpoint.\n\nThe `position` value equals the number of lines down from the first \"@@\" hunk header in the file you want to add a comment. The line just below the \"@@\" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.",
@@ -7808,45 +7718,9 @@
           "required": true
         },
         {
-          "name": "commit_id",
-          "type": "string",
-          "description": "The SHA of the commit needing a comment. Not using the latest commit SHA may render your comment outdated if a subsequent commit modifies the line you specify as the `position`.",
-          "required": true
-        },
-        {
-          "name": "path",
-          "type": "string",
-          "description": "The relative path to the file that necessitates a comment.",
-          "required": true
-        },
-        {
-          "name": "position",
+          "name": "in_reply_to",
           "type": "integer",
-          "description": "The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. For help finding the position value, read the note below.",
-          "required": true
-        },
-        {
-          "name": "body",
-          "type": "string",
-          "description": "The text of the comment.",
-          "required": true
-        },
-        {
-          "name": "commit_id",
-          "type": "string",
-          "description": "The SHA of the commit needing a comment. Not using the latest commit SHA may render your comment outdated if a subsequent commit modifies the line you specify as the `position`.",
-          "required": true
-        },
-        {
-          "name": "path",
-          "type": "string",
-          "description": "The relative path to the file that necessitates a comment.",
-          "required": true
-        },
-        {
-          "name": "position",
-          "type": "integer",
-          "description": "The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. For help finding the position value, read the note below.",
+          "description": "The comment ID to reply to. **Note**: This must be the ID of a _top-level comment_, not a reply to that comment. Replies to replies are not supported.",
           "required": true
         }
       ],
@@ -9524,174 +9398,6 @@
           "description": ""
         },
         {
-          "name": "required_status_checks",
-          "type": "object",
-          "description": "Require status checks to pass before merging. Set to `null` to disable.",
-          "required": true
-        },
-        {
-          "name": "required_status_checks.strict",
-          "type": "boolean",
-          "description": "Require branches to be up to date before merging.",
-          "required": true
-        },
-        {
-          "name": "required_status_checks.contexts",
-          "type": "array",
-          "description": "The list of status checks to require in order to merge into this branch",
-          "required": true
-        },
-        {
-          "name": "enforce_admins",
-          "type": "boolean",
-          "description": "Enforce all configured restrictions for administrators. Set to `true` to enforce required status checks for repository administrators. Set to `null` to disable.",
-          "required": true
-        },
-        {
-          "name": "required_pull_request_reviews",
-          "type": "object",
-          "description": "Require at least one approving review on a pull request, before merging. Set to `null` to disable.",
-          "required": true
-        },
-        {
-          "name": "restrictions",
-          "type": "object",
-          "description": "Restrict who can push to this branch. Team and user `restrictions` are only available for organization-owned repositories. Set to `null` to disable.",
-          "required": true
-        },
-        {
-          "name": "required_status_checks",
-          "type": "object",
-          "description": "Require status checks to pass before merging. Set to `null` to disable.",
-          "required": true
-        },
-        {
-          "name": "required_status_checks.strict",
-          "type": "boolean",
-          "description": "Require branches to be up to date before merging.",
-          "required": true
-        },
-        {
-          "name": "required_status_checks.contexts",
-          "type": "array",
-          "description": "The list of status checks to require in order to merge into this branch",
-          "required": true
-        },
-        {
-          "name": "enforce_admins",
-          "type": "boolean",
-          "description": "Enforce all configured restrictions for administrators. Set to `true` to enforce required status checks for repository administrators. Set to `null` to disable.",
-          "required": true
-        },
-        {
-          "name": "required_pull_request_reviews",
-          "type": "object",
-          "description": "Require at least one approving review on a pull request, before merging. Set to `null` to disable.",
-          "required": true
-        },
-        {
-          "name": "required_pull_request_reviews.dismissal_restrictions",
-          "type": "object",
-          "description": "Specify which users and teams can dismiss pull request reviews. Pass an empty `dismissal_restrictions` object to disable. User and team `dismissal_restrictions` are only available for organization-owned repositories. Omit this parameter for personal repositories.",
-          "required": false
-        },
-        {
-          "name": "required_pull_request_reviews.dismiss_stale_reviews",
-          "type": "boolean",
-          "description": "Set to `true` if you want to automatically dismiss approving reviews when someone pushes a new commit.",
-          "required": false
-        },
-        {
-          "name": "required_pull_request_reviews.require_code_owner_reviews",
-          "type": "boolean",
-          "description": "Blocks merging pull requests until code owners review them.",
-          "required": false
-        },
-        {
-          "name": "required_pull_request_reviews.required_approving_review_count",
-          "type": "integer",
-          "description": "Specify the number of reviewers required to approve pull requests. Use a number between 1 and 6.",
-          "required": false
-        },
-        {
-          "name": "restrictions",
-          "type": "object",
-          "description": "Restrict who can push to this branch. Team and user `restrictions` are only available for organization-owned repositories. Set to `null` to disable.",
-          "required": true
-        },
-        {
-          "name": "dismissal_restrictions.users",
-          "type": "array",
-          "description": "The list of user `login`s with dismissal access",
-          "required": false
-        },
-        {
-          "name": "dismissal_restrictions.teams",
-          "type": "array",
-          "description": "The list of team `slug`s with dismissal access",
-          "required": false
-        },
-        {
-          "name": "required_status_checks",
-          "type": "object",
-          "description": "Require status checks to pass before merging. Set to `null` to disable.",
-          "required": true
-        },
-        {
-          "name": "required_status_checks.strict",
-          "type": "boolean",
-          "description": "Require branches to be up to date before merging.",
-          "required": true
-        },
-        {
-          "name": "required_status_checks.contexts",
-          "type": "array",
-          "description": "The list of status checks to require in order to merge into this branch",
-          "required": true
-        },
-        {
-          "name": "enforce_admins",
-          "type": "boolean",
-          "description": "Enforce all configured restrictions for administrators. Set to `true` to enforce required status checks for repository administrators. Set to `null` to disable.",
-          "required": true
-        },
-        {
-          "name": "required_pull_request_reviews",
-          "type": "object",
-          "description": "Require at least one approving review on a pull request, before merging. Set to `null` to disable.",
-          "required": true
-        },
-        {
-          "name": "required_pull_request_reviews.dismissal_restrictions",
-          "type": "object",
-          "description": "Specify which users and teams can dismiss pull request reviews. Pass an empty `dismissal_restrictions` object to disable. User and team `dismissal_restrictions` are only available for organization-owned repositories. Omit this parameter for personal repositories.",
-          "required": false
-        },
-        {
-          "name": "required_pull_request_reviews.dismiss_stale_reviews",
-          "type": "boolean",
-          "description": "Set to `true` if you want to automatically dismiss approving reviews when someone pushes a new commit.",
-          "required": false
-        },
-        {
-          "name": "required_pull_request_reviews.require_code_owner_reviews",
-          "type": "boolean",
-          "description": "Blocks merging pull requests until code owners review them.",
-          "required": false
-        },
-        {
-          "name": "required_pull_request_reviews.required_approving_review_count",
-          "type": "integer",
-          "description": "Specify the number of reviewers required to approve pull requests. Use a number between 1 and 6.",
-          "required": false
-        },
-        {
-          "name": "restrictions",
-          "type": "object",
-          "description": "Restrict who can push to this branch. Team and user `restrictions` are only available for organization-owned repositories. Set to `null` to disable.",
-          "required": true
-        },
-        {
           "name": "dismissal_restrictions.users",
           "type": "array",
           "description": "The list of user `login`s with dismissal access",
@@ -11256,12 +10962,6 @@
         {
           "name": "path",
           "type": "string",
-          "required": true,
-          "description": ""
-        },
-        {
-          "name": "path",
-          "type": "string",
           "description": "The content path.",
           "required": false
         },
@@ -11290,12 +10990,6 @@
         },
         {
           "name": "repo",
-          "type": "string",
-          "required": true,
-          "description": ""
-        },
-        {
-          "name": "path",
           "type": "string",
           "required": true,
           "description": ""
@@ -11353,12 +11047,6 @@
         },
         {
           "name": "repo",
-          "type": "string",
-          "required": true,
-          "description": ""
-        },
-        {
-          "name": "path",
           "type": "string",
           "required": true,
           "description": ""
@@ -11429,12 +11117,6 @@
         {
           "name": "path",
           "type": "string",
-          "required": true,
-          "description": ""
-        },
-        {
-          "name": "path",
-          "type": "string",
           "description": "The content path.",
           "required": true
         },
@@ -11485,18 +11167,6 @@
         },
         {
           "name": "repo",
-          "type": "string",
-          "required": true,
-          "description": ""
-        },
-        {
-          "name": "archive_format",
-          "type": "string",
-          "required": true,
-          "description": ""
-        },
-        {
-          "name": "ref",
           "type": "string",
           "required": true,
           "description": ""
@@ -11846,12 +11516,6 @@
         },
         {
           "name": "id",
-          "type": "string",
-          "required": true,
-          "description": ""
-        },
-        {
-          "name": "id",
           "type": "integer",
           "description": "The deployment ID to list the statuses from.",
           "required": true
@@ -11888,18 +11552,6 @@
         },
         {
           "name": "repo",
-          "type": "string",
-          "required": true,
-          "description": ""
-        },
-        {
-          "name": "id",
-          "type": "string",
-          "required": true,
-          "description": ""
-        },
-        {
-          "name": "status_id",
           "type": "string",
           "required": true,
           "description": ""
@@ -13125,12 +12777,6 @@
         {
           "name": "ref",
           "type": "string",
-          "required": true,
-          "description": ""
-        },
-        {
-          "name": "ref",
-          "type": "string",
           "description": "Ref to list the statuses from. It can be a SHA, a branch name, or a tag name.",
           "required": true
         },
@@ -13166,12 +12812,6 @@
         },
         {
           "name": "repo",
-          "type": "string",
-          "required": true,
-          "description": ""
-        },
-        {
-          "name": "ref",
           "type": "string",
           "required": true,
           "description": ""
@@ -14015,18 +13655,6 @@
         {
           "name": "state",
           "type": "string",
-          "required": true,
-          "description": ""
-        },
-        {
-          "name": "keyword",
-          "type": "string",
-          "required": true,
-          "description": ""
-        },
-        {
-          "name": "state",
-          "type": "string",
           "description": "Indicates the state of the issues to return. Can be either `open` or `closed`.",
           "required": false
         },
@@ -14046,12 +13674,6 @@
       "method": "GET",
       "path": "/legacy/repos/search/:keyword",
       "params": [
-        {
-          "name": "keyword",
-          "type": "string",
-          "required": true,
-          "description": ""
-        },
         {
           "name": "keyword",
           "type": "string",
@@ -14096,12 +13718,6 @@
         {
           "name": "keyword",
           "type": "string",
-          "required": true,
-          "description": ""
-        },
-        {
-          "name": "keyword",
-          "type": "string",
           "description": "The search term",
           "required": false
         },
@@ -14134,12 +13750,6 @@
       "method": "GET",
       "path": "/legacy/user/email/:email",
       "params": [
-        {
-          "name": "email",
-          "type": "string",
-          "required": true,
-          "description": ""
-        },
         {
           "name": "email",
           "type": "string",
