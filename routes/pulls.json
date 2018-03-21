@@ -148,43 +148,13 @@
         "type": "boolean",
         "description": "Indicates whether [maintainers can modify](https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/) the pull request.",
         "required": false
-      },
-      {
-        "name": "title",
-        "type": "string",
-        "description": "The title of the pull request.",
-        "required": true
-      },
-      {
-        "name": "head",
-        "type": "string",
-        "description": "The name of the branch where your changes are implemented. For cross-repository pull requests in the same network, namespace `head` with a user like this: `username:branch`.",
-        "required": true
-      },
-      {
-        "name": "base",
-        "type": "string",
-        "description": "The name of the branch you want the changes pulled into. This should be an existing branch on the current repository. You cannot submit a pull request to one repository that requests a merge to a base of another repository.",
-        "required": true
-      },
-      {
-        "name": "body",
-        "type": "string",
-        "description": "The contents of the pull request.",
-        "required": false
-      },
-      {
-        "name": "maintainer_can_modify",
-        "type": "boolean",
-        "description": "Indicates whether [maintainers can modify](https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/) the pull request.",
-        "required": false
       }
     ],
     "description": "",
     "documentationUrl": "https://developer.github.com/v3/pulls/#create-a-pull-request"
   },
   {
-    "name": "Create a pull request (alternative)",
+    "name": "create a Pull Request from an existing Issue by passing an Issue number ",
     "enabledForApps": true,
     "method": "POST",
     "path": "/repos/:owner/:repo/pulls",
@@ -202,9 +172,9 @@
         "description": ""
       },
       {
-        "name": "title",
-        "type": "string",
-        "description": "The title of the pull request.",
+        "name": "issue",
+        "type": "integer",
+        "description": "The issue number in this repository to turn into a Pull Request.",
         "required": true
       },
       {
@@ -218,42 +188,6 @@
         "type": "string",
         "description": "The name of the branch you want the changes pulled into. This should be an existing branch on the current repository. You cannot submit a pull request to one repository that requests a merge to a base of another repository.",
         "required": true
-      },
-      {
-        "name": "body",
-        "type": "string",
-        "description": "The contents of the pull request.",
-        "required": false
-      },
-      {
-        "name": "maintainer_can_modify",
-        "type": "boolean",
-        "description": "Indicates whether [maintainers can modify](https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/) the pull request.",
-        "required": false
-      },
-      {
-        "name": "title",
-        "type": "string",
-        "description": "The title of the pull request.",
-        "required": true
-      },
-      {
-        "name": "head",
-        "type": "string",
-        "description": "The name of the branch where your changes are implemented. For cross-repository pull requests in the same network, namespace `head` with a user like this: `username:branch`.",
-        "required": true
-      },
-      {
-        "name": "base",
-        "type": "string",
-        "description": "The name of the branch you want the changes pulled into. This should be an existing branch on the current repository. You cannot submit a pull request to one repository that requests a merge to a base of another repository.",
-        "required": true
-      },
-      {
-        "name": "body",
-        "type": "string",
-        "description": "The contents of the pull request.",
-        "required": false
       },
       {
         "name": "maintainer_can_modify",
@@ -992,30 +926,6 @@
         "type": "integer",
         "description": "The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. For help finding the position value, read the note below.",
         "required": true
-      },
-      {
-        "name": "body",
-        "type": "string",
-        "description": "The text of the comment.",
-        "required": true
-      },
-      {
-        "name": "commit_id",
-        "type": "string",
-        "description": "The SHA of the commit needing a comment. Not using the latest commit SHA may render your comment outdated if a subsequent commit modifies the line you specify as the `position`.",
-        "required": true
-      },
-      {
-        "name": "path",
-        "type": "string",
-        "description": "The relative path to the file that necessitates a comment.",
-        "required": true
-      },
-      {
-        "name": "position",
-        "type": "integer",
-        "description": "The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. For help finding the position value, read the note below.",
-        "required": true
       }
     ],
     "description": "**Note:** To comment on a specific line in a file, you need to first determine the _position_ of that line in the diff. The GitHub REST API v3 offers the `application/vnd.github.v3.diff` [media type](/v3/media/#commits-commit-comparison-and-pull-requests). To see a pull request diff, add this media type to the `Accept` header of a call to the [single pull request](/v3/pulls/#get-a-single-pull-request) endpoint.\n\nThe `position` value equals the number of lines down from the first \"@@\" hunk header in the file you want to add a comment. The line just below the \"@@\" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.",
@@ -1052,45 +962,9 @@
         "required": true
       },
       {
-        "name": "commit_id",
-        "type": "string",
-        "description": "The SHA of the commit needing a comment. Not using the latest commit SHA may render your comment outdated if a subsequent commit modifies the line you specify as the `position`.",
-        "required": true
-      },
-      {
-        "name": "path",
-        "type": "string",
-        "description": "The relative path to the file that necessitates a comment.",
-        "required": true
-      },
-      {
-        "name": "position",
+        "name": "in_reply_to",
         "type": "integer",
-        "description": "The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. For help finding the position value, read the note below.",
-        "required": true
-      },
-      {
-        "name": "body",
-        "type": "string",
-        "description": "The text of the comment.",
-        "required": true
-      },
-      {
-        "name": "commit_id",
-        "type": "string",
-        "description": "The SHA of the commit needing a comment. Not using the latest commit SHA may render your comment outdated if a subsequent commit modifies the line you specify as the `position`.",
-        "required": true
-      },
-      {
-        "name": "path",
-        "type": "string",
-        "description": "The relative path to the file that necessitates a comment.",
-        "required": true
-      },
-      {
-        "name": "position",
-        "type": "integer",
-        "description": "The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. For help finding the position value, read the note below.",
+        "description": "The comment ID to reply to. **Note**: This must be the ID of a _top-level comment_, not a reply to that comment. Replies to replies are not supported.",
         "required": true
       }
     ],
