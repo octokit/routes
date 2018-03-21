@@ -1,794 +1,5 @@
 [
   {
-    "name": "List deploy keys",
-    "enabledForApps": true,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/keys",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "per_page",
-        "type": "number",
-        "required": false,
-        "description": "Results per page (max 100)",
-        "default": 30
-      },
-      {
-        "name": "page",
-        "type": "number",
-        "required": true,
-        "description": "Page number of the results to fetch.",
-        "default": 1
-      }
-    ],
-    "description": "",
-    "documentationUrl": "https://developer.github.com/v3/repos/keys/#list-deploy-keys"
-  },
-  {
-    "name": "Get a deploy key",
-    "enabledForApps": true,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/keys/:id",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "id",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "",
-    "documentationUrl": "https://developer.github.com/v3/repos/keys/#get-a-deploy-key"
-  },
-  {
-    "name": "Add a new deploy key",
-    "enabledForApps": true,
-    "method": "POST",
-    "path": "/repos/:owner/:repo/keys",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "title",
-        "type": "string",
-        "description": "A name for the key.",
-        "required": false
-      },
-      {
-        "name": "key",
-        "type": "string",
-        "description": "The contents of the key.",
-        "required": false
-      },
-      {
-        "name": "read_only",
-        "type": "boolean",
-        "description": "If `true`, the key will only be able to read repository contents. Otherwise, the key will be able to read and write.",
-        "required": false
-      }
-    ],
-    "description": "Here's how you can create a read-only deploy key:\n\n",
-    "documentationUrl": "https://developer.github.com/v3/repos/keys/#add-a-new-deploy-key"
-  },
-  {
-    "name": "Remove a deploy key",
-    "enabledForApps": true,
-    "method": "DELETE",
-    "path": "/repos/:owner/:repo/keys/:id",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "id",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "",
-    "documentationUrl": "https://developer.github.com/v3/repos/keys/#remove-a-deploy-key"
-  },
-  {
-    "name": "Create a status",
-    "enabledForApps": true,
-    "method": "POST",
-    "path": "/repos/:owner/:repo/statuses/:sha",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "sha",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "state",
-        "type": "enum",
-        "options": [
-          "error",
-          "failure",
-          "pending",
-          "success"
-        ],
-        "description": "The state of the status. Can be one of `error`, `failure`, `pending`, or `success`.",
-        "required": true
-      },
-      {
-        "name": "target_url",
-        "type": "string",
-        "description": "The target URL to associate with this status. This URL will be linked from the GitHub UI to allow users to easily see the source of the status.  \nFor example, if your continuous integration system is posting build status, you would want to provide the deep link for the build output for this specific SHA:  \n`http://ci.example.com/user/repo/build/sha`",
-        "required": false
-      },
-      {
-        "name": "description",
-        "type": "string",
-        "description": "A short description of the status.",
-        "required": false
-      },
-      {
-        "name": "context",
-        "type": "string",
-        "description": "A string label to differentiate this status from the status of other systems.",
-        "default": "default",
-        "required": false
-      }
-    ],
-    "description": "Users with push access can create commit statuses for a given ref:\n\nNote: there is a limit of 1000 statuses per `sha` and `context` within a repository. Attempts to create more than 1000 statuses will result in a validation error.",
-    "documentationUrl": "https://developer.github.com/v3/repos/statuses/#create-a-status"
-  },
-  {
-    "name": "List statuses for a specific ref",
-    "enabledForApps": true,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/commits/:ref/statuses",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "ref",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "ref",
-        "type": "string",
-        "description": "Ref to list the statuses from. It can be a SHA, a branch name, or a tag name.",
-        "required": true
-      },
-      {
-        "name": "per_page",
-        "type": "number",
-        "required": false,
-        "description": "Results per page (max 100)",
-        "default": 30
-      },
-      {
-        "name": "page",
-        "type": "number",
-        "required": true,
-        "description": "Page number of the results to fetch.",
-        "default": 1
-      }
-    ],
-    "description": "Users with pull access can view commit statuses for a given ref:\n\nThis resource is also available via a legacy route: `GET /repos/:owner/:repo/statuses/:ref`.\n\nStatuses are returned in reverse chronological order. The first status in the list will be the latest one.",
-    "documentationUrl": "https://developer.github.com/v3/repos/statuses/#list-statuses-for-a-specific-ref"
-  },
-  {
-    "name": "Get the combined status for a specific ref",
-    "enabledForApps": true,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/commits/:ref/status",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "ref",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "ref",
-        "type": "string",
-        "description": "Ref to fetch the status for. It can be a SHA, a branch name, or a tag name.",
-        "required": true
-      }
-    ],
-    "description": "Users with pull access can access a combined view of commit statuses for a given ref.\n\nThe most recent status for each context is returned, up to 100. This field [paginates](/v3/#pagination) if there are over 100 contexts.\n\nAdditionally, a combined `state` is returned. The `state` is one of:\n\n*   **failure** if any of the contexts report as `error` or `failure`\n*   **pending** if there are no statuses or a context is `pending`\n*   **success** if the latest status for all contexts is `success`",
-    "documentationUrl": "https://developer.github.com/v3/repos/statuses/#get-the-combined-status-for-a-specific-ref"
-  },
-  {
-    "name": "List referrers",
-    "enabledForApps": false,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/traffic/popular/referrers",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "Get the top 10 referrers over the last 14 days.",
-    "documentationUrl": "https://developer.github.com/v3/repos/traffic/#list-referrers"
-  },
-  {
-    "name": "List paths",
-    "enabledForApps": false,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/traffic/popular/paths",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "Get the top 10 popular contents over the last 14 days.",
-    "documentationUrl": "https://developer.github.com/v3/repos/traffic/#list-paths"
-  },
-  {
-    "name": "Views",
-    "enabledForApps": false,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/traffic/views",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "per",
-        "type": "string",
-        "description": "Must be one of: `day`, `week`.",
-        "default": "day",
-        "required": false
-      }
-    ],
-    "description": "Get the total number of views and breakdown per day or week for the last 14 days. Timestamps are aligned to UTC midnight of the beginning of the day or week. Week begins on Monday.",
-    "documentationUrl": "https://developer.github.com/v3/repos/traffic/#views"
-  },
-  {
-    "name": "Clones",
-    "enabledForApps": false,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/traffic/clones",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "per",
-        "type": "string",
-        "description": "Must be one of: `day`, `week`.",
-        "default": "day",
-        "required": false
-      }
-    ],
-    "description": "Get the total number of clones and breakdown per day or week for the last 14 days. Timestamps are aligned to UTC midnight of the beginning of the day or week. Week begins on Monday.",
-    "documentationUrl": "https://developer.github.com/v3/repos/traffic/#clones"
-  },
-  {
-    "name": "List hooks",
-    "enabledForApps": false,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/hooks",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "per_page",
-        "type": "number",
-        "required": false,
-        "description": "Results per page (max 100)",
-        "default": 30
-      },
-      {
-        "name": "page",
-        "type": "number",
-        "required": true,
-        "description": "Page number of the results to fetch.",
-        "default": 1
-      }
-    ],
-    "description": "",
-    "documentationUrl": "https://developer.github.com/v3/repos/hooks/#list-hooks"
-  },
-  {
-    "name": "Get single hook",
-    "enabledForApps": false,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/hooks/:id",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "id",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "",
-    "documentationUrl": "https://developer.github.com/v3/repos/hooks/#get-single-hook"
-  },
-  {
-    "name": "Create a hook",
-    "enabledForApps": false,
-    "method": "POST",
-    "path": "/repos/:owner/:repo/hooks",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "name",
-        "type": "string",
-        "description": "Must be passed as \"web\".",
-        "required": true
-      },
-      {
-        "name": "config",
-        "type": "object",
-        "description": "Key/value pairs to provide settings for this webhook. [These are defined below](#create-hook-config-params).",
-        "required": true
-      },
-      {
-        "name": "config.url",
-        "type": "string",
-        "description": "**Required** The URL to which the payloads will be delivered.",
-        "required": false
-      },
-      {
-        "name": "config.content_type",
-        "type": "string",
-        "description": "The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`.",
-        "required": false
-      },
-      {
-        "name": "config.secret",
-        "type": "string",
-        "description": "If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value in the [`X-Hub-Signature`](/webhooks/#delivery-headers) header.",
-        "required": false
-      },
-      {
-        "name": "config.insecure_ssl",
-        "type": "string",
-        "description": "Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.**",
-        "required": false
-      },
-      {
-        "name": "events",
-        "type": "array",
-        "description": "Determines what [events](/v3/activity/events/types/) the hook is triggered for.",
-        "default": "[\"push\"]",
-        "required": false
-      },
-      {
-        "name": "active",
-        "type": "boolean",
-        "description": "Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.",
-        "default": true,
-        "required": false
-      }
-    ],
-    "description": "**Note**: Repository service hooks (like email or Campfire) can have at most one configured at a time. Creating hooks for a service that already has one configured will [update the existing hook](#edit-a-hook).\n\nRepositories can have multiple webhooks installed. Each webhook should have a unique `config`. Multiple webhooks can share the same `config` as long as those webhooks do not have any `events` that overlap.\n\nHere's how you can create a hook that posts payloads in JSON format:",
-    "documentationUrl": "https://developer.github.com/v3/repos/hooks/#create-a-hook"
-  },
-  {
-    "name": "Edit a hook",
-    "enabledForApps": false,
-    "method": "PATCH",
-    "path": "/repos/:owner/:repo/hooks/:id",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "id",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "config",
-        "type": "object",
-        "description": "Key/value pairs to provide settings for this webhook. [These are defined below](#create-hook-config-params).",
-        "required": true
-      },
-      {
-        "name": "config.url",
-        "type": "string",
-        "description": "**Required** The URL to which the payloads will be delivered.",
-        "required": false
-      },
-      {
-        "name": "config.content_type",
-        "type": "string",
-        "description": "The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`.",
-        "required": false
-      },
-      {
-        "name": "config.secret",
-        "type": "string",
-        "description": "If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value in the [`X-Hub-Signature`](/webhooks/#delivery-headers) header.",
-        "required": false
-      },
-      {
-        "name": "config.insecure_ssl",
-        "type": "string",
-        "description": "Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.**",
-        "required": false
-      },
-      {
-        "name": "events",
-        "type": "array",
-        "description": "Determines what [events](/v3/activity/events/types/) the hook is triggered for. This replaces the entire array of events.",
-        "default": "[\"push\"]",
-        "required": false
-      },
-      {
-        "name": "add_events",
-        "type": "array",
-        "description": "Determines a list of events to be added to the list of events that the Hook triggers for.",
-        "required": false
-      },
-      {
-        "name": "remove_events",
-        "type": "array",
-        "description": "Determines a list of events to be removed from the list of events that the Hook triggers for.",
-        "required": false
-      },
-      {
-        "name": "active",
-        "type": "boolean",
-        "description": "Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.",
-        "default": true,
-        "required": false
-      }
-    ],
-    "description": "",
-    "documentationUrl": "https://developer.github.com/v3/repos/hooks/#edit-a-hook"
-  },
-  {
-    "name": "Test a push hook",
-    "enabledForApps": false,
-    "method": "POST",
-    "path": "/repos/:owner/:repo/hooks/:id/tests",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "id",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "This will trigger the hook with the latest push to the current repository if the hook is subscribed to `push` events. If the hook is not subscribed to `push` events, the server will respond with 204 but no test POST will be generated.\n\n**Note**: Previously `/repos/:owner/:repo/hooks/:id/test`",
-    "documentationUrl": "https://developer.github.com/v3/repos/hooks/#test-a-push-hook"
-  },
-  {
-    "name": "Ping a hook",
-    "enabledForApps": false,
-    "method": "POST",
-    "path": "/repos/:owner/:repo/hooks/:id/pings",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "id",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "This will trigger a [ping event](/webhooks/#ping-event) to be sent to the hook.",
-    "documentationUrl": "https://developer.github.com/v3/repos/hooks/#ping-a-hook"
-  },
-  {
-    "name": "Delete a hook",
-    "enabledForApps": false,
-    "method": "DELETE",
-    "path": "/repos/:owner/:repo/hooks/:id",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "id",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "",
-    "documentationUrl": "https://developer.github.com/v3/repos/hooks/#delete-a-hook"
-  },
-  {
-    "name": "Get contributors list with additions, deletions, and commit counts",
-    "enabledForApps": true,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/stats/contributors",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "*   `total` \\- The Total number of commits authored by the contributor.\n\nWeekly Hash (`weeks` array):\n\n*   `w` \\- Start of the week, given as a [Unix timestamp](http://en.wikipedia.org/wiki/Unix_time).\n*   `a` \\- Number of additions\n*   `d` \\- Number of deletions\n*   `c` \\- Number of commits\n\n",
-    "documentationUrl": "https://developer.github.com/v3/repos/statistics/#get-contributors-list-with-additions-deletions-and-commit-counts"
-  },
-  {
-    "name": "Get the last year of commit activity data",
-    "enabledForApps": true,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/stats/commit_activity",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "Returns the last year of commit activity grouped by week. The `days` array is a group of commits per day, starting on `Sunday`.\n\n",
-    "documentationUrl": "https://developer.github.com/v3/repos/statistics/#get-the-last-year-of-commit-activity-data"
-  },
-  {
-    "name": "Get the number of additions and deletions per week",
-    "enabledForApps": true,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/stats/code_frequency",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "Returns a weekly aggregate of the number of additions and deletions pushed to a repository.\n\n",
-    "documentationUrl": "https://developer.github.com/v3/repos/statistics/#get-the-number-of-additions-and-deletions-per-week"
-  },
-  {
-    "name": "Get the weekly commit count for the repository owner and everyone else",
-    "enabledForApps": true,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/stats/participation",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "Returns the total commit counts for the `owner` and total commit counts in `all`. `all` is everyone combined, including the `owner` in the last 52 weeks. If you'd like to get the commit counts for non-owners, you can subtract `owner` from `all`.\n\nThe array order is oldest week (index 0) to most recent week.\n\n",
-    "documentationUrl": "https://developer.github.com/v3/repos/statistics/#get-the-weekly-commit-count-for-the-repository-owner-and-everyone-else"
-  },
-  {
-    "name": "Get the number of commits per hour in each day",
-    "enabledForApps": true,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/stats/punch_card",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "Each array contains the day number, hour number, and number of commits:\n\n*   `0-6`: Sunday - Saturday\n*   `0-23`: Hour of day\n*   Number of commits\n\nFor example, `[2, 14, 25]` indicates that there were 25 total commits, during the 2:00pm hour on Tuesdays. All times are based on the time zone of individual commits.",
-    "documentationUrl": "https://developer.github.com/v3/repos/statistics/#get-the-number-of-commits-per-hour-in-each-day"
-  },
-  {
     "name": "List your repositories",
     "enabledForApps": false,
     "method": "GET",
@@ -3007,6 +2218,1734 @@
     "documentationUrl": "https://developer.github.com/v3/repos/collaborators/#remove-user-as-a-collaborator"
   },
   {
+    "name": "List commit comments for a repository",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/comments",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "per_page",
+        "type": "number",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30
+      },
+      {
+        "name": "page",
+        "type": "number",
+        "required": true,
+        "description": "Page number of the results to fetch.",
+        "default": 1
+      }
+    ],
+    "description": "Commit Comments use [these custom media types](#custom-media-types). You can read more about the use of media types in the API [here](/v3/media/).\n\nComments are ordered by ascending ID.",
+    "documentationUrl": "https://developer.github.com/v3/repos/comments/#list-commit-comments-for-a-repository"
+  },
+  {
+    "name": "List comments for a single commit",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/commits/:ref/comments",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "ref",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "per_page",
+        "type": "number",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30
+      },
+      {
+        "name": "page",
+        "type": "number",
+        "required": true,
+        "description": "Page number of the results to fetch.",
+        "default": 1
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/repos/comments/#list-comments-for-a-single-commit"
+  },
+  {
+    "name": "Create a commit comment",
+    "enabledForApps": true,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/commits/:sha/comments",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "sha",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "body",
+        "type": "string",
+        "description": "The contents of the comment.",
+        "required": true
+      },
+      {
+        "name": "path",
+        "type": "string",
+        "description": "Relative path of the file to comment on.",
+        "required": false
+      },
+      {
+        "name": "position",
+        "type": "integer",
+        "description": "Line index in the diff to comment on.",
+        "required": false
+      },
+      {
+        "name": "line",
+        "type": "integer",
+        "description": "**Deprecated**. Use **position** parameter instead. Line number in the file to comment on.",
+        "required": false
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/repos/comments/#create-a-commit-comment"
+  },
+  {
+    "name": "Get a single commit comment",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/comments/:id",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/repos/comments/#get-a-single-commit-comment"
+  },
+  {
+    "name": "Update a commit comment",
+    "enabledForApps": true,
+    "method": "PATCH",
+    "path": "/repos/:owner/:repo/comments/:id",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "body",
+        "type": "string",
+        "description": "The contents of the comment",
+        "required": true
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/repos/comments/#update-a-commit-comment"
+  },
+  {
+    "name": "Delete a commit comment",
+    "enabledForApps": true,
+    "method": "DELETE",
+    "path": "/repos/:owner/:repo/comments/:id",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/repos/comments/#delete-a-commit-comment"
+  },
+  {
+    "name": "Retrieve community profile metrics",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:name/community/profile",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
+    "description": "This endpoint will return all community profile metrics, including an overall health score, repository description, the presence of documentation, detected code of conduct, detected license, and the presence of ISSUE\\_TEMPLATE, PULL\\_REQUEST_TEMPLATE, README, and CONTRIBUTING files.",
+    "documentationUrl": "https://developer.github.com/v3/repos/community/#retrieve-community-profile-metrics"
+  },
+  {
+    "name": "List commits on a repository",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/commits",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "sha",
+        "type": "string",
+        "description": "SHA or branch to start listing commits from.",
+        "default": "the repository’s default branch (usually `master`).",
+        "required": false
+      },
+      {
+        "name": "path",
+        "type": "string",
+        "description": "Only commits containing this file path will be returned.",
+        "required": false
+      },
+      {
+        "name": "author",
+        "type": "string",
+        "description": "GitHub login or email address by which to filter by commit author.",
+        "required": false
+      },
+      {
+        "name": "since",
+        "type": "string",
+        "description": "Only commits after this date will be returned. This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.",
+        "required": false
+      },
+      {
+        "name": "until",
+        "type": "string",
+        "description": "Only commits before this date will be returned. This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.",
+        "required": false
+      },
+      {
+        "name": "per_page",
+        "type": "number",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30
+      },
+      {
+        "name": "page",
+        "type": "number",
+        "required": true,
+        "description": "Page number of the results to fetch.",
+        "default": 1
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/repos/commits/#list-commits-on-a-repository"
+  },
+  {
+    "name": "Get a single commit",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/commits/:sha",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "sha",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
+    "description": "Diffs with binary data will have no 'patch' property. Pass the appropriate [media type](/v3/media/#commits-commit-comparison-and-pull-requests) to fetch diff and patch formats.",
+    "documentationUrl": "https://developer.github.com/v3/repos/commits/#get-a-single-commit"
+  },
+  {
+    "name": "Get the SHA-1 of a commit reference",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/commits/:ref",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "ref",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
+    "description": "Users with read access can get the SHA-1 of a commit reference:\n\nTo access the API you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n\n\nTo check if a remote reference's SHA-1 is the same as your local reference's SHA-1, make a `GET` request and provide the current SHA-1 for the local reference as the ETag.\n\nThe SHA-1 of the commit reference.\n\n",
+    "documentationUrl": "https://developer.github.com/v3/repos/commits/#get-the-sha-1-of-a-commit-reference"
+  },
+  {
+    "name": "Compare two commits",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/compare/:base...:head",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "base",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "head",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
+    "description": "Both `:base` and `:head` must be branch names in `:repo`. To compare branches across other repositories in the same network as `:repo`, use the format `<USERNAME>:branch`. For example:\n\n```\nGET /repos/:owner/:repo/compare/hubot:branchname...octocat:branchname\n```\n\nThe response from the API is equivalent to running the `git log base..head` command; however, commits are returned in reverse chronological order.\n\nPass the appropriate [media type](/v3/media/#commits-commit-comparison-and-pull-requests) to fetch diff and patch formats.\n\n**Working with large comparisons**\n\nThe response will include a comparison of up to 250 commits. If you are working with a larger commit range, you can use the [Commit List API](/v3/repos/commits/#list-commits-on-a-repository) to enumerate all commits in the range.\n\nFor comparisons with extremely large diffs, you may receive an error response indicating that the diff took too long to generate. You can typically resolve this error by using a smaller commit range.",
+    "documentationUrl": "https://developer.github.com/v3/repos/commits/#compare-two-commits"
+  },
+  {
+    "name": "Commit signature verification",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/commits/:sha",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "sha",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "verified",
+        "type": "boolean",
+        "description": "Does GitHub consider the signature in this commit to be verified?",
+        "required": false
+      },
+      {
+        "name": "reason",
+        "type": "string",
+        "description": "The reason for `verified` value. Possible values and their meanings are enumerated in the table below.",
+        "required": false
+      },
+      {
+        "name": "signature",
+        "type": "string",
+        "description": "The signature that was extracted from the commit.",
+        "required": false
+      },
+      {
+        "name": "payload",
+        "type": "string",
+        "description": "The value that was signed.",
+        "required": false
+      }
+    ],
+    "description": "**The verification object**\n\n**The reason field**\n\nThe following are possible `reason`s that may be included in the `verification` object:\n\n| Value                    | Description                                                                                                                       |\n| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |\n| `expired_key`            | The key that made the signature is expired.                                                                                       |\n| `not_signing_key`        | The \"signing\" flag is not among the usage flags in the GPG key that made the signature.                                           |\n| `gpgverify_error`        | There was an error communicating with the signature-verification service.                                                         |\n| `gpgverify_unavailable`  | The signature-verification service is currently unavailable.                                                                      |\n| `unsigned`               | The object does not include a signature.                                                                                          |\n| `unknown_signature_type` | A non-PGP signature was found in the commit.                                                                                      |\n| `no_user`                | No user was associated with the `committer` email address in the commit.                                                          |\n| `unverified_email`       | The `committer` email address in the commit was associated with a user, but the email address is not verified on her/his account. |\n| `bad_email`              | The `committer` email address in the commit is not included in the identities of the PGP key that made the signature.             |\n| `unknown_key`            | The key that made the signature has not been registered with any user's account.                                                  |\n| `malformed_signature`    | There was an error parsing the signature.                                                                                         |\n| `invalid`                | The signature could not be cryptographically verified using the key whose key-id was found in the signature.                      |\n| `valid`                  | None of the above errors applied, so the signature is considered to be verified.                                                  |",
+    "documentationUrl": "https://developer.github.com/v3/repos/commits/#commit-signature-verification"
+  },
+  {
+    "name": "Get the README",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/readme",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "ref",
+        "type": "string",
+        "description": "The name of the commit/branch/tag.",
+        "default": "the repository’s default branch (usually `master`)",
+        "required": false
+      }
+    ],
+    "description": "This method returns the preferred README for a repository.\n\nREADMEs support [custom media types](#custom-media-types) for retrieving the raw content or rendered HTML.",
+    "documentationUrl": "https://developer.github.com/v3/repos/contents/#get-the-readme"
+  },
+  {
+    "name": "Get contents",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/contents/:path",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "path",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "path",
+        "type": "string",
+        "description": "The content path.",
+        "required": false
+      },
+      {
+        "name": "ref",
+        "type": "string",
+        "description": "The name of the commit/branch/tag.",
+        "default": "the repository’s default branch (usually `master`)",
+        "required": false
+      }
+    ],
+    "description": "This method returns the contents of a file or directory in a repository.\n\nFiles and symlinks support [a custom media type](#custom-media-types) for retrieving the raw content or rendered HTML (when supported). All content types support [a custom media type](#custom-media-types) to ensure the content is returned in a consistent object format.\n\n**Note**:\n\n*   To get a repository's contents recursively, you can [recursively get the tree](/v3/git/trees/).\n*   This API has an upper limit of 1,000 files for a directory. If you need to retrieve more files, use the [Git Trees API](/v3/git/trees/#get-a-tree).\n*   This API supports files up to 1 megabyte in size.\n\nThe response will be an array of objects, one object for each item in the directory.\n\nWhen listing the contents of a directory, submodules have their \"type\" specified as \"file\". Logically, the value _should_ be \"submodule\". This behavior exists in API v3 [for backwards compatibility purposes](https://git.io/v1YCW). In the next major version of the API, the type will be returned as \"submodule\".\n\nIf the requested `:path` points to a symlink, and the symlink's target is a normal file in the repository, then the API responds with the content of the file (in the [format shown above](#response-if-content-is-a-file)).\n\nOtherwise, the API responds with an object describing the symlink itself:\n\nThe `submodule_git_url` identifies the location of the submodule repository, and the `sha` identifies a specific commit within the submodule repository. Git uses the given URL when cloning the submodule repository, and checks out the submodule at that specific commit.\n\nIf the submodule repository is not hosted on github.com, the Git URLs (`git_url` and `_links[\"git\"]`) and the github.com URLs (`html_url` and `_links[\"html\"]`) will have null values.",
+    "documentationUrl": "https://developer.github.com/v3/repos/contents/#get-contents"
+  },
+  {
+    "name": "Create a file",
+    "enabledForApps": true,
+    "method": "PUT",
+    "path": "/repos/:owner/:repo/contents/:path",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "path",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "path",
+        "type": "string",
+        "description": "The content path.",
+        "required": true
+      },
+      {
+        "name": "message",
+        "type": "string",
+        "description": "The commit message.",
+        "required": true
+      },
+      {
+        "name": "content",
+        "type": "string",
+        "description": "The new file content, Base64 encoded.",
+        "required": true
+      },
+      {
+        "name": "branch",
+        "type": "string",
+        "description": "The branch name.",
+        "default": "the repository’s default branch (usually `master`)",
+        "required": false
+      },
+      {
+        "name": "committer",
+        "type": "object",
+        "description": "object containing information about the committer."
+      },
+      {
+        "name": "author",
+        "type": "object",
+        "description": "object containing information about the author."
+      }
+    ],
+    "description": "This method creates a new file in a repository\n\nThe `author` section is optional and is filled in with the `committer` information if omitted. If the `committer` information is omitted, the authenticated user's information is used.\n\nYou must provide values for both `name` and `email`, whether you choose to use `author` or `committer`. Otherwise, you'll receive a `422` status code.\n\nBoth the `author` and `committer` parameters have the same keys:\n\n| name  | type   | description                                          |\n| ----- | ------ | ---------------------------------------------------- |\n| name  | string | The name of the author (or committer) of the commit  |\n| email | string | The email of the author (or committer) of the commit |",
+    "documentationUrl": "https://developer.github.com/v3/repos/contents/#create-a-file"
+  },
+  {
+    "name": "Update a file",
+    "enabledForApps": true,
+    "method": "PUT",
+    "path": "/repos/:owner/:repo/contents/:path",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "path",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "path",
+        "type": "string",
+        "description": "The content path.",
+        "required": true
+      },
+      {
+        "name": "message",
+        "type": "string",
+        "description": "The commit message.",
+        "required": true
+      },
+      {
+        "name": "content",
+        "type": "string",
+        "description": "The updated file content, Base64 encoded.",
+        "required": true
+      },
+      {
+        "name": "sha",
+        "type": "string",
+        "description": "The blob SHA of the file being replaced.",
+        "required": true
+      },
+      {
+        "name": "branch",
+        "type": "string",
+        "description": "The branch name.",
+        "default": "the repository’s default branch (usually `master`)",
+        "required": false
+      },
+      {
+        "name": "committer",
+        "type": "object",
+        "description": "object containing information about the committer."
+      },
+      {
+        "name": "author",
+        "type": "object",
+        "description": "object containing information about the author."
+      }
+    ],
+    "description": "This method updates a file in a repository\n\nThe `author` section is optional and is filled in with the `committer` information if omitted. If the `committer` information is omitted, the authenticated user's information is used.\n\nYou must provide values for both `name` and `email`, whether you choose to use `author` or `committer`. Otherwise, you'll receive a `422` status code.\n\nBoth the `author` and `committer` parameters have the same keys:\n\n| name  | type   | description                                          |\n| ----- | ------ | ---------------------------------------------------- |\n| name  | string | The name of the author (or committer) of the commit  |\n| email | string | The email of the author (or committer) of the commit |",
+    "documentationUrl": "https://developer.github.com/v3/repos/contents/#update-a-file"
+  },
+  {
+    "name": "Delete a file",
+    "enabledForApps": true,
+    "method": "DELETE",
+    "path": "/repos/:owner/:repo/contents/:path",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "path",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "path",
+        "type": "string",
+        "description": "The content path.",
+        "required": true
+      },
+      {
+        "name": "message",
+        "type": "string",
+        "description": "The commit message.",
+        "required": true
+      },
+      {
+        "name": "sha",
+        "type": "string",
+        "description": "The blob SHA of the file being replaced.",
+        "required": true
+      },
+      {
+        "name": "branch",
+        "type": "string",
+        "description": "The branch name.",
+        "default": "the repository’s default branch (usually `master`)",
+        "required": false
+      },
+      {
+        "name": "committer",
+        "type": "object",
+        "description": "object containing information about the committer."
+      },
+      {
+        "name": "author",
+        "type": "object",
+        "description": "object containing information about the author."
+      }
+    ],
+    "description": "This method deletes a file in a repository\n\nThe `author` section is optional and is filled in with the `committer` information if omitted. If the `committer` information is omitted, the authenticated user's information is used.\n\nYou must provide values for both `name` and `email`, whether you choose to use `author` or `committer`. Otherwise, you'll receive a `422` status code.\n\nBoth the `author` and `committer` parameters have the same keys:\n\n| name  | type   | description                                          |\n| ----- | ------ | ---------------------------------------------------- |\n| name  | string | The name of the author (or committer) of the commit  |\n| email | string | The email of the author (or committer) of the commit |",
+    "documentationUrl": "https://developer.github.com/v3/repos/contents/#delete-a-file"
+  },
+  {
+    "name": "Get archive link",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/:archive_format/:ref",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "archive_format",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "ref",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "archive_format",
+        "type": "string",
+        "description": "Can be either `tarball` or `zipball`.",
+        "default": "tarball",
+        "required": false
+      },
+      {
+        "name": "ref",
+        "type": "string",
+        "description": "A valid Git reference.",
+        "default": "the repository’s default branch (usually `master`)",
+        "required": false
+      }
+    ],
+    "description": "This method will return a `302` to a URL to download a tarball or zipball archive for a repository. Please make sure your HTTP framework is configured to follow redirects or you will need to use the `Location` header to make a second `GET` request.\n\n_Note_: For private repositories, these links are temporary and expire after five minutes.\n\nTo follow redirects with curl, use the `-L` switch:\n\n",
+    "documentationUrl": "https://developer.github.com/v3/repos/contents/#get-archive-link"
+  },
+  {
+    "name": "List deploy keys",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/keys",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "per_page",
+        "type": "number",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30
+      },
+      {
+        "name": "page",
+        "type": "number",
+        "required": true,
+        "description": "Page number of the results to fetch.",
+        "default": 1
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/repos/keys/#list-deploy-keys"
+  },
+  {
+    "name": "Get a deploy key",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/keys/:id",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/repos/keys/#get-a-deploy-key"
+  },
+  {
+    "name": "Add a new deploy key",
+    "enabledForApps": true,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/keys",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "description": "A name for the key.",
+        "required": false
+      },
+      {
+        "name": "key",
+        "type": "string",
+        "description": "The contents of the key.",
+        "required": false
+      },
+      {
+        "name": "read_only",
+        "type": "boolean",
+        "description": "If `true`, the key will only be able to read repository contents. Otherwise, the key will be able to read and write.",
+        "required": false
+      }
+    ],
+    "description": "Here's how you can create a read-only deploy key:\n\n",
+    "documentationUrl": "https://developer.github.com/v3/repos/keys/#add-a-new-deploy-key"
+  },
+  {
+    "name": "Remove a deploy key",
+    "enabledForApps": true,
+    "method": "DELETE",
+    "path": "/repos/:owner/:repo/keys/:id",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/repos/keys/#remove-a-deploy-key"
+  },
+  {
+    "name": "List deployments",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/deployments",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "sha",
+        "type": "string",
+        "description": "The SHA that was recorded at creation time.",
+        "default": "none",
+        "required": false
+      },
+      {
+        "name": "ref",
+        "type": "string",
+        "description": "The name of the ref. This can be a branch, tag, or SHA.",
+        "default": "none",
+        "required": false
+      },
+      {
+        "name": "task",
+        "type": "string",
+        "description": "The name of the task for the deployment (e.g., `deploy` or `deploy:migrations`).",
+        "default": "none",
+        "required": false
+      },
+      {
+        "name": "environment",
+        "type": "string",
+        "description": "The name of the environment that was deployed to (e.g., `staging` or `production`).",
+        "default": "none",
+        "required": false
+      },
+      {
+        "name": "per_page",
+        "type": "number",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30
+      },
+      {
+        "name": "page",
+        "type": "number",
+        "required": true,
+        "description": "Page number of the results to fetch.",
+        "default": 1
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/repos/deployments/#list-deployments"
+  },
+  {
+    "name": "Get a single deployment",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/deployments/:id",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
+    "description": "\n\n**Note:** If a user created a deployment via a GitHub App, the `performed_via_github_app` key will contain information on that GitHub App.",
+    "documentationUrl": "https://developer.github.com/v3/repos/deployments/#get-a-single-deployment"
+  },
+  {
+    "name": "Create a deployment",
+    "enabledForApps": true,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/deployments",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "ref",
+        "type": "string",
+        "description": "The ref to deploy. This can be a branch, tag, or SHA.",
+        "required": true
+      },
+      {
+        "name": "task",
+        "type": "string",
+        "description": "Specifies a task to execute (e.g., `deploy` or `deploy:migrations`).",
+        "default": "deploy",
+        "required": false
+      },
+      {
+        "name": "auto_merge",
+        "type": "boolean",
+        "description": "Attempts to automatically merge the default branch into the requested ref, if it is behind the default branch.",
+        "default": true,
+        "required": false
+      },
+      {
+        "name": "required_contexts",
+        "type": "array",
+        "description": "The status contexts to verify against commit status checks. If this parameter is omitted, then all unique contexts will be verified before a deployment is created. To bypass checking entirely pass an empty array. Defaults to all unique contexts.",
+        "required": false
+      },
+      {
+        "name": "payload",
+        "type": "string",
+        "description": "JSON payload with extra information about the deployment.",
+        "default": "\"\"",
+        "required": false
+      },
+      {
+        "name": "environment",
+        "type": "string",
+        "description": "Name for the target deployment environment (e.g., `production`, `staging`, `qa`).",
+        "default": "production",
+        "required": false
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "description": "Short description of the deployment.",
+        "default": "\"\"",
+        "required": false
+      },
+      {
+        "name": "transient_environment",
+        "type": "boolean",
+        "description": "Specifies if the given environment is specific to the deployment and will no longer exist at some point in the future. **This parameter requires a custom media type to be specified. Please see more in the alert below.**",
+        "default": false,
+        "required": false
+      },
+      {
+        "name": "production_environment",
+        "type": "boolean",
+        "description": "Specifies if the given environment is one that end-users directly interact with. **This parameter requires a custom media type to be specified. Please see more in the alert below.**",
+        "default": "`true` when `environment` is `production` and `false` otherwise",
+        "required": false
+      }
+    ],
+    "description": "Deployments offer a few configurable parameters with sane defaults.\n\nThe `ref` parameter can be any named branch, tag, or SHA. At GitHub we often deploy branches and verify them before we merge a pull request.\n\nThe `environment` parameter allows deployments to be issued to different runtime environments. Teams often have multiple environments for verifying their applications, such as `production`, `staging`, and `qa`. This allows for easy tracking of which environments had deployments requested. The default environment is `production`.\n\nThe `auto_merge` parameter is used to ensure that the requested ref is not behind the repository's default branch. If the ref _is_ behind the default branch for the repository, we will attempt to merge it for you. If the merge succeeds, the API will return a successful merge commit. If merge conflicts prevent the merge from succeeding, the API will return a failure response.\n\nBy default, [commit statuses](/v3/repos/statuses) for every submitted context must be in a `success` state. The `required_contexts` parameter allows you to specify a subset of contexts that must be `success`, or to specify contexts that have not yet been submitted. You are not required to use commit statuses to deploy. If you do not require any contexts or create any commit statuses, the deployment will always succeed.\n\nThe `payload` parameter is available for any extra information that a deployment system might need. It is a JSON text field that will be passed on when a deployment event is dispatched.\n\nThe `task` parameter is used by the deployment system to allow different execution paths. In the web world this might be `deploy:migrations` to run schema changes on the system. In the compiled world this could be a flag to compile an application with debugging enabled.\n\nUsers with `repo` or `repo_deployment` scopes can create a deployment for a given ref:\n\nA simple example putting the user and room into the payload to notify back to chat networks.\n\nA more advanced example specifying required commit statuses and bypassing auto-merging.\n\nThis error happens when the `auto_merge` option is enabled and when the default branch (in this case `master`), can't be merged into the branch that's being deployed (in this case `topic-branch`), due to merge conflicts.\n\nThis error happens when the `required_contexts` parameter indicates that one or more contexts need to have a `success` status for the commit to be deployed, but one or more of the required contexts do not have a state of `success`.",
+    "documentationUrl": "https://developer.github.com/v3/repos/deployments/#create-a-deployment"
+  },
+  {
+    "name": "List deployment statuses",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/deployments/:id/statuses",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "integer",
+        "description": "The deployment ID to list the statuses from.",
+        "required": true
+      },
+      {
+        "name": "per_page",
+        "type": "number",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30
+      },
+      {
+        "name": "page",
+        "type": "number",
+        "required": true,
+        "description": "Page number of the results to fetch.",
+        "default": 1
+      }
+    ],
+    "description": "Users with pull access can view deployment statuses for a deployment:",
+    "documentationUrl": "https://developer.github.com/v3/repos/deployments/#list-deployment-statuses"
+  },
+  {
+    "name": "Get a single deployment status",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/deployments/:id/statuses/:status_id",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "status_id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "integer",
+        "description": "The deployment ID to list the statuses from.",
+        "required": true
+      },
+      {
+        "name": "status_id",
+        "type": "integer",
+        "description": "The deployment status ID.",
+        "required": true
+      }
+    ],
+    "description": "Users with pull access can view a deployment status for a deployment:\n\n\n\n**Note:** If a user created a deployment status via a GitHub App, the `performed_via_github_app` key will contain information on that GitHub App.",
+    "documentationUrl": "https://developer.github.com/v3/repos/deployments/#get-a-single-deployment-status"
+  },
+  {
+    "name": "Create a deployment status",
+    "enabledForApps": true,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/deployments/:id/statuses",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "state",
+        "type": "enum",
+        "options": [
+          "error",
+          "failure",
+          "inactive",
+          "pending",
+          "success"
+        ],
+        "description": "The state of the status. Can be one of `error`, `failure`, `inactive`, `pending`, or `success`. **The `inactive` state requires a custom media type to be specified. Please see more in the alert below.**",
+        "required": true
+      },
+      {
+        "name": "target_url",
+        "type": "string",
+        "description": "The target URL to associate with this status. This URL should contain output to keep the user updated while the task is running or serve as historical information for what happened in the deployment.",
+        "default": "\"\"",
+        "required": false
+      },
+      {
+        "name": "log_url",
+        "type": "string",
+        "description": "This is functionally equivalent to `target_url`. We will continue accept `target_url` to support legacy uses, but we recommend modifying this to the new name to avoid confusion. **This parameter requires a custom media type to be specified. Please see more in the alert below.**",
+        "default": "\"\"",
+        "required": false
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "description": "A short description of the status. Maximum length of 140 characters.",
+        "default": "\"\"",
+        "required": false
+      },
+      {
+        "name": "environment_url",
+        "type": "string",
+        "description": "Sets the URL for accessing your environment. **This parameter requires a custom media type to be specified. Please see more in the alert below.**",
+        "default": "\"\"",
+        "required": false
+      },
+      {
+        "name": "auto_inactive",
+        "type": "boolean",
+        "description": "Adds a new `inactive` status to all non-transient, non-production environment deployments with the same repository and environment name as the created status's deployment. **This parameter requires a custom media type to be specified. Please see more in the alert below.**",
+        "default": true,
+        "required": false
+      }
+    ],
+    "description": "Users with push access can create deployment statuses for a given deployment:",
+    "documentationUrl": "https://developer.github.com/v3/repos/deployments/#create-a-deployment-status"
+  },
+  {
+    "name": "List downloads for a repository",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/downloads",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "per_page",
+        "type": "number",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30
+      },
+      {
+        "name": "page",
+        "type": "number",
+        "required": true,
+        "description": "Page number of the results to fetch.",
+        "default": 1
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/repos/downloads/#list-downloads-for-a-repository"
+  },
+  {
+    "name": "Get a single download",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/downloads/:id",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/repos/downloads/#get-a-single-download"
+  },
+  {
+    "name": "Delete a download",
+    "enabledForApps": false,
+    "method": "DELETE",
+    "path": "/repos/:owner/:repo/downloads/:id",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/repos/downloads/#delete-a-download"
+  },
+  {
+    "name": "List forks",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/forks",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "sort",
+        "type": "string",
+        "description": "The sort order. Can be either `newest`, `oldest`, or `stargazers`.",
+        "default": "newest",
+        "required": false
+      },
+      {
+        "name": "per_page",
+        "type": "number",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30
+      },
+      {
+        "name": "page",
+        "type": "number",
+        "required": true,
+        "description": "Page number of the results to fetch.",
+        "default": 1
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/repos/forks/#list-forks"
+  },
+  {
+    "name": "Create a fork",
+    "enabledForApps": true,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/forks",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "organization",
+        "type": "string",
+        "description": "Optional parameter to specify the organization name if forking into an organization.",
+        "required": false
+      }
+    ],
+    "description": "Create a fork for the authenticated user.\n\nForking a Repository happens asynchronously. Therefore, you may have to wait a short period before accessing the git objects. If this takes longer than 5 minutes, be sure to contact [GitHub support](https://github.com/contact).",
+    "documentationUrl": "https://developer.github.com/v3/repos/forks/#create-a-fork"
+  },
+  {
+    "name": "List invitations for a repository",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/invitations",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "per_page",
+        "type": "number",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30
+      },
+      {
+        "name": "page",
+        "type": "number",
+        "required": true,
+        "description": "Page number of the results to fetch.",
+        "default": 1
+      }
+    ],
+    "description": "When authenticating as a user with admin rights to a repository, this endpoint will list all currently open repository invitations.\n\n",
+    "documentationUrl": "https://developer.github.com/v3/repos/invitations/#list-invitations-for-a-repository"
+  },
+  {
+    "name": "Delete a repository invitation",
+    "enabledForApps": false,
+    "method": "DELETE",
+    "path": "/repos/:owner/:repo/invitations/:invitation_id",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "invitation_id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/repos/invitations/#delete-a-repository-invitation"
+  },
+  {
+    "name": "Update a repository invitation",
+    "enabledForApps": false,
+    "method": "PATCH",
+    "path": "/repos/:owner/:repo/invitations/:invitation_id",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "invitation_id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "permissions",
+        "type": "string",
+        "description": "The permissions that the associated user will have on the repository. Valid values are `read`, `write`, and `admin`.",
+        "required": false
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/repos/invitations/#update-a-repository-invitation"
+  },
+  {
+    "name": "List a user's repository invitations",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/user/repository_invitations",
+    "params": [
+      {
+        "name": "per_page",
+        "type": "number",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30
+      },
+      {
+        "name": "page",
+        "type": "number",
+        "required": true,
+        "description": "Page number of the results to fetch.",
+        "default": 1
+      }
+    ],
+    "description": "When authenticating as a user, this endpoint will list all currently open repository invitations for that user.\n\n",
+    "documentationUrl": "https://developer.github.com/v3/repos/invitations/#list-a-users-repository-invitations"
+  },
+  {
+    "name": "Accept a repository invitation",
+    "enabledForApps": false,
+    "method": "PATCH",
+    "path": "/user/repository_invitations/:invitation_id",
+    "params": [
+      {
+        "name": "invitation_id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/repos/invitations/#accept-a-repository-invitation"
+  },
+  {
+    "name": "Decline a repository invitation",
+    "enabledForApps": false,
+    "method": "DELETE",
+    "path": "/user/repository_invitations/:invitation_id",
+    "params": [
+      {
+        "name": "invitation_id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/repos/invitations/#decline-a-repository-invitation"
+  },
+  {
+    "name": "Perform a merge",
+    "enabledForApps": true,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/merges",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "base",
+        "type": "string",
+        "description": "The name of the base branch that the head will be merged into.",
+        "required": true
+      },
+      {
+        "name": "head",
+        "type": "string",
+        "description": "The head to merge. This can be a branch name or a commit SHA1.",
+        "required": true
+      },
+      {
+        "name": "commit_message",
+        "type": "string",
+        "description": "Commit message to use for the merge commit. If omitted, a default message will be used.",
+        "required": false
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/repos/merging/#perform-a-merge"
+  },
+  {
+    "name": "Get information about a Pages site",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/pages",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
+    "description": "Responses during the preview period contain two additional fields:\n\n*   `html_url`: The absolute URL (with scheme) to the rendered site. For example, `https://username.github.io`.\n*   `source`: Information about the source branch and directory for the rendered site. The source field includes:\n    *   `branch`: The repo branch for [site source files](https://help.github.com/articles/configuring-a-publishing-source-for-github-pages/) For example, _master_ or _gh-pages_.\n    *   `path`: The repo directory from which the site publishes. Can be either `/` or `/docs`.",
+    "documentationUrl": "https://developer.github.com/v3/repos/pages/#get-information-about-a-pages-site"
+  },
+  {
+    "name": "Request a page build",
+    "enabledForApps": true,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/pages/builds",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
+    "description": "You can request that your site be built from the latest revision on the default branch. This has the same effect as pushing a commit to your default branch, but does not require an additional commit. Manually triggering page builds can be helpful when diagnosing build warnings and failures.\n\nBuild requests are limited to one concurrent build per repository and one concurrent build per requester. If you request a build while another is still in progress, the second request will be queued until the first completes.",
+    "documentationUrl": "https://developer.github.com/v3/repos/pages/#request-a-page-build"
+  },
+  {
+    "name": "List Pages builds",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/pages/builds",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "per_page",
+        "type": "number",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30
+      },
+      {
+        "name": "page",
+        "type": "number",
+        "required": true,
+        "description": "Page number of the results to fetch.",
+        "default": 1
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/repos/pages/#list-pages-builds"
+  },
+  {
+    "name": "List latest Pages build",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/pages/builds/latest",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/repos/pages/#list-latest-pages-build"
+  },
+  {
+    "name": "List a specific Pages build",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/pages/builds/:id",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/repos/pages/#list-a-specific-pages-build"
+  },
+  {
     "name": "List releases for a repository",
     "enabledForApps": true,
     "method": "GET",
@@ -3459,10 +4398,10 @@
     "documentationUrl": "https://developer.github.com/v3/repos/releases/#delete-a-release-asset"
   },
   {
-    "name": "List commit comments for a repository",
+    "name": "Get contributors list with additions, deletions, and commit counts",
     "enabledForApps": true,
     "method": "GET",
-    "path": "/repos/:owner/:repo/comments",
+    "path": "/repos/:owner/:repo/stats/contributors",
     "params": [
       {
         "name": "owner",
@@ -3475,30 +4414,16 @@
         "type": "string",
         "required": true,
         "description": ""
-      },
-      {
-        "name": "per_page",
-        "type": "number",
-        "required": false,
-        "description": "Results per page (max 100)",
-        "default": 30
-      },
-      {
-        "name": "page",
-        "type": "number",
-        "required": true,
-        "description": "Page number of the results to fetch.",
-        "default": 1
       }
     ],
-    "description": "Commit Comments use [these custom media types](#custom-media-types). You can read more about the use of media types in the API [here](/v3/media/).\n\nComments are ordered by ascending ID.",
-    "documentationUrl": "https://developer.github.com/v3/repos/comments/#list-commit-comments-for-a-repository"
+    "description": "*   `total` \\- The Total number of commits authored by the contributor.\n\nWeekly Hash (`weeks` array):\n\n*   `w` \\- Start of the week, given as a [Unix timestamp](http://en.wikipedia.org/wiki/Unix_time).\n*   `a` \\- Number of additions\n*   `d` \\- Number of deletions\n*   `c` \\- Number of commits\n\n",
+    "documentationUrl": "https://developer.github.com/v3/repos/statistics/#get-contributors-list-with-additions-deletions-and-commit-counts"
   },
   {
-    "name": "List comments for a single commit",
+    "name": "Get the last year of commit activity data",
     "enabledForApps": true,
     "method": "GET",
-    "path": "/repos/:owner/:repo/commits/:ref/comments",
+    "path": "/repos/:owner/:repo/stats/commit_activity",
     "params": [
       {
         "name": "owner",
@@ -3511,36 +4436,82 @@
         "type": "string",
         "required": true,
         "description": ""
-      },
+      }
+    ],
+    "description": "Returns the last year of commit activity grouped by week. The `days` array is a group of commits per day, starting on `Sunday`.\n\n",
+    "documentationUrl": "https://developer.github.com/v3/repos/statistics/#get-the-last-year-of-commit-activity-data"
+  },
+  {
+    "name": "Get the number of additions and deletions per week",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/stats/code_frequency",
+    "params": [
       {
-        "name": "ref",
+        "name": "owner",
         "type": "string",
         "required": true,
         "description": ""
       },
       {
-        "name": "per_page",
-        "type": "number",
-        "required": false,
-        "description": "Results per page (max 100)",
-        "default": 30
-      },
-      {
-        "name": "page",
-        "type": "number",
+        "name": "repo",
+        "type": "string",
         "required": true,
-        "description": "Page number of the results to fetch.",
-        "default": 1
+        "description": ""
       }
     ],
-    "description": "",
-    "documentationUrl": "https://developer.github.com/v3/repos/comments/#list-comments-for-a-single-commit"
+    "description": "Returns a weekly aggregate of the number of additions and deletions pushed to a repository.\n\n",
+    "documentationUrl": "https://developer.github.com/v3/repos/statistics/#get-the-number-of-additions-and-deletions-per-week"
   },
   {
-    "name": "Create a commit comment",
+    "name": "Get the weekly commit count for the repository owner and everyone else",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/stats/participation",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
+    "description": "Returns the total commit counts for the `owner` and total commit counts in `all`. `all` is everyone combined, including the `owner` in the last 52 weeks. If you'd like to get the commit counts for non-owners, you can subtract `owner` from `all`.\n\nThe array order is oldest week (index 0) to most recent week.\n\n",
+    "documentationUrl": "https://developer.github.com/v3/repos/statistics/#get-the-weekly-commit-count-for-the-repository-owner-and-everyone-else"
+  },
+  {
+    "name": "Get the number of commits per hour in each day",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/stats/punch_card",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
+    "description": "Each array contains the day number, hour number, and number of commits:\n\n*   `0-6`: Sunday - Saturday\n*   `0-23`: Hour of day\n*   Number of commits\n\nFor example, `[2, 14, 25]` indicates that there were 25 total commits, during the 2:00pm hour on Tuesdays. All times are based on the time zone of individual commits.",
+    "documentationUrl": "https://developer.github.com/v3/repos/statistics/#get-the-number-of-commits-per-hour-in-each-day"
+  },
+  {
+    "name": "Create a status",
     "enabledForApps": true,
     "method": "POST",
-    "path": "/repos/:owner/:repo/commits/:sha/comments",
+    "path": "/repos/:owner/:repo/statuses/:sha",
     "params": [
       {
         "name": "owner",
@@ -3561,38 +4532,45 @@
         "description": ""
       },
       {
-        "name": "body",
-        "type": "string",
-        "description": "The contents of the comment.",
+        "name": "state",
+        "type": "enum",
+        "options": [
+          "error",
+          "failure",
+          "pending",
+          "success"
+        ],
+        "description": "The state of the status. Can be one of `error`, `failure`, `pending`, or `success`.",
         "required": true
       },
       {
-        "name": "path",
+        "name": "target_url",
         "type": "string",
-        "description": "Relative path of the file to comment on.",
+        "description": "The target URL to associate with this status. This URL will be linked from the GitHub UI to allow users to easily see the source of the status.  \nFor example, if your continuous integration system is posting build status, you would want to provide the deep link for the build output for this specific SHA:  \n`http://ci.example.com/user/repo/build/sha`",
         "required": false
       },
       {
-        "name": "position",
-        "type": "integer",
-        "description": "Line index in the diff to comment on.",
+        "name": "description",
+        "type": "string",
+        "description": "A short description of the status.",
         "required": false
       },
       {
-        "name": "line",
-        "type": "integer",
-        "description": "**Deprecated**. Use **position** parameter instead. Line number in the file to comment on.",
+        "name": "context",
+        "type": "string",
+        "description": "A string label to differentiate this status from the status of other systems.",
+        "default": "default",
         "required": false
       }
     ],
-    "description": "",
-    "documentationUrl": "https://developer.github.com/v3/repos/comments/#create-a-commit-comment"
+    "description": "Users with push access can create commit statuses for a given ref:\n\nNote: there is a limit of 1000 statuses per `sha` and `context` within a repository. Attempts to create more than 1000 statuses will result in a validation error.",
+    "documentationUrl": "https://developer.github.com/v3/repos/statuses/#create-a-status"
   },
   {
-    "name": "Get a single commit comment",
+    "name": "List statuses for a specific ref",
     "enabledForApps": true,
     "method": "GET",
-    "path": "/repos/:owner/:repo/comments/:id",
+    "path": "/repos/:owner/:repo/commits/:ref/statuses",
     "params": [
       {
         "name": "owner",
@@ -3607,20 +4585,40 @@
         "description": ""
       },
       {
-        "name": "id",
+        "name": "ref",
         "type": "string",
         "required": true,
         "description": ""
+      },
+      {
+        "name": "ref",
+        "type": "string",
+        "description": "Ref to list the statuses from. It can be a SHA, a branch name, or a tag name.",
+        "required": true
+      },
+      {
+        "name": "per_page",
+        "type": "number",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30
+      },
+      {
+        "name": "page",
+        "type": "number",
+        "required": true,
+        "description": "Page number of the results to fetch.",
+        "default": 1
       }
     ],
-    "description": "",
-    "documentationUrl": "https://developer.github.com/v3/repos/comments/#get-a-single-commit-comment"
+    "description": "Users with pull access can view commit statuses for a given ref:\n\nThis resource is also available via a legacy route: `GET /repos/:owner/:repo/statuses/:ref`.\n\nStatuses are returned in reverse chronological order. The first status in the list will be the latest one.",
+    "documentationUrl": "https://developer.github.com/v3/repos/statuses/#list-statuses-for-a-specific-ref"
   },
   {
-    "name": "Update a commit comment",
+    "name": "Get the combined status for a specific ref",
     "enabledForApps": true,
-    "method": "PATCH",
-    "path": "/repos/:owner/:repo/comments/:id",
+    "method": "GET",
+    "path": "/repos/:owner/:repo/commits/:ref/status",
     "params": [
       {
         "name": "owner",
@@ -3635,54 +4633,26 @@
         "description": ""
       },
       {
-        "name": "id",
+        "name": "ref",
         "type": "string",
         "required": true,
         "description": ""
       },
       {
-        "name": "body",
+        "name": "ref",
         "type": "string",
-        "description": "The contents of the comment",
+        "description": "Ref to fetch the status for. It can be a SHA, a branch name, or a tag name.",
         "required": true
       }
     ],
-    "description": "",
-    "documentationUrl": "https://developer.github.com/v3/repos/comments/#update-a-commit-comment"
+    "description": "Users with pull access can access a combined view of commit statuses for a given ref.\n\nThe most recent status for each context is returned, up to 100. This field [paginates](/v3/#pagination) if there are over 100 contexts.\n\nAdditionally, a combined `state` is returned. The `state` is one of:\n\n*   **failure** if any of the contexts report as `error` or `failure`\n*   **pending** if there are no statuses or a context is `pending`\n*   **success** if the latest status for all contexts is `success`",
+    "documentationUrl": "https://developer.github.com/v3/repos/statuses/#get-the-combined-status-for-a-specific-ref"
   },
   {
-    "name": "Delete a commit comment",
-    "enabledForApps": true,
-    "method": "DELETE",
-    "path": "/repos/:owner/:repo/comments/:id",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "id",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "",
-    "documentationUrl": "https://developer.github.com/v3/repos/comments/#delete-a-commit-comment"
-  },
-  {
-    "name": "Get information about a Pages site",
-    "enabledForApps": true,
+    "name": "List referrers",
+    "enabledForApps": false,
     "method": "GET",
-    "path": "/repos/:owner/:repo/pages",
+    "path": "/repos/:owner/:repo/traffic/popular/referrers",
     "params": [
       {
         "name": "owner",
@@ -3697,36 +4667,94 @@
         "description": ""
       }
     ],
-    "description": "Responses during the preview period contain two additional fields:\n\n*   `html_url`: The absolute URL (with scheme) to the rendered site. For example, `https://username.github.io`.\n*   `source`: Information about the source branch and directory for the rendered site. The source field includes:\n    *   `branch`: The repo branch for [site source files](https://help.github.com/articles/configuring-a-publishing-source-for-github-pages/) For example, _master_ or _gh-pages_.\n    *   `path`: The repo directory from which the site publishes. Can be either `/` or `/docs`.",
-    "documentationUrl": "https://developer.github.com/v3/repos/pages/#get-information-about-a-pages-site"
+    "description": "Get the top 10 referrers over the last 14 days.",
+    "documentationUrl": "https://developer.github.com/v3/repos/traffic/#list-referrers"
   },
   {
-    "name": "Request a page build",
-    "enabledForApps": true,
-    "method": "POST",
-    "path": "/repos/:owner/:repo/pages/builds",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "You can request that your site be built from the latest revision on the default branch. This has the same effect as pushing a commit to your default branch, but does not require an additional commit. Manually triggering page builds can be helpful when diagnosing build warnings and failures.\n\nBuild requests are limited to one concurrent build per repository and one concurrent build per requester. If you request a build while another is still in progress, the second request will be queued until the first completes.",
-    "documentationUrl": "https://developer.github.com/v3/repos/pages/#request-a-page-build"
-  },
-  {
-    "name": "List Pages builds",
-    "enabledForApps": true,
+    "name": "List paths",
+    "enabledForApps": false,
     "method": "GET",
-    "path": "/repos/:owner/:repo/pages/builds",
+    "path": "/repos/:owner/:repo/traffic/popular/paths",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
+    "description": "Get the top 10 popular contents over the last 14 days.",
+    "documentationUrl": "https://developer.github.com/v3/repos/traffic/#list-paths"
+  },
+  {
+    "name": "Views",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/traffic/views",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "per",
+        "type": "string",
+        "description": "Must be one of: `day`, `week`.",
+        "default": "day",
+        "required": false
+      }
+    ],
+    "description": "Get the total number of views and breakdown per day or week for the last 14 days. Timestamps are aligned to UTC midnight of the beginning of the day or week. Week begins on Monday.",
+    "documentationUrl": "https://developer.github.com/v3/repos/traffic/#views"
+  },
+  {
+    "name": "Clones",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/traffic/clones",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "per",
+        "type": "string",
+        "description": "Must be one of: `day`, `week`.",
+        "default": "day",
+        "required": false
+      }
+    ],
+    "description": "Get the total number of clones and breakdown per day or week for the last 14 days. Timestamps are aligned to UTC midnight of the beginning of the day or week. Week begins on Monday.",
+    "documentationUrl": "https://developer.github.com/v3/repos/traffic/#clones"
+  },
+  {
+    "name": "List hooks",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/hooks",
     "params": [
       {
         "name": "owner",
@@ -3756,35 +4784,13 @@
       }
     ],
     "description": "",
-    "documentationUrl": "https://developer.github.com/v3/repos/pages/#list-pages-builds"
+    "documentationUrl": "https://developer.github.com/v3/repos/hooks/#list-hooks"
   },
   {
-    "name": "List latest Pages build",
-    "enabledForApps": true,
+    "name": "Get single hook",
+    "enabledForApps": false,
     "method": "GET",
-    "path": "/repos/:owner/:repo/pages/builds/latest",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "",
-    "documentationUrl": "https://developer.github.com/v3/repos/pages/#list-latest-pages-build"
-  },
-  {
-    "name": "List a specific Pages build",
-    "enabledForApps": true,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/pages/builds/:id",
+    "path": "/repos/:owner/:repo/hooks/:id",
     "params": [
       {
         "name": "owner",
@@ -3806,105 +4812,13 @@
       }
     ],
     "description": "",
-    "documentationUrl": "https://developer.github.com/v3/repos/pages/#list-a-specific-pages-build"
+    "documentationUrl": "https://developer.github.com/v3/repos/hooks/#get-single-hook"
   },
   {
-    "name": "List downloads for a repository",
+    "name": "Create a hook",
     "enabledForApps": false,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/downloads",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "per_page",
-        "type": "number",
-        "required": false,
-        "description": "Results per page (max 100)",
-        "default": 30
-      },
-      {
-        "name": "page",
-        "type": "number",
-        "required": true,
-        "description": "Page number of the results to fetch.",
-        "default": 1
-      }
-    ],
-    "description": "",
-    "documentationUrl": "https://developer.github.com/v3/repos/downloads/#list-downloads-for-a-repository"
-  },
-  {
-    "name": "Get a single download",
-    "enabledForApps": false,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/downloads/:id",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "id",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "",
-    "documentationUrl": "https://developer.github.com/v3/repos/downloads/#get-a-single-download"
-  },
-  {
-    "name": "Delete a download",
-    "enabledForApps": false,
-    "method": "DELETE",
-    "path": "/repos/:owner/:repo/downloads/:id",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "id",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "",
-    "documentationUrl": "https://developer.github.com/v3/repos/downloads/#delete-a-download"
-  },
-  {
-    "name": "Perform a merge",
-    "enabledForApps": true,
     "method": "POST",
-    "path": "/repos/:owner/:repo/merges",
+    "path": "/repos/:owner/:repo/hooks",
     "params": [
       {
         "name": "owner",
@@ -3914,40 +4828,6 @@
       },
       {
         "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "base",
-        "type": "string",
-        "description": "The name of the base branch that the head will be merged into.",
-        "required": true
-      },
-      {
-        "name": "head",
-        "type": "string",
-        "description": "The head to merge. This can be a branch name or a commit SHA1.",
-        "required": true
-      },
-      {
-        "name": "commit_message",
-        "type": "string",
-        "description": "Commit message to use for the merge commit. If omitted, a default message will be used.",
-        "required": false
-      }
-    ],
-    "description": "",
-    "documentationUrl": "https://developer.github.com/v3/repos/merging/#perform-a-merge"
-  },
-  {
-    "name": "Retrieve community profile metrics",
-    "enabledForApps": true,
-    "method": "GET",
-    "path": "/repos/:owner/:name/community/profile",
-    "params": [
-      {
-        "name": "owner",
         "type": "string",
         "required": true,
         "description": ""
@@ -3955,381 +4835,62 @@
       {
         "name": "name",
         "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "This endpoint will return all community profile metrics, including an overall health score, repository description, the presence of documentation, detected code of conduct, detected license, and the presence of ISSUE\\_TEMPLATE, PULL\\_REQUEST_TEMPLATE, README, and CONTRIBUTING files.",
-    "documentationUrl": "https://developer.github.com/v3/repos/community/#retrieve-community-profile-metrics"
-  },
-  {
-    "name": "List invitations for a repository",
-    "enabledForApps": false,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/invitations",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
+        "description": "Must be passed as \"web\".",
+        "required": true
       },
       {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
+        "name": "config",
+        "type": "object",
+        "description": "Key/value pairs to provide settings for this webhook. [These are defined below](#create-hook-config-params).",
+        "required": true
       },
       {
-        "name": "per_page",
-        "type": "number",
-        "required": false,
-        "description": "Results per page (max 100)",
-        "default": 30
-      },
-      {
-        "name": "page",
-        "type": "number",
-        "required": true,
-        "description": "Page number of the results to fetch.",
-        "default": 1
-      }
-    ],
-    "description": "When authenticating as a user with admin rights to a repository, this endpoint will list all currently open repository invitations.\n\n",
-    "documentationUrl": "https://developer.github.com/v3/repos/invitations/#list-invitations-for-a-repository"
-  },
-  {
-    "name": "Delete a repository invitation",
-    "enabledForApps": false,
-    "method": "DELETE",
-    "path": "/repos/:owner/:repo/invitations/:invitation_id",
-    "params": [
-      {
-        "name": "owner",
+        "name": "config.url",
         "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "invitation_id",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "",
-    "documentationUrl": "https://developer.github.com/v3/repos/invitations/#delete-a-repository-invitation"
-  },
-  {
-    "name": "Update a repository invitation",
-    "enabledForApps": false,
-    "method": "PATCH",
-    "path": "/repos/:owner/:repo/invitations/:invitation_id",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "invitation_id",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "permissions",
-        "type": "string",
-        "description": "The permissions that the associated user will have on the repository. Valid values are `read`, `write`, and `admin`.",
-        "required": false
-      }
-    ],
-    "description": "",
-    "documentationUrl": "https://developer.github.com/v3/repos/invitations/#update-a-repository-invitation"
-  },
-  {
-    "name": "List a user's repository invitations",
-    "enabledForApps": false,
-    "method": "GET",
-    "path": "/user/repository_invitations",
-    "params": [
-      {
-        "name": "per_page",
-        "type": "number",
-        "required": false,
-        "description": "Results per page (max 100)",
-        "default": 30
-      },
-      {
-        "name": "page",
-        "type": "number",
-        "required": true,
-        "description": "Page number of the results to fetch.",
-        "default": 1
-      }
-    ],
-    "description": "When authenticating as a user, this endpoint will list all currently open repository invitations for that user.\n\n",
-    "documentationUrl": "https://developer.github.com/v3/repos/invitations/#list-a-users-repository-invitations"
-  },
-  {
-    "name": "Accept a repository invitation",
-    "enabledForApps": false,
-    "method": "PATCH",
-    "path": "/user/repository_invitations/:invitation_id",
-    "params": [
-      {
-        "name": "invitation_id",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "",
-    "documentationUrl": "https://developer.github.com/v3/repos/invitations/#accept-a-repository-invitation"
-  },
-  {
-    "name": "Decline a repository invitation",
-    "enabledForApps": false,
-    "method": "DELETE",
-    "path": "/user/repository_invitations/:invitation_id",
-    "params": [
-      {
-        "name": "invitation_id",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "",
-    "documentationUrl": "https://developer.github.com/v3/repos/invitations/#decline-a-repository-invitation"
-  },
-  {
-    "name": "List commits on a repository",
-    "enabledForApps": true,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/commits",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "sha",
-        "type": "string",
-        "description": "SHA or branch to start listing commits from.",
-        "default": "the repository’s default branch (usually `master`).",
+        "description": "**Required** The URL to which the payloads will be delivered.",
         "required": false
       },
       {
-        "name": "path",
+        "name": "config.content_type",
         "type": "string",
-        "description": "Only commits containing this file path will be returned.",
+        "description": "The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`.",
         "required": false
       },
       {
-        "name": "author",
+        "name": "config.secret",
         "type": "string",
-        "description": "GitHub login or email address by which to filter by commit author.",
+        "description": "If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value in the [`X-Hub-Signature`](/webhooks/#delivery-headers) header.",
         "required": false
       },
       {
-        "name": "since",
+        "name": "config.insecure_ssl",
         "type": "string",
-        "description": "Only commits after this date will be returned. This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.",
+        "description": "Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.**",
         "required": false
       },
       {
-        "name": "until",
-        "type": "string",
-        "description": "Only commits before this date will be returned. This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.",
+        "name": "events",
+        "type": "array",
+        "description": "Determines what [events](/v3/activity/events/types/) the hook is triggered for.",
+        "default": "[\"push\"]",
         "required": false
       },
       {
-        "name": "per_page",
-        "type": "number",
-        "required": false,
-        "description": "Results per page (max 100)",
-        "default": 30
-      },
-      {
-        "name": "page",
-        "type": "number",
-        "required": true,
-        "description": "Page number of the results to fetch.",
-        "default": 1
-      }
-    ],
-    "description": "",
-    "documentationUrl": "https://developer.github.com/v3/repos/commits/#list-commits-on-a-repository"
-  },
-  {
-    "name": "Get a single commit",
-    "enabledForApps": true,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/commits/:sha",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "sha",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "Diffs with binary data will have no 'patch' property. Pass the appropriate [media type](/v3/media/#commits-commit-comparison-and-pull-requests) to fetch diff and patch formats.",
-    "documentationUrl": "https://developer.github.com/v3/repos/commits/#get-a-single-commit"
-  },
-  {
-    "name": "Get the SHA-1 of a commit reference",
-    "enabledForApps": true,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/commits/:ref",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "ref",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "Users with read access can get the SHA-1 of a commit reference:\n\nTo access the API you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n\n\nTo check if a remote reference's SHA-1 is the same as your local reference's SHA-1, make a `GET` request and provide the current SHA-1 for the local reference as the ETag.\n\nThe SHA-1 of the commit reference.\n\n",
-    "documentationUrl": "https://developer.github.com/v3/repos/commits/#get-the-sha-1-of-a-commit-reference"
-  },
-  {
-    "name": "Compare two commits",
-    "enabledForApps": false,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/compare/:base...:head",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "base",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "head",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "Both `:base` and `:head` must be branch names in `:repo`. To compare branches across other repositories in the same network as `:repo`, use the format `<USERNAME>:branch`. For example:\n\n```\nGET /repos/:owner/:repo/compare/hubot:branchname...octocat:branchname\n```\n\nThe response from the API is equivalent to running the `git log base..head` command; however, commits are returned in reverse chronological order.\n\nPass the appropriate [media type](/v3/media/#commits-commit-comparison-and-pull-requests) to fetch diff and patch formats.\n\n**Working with large comparisons**\n\nThe response will include a comparison of up to 250 commits. If you are working with a larger commit range, you can use the [Commit List API](/v3/repos/commits/#list-commits-on-a-repository) to enumerate all commits in the range.\n\nFor comparisons with extremely large diffs, you may receive an error response indicating that the diff took too long to generate. You can typically resolve this error by using a smaller commit range.",
-    "documentationUrl": "https://developer.github.com/v3/repos/commits/#compare-two-commits"
-  },
-  {
-    "name": "Commit signature verification",
-    "enabledForApps": false,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/commits/:sha",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "sha",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "verified",
+        "name": "active",
         "type": "boolean",
-        "description": "Does GitHub consider the signature in this commit to be verified?",
-        "required": false
-      },
-      {
-        "name": "reason",
-        "type": "string",
-        "description": "The reason for `verified` value. Possible values and their meanings are enumerated in the table below.",
-        "required": false
-      },
-      {
-        "name": "signature",
-        "type": "string",
-        "description": "The signature that was extracted from the commit.",
-        "required": false
-      },
-      {
-        "name": "payload",
-        "type": "string",
-        "description": "The value that was signed.",
+        "description": "Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.",
+        "default": true,
         "required": false
       }
     ],
-    "description": "**The verification object**\n\n**The reason field**\n\nThe following are possible `reason`s that may be included in the `verification` object:\n\n| Value                    | Description                                                                                                                       |\n| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |\n| `expired_key`            | The key that made the signature is expired.                                                                                       |\n| `not_signing_key`        | The \"signing\" flag is not among the usage flags in the GPG key that made the signature.                                           |\n| `gpgverify_error`        | There was an error communicating with the signature-verification service.                                                         |\n| `gpgverify_unavailable`  | The signature-verification service is currently unavailable.                                                                      |\n| `unsigned`               | The object does not include a signature.                                                                                          |\n| `unknown_signature_type` | A non-PGP signature was found in the commit.                                                                                      |\n| `no_user`                | No user was associated with the `committer` email address in the commit.                                                          |\n| `unverified_email`       | The `committer` email address in the commit was associated with a user, but the email address is not verified on her/his account. |\n| `bad_email`              | The `committer` email address in the commit is not included in the identities of the PGP key that made the signature.             |\n| `unknown_key`            | The key that made the signature has not been registered with any user's account.                                                  |\n| `malformed_signature`    | There was an error parsing the signature.                                                                                         |\n| `invalid`                | The signature could not be cryptographically verified using the key whose key-id was found in the signature.                      |\n| `valid`                  | None of the above errors applied, so the signature is considered to be verified.                                                  |",
-    "documentationUrl": "https://developer.github.com/v3/repos/commits/#commit-signature-verification"
+    "description": "**Note**: Repository service hooks (like email or Campfire) can have at most one configured at a time. Creating hooks for a service that already has one configured will [update the existing hook](#edit-a-hook).\n\nRepositories can have multiple webhooks installed. Each webhook should have a unique `config`. Multiple webhooks can share the same `config` as long as those webhooks do not have any `events` that overlap.\n\nHere's how you can create a hook that posts payloads in JSON format:",
+    "documentationUrl": "https://developer.github.com/v3/repos/hooks/#create-a-hook"
   },
   {
-    "name": "List forks",
-    "enabledForApps": true,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/forks",
+    "name": "Edit a hook",
+    "enabledForApps": false,
+    "method": "PATCH",
+    "path": "/repos/:owner/:repo/hooks/:id",
     "params": [
       {
         "name": "owner",
@@ -4344,35 +4905,76 @@
         "description": ""
       },
       {
-        "name": "sort",
+        "name": "id",
         "type": "string",
-        "description": "The sort order. Can be either `newest`, `oldest`, or `stargazers`.",
-        "default": "newest",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "config",
+        "type": "object",
+        "description": "Key/value pairs to provide settings for this webhook. [These are defined below](#create-hook-config-params).",
+        "required": true
+      },
+      {
+        "name": "config.url",
+        "type": "string",
+        "description": "**Required** The URL to which the payloads will be delivered.",
         "required": false
       },
       {
-        "name": "per_page",
-        "type": "number",
-        "required": false,
-        "description": "Results per page (max 100)",
-        "default": 30
+        "name": "config.content_type",
+        "type": "string",
+        "description": "The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`.",
+        "required": false
       },
       {
-        "name": "page",
-        "type": "number",
-        "required": true,
-        "description": "Page number of the results to fetch.",
-        "default": 1
+        "name": "config.secret",
+        "type": "string",
+        "description": "If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value in the [`X-Hub-Signature`](/webhooks/#delivery-headers) header.",
+        "required": false
+      },
+      {
+        "name": "config.insecure_ssl",
+        "type": "string",
+        "description": "Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.**",
+        "required": false
+      },
+      {
+        "name": "events",
+        "type": "array",
+        "description": "Determines what [events](/v3/activity/events/types/) the hook is triggered for. This replaces the entire array of events.",
+        "default": "[\"push\"]",
+        "required": false
+      },
+      {
+        "name": "add_events",
+        "type": "array",
+        "description": "Determines a list of events to be added to the list of events that the Hook triggers for.",
+        "required": false
+      },
+      {
+        "name": "remove_events",
+        "type": "array",
+        "description": "Determines a list of events to be removed from the list of events that the Hook triggers for.",
+        "required": false
+      },
+      {
+        "name": "active",
+        "type": "boolean",
+        "description": "Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.",
+        "default": true,
+        "required": false
       }
     ],
     "description": "",
-    "documentationUrl": "https://developer.github.com/v3/repos/forks/#list-forks"
+    "documentationUrl": "https://developer.github.com/v3/repos/hooks/#edit-a-hook"
   },
   {
-    "name": "Create a fork",
-    "enabledForApps": true,
+    "name": "Test a push hook",
+    "enabledForApps": false,
     "method": "POST",
-    "path": "/repos/:owner/:repo/forks",
+    "path": "/repos/:owner/:repo/hooks/:id/tests",
     "params": [
       {
         "name": "owner",
@@ -4387,20 +4989,20 @@
         "description": ""
       },
       {
-        "name": "organization",
+        "name": "id",
         "type": "string",
-        "description": "Optional parameter to specify the organization name if forking into an organization.",
-        "required": false
+        "required": true,
+        "description": ""
       }
     ],
-    "description": "Create a fork for the authenticated user.\n\nForking a Repository happens asynchronously. Therefore, you may have to wait a short period before accessing the git objects. If this takes longer than 5 minutes, be sure to contact [GitHub support](https://github.com/contact).",
-    "documentationUrl": "https://developer.github.com/v3/repos/forks/#create-a-fork"
+    "description": "This will trigger the hook with the latest push to the current repository if the hook is subscribed to `push` events. If the hook is not subscribed to `push` events, the server will respond with 204 but no test POST will be generated.\n\n**Note**: Previously `/repos/:owner/:repo/hooks/:id/test`",
+    "documentationUrl": "https://developer.github.com/v3/repos/hooks/#test-a-push-hook"
   },
   {
-    "name": "Get the README",
-    "enabledForApps": true,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/readme",
+    "name": "Ping a hook",
+    "enabledForApps": false,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/hooks/:id/pings",
     "params": [
       {
         "name": "owner",
@@ -4415,194 +5017,20 @@
         "description": ""
       },
       {
-        "name": "ref",
+        "name": "id",
         "type": "string",
-        "description": "The name of the commit/branch/tag.",
-        "default": "the repository’s default branch (usually `master`)",
-        "required": false
+        "required": true,
+        "description": ""
       }
     ],
-    "description": "This method returns the preferred README for a repository.\n\nREADMEs support [custom media types](#custom-media-types) for retrieving the raw content or rendered HTML.",
-    "documentationUrl": "https://developer.github.com/v3/repos/contents/#get-the-readme"
+    "description": "This will trigger a [ping event](/webhooks/#ping-event) to be sent to the hook.",
+    "documentationUrl": "https://developer.github.com/v3/repos/hooks/#ping-a-hook"
   },
   {
-    "name": "Get contents",
-    "enabledForApps": true,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/contents/:path",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "path",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "path",
-        "type": "string",
-        "description": "The content path.",
-        "required": false
-      },
-      {
-        "name": "ref",
-        "type": "string",
-        "description": "The name of the commit/branch/tag.",
-        "default": "the repository’s default branch (usually `master`)",
-        "required": false
-      }
-    ],
-    "description": "This method returns the contents of a file or directory in a repository.\n\nFiles and symlinks support [a custom media type](#custom-media-types) for retrieving the raw content or rendered HTML (when supported). All content types support [a custom media type](#custom-media-types) to ensure the content is returned in a consistent object format.\n\n**Note**:\n\n*   To get a repository's contents recursively, you can [recursively get the tree](/v3/git/trees/).\n*   This API has an upper limit of 1,000 files for a directory. If you need to retrieve more files, use the [Git Trees API](/v3/git/trees/#get-a-tree).\n*   This API supports files up to 1 megabyte in size.\n\nThe response will be an array of objects, one object for each item in the directory.\n\nWhen listing the contents of a directory, submodules have their \"type\" specified as \"file\". Logically, the value _should_ be \"submodule\". This behavior exists in API v3 [for backwards compatibility purposes](https://git.io/v1YCW). In the next major version of the API, the type will be returned as \"submodule\".\n\nIf the requested `:path` points to a symlink, and the symlink's target is a normal file in the repository, then the API responds with the content of the file (in the [format shown above](#response-if-content-is-a-file)).\n\nOtherwise, the API responds with an object describing the symlink itself:\n\nThe `submodule_git_url` identifies the location of the submodule repository, and the `sha` identifies a specific commit within the submodule repository. Git uses the given URL when cloning the submodule repository, and checks out the submodule at that specific commit.\n\nIf the submodule repository is not hosted on github.com, the Git URLs (`git_url` and `_links[\"git\"]`) and the github.com URLs (`html_url` and `_links[\"html\"]`) will have null values.",
-    "documentationUrl": "https://developer.github.com/v3/repos/contents/#get-contents"
-  },
-  {
-    "name": "Create a file",
-    "enabledForApps": true,
-    "method": "PUT",
-    "path": "/repos/:owner/:repo/contents/:path",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "path",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "path",
-        "type": "string",
-        "description": "The content path.",
-        "required": true
-      },
-      {
-        "name": "message",
-        "type": "string",
-        "description": "The commit message.",
-        "required": true
-      },
-      {
-        "name": "content",
-        "type": "string",
-        "description": "The new file content, Base64 encoded.",
-        "required": true
-      },
-      {
-        "name": "branch",
-        "type": "string",
-        "description": "The branch name.",
-        "default": "the repository’s default branch (usually `master`)",
-        "required": false
-      },
-      {
-        "name": "committer",
-        "type": "object",
-        "description": "object containing information about the committer."
-      },
-      {
-        "name": "author",
-        "type": "object",
-        "description": "object containing information about the author."
-      }
-    ],
-    "description": "This method creates a new file in a repository\n\nThe `author` section is optional and is filled in with the `committer` information if omitted. If the `committer` information is omitted, the authenticated user's information is used.\n\nYou must provide values for both `name` and `email`, whether you choose to use `author` or `committer`. Otherwise, you'll receive a `422` status code.\n\nBoth the `author` and `committer` parameters have the same keys:\n\n| name  | type   | description                                          |\n| ----- | ------ | ---------------------------------------------------- |\n| name  | string | The name of the author (or committer) of the commit  |\n| email | string | The email of the author (or committer) of the commit |",
-    "documentationUrl": "https://developer.github.com/v3/repos/contents/#create-a-file"
-  },
-  {
-    "name": "Update a file",
-    "enabledForApps": true,
-    "method": "PUT",
-    "path": "/repos/:owner/:repo/contents/:path",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "path",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "path",
-        "type": "string",
-        "description": "The content path.",
-        "required": true
-      },
-      {
-        "name": "message",
-        "type": "string",
-        "description": "The commit message.",
-        "required": true
-      },
-      {
-        "name": "content",
-        "type": "string",
-        "description": "The updated file content, Base64 encoded.",
-        "required": true
-      },
-      {
-        "name": "sha",
-        "type": "string",
-        "description": "The blob SHA of the file being replaced.",
-        "required": true
-      },
-      {
-        "name": "branch",
-        "type": "string",
-        "description": "The branch name.",
-        "default": "the repository’s default branch (usually `master`)",
-        "required": false
-      },
-      {
-        "name": "committer",
-        "type": "object",
-        "description": "object containing information about the committer."
-      },
-      {
-        "name": "author",
-        "type": "object",
-        "description": "object containing information about the author."
-      }
-    ],
-    "description": "This method updates a file in a repository\n\nThe `author` section is optional and is filled in with the `committer` information if omitted. If the `committer` information is omitted, the authenticated user's information is used.\n\nYou must provide values for both `name` and `email`, whether you choose to use `author` or `committer`. Otherwise, you'll receive a `422` status code.\n\nBoth the `author` and `committer` parameters have the same keys:\n\n| name  | type   | description                                          |\n| ----- | ------ | ---------------------------------------------------- |\n| name  | string | The name of the author (or committer) of the commit  |\n| email | string | The email of the author (or committer) of the commit |",
-    "documentationUrl": "https://developer.github.com/v3/repos/contents/#update-a-file"
-  },
-  {
-    "name": "Delete a file",
-    "enabledForApps": true,
+    "name": "Delete a hook",
+    "enabledForApps": false,
     "method": "DELETE",
-    "path": "/repos/:owner/:repo/contents/:path",
+    "path": "/repos/:owner/:repo/hooks/:id",
     "params": [
       {
         "name": "owner",
@@ -4617,97 +5045,14 @@
         "description": ""
       },
       {
-        "name": "path",
+        "name": "id",
         "type": "string",
         "required": true,
         "description": ""
-      },
-      {
-        "name": "path",
-        "type": "string",
-        "description": "The content path.",
-        "required": true
-      },
-      {
-        "name": "message",
-        "type": "string",
-        "description": "The commit message.",
-        "required": true
-      },
-      {
-        "name": "sha",
-        "type": "string",
-        "description": "The blob SHA of the file being replaced.",
-        "required": true
-      },
-      {
-        "name": "branch",
-        "type": "string",
-        "description": "The branch name.",
-        "default": "the repository’s default branch (usually `master`)",
-        "required": false
-      },
-      {
-        "name": "committer",
-        "type": "object",
-        "description": "object containing information about the committer."
-      },
-      {
-        "name": "author",
-        "type": "object",
-        "description": "object containing information about the author."
       }
     ],
-    "description": "This method deletes a file in a repository\n\nThe `author` section is optional and is filled in with the `committer` information if omitted. If the `committer` information is omitted, the authenticated user's information is used.\n\nYou must provide values for both `name` and `email`, whether you choose to use `author` or `committer`. Otherwise, you'll receive a `422` status code.\n\nBoth the `author` and `committer` parameters have the same keys:\n\n| name  | type   | description                                          |\n| ----- | ------ | ---------------------------------------------------- |\n| name  | string | The name of the author (or committer) of the commit  |\n| email | string | The email of the author (or committer) of the commit |",
-    "documentationUrl": "https://developer.github.com/v3/repos/contents/#delete-a-file"
-  },
-  {
-    "name": "Get archive link",
-    "enabledForApps": true,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/:archive_format/:ref",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "archive_format",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "ref",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "archive_format",
-        "type": "string",
-        "description": "Can be either `tarball` or `zipball`.",
-        "default": "tarball",
-        "required": false
-      },
-      {
-        "name": "ref",
-        "type": "string",
-        "description": "A valid Git reference.",
-        "default": "the repository’s default branch (usually `master`)",
-        "required": false
-      }
-    ],
-    "description": "This method will return a `302` to a URL to download a tarball or zipball archive for a repository. Please make sure your HTTP framework is configured to follow redirects or you will need to use the `Location` header to make a second `GET` request.\n\n_Note_: For private repositories, these links are temporary and expire after five minutes.\n\nTo follow redirects with curl, use the `-L` switch:\n\n",
-    "documentationUrl": "https://developer.github.com/v3/repos/contents/#get-archive-link"
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/repos/hooks/#delete-a-hook"
   },
   {
     "name": "List pre-receive hooks",
@@ -4828,350 +5173,5 @@
     ],
     "description": "Deletes any overridden enforcement on this repository for the specified hook.\n\nResponds with effective values inherited from owner and/or global level.",
     "documentationUrl": "https://developer.github.com/v3/repos/pre_receive_hooks/#remove-enforcement-overrides-for-a-pre-receive-hook"
-  },
-  {
-    "name": "List deployments",
-    "enabledForApps": true,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/deployments",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "sha",
-        "type": "string",
-        "description": "The SHA that was recorded at creation time.",
-        "default": "none",
-        "required": false
-      },
-      {
-        "name": "ref",
-        "type": "string",
-        "description": "The name of the ref. This can be a branch, tag, or SHA.",
-        "default": "none",
-        "required": false
-      },
-      {
-        "name": "task",
-        "type": "string",
-        "description": "The name of the task for the deployment (e.g., `deploy` or `deploy:migrations`).",
-        "default": "none",
-        "required": false
-      },
-      {
-        "name": "environment",
-        "type": "string",
-        "description": "The name of the environment that was deployed to (e.g., `staging` or `production`).",
-        "default": "none",
-        "required": false
-      },
-      {
-        "name": "per_page",
-        "type": "number",
-        "required": false,
-        "description": "Results per page (max 100)",
-        "default": 30
-      },
-      {
-        "name": "page",
-        "type": "number",
-        "required": true,
-        "description": "Page number of the results to fetch.",
-        "default": 1
-      }
-    ],
-    "description": "",
-    "documentationUrl": "https://developer.github.com/v3/repos/deployments/#list-deployments"
-  },
-  {
-    "name": "Get a single deployment",
-    "enabledForApps": true,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/deployments/:id",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "id",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "\n\n**Note:** If a user created a deployment via a GitHub App, the `performed_via_github_app` key will contain information on that GitHub App.",
-    "documentationUrl": "https://developer.github.com/v3/repos/deployments/#get-a-single-deployment"
-  },
-  {
-    "name": "Create a deployment",
-    "enabledForApps": true,
-    "method": "POST",
-    "path": "/repos/:owner/:repo/deployments",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "ref",
-        "type": "string",
-        "description": "The ref to deploy. This can be a branch, tag, or SHA.",
-        "required": true
-      },
-      {
-        "name": "task",
-        "type": "string",
-        "description": "Specifies a task to execute (e.g., `deploy` or `deploy:migrations`).",
-        "default": "deploy",
-        "required": false
-      },
-      {
-        "name": "auto_merge",
-        "type": "boolean",
-        "description": "Attempts to automatically merge the default branch into the requested ref, if it is behind the default branch.",
-        "default": true,
-        "required": false
-      },
-      {
-        "name": "required_contexts",
-        "type": "array",
-        "description": "The status contexts to verify against commit status checks. If this parameter is omitted, then all unique contexts will be verified before a deployment is created. To bypass checking entirely pass an empty array. Defaults to all unique contexts.",
-        "required": false
-      },
-      {
-        "name": "payload",
-        "type": "string",
-        "description": "JSON payload with extra information about the deployment.",
-        "default": "\"\"",
-        "required": false
-      },
-      {
-        "name": "environment",
-        "type": "string",
-        "description": "Name for the target deployment environment (e.g., `production`, `staging`, `qa`).",
-        "default": "production",
-        "required": false
-      },
-      {
-        "name": "description",
-        "type": "string",
-        "description": "Short description of the deployment.",
-        "default": "\"\"",
-        "required": false
-      },
-      {
-        "name": "transient_environment",
-        "type": "boolean",
-        "description": "Specifies if the given environment is specific to the deployment and will no longer exist at some point in the future. **This parameter requires a custom media type to be specified. Please see more in the alert below.**",
-        "default": false,
-        "required": false
-      },
-      {
-        "name": "production_environment",
-        "type": "boolean",
-        "description": "Specifies if the given environment is one that end-users directly interact with. **This parameter requires a custom media type to be specified. Please see more in the alert below.**",
-        "default": "`true` when `environment` is `production` and `false` otherwise",
-        "required": false
-      }
-    ],
-    "description": "Deployments offer a few configurable parameters with sane defaults.\n\nThe `ref` parameter can be any named branch, tag, or SHA. At GitHub we often deploy branches and verify them before we merge a pull request.\n\nThe `environment` parameter allows deployments to be issued to different runtime environments. Teams often have multiple environments for verifying their applications, such as `production`, `staging`, and `qa`. This allows for easy tracking of which environments had deployments requested. The default environment is `production`.\n\nThe `auto_merge` parameter is used to ensure that the requested ref is not behind the repository's default branch. If the ref _is_ behind the default branch for the repository, we will attempt to merge it for you. If the merge succeeds, the API will return a successful merge commit. If merge conflicts prevent the merge from succeeding, the API will return a failure response.\n\nBy default, [commit statuses](/v3/repos/statuses) for every submitted context must be in a `success` state. The `required_contexts` parameter allows you to specify a subset of contexts that must be `success`, or to specify contexts that have not yet been submitted. You are not required to use commit statuses to deploy. If you do not require any contexts or create any commit statuses, the deployment will always succeed.\n\nThe `payload` parameter is available for any extra information that a deployment system might need. It is a JSON text field that will be passed on when a deployment event is dispatched.\n\nThe `task` parameter is used by the deployment system to allow different execution paths. In the web world this might be `deploy:migrations` to run schema changes on the system. In the compiled world this could be a flag to compile an application with debugging enabled.\n\nUsers with `repo` or `repo_deployment` scopes can create a deployment for a given ref:\n\nA simple example putting the user and room into the payload to notify back to chat networks.\n\nA more advanced example specifying required commit statuses and bypassing auto-merging.\n\nThis error happens when the `auto_merge` option is enabled and when the default branch (in this case `master`), can't be merged into the branch that's being deployed (in this case `topic-branch`), due to merge conflicts.\n\nThis error happens when the `required_contexts` parameter indicates that one or more contexts need to have a `success` status for the commit to be deployed, but one or more of the required contexts do not have a state of `success`.",
-    "documentationUrl": "https://developer.github.com/v3/repos/deployments/#create-a-deployment"
-  },
-  {
-    "name": "List deployment statuses",
-    "enabledForApps": true,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/deployments/:id/statuses",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "id",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "id",
-        "type": "integer",
-        "description": "The deployment ID to list the statuses from.",
-        "required": true
-      },
-      {
-        "name": "per_page",
-        "type": "number",
-        "required": false,
-        "description": "Results per page (max 100)",
-        "default": 30
-      },
-      {
-        "name": "page",
-        "type": "number",
-        "required": true,
-        "description": "Page number of the results to fetch.",
-        "default": 1
-      }
-    ],
-    "description": "Users with pull access can view deployment statuses for a deployment:",
-    "documentationUrl": "https://developer.github.com/v3/repos/deployments/#list-deployment-statuses"
-  },
-  {
-    "name": "Get a single deployment status",
-    "enabledForApps": true,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/deployments/:id/statuses/:status_id",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "id",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "status_id",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "id",
-        "type": "integer",
-        "description": "The deployment ID to list the statuses from.",
-        "required": true
-      },
-      {
-        "name": "status_id",
-        "type": "integer",
-        "description": "The deployment status ID.",
-        "required": true
-      }
-    ],
-    "description": "Users with pull access can view a deployment status for a deployment:\n\n\n\n**Note:** If a user created a deployment status via a GitHub App, the `performed_via_github_app` key will contain information on that GitHub App.",
-    "documentationUrl": "https://developer.github.com/v3/repos/deployments/#get-a-single-deployment-status"
-  },
-  {
-    "name": "Create a deployment status",
-    "enabledForApps": true,
-    "method": "POST",
-    "path": "/repos/:owner/:repo/deployments/:id/statuses",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "id",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "state",
-        "type": "enum",
-        "options": [
-          "error",
-          "failure",
-          "inactive",
-          "pending",
-          "success"
-        ],
-        "description": "The state of the status. Can be one of `error`, `failure`, `inactive`, `pending`, or `success`. **The `inactive` state requires a custom media type to be specified. Please see more in the alert below.**",
-        "required": true
-      },
-      {
-        "name": "target_url",
-        "type": "string",
-        "description": "The target URL to associate with this status. This URL should contain output to keep the user updated while the task is running or serve as historical information for what happened in the deployment.",
-        "default": "\"\"",
-        "required": false
-      },
-      {
-        "name": "log_url",
-        "type": "string",
-        "description": "This is functionally equivalent to `target_url`. We will continue accept `target_url` to support legacy uses, but we recommend modifying this to the new name to avoid confusion. **This parameter requires a custom media type to be specified. Please see more in the alert below.**",
-        "default": "\"\"",
-        "required": false
-      },
-      {
-        "name": "description",
-        "type": "string",
-        "description": "A short description of the status. Maximum length of 140 characters.",
-        "default": "\"\"",
-        "required": false
-      },
-      {
-        "name": "environment_url",
-        "type": "string",
-        "description": "Sets the URL for accessing your environment. **This parameter requires a custom media type to be specified. Please see more in the alert below.**",
-        "default": "\"\"",
-        "required": false
-      },
-      {
-        "name": "auto_inactive",
-        "type": "boolean",
-        "description": "Adds a new `inactive` status to all non-transient, non-production environment deployments with the same repository and environment name as the created status's deployment. **This parameter requires a custom media type to be specified. Please see more in the alert below.**",
-        "default": true,
-        "required": false
-      }
-    ],
-    "description": "Users with push access can create deployment statuses for a given deployment:",
-    "documentationUrl": "https://developer.github.com/v3/repos/deployments/#create-a-deployment-status"
   }
 ]
