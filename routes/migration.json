@@ -6,6 +6,12 @@
     "path": "/orgs/:org/migrations",
     "params": [
       {
+        "name": "org",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
         "name": "repositories",
         "type": "array of strings",
         "description": "A list of arrays indicating which repositories should be migrated.",
@@ -34,7 +40,14 @@
     "enabledForApps": false,
     "method": "GET",
     "path": "/orgs/:org/migrations",
-    "params": [],
+    "params": [
+      {
+        "name": "org",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
     "description": "Lists the most recent migrations.",
     "documentationUrl": "https://developer.github.com/v3/migration/migrations/#get-a-list-of-migrations"
   },
@@ -43,7 +56,20 @@
     "enabledForApps": false,
     "method": "GET",
     "path": "/orgs/:org/migrations/:id",
-    "params": [],
+    "params": [
+      {
+        "name": "org",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
     "description": "Fetches the status of a migration.\n\nThe `state` of a migration can be one of the following values:\n\n*   `pending`, which means the migration hasn't started yet.\n*   `exporting`, which means the migration is in progress.\n*   `exported`, which means the migration finished successfully.\n*   `failed`, which means the migration failed.",
     "documentationUrl": "https://developer.github.com/v3/migration/migrations/#get-the-status-of-a-migration"
   },
@@ -52,7 +78,20 @@
     "enabledForApps": false,
     "method": "GET",
     "path": "/orgs/:org/migrations/:id/archive",
-    "params": [],
+    "params": [
+      {
+        "name": "org",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
     "description": "Fetches the URL to a migration archive.\n\n",
     "documentationUrl": "https://developer.github.com/v3/migration/migrations/#download-a-migration-archive"
   },
@@ -61,7 +100,20 @@
     "enabledForApps": false,
     "method": "DELETE",
     "path": "/orgs/:org/migrations/:id/archive",
-    "params": [],
+    "params": [
+      {
+        "name": "org",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
     "description": "Deletes a previous migration archive. Migration archives are automatically deleted after seven days.",
     "documentationUrl": "https://developer.github.com/v3/migration/migrations/#delete-a-migration-archive"
   },
@@ -70,7 +122,26 @@
     "enabledForApps": false,
     "method": "DELETE",
     "path": "/orgs/:org/migrations/:id/repos/:repo_name/lock",
-    "params": [],
+    "params": [
+      {
+        "name": "org",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo_name",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
     "description": "Unlocks a repository that was locked for migration. You should unlock each migrated repository and [delete them](/v3/repos/#delete-a-repository) when the migration is complete and you no longer need the source data.",
     "documentationUrl": "https://developer.github.com/v3/migration/migrations/#unlock-a-repository"
   },
@@ -80,6 +151,18 @@
     "method": "PUT",
     "path": "/repos/:owner/:repo/import",
     "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
       {
         "name": "vcs_url",
         "type": "url",
@@ -125,7 +208,20 @@
     "enabledForApps": true,
     "method": "GET",
     "path": "/repos/:owner/:repo/import",
-    "params": [],
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
     "description": "View the progress of an import.\n\n**Import status**\n\nThis section includes details about the possible values of the `status` field of the Import Progress response.\n\nAn import that does not have errors will progress through these steps:\n\n*   `detecting` \\- the \"detection\" step of the import is in progress because the request did not include a `vcs` parameter. The import is identifying the type of source control present at the URL.\n*   `importing` \\- the \"raw\" step of the import is in progress. This is where commit data is fetched from the original repository. The import progress response will include `commit_count` (the total number of raw commits that will be imported) and `percent` (0 - 100, the current progress through the import).\n*   `mapping` \\- the \"rewrite\" step of the import is in progress. This is where SVN branches are converted to Git branches, and where author updates are applied. The import progress response does not include progress information.\n*   `pushing` \\- the \"push\" step of the import is in progress. This is where the importer updates the repository on GitHub. The import progress response will include `push_percent`, which is the percent value reported by `git push` when it is \"Writing objects\".\n*   `complete` \\- the import is complete, and the repository is ready on GitHub.\n\nIf there are problems, you will see one of these in the `status` field:\n\n*   `auth_failed` \\- the import requires authentication in order to connect to the original repository. To update authentication for the import, please see the [Update Existing Import](#update-existing-import) section.\n*   `error` \\- the import encountered an error. The import progress response will include the `failed_step` and an error message. Contact [GitHub support](https://github.com/contact) for more information.\n*   `detection_needs_auth` \\- the importer requires authentication for the originating repository to continue detection. To update authentication for the import, please see the [Update Existing Import](#update-existing-import) section.\n*   `detection_found_nothing` \\- the importer didn't recognize any source control at the URL. To resolve, [Cancel the import](#cancel-an-import) and [retry](#start-an-import) with the correct URL.\n*   `detection_found_multiple` \\- the importer found several projects or repositories at the provided URL. When this is the case, the Import Progress response will also include a `project_choices` field with the possible project choices as values. To update project choice, please see the [Update Existing Import](#update-existing-import) section.\n\n**The project_choices field**\n\nWhen multiple projects are found at the provided URL, the response hash will include a `project_choices` field, the value of which is an array of hashes each representing a project choice. The exact key/value pairs of the project hashes will differ depending on the version control type.\n\n**Git LFS related fields**\n\nThis section includes details about Git LFS related fields that may be present in the Import Progress response.\n\n*   `use_lfs` \\- describes whether the import has been opted in or out of using Git LFS. The value can be `opt_in`, `opt_out`, or `undecided` if no action has been taken.\n*   `has_large_files` \\- the boolean value describing whether files larger than 100MB were found during the `importing` step.\n*   `large_files_size` \\- the total size in gigabytes of files larger than 100MB found in the originating repository.\n*   `large_files_count` \\- the total number of files larger than 100MB found in the originating repository. To see a list of these files, make a \"Get Large Files\" request.",
     "documentationUrl": "https://developer.github.com/v3/migration/source_imports/#get-import-progress"
   },
@@ -135,6 +231,18 @@
     "method": "PATCH",
     "path": "/repos/:owner/:repo/import",
     "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
       {
         "name": "vcs_username",
         "type": "string",
@@ -158,6 +266,18 @@
     "path": "/repos/:owner/:repo/import/authors",
     "params": [
       {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
         "name": "since",
         "type": "string",
         "description": "Only authors found after this id are returned. Provide the highest author ID you've seen so far. New authors may be added to the list at any point while the importer is performing the `raw` step.",
@@ -173,6 +293,24 @@
     "method": "PATCH",
     "path": "/repos/:owner/:repo/import/authors/:author_id",
     "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "author_id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
       {
         "name": "email",
         "type": "string",
@@ -196,6 +334,18 @@
     "path": "/repos/:owner/:repo/import/lfs",
     "params": [
       {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
         "name": "use_lfs",
         "type": "enum",
         "options": [
@@ -214,7 +364,20 @@
     "enabledForApps": true,
     "method": "GET",
     "path": "/repos/:owner/:repo/import/large_files",
-    "params": [],
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
     "description": "List files larger than 100MB found during the import",
     "documentationUrl": "https://developer.github.com/v3/migration/source_imports/#get-large-files"
   },
@@ -223,7 +386,20 @@
     "enabledForApps": true,
     "method": "DELETE",
     "path": "/repos/:owner/:repo/import",
-    "params": [],
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
     "description": "Stop an import for a repository.",
     "documentationUrl": "https://developer.github.com/v3/migration/source_imports/#cancel-an-import"
   }
