@@ -102,6 +102,8 @@
     <option value="/v3/activity/watching/">Watching</option>
   </optgroup>
 
+  
+
   <optgroup label="Gists">
     <option value="/v3/gists/">Gists overview</a></h3>
     <option value="/v3/gists/comments/">Comments</option>
@@ -161,13 +163,13 @@
 
   <optgroup label="Organizations">
     <option value="/v3/orgs/">Organizations overview</a></h3>
-    <option value="/v3/orgs/members/">Members</option>
-    <option value="/v3/orgs/outside_collaborators/">Outside Collaborators</option>
-    <option value="/v3/orgs/hooks/">Webhooks</option>
     
     <option value="/v3/orgs/blocking/">Blocking Users &#40;Organizations&#41;</option>
     
-    <option value="/v3/orgs/pre_receive_hooks/">Pre-receive Hooks (Enterprise)</option>
+    <option value="/v3/orgs/members/">Members</option>
+    <option value="/v3/orgs/outside_collaborators/">Outside Collaborators</option>
+    
+    <option value="/v3/orgs/hooks/">Webhooks</option>
   </optgroup>
 
   <optgroup label="Projects">
@@ -212,6 +214,7 @@
     <option value="/v3/repos/invitations/">Invitations</option>
     <option value="/v3/repos/merging/">Merging</option>
     <option value="/v3/repos/pages/">Pages</option>
+    
     <option value="/v3/repos/releases/">Releases</option>
     <option value="/v3/repos/statistics/">Statistics</option>
     <option value="/v3/repos/statuses/">Statuses</option>
@@ -219,7 +222,6 @@
     <option value="/v3/repos/traffic/">Traffic</option>
     
     <option value="/v3/repos/hooks/">Webhooks</option>
-    <option value="/v3/repos/pre_receive_hooks/">Pre-receive Hooks (Enterprise)</option>
   </optgroup>
 
   <optgroup label="Search">
@@ -253,29 +255,13 @@
 
   <optgroup label="Users">
     <option value="/v3/users/">Users overview</a></h3>
+    
+    <option value="/v3/users/blocking/">Blocking Users</option>
+    
     <option value="/v3/users/emails/">Emails</option>
     <option value="/v3/users/followers/">Followers</option>
     <option value="/v3/users/keys/">Git SSH Keys</option>
     <option value="/v3/users/gpg_keys/">GPG Keys</option>
-    <option value="/v3/users/administration/">Administration (Enterprise)</option>
-    
-    <option value="/v3/users/blocking/">Blocking Users</option>
-    
-  </optgroup>
-
-  <optgroup label="Enterprise">
-    <option value="/v3/enterprise/">Enterprise overview</a></h3>
-    <option value="/v3/enterprise-admin/admin_stats/">Admin Stats</option>
-    
-    <option value="/v3/enterprise-admin/global_webhooks/">Global Webhooks</option>
-    
-    <option value="/v3/enterprise-admin/ldap/">LDAP</option>
-    <option value="/v3/enterprise-admin/license/">License</option>
-    <option value="/v3/enterprise-admin/management_console/">Management Console</option>
-    <option value="/v3/enterprise-admin/pre_receive_environments/">Pre-receive Environments</option>
-    <option value="/v3/enterprise-admin/pre_receive_hooks/">Pre-receive Hooks</option>
-    <option value="/v3/enterprise-admin/search_indexing/">Search Indexing</option>
-    <option value="/v3/enterprise-admin/orgs/">Organization Administration</option>
   </optgroup>
 </select>
 
@@ -290,6 +276,7 @@
 <li><a href="#get-a-single-user" id="markdown-toc-get-a-single-user">Get a single user</a></li>
 <li><a href="#get-the-authenticated-user" id="markdown-toc-get-the-authenticated-user">Get the authenticated user</a></li>
 <li><a href="#update-the-authenticated-user" id="markdown-toc-update-the-authenticated-user">Update the authenticated user</a></li>
+<li><a href="#get-contextual-information-about-a-user" id="markdown-toc-get-contextual-information-about-a-user">Get contextual information about a user</a></li>
 <li><a href="#get-all-users" id="markdown-toc-get-all-users">Get all users</a></li>
 </ul>
 
@@ -607,6 +594,78 @@ The publicly visible email address only displays for authenticated API users.</p
 
 
 <h2>
+<a id="get-contextual-information-about-a-user" class="anchor" href="#get-contextual-information-about-a-user" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get contextual information about a user</h2>
+
+<div class="alert note">
+
+<p><strong>Note:</strong> You can now retrieve someone's hovercard information in different contexts using the Hovercard API. This feature is currently available for developers to preview. See the <a href="/changes/2018-03-21-hovercard-api-preview">blog post</a> for full details. To access the API during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+<pre><code>application/vnd.github.hagar-preview+json
+</code></pre>
+
+</div>
+
+<div class="alert warning">
+
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
+
+</div>
+
+<p>Provides hovercard information when authenticated through basic auth or OAuth with the <code>repo</code> scope. You can find out more about someone in relation to their pull requests, issues, repositories, and organizations.</p>
+
+<pre><code>GET /users/:username/hovercard
+</code></pre>
+
+<h3>
+<a id="parameters-1" class="anchor" href="#parameters-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>subject_type</code></td>
+<td><code>string</code></td>
+<td>Identifies which additional information you'd like to receive about the person's hovercard. Can be <code>organization</code>, <code>repository</code>, <code>issue</code>, <code>pull_request</code>. <strong>Required</strong> when using <code>subject_id</code>.</td>
+</tr>
+<tr>
+<td><code>subject_id</code></td>
+<td><code>string</code></td>
+<td>Uses the ID for the <code>subject_type</code> you specified. <strong>Required</strong> when using <code>subject_type</code>.</td>
+</tr>
+</tbody>
+</table>
+
+<h3>
+<a id="example-1" class="anchor" href="#example-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+
+<p>The <code>subject_type</code> and <code>subject_id</code> parameters provide context for the person's hovercard, which returns more information than without the parameters. For example, if you wanted to find out more about <code>octocat</code> who owns the <code>Spoon-Knife</code> repository via cURL, it would look like this:</p>
+
+<pre class="command-line">
+  curl -u username:token -H 'Accept: application/vnd.github.hagar-preview+json' \
+    https://api.github.com/users/octocat/hovercard?subject_type=repository&amp;subject_id=1300192
+</pre>
+
+<h3>
+<a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"contexts"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Owns this repository"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"octicon"</span><span class="p">:</span><span class="w"> </span><span class="s2">"repo"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+
+<h2>
 <a id="get-all-users" class="anchor" href="#get-all-users" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get all users<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
@@ -620,7 +679,7 @@ users.</p>
 </code></pre>
 
 <h3>
-<a id="parameters-1" class="anchor" href="#parameters-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+<a id="parameters-2" class="anchor" href="#parameters-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
 
 <table>
 <thead>
@@ -640,7 +699,7 @@ users.</p>
 </table>
 
 <h3>
-<a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-3" class="anchor" href="#response-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 200 OK
 Link: &lt;https://api.github.com/users?since=135&gt;; rel="next"
@@ -696,6 +755,8 @@ Link: &lt;https://api.github.com/users?since=135&gt;; rel="next"
     <option value="/v3/activity/starring/">Starring</option>
     <option value="/v3/activity/watching/">Watching</option>
   </optgroup>
+
+  
 
   <optgroup label="Gists">
     <option value="/v3/gists/">Gists overview</a></h3>
@@ -756,13 +817,13 @@ Link: &lt;https://api.github.com/users?since=135&gt;; rel="next"
 
   <optgroup label="Organizations">
     <option value="/v3/orgs/">Organizations overview</a></h3>
-    <option value="/v3/orgs/members/">Members</option>
-    <option value="/v3/orgs/outside_collaborators/">Outside Collaborators</option>
-    <option value="/v3/orgs/hooks/">Webhooks</option>
     
     <option value="/v3/orgs/blocking/">Blocking Users &#40;Organizations&#41;</option>
     
-    <option value="/v3/orgs/pre_receive_hooks/">Pre-receive Hooks (Enterprise)</option>
+    <option value="/v3/orgs/members/">Members</option>
+    <option value="/v3/orgs/outside_collaborators/">Outside Collaborators</option>
+    
+    <option value="/v3/orgs/hooks/">Webhooks</option>
   </optgroup>
 
   <optgroup label="Projects">
@@ -807,6 +868,7 @@ Link: &lt;https://api.github.com/users?since=135&gt;; rel="next"
     <option value="/v3/repos/invitations/">Invitations</option>
     <option value="/v3/repos/merging/">Merging</option>
     <option value="/v3/repos/pages/">Pages</option>
+    
     <option value="/v3/repos/releases/">Releases</option>
     <option value="/v3/repos/statistics/">Statistics</option>
     <option value="/v3/repos/statuses/">Statuses</option>
@@ -814,7 +876,6 @@ Link: &lt;https://api.github.com/users?since=135&gt;; rel="next"
     <option value="/v3/repos/traffic/">Traffic</option>
     
     <option value="/v3/repos/hooks/">Webhooks</option>
-    <option value="/v3/repos/pre_receive_hooks/">Pre-receive Hooks (Enterprise)</option>
   </optgroup>
 
   <optgroup label="Search">
@@ -848,29 +909,13 @@ Link: &lt;https://api.github.com/users?since=135&gt;; rel="next"
 
   <optgroup label="Users">
     <option value="/v3/users/">Users overview</a></h3>
+    
+    <option value="/v3/users/blocking/">Blocking Users</option>
+    
     <option value="/v3/users/emails/">Emails</option>
     <option value="/v3/users/followers/">Followers</option>
     <option value="/v3/users/keys/">Git SSH Keys</option>
     <option value="/v3/users/gpg_keys/">GPG Keys</option>
-    <option value="/v3/users/administration/">Administration (Enterprise)</option>
-    
-    <option value="/v3/users/blocking/">Blocking Users</option>
-    
-  </optgroup>
-
-  <optgroup label="Enterprise">
-    <option value="/v3/enterprise/">Enterprise overview</a></h3>
-    <option value="/v3/enterprise-admin/admin_stats/">Admin Stats</option>
-    
-    <option value="/v3/enterprise-admin/global_webhooks/">Global Webhooks</option>
-    
-    <option value="/v3/enterprise-admin/ldap/">LDAP</option>
-    <option value="/v3/enterprise-admin/license/">License</option>
-    <option value="/v3/enterprise-admin/management_console/">Management Console</option>
-    <option value="/v3/enterprise-admin/pre_receive_environments/">Pre-receive Environments</option>
-    <option value="/v3/enterprise-admin/pre_receive_hooks/">Pre-receive Hooks</option>
-    <option value="/v3/enterprise-admin/search_indexing/">Search Indexing</option>
-    <option value="/v3/enterprise-admin/orgs/">Organization Administration</option>
   </optgroup>
 </select>
 
@@ -902,6 +947,7 @@ Link: &lt;https://api.github.com/users?since=135&gt;; rel="next"
           <li><a href="/v3/activity/watching/">Watching</a></li>
         </ul>
       </li>
+      
       <li class="js-topic">
         <h3><a href="#" class="js-expand-btn collapsed arrow-btn" data-proofer-ignore></a><a href="/v3/gists/">Gists</a></h3>
         <ul class="js-guides">
@@ -966,13 +1012,13 @@ Link: &lt;https://api.github.com/users?since=135&gt;; rel="next"
       <li class="js-topic">
         <h3><a href="#" class="js-expand-btn collapsed arrow-btn" data-proofer-ignore></a><a href="/v3/orgs/">Organizations</a></h3>
         <ul class="js-guides">
+          
+          <li><a href="/v3/orgs/blocking/">Blocking Users</a></li>
+          
           <li><a href="/v3/orgs/members/">Members</a></li>
           <li><a href="/v3/orgs/outside_collaborators/">Outside Collaborators</a></li>
+          
           <li><a href="/v3/orgs/hooks/">Webhooks</a></li>
-          
-          <li><a href="/v3/orgs/blocking/">Blocking Users &#40;Organizations&#41;</a></li>
-          
-          <li><a href="/v3/orgs/pre_receive_hooks/">Pre-receive Hooks (Enterprise)</a></li>
         </ul>
       </li>
       <li class="js-topic">
@@ -988,7 +1034,6 @@ Link: &lt;https://api.github.com/users?since=135&gt;; rel="next"
           <li><a href="/v3/pulls/reviews/">Reviews</a></li>
           <li><a href="/v3/pulls/comments/">Review Comments</a></li>
           <li><a href="/v3/pulls/review_requests/">Review Requests</a></li>
-
         </ul>
       </li>
       <li class="js-topic">
@@ -1010,10 +1055,10 @@ Link: &lt;https://api.github.com/users?since=135&gt;; rel="next"
           <li><a href="/v3/repos/branches/">Branches</a></li>
           <li><a href="/v3/repos/collaborators/">Collaborators</a></li>
           <li><a href="/v3/repos/comments/">Comments</a></li>
+          <li><a href="/v3/repos/commits/">Commits</a></li>
           
           <li><a href="/v3/repos/community/">Community</a></li>
           
-          <li><a href="/v3/repos/commits/">Commits</a></li>
           <li><a href="/v3/repos/contents/">Contents</a></li>
           <li><a href="/v3/repos/keys/">Deploy Keys</a></li>
           <li><a href="/v3/repos/deployments/">Deployments</a></li>
@@ -1022,6 +1067,7 @@ Link: &lt;https://api.github.com/users?since=135&gt;; rel="next"
           <li><a href="/v3/repos/invitations/">Invitations</a></li>
           <li><a href="/v3/repos/merging/">Merging</a></li>
           <li><a href="/v3/repos/pages/">Pages</a></li>
+          
           <li><a href="/v3/repos/releases/">Releases</a></li>
           <li><a href="/v3/repos/statistics/">Statistics</a></li>
           <li><a href="/v3/repos/statuses/">Statuses</a></li>
@@ -1029,7 +1075,6 @@ Link: &lt;https://api.github.com/users?since=135&gt;; rel="next"
           <li><a href="/v3/repos/traffic/">Traffic</a></li>
           
           <li><a href="/v3/repos/hooks/">Webhooks</a></li>
-          <li><a href="/v3/repos/pre_receive_hooks/">Pre-receive Hooks (Enterprise)</a></li>
         </ul>
       </li>
       <li class="js-topic">
@@ -1067,30 +1112,13 @@ Link: &lt;https://api.github.com/users?since=135&gt;; rel="next"
       <li class="js-topic">
         <h3><a href="#" class="js-expand-btn collapsed arrow-btn" data-proofer-ignore></a><a href="/v3/users/">Users</a></h3>
         <ul class="js-guides">
+          
+          <li><a href="/v3/users/blocking/">Blocking Users</a></li>
+          
           <li><a href="/v3/users/emails/">Emails</a></li>
           <li><a href="/v3/users/followers/">Followers</a></li>
           <li><a href="/v3/users/keys/">Git SSH Keys</a></li>
           <li><a href="/v3/users/gpg_keys/">GPG Keys</a></li>
-          <li><a href="/v3/users/administration/">Administration (Enterprise)</a></li>
-          
-          <li><a href="/v3/users/blocking/">Blocking Users</a></li>
-          
-        </ul>
-      </li>
-      <li class="js-topic">
-        <h3><a href="#" class="js-expand-btn collapsed arrow-btn" data-proofer-ignore></a><a href="/v3/enterprise/">Enterprise</a></h3>
-        <ul class="js-guides">
-          <li><a href="/v3/enterprise-admin/admin_stats/">Admin Stats</a></li>
-          
-          <li><a href="/v3/enterprise-admin/global_webhooks/">Global Webhooks</a></li>
-          
-          <li><a href="/v3/enterprise-admin/ldap/">LDAP</a></li>
-          <li><a href="/v3/enterprise-admin/license/">License</a></li>
-          <li><a href="/v3/enterprise-admin/management_console/">Management Console</a></li>
-          <li><a href="/v3/enterprise-admin/orgs/">Organization Administration</a></li>
-          <li><a href="/v3/enterprise-admin/pre_receive_environments/">Pre-receive Environments</a></li>
-          <li><a href="/v3/enterprise-admin/pre_receive_hooks/">Pre-receive Hooks</a></li>
-          <li><a href="/v3/enterprise-admin/search_indexing/">Search Indexing</a></li>
         </ul>
       </li>
     </ul>

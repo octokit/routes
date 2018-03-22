@@ -32,7 +32,7 @@ want to take advantage of OAuth access token security features.</p>
 
 </div>
 <p>If you&apos;re using the API to access an organization that enforces <a href="https://help.github.com/articles/about-identity-and-access-management-with-saml-single-sign-on">SAML SSO</a> for authentication, you&apos;ll need to create a personal access token (PAT) and <a href="https://help.github.com/articles/authorizing-a-personal-access-token-for-use-with-a-saml-single-sign-on-organization/">whitelist the token</a> for that organization. Visit the URL specified in <code>X-GitHub-SSO</code> to whitelist the token for the organization.</p>
-<pre class="command-line"><span class="command">curl -v -H &quot;Authorization: token TOKEN&quot; https://api.github.com/repos/octodocs-test/test</span>
+<pre class="command-line"><span class="command">curl -v -H &quot;Authorization: token <em>TOKEN</em>&quot; https://api.github.com/repos/octodocs-test/test</span>
 <span class="output">X-GitHub-SSO: required; url=https://github.com/orgs/octodocs-test/sso?authorization_request=AZSCKtL4U8yX1H3sCQIVnVgmjmon5fWxks5YrqhJgah0b2tlbl9pZM4EuMz4</span>
 {
   &quot;message&quot;: &quot;Resource protected by organization SAML enforcement. You must grant your personal token access to this organization.&quot;,
@@ -40,7 +40,7 @@ want to take advantage of OAuth access token security features.</p>
 }
 </pre>
 <p>When requesting data that could come from multiple organizations (for example, <a href="/v3/issues/#list-issues">requesting a list of issues created by the user</a>), the <code>X-GitHub-SSO</code> header indicates which organizations require whitelisting:</p>
-<pre class="command-line"><span class="command">curl -v -H &quot;Authorization: token TOKEN&quot; https://api.github.com/user/issues</span>
+<pre class="command-line"><span class="command">curl -v -H &quot;Authorization: token <em>TOKEN</em>&quot; https://api.github.com/user/issues</span>
 <span class="output">X-GitHub-SSO: partial-results; organizations=21955855,20582480</span>
 </pre>
 <p>The value <code>organizations</code> is a comma-separated list of organization IDs for organizations that require whitelisting.</p>
