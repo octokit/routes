@@ -77,6 +77,34 @@
     "documentationUrl": "https://developer.github.com/v3/users/#update-the-authenticated-user"
   },
   {
+    "name": "Get contextual information about a user",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/users/:username/hovercard",
+    "params": [
+      {
+        "name": "username",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "subject_type",
+        "type": "string",
+        "description": "Identifies which additional information you'd like to receive about the person's hovercard. Can be `organization`, `repository`, `issue`, `pull_request`. **Required** when using `subject_id`.",
+        "required": false
+      },
+      {
+        "name": "subject_id",
+        "type": "string",
+        "description": "Uses the ID for the `subject_type` you specified. **Required** when using `subject_type`.",
+        "required": false
+      }
+    ],
+    "description": "Provides hovercard information when authenticated through basic auth or OAuth with the `repo` scope. You can find out more about someone in relation to their pull requests, issues, repositories, and organizations.\n\nThe `subject_type` and `subject_id` parameters provide context for the person's hovercard, which returns more information than without the parameters. For example, if you wanted to find out more about `octocat` who owns the `Spoon-Knife` repository via cURL, it would look like this:",
+    "documentationUrl": "https://developer.github.com/v3/users/#get-contextual-information-about-a-user"
+  },
+  {
     "name": "Get all users",
     "enabledForApps": true,
     "method": "GET",
@@ -105,6 +133,63 @@
     ],
     "description": "Lists all users, in the order that they signed up on GitHub. This list includes personal user accounts and organization accounts.\n\nNote: Pagination is powered exclusively by the `since` parameter. Use the [Link header](/v3/#link-header) to get the URL for the next page of users.",
     "documentationUrl": "https://developer.github.com/v3/users/#get-all-users"
+  },
+  {
+    "name": "List blocked users",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/user/blocks",
+    "params": [],
+    "description": "List the users you've blocked on your personal account.",
+    "documentationUrl": "https://developer.github.com/v3/users/blocking/#list-blocked-users"
+  },
+  {
+    "name": "Check whether you've blocked a user",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/user/blocks/:username",
+    "params": [
+      {
+        "name": "username",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
+    "description": "If the user is blocked:\n\nIf the user is not blocked:",
+    "documentationUrl": "https://developer.github.com/v3/users/blocking/#check-whether-youve-blocked-a-user"
+  },
+  {
+    "name": "Block a user",
+    "enabledForApps": false,
+    "method": "PUT",
+    "path": "/user/blocks/:username",
+    "params": [
+      {
+        "name": "username",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/users/blocking/#block-a-user"
+  },
+  {
+    "name": "Unblock a user",
+    "enabledForApps": false,
+    "method": "DELETE",
+    "path": "/user/blocks/:username",
+    "params": [
+      {
+        "name": "username",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
+    "description": "",
+    "documentationUrl": "https://developer.github.com/v3/users/blocking/#unblock-a-user"
   },
   {
     "name": "List email addresses for a user",
@@ -548,126 +633,5 @@
     ],
     "description": "Removes a GPG key. Requires that you are authenticated via Basic Auth or via OAuth with at least `admin:gpg_key` [scope](/apps/building-integrations/setting-up-and-registering-oauth-apps/about-scopes-for-oauth-apps/).",
     "documentationUrl": "https://developer.github.com/v3/users/gpg_keys/#delete-a-gpg-key"
-  },
-  {
-    "name": "Promote an ordinary user to a site administrator",
-    "enabledForApps": false,
-    "method": "PUT",
-    "path": "/users/:username/site_admin",
-    "params": [
-      {
-        "name": "username",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "Note that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](/v3/#http-verbs).\"",
-    "documentationUrl": "https://developer.github.com/v3/users/administration/#promote-an-ordinary-user-to-a-site-administrator"
-  },
-  {
-    "name": "Demote a site administrator to an ordinary user",
-    "enabledForApps": false,
-    "method": "DELETE",
-    "path": "/users/:username/site_admin",
-    "params": [
-      {
-        "name": "username",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "You can demote any user account except your own.",
-    "documentationUrl": "https://developer.github.com/v3/users/administration/#demote-a-site-administrator-to-an-ordinary-user"
-  },
-  {
-    "name": "Suspend a user",
-    "enabledForApps": false,
-    "method": "PUT",
-    "path": "/users/:username/suspended",
-    "params": [
-      {
-        "name": "username",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "If your GitHub Enterprise appliance has [LDAP Sync with Active Directory LDAP servers](https://help.github.com/enterprise/admin/guides/user-management/using-ldap), this API is disabled and will return a `403` response. Users managed by an external account cannot be suspended via the API.\n\nYou can suspend any user account except your own.\n\nNote that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](/v3/#http-verbs).\"",
-    "documentationUrl": "https://developer.github.com/v3/users/administration/#suspend-a-user"
-  },
-  {
-    "name": "Unsuspend a user",
-    "enabledForApps": false,
-    "method": "DELETE",
-    "path": "/users/:username/suspended",
-    "params": [
-      {
-        "name": "username",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "If your GitHub Enterprise appliance has [LDAP Sync with Active Directory LDAP servers](https://help.github.com/enterprise/admin/guides/user-management/using-ldap), this API is disabled and will return a `403` response. Users managed by an external account cannot be unsuspended via the API.",
-    "documentationUrl": "https://developer.github.com/v3/users/administration/#unsuspend-a-user"
-  },
-  {
-    "name": "List blocked users",
-    "enabledForApps": false,
-    "method": "GET",
-    "path": "/user/blocks",
-    "params": [],
-    "description": "List the users you've blocked on your personal account.",
-    "documentationUrl": "https://developer.github.com/v3/users/blocking/#list-blocked-users"
-  },
-  {
-    "name": "Check whether you've blocked a user",
-    "enabledForApps": false,
-    "method": "GET",
-    "path": "/user/blocks/:username",
-    "params": [
-      {
-        "name": "username",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "If the user is blocked:\n\nIf the user is not blocked:",
-    "documentationUrl": "https://developer.github.com/v3/users/blocking/#check-whether-youve-blocked-a-user"
-  },
-  {
-    "name": "Block a user",
-    "enabledForApps": false,
-    "method": "PUT",
-    "path": "/user/blocks/:username",
-    "params": [
-      {
-        "name": "username",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "",
-    "documentationUrl": "https://developer.github.com/v3/users/blocking/#block-a-user"
-  },
-  {
-    "name": "Unblock a user",
-    "enabledForApps": false,
-    "method": "DELETE",
-    "path": "/user/blocks/:username",
-    "params": [
-      {
-        "name": "username",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "",
-    "documentationUrl": "https://developer.github.com/v3/users/blocking/#unblock-a-user"
   }
 ]

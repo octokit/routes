@@ -2270,28 +2270,6 @@
     "documentationUrl": "https://developer.github.com/v3/repos/comments/#delete-a-commit-comment"
   },
   {
-    "name": "Retrieve community profile metrics",
-    "enabledForApps": true,
-    "method": "GET",
-    "path": "/repos/:owner/:name/community/profile",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "name",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "This endpoint will return all community profile metrics, including an overall health score, repository description, the presence of documentation, detected code of conduct, detected license, and the presence of ISSUE\\_TEMPLATE, PULL\\_REQUEST_TEMPLATE, README, and CONTRIBUTING files.",
-    "documentationUrl": "https://developer.github.com/v3/repos/community/#retrieve-community-profile-metrics"
-  },
-  {
     "name": "List commits on a repository",
     "enabledForApps": true,
     "method": "GET",
@@ -2499,6 +2477,28 @@
     ],
     "description": "**The verification object**\n\n**The reason field**\n\nThe following are possible `reason`s that may be included in the `verification` object:\n\n| Value                    | Description                                                                                                                       |\n| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |\n| `expired_key`            | The key that made the signature is expired.                                                                                       |\n| `not_signing_key`        | The \"signing\" flag is not among the usage flags in the GPG key that made the signature.                                           |\n| `gpgverify_error`        | There was an error communicating with the signature-verification service.                                                         |\n| `gpgverify_unavailable`  | The signature-verification service is currently unavailable.                                                                      |\n| `unsigned`               | The object does not include a signature.                                                                                          |\n| `unknown_signature_type` | A non-PGP signature was found in the commit.                                                                                      |\n| `no_user`                | No user was associated with the `committer` email address in the commit.                                                          |\n| `unverified_email`       | The `committer` email address in the commit was associated with a user, but the email address is not verified on her/his account. |\n| `bad_email`              | The `committer` email address in the commit is not included in the identities of the PGP key that made the signature.             |\n| `unknown_key`            | The key that made the signature has not been registered with any user's account.                                                  |\n| `malformed_signature`    | There was an error parsing the signature.                                                                                         |\n| `invalid`                | The signature could not be cryptographically verified using the key whose key-id was found in the signature.                      |\n| `valid`                  | None of the above errors applied, so the signature is considered to be verified.                                                  |",
     "documentationUrl": "https://developer.github.com/v3/repos/commits/#commit-signature-verification"
+  },
+  {
+    "name": "Retrieve community profile metrics",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:name/community/profile",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
+    "description": "This endpoint will return all community profile metrics, including an overall health score, repository description, the presence of documentation, detected code of conduct, detected license, and the presence of ISSUE\\_TEMPLATE, PULL\\_REQUEST_TEMPLATE, README, and CONTRIBUTING files.",
+    "documentationUrl": "https://developer.github.com/v3/repos/community/#retrieve-community-profile-metrics"
   },
   {
     "name": "Get the README",
@@ -4807,125 +4807,5 @@
     ],
     "description": "",
     "documentationUrl": "https://developer.github.com/v3/repos/hooks/#delete-a-hook"
-  },
-  {
-    "name": "List pre-receive hooks",
-    "enabledForApps": false,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/pre-receive-hooks",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "per_page",
-        "type": "number",
-        "required": false,
-        "description": "Results per page (max 100)",
-        "default": 30
-      },
-      {
-        "name": "page",
-        "type": "number",
-        "required": false,
-        "description": "Page number of the results to fetch.",
-        "default": 1
-      }
-    ],
-    "description": "List all pre-receive hooks that are enabled or testing for this repository as well as any disabled hooks that are allowed to be enabled at the repository level. Pre-receive hooks that are disabled at a higher level and are not configurable will not be listed.",
-    "documentationUrl": "https://developer.github.com/v3/repos/pre_receive_hooks/#list-pre-receive-hooks"
-  },
-  {
-    "name": "Get a single pre-receive hook",
-    "enabledForApps": false,
-    "method": "GET",
-    "path": "/repos/:owner/:repo/pre-receive-hooks/:id",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "id",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "",
-    "documentationUrl": "https://developer.github.com/v3/repos/pre_receive_hooks/#get-a-single-pre-receive-hook"
-  },
-  {
-    "name": "Update pre-receive hook enforcement",
-    "enabledForApps": false,
-    "method": "PATCH",
-    "path": "/repos/:owner/:repo/pre-receive-hooks/:id",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "id",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "For pre-receive hooks which are allowed to be configured at the repo level, you can set `enforcement`",
-    "documentationUrl": "https://developer.github.com/v3/repos/pre_receive_hooks/#update-pre-receive-hook-enforcement"
-  },
-  {
-    "name": "Remove enforcement overrides for a pre-receive hook",
-    "enabledForApps": false,
-    "method": "DELETE",
-    "path": "/repos/:owner/:repo/pre-receive-hooks/:id",
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": ""
-      },
-      {
-        "name": "id",
-        "type": "string",
-        "required": true,
-        "description": ""
-      }
-    ],
-    "description": "Deletes any overridden enforcement on this repository for the specified hook.\n\nResponds with effective values inherited from owner and/or global level.",
-    "documentationUrl": "https://developer.github.com/v3/repos/pre_receive_hooks/#remove-enforcement-overrides-for-a-pre-receive-hook"
   }
 ]
