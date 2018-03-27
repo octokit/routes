@@ -9,19 +9,12 @@ A general overview of how Octokit Routes work, have a look at the
 The most common issue people will run into is an unexpected route definition.
 Please follow these steps to report such a problem
 
-1. Create an issue. Mention
-   1. the scope (e.g. "Users")
-   2. the name (e.g. "Get the authenticated user")
-   3. route (e.g. `GET /user`)
-   4. the documentation URL
-   5. A link to the current specification, e.g. https://github.com/octokit/routes/blob/90063204eeb08b16bcabd2b8563652197f2819c3/routes/users/get-the-authenticated-user.json (open the `*.json` in your browser and press `y` to get the permalink).
-   6. A summary of what you expected instead
-   7. The full JSON of what you expected instead
+1. [Create an issue](https://github.com/octokit/routes/issues/new). Follow the instructions in the `<!-- comments -->`
 2. If you would like to work resolving this issue, let us know :)
    Otherwise you are done here, thank you!
 3. Fork the repository. Clone it to your computer and run the tests to make sure
    that everything works as expected.
-4. Edit the `*.json` file to to what you expected
+4. Edit the `*.json` file to to what is expected from the issue
 5. Run the tests, they should fail now
 6. Commit the change with `test: ...` and start a pull request.
 7. Let us know if you’d like to work on resolving the failing test. Otherwise
