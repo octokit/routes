@@ -23,7 +23,7 @@ Please follow these steps to report such a problem
    `*.json` file you edited based on the documentation URL by running e.g.
 
    ```
-   TEST_URL=https://developer.github.com/v3/repos/#get ltap test/integration/single-endpoint-test.js
+   TEST_URL=https://developer.github.com/v3/repos/#get ./node_modules/.bin/tap test/integration/single-endpoint-test.js
    ```
 
    Once you did, push your changes and wait for us to review. If you have any
