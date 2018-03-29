@@ -199,6 +199,9 @@
   <optgroup label="Projects">
     <option value="/v3/projects/">Projects overview</a></h3>
     <option value="/v3/projects/cards/">Cards</option>
+    
+    <option value="/v3/projects/collaborators/">Collaborators</option>
+    
     <option value="/v3/projects/columns/">Columns</option>
   </optgroup>
 
@@ -308,6 +311,15 @@
 
 <div class="alert note">
 
+<p>The Projects API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the <a href="/changes/2016-10-27-changes-to-projects-api">blog post</a> for full details. To access the API during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+<pre><code>      application/vnd.github.inertia-preview+json
+</code></pre>
+
+</div>
+
+<div class="alert note">
+
 <p><strong>Note:</strong> To help with migrating from our REST API v3 to GraphQL API v4, we're introducing a preview period to include the <a href="/v3/#graphql-global-relay-ids">GraphQL <code>node_id</code></a> in the response for many REST API v3 resources. See the <a href="/changes/2017-12-19-graphql-node-id">blog post</a> for full details. To access <code>node_id</code> during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
 
 <pre><code>application/vnd.github.jean-grey-preview+json
@@ -318,21 +330,6 @@
 <div class="alert warning">
 
 <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
-
-</div>
-
-<div class="alert tip">
-
-<p><a name="preview-period"></a></p>
-
-<p>The Projects API is currently available for developers to preview.
-  During the preview period, the API may change without advance notice. Please
-  see the <a href="/changes/2016-10-27-changes-to-projects-api">blog post</a> for full details.</p>
-
-<p>To access the API during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
-
-<pre><code>  application/vnd.github.inertia-preview+json
-</code></pre>
 
 </div>
 
@@ -843,6 +840,16 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <td><code>string</code></td>
 <td>State of the project. Either <code>open</code> or <code>closed</code>.</td>
 </tr>
+<tr>
+<td><code>organization_permission</code></td>
+<td><code>string</code></td>
+<td>The permission level that all members of the project's organization will have on this project. If an organization member belongs to a team with a higher level of access or is a collaborator with a higher level of access, their permission level is not lowered by <code>organization_permission</code>. Updating a project's organization permission requires <code>admin</code> access to the project. Setting the organization permission is only available for organization projects.</td>
+</tr>
+<tr>
+<td><code>public</code></td>
+<td><code>boolean</code></td>
+<td>Sets visibility of the project within the organization. Updating a project's visibility requires <code>admin</code> access to the project. Setting visibility is only available for organization projects. Can be one of:<br>* <code>true</code> - Anyone that can view the organization can see the project.<br>* <code>false</code> - The project must be an organization project to set project visibility.</td>
+</tr>
 </tbody>
 </table>
 
@@ -898,6 +905,13 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
   </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2014-03-03T18:58:10Z"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
+
+
+<h3>
+<a id="response-if-the-authenticated-user-does-not-have-access-to-the-project" class="anchor" href="#response-if-the-authenticated-user-does-not-have-access-to-the-project" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if the authenticated user does not have access to the project</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 404 Not Found
+</code></pre>
 
 
 <h3>
@@ -1044,6 +1058,9 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
   <optgroup label="Projects">
     <option value="/v3/projects/">Projects overview</a></h3>
     <option value="/v3/projects/cards/">Cards</option>
+    
+    <option value="/v3/projects/collaborators/">Collaborators</option>
+    
     <option value="/v3/projects/columns/">Columns</option>
   </optgroup>
 
@@ -1240,6 +1257,9 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
         <h3><a href="#" class="js-expand-btn collapsed arrow-btn" data-proofer-ignore></a><a href="/v3/projects/">Projects</a></h3>
         <ul class="js-guides">
           <li><a href="/v3/projects/cards/">Cards</a></li>
+          
+          <li><a href="/v3/projects/collaborators/">Collaborators</a></li>
+          
           <li><a href="/v3/projects/columns/">Columns</a></li>
         </ul>
       </li>
