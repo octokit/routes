@@ -230,6 +230,18 @@
         "required": false
       },
       {
+        "name": "organization_permission",
+        "type": "string",
+        "description": "The permission level that all members of the project's organization will have on this project. If an organization member belongs to a team with a higher level of access or is a collaborator with a higher level of access, their permission level is not lowered by `organization_permission`. Updating a project's organization permission requires `admin` access to the project. Setting the organization permission is only available for organization projects.",
+        "required": false
+      },
+      {
+        "name": "public",
+        "type": "boolean",
+        "description": "Sets visibility of the project within the organization. Updating a project's visibility requires `admin` access to the project. Setting visibility is only available for organization projects. Can be one of:  \n\\* `true` \\- Anyone that can view the organization can see the project.  \n\\* `false` \\- The project must be an organization project to set project visibility.",
+        "required": false
+      },
+      {
         "name": "per_page",
         "type": "number",
         "required": false,
@@ -416,6 +428,127 @@
     ],
     "description": "",
     "documentationUrl": "https://developer.github.com/v3/projects/cards/#move-a-project-card"
+  },
+  {
+    "name": "List collaborators",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/projects/:id/collaborators",
+    "params": [
+      {
+        "name": "id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "affiliation",
+        "type": "enum",
+        "description": "Filters the collaborators by their affiliation. Can be one of:  \n\\* `outside`: Outside collaborators of a project that are not a member of the project's organization.  \n\\* `direct`: Collaborators with permissions to a project, regardless of organization membership status.  \n\\* `all`: All collaborators the authenticated user can see.",
+        "default": "all",
+        "required": false,
+        "options": [
+          "outside",
+          "direct",
+          "all"
+        ]
+      },
+      {
+        "name": "per_page",
+        "type": "number",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30
+      },
+      {
+        "name": "page",
+        "type": "number",
+        "required": false,
+        "description": "Page number of the results to fetch.",
+        "default": 1
+      }
+    ],
+    "description": "Lists the collaborators for an organization project. For a project, the list of collaborators includes outside collaborators, organization members that are direct collaborators, organization members with access through team memberships, organization members with access through default organization permissions, and organization owners. You must be an organization owner or a project `admin` to list collaborators.",
+    "documentationUrl": "https://developer.github.com/v3/projects/collaborators/#list-collaborators"
+  },
+  {
+    "name": "Review a user's permission level",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/projects/:id/collaborators/:username/permission",
+    "params": [
+      {
+        "name": "id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "username",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
+    "description": "Returns the collaborator's permission level for an organization project. Possible values for the `permission` key: `admin`, `write`, `read`, `none`. You must be an organization owner or a project `admin` to review a user's permission level.",
+    "documentationUrl": "https://developer.github.com/v3/projects/collaborators/#review-a-users-permission-level"
+  },
+  {
+    "name": "Add user as a collaborator",
+    "enabledForApps": false,
+    "method": "PUT",
+    "path": "/projects/:id/collaborators/:username",
+    "params": [
+      {
+        "name": "id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "username",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "permission",
+        "type": "enum",
+        "description": "The permission to grant the collaborator. Note that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](/v3/#http-verbs).\" Can be one of:  \n\\* `read` \\- can read, but not write to or administer this project.  \n\\* `write` \\- can read and write, but not administer this project.  \n\\* `admin` \\- can read, write and administer this project.",
+        "default": "write",
+        "required": false,
+        "options": [
+          "Content-Length",
+          "read",
+          "write",
+          "admin"
+        ]
+      }
+    ],
+    "description": "Adds a collaborator to a an organization project and sets their permission level. You must be an organization owner or a project `admin` to add a collaborator.",
+    "documentationUrl": "https://developer.github.com/v3/projects/collaborators/#add-user-as-a-collaborator"
+  },
+  {
+    "name": "Remove user as a collaborator",
+    "enabledForApps": false,
+    "method": "DELETE",
+    "path": "/projects/:id/collaborators/:username",
+    "params": [
+      {
+        "name": "id",
+        "type": "string",
+        "required": true,
+        "description": ""
+      },
+      {
+        "name": "username",
+        "type": "string",
+        "required": true,
+        "description": ""
+      }
+    ],
+    "description": "Removes a collaborator from an organization project. You must be an organization owner or a project `admin` to remove a collaborator.",
+    "documentationUrl": "https://developer.github.com/v3/projects/collaborators/#remove-user-as-a-collaborator"
   },
   {
     "name": "List project columns",
