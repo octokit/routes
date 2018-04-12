@@ -1621,6 +1621,8 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <a id="remove-restrictions-of-protected-branch" class="anchor" href="#remove-restrictions-of-protected-branch" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove restrictions of protected branch<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
+<p>Disables the ability to restrict who can push to this branch.</p>
+
 <pre><code>DELETE /repos/:owner/:repo/branches/:branch/protection/restrictions
 </code></pre>
 
@@ -1646,6 +1648,8 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
 
 </div>
+
+<p>Lists the teams who have push access to this branch. If you pass the <code>hellcat-preview</code> media type, the list includes child teams.</p>
 
 <pre><code>GET /repos/:owner/:repo/branches/:branch/protection/restrictions/teams
 </code></pre>
@@ -1689,19 +1693,28 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 </div>
 
+<p>Replaces the list of teams that have push access to this branch. This removes all teams that previously had push access and grants push access to the new list of teams. If you pass the <code>hellcat-preview</code> media type, you can include child teams.</p>
+
 <pre><code>PUT /repos/:owner/:repo/branches/:branch/protection/restrictions/teams
 </code></pre>
 
 <h3>
-<a id="body-parameters" class="anchor" href="#body-parameters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Body parameters</h3>
+<a id="parameters-4" class="anchor" href="#parameters-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
 
-<p>Pass the list of team <code>slug</code>s with push access.</p>
-
-<div class="alert note">
-
-<p><strong>Note</strong>: The list of users and teams in total is limited to 100 items.</p>
-
-</div>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>array</code></td>
+<td>The teams that can have push access. Use the team's <code>slug</code>. <strong>Note</strong>: The list of users and teams in total is limited to 100 items.</td>
+</tr>
+</tbody>
+</table>
 
 <h3>
 <a id="example-6" class="anchor" href="#example-6" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
@@ -1755,19 +1768,28 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 </div>
 
+<p>Grants the specified teams push access for this branch. If you pass the <code>hellcat-preview</code> media type, you can also give push access to child teams.</p>
+
 <pre><code>POST /repos/:owner/:repo/branches/:branch/protection/restrictions/teams
 </code></pre>
 
 <h3>
-<a id="body-parameters-1" class="anchor" href="#body-parameters-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Body parameters</h3>
+<a id="parameters-5" class="anchor" href="#parameters-5" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
 
-<p>Pass the list of team <code>slug</code>s with push access.</p>
-
-<div class="alert note">
-
-<p><strong>Note</strong>: The list of users and teams in total is limited to 100 items.</p>
-
-</div>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>array</code></td>
+<td>The teams that can have push access. Use the team's <code>slug</code>. <strong>Note</strong>: The list of users and teams in total is limited to 100 items.</td>
+</tr>
+</tbody>
+</table>
 
 <h3>
 <a id="example-7" class="anchor" href="#example-7" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
@@ -1821,8 +1843,28 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 </div>
 
+<p>Removes the ability of a team to push to this branch. If you pass the <code>hellcat-preview</code> media type, you can include child teams.</p>
+
 <pre><code>DELETE /repos/:owner/:repo/branches/:branch/protection/restrictions/teams
 </code></pre>
+
+<h3>
+<a id="parameters-6" class="anchor" href="#parameters-6" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>array</code></td>
+<td>Teams that should no longer have push access. Use the team's <code>slug</code>. <strong>Note</strong>: The list of users and teams in total is limited to 100 items.</td>
+</tr>
+</tbody>
+</table>
 
 <h3>
 <a id="example-8" class="anchor" href="#example-8" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
@@ -1861,6 +1903,8 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <a id="list-user-restrictions-of-protected-branch" class="anchor" href="#list-user-restrictions-of-protected-branch" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List user restrictions of protected branch<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
+<p>Lists the people who have push access to this branch.</p>
+
 <pre><code>GET /repos/:owner/:repo/branches/:branch/protection/restrictions/users
 </code></pre>
 
@@ -1896,19 +1940,28 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <a id="replace-user-restrictions-of-protected-branch" class="anchor" href="#replace-user-restrictions-of-protected-branch" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Replace user restrictions of protected branch<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
+<p>Replaces the list of people that have push access to this branch. This removes all people that previously had push access and grants push access to the new list of people.</p>
+
 <pre><code>PUT /repos/:owner/:repo/branches/:branch/protection/restrictions/users
 </code></pre>
 
 <h3>
-<a id="body-parameters-2" class="anchor" href="#body-parameters-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Body parameters</h3>
+<a id="parameters-7" class="anchor" href="#parameters-7" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
 
-<p>Pass the list of user <code>login</code>s with push access.</p>
-
-<div class="alert note">
-
-<p><strong>Note</strong>: The list of users and teams in total is limited to 100 items.</p>
-
-</div>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>array</code></td>
+<td>Usernames for people who can have push access. <strong>Note</strong>: The list of users and teams in total is limited to 100 items.</td>
+</tr>
+</tbody>
+</table>
 
 <h3>
 <a id="example-9" class="anchor" href="#example-9" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
@@ -1954,19 +2007,28 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <a id="add-user-restrictions-of-protected-branch" class="anchor" href="#add-user-restrictions-of-protected-branch" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Add user restrictions of protected branch<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
+<p>Grants the specified people push access for this branch.</p>
+
 <pre><code>POST /repos/:owner/:repo/branches/:branch/protection/restrictions/users
 </code></pre>
 
 <h3>
-<a id="body-parameters-3" class="anchor" href="#body-parameters-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Body parameters</h3>
+<a id="parameters-8" class="anchor" href="#parameters-8" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
 
-<p>Pass the list of user <code>login</code>s with push access.</p>
-
-<div class="alert note">
-
-<p><strong>Note</strong>: The list of users and teams in total is limited to 100 items.</p>
-
-</div>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>array</code></td>
+<td>Usernames for people who can have push access. <strong>Note</strong>: The list of users and teams in total is limited to 100 items.</td>
+</tr>
+</tbody>
+</table>
 
 <h3>
 <a id="example-10" class="anchor" href="#example-10" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
@@ -2012,8 +2074,28 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <a id="remove-user-restrictions-of-protected-branch" class="anchor" href="#remove-user-restrictions-of-protected-branch" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove user restrictions of protected branch<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
+<p>Removes the ability of a team to push to this branch.</p>
+
 <pre><code>DELETE /repos/:owner/:repo/branches/:branch/protection/restrictions/users
 </code></pre>
+
+<h3>
+<a id="parameters-9" class="anchor" href="#parameters-9" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>array</code></td>
+<td>Usernames of the people who should no longer have push access. <strong>Note</strong>: The list of users and teams in total is limited to 100 items.</td>
+</tr>
+</tbody>
+</table>
 
 <h3>
 <a id="example-11" class="anchor" href="#example-11" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
