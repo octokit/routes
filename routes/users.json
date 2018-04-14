@@ -12,7 +12,7 @@
         "description": ""
       }
     ],
-    "description": "Note: The returned email is the user's publicly visible email address (or `null` if the user has not [specified a public email address in their profile](https://github.com/settings/profile)). The publicly visible email address only displays for authenticated API users.",
+    "description": "Provides publicly available information about someone with a GitHub account.\n\nThe `email` key in the following response is the publicly visible email address from your GitHub [profile page](https://github.com/settings/profile). When setting up your profile, you can select a primary email address to be “public” which provides an email entry for this endpoint. If you do not set a public email address for `email`, then it will have a value of `null`. You only see publicly visible email addresses when authenticated with GitHub. For more information, see [Authentication](https://developer.github.com/v3/#authentication).\n\nThe Emails API enables you to list all of your email addresses, and toggle a primary email to be visible publicly. For more information, see \"[Emails API](https://developer.github.com/v3/users/emails/)\".",
     "documentationUrl": "https://developer.github.com/v3/users/#get-a-single-user"
   },
   {
@@ -218,7 +218,7 @@
         "default": 1
       }
     ],
-    "description": "This endpoint is accessible with the user:email scope.",
+    "description": "Lists all of your email addresses, and specifies which one is visible to the public. This endpoint is accessible with the `user:email` scope.",
     "documentationUrl": "https://developer.github.com/v3/users/emails/#list-email-addresses-for-a-user"
   },
   {
@@ -242,7 +242,7 @@
         "default": 1
       }
     ],
-    "description": "This endpoint is accessible with the `user:email` scope.",
+    "description": "Lists your publicly visible email address, which you can set with the [Toggle primary email visibility](#toggle-primary-email-visibility) endpoint. This endpoint is accessible with the `user:email` scope.",
     "documentationUrl": "https://developer.github.com/v3/users/emails/#list-public-email-addresses-for-a-user"
   },
   {
@@ -268,8 +268,21 @@
     "enabledForApps": false,
     "method": "PATCH",
     "path": "/user/email/visibility",
-    "params": [],
-    "description": "",
+    "params": [
+      {
+        "name": "email",
+        "type": "string",
+        "description": "Specify the _primary_ email address that needs a visibility change.",
+        "required": true
+      },
+      {
+        "name": "visibility",
+        "type": "string",
+        "description": "Use `public` to enable an authenticated user to view the specified email address, or use `private` so this primary email address cannot be seen publicly.",
+        "required": true
+      }
+    ],
+    "description": "Sets the visibility for your primary email addresses.",
     "documentationUrl": "https://developer.github.com/v3/users/emails/#toggle-primary-email-visibility"
   },
   {
