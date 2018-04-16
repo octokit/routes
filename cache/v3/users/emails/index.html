@@ -307,16 +307,15 @@
 <li><a href="#toggle-primary-email-visibility" id="markdown-toc-toggle-primary-email-visibility">Toggle primary email visibility</a></li>
 </ul>
 
-<p>Management of email addresses via the API requires that you are
-authenticated through basic auth or OAuth with the user scope.</p>
+<p>Management of email addresses via the API requires that you authenticate through basic auth or OAuth with the <code>user:email</code> scope.</p>
 
 <h2>
 <a id="list-email-addresses-for-a-user" class="anchor" href="#list-email-addresses-for-a-user" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List email addresses for a user</h2>
 
+<p>Lists all of your email addresses, and specifies which one is visible to the public. This endpoint is accessible with the <code>user:email</code> scope.</p>
+
 <pre><code>GET /user/emails
 </code></pre>
-
-<p>This endpoint is accessible with the user:email scope.</p>
 
 <h3>
 <a id="response" class="anchor" href="#response" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
@@ -341,10 +340,10 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <h2>
 <a id="list-public-email-addresses-for-a-user" class="anchor" href="#list-public-email-addresses-for-a-user" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List public email addresses for a user</h2>
 
+<p>Lists your publicly visible email address, which you can set with the <a href="#toggle-primary-email-visibility">Toggle primary email visibility</a> endpoint. This endpoint is accessible with the <code>user:email</code> scope.</p>
+
 <pre><code>GET /user/public_emails
 </code></pre>
-
-<p>This endpoint is accessible with the <code>user:email</code> scope.</p>
 
 <h3>
 <a id="response-1" class="anchor" href="#response-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
@@ -434,8 +433,49 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <h2>
 <a id="toggle-primary-email-visibility" class="anchor" href="#toggle-primary-email-visibility" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Toggle primary email visibility</h2>
 
+<p>Sets the visibility for your primary email addresses.</p>
+
 <pre><code>PATCH /user/email/visibility
 </code></pre>
+
+<h3>
+<a id="parameters" class="anchor" href="#parameters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+
+<p>You need to pass an object with the following keys.</p>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>email</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required</strong>. Specify the <em>primary</em> email address that needs a visibility change.</td>
+</tr>
+<tr>
+<td><code>visibility</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required</strong>.  Use <code>public</code> to enable an authenticated user to view the specified email address, or use <code>private</code> so this primary email address cannot be seen publicly.</td>
+</tr>
+</tbody>
+</table>
+
+<h3>
+<a id="input-2" class="anchor" href="#input-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Input</h3>
+
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat@github.com"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"visibility"</span><span class="p">:</span><span class="w"> </span><span class="s2">"public"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
 
 <h3>
 <a id="response-4" class="anchor" href="#response-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
