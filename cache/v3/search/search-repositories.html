@@ -1,6 +1,19 @@
 <h2>
 <a id="search-repositories" class="anchor" href="#search-repositories" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Search repositories<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
+<div class="alert note">
+
+<p><strong>Note:</strong> The <code>topics</code> property for repositories on GitHub is currently available for developers to preview. To view the <code>topics</code> property in calls that return repository results, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+<pre><code>application/vnd.github.mercy-preview+json
+</code></pre>
+
+</div>
+<div class="alert warning">
+
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
+
+</div>
 <p>Find repositories via various criteria. This method returns up to 100 results <a href="/v3/#pagination">per page</a>.</p>
 <pre><code>GET /search/repositories
 </code></pre>
@@ -18,7 +31,8 @@
 <tr>
 <td><code>q</code></td>
 <td><code>string</code></td>
-<td>The search keywords, as well as any qualifiers.</td>
+<td>
+<strong>Required</strong>. The search keywords, as well as any qualifiers.</td>
 </tr>
 <tr>
 <td><code>sort</code></td>
@@ -65,23 +79,19 @@ Searches repositories based on the number of stars.</li>
 <a href="https://help.github.com/articles/classifying-your-repository-with-topics/"><code>topic</code></a>
 Filters repositories based on the specified topic.</li>
 <li>
-<p><a href="https://help.github.com/articles/searching-repositories/#search-based-on-whether-a-repository-is-archived"><code>archived</code></a>
-Filters whether archived repositories should be included (<code>true</code>) or not (<code>false</code>).</p>
-
-<p>You can search for multiple topics by adding more <code>topic:</code> instances. For example:</p>
-
-<pre><code>curl -H &quot;Authentication: token TOKEN&quot; \
--H &quot;Accept: application/vnd.github.mercy-preview+json&quot; \
-https://api.github.com/search/repositories?q=topic:ruby+topic:rails
-</code></pre>
-</li>
+<a href="https://help.github.com/articles/searching-repositories/#search-based-on-whether-a-repository-is-archived"><code>archived</code></a>
+Filters whether archived repositories should be included (<code>true</code>) or not (<code>false</code>).</li>
 </ul>
-<h4 id="repository-search-example">
-<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h4>
+<h3 id="repository-search-example">
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 <p>Suppose you want to search for popular Tetris repositories written in Assembly.
 Your query might look like this.</p>
-<pre><code>https://api.github.com/search/repositories?q=tetris+language:assembly&amp;sort=stars&amp;order=desc
-</code></pre>
+<pre class="command-line">curl https://api.github.com/search/repositories?q=tetris+language:assembly&amp;sort=stars&amp;order=desc
+</pre>
+<p>You can search for multiple topics by adding more <code>topic:</code> instances, and including the <code>mercy-preview</code> header. For example:</p>
+<pre class="command-line">curl -H &quot;Accept: application/vnd.github.mercy-preview+json&quot; \
+https://api.github.com/search/repositories?q=topic:ruby+topic:rails
+</pre>
 <p>In this request, we&apos;re searching for repositories with the word <code>tetris</code> in the
 name, the description, or the README. We&apos;re limiting the results to only find
 repositories where the primary language is Assembly. We&apos;re sorting by stars in
@@ -140,7 +150,7 @@ use case. To get this metadata in your search results, specify the <code>text-ma
 media type in your <code>Accept</code> header. For example, via cURL, the above query would
 look like this:</p>
 <pre class="command-line">curl -H &apos;Accept: application/vnd.github.v3.text-match+json&apos; \
-  &apos;https://api.github.com/search/repositories?q=tetris+language:assembly&amp;sort=stars&amp;order=desc&apos;
+&apos;https://api.github.com/search/repositories?q=tetris+language:assembly&amp;sort=stars&amp;order=desc&apos;
 </pre>
 <p>This produces the same JSON payload as above, with an extra key called
 <code>text_matches</code>, an array of objects. These objects provide information such as

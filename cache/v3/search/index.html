@@ -334,8 +334,8 @@ the way you think of performing a search on Google. It's designed to help you
 find the one result you're looking for (or maybe the few results you're looking
 for). Just like searching on Google, you sometimes want to see a few pages of
 search results so that you can find the item that best meets your needs. To
-satisfy that need, the GitHub Search API provides <strong>up to 1,000 results for each
-search</strong>.</p>
+satisfy that need, the GitHub Search API
+provides <strong>up to 1,000 results for each search</strong>.</p>
 
 <h3>
 <a id="ranking-search-results" class="anchor" href="#ranking-search-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Ranking search results</h3>
@@ -373,6 +373,21 @@ More results might have been found, but also might not.</p>
 <a id="search-repositories" class="anchor" href="#search-repositories" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Search repositories<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
+<div class="alert note">
+
+<p><strong>Note:</strong> The <code>topics</code> property for repositories on GitHub is currently available for developers to preview. To view the <code>topics</code> property in calls that return repository results, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+<pre><code>application/vnd.github.mercy-preview+json
+</code></pre>
+
+</div>
+
+<div class="alert warning">
+
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
+
+</div>
+
 <p>Find repositories via various criteria. This method returns up to 100 results <a href="/v3/#pagination">per page</a>.</p>
 
 <pre><code>GET /search/repositories
@@ -393,7 +408,8 @@ More results might have been found, but also might not.</p>
 <tr>
 <td><code>q</code></td>
 <td><code>string</code></td>
-<td>The search keywords, as well as any qualifiers.</td>
+<td>
+<strong>Required</strong>. The search keywords, as well as any qualifiers.</td>
 </tr>
 <tr>
 <td><code>sort</code></td>
@@ -442,26 +458,26 @@ Searches repositories based on the number of stars.</li>
 <a href="https://help.github.com/articles/classifying-your-repository-with-topics/"><code>topic</code></a>
 Filters repositories based on the specified topic.</li>
 <li>
-<p><a href="https://help.github.com/articles/searching-repositories/#search-based-on-whether-a-repository-is-archived"><code>archived</code></a>
-Filters whether archived repositories should be included (<code>true</code>) or not (<code>false</code>).</p>
-
-<p>You can search for multiple topics by adding more <code>topic:</code> instances. For example:</p>
-
-<pre><code>curl -H "Authentication: token TOKEN" \
--H "Accept: application/vnd.github.mercy-preview+json" \
-https://api.github.com/search/repositories?q=topic:ruby+topic:rails
-</code></pre>
-</li>
+<a href="https://help.github.com/articles/searching-repositories/#search-based-on-whether-a-repository-is-archived"><code>archived</code></a>
+Filters whether archived repositories should be included (<code>true</code>) or not (<code>false</code>).</li>
 </ul>
 
-<h4 id="repository-search-example">
-<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h4>
+<h3 id="repository-search-example">
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 
 <p>Suppose you want to search for popular Tetris repositories written in Assembly.
 Your query might look like this.</p>
 
-<pre><code>https://api.github.com/search/repositories?q=tetris+language:assembly&amp;sort=stars&amp;order=desc
-</code></pre>
+<pre class="command-line">
+curl https://api.github.com/search/repositories?q=tetris+language:assembly&amp;sort=stars&amp;order=desc
+</pre>
+
+<p>You can search for multiple topics by adding more <code>topic:</code> instances, and including the <code>mercy-preview</code> header. For example:</p>
+
+<pre class="command-line">
+curl -H "Accept: application/vnd.github.mercy-preview+json" \
+https://api.github.com/search/repositories?q=topic:ruby+topic:rails
+</pre>
 
 <p>In this request, we're searching for repositories with the word <code>tetris</code> in the
 name, the description, or the README. We're limiting the results to only find
@@ -529,7 +545,7 @@ look like this:</p>
 
 <pre class="command-line">
 curl -H 'Accept: application/vnd.github.v3.text-match+json' \
-  'https://api.github.com/search/repositories?q=tetris+language:assembly&amp;sort=stars&amp;order=desc'
+'https://api.github.com/search/repositories?q=tetris+language:assembly&amp;sort=stars&amp;order=desc'
 </pre>
 
 <p>This produces the same JSON payload as above, with an extra key called
@@ -623,7 +639,8 @@ included the search term.</p>
 <tr>
 <td><code>q</code></td>
 <td><code>string</code></td>
-<td>The search terms.</td>
+<td>
+<strong>Required</strong>. The search terms.</td>
 </tr>
 <tr>
 <td><code>sort</code></td>
@@ -686,14 +703,16 @@ Matches <code>public</code> or <code>private</code> repositories.</li>
 Limits searches to a specific user, organization, or repository.</li>
 </ul>
 
-<h4 id="commit-search-example">
-<a id="example-1" class="anchor" href="#example-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h4>
+<h3>
+<a id="example-1" class="anchor" href="#example-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 
 <p>Suppose you want to find commits related to CSS in the <a href="https://github.com/octocat/Spoon-Knife">octocat/Spoon-Knife</a>
 repository. Your query would look something like this:</p>
 
-<pre><code>https://api.github.com/search/commits?q=repo:octocat/Spoon-Knife+css
-</code></pre>
+<pre class="command-line">
+curl -H "Accept: application/vnd.github.cloak-preview" \
+https://api.github.com/search/commits?q=repo:octocat/Spoon-Knife+css
+</pre>
 
 <pre class="highlight highlight-headers"><code>Status: 200 OK
 Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
@@ -897,7 +916,8 @@ X-RateLimit-Remaining: 19
 <tr>
 <td><code>q</code></td>
 <td><code>string</code></td>
-<td>The search terms.</td>
+<td>
+<strong>Required</strong>. The search terms.</td>
 </tr>
 <tr>
 <td><code>sort</code></td>
@@ -945,15 +965,16 @@ Matches files with a certain extension after a dot.</li>
 Limits searches to a specific user or repository.</li>
 </ul>
 
-<h4 id="code-search-example">
-<a id="example-2" class="anchor" href="#example-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h4>
+<h3 id="code-search-example">
+<a id="example-2" class="anchor" href="#example-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 
 <p>Suppose you want to find the definition of the <code>addClass</code> function inside
 <a href="https://github.com/jquery/jquery">jQuery</a>. Your query would look something like
 this:</p>
 
-<pre><code>https://api.github.com/search/code?q=addClass+in:file+language:js+repo:jquery/jquery
-</code></pre>
+<pre class="command-line">
+curl https://api.github.com/search/code?q=addClass+in:file+language:js+repo:jquery/jquery
+</pre>
 
 <p>Here, we're searching for the keyword <code>addClass</code> within a file's contents. We're
 making sure that we're only looking in files where the language is JavaScript.
@@ -1059,7 +1080,7 @@ look like this:</p>
 
 <pre class="command-line">
 curl -H 'Accept: application/vnd.github.v3.text-match+json' \
-  https://api.github.com/search/code?q=addClass+in:file+language:js+repo:jquery/jquery
+https://api.github.com/search/code?q=addClass+in:file+language:js+repo:jquery/jquery
 </pre>
 
 <p>This produces the same JSON payload as above, with an extra key called
@@ -1148,7 +1169,8 @@ included the search term.</p>
 <tr>
 <td><code>q</code></td>
 <td><code>string</code></td>
-<td>The search terms.</td>
+<td>
+<strong>Required</strong>. The search terms.</td>
 </tr>
 <tr>
 <td><code>sort</code></td>
@@ -1240,14 +1262,15 @@ Filters issues or pull requests based on whether they are in an archived reposit
 
 <p>If you know the specific SHA hash of a commit, you can use also <a href="https://help.github.com/articles/searching-issues#search-by-the-commit-shas-within-a-pull-request">use it to search for pull requests</a> that contain that SHA. Note that the SHA syntax must be at least seven characters.</p>
 
-<h4 id="issue-search-example" data-proofer-ignore>
-<a id="example-3" class="anchor" href="#example-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h4>
+<h3>
+<a id="example-3" class="anchor" href="#example-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 
 <p>Let's say you want to find the oldest unresolved Python bugs on Windows. Your
 query might look something like this.</p>
 
-<pre><code>https://api.github.com/search/issues?q=windows+label:bug+language:python+state:open&amp;sort=created&amp;order=asc
-</code></pre>
+<pre class="command-line">
+curl https://api.github.com/search/issues?q=windows+label:bug+language:python+state:open&amp;sort=created&amp;order=asc
+</pre>
 
 <p>In this query, we're searching for the keyword <code>windows</code>, within any open issue
 that's labeled as <code>bug</code>. The search runs across repositories whose primary
@@ -1332,7 +1355,7 @@ look like this:</p>
 
 <pre class="command-line">
 curl -H 'Accept: application/vnd.github.v3.text-match+json' \
-  'https://api.github.com/search/issues?q=windows+label:bug+language:python+state:open&amp;sort=created&amp;order=asc'
+'https://api.github.com/search/issues?q=windows+label:bug+language:python+state:open&amp;sort=created&amp;order=asc'
 </pre>
 
 <p>This produces the same JSON payload as above, with an extra key called
@@ -1413,7 +1436,8 @@ included the search term.</p>
 <tr>
 <td><code>q</code></td>
 <td><code>string</code></td>
-<td>The search terms.</td>
+<td>
+<strong>Required</strong>. The search terms.</td>
 </tr>
 <tr>
 <td><code>sort</code></td>
@@ -1458,13 +1482,14 @@ Filter users based on when they joined.</li>
 Filter users based on the number of followers they have.</li>
 </ul>
 
-<h4 id="user-search-example">
-<a id="example-4" class="anchor" href="#example-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h4>
+<h3>
+<a id="example-4" class="anchor" href="#example-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 
 <p>Imagine you're looking for a list of popular users. You might try out this query:</p>
 
-<pre><code>https://api.github.com/search/users?q=tom+repos:%3E42+followers:%3E1000
-</code></pre>
+<pre class="command-line">
+curl https://api.github.com/search/users?q=tom+repos:%3E42+followers:%3E1000
+</pre>
 
 <p>Here, we're looking at users with the name Tom. We're only interested in those
 with more than 42 repositories, and only if they have over 1,000 followers.</p>
@@ -1512,7 +1537,7 @@ look like this:</p>
 
 <pre class="command-line">
 curl -H 'Accept: application/vnd.github.v3.text-match+json' \
-  https://api.github.com/search/users?q=tom+repos:%3E42+followers:%3E1000
+https://api.github.com/search/users?q=tom+repos:%3E42+followers:%3E1000
 </pre>
 
 <p>This produces the same JSON payload as above, with an extra key called
@@ -1593,7 +1618,8 @@ included the search term.</p>
 <tr>
 <td><code>q</code></td>
 <td><code>string</code></td>
-<td>The search terms.</td>
+<td>
+<strong>Required</strong>. The search terms.</td>
 </tr>
 </tbody>
 </table>
@@ -1615,14 +1641,14 @@ included the search term.</p>
 <code>repositories:</code> Finds topics with some number of repositories using them, e.g., <code>repositories:&gt;1000</code>.</li>
 </ul>
 
-<h4 id="topic-search-example">
-<a id="example-5" class="anchor" href="#example-5" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h4>
+<h3>
+<a id="example-5" class="anchor" href="#example-5" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 
 <p>Suppose you want to search for topics related to Ruby that are featured on <a href="https://github.com/topics">https://github.com/topics</a>. Your query might look like this:</p>
 
 <pre class="command-line">
 curl -H 'Accept: application/vnd.github.mercy-preview+json' \
-  'https://api.github.com/search/topics?q=ruby+is:featured'
+'https://api.github.com/search/topics?q=ruby+is:featured'
 </pre>
 
 <p>In this request, we're searching for topics with the keyword <code>ruby</code>, and we're limiting the results to find only topics that are featured. The topics that are the best match for the query appear first in the search results.</p>
@@ -1737,7 +1763,7 @@ look like this:</p>
 
 <pre class="command-line">
 curl -H 'Accept: application/vnd.github.v3.text-match+json, application/vnd.github.mercy-preview' \
-  'https://api.github.com/search/topics?q=ruby+is:featured'
+'https://api.github.com/search/topics?q=ruby+is:featured'
 </pre>
 
 <p>This produces the same JSON payload as above, with an extra key called
@@ -2061,7 +2087,8 @@ included the search term.</p>
 <tr>
 <td><code>q</code></td>
 <td><code>string</code></td>
-<td>The search keywords.</td>
+<td>
+<strong>Required</strong>. The search keywords.</td>
 </tr>
 <tr>
 <td><code>sort</code></td>
@@ -2077,14 +2104,14 @@ included the search term.</p>
 </tbody>
 </table>
 
-<h4 id="label-search-example">
-<a id="example-6" class="anchor" href="#example-6" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h4>
+<h3>
+<a id="example-6" class="anchor" href="#example-6" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 
 <p>Suppose you want to find labels in the <code>linguist</code> repository that match <code>bug</code>, <code>defect</code>, or <code>enhancement</code>. Your query might look like this:</p>
 
 <pre class="command-line">
 curl -H 'Accept: application/vnd.github.symmetra-preview+json' \
-  'https://api.github.com/search/labels?repository_id=64778136&amp;q=bug+defect+enhancement'
+'https://api.github.com/search/labels?repository_id=64778136&amp;q=bug+defect+enhancement'
 </pre>
 
 <p>The labels that best match for the query appear first in the search results.</p>
@@ -2131,8 +2158,8 @@ look like this:</p>
 
 <pre class="command-line">
 curl -H 'Accept: application/vnd.github.symmetra-preview+json, \
- application/vnd.github.v3.text-match+json' \
-  'https://api.github.com/search/labels?repository_id=64778136&amp;q=bug+defect+enhancement'
+application/vnd.github.v3.text-match+json' \
+'https://api.github.com/search/labels?repository_id=64778136&amp;q=bug+defect+enhancement'
 </pre>
 
 <p>This produces the same JSON payload as above, with an extra key called
@@ -2264,7 +2291,7 @@ request would look like this:</p>
 
 <pre class="command-line">
 curl -H 'Accept: application/vnd.github.v3.text-match+json' \
-  'https://api.github.com/search/issues?q=windows+label:bug+language:python+state:open&amp;sort=created&amp;order=asc'
+'https://api.github.com/search/issues?q=windows+label:bug+language:python+state:open&amp;sort=created&amp;order=asc'
 </pre>
 
 <p>The response will include a <code>text_matches</code> array for each search result. In the
