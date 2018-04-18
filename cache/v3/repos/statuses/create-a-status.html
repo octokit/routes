@@ -1,7 +1,20 @@
 <h2>
 <a id="create-a-status" class="anchor" href="#create-a-status" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a status<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
-<p>Users with push access can create commit statuses for a given ref:</p>
+<div class="alert note">
+
+<p><strong>Note:</strong> The <a href="/v3/repos/statuses">Statuses API</a> now returns the <code>avatar_url</code> for each status object in a response. To receive <code>avatar_url</code> in the API response, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+<pre><code>application/vnd.github.howard-the-duck-preview+json
+</code></pre>
+
+</div>
+<div class="alert warning">
+
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
+
+</div>
+<p>Users with push access in a repository can create commit statuses for a given SHA.</p>
 <pre><code>POST /repos/:owner/:repo/statuses/:sha
 </code></pre>
 <p>Note: there is a limit of 1000 statuses per <code>sha</code> and <code>context</code> within a repository.
@@ -57,14 +70,15 @@ Attempts to create more than 1000 statuses will result in a validation error.</p
 Location: https://api.github.com/repos/octocat/Hello-World/statuses/6dcb09b5b57875f334f61aebed695e2e4193db5e
 </code></pre>
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Hello-World/statuses/6dcb09b5b57875f334f61aebed695e2e4193db5e&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;avatar_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/images/error/hubot_happy.gif&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Build has completed successfully&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;target_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://ci.example.com/1000/output&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;context&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;continuous-integration/jenkins&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2012-07-20T01:19:13Z&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2012-07-20T01:19:13Z&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="nt">&quot;target_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://ci.example.com/1000/output&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Build has completed successfully&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Hello-World/statuses/6dcb09b5b57875f334f61aebed695e2e4193db5e&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="nt">&quot;context&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;continuous-integration/jenkins&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;creator&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nt">&quot;login&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;octocat&quot;</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
