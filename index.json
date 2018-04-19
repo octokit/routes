@@ -1907,10 +1907,10 @@
   ],
   "git": [
     {
-      "name": "Get a Blob",
+      "name": "Get a blob",
       "enabledForApps": true,
       "method": "GET",
-      "path": "/repos/:owner/:repo/git/blobs/:sha",
+      "path": "/repos/:owner/:repo/git/blobs/:file_sha",
       "params": [
         {
           "name": "owner",
@@ -1925,7 +1925,7 @@
           "description": ""
         },
         {
-          "name": "sha",
+          "name": "file_sha",
           "type": "string",
           "required": true,
           "description": ""
@@ -1935,7 +1935,7 @@
       "documentationUrl": "https://developer.github.com/v3/git/blobs/#get-a-blob"
     },
     {
-      "name": "Create a Blob",
+      "name": "Create a blob",
       "enabledForApps": true,
       "method": "POST",
       "path": "/repos/:owner/:repo/git/blobs",
@@ -1970,10 +1970,10 @@
       "documentationUrl": "https://developer.github.com/v3/git/blobs/#create-a-blob"
     },
     {
-      "name": "Get a Commit",
+      "name": "Get a commit",
       "enabledForApps": true,
       "method": "GET",
-      "path": "/repos/:owner/:repo/git/commits/:sha",
+      "path": "/repos/:owner/:repo/git/commits/:commit_sha",
       "params": [
         {
           "name": "owner",
@@ -1988,17 +1988,17 @@
           "description": ""
         },
         {
-          "name": "sha",
+          "name": "commit_sha",
           "type": "string",
           "required": true,
           "description": ""
         }
       ],
-      "description": "",
+      "description": "Gets a Git [commit object](https://git-scm.com/book/en/v1/Git-Internals-Git-Objects#Commit-Objects).",
       "documentationUrl": "https://developer.github.com/v3/git/commits/#get-a-commit"
     },
     {
-      "name": "Create a Commit",
+      "name": "Create a commit",
       "enabledForApps": true,
       "method": "POST",
       "path": "/repos/:owner/:repo/git/commits",
@@ -2044,14 +2044,14 @@
           "description": "object containing information about the author."
         }
       ],
-      "description": "The `committer` section is optional and will be filled with the `author` data if omitted. If the `author` section is omitted, it will be filled in with the authenticated user's information and the current date.\n\nBoth the `author` and `committer` parameters have the same keys:\n\n| name  | type   | description                                                                                                             |\n| ----- | ------ | ----------------------------------------------------------------------------------------------------------------------- |\n| name  | string | The name of the author (or committer) of the commit                                                                     |\n| email | string | The email of the author (or committer) of the commit                                                                    |\n| date  | string | Indicates when this commit was authored (or committed). This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. |\n\nYou can also provide an optional string `signature` parameter. This value will be added to the `gpgsig` header of the created commit. For a commit signature to be verifiable by Git or GitHub, it must be an ASCII-armored detached PGP signature over the string commit as it would be written to the object database.\n\n**Note**: To pass a `signature` parameter, you need to first manually create a valid PGP signature, which can be complicated. You may find it easier to [use the command line](https://git-scm.com/book/id/v2/Git-Tools-Signing-Your-Work) to create signed commits.\n\nIn this example, the payload that the signature is over would have been:\n\n",
+      "description": "Creates a new Git [commit object](https://git-scm.com/book/en/v1/Git-Internals-Git-Objects#Commit-Objects).\n\nThe `committer` section is optional and will be filled with the `author` data if omitted. If the `author` section is omitted, it will be filled in with the authenticated user's information and the current date.\n\nBoth the `author` and `committer` parameters have the same keys:\n\n| name  | type   | description                                                                                                             |\n| ----- | ------ | ----------------------------------------------------------------------------------------------------------------------- |\n| name  | string | The name of the author (or committer) of the commit                                                                     |\n| email | string | The email of the author (or committer) of the commit                                                                    |\n| date  | string | Indicates when this commit was authored (or committed). This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. |\n\nYou can also provide an optional string `signature` parameter. This value will be added to the `gpgsig` header of the created commit. For a commit signature to be verifiable by Git or GitHub, it must be an ASCII-armored detached PGP signature over the string commit as it would be written to the object database.\n\n**Note**: To pass a `signature` parameter, you need to first manually create a valid PGP signature, which can be complicated. You may find it easier to [use the command line](https://git-scm.com/book/id/v2/Git-Tools-Signing-Your-Work) to create signed commits.\n\nIn this example, the payload that the signature is over would have been:\n\n",
       "documentationUrl": "https://developer.github.com/v3/git/commits/#create-a-commit"
     },
     {
       "name": "Commit signature verification",
       "enabledForApps": false,
       "method": "GET",
-      "path": "/repos/:owner/:repo/git/commits/:sha",
+      "path": "/repos/:owner/:repo/git/commits/:commit_sha",
       "params": [
         {
           "name": "owner",
@@ -2066,7 +2066,7 @@
           "description": ""
         },
         {
-          "name": "sha",
+          "name": "commit_sha",
           "type": "string",
           "required": true,
           "description": ""
@@ -2134,7 +2134,7 @@
       "documentationUrl": "https://developer.github.com/v3/git/refs/#get-all-references"
     },
     {
-      "name": "Create a Reference",
+      "name": "Create a reference",
       "enabledForApps": true,
       "method": "POST",
       "path": "/repos/:owner/:repo/git/refs",
@@ -2168,7 +2168,7 @@
       "documentationUrl": "https://developer.github.com/v3/git/refs/#create-a-reference"
     },
     {
-      "name": "Update a Reference",
+      "name": "Update a reference",
       "enabledForApps": true,
       "method": "PATCH",
       "path": "/repos/:owner/:repo/git/refs/:ref",
@@ -2209,7 +2209,7 @@
       "documentationUrl": "https://developer.github.com/v3/git/refs/#update-a-reference"
     },
     {
-      "name": "Delete a Reference",
+      "name": "Delete a reference",
       "enabledForApps": true,
       "method": "DELETE",
       "path": "/repos/:owner/:repo/git/refs/:ref",
@@ -2237,10 +2237,10 @@
       "documentationUrl": "https://developer.github.com/v3/git/refs/#delete-a-reference"
     },
     {
-      "name": "Get a Tag",
+      "name": "Get a tag",
       "enabledForApps": true,
       "method": "GET",
-      "path": "/repos/:owner/:repo/git/tags/:sha",
+      "path": "/repos/:owner/:repo/git/tags/:tag_sha",
       "params": [
         {
           "name": "owner",
@@ -2255,7 +2255,7 @@
           "description": ""
         },
         {
-          "name": "sha",
+          "name": "tag_sha",
           "type": "string",
           "required": true,
           "description": ""
@@ -2265,7 +2265,7 @@
       "documentationUrl": "https://developer.github.com/v3/git/tags/#get-a-tag"
     },
     {
-      "name": "Create a Tag Object",
+      "name": "Create a tag object",
       "enabledForApps": true,
       "method": "POST",
       "path": "/repos/:owner/:repo/git/tags",
@@ -2343,7 +2343,7 @@
       "name": "Tag signature verification",
       "enabledForApps": false,
       "method": "GET",
-      "path": "/repos/:owner/:repo/git/tags/:sha",
+      "path": "/repos/:owner/:repo/git/tags/:tag_sha",
       "params": [
         {
           "name": "owner",
@@ -2358,7 +2358,7 @@
           "description": ""
         },
         {
-          "name": "sha",
+          "name": "tag_sha",
           "type": "string",
           "required": true,
           "description": ""
@@ -2392,10 +2392,10 @@
       "documentationUrl": "https://developer.github.com/v3/git/tags/#tag-signature-verification"
     },
     {
-      "name": "Get a Tree",
+      "name": "Get a tree",
       "enabledForApps": true,
       "method": "GET",
-      "path": "/repos/:owner/:repo/git/trees/:sha",
+      "path": "/repos/:owner/:repo/git/trees/:tree_sha",
       "params": [
         {
           "name": "owner",
@@ -2410,7 +2410,7 @@
           "description": ""
         },
         {
-          "name": "sha",
+          "name": "tree_sha",
           "type": "string",
           "required": true,
           "description": ""
@@ -2420,10 +2420,10 @@
       "documentationUrl": "https://developer.github.com/v3/git/trees/#get-a-tree"
     },
     {
-      "name": "Get a Tree Recursively",
+      "name": "Get a tree recursively",
       "enabledForApps": false,
       "method": "GET",
-      "path": "/repos/:owner/:repo/git/trees/:sha?recursive=1",
+      "path": "/repos/:owner/:repo/git/trees/:tree_sha?recursive=1",
       "params": [
         {
           "name": "owner",
@@ -2438,7 +2438,7 @@
           "description": ""
         },
         {
-          "name": "sha",
+          "name": "tree_sha",
           "type": "string",
           "required": true,
           "description": ""
@@ -2448,7 +2448,7 @@
       "documentationUrl": "https://developer.github.com/v3/git/trees/#get-a-tree-recursively"
     },
     {
-      "name": "Create a Tree",
+      "name": "Create a tree",
       "enabledForApps": true,
       "method": "POST",
       "path": "/repos/:owner/:repo/git/trees",
