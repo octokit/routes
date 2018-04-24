@@ -9,7 +9,8 @@
         "name": "username",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       }
     ],
     "description": "Provides publicly available information about someone with a GitHub account.\n\nThe `email` key in the following response is the publicly visible email address from your GitHub [profile page](https://github.com/settings/profile). When setting up your profile, you can select a primary email address to be “public” which provides an email entry for this endpoint. If you do not set a public email address for `email`, then it will have a value of `null`. You only see publicly visible email addresses when authenticated with GitHub. For more information, see [Authentication](https://developer.github.com/v3/#authentication).\n\nThe Emails API enables you to list all of your email addresses, and toggle a primary email to be visible publicly. For more information, see \"[Emails API](https://developer.github.com/v3/users/emails/)\".",
@@ -34,43 +35,50 @@
         "name": "name",
         "type": "string",
         "description": "The new name of the user.",
-        "required": false
+        "required": false,
+        "location": "body"
       },
       {
         "name": "email",
         "type": "string",
         "description": "The publicly visible email address of the user.",
-        "required": false
+        "required": false,
+        "location": "body"
       },
       {
         "name": "blog",
         "type": "string",
         "description": "The new blog URL of the user.",
-        "required": false
+        "required": false,
+        "location": "body"
       },
       {
         "name": "company",
         "type": "string",
         "description": "The new company of the user.",
-        "required": false
+        "required": false,
+        "location": "body"
       },
       {
         "name": "location",
         "type": "string",
         "description": "The new location of the user.",
-        "required": false
+        "required": false,
+        "location": "body"
       },
       {
         "name": "hireable",
         "type": "boolean",
         "description": "The new hiring availability of the user.",
-        "required": false
+        "required": false,
+        "location": "body"
       },
       {
         "name": "bio",
         "type": "string",
         "description": "The new short biography of the user.",
-        "required": false
+        "required": false,
+        "location": "body"
       }
     ],
     "description": "**Note:** If your email is set to private and you send an `email` parameter as part of this request to update your profile, your privacy settings are still enforced: the email address will not be displayed on your public profile or via the API.",
@@ -86,7 +94,8 @@
         "name": "username",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "subject_type",
@@ -98,13 +107,15 @@
           "repository",
           "issue",
           "pull_request"
-        ]
+        ],
+        "location": "query"
       },
       {
         "name": "subject_id",
         "type": "string",
         "description": "Uses the ID for the `subject_type` you specified. **Required** when using `subject_type`.",
-        "required": false
+        "required": false,
+        "location": "query"
       }
     ],
     "description": "Provides hovercard information when authenticated through basic auth or OAuth with the `repo` scope. You can find out more about someone in relation to their pull requests, issues, repositories, and organizations.\n\nThe `subject_type` and `subject_id` parameters provide context for the person's hovercard, which returns more information than without the parameters. For example, if you wanted to find out more about `octocat` who owns the `Spoon-Knife` repository via cURL, it would look like this:",
@@ -120,21 +131,24 @@
         "name": "since",
         "type": "string",
         "description": "The integer ID of the last User that you've seen.",
-        "required": false
+        "required": false,
+        "location": "query"
       },
       {
         "name": "per_page",
         "type": "integer",
         "required": false,
         "description": "Results per page (max 100)",
-        "default": 30
+        "default": 30,
+        "location": "query"
       },
       {
         "name": "page",
         "type": "integer",
         "required": false,
         "description": "Page number of the results to fetch.",
-        "default": 1
+        "default": 1,
+        "location": "query"
       }
     ],
     "description": "Lists all users, in the order that they signed up on GitHub. This list includes personal user accounts and organization accounts.\n\nNote: Pagination is powered exclusively by the `since` parameter. Use the [Link header](https://developer.github.com/v3/#link-header) to get the URL for the next page of users.",
@@ -159,7 +173,8 @@
         "name": "username",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       }
     ],
     "description": "If the user is blocked:\n\nIf the user is not blocked:",
@@ -175,7 +190,8 @@
         "name": "username",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       }
     ],
     "description": "",
@@ -191,7 +207,8 @@
         "name": "username",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       }
     ],
     "description": "",
@@ -208,14 +225,16 @@
         "type": "integer",
         "required": false,
         "description": "Results per page (max 100)",
-        "default": 30
+        "default": 30,
+        "location": "query"
       },
       {
         "name": "page",
         "type": "integer",
         "required": false,
         "description": "Page number of the results to fetch.",
-        "default": 1
+        "default": 1,
+        "location": "query"
       }
     ],
     "description": "Lists all of your email addresses, and specifies which one is visible to the public. This endpoint is accessible with the `user:email` scope.",
@@ -232,14 +251,16 @@
         "type": "integer",
         "required": false,
         "description": "Results per page (max 100)",
-        "default": 30
+        "default": 30,
+        "location": "query"
       },
       {
         "name": "page",
         "type": "integer",
         "required": false,
         "description": "Page number of the results to fetch.",
-        "default": 1
+        "default": 1,
+        "location": "query"
       }
     ],
     "description": "Lists your publicly visible email address, which you can set with the [Toggle primary email visibility](#toggle-primary-email-visibility) endpoint. This endpoint is accessible with the `user:email` scope.",
@@ -273,13 +294,15 @@
         "name": "email",
         "type": "string",
         "description": "Specify the _primary_ email address that needs a visibility change.",
-        "required": true
+        "required": true,
+        "location": "body"
       },
       {
         "name": "visibility",
         "type": "string",
         "description": "Use `public` to enable an authenticated user to view the specified email address, or use `private` so this primary email address cannot be seen publicly.",
-        "required": true
+        "required": true,
+        "location": "body"
       }
     ],
     "description": "Sets the visibility for your primary email addresses.",
@@ -295,21 +318,24 @@
         "name": "username",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "per_page",
         "type": "integer",
         "required": false,
         "description": "Results per page (max 100)",
-        "default": 30
+        "default": 30,
+        "location": "query"
       },
       {
         "name": "page",
         "type": "integer",
         "required": false,
         "description": "Page number of the results to fetch.",
-        "default": 1
+        "default": 1,
+        "location": "query"
       }
     ],
     "description": "",
@@ -326,14 +352,16 @@
         "type": "integer",
         "required": false,
         "description": "Results per page (max 100)",
-        "default": 30
+        "default": 30,
+        "location": "query"
       },
       {
         "name": "page",
         "type": "integer",
         "required": false,
         "description": "Page number of the results to fetch.",
-        "default": 1
+        "default": 1,
+        "location": "query"
       }
     ],
     "description": "",
@@ -349,21 +377,24 @@
         "name": "username",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "per_page",
         "type": "integer",
         "required": false,
         "description": "Results per page (max 100)",
-        "default": 30
+        "default": 30,
+        "location": "query"
       },
       {
         "name": "page",
         "type": "integer",
         "required": false,
         "description": "Page number of the results to fetch.",
-        "default": 1
+        "default": 1,
+        "location": "query"
       }
     ],
     "description": "",
@@ -380,14 +411,16 @@
         "type": "integer",
         "required": false,
         "description": "Results per page (max 100)",
-        "default": 30
+        "default": 30,
+        "location": "query"
       },
       {
         "name": "page",
         "type": "integer",
         "required": false,
         "description": "Page number of the results to fetch.",
-        "default": 1
+        "default": 1,
+        "location": "query"
       }
     ],
     "description": "",
@@ -403,7 +436,8 @@
         "name": "username",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       }
     ],
     "description": "",
@@ -419,13 +453,15 @@
         "name": "username",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "target_user",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       }
     ],
     "description": "",
@@ -441,7 +477,8 @@
         "name": "username",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       }
     ],
     "description": "Note that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](https://developer.github.com/v3/#http-verbs).\"\n\nFollowing a user requires the user to be logged in and authenticated with basic auth or OAuth with the `user:follow` scope.",
@@ -457,7 +494,8 @@
         "name": "username",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       }
     ],
     "description": "Unfollowing a user requires the user to be logged in and authenticated with basic auth or OAuth with the `user:follow` scope.",
@@ -473,21 +511,24 @@
         "name": "username",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "per_page",
         "type": "integer",
         "required": false,
         "description": "Results per page (max 100)",
-        "default": 30
+        "default": 30,
+        "location": "query"
       },
       {
         "name": "page",
         "type": "integer",
         "required": false,
         "description": "Page number of the results to fetch.",
-        "default": 1
+        "default": 1,
+        "location": "query"
       }
     ],
     "description": "Lists the _verified_ public keys for a user. This is accessible by anyone.",
@@ -504,14 +545,16 @@
         "type": "integer",
         "required": false,
         "description": "Results per page (max 100)",
-        "default": 30
+        "default": 30,
+        "location": "query"
       },
       {
         "name": "page",
         "type": "integer",
         "required": false,
         "description": "Page number of the results to fetch.",
-        "default": 1
+        "default": 1,
+        "location": "query"
       }
     ],
     "description": "Lists the current user's keys. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:public_key` [scope](https://developer.github.com/apps/building-integrations/setting-up-and-registering-oauth-apps/about-scopes-for-oauth-apps/).",
@@ -527,7 +570,8 @@
         "name": "id",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       }
     ],
     "description": "View extended details for a single public key. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:public_key` [scope](https://developer.github.com/apps/building-integrations/setting-up-and-registering-oauth-apps/about-scopes-for-oauth-apps/).",
@@ -552,7 +596,8 @@
         "name": "id",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       }
     ],
     "description": "Removes a public key. Requires that you are authenticated via Basic Auth or via OAuth with at least `admin:public_key` [scope](https://developer.github.com/apps/building-integrations/setting-up-and-registering-oauth-apps/about-scopes-for-oauth-apps/).",
@@ -568,21 +613,24 @@
         "name": "username",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "per_page",
         "type": "integer",
         "required": false,
         "description": "Results per page (max 100)",
-        "default": 30
+        "default": 30,
+        "location": "query"
       },
       {
         "name": "page",
         "type": "integer",
         "required": false,
         "description": "Page number of the results to fetch.",
-        "default": 1
+        "default": 1,
+        "location": "query"
       }
     ],
     "description": "Lists the GPG keys for a user. This information is accessible by anyone.",
@@ -599,14 +647,16 @@
         "type": "integer",
         "required": false,
         "description": "Results per page (max 100)",
-        "default": 30
+        "default": 30,
+        "location": "query"
       },
       {
         "name": "page",
         "type": "integer",
         "required": false,
         "description": "Page number of the results to fetch.",
-        "default": 1
+        "default": 1,
+        "location": "query"
       }
     ],
     "description": "Lists the current user's GPG keys. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:gpg_key` [scope](https://developer.github.com/apps/building-integrations/setting-up-and-registering-oauth-apps/about-scopes-for-oauth-apps/).",
@@ -622,7 +672,8 @@
         "name": "id",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       }
     ],
     "description": "View extended details for a single GPG key. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:gpg_key` [scope](https://developer.github.com/apps/building-integrations/setting-up-and-registering-oauth-apps/about-scopes-for-oauth-apps/).",
@@ -647,7 +698,8 @@
         "name": "id",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       }
     ],
     "description": "Removes a GPG key. Requires that you are authenticated via Basic Auth or via OAuth with at least `admin:gpg_key` [scope](https://developer.github.com/apps/building-integrations/setting-up-and-registering-oauth-apps/about-scopes-for-oauth-apps/).",

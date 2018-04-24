@@ -9,13 +9,15 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "state",
@@ -27,19 +29,22 @@
           "open",
           "closed",
           "all"
-        ]
+        ],
+        "location": "query"
       },
       {
         "name": "head",
         "type": "string",
         "description": "Filter pulls by head user and branch name in the format of `user:ref-name`. Example: `github:new-script-format`.",
-        "required": false
+        "required": false,
+        "location": "query"
       },
       {
         "name": "base",
         "type": "string",
         "description": "Filter pulls by base branch name. Example: `gh-pages`.",
-        "required": false
+        "required": false,
+        "location": "query"
       },
       {
         "name": "sort",
@@ -52,7 +57,8 @@
           "updated",
           "popularity",
           "long-running"
-        ]
+        ],
+        "location": "query"
       },
       {
         "name": "direction",
@@ -63,21 +69,24 @@
         "enum": [
           "asc",
           "desc"
-        ]
+        ],
+        "location": "query"
       },
       {
         "name": "per_page",
         "type": "integer",
         "required": false,
         "description": "Results per page (max 100)",
-        "default": 30
+        "default": 30,
+        "location": "query"
       },
       {
         "name": "page",
         "type": "integer",
         "required": false,
         "description": "Page number of the results to fetch.",
-        "default": 1
+        "default": 1,
+        "location": "query"
       }
     ],
     "description": "",
@@ -93,19 +102,22 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "number",
         "type": "integer",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       }
     ],
     "description": "Each time the pull request receives new commits, GitHub creates a merge commit to _test_ whether the pull request can be automatically merged into the base branch. (This _test_ commit is not added to the base branch or the head branch.)\n\nThe value of the `merge_commit_sha` attribute changes depending on the state of the pull request. Before a pull request is merged, the `merge_commit_sha` attribute holds the SHA of the _test_ merge commit. After a pull request is merged, the attribute changes depending on how the pull request was merged:\n\n*   If the pull request was merged as a merge commit, the attribute represents the SHA of the merge commit.\n*   If the pull request was merged via a squash, the attribute represents the SHA of the squashed commit on the base branch.\n*   If the pull request was rebased, the attribute represents the commit that the base branch was updated to.\n\nThe value of the `mergeable` attribute can be `true`, `false`, or `null`. If the value is `null`, this means that the mergeability hasn't been computed yet, and a background job was started to compute it. Give the job a few moments to complete, and then submit the request again. When the job is complete, the response will include a non-`null` value for the `mergeable` attribute.\n\nPass the appropriate [media type](https://developer.github.com/v3/media/#commits-commit-comparison-and-pull-requests) to fetch diff and patch formats.",
@@ -121,43 +133,50 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "title",
         "type": "string",
         "description": "The title of the pull request.",
-        "required": true
+        "required": true,
+        "location": "body"
       },
       {
         "name": "head",
         "type": "string",
         "description": "The name of the branch where your changes are implemented. For cross-repository pull requests in the same network, namespace `head` with a user like this: `username:branch`.",
-        "required": true
+        "required": true,
+        "location": "body"
       },
       {
         "name": "base",
         "type": "string",
         "description": "The name of the branch you want the changes pulled into. This should be an existing branch on the current repository. You cannot submit a pull request to one repository that requests a merge to a base of another repository.",
-        "required": true
+        "required": true,
+        "location": "body"
       },
       {
         "name": "body",
         "type": "string",
         "description": "The contents of the pull request.",
-        "required": false
+        "required": false,
+        "location": "body"
       },
       {
         "name": "maintainer_can_modify",
         "type": "boolean",
         "description": "Indicates whether [maintainers can modify](https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/) the pull request.",
-        "required": false
+        "required": false,
+        "location": "body"
       }
     ],
     "description": "**Note:** To open a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open a pull request.",
@@ -173,37 +192,43 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "issue",
         "type": "integer",
         "description": "The issue number in this repository to turn into a Pull Request.",
-        "required": true
+        "required": true,
+        "location": "body"
       },
       {
         "name": "head",
         "type": "string",
         "description": "The name of the branch where your changes are implemented. For cross-repository pull requests in the same network, namespace `head` with a user like this: `username:branch`.",
-        "required": true
+        "required": true,
+        "location": "body"
       },
       {
         "name": "base",
         "type": "string",
         "description": "The name of the branch you want the changes pulled into. This should be an existing branch on the current repository. You cannot submit a pull request to one repository that requests a merge to a base of another repository.",
-        "required": true
+        "required": true,
+        "location": "body"
       },
       {
         "name": "maintainer_can_modify",
         "type": "boolean",
         "description": "Indicates whether [maintainers can modify](https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/) the pull request.",
-        "required": false
+        "required": false,
+        "location": "body"
       }
     ],
     "description": "**Note:** To open a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open a pull request.",
@@ -219,31 +244,36 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "number",
         "type": "integer",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "title",
         "type": "string",
         "description": "The title of the pull request.",
-        "required": false
+        "required": false,
+        "location": "body"
       },
       {
         "name": "body",
         "type": "string",
         "description": "The contents of the pull request.",
-        "required": false
+        "required": false,
+        "location": "body"
       },
       {
         "name": "state",
@@ -253,19 +283,22 @@
         "enum": [
           "open",
           "closed"
-        ]
+        ],
+        "location": "body"
       },
       {
         "name": "base",
         "type": "string",
         "description": "The name of the branch you want your changes pulled into. This should be an existing branch on the current repository. You cannot update the base branch on a pull request to point to another repository.",
-        "required": false
+        "required": false,
+        "location": "body"
       },
       {
         "name": "maintainer_can_modify",
         "type": "boolean",
         "description": "Indicates whether [maintainers can modify](https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/) the pull request.",
-        "required": false
+        "required": false,
+        "location": "body"
       }
     ],
     "description": "**Note:** To open a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open a pull request.",
@@ -281,33 +314,38 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "number",
         "type": "integer",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "per_page",
         "type": "integer",
         "required": false,
         "description": "Results per page (max 100)",
-        "default": 30
+        "default": 30,
+        "location": "query"
       },
       {
         "name": "page",
         "type": "integer",
         "required": false,
         "description": "Page number of the results to fetch.",
-        "default": 1
+        "default": 1,
+        "location": "query"
       }
     ],
     "description": "**Note:** The response includes a maximum of 250 commits. To receive a complete commit list for pull requests with more than 250 commits, use the [Commit List API](https://developer.github.com/v3/repos/commits/#list-commits-on-a-repository).",
@@ -323,33 +361,38 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "number",
         "type": "integer",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "per_page",
         "type": "integer",
         "required": false,
         "description": "Results per page (max 100)",
-        "default": 30
+        "default": 30,
+        "location": "query"
       },
       {
         "name": "page",
         "type": "integer",
         "required": false,
         "description": "Page number of the results to fetch.",
-        "default": 1
+        "default": 1,
+        "location": "query"
       }
     ],
     "description": "**Note:** The response includes a maximum of 300 files.",
@@ -365,19 +408,22 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "number",
         "type": "integer",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       }
     ],
     "description": "",
@@ -393,37 +439,43 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "number",
         "type": "integer",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "commit_title",
         "type": "string",
         "description": "Title for the automatic commit message.",
-        "required": false
+        "required": false,
+        "location": "body"
       },
       {
         "name": "commit_message",
         "type": "string",
         "description": "Extra detail to append to automatic commit message.",
-        "required": false
+        "required": false,
+        "location": "body"
       },
       {
         "name": "sha",
         "type": "string",
         "description": "SHA that pull request head must match to allow merge.",
-        "required": false
+        "required": false,
+        "location": "body"
       },
       {
         "name": "merge_method",
@@ -434,7 +486,8 @@
           "merge",
           "squash",
           "rebase"
-        ]
+        ],
+        "location": "body"
       }
     ],
     "description": "",
@@ -450,33 +503,38 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "number",
         "type": "integer",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "per_page",
         "type": "integer",
         "required": false,
         "description": "Results per page (max 100)",
-        "default": 30
+        "default": 30,
+        "location": "query"
       },
       {
         "name": "page",
         "type": "integer",
         "required": false,
         "description": "Page number of the results to fetch.",
-        "default": 1
+        "default": 1,
+        "location": "query"
       }
     ],
     "description": "The list of reviews returns in chronological order.",
@@ -492,25 +550,29 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "number",
         "type": "integer",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "id",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       }
     ],
     "description": "",
@@ -526,25 +588,29 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "number",
         "type": "integer",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "id",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       }
     ],
     "description": "",
@@ -560,39 +626,45 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "number",
         "type": "integer",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "id",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "per_page",
         "type": "integer",
         "required": false,
         "description": "Results per page (max 100)",
-        "default": 30
+        "default": 30,
+        "location": "query"
       },
       {
         "name": "page",
         "type": "integer",
         "required": false,
         "description": "Page number of the results to fetch.",
-        "default": 1
+        "default": 1,
+        "location": "query"
       }
     ],
     "description": "",
@@ -608,31 +680,36 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "number",
         "type": "integer",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "commit_id",
         "type": "string",
         "description": "The SHA of the commit that needs a review. Not using the latest commit SHA may render your review comment outdated if a subsequent commit modifies the line you specify as the `position`. Defaults to the most recent commit in the pull request when you do not specify a value.",
-        "required": false
+        "required": false,
+        "location": "body"
       },
       {
         "name": "body",
         "type": "string",
         "description": "**Required** when using `REQUEST_CHANGES` or `COMMENT` for the `event` parameter. The body text of the pull request review.",
-        "required": false
+        "required": false,
+        "location": "body"
       },
       {
         "name": "event",
@@ -643,31 +720,36 @@
           "APPROVE",
           "REQUEST_CHANGES",
           "COMMENT"
-        ]
+        ],
+        "location": "body"
       },
       {
         "name": "comments",
         "type": "object[]",
         "description": "Use the following table to specify the location, destination, and contents of the draft review comment.",
-        "required": false
+        "required": false,
+        "location": "body"
       },
       {
         "name": "comments.path",
         "type": "string",
         "description": "**Required.** The relative path to the file that necessitates a review comment.",
-        "required": false
+        "required": false,
+        "location": "body"
       },
       {
         "name": "comments.position",
         "type": "integer",
         "description": "**Required.** The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. For help finding the position value, read the note below.",
-        "required": false
+        "required": false,
+        "location": "body"
       },
       {
         "name": "comments.body",
         "type": "string",
         "description": "**Required.** Text of the review comment.",
-        "required": false
+        "required": false,
+        "location": "body"
       }
     ],
     "description": "**Note:** To comment on a specific line in a file, you need to first determine the _position_ of that line in the diff. The GitHub REST API v3 offers the `application/vnd.github.v3.diff` [media type](https://developer.github.com/v3/media/#commits-commit-comparison-and-pull-requests). To see a pull request diff, add this media type to the `Accept` header of a call to the [single pull request](https://developer.github.com/v3/pulls/#get-a-single-pull-request) endpoint.\n\nThe `position` value equals the number of lines down from the first \"@@\" hunk header in the file you want to add a comment. The line just below the \"@@\" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.",
@@ -683,31 +765,36 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "number",
         "type": "integer",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "id",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "body",
         "type": "string",
         "description": "The body text of the pull request review",
-        "required": false
+        "required": false,
+        "location": "body"
       },
       {
         "name": "event",
@@ -718,7 +805,8 @@
           "APPROVE",
           "REQUEST_CHANGES",
           "COMMENT"
-        ]
+        ],
+        "location": "body"
       }
     ],
     "description": "",
@@ -734,31 +822,36 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "number",
         "type": "integer",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "id",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "message",
         "type": "string",
         "description": "**Required.** The message for the pull request review dismissal",
-        "required": false
+        "required": false,
+        "location": "body"
       }
     ],
     "description": "**Note:** To dismiss a pull request review on a [protected branch](https://developer.github.com/v3/repos/branches/), you must be a repository administrator or be included in the list of people or teams who can dismiss pull request reviews.",
@@ -774,19 +867,22 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "number",
         "type": "integer",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "sort",
@@ -797,7 +893,8 @@
         "enum": [
           "created",
           "updated"
-        ]
+        ],
+        "location": "query"
       },
       {
         "name": "direction",
@@ -807,27 +904,31 @@
         "enum": [
           "asc",
           "desc"
-        ]
+        ],
+        "location": "query"
       },
       {
         "name": "since",
         "type": "string",
         "description": "This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. Only returns comments `updated` at or after this time.",
-        "required": false
+        "required": false,
+        "location": "query"
       },
       {
         "name": "per_page",
         "type": "integer",
         "required": false,
         "description": "Results per page (max 100)",
-        "default": 30
+        "default": 30,
+        "location": "query"
       },
       {
         "name": "page",
         "type": "integer",
         "required": false,
         "description": "Page number of the results to fetch.",
-        "default": 1
+        "default": 1,
+        "location": "query"
       }
     ],
     "description": "By default, review comments are ordered by ascending ID.",
@@ -843,13 +944,15 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "sort",
@@ -860,7 +963,8 @@
         "enum": [
           "created",
           "updated"
-        ]
+        ],
+        "location": "query"
       },
       {
         "name": "direction",
@@ -870,27 +974,31 @@
         "enum": [
           "asc",
           "desc"
-        ]
+        ],
+        "location": "query"
       },
       {
         "name": "since",
         "type": "string",
         "description": "This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. Only returns comments `updated` at or after this time.",
-        "required": false
+        "required": false,
+        "location": "query"
       },
       {
         "name": "per_page",
         "type": "integer",
         "required": false,
         "description": "Results per page (max 100)",
-        "default": 30
+        "default": 30,
+        "location": "query"
       },
       {
         "name": "page",
         "type": "integer",
         "required": false,
         "description": "Page number of the results to fetch.",
-        "default": 1
+        "default": 1,
+        "location": "query"
       }
     ],
     "description": "By default, review comments are ordered by ascending ID.",
@@ -906,19 +1014,22 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "id",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       }
     ],
     "description": "",
@@ -934,43 +1045,50 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "number",
         "type": "integer",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "body",
         "type": "string",
         "description": "The text of the comment.",
-        "required": true
+        "required": true,
+        "location": "body"
       },
       {
         "name": "commit_id",
         "type": "string",
         "description": "The SHA of the commit needing a comment. Not using the latest commit SHA may render your comment outdated if a subsequent commit modifies the line you specify as the `position`.",
-        "required": true
+        "required": true,
+        "location": "body"
       },
       {
         "name": "path",
         "type": "string",
         "description": "The relative path to the file that necessitates a comment.",
-        "required": true
+        "required": true,
+        "location": "body"
       },
       {
         "name": "position",
         "type": "integer",
         "description": "The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. For help finding the position value, read the note below.",
-        "required": true
+        "required": true,
+        "location": "body"
       }
     ],
     "description": "**Note:** To comment on a specific line in a file, you need to first determine the _position_ of that line in the diff. The GitHub REST API v3 offers the `application/vnd.github.v3.diff` [media type](https://developer.github.com/v3/media/#commits-commit-comparison-and-pull-requests). To see a pull request diff, add this media type to the `Accept` header of a call to the [single pull request](https://developer.github.com/v3/pulls/#get-a-single-pull-request) endpoint.\n\nThe `position` value equals the number of lines down from the first \"@@\" hunk header in the file you want to add a comment. The line just below the \"@@\" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.",
@@ -986,31 +1104,36 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "number",
         "type": "integer",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "body",
         "type": "string",
         "description": "The text of the comment.",
-        "required": true
+        "required": true,
+        "location": "body"
       },
       {
         "name": "in_reply_to",
         "type": "integer",
         "description": "The comment ID to reply to. **Note**: This must be the ID of a _top-level comment_, not a reply to that comment. Replies to replies are not supported.",
-        "required": true
+        "required": true,
+        "location": "body"
       }
     ],
     "description": "**Note:** To comment on a specific line in a file, you need to first determine the _position_ of that line in the diff. The GitHub REST API v3 offers the `application/vnd.github.v3.diff` [media type](https://developer.github.com/v3/media/#commits-commit-comparison-and-pull-requests). To see a pull request diff, add this media type to the `Accept` header of a call to the [single pull request](https://developer.github.com/v3/pulls/#get-a-single-pull-request) endpoint.\n\nThe `position` value equals the number of lines down from the first \"@@\" hunk header in the file you want to add a comment. The line just below the \"@@\" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.",
@@ -1026,25 +1149,29 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "id",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "body",
         "type": "string",
         "description": "The text of the comment.",
-        "required": true
+        "required": true,
+        "location": "body"
       }
     ],
     "description": "",
@@ -1060,19 +1187,22 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "id",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       }
     ],
     "description": "",
@@ -1088,33 +1218,38 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "number",
         "type": "integer",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "per_page",
         "type": "integer",
         "required": false,
         "description": "Results per page (max 100)",
-        "default": 30
+        "default": 30,
+        "location": "query"
       },
       {
         "name": "page",
         "type": "integer",
         "required": false,
         "description": "Page number of the results to fetch.",
-        "default": 1
+        "default": 1,
+        "location": "query"
       }
     ],
     "description": "",
@@ -1130,31 +1265,36 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "number",
         "type": "integer",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "reviewers",
         "type": "string[]",
         "description": "An array of user `login`s that will be requested.",
-        "required": false
+        "required": false,
+        "location": "body"
       },
       {
         "name": "team_reviewers",
         "type": "string[]",
         "description": "An array of team `slug`s that will be requested.",
-        "required": false
+        "required": false,
+        "location": "body"
       }
     ],
     "description": "",
@@ -1170,31 +1310,36 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "number",
         "type": "integer",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "reviewers",
         "type": "string[]",
         "description": "An array of user `login`s that will be removed.",
-        "required": false
+        "required": false,
+        "location": "body"
       },
       {
         "name": "team_reviewers",
         "type": "string[]",
         "description": "An array of team `slug`s that will be removed.",
-        "required": false
+        "required": false,
+        "location": "body"
       }
     ],
     "description": "",

@@ -9,19 +9,22 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "file_sha",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       }
     ],
     "description": "The `content` in the response will always be Base64 encoded.\n\n_Note_: This API supports blobs up to 100 megabytes in size.",
@@ -37,26 +40,30 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "content",
         "type": "string",
         "description": "The new blob's content.",
-        "required": true
+        "required": true,
+        "location": "body"
       },
       {
         "name": "encoding",
         "type": "string",
         "description": "The encoding used for `content`. Currently, `\"utf-8\"` and `\"base64\"` are supported.",
         "default": "\"utf-8\"",
-        "required": false
+        "required": false,
+        "location": "body"
       }
     ],
     "description": "",
@@ -72,19 +79,22 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "commit_sha",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       }
     ],
     "description": "Gets a Git [commit object](https://git-scm.com/book/en/v1/Git-Internals-Git-Objects#Commit-Objects).",
@@ -100,41 +110,48 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "message",
         "type": "string",
         "description": "The commit message",
-        "required": true
+        "required": true,
+        "location": "body"
       },
       {
         "name": "tree",
         "type": "string",
         "description": "The SHA of the tree object this commit points to",
-        "required": true
+        "required": true,
+        "location": "body"
       },
       {
         "name": "parents",
         "type": "string[]",
         "description": "The SHAs of the commits that were the parents of this commit. If omitted or empty, the commit will be written as a root commit. For a single parent, an array of one SHA should be provided; for a merge commit, an array of more than one should be provided.",
-        "required": true
+        "required": true,
+        "location": "body"
       },
       {
         "name": "committer",
         "type": "object",
-        "description": "object containing information about the committer."
+        "description": "object containing information about the committer.",
+        "location": "body"
       },
       {
         "name": "author",
         "type": "object",
-        "description": "object containing information about the author."
+        "description": "object containing information about the author.",
+        "location": "body"
       }
     ],
     "description": "Creates a new Git [commit object](https://git-scm.com/book/en/v1/Git-Internals-Git-Objects#Commit-Objects).\n\nThe `committer` section is optional and will be filled with the `author` data if omitted. If the `author` section is omitted, it will be filled in with the authenticated user's information and the current date.\n\nBoth the `author` and `committer` parameters have the same keys:\n\n| name  | type   | description                                                                                                             |\n| ----- | ------ | ----------------------------------------------------------------------------------------------------------------------- |\n| name  | string | The name of the author (or committer) of the commit                                                                     |\n| email | string | The email of the author (or committer) of the commit                                                                    |\n| date  | string | Indicates when this commit was authored (or committed). This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. |\n\nYou can also provide an optional string `signature` parameter. This value will be added to the `gpgsig` header of the created commit. For a commit signature to be verifiable by Git or GitHub, it must be an ASCII-armored detached PGP signature over the string commit as it would be written to the object database.\n\n**Note**: To pass a `signature` parameter, you need to first manually create a valid PGP signature, which can be complicated. You may find it easier to [use the command line](https://git-scm.com/book/id/v2/Git-Tools-Signing-Your-Work) to create signed commits.\n\nIn this example, the payload that the signature is over would have been:\n\n",
@@ -150,43 +167,50 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "commit_sha",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "verified",
         "type": "boolean",
         "description": "Does GitHub consider the signature in this commit to be verified?",
-        "required": false
+        "required": false,
+        "location": "query"
       },
       {
         "name": "reason",
         "type": "string",
         "description": "The reason for `verified` value. Possible values and their meanings are enumerated in the table below.",
-        "required": false
+        "required": false,
+        "location": "query"
       },
       {
         "name": "signature",
         "type": "string",
         "description": "The signature that was extracted from the commit.",
-        "required": false
+        "required": false,
+        "location": "query"
       },
       {
         "name": "payload",
         "type": "string",
         "description": "The value that was signed.",
-        "required": false
+        "required": false,
+        "location": "query"
       }
     ],
     "description": "**The verification object**\n\n**The reason field**\n\nThe following are possible `reason`s that may be included in the `verification` object:\n\n| Value                    | Description                                                                                                                       |\n| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |\n| `expired_key`            | The key that made the signature is expired.                                                                                       |\n| `not_signing_key`        | The \"signing\" flag is not among the usage flags in the GPG key that made the signature.                                           |\n| `gpgverify_error`        | There was an error communicating with the signature-verification service.                                                         |\n| `gpgverify_unavailable`  | The signature-verification service is currently unavailable.                                                                      |\n| `unsigned`               | The object does not include a signature.                                                                                          |\n| `unknown_signature_type` | A non-PGP signature was found in the commit.                                                                                      |\n| `no_user`                | No user was associated with the `committer` email address in the commit.                                                          |\n| `unverified_email`       | The `committer` email address in the commit was associated with a user, but the email address is not verified on her/his account. |\n| `bad_email`              | The `committer` email address in the commit is not included in the identities of the PGP key that made the signature.             |\n| `unknown_key`            | The key that made the signature has not been registered with any user's account.                                                  |\n| `malformed_signature`    | There was an error parsing the signature.                                                                                         |\n| `invalid`                | The signature could not be cryptographically verified using the key whose key-id was found in the signature.                      |\n| `valid`                  | None of the above errors applied, so the signature is considered to be verified.                                                  |",
@@ -200,10 +224,25 @@
     "description": "Returns a branch or tag reference. Other than the [REST API](https://developer.github.com/v3/git/refs/#get-a-reference) it always returns a single reference. If the REST API returns with an array then the method responds with an error.",
     "params": [
       {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
         "name": "ref",
         "type": "string",
         "description": "Must be formatted as `heads/branch`, not just `branch`",
-        "required": true
+        "required": true,
+        "location": "url"
       }
     ],
     "isOverride": true,
@@ -217,10 +256,25 @@
     "description": "This will return an array of all the references on the system, including things like notes and stashes if they exist on the server",
     "params": [
       {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
         "name": "namespace",
         "type": "string",
         "description": "Filter by sub-namespace (reference prefix). Most commen examples would be `'heads/'` and `'tags/'` to retrieve branches or tags",
-        "required": false
+        "required": false,
+        "location": "url"
       }
     ],
     "isOverride": true,
@@ -236,25 +290,29 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "ref",
         "type": "string",
         "description": "The name of the fully qualified reference (ie: `refs/heads/master`). If it doesn't start with 'refs' and have at least two slashes, it will be rejected.",
-        "required": true
+        "required": true,
+        "location": "body"
       },
       {
         "name": "sha",
         "type": "string",
         "description": "The SHA1 value to set this reference to",
-        "required": true
+        "required": true,
+        "location": "body"
       }
     ],
     "description": "",
@@ -270,32 +328,37 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "ref",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "sha",
         "type": "string",
         "description": "The SHA1 value to set this reference to",
-        "required": true
+        "required": true,
+        "location": "body"
       },
       {
         "name": "force",
         "type": "boolean",
         "description": "Indicates whether to force the update or to make sure the update is a fast-forward update. Leaving this out or setting it to `false` will make sure you're not overwriting work.",
         "default": false,
-        "required": false
+        "required": false,
+        "location": "body"
       }
     ],
     "description": "",
@@ -311,19 +374,22 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "ref",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       }
     ],
     "description": "Example: Deleting a branch:\n\n```\nDELETE /repos/octocat/Hello-World/git/refs/heads/feature-a\n```\n\nExample: Deleting a tag:\n\n```\nDELETE /repos/octocat/Hello-World/git/refs/tags/v1.0\n```",
@@ -339,19 +405,22 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "tag_sha",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       }
     ],
     "description": "",
@@ -367,31 +436,36 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "tag",
         "type": "string",
         "description": "The tag's name. This is typically a version (e.g., \"v0.0.1\").",
-        "required": true
+        "required": true,
+        "location": "body"
       },
       {
         "name": "message",
         "type": "string",
         "description": "The tag message.",
-        "required": true
+        "required": true,
+        "location": "body"
       },
       {
         "name": "object",
         "type": "string",
         "description": "The SHA of the git object this is tagging.",
-        "required": true
+        "required": true,
+        "location": "body"
       },
       {
         "name": "type",
@@ -402,31 +476,36 @@
           "commit",
           "tree",
           "blob"
-        ]
+        ],
+        "location": "body"
       },
       {
         "name": "tagger",
         "type": "object",
         "description": "An object with information about the individual creating the tag.",
-        "required": false
+        "required": false,
+        "location": "body"
       },
       {
         "name": "tagger.name",
         "type": "string",
         "description": "The name of the author of the tag",
-        "required": false
+        "required": false,
+        "location": "body"
       },
       {
         "name": "tagger.email",
         "type": "string",
         "description": "The email of the author of the tag",
-        "required": false
+        "required": false,
+        "location": "body"
       },
       {
         "name": "tagger.date",
         "type": "string",
         "description": "When this object was tagged. This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.",
-        "required": false
+        "required": false,
+        "location": "body"
       }
     ],
     "description": "Note that creating a tag object does not create the reference that makes a tag in Git. If you want to create an annotated tag in Git, you have to do this call to create the tag object, and then [create](https://developer.github.com/v3/git/refs/#create-a-reference) the `refs/tags/[tag]` reference. If you want to create a lightweight tag, you only have to [create](https://developer.github.com/v3/git/refs/#create-a-reference) the tag reference - this call would be unnecessary.",
@@ -442,43 +521,50 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "tag_sha",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "verified",
         "type": "boolean",
         "description": "Does GitHub consider the signature in this tag to be verified?",
-        "required": false
+        "required": false,
+        "location": "query"
       },
       {
         "name": "reason",
         "type": "string",
         "description": "The reason for `verified` value. Possible values and their meanings are enumerated in the table below.",
-        "required": false
+        "required": false,
+        "location": "query"
       },
       {
         "name": "signature",
         "type": "string",
         "description": "The signature that was extracted from the tag.",
-        "required": false
+        "required": false,
+        "location": "query"
       },
       {
         "name": "payload",
         "type": "string",
         "description": "The value that was signed.",
-        "required": false
+        "required": false,
+        "location": "query"
       }
     ],
     "description": "**The verification object**\n\n**The reason field**\n\nThe following are possible `reason`s that may be included in the `verification` object:\n\n| Value                   | Description                                                                                                                 |\n| ----------------------- | --------------------------------------------------------------------------------------------------------------------------- |\n| `expired_key`           | The key that made the signature is expired.                                                                                 |\n| `not_signing_key`       | The \"signing\" flag is not among the usage flags in the GPG key that made the signature.                                     |\n| `gpgverify_error`       | There was an error communicating with the signature-verification service.                                                   |\n| `gpgverify_unavailable` | The signature-verification service is currently unavailable.                                                                |\n| `unsigned`              | The object does not include a signature.                                                                                    |\n| `unkown_signature_type` | A non-PGP signature was found in the tag.                                                                                   |\n| `no_user`               | No user was associated with the `tagger` email address in the tag.                                                          |\n| `unverified_email`      | The `tagger` email address in the tag was associated with a user, but the email address is not verified on her/his account. |\n| `bad_email`             | The `tagger` email address in the tag is not included in the identities of the PGP key that made the signature.             |\n| `unknown_key`           | The key that made the signature has not been registered with any user's account.                                            |\n| `malformed_signature`   | There was an error parsing the signature.                                                                                   |\n| `invalid`               | The signature could not be cryptographically verified using the key whose key-id was found in the signature.                |\n| `valid`                 | None of the above errors applied, so the signature is considered to be verified.                                            |",
@@ -494,19 +580,22 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "url"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "url"
       },
       {
         "name": "tree_sha",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "url"
       },
       {
         "name": "recursive",
@@ -514,7 +603,8 @@
         "description": "",
         "enum": [
           1
-        ]
+        ],
+        "location": "query"
       }
     ],
     "description": "If `truncated` in the response is `true`, the number of items in the `tree` array exceeded our maximum limit. If you need to fetch more items, omit the `recursive` parameter, and fetch one sub-tree at a time. If you need to fetch even more items, you can clone the repository and iterate over the Git data locally.",
@@ -531,25 +621,29 @@
         "name": "owner",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "repo",
         "type": "string",
         "required": true,
-        "description": ""
+        "description": "",
+        "location": "path"
       },
       {
         "name": "tree",
         "type": "object[]",
         "description": "Objects (of `path`, `mode`, `type`, and `sha`) specifying a tree structure",
-        "required": true
+        "required": true,
+        "location": "body"
       },
       {
         "name": "tree.path",
         "type": "string",
         "description": "The file referenced in the tree",
-        "required": false
+        "required": false,
+        "location": "body"
       },
       {
         "name": "tree.mode",
@@ -562,7 +656,8 @@
           "040000",
           "160000",
           "120000"
-        ]
+        ],
+        "location": "body"
       },
       {
         "name": "tree.type",
@@ -573,25 +668,29 @@
           "blob",
           "tree",
           "commit"
-        ]
+        ],
+        "location": "body"
       },
       {
         "name": "tree.sha",
         "type": "string",
         "description": "The SHA1 checksum ID of the object in the tree",
-        "required": false
+        "required": false,
+        "location": "body"
       },
       {
         "name": "tree.content",
         "type": "string",
         "description": "The content you want this file to have. GitHub will write this blob out and use that SHA for this entry. Use either this, or `tree.sha`.",
-        "required": false
+        "required": false,
+        "location": "body"
       },
       {
         "name": "base_tree",
         "type": "string",
         "description": "The SHA1 of the tree you want to update with new data. If you don't set this, the commit will be created on top of everything; however, it will only contain your change, the rest of your files will show up as deleted.",
-        "required": false
+        "required": false,
+        "location": "body"
       }
     ],
     "description": "The tree creation API will take nested entries as well. If both a tree and a nested path modifying that tree are specified, it will overwrite the contents of that tree with the new path contents and write a new tree out.",
