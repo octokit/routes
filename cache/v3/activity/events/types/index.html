@@ -343,6 +343,7 @@ created for various internal and webhook purposes.</p>
 <li><a href="#pushevent" id="markdown-toc-pushevent">PushEvent</a></li>
 <li><a href="#releaseevent" id="markdown-toc-releaseevent">ReleaseEvent</a></li>
 <li><a href="#repositoryevent" id="markdown-toc-repositoryevent">RepositoryEvent</a></li>
+<li><a href="#repositoryvulnerabilityalertevent" id="markdown-toc-repositoryvulnerabilityalertevent">RepositoryVulnerabilityAlertEvent</a></li>
 <li><a href="#statusevent" id="markdown-toc-statusevent">StatusEvent</a></li>
 <li><a href="#teamevent" id="markdown-toc-teamevent">TeamEvent</a></li>
 <li><a href="#teamaddevent" id="markdown-toc-teamaddevent">TeamAddEvent</a></li>
@@ -6503,6 +6504,77 @@ You cannot create webhooks that listen to these events.</p>
 
 
 <h2>
+<a id="repositoryvulnerabilityalertevent" class="anchor" href="#repositoryvulnerabilityalertevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>RepositoryVulnerabilityAlertEvent</h2>
+
+<p>Triggered when a <a href="https://help.github.com/articles/about-security-alerts-for-vulnerable-dependencies/">security alert</a> is created, dismissed, or resolved.</p>
+
+<h3>
+<a id="events-api-payload-33" class="anchor" href="#events-api-payload-33" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
+
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>action</code></td>
+<td><code>string</code></td>
+<td>The action that was performed. This can be one of <code>create</code>, <code>dismiss</code>, or <code>resolve</code>.</td>
+</tr>
+<tr>
+<td><code>alert</code></td>
+<td><code>object</code></td>
+<td>The security alert of the vulnerable dependency.</td>
+</tr>
+</tbody>
+</table>
+
+<h3>
+<a id="webhook-event-name-33" class="anchor" href="#webhook-event-name-33" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook event name</h3>
+
+<p><code>repository_vulnerability_alert</code></p>
+
+<h3>
+<a id="webhook-payload-example-28" class="anchor" href="#webhook-payload-example-28" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook payload example</h3>
+
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w"> 
+  </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dismiss"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"alert"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">7649605</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"affected_range"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.2.0"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"affected_package_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"many_versioned_gem"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"fixed_in"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.2.5"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"dismisser"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"login"</span><span class="p">:</span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"avatar_url"</span><span class="p">:</span><span class="s2">"https://github.com/images/error/octocat_happy.gif"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"gravatar_id"</span><span class="p">:</span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="s2">"https://api.github.com/users/octocat"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"html_url"</span><span class="p">:</span><span class="s2">"https://github.com/octocat"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"followers_url"</span><span class="p">:</span><span class="s2">"https://api.github.com/users/octocat/followers"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"following_url"</span><span class="p">:</span><span class="s2">"https://api.github.com/users/octocat/following{/other_user}"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"gists_url"</span><span class="p">:</span><span class="s2">"https://api.github.com/users/octocat/gists{/gist_id}"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"starred_url"</span><span class="p">:</span><span class="s2">"https://api.github.com/users/octocat/starred{/owner}{/repo}"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"subscriptions_url"</span><span class="p">:</span><span class="s2">"https://api.github.com/users/octocat/subscriptions"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"organizations_url"</span><span class="p">:</span><span class="s2">"https://api.github.com/users/octocat/orgs"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"repos_url"</span><span class="p">:</span><span class="s2">"https://api.github.com/users/octocat/repos"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"events_url"</span><span class="p">:</span><span class="s2">"https://api.github.com/users/octocat/events{/privacy}"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"received_events_url"</span><span class="p">:</span><span class="s2">"https://api.github.com/users/octocat/received_events"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="s2">"User"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"site_admin"</span><span class="p">:</span><span class="kc">true</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"dismiss_reason"</span><span class="p">:</span><span class="w"> </span><span class="s2">"No bandwidth to fix this"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"dismissed_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-10-25T00:00:00+00:00"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+
+<h2>
 <a id="statusevent" class="anchor" href="#statusevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>StatusEvent</h2>
 
 <p>Triggered when the status of a Git commit changes.</p>
@@ -6510,7 +6582,7 @@ You cannot create webhooks that listen to these events.</p>
 <p>Events of this type are not visible in timelines. These events are only used to trigger hooks.</p>
 
 <h3>
-<a id="events-api-payload-33" class="anchor" href="#events-api-payload-33" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
+<a id="events-api-payload-34" class="anchor" href="#events-api-payload-34" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
 
 <table>
 <thead>
@@ -6550,12 +6622,12 @@ You cannot create webhooks that listen to these events.</p>
 </table>
 
 <h3>
-<a id="webhook-event-name-33" class="anchor" href="#webhook-event-name-33" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook event name</h3>
+<a id="webhook-event-name-34" class="anchor" href="#webhook-event-name-34" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook event name</h3>
 
 <p><code>status</code></p>
 
 <h3>
-<a id="webhook-payload-example-28" class="anchor" href="#webhook-payload-example-28" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook payload example</h3>
+<a id="webhook-payload-example-29" class="anchor" href="#webhook-payload-example-29" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook payload example</h3>
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">214015194</span><span class="p">,</span><span class="w">
@@ -6774,7 +6846,7 @@ You cannot create webhooks that listen to these events.</p>
 <p>Events of this type are not visible in timelines. These events are only used to trigger organization hooks.</p>
 
 <h3>
-<a id="events-api-payload-34" class="anchor" href="#events-api-payload-34" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
+<a id="events-api-payload-35" class="anchor" href="#events-api-payload-35" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
 
 <table>
 <thead>
@@ -6839,12 +6911,12 @@ You cannot create webhooks that listen to these events.</p>
 </table>
 
 <h3>
-<a id="webhook-event-name-34" class="anchor" href="#webhook-event-name-34" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook event name</h3>
+<a id="webhook-event-name-35" class="anchor" href="#webhook-event-name-35" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook event name</h3>
 
 <p><code>team</code></p>
 
 <h3>
-<a id="webhook-payload-example-29" class="anchor" href="#webhook-payload-example-29" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook payload example</h3>
+<a id="webhook-payload-example-30" class="anchor" href="#webhook-payload-example-30" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook payload example</h3>
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"action"</span><span class="p">:</span><span class="s2">"created"</span><span class="p">,</span><span class="w">
@@ -6903,7 +6975,7 @@ You cannot create webhooks that listen to these events.</p>
 <p>Events of this type are not visible in timelines. These events are only used to trigger hooks.</p>
 
 <h3>
-<a id="events-api-payload-35" class="anchor" href="#events-api-payload-35" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
+<a id="events-api-payload-36" class="anchor" href="#events-api-payload-36" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
 
 <table>
 <thead>
@@ -6928,12 +7000,12 @@ You cannot create webhooks that listen to these events.</p>
 </table>
 
 <h3>
-<a id="webhook-event-name-35" class="anchor" href="#webhook-event-name-35" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook event name</h3>
+<a id="webhook-event-name-36" class="anchor" href="#webhook-event-name-36" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook event name</h3>
 
 <p><code>team_add</code></p>
 
 <h3>
-<a id="webhook-payload-example-30" class="anchor" href="#webhook-payload-example-30" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook payload example</h3>
+<a id="webhook-payload-example-31" class="anchor" href="#webhook-payload-example-31" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook payload example</h3>
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"team"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -7077,7 +7149,7 @@ See <a href="/changes/2012-09-05-watcher-api/">this API blog post</a> for an exp
 event’s repository is the <a href="/v3/repos/">repository</a> that was starred.</p>
 
 <h3>
-<a id="events-api-payload-36" class="anchor" href="#events-api-payload-36" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
+<a id="events-api-payload-37" class="anchor" href="#events-api-payload-37" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
 
 <table>
 <thead>
@@ -7097,12 +7169,12 @@ event’s repository is the <a href="/v3/repos/">repository</a> that was starred
 </table>
 
 <h3>
-<a id="webhook-event-name-36" class="anchor" href="#webhook-event-name-36" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook event name</h3>
+<a id="webhook-event-name-37" class="anchor" href="#webhook-event-name-37" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook event name</h3>
 
 <p><code>watch</code></p>
 
 <h3>
-<a id="webhook-payload-example-31" class="anchor" href="#webhook-payload-example-31" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook payload example</h3>
+<a id="webhook-payload-example-32" class="anchor" href="#webhook-payload-example-32" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook payload example</h3>
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"started"</span><span class="p">,</span><span class="w">
