@@ -1,9 +1,14 @@
 <h2>
 <a id="create-a-hook" class="anchor" href="#create-a-hook" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a hook</h2>
+<p>Repositories can have multiple webhooks installed. Each webhook should have a unique <code>config</code>. Multiple webhooks can share the same <code>config</code> as long as those webhooks do not have any <code>events</code> that overlap.</p>
+<p><strong>Note</strong>: Repository service hooks (like email or Campfire) can have at most one configured at a time. Creating hooks for a service that already has one configured will <a href="#edit-a-hook">update the existing hook</a>.</p>
+<div class="alert note">
+
+<p><strong>Note</strong>: GitHub Services will no longer be supported as of October 1, 2018. Please see the <a href="/changes/2018-04-25-github-services-deprecation">blog post</a> for details. You can use the <a href="/v3/guides/replacing-github-services">Replacing GitHub Services guide</a> to help you update your services to webhooks.</p>
+
+</div>
 <pre><code>POST /repos/:owner/:repo/hooks
 </code></pre>
-<p><strong>Note</strong>: Repository service hooks (like email or Campfire) can have at most one configured at a time. Creating hooks for a service that already has one configured will <a href="#edit-a-hook">update the existing hook</a>.</p>
-<p>Repositories can have multiple webhooks installed. Each webhook should have a unique <code>config</code>. Multiple webhooks can share the same <code>config</code> as long as those webhooks do not have any <code>events</code> that overlap.</p>
 <h3>
 <a id="parameters" class="anchor" href="#parameters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
 <table>
@@ -19,7 +24,7 @@
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required</strong>. Must be passed as &quot;web&quot;.</td>
+<strong>Required</strong>. Use &quot;web&quot; for a webhook or use the name of a valid service. You can use <a href="https://api.github.com/hooks">/hooks</a> for the list of valid service names. <strong>Note</strong>: GitHub Services will no longer be supported as of October 1, 2018. Please see the <a href="/changes/2018-04-25-github-services-deprecation">blog post</a> for details.</td>
 </tr>
 <tr>
 <td><code>config</code></td>
