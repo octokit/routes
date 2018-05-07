@@ -1,0 +1,228 @@
+{
+  "name": "Create a check run",
+  "enabledForApps": false,
+  "method": "POST",
+  "path": "/repos/:owner/:repo/check-runs",
+  "params": [
+    {
+      "name": "owner",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "repo",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "images.alt",
+      "type": "string",
+      "description": "The alternative text for the image.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "images.image_url",
+      "type": "string",
+      "description": "The full URL of the image.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "images.caption",
+      "type": "string",
+      "description": "A short image description.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "annotations.filename",
+      "type": "string",
+      "description": "The name of the file to add an annotation to.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "annotations.blob_href",
+      "type": "string",
+      "description": "The file's full blob URL.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "annotations.start_line",
+      "type": "integer",
+      "description": "The start line of the annotation.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "annotations.end_line",
+      "type": "integer",
+      "description": "The end line of the annotation.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "annotations.warning_level",
+      "type": "string",
+      "description": "The warning level of the annotation. Can be one of `notice`, `warning`, or `failure`.",
+      "required": true,
+      "enum": [
+        "notice",
+        "warning",
+        "failure"
+      ],
+      "location": "body"
+    },
+    {
+      "name": "annotations.message",
+      "type": "string",
+      "description": "A short description of the feedback for these lines of code. The maximum size is 64 KB.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "annotations.title",
+      "type": "string",
+      "description": "The title that represents the annotation. The maximum size is 255 characters.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "annotations.raw_details",
+      "type": "string",
+      "description": "Details about this annotation. The maximum size is 64 KB.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "The name of the check (e.g., \"code-coverage\").",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "head_branch",
+      "type": "string",
+      "description": "The name of the branch to perform a check against.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "head_sha",
+      "type": "string",
+      "description": "The SHA of the commit.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "details_url",
+      "type": "string",
+      "description": "The URL of the integrator's site that has the full details of the check.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "external_id",
+      "type": "string",
+      "description": "A reference for the run on the integrator's system.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "status",
+      "type": "string",
+      "description": "The current status. Can be one of `queued`, `in_progress`, or `completed`.",
+      "default": "queued",
+      "required": false,
+      "enum": [
+        "queued",
+        "in_progress",
+        "completed"
+      ],
+      "location": "body"
+    },
+    {
+      "name": "started_at",
+      "type": "string",
+      "description": "The time that the check run began in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "conclusion",
+      "type": "string",
+      "description": "The final conclusion of the check. Can be one of `success`, `failure`, `neutral`, `cancelled`, `timed_out`, or `action_required`. When the conclusion is `action_required`, additional details should be provided on the site specified by `details_url`. Required if you provide a `status` of `completed`.",
+      "required": true,
+      "enum": [
+        "success",
+        "failure",
+        "neutral",
+        "cancelled",
+        "timed_out",
+        "action_required",
+        "details_url",
+        "status",
+        "completed"
+      ],
+      "location": "body"
+    },
+    {
+      "name": "completed_at",
+      "type": "string",
+      "description": "The time the check completed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. Required if you provide `conclusion`.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "output",
+      "type": "object",
+      "description": "Check runs can accept a variety of data in the `output` object, including a `title` and `summary` and can optionally provide descriptive details about the run. See the [`output` object](#output-object) description.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "output.title",
+      "type": "string",
+      "description": "The title of the check run.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "output.summary",
+      "type": "text",
+      "description": "The summary of the check run. This parameter supports Markdown.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "output.text",
+      "type": "text",
+      "description": "The details of the check run. This parameter supports Markdown.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "output.annotations",
+      "type": "object[]",
+      "description": "Adds information from your analysis to specific lines of code. Annotations are visible in GitHub's pull request UI. For details about annotations in the UI, see \"[About status checks](https://help.github.com/articles/about-status-checks#checks)\". See the [`annotations` object](#annotations-object) description for details about how to use this parameter.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "output.images",
+      "type": "object[]",
+      "description": "Adds images to the output displayed in the GitHub pull request UI. See the [`images` object](#images-object) description for details.",
+      "required": false,
+      "location": "body"
+    }
+  ],
+  "description": "Creates a new check run for a specific commit in a repository. Your GitHub App must have the `checks:write` permission to create check runs.",
+  "documentationUrl": "https://developer.github.com/v3/checks/runs/#create-a-check-run"
+}

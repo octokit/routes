@@ -1,0 +1,46 @@
+{
+  "name": "Set preferences for check suites on a repository",
+  "enabledForApps": false,
+  "method": "PATCH",
+  "path": "/repos/:owner/:repo/check-suites/preferences",
+  "params": [
+    {
+      "name": "owner",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "repo",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "auto_trigger_checks",
+      "type": "object[]",
+      "description": "Enables or disables automatic creation of CheckSuite events upon pushes to the repository. Enabled by default. See the [`auto_trigger_checks` object](#auto_trigger_checks-object) description for details.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "auto_trigger_checks[].app_id",
+      "type": "integer",
+      "description": "The `id` of the GitHub App.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "auto_trigger_checks[].setting",
+      "type": "boolean",
+      "description": "Set to `true` to enable automatic creation of CheckSuite events upon pushes to the repository, or `false` to disable them.",
+      "default": true,
+      "required": true,
+      "location": "body"
+    }
+  ],
+  "description": "Changes the default automatic flow when creating check suites. By default, the CheckSuiteEvent is automatically created each time code is pushed to a repository. When you disable the automatic creation of check suites, you can manually [Create a check suite](https://developer.github.com/v3/checks/suites/#create-a-check-suite). You must have admin permissions in the repository to set preferences for check suites.",
+  "documentationUrl": "https://developer.github.com/v3/checks/suites/#set-preferences-for-check-suites-on-a-repository"
+}
