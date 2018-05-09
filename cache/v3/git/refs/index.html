@@ -341,6 +341,14 @@ See the <a href="/v3/git">Git Database API</a> for more details.</p>
 <a id="get-a-reference" class="anchor" href="#get-a-reference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get a reference<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
+<p>Returns a single reference from your Git database.</p>
+
+<div class="alert note">
+
+<p><strong>Note:</strong> You need to explicitly <a href="/v3/pulls/#get-a-single-pull-request">request a pull request</a> to trigger a merge commit creation. For more information, see "<a href="/v3/git/#checking-mergeability-of-pull-requests">Checking mergeability of pull requests</a>".</p>
+
+</div>
+
 <pre><code>GET /repos/:owner/:repo/git/refs/:ref
 </code></pre>
 
@@ -420,13 +428,16 @@ including <code>featureA</code> and <code>featureB</code> which do.</p>
 <a id="get-all-references" class="anchor" href="#get-all-references" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get all references<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
+<p>Returns an array of all the references from your Git database, including notes and stashes if they exist on the server.  Anything in the namespace, not just <code>heads</code> and <code>tags</code>, though that would be the most common.</p>
+
+<div class="alert note">
+
+<p><strong>Note:</strong> You need to explicitly <a href="/v3/pulls/#get-a-single-pull-request">request a pull request</a> to trigger a merge commit creation. For more information, see "<a href="/v3/git/#checking-mergeability-of-pull-requests">Checking mergeability of pull requests</a>".</p>
+
+</div>
+
 <pre><code>GET /repos/:owner/:repo/git/refs
 </code></pre>
-
-<p>This will return an array of all the references on the system, including
-things like notes and stashes if they exist on the server.  Anything in
-the namespace, not just <code>heads</code> and <code>tags</code>, though that would be the
-most common.</p>
 
 <p>You can also request a sub-namespace. For example, to get all the tag
 references, you can call:</p>
@@ -481,6 +492,8 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <pre><code>POST /repos/:owner/:repo/git/refs
 </code></pre>
 
+<p>Creates a reference for your repository. You are unable to create new references for empty repositories, even if the commit SHA-1 hash used exists. Empty repositories are repositories without branches.</p>
+
 <h3>
 <a id="parameters" class="anchor" href="#parameters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
 
@@ -503,7 +516,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <td><code>sha</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required</strong>. The SHA1 value to set this reference to</td>
+<strong>Required</strong>. The SHA1 value for this reference.</td>
 </tr>
 </tbody>
 </table>
