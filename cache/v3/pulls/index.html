@@ -599,7 +599,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
         </span><span class="nt">"full_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat/Hello-World"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This your first repo!"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"private"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"fork"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"fork"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
         </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat/Hello-World"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"archive_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}"</span><span class="p">,</span><span class="w">
@@ -725,7 +725,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
         </span><span class="nt">"full_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat/Hello-World"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This your first repo!"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"private"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"fork"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"fork"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
         </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat/Hello-World"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"archive_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}"</span><span class="p">,</span><span class="w">
@@ -872,35 +872,25 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 </div>
 
+<p>Lists details of a pull request by providing its number.</p>
+
 <pre><code>GET /repos/:owner/:repo/pulls/:number
 </code></pre>
 
 <h3>
 <a id="response-1" class="anchor" href="#response-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
-<div class="alert tip">
+<p>When you get, <a href="/v3/pulls/#create-a-pull-request">create</a>, or <a href="/v3/pulls/#update-a-pull-request">edit</a> a pull request, GitHub creates a merge commit to test whether the pull request can be automatically merged into the base branch. This test commit is not added to the base branch or the head branch. You can review the status of the test commit using the <code>mergeable</code> key. For more information, see "<a href="/v3/git/#checking-mergeability-of-pull-requests">Checking mergeability of pull requests</a>".</p>
 
-<p>Each time the pull request receives new commits, GitHub creates a merge commit
-to <em>test</em> whether the pull request can be automatically merged into the base
-branch. (This <em>test</em> commit is not added to the base branch or the head branch.)</p>
+<p>The value of the <code>mergeable</code> attribute can be <code>true</code>, <code>false</code>, or <code>null</code>. If the value is <code>null</code>, then GitHub has started a background job to compute the mergeability. After giving the job time to complete, resubmit the request. When the job finishes, you will see a non-<code>null</code> value for the <code>mergeable</code> attribute in the response. If <code>mergable</code> is <code>true</code>, then <code>merge_commit_sha</code> will be the SHA of the <em>test</em> merge commit.</p>
 
-<p>The value of the <code>merge_commit_sha</code> attribute changes depending on the state of the pull request.
-Before a pull request is merged, the <code>merge_commit_sha</code> attribute holds the SHA of the <em>test</em> merge commit.
-After a pull request is merged, the attribute changes depending on how the pull request was merged:</p>
+<p>The value of the <code>merge_commit_sha</code> attribute changes depending on the state of the pull request. Before merging a pull request, the <code>merge_commit_sha</code> attribute holds the SHA of the <em>test</em> merge commit. After merging a pull request, the <code>merge_commit_sha</code> attribute changes depending on how you merged the pull request:</p>
 
 <ul>
-<li>If the pull request was merged as a merge commit, the attribute represents the SHA of the merge commit.</li>
-<li>If the pull request was merged via a squash, the attribute represents the SHA of the squashed commit on the base branch.</li>
-<li>If the pull request was rebased, the attribute represents the commit that the base branch was updated to.</li>
+<li>If merged as a <a href="https://help.github.com/articles/about-merge-methods-on-github/">merge commit</a>, <code>merge_commit_sha</code> represents the SHA of the merge commit.</li>
+<li>If merged via a <a href="https://help.github.com/articles/about-merge-methods-on-github/#squashing-your-merge-commits">squash</a>, <code>merge_commit_sha</code> represents the SHA of the squashed commit on the base branch.</li>
+<li>If <a href="https://help.github.com/articles/about-merge-methods-on-github/#rebasing-and-merging-your-commits">rebased</a>, <code>merge_commit_sha</code> represents the commit that the base branch was updated to.</li>
 </ul>
-
-<p>The value of the <code>mergeable</code> attribute can be <code>true</code>, <code>false</code>, or <code>null</code>. If
-the value is <code>null</code>, this means that the mergeability hasn't been computed yet,
-and a background job was started to compute it. Give the job a few moments to
-complete, and then submit the request again. When the job is complete, the
-response will include a non-<code>null</code> value for the <code>mergeable</code> attribute.</p>
-
-</div>
 
 <p>Pass the appropriate <a href="/v3/media/#commits-commit-comparison-and-pull-requests">media type</a> to fetch diff and patch formats.</p>
 
@@ -1042,7 +1032,7 @@ response will include a non-<code>null</code> value for the <code>mergeable</cod
       </span><span class="nt">"full_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat/Hello-World"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This your first repo!"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"private"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"fork"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"fork"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
       </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat/Hello-World"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"archive_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}"</span><span class="p">,</span><span class="w">
@@ -1168,7 +1158,7 @@ response will include a non-<code>null</code> value for the <code>mergeable</cod
       </span><span class="nt">"full_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat/Hello-World"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This your first repo!"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"private"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"fork"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"fork"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
       </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat/Hello-World"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"archive_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}"</span><span class="p">,</span><span class="w">
@@ -1583,7 +1573,7 @@ Location: https://api.github.com/repos/octocat/Hello-World/pulls/1347
       </span><span class="nt">"full_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat/Hello-World"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This your first repo!"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"private"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"fork"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"fork"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
       </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat/Hello-World"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"archive_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}"</span><span class="p">,</span><span class="w">
@@ -1709,7 +1699,7 @@ Location: https://api.github.com/repos/octocat/Hello-World/pulls/1347
       </span><span class="nt">"full_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat/Hello-World"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This your first repo!"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"private"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"fork"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"fork"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
       </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat/Hello-World"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"archive_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}"</span><span class="p">,</span><span class="w">
@@ -2057,7 +2047,7 @@ Location: https://api.github.com/repos/octocat/Hello-World/pulls/1347
       </span><span class="nt">"full_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat/Hello-World"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This your first repo!"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"private"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"fork"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"fork"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
       </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat/Hello-World"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"archive_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}"</span><span class="p">,</span><span class="w">
@@ -2183,7 +2173,7 @@ Location: https://api.github.com/repos/octocat/Hello-World/pulls/1347
       </span><span class="nt">"full_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat/Hello-World"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This your first repo!"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"private"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"fork"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"fork"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
       </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat/Hello-World"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"archive_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}"</span><span class="p">,</span><span class="w">
