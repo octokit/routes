@@ -77,8 +77,8 @@
       {
         "name": "conclusion",
         "type": "string",
-        "description": "The final conclusion of the check. Can be one of `success`, `failure`, `neutral`, `cancelled`, `timed_out`, or `action_required`. When the conclusion is `action_required`, additional details should be provided on the site specified by `details_url`. Required if you provide a `status` of `completed`.",
-        "required": true,
+        "description": "**Required if you provide a `status` of `completed`**. The final conclusion of the check. Can be one of `success`, `failure`, `neutral`, `cancelled`, `timed_out`, or `action_required`. When the conclusion is `action_required`, additional details should be provided on the site specified by `details_url`.",
+        "required": false,
         "enum": [
           "success",
           "failure",
@@ -86,17 +86,15 @@
           "cancelled",
           "timed_out",
           "action_required",
-          "details_url",
-          "status",
-          "completed"
+          "details_url"
         ],
         "location": "body"
       },
       {
         "name": "completed_at",
         "type": "string",
-        "description": "The time the check completed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. Required if you provide `conclusion`.",
-        "required": true,
+        "description": "**Required if you provide `conclusion`**. The time the check completed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.",
+        "required": false,
         "location": "body"
       },
       {
@@ -297,8 +295,8 @@
       {
         "name": "conclusion",
         "type": "string",
-        "description": "The final conclusion of the check. Can be one of `success`, `failure`, `neutral`, `cancelled`, `timed_out`, or `action_required`. When the conclusion is `action_required`, additional details should be provided on the site specified by `details_url`. Required if you provide a `status` of `completed`.",
-        "required": true,
+        "description": "**Required if you provide a `status` of `completed`**. The final conclusion of the check. Can be one of `success`, `failure`, `neutral`, `cancelled`, `timed_out`, or `action_required`. When the conclusion is `action_required`, additional details should be provided on the site specified by `details_url`.",
+        "required": false,
         "enum": [
           "success",
           "failure",
@@ -306,17 +304,15 @@
           "cancelled",
           "timed_out",
           "action_required",
-          "details_url",
-          "status",
-          "completed"
+          "details_url"
         ],
         "location": "body"
       },
       {
         "name": "completed_at",
         "type": "string",
-        "description": "The time the check completed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. Required if you provide `conclusion`.",
-        "required": true,
+        "description": "**Required if you provide `conclusion`**. The time the check completed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.",
+        "required": false,
         "location": "body"
       },
       {
@@ -818,5 +814,74 @@
     ],
     "description": "Changes the default automatic flow when creating check suites. By default, the CheckSuiteEvent is automatically created each time code is pushed to a repository. When you disable the automatic creation of check suites, you can manually [Create a check suite](https://developer.github.com/v3/checks/suites/#create-a-check-suite). You must have admin permissions in the repository to set preferences for check suites.",
     "documentationUrl": "https://developer.github.com/v3/checks/suites/#set-preferences-for-check-suites-on-a-repository"
+  },
+  {
+    "name": "Create a check suite",
+    "enabledForApps": false,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/check-suites",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "head_sha",
+        "type": "string",
+        "description": "The sha of the head commit.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "head_branch",
+        "type": "string",
+        "description": "The name of the head branch where the code changes are implemented.",
+        "required": false,
+        "location": "body"
+      }
+    ],
+    "description": "By default, check suites are automatically created when you create a [check run](https://developer.github.com/v3/checks/runs/). You only need to use this endpoint for manually creating check suites when you've disabled automatic creation using \"[Set preferences for check suites on a repository](https://developer.github.com/v3/checks/suites/#set-preferences-for-check-suites-on-a-repository)\". Your GitHub App must have the `checks:write` permission to create check suites.",
+    "documentationUrl": "https://developer.github.com/v3/checks/suites/#create-a-check-suite"
+  },
+  {
+    "name": "Request check suites",
+    "enabledForApps": false,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/check-suite-requests",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "head_sha",
+        "type": "string",
+        "description": "**Required.** The sha of the head commit.",
+        "required": false,
+        "location": "body"
+      }
+    ],
+    "description": "Triggers GitHub to create a new check suite, without pushing new code to a repository. To request a check suite, your GitHub App must have the `checks:read` permission on a private repository or pull access to a public repository.",
+    "documentationUrl": "https://developer.github.com/v3/checks/suites/#request-check-suites"
   }
 ]
