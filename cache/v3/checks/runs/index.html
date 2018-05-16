@@ -325,7 +325,7 @@
 
 <p><img src="/assets/images/check_runs.png" alt="Check runs workflow"></p>
 
-<p>When someone pushes code to a repository, Github creates a check suite for the last commit. GitHub Apps with the <code>checks:write</code> permission receive a <a href="/v3/activity/events/types/#CheckSuiteEvent"><code>check_suite</code></a> webhook with the <code>requested</code> action. When your GitHub App receives the <code>check_suite</code> event, it can create new check runs for the latest commit. GitHub automatically adds new check runs to the correct <a href="/v3/checks/suites/">check suite</a> based on the check run's repository and SHA. Check suites contain one or more check runs and report a summary conclusion for all the check runs in the suite.</p>
+<p>When someone pushes code to a repository, GitHub creates a check suite for the last commit. GitHub Apps with the <code>checks:write</code> permission receive a <a href="/v3/activity/events/types/#CheckSuiteEvent"><code>check_suite</code></a> webhook with the <code>requested</code> action. When your GitHub App receives the <code>check_suite</code> event, it can create new check runs for the latest commit. GitHub automatically adds new check runs to the correct <a href="/v3/checks/suites/">check suite</a> based on the check run's repository and SHA. Check suites contain one or more check runs and report a summary conclusion for all the check runs in the suite.</p>
 
 <p>As soon as you receive the <a href="/v3/activity/events/types/#CheckSuiteEvent"><code>check_suite</code></a> webhook, you can create the check run, even if the check is not complete. You can update the <code>status</code> of the check run as it completes with the values <code>queued</code>, <code>in_progress</code>, or <code>completed</code>, and you can update the <code>output</code> as more details become available. A check run can contain timestamps, a link to more details on your external site, detailed annotations for specific lines of code, and information about the analysis performed.</p>
 
@@ -336,8 +336,6 @@
 <p>The Checks API is only available to authenticated GitHub Apps. It's not available to OAuth Apps. Authenticated users can view check runs, but they are not able to create them. If you aren't building a GitHub App, you might be interested in the <a href="/v3/repos/statuses/">Statuses API</a>.</p>
 
 <p>To use the check runs API, the GitHub App must have the <code>checks:write</code> permission and can also subscribe to the <a href="/v3/activity/events/types/#CheckRunEvent">check_run</a> webhook.</p>
-
-<p>For information on how to authenticate as a GitHub App, see "<a href="/apps/building-github-apps/authentication-options-for-github-apps#authenticating-as-a-github-app">Authentication Options for GitHub Apps</a>."</p>
 
 <h2>
 <a id="create-a-check-run" class="anchor" href="#create-a-check-run" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a check run</h2>
@@ -417,13 +415,13 @@
 <td><code>conclusion</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required</strong>. The final conclusion of the check. Can be one of <code>success</code>, <code>failure</code>, <code>neutral</code>, <code>cancelled</code>, <code>timed_out</code>, or <code>action_required</code>. When the conclusion is <code>action_required</code>, additional details should be provided on the site specified by <code>details_url</code>. Required if you provide a <code>status</code> of <code>completed</code>.</td>
+<strong>Required if you provide a <code>status</code> of <code>completed</code></strong>. The final conclusion of the check. Can be one of <code>success</code>, <code>failure</code>, <code>neutral</code>, <code>cancelled</code>, <code>timed_out</code>, or <code>action_required</code>. When the conclusion is <code>action_required</code>, additional details should be provided on the site specified by <code>details_url</code>.</td>
 </tr>
 <tr>
 <td><code>completed_at</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required</strong>. The time the check completed in ISO 8601 format: <code>YYYY-MM-DDTHH:MM:SSZ</code>. Required if you provide <code>conclusion</code>.</td>
+<strong>Required if you provide <code>conclusion</code></strong>. The time the check completed in ISO 8601 format: <code>YYYY-MM-DDTHH:MM:SSZ</code>.</td>
 </tr>
 <tr>
 <td><code>output</code></td>
@@ -668,12 +666,12 @@
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"head_branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"master"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mighty_readme"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"head_sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ce587453ced02b1526dfb4cb910479d431683101"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"complete"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"started_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-11-30T19:39:10Z"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"completed_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-11-30T19:49:10Z"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"output"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mighty_readme"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"head_sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ce587453ced02b1526dfb4cb910479d431683101"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"complete"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"started_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-11-30T19:39:10Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"completed_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-11-30T19:49:10Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"output"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mighty Readme report"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"summary"</span><span class="p">:</span><span class="w"> </span><span class="s2">"There are 0 failures, 2 warnings, and 1 notices."</span><span class="p">,</span><span class="w">
     </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"You may have some misspelled words on lines 2 and 4. You also may want to add a section in your README about how to install your app."</span><span class="p">,</span><span class="w">
@@ -853,13 +851,13 @@
 <td><code>conclusion</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required</strong>. The final conclusion of the check. Can be one of <code>success</code>, <code>failure</code>, <code>neutral</code>, <code>cancelled</code>, <code>timed_out</code>, or <code>action_required</code>. When the conclusion is <code>action_required</code>, additional details should be provided on the site specified by <code>details_url</code>. Required if you provide a <code>status</code> of <code>completed</code>.</td>
+<strong>Required if you provide a <code>status</code> of <code>completed</code></strong>. The final conclusion of the check. Can be one of <code>success</code>, <code>failure</code>, <code>neutral</code>, <code>cancelled</code>, <code>timed_out</code>, or <code>action_required</code>. When the conclusion is <code>action_required</code>, additional details should be provided on the site specified by <code>details_url</code>.</td>
 </tr>
 <tr>
 <td><code>completed_at</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required</strong>. The time the check completed in ISO 8601 format: <code>YYYY-MM-DDTHH:MM:SSZ</code>. Required if you provide <code>conclusion</code>.</td>
+<strong>Required if you provide <code>conclusion</code></strong>. The time the check completed in ISO 8601 format: <code>YYYY-MM-DDTHH:MM:SSZ</code>.</td>
 </tr>
 <tr>
 <td><code>output</code></td>
@@ -1008,11 +1006,9 @@
 <a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"head_branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"master"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mighty_readme"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"head_sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ce587453ced02b1526dfb4cb910479d431683101"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"completed"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mighty_readme"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"started_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-04T01:14:52Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"completed"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"completed_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-04T01:14:52Z"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"output"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mighty Readme report"</span><span class="p">,</span><span class="w">
@@ -1054,7 +1050,7 @@
 <h3>
 <a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
-<pre class="highlight highlight-headers"><code>Status: 201 Created
+<pre class="highlight highlight-headers"><code>Status: 200 OK
 </code></pre>
 
 
