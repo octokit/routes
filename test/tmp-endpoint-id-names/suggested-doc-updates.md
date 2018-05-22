@@ -58,6 +58,32 @@
   → list repositories for a user
 - https://developer.github.com/v3/git/refs/#get-all-references
   → List references
+- https://developer.github.com/v3/teams/#list-user-teams
+  → List your teams
+- https://developer.github.com/v3/checks/runs/#list-check-runs-for-a-specific-ref
+  → List check runs for a specific reference
+- https://developer.github.com/v3/checks/suites/#list-check-suites-for-a-specific-ref
+  → List check suites for a specific reference
+- https://developer.github.com/v3/repos/statuses/#get-the-combined-status-for-a-specific-ref
+  → Get the combined status for a specific reference
+- https://developer.github.com/v3/repos/statuses/#list-statuses-for-a-specific-ref
+  → List statuses for a specific reference
+- https://developer.github.com/v3/activity/starring/#list-stargazers
+  → List stargazers for repository
+- https://developer.github.com/v3/activity/events/#list-repository-events
+  → List events for repository
+- https://developer.github.com/v3/activity/watching/#list-watchers
+  → List watchers of repository
+- https://developer.github.com/v3/apps/#get-a-single-github-app
+  → Get a single GitHub App by slug
+- https://developer.github.com/v3/issues/timeline/#list-events-for-an-issue
+  → List events for an issue timeline
+- https://developer.github.com/v3/teams/members/#get-team-member
+  → Check team membership
+- https://developer.github.com/v3/projects/collaborators/#review-a-users-permission-level
+  → Get a user's permission level
+- https://developer.github.com/v3/teams/#review-a-team-project
+  → Get a team project
 
 # Questions
 

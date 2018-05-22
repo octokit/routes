@@ -43,8 +43,8 @@ function endpointToIdName (endpoint) {
     case 'GET /issues': return 'list'
     case 'POST /markdown': return 'render'
     case 'POST /markdown/raw': return 'render-raw'
-    case 'GET /marketplace_listing/plans/:id/accounts': return 'list-plan-accounts'
-    case 'GET /marketplace_listing/stubbed/plans/:id/accounts': return 'list-plan-accounts-stubbed'
+    case 'GET /marketplace_listing/plans/:id/accounts': return 'list-accounts-for-plan'
+    case 'GET /marketplace_listing/stubbed/plans/:id/accounts': return 'list-accounts-for-plan-stubbed'
     case 'GET /orgs/:org/issues': return 'list-for-org'
     case 'GET /orgs/:org/members': return 'list-members'
     case 'GET /orgs/:org/migrations': return 'list'
@@ -69,6 +69,13 @@ function endpointToIdName (endpoint) {
     case 'GET /users/:username/orgs': return 'list-for-user'
     case 'GET /users/:username/repos': return 'list-for-user'
     case 'GET /repos/:owner/:repo/git/refs/:namespace': return 'list-references'
+    case 'GET /user/teams': return 'list'
+    case 'GET /user/repository_invitations': return 'list-invitations'
+    case 'GET /repos/:owner/:repo/subscribers': return 'list-watchers-for-repo'
+    case 'GET /repos/:owner/:repo/stargazers': return 'list-stargazers-for-repo'
+    case 'GET /repos/:owner/:repo/issues/:number/timeline': return 'list-events-for-timeline'
+    case 'GET /projects/:id/collaborators/:username/permission': return 'get-user-permission-level'
+    case 'GET /teams/:id/projects/:project_id': return 'get-project'
 
     // permament workarounds
     case 'GET /orgs/:org/projects': return 'list-for-org'
@@ -107,6 +114,8 @@ function endpointToIdName (endpoint) {
     case 'GET /networks/:owner/:repo/events': return 'list-public-events-for-repo-network'
     case 'GET /marketplace_listing/stubbed/accounts/:id': return 'check-listing-for-account-stubbed'
     case 'GET /marketplace_listing/accounts/:id': return 'check-listing-for-account'
+    case 'GET /repos/:owner/:repo/issues/:number/labels': return 'list-labels-on-issue'
+    case 'GET /apps/:app_slug': return 'get-by-slug'
   }
 
   // workaround for stats endpoints: deviate idName for path
@@ -137,6 +146,8 @@ function endpointToIdName (endpoint) {
     .replace('organization', 'org')
     .replace('repository', 'repo')
     .replace('repositories', 'repos')
+    .replace('reference', 'ref')
+    .replace('references', 'refs')
 
   // workaround for https://developer.github.com/v3/apps/#find-installations
   // "Find" is used only here, everywhere else it’s "list"
@@ -178,6 +189,7 @@ function endpointToIdName (endpoint) {
   idName = idName.replace(/contextual-information/, 'context')
 
   // get-admin-enforcement-of-protected-branch -> get-protected-branch-admin-enforcement
+  // TODO: same with /-for-/?
   if (/-of-/.test(idName)) {
     const parts = idName.split(/-of-/)
     idName = parts[0].replace(/-/, `-${parts[1]}-`)
@@ -191,6 +203,16 @@ function endpointToIdName (endpoint) {
     // list followers for a given username. So we don’t want to add back "for user"
     // to the idName.
     idName += '-for-user'
+  }
+
+  if (/^\/user\//.test(endpoint.path)) {
+    // opposite from the above. By default requests are for the currently authenticated user
+    idName = idName.replace(/-for-user$/, '')
+  }
+
+  // legacy endpoints
+  if (/legacy/.test(endpoint.path)) {
+    idName += '-legacy'
   }
 
   return idName
