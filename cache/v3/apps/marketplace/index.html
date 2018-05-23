@@ -307,38 +307,14 @@
 <a id="github-marketplace" class="anchor" href="#github-marketplace" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>GitHub Marketplace</h1>
 
 <ul id="markdown-toc">
+<li><a href="#testing-with-stubbed-endpoints" id="markdown-toc-testing-with-stubbed-endpoints">Testing with stubbed endpoints</a></li>
 <li><a href="#list-all-plans-for-your-marketplace-listing" id="markdown-toc-list-all-plans-for-your-marketplace-listing">List all plans for your Marketplace listing</a></li>
 <li><a href="#list-all-github-accounts-user-or-organization-on-a-specific-plan" id="markdown-toc-list-all-github-accounts-user-or-organization-on-a-specific-plan">List all GitHub accounts (user or organization) on a specific plan</a></li>
 <li><a href="#check-if-a-github-account-is-associated-with-any-marketplace-listing" id="markdown-toc-check-if-a-github-account-is-associated-with-any-marketplace-listing">Check if a GitHub account is associated with any Marketplace listing</a></li>
 <li><a href="#get-a-users-marketplace-purchases" id="markdown-toc-get-a-users-marketplace-purchases">Get a user's Marketplace purchases</a></li>
 </ul>
 
-<div class="alert note">
-
-<p><strong>Note:</strong> The The GitHub Marketplace API on GitHub is currently available for developers to preview. To access the API, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
-
-<pre><code>application/vnd.github.valkyrie-preview+json
-</code></pre>
-
-</div>
-
-<div class="alert warning">
-
-<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
-
-</div>
-
 <p>For more information about GitHub Marketplace, see "<a href="/apps/marketplace/">GitHub Marketplace</a>."</p>
-
-<div class="alert note">
-
-<p><strong>Note:</strong> This preview includes methods for testing with <strong>stubbed data</strong>. Stubbed data is fake data that's useful for <a href="/apps/marketplace/testing-apps-apis-and-webhooks/">testing your GitHub Apps</a>. Stubbed data is hard-coded and will not change based on actual subscriptions.</p>
-
-<p>To test with stubbed data, use a stubbed endpoint in place of its production counterpart. This allows you to test whether API logic succeeds before listing GitHub Apps on GitHub Marketplace.</p>
-
-<p>Be sure to replace stubbed endpoints with production endpoints before deploying your GitHub App.</p>
-
-</div>
 
 <p>Endpoints for <code>/marketplace_listing/*</code> and <code>/user/marketplace_purchases</code> are only accessible by OAuth Apps using <code>client_id</code> and <code>secret</code> basic authentication or by <a href="/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app">GitHub Apps using a JWT</a>.</p>
 
@@ -348,22 +324,16 @@
 </ul>
 
 <h2>
+<a id="testing-with-stubbed-endpoints" class="anchor" href="#testing-with-stubbed-endpoints" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Testing with stubbed endpoints</h2>
+
+<p>This API includes endpoints that allow you to <a href="/apps/marketplace/testing-apps-apis-and-webhooks/">test your GitHub App</a> with <strong>stubbed data</strong>. Stubbed data is hard-coded, fake data that will not change based on actual subscriptions.</p>
+
+<p>To test with stubbed data, use a stubbed endpoint in place of its production counterpart. This allows you to test whether API logic succeeds before listing GitHub Apps on GitHub Marketplace.</p>
+
+<p>Be sure to replace stubbed endpoints with production endpoints before deploying your GitHub App.</p>
+
+<h2>
 <a id="list-all-plans-for-your-marketplace-listing" class="anchor" href="#list-all-plans-for-your-marketplace-listing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List all plans for your Marketplace listing</h2>
-
-<div class="alert note">
-
-<p><strong>Note:</strong> The The GitHub Marketplace API on GitHub is currently available for developers to preview. To access the API, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
-
-<pre><code>application/vnd.github.valkyrie-preview+json
-</code></pre>
-
-</div>
-
-<div class="alert warning">
-
-<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
-
-</div>
 
 <pre><code>GET /marketplace_listing/plans
 </code></pre>
@@ -407,30 +377,15 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <h2>
 <a id="list-all-github-accounts-user-or-organization-on-a-specific-plan" class="anchor" href="#list-all-github-accounts-user-or-organization-on-a-specific-plan" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List all GitHub accounts (user or organization) on a specific plan</h2>
 
-<div class="alert note">
-
-<p><strong>Note:</strong> The The GitHub Marketplace API on GitHub is currently available for developers to preview. To access the API, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
-
-<pre><code>application/vnd.github.valkyrie-preview+json
-</code></pre>
-
-</div>
-
-<div class="alert warning">
-
-<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
-
-</div>
-
 <p>Returns any accounts associated with a plan, including free plans. For per-seat pricing, you see the list of accounts that have purchased the plan, including the number of seats purchased.</p>
 
-<pre><code>GET /marketplace_listing/plans/:id/accounts
+<pre><code>GET /marketplace_listing/plans/:plan_id/accounts
 </code></pre>
 
 <h3>
 <a id="stubbed-endpoint-1" class="anchor" href="#stubbed-endpoint-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Stubbed endpoint</h3>
 
-<pre><code>GET /marketplace_listing/stubbed/plans/:id/accounts
+<pre><code>GET /marketplace_listing/stubbed/plans/:plan_id/accounts
 </code></pre>
 
 <h3>
@@ -508,28 +463,15 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <h2>
 <a id="check-if-a-github-account-is-associated-with-any-marketplace-listing" class="anchor" href="#check-if-a-github-account-is-associated-with-any-marketplace-listing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Check if a GitHub account is associated with any Marketplace listing</h2>
 
-<div class="alert note">
+<p>Checks whether the user or organization account actively subscribes to a plan listed by the authenticated GitHub App.</p>
 
-<p><strong>Note:</strong> The The GitHub Marketplace API on GitHub is currently available for developers to preview. To access the API, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
-
-<pre><code>application/vnd.github.valkyrie-preview+json
-</code></pre>
-
-</div>
-
-<div class="alert warning">
-
-<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
-
-</div>
-
-<pre><code>GET /marketplace_listing/accounts/:id
+<pre><code>GET /marketplace_listing/accounts/:account_id
 </code></pre>
 
 <h3>
 <a id="stubbed-endpoint-2" class="anchor" href="#stubbed-endpoint-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Stubbed endpoint</h3>
 
-<pre><code>GET /marketplace_listing/stubbed/accounts/:id
+<pre><code>GET /marketplace_listing/stubbed/accounts/:account_id
 </code></pre>
 
 <h3>
@@ -541,40 +483,38 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </code></pre>
 
 
-<pre class="highlight highlight-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Organization"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"github"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"organization_billing_email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"billing@github.com"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"marketplace_purchase"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"billing_cycle"</span><span class="p">:</span><span class="w"> </span><span class="s2">"monthly"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"next_billing_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-11-11T00:00:00Z"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"unit_count"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"on_free_trial"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"free_trial_ends_on"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-11-11T00:00:00Z"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-11-02T01:12:12Z"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"plan"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/marketplace_listing/plans/9"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"accounts_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/marketplace_listing/plans/9/accounts"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Pro"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A professional-grade CI solution"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"monthly_price_in_cents"</span><span class="p">:</span><span class="w"> </span><span class="mi">1099</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"yearly_price_in_cents"</span><span class="p">:</span><span class="w"> </span><span class="mi">11870</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"price_model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"flat-rate"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"has_free_trial"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"unit_name"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"bullets"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-          </span><span class="s2">"This is the first bullet of the plan"</span><span class="p">,</span><span class="w">
-          </span><span class="s2">"This is the second bullet of the plan"</span><span class="w">
-        </span><span class="p">]</span><span class="w">
-      </span><span class="p">}</span><span class="w">
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Organization"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"github"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"organization_billing_email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"billing@github.com"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"marketplace_purchase"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"billing_cycle"</span><span class="p">:</span><span class="w"> </span><span class="s2">"monthly"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"next_billing_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-11-11T00:00:00Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"unit_count"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"on_free_trial"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"free_trial_ends_on"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-11-11T00:00:00Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-11-02T01:12:12Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"plan"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/marketplace_listing/plans/9"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"accounts_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/marketplace_listing/plans/9/accounts"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Pro"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A professional-grade CI solution"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"monthly_price_in_cents"</span><span class="p">:</span><span class="w"> </span><span class="mi">1099</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"yearly_price_in_cents"</span><span class="p">:</span><span class="w"> </span><span class="mi">11870</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"price_model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"flat-rate"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"has_free_trial"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"unit_name"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"bullets"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"This is the first bullet of the plan"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"This is the second bullet of the plan"</span><span class="w">
+      </span><span class="p">]</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
 </span></code></pre>
 
 
@@ -587,21 +527,6 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 <h2>
 <a id="get-a-users-marketplace-purchases" class="anchor" href="#get-a-users-marketplace-purchases" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get a user's Marketplace purchases</h2>
-
-<div class="alert note">
-
-<p><strong>Note:</strong> The The GitHub Marketplace API on GitHub is currently available for developers to preview. To access the API, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
-
-<pre><code>application/vnd.github.valkyrie-preview+json
-</code></pre>
-
-</div>
-
-<div class="alert warning">
-
-<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
-
-</div>
 
 <p>Returns only active subscriptions. You need to authenticate this call with the user's OAuth token.</p>
 

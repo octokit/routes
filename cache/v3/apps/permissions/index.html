@@ -309,13 +309,17 @@
 <ul id="markdown-toc">
 <li><a href="#metadata-permissions" id="markdown-toc-metadata-permissions">Metadata permissions</a></li>
 <li><a href="#permission-on-administration" id="markdown-toc-permission-on-administration">Permission on "administration"</a></li>
+<li><a href="#permission-on-checks" id="markdown-toc-permission-on-checks">Permission on "checks"</a></li>
 <li><a href="#permission-on-contents" id="markdown-toc-permission-on-contents">Permission on "contents"</a></li>
 <li><a href="#permission-on-deployments" id="markdown-toc-permission-on-deployments">Permission on "deployments"</a></li>
+<li><a href="#permission-on-emails" id="markdown-toc-permission-on-emails">Permission on "emails"</a></li>
 <li><a href="#permission-on-issues" id="markdown-toc-permission-on-issues">Permission on "issues"</a></li>
+<li><a href="#permission-on-keys" id="markdown-toc-permission-on-keys">Permission on "keys"</a></li>
 <li><a href="#permission-on-members" id="markdown-toc-permission-on-members">Permission on "members"</a></li>
 <li><a href="#permission-on-organization-projects" id="markdown-toc-permission-on-organization-projects">Permission on "organization projects"</a></li>
 <li><a href="#permission-on-pages" id="markdown-toc-permission-on-pages">Permission on "pages"</a></li>
 <li><a href="#permission-on-pull-requests" id="markdown-toc-permission-on-pull-requests">Permission on "pull requests"</a></li>
+<li><a href="#permission-on-repository-hooks" id="markdown-toc-permission-on-repository-hooks">Permission on "repository hooks"</a></li>
 <li><a href="#permission-on-repository-projects" id="markdown-toc-permission-on-repository-projects">Permission on "repository projects"</a></li>
 <li><a href="#permission-on-single-file" id="markdown-toc-permission-on-single-file">Permission on "single file"</a></li>
 <li><a href="#permission-on-statuses" id="markdown-toc-permission-on-statuses">Permission on "statuses"</a></li>
@@ -338,6 +342,7 @@
 <p>These permissions are enabled for every app. These permissions are a collection of read only endpoints for accessing metadata for various resources that do not leak sensitive private repository information.</p>
 
 <ul>
+<li><a href="/v3/#root-endpoint"><code>GET /</code></a></li>
 <li><a href="/v3/codes_of_conduct/#list-all-codes-of-conduct"><code>GET /codes_of_conduct</code></a></li>
 <li><a href="/v3/codes_of_conduct/#get-an-individual-code-of-conduct"><code>GET /codes_of_conduct/:code_of_conduct</code></a></li>
 <li><a href="/v3/emojis/#emojis"><code>GET /emojis</code></a></li>
@@ -572,19 +577,50 @@
 </ul>
 
 <h2>
+<a id="permission-on-checks" class="anchor" href="#permission-on-checks" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Permission on "checks"</h2>
+
+<ul>
+<li>
+<a href="/v3/checks/runs/#create-a-check-run"><code>POST /repos/:owner/:repo/check-runs</code></a> (:write)</li>
+<li>
+<a href="/v3/checks/runs/#get-a-single-check-run"><code>GET /repos/:owner/:repo/check-runs/:id</code></a> (:read)</li>
+<li>
+<a href="/v3/checks/runs/#update-a-check-run"><code>PATCH /repos/:owner/:repo/check-runs/:id</code></a> (:write)</li>
+<li>
+<a href="/v3/checks/runs/#list-annotations-for-a-check-run"><code>GET /repos/:owner/:repo/check-runs/:id/annotations</code></a> (:read)</li>
+<li>
+<a href="/v3/checks/suites/#request-check-suites"><code>POST /repos/:owner/:repo/check-suite-requests</code></a> (:write)</li>
+<li>
+<a href="/v3/checks/suites/#create-a-check-suite"><code>POST /repos/:owner/:repo/check-suites</code></a> (:write)</li>
+<li>
+<a href="/v3/checks/suites/#get-a-single-check-suite"><code>GET /repos/:owner/:repo/check-suites/:id</code></a> (:read)</li>
+<li>
+<a href="/v3/checks/runs/#list-check-runs-in-a-check-suite"><code>GET /repos/:owner/:repo/check-suites/:id/check-runs</code></a> (:read)</li>
+<li>
+<a href="/v3/checks/suites/#set-preferences-for-check-suites-on-a-repository"><code>PATCH /repos/:owner/:repo/check-suites/preferences</code></a> (:write)</li>
+<li>
+<a href="/v3/checks/runs/#list-check-runs-for-a-specific-ref"><code>GET /repos/:owner/:repo/commits/:sha/check-runs</code></a> (:read)</li>
+<li>
+<a href="/v3/checks/suites/#list-check-suites-for-a-specific-ref"><code>GET /repos/:owner/:repo/commits/:sha/check-suites</code></a> (:read)</li>
+</ul>
+
+<h2>
 <a id="permission-on-contents" class="anchor" href="#permission-on-contents" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Permission on "contents"</h2>
 
 <ul>
 <li>
 <a href="/v3/reactions/#delete-a-reaction"><code>DELETE /reactions/:reaction_id</code></a> (:read)</li>
-<li>
-<a href="/v3/repos/contents/#get-archive-link"><code>GET /repos/:owner/:repo/:archive_format/:ref</code></a> (:read)</li>
-<li>
-<a href="/v3/repos/commits/#list-commits-on-a-repository"><code>GET /repos/:owner/:repo/commits</code></a> (:read)</li>
-<li>
-<a href="/v3/repos/commits/#get-a-single-commit"><code>GET /repos/:owner/:repo/commits/:sha</code></a> (:read)</li>
-<li>
-<a href="/v3/codes_of_conduct/#get-the-contents-of-a-repositorys-code-of-conduct"><code>GET /repos/:owner/:repo/community/code_of_conduct</code></a> (:read)</li>
+<li><p><a href="/v3/repos/contents/#get-archive-link"><code>GET /repos/:owner/:repo/:archive_format/:ref</code></a> (:read)</p></li>
+<li><p><a href="/v3/checks/runs/#get-a-single-check-run"><code>GET /repos/:owner/:repo/check-runs/:id</code></a> (:read)</p></li>
+<li><p><a href="/v3/checks/runs/#list-annotations-for-a-check-run"><code>GET /repos/:owner/:repo/check-runs/:id/annotations</code></a> (:read)</p></li>
+<li><p><a href="/v3/checks/suites/#request-check-suites"><code>POST /repos/:owner/:repo/check-suite-requests</code></a> (:write)</p></li>
+<li><p><a href="/v3/checks/suites/#get-a-single-check-suite"><code>GET /repos/:owner/:repo/check-suites/:id</code></a> (:read)</p></li>
+<li><p><a href="/v3/checks/runs/#list-check-runs-in-a-check-suite"><code>GET /repos/:owner/:repo/check-suites/:id/check-runs</code></a> (:read)</p></li>
+<li><p><a href="/v3/repos/commits/#list-commits-on-a-repository"><code>GET /repos/:owner/:repo/commits</code></a> (:read)</p></li>
+<li><p><a href="/v3/repos/commits/#get-a-single-commit"><code>GET /repos/:owner/:repo/commits/:sha</code></a> (:read)</p></li>
+<li><p><a href="/v3/checks/runs/#list-check-runs-for-a-specific-ref"><code>GET /repos/:owner/:repo/commits/:sha/check-runs</code></a> (:read)</p></li>
+<li><p><a href="/v3/checks/suites/#list-check-suites-for-a-specific-ref"><code>GET /repos/:owner/:repo/commits/:sha/check-suites</code></a> (:read)</p></li>
+<li><p><a href="/v3/codes_of_conduct/#get-the-contents-of-a-repositorys-code-of-conduct"><code>GET /repos/:owner/:repo/community/code_of_conduct</code></a> (:read)</p></li>
 <li>
 <a href="/v3/repos/commits/#compare-two-commits"><code>GET /repos/:owner/:repo/compare/:base...:head</code></a> (:read)</li>
 <li>
@@ -662,11 +698,7 @@
 <li>
 <a href="/v3/migration/source_imports/#cancel-an-import"><code>DELETE /repos/:owner/:repo/import</code></a> (:write)</li>
 <li>
-<a href="/v3/migration/source_imports/#get-commit-authors"><code>GET /repos/:owner/:repo/import/authors</code></a> (:read)</li>
-<li>
 <a href="/v3/migration/source_imports/#map-a-commit-author"><code>PATCH /repos/:owner/:repo/import/authors/:author_id</code></a> (:write)</li>
-<li>
-<a href="/v3/migration/source_imports/#get-large-files"><code>GET /repos/:owner/:repo/import/large_files</code></a> (:read)</li>
 <li>
 <a href="/v3/migration/source_imports/#set-git-lfs-preference"><code>PATCH /repos/:owner/:repo/import/lfs</code></a> (:write)</li>
 </ul>
@@ -714,6 +746,22 @@
 <a href="/v3/repos/deployments/#create-a-deployment-status"><code>POST /repos/:owner/:repo/deployments/:deployment_id/statuses</code></a> (:write)</li>
 <li>
 <a href="/v3/repos/deployments/#get-a-single-deployment-status"><code>GET /repos/:owner/:repo/deployments/:deployment_id/statuses/:status_id</code></a> (:read)</li>
+</ul>
+
+<h2>
+<a id="permission-on-emails" class="anchor" href="#permission-on-emails" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Permission on "emails"</h2>
+
+<ul>
+<li>
+<a href="/v3/users/emails/#toggle-primary-email-visibility"><code>PATCH /user/email/visibility</code></a> (:write)</li>
+<li>
+<a href="/v3/users/emails/#list-email-addresses-for-a-user"><code>GET /user/emails</code></a> (:read)</li>
+<li>
+<a href="/v3/users/emails/#add-email-addresses"><code>POST /user/emails</code></a> (:write)</li>
+<li>
+<a href="/v3/users/emails/#delete-email-addresses"><code>DELETE /user/emails</code></a> (:write)</li>
+<li>
+<a href="/v3/users/emails/#list-public-email-addresses-for-a-user"><code>GET /user/public_emails</code></a> (:read)</li>
 </ul>
 
 <h2>
@@ -822,6 +870,16 @@
 <a href="/v3/issues/milestones/#delete-a-milestone"><code>DELETE /repos/:owner/:repo/milestones/:number</code></a> (:write)</li>
 <li>
 <a href="/v3/issues/labels/#get-labels-for-every-issue-in-a-milestone"><code>GET /repos/:owner/:repo/milestones/:number/labels</code></a> (:read)</li>
+</ul>
+
+<h2>
+<a id="permission-on-keys" class="anchor" href="#permission-on-keys" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Permission on "keys"</h2>
+
+<p><em>Keys</em></p>
+
+<ul>
+<li>
+<a href="/v3/users/keys/#create-a-public-key"><code>POST /user/keys</code></a> (:write)</li>
 </ul>
 
 <h2>
@@ -1120,6 +1178,16 @@
 <a href="/v3/pulls/reviews/#get-comments-for-a-single-review"><code>GET /repos/:owner/:repo/pulls/:number/reviews/:review_id/comments</code></a> (:read)</li>
 <li>
 <a href="/v3/pulls/reviews/#dismiss-a-pull-request-review"><code>PUT /repos/:owner/:repo/pulls/:number/reviews/:review_id/dismissals</code></a> (:write)</li>
+</ul>
+
+<h2>
+<a id="permission-on-repository-hooks" class="anchor" href="#permission-on-repository-hooks" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Permission on "repository hooks"</h2>
+
+<ul>
+<li>
+<a href="/v3/repos/hooks/#list-hooks"><code>GET /repos/:owner/:repo/hooks</code></a> (:read)</li>
+<li>
+<a href="/v3/repos/hooks/#delete-a-hook"><code>DELETE /repos/:owner/:repo/hooks/:id</code></a> (:write)</li>
 </ul>
 
 <h2>
