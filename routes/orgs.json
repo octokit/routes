@@ -23,6 +23,7 @@
       }
     ],
     "description": "List organizations for the authenticated user.\n\n**OAuth scope requirements**\n\nThis only lists organizations that your authorization allows you to operate on in some way (e.g., you can list teams with `read:org` scope, you can publicize your organization membership with `user` scope, etc.). Therefore, this API requires at least `user` or `read:org` scope. OAuth requests with insufficient scope receive a `403 Forbidden` response.",
+    "idName": "list",
     "documentationUrl": "https://developer.github.com/v3/orgs/#list-your-organizations"
   },
   {
@@ -56,6 +57,7 @@
       }
     ],
     "description": "Lists all organizations, in the order that they were created on GitHub.\n\n**Note:** Pagination is powered exclusively by the `since` parameter. Use the [Link header](https://developer.github.com/v3/#link-header) to get the URL for the next page of organizations.",
+    "idName": "list",
     "documentationUrl": "https://developer.github.com/v3/orgs/#list-all-organizations"
   },
   {
@@ -89,6 +91,7 @@
       }
     ],
     "description": "List [public organization memberships](https://help.github.com/articles/publicizing-or-concealing-organization-membership) for the specified user.\n\nThis method only lists _public_ memberships, regardless of authentication. If you need to fetch all of the organization memberships (public and private) for the authenticated user, use the [List your organizations](#list-your-organizations) API instead.",
+    "idName": "list-user",
     "documentationUrl": "https://developer.github.com/v3/orgs/#list-user-organizations"
   },
   {
@@ -106,6 +109,7 @@
       }
     ],
     "description": "To see many of the organization response values, you need to be an authenticated organization owner with the `admin:org` scope. When the value of `two_factor_requirement_enabled` is `true`, the organization requires all members, billing managers, and outside collaborators to enable [two-factor authentication](https://help.github.com/articles/securing-your-account-with-two-factor-authentication-2fa/).",
+    "idName": "get",
     "documentationUrl": "https://developer.github.com/v3/orgs/#get-an-organization"
   },
   {
@@ -201,6 +205,7 @@
       }
     ],
     "description": "",
+    "idName": "edit",
     "documentationUrl": "https://developer.github.com/v3/orgs/#edit-an-organization"
   },
   {
@@ -218,6 +223,7 @@
       }
     ],
     "description": "List the users blocked by an organization.",
+    "idName": "list-blocked-users",
     "documentationUrl": "https://developer.github.com/v3/orgs/blocking/#list-blocked-users"
   },
   {
@@ -242,6 +248,7 @@
       }
     ],
     "description": "If the user is blocked:\n\nIf the user is not blocked:",
+    "idName": "check-whether-user-is-blocked",
     "documentationUrl": "https://developer.github.com/v3/orgs/blocking/#check-whether-a-user-is-blocked-from-an-organization"
   },
   {
@@ -266,6 +273,7 @@
       }
     ],
     "description": "",
+    "idName": "block-user",
     "documentationUrl": "https://developer.github.com/v3/orgs/blocking/#block-a-user"
   },
   {
@@ -290,6 +298,7 @@
       }
     ],
     "description": "",
+    "idName": "unblock-user",
     "documentationUrl": "https://developer.github.com/v3/orgs/blocking/#unblock-a-user"
   },
   {
@@ -348,6 +357,7 @@
       }
     ],
     "description": "List all users who are members of an organization. If the authenticated user is also a member of this organization then both concealed and public members will be returned.\n\n",
+    "idName": "members-list",
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#members-list"
   },
   {
@@ -372,6 +382,7 @@
       }
     ],
     "description": "Check if a user is, publicly or privately, a member of the organization.",
+    "idName": "check-membership",
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#check-membership"
   },
   {
@@ -396,6 +407,7 @@
       }
     ],
     "description": "Removing a user from this list will remove them from all teams and they will no longer have any access to the organization's repositories.",
+    "idName": "remove-member",
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#remove-a-member"
   },
   {
@@ -429,6 +441,7 @@
       }
     ],
     "description": "Members of an organization can choose to have their membership publicized or not.",
+    "idName": "public-members-list",
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#public-members-list"
   },
   {
@@ -453,6 +466,7 @@
       }
     ],
     "description": "",
+    "idName": "check-public-membership",
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#check-public-membership"
   },
   {
@@ -477,6 +491,7 @@
       }
     ],
     "description": "The user can publicize their own membership. (A user cannot publicize the membership for another user.)\n\nNote that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](https://developer.github.com/v3/#http-verbs).\"",
+    "idName": "publicize-membership",
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#publicize-a-users-membership"
   },
   {
@@ -501,6 +516,7 @@
       }
     ],
     "description": "",
+    "idName": "conceal-membership",
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#conceal-a-users-membership"
   },
   {
@@ -525,6 +541,7 @@
       }
     ],
     "description": "In order to get a user's membership with an organization, the authenticated user must be an organization member.",
+    "idName": "get-membership",
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#get-organization-membership"
   },
   {
@@ -561,6 +578,7 @@
       }
     ],
     "description": "Only authenticated organization owners can add a member to the organization or update the member's role.\n\n*   If the authenticated user is _adding_ a member to the organization, the invited user will receive an email inviting them to the organization. The user's [membership status](#get-organization-membership) will be `pending` until they accept the invitation.\n    \n*   Authenticated users can _update_ a user's membership by passing the `role` parameter. If the authenticated user changes a member's role to `admin`, the affected user will receive an email notifying them that they've been made an organization owner. If the authenticated user changes an owner's role to `member`, no email will be sent.\n\n**Rate limits**\n\nTo prevent abuse, the authenticated user is limited to 50 organization invitations per 24 hour period. If the organization is more than one month old or on a paid plan, the limit is 500 invitations per 24 hour period.",
+    "idName": "add-or-update-membership",
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#add-or-update-organization-membership"
   },
   {
@@ -585,6 +603,7 @@
       }
     ],
     "description": "In order to remove a user's membership with an organization, the authenticated user must be an organization owner.\n\nIf the specified user is an active member of the organization, this will remove them from the organization. If the specified user has been invited to the organization, this will cancel their invitation. The specified user will receive an email notification in both cases.",
+    "idName": "remove-membership",
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#remove-organization-membership"
   },
   {
@@ -625,6 +644,7 @@
       }
     ],
     "description": "List all teams associated with an invitation. In order to see invitations in an organization, the authenticated user must be an organization owner.",
+    "idName": "list-invitation-teams",
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#list-organization-invitation-teams"
   },
   {
@@ -658,6 +678,7 @@
       }
     ],
     "description": "The return hash contains a `role` field which refers to the Organization Invitation role and will be one of the following values: `direct_member`, `admin`, `billing_manager`, `hiring_manager`, or `reinstate`. If the invitee is not a GitHub member, the `login` field in the return hash will be `null`.",
+    "idName": "list-pending-invitations",
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#list-pending-organization-invitations"
   },
   {
@@ -709,6 +730,7 @@
       }
     ],
     "description": "Invite people to an organization by using their GitHub user ID or their email address. In order to create invitations in an organization, the authenticated user must be an organization owner.",
+    "idName": "create-invitation",
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#create-organization-invitation"
   },
   {
@@ -746,6 +768,7 @@
       }
     ],
     "description": "",
+    "idName": "list-memberships",
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#list-your-organization-memberships"
   },
   {
@@ -763,6 +786,7 @@
       }
     ],
     "description": "",
+    "idName": "get-membership",
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#get-your-organization-membership"
   },
   {
@@ -790,6 +814,7 @@
       }
     ],
     "description": "",
+    "idName": "edit-membership",
     "documentationUrl": "https://developer.github.com/v3/orgs/members/#edit-your-organization-membership"
   },
   {
@@ -835,6 +860,7 @@
       }
     ],
     "description": "List all users who are outside collaborators of an organization.\n\n",
+    "idName": "list-outside-collaborators",
     "documentationUrl": "https://developer.github.com/v3/orgs/outside_collaborators/#list-outside-collaborators"
   },
   {
@@ -859,6 +885,7 @@
       }
     ],
     "description": "Removing a user from this list will remove them from all the organization's repositories.",
+    "idName": "remove-outside-collaborator",
     "documentationUrl": "https://developer.github.com/v3/orgs/outside_collaborators/#remove-outside-collaborator"
   },
   {
@@ -883,6 +910,7 @@
       }
     ],
     "description": "When an organization member is converted to an outside collaborator, they'll only have access to the repositories that their current team membership allows. The user will no longer be a member of the organization. For more information, see \"[Converting an organization member to an outside collaborator](https://help.github.com/articles/converting-an-organization-member-to-an-outside-collaborator/)\".",
+    "idName": "convert-member-to-outside-collaborator",
     "documentationUrl": "https://developer.github.com/v3/orgs/outside_collaborators/#convert-member-to-outside-collaborator"
   },
   {
@@ -916,6 +944,7 @@
       }
     ],
     "description": "",
+    "idName": "list-hooks",
     "documentationUrl": "https://developer.github.com/v3/orgs/hooks/#list-hooks"
   },
   {
@@ -940,6 +969,7 @@
       }
     ],
     "description": "",
+    "idName": "get-hook",
     "documentationUrl": "https://developer.github.com/v3/orgs/hooks/#get-single-hook"
   },
   {
@@ -1015,6 +1045,7 @@
       }
     ],
     "description": "Here's how you can create a hook that posts payloads in JSON format:",
+    "idName": "create-hook",
     "documentationUrl": "https://developer.github.com/v3/orgs/hooks/#create-a-hook"
   },
   {
@@ -1090,6 +1121,7 @@
       }
     ],
     "description": "",
+    "idName": "edit-hook",
     "documentationUrl": "https://developer.github.com/v3/orgs/hooks/#edit-a-hook"
   },
   {
@@ -1114,6 +1146,7 @@
       }
     ],
     "description": "This will trigger a [ping event](https://developer.github.com/webhooks/#ping-event) to be sent to the hook.",
+    "idName": "ping-hook",
     "documentationUrl": "https://developer.github.com/v3/orgs/hooks/#ping-a-hook"
   },
   {
@@ -1138,6 +1171,7 @@
       }
     ],
     "description": "",
+    "idName": "delete-hook",
     "documentationUrl": "https://developer.github.com/v3/orgs/hooks/#delete-a-hook"
   }
 ]

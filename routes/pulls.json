@@ -90,6 +90,7 @@
       }
     ],
     "description": "",
+    "idName": "list",
     "documentationUrl": "https://developer.github.com/v3/pulls/#list-pull-requests"
   },
   {
@@ -121,6 +122,7 @@
       }
     ],
     "description": "Lists details of a pull request by providing its number.\n\nWhen you get, [create](https://developer.github.com/v3/pulls/#create-a-pull-request), or [edit](https://developer.github.com/v3/pulls/#update-a-pull-request) a pull request, GitHub creates a merge commit to test whether the pull request can be automatically merged into the base branch. This test commit is not added to the base branch or the head branch. You can review the status of the test commit using the `mergeable` key. For more information, see \"[Checking mergeability of pull requests](https://developer.github.com/v3/git/#checking-mergeability-of-pull-requests)\".\n\nThe value of the `mergeable` attribute can be `true`, `false`, or `null`. If the value is `null`, then GitHub has started a background job to compute the mergeability. After giving the job time to complete, resubmit the request. When the job finishes, you will see a non-`null` value for the `mergeable` attribute in the response. If `mergable` is `true`, then `merge_commit_sha` will be the SHA of the _test_ merge commit.\n\nThe value of the `merge_commit_sha` attribute changes depending on the state of the pull request. Before merging a pull request, the `merge_commit_sha` attribute holds the SHA of the _test_ merge commit. After merging a pull request, the `merge_commit_sha` attribute changes depending on how you merged the pull request:\n\n*   If merged as a [merge commit](https://help.github.com/articles/about-merge-methods-on-github/), `merge_commit_sha` represents the SHA of the merge commit.\n*   If merged via a [squash](https://help.github.com/articles/about-merge-methods-on-github/#squashing-your-merge-commits), `merge_commit_sha` represents the SHA of the squashed commit on the base branch.\n*   If [rebased](https://help.github.com/articles/about-merge-methods-on-github/#rebasing-and-merging-your-commits), `merge_commit_sha` represents the commit that the base branch was updated to.\n\nPass the appropriate [media type](https://developer.github.com/v3/media/#commits-commit-comparison-and-pull-requests) to fetch diff and patch formats.",
+    "idName": "get",
     "documentationUrl": "https://developer.github.com/v3/pulls/#get-a-single-pull-request"
   },
   {
@@ -180,6 +182,7 @@
       }
     ],
     "description": "**Note:** To open a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open a pull request.",
+    "idName": "create",
     "documentationUrl": "https://developer.github.com/v3/pulls/#create-a-pull-request"
   },
   {
@@ -232,6 +235,7 @@
       }
     ],
     "description": "**Note:** To open a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open a pull request.",
+    "idName": "create-from-issue-by-passing-issue-number",
     "documentationUrl": "https://developer.github.com/v3/pulls/#create-a-pull-request"
   },
   {
@@ -302,6 +306,7 @@
       }
     ],
     "description": "**Note:** To open a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open a pull request.",
+    "idName": "update",
     "documentationUrl": "https://developer.github.com/v3/pulls/#update-a-pull-request"
   },
   {
@@ -349,6 +354,7 @@
       }
     ],
     "description": "**Note:** The response includes a maximum of 250 commits. To receive a complete commit list for pull requests with more than 250 commits, use the [Commit List API](https://developer.github.com/v3/repos/commits/#list-commits-on-a-repository).",
+    "idName": "list-commits",
     "documentationUrl": "https://developer.github.com/v3/pulls/#list-commits-on-a-pull-request"
   },
   {
@@ -396,6 +402,7 @@
       }
     ],
     "description": "**Note:** The response includes a maximum of 300 files.",
+    "idName": "list-files",
     "documentationUrl": "https://developer.github.com/v3/pulls/#list-pull-requests-files"
   },
   {
@@ -427,6 +434,7 @@
       }
     ],
     "description": "",
+    "idName": "get-if-merged",
     "documentationUrl": "https://developer.github.com/v3/pulls/#get-if-a-pull-request-has-been-merged"
   },
   {
@@ -491,6 +499,7 @@
       }
     ],
     "description": "",
+    "idName": "merge-merge-button",
     "documentationUrl": "https://developer.github.com/v3/pulls/#merge-a-pull-request-merge-button"
   },
   {
@@ -538,6 +547,7 @@
       }
     ],
     "description": "The list of reviews returns in chronological order.",
+    "idName": "list-reviews",
     "documentationUrl": "https://developer.github.com/v3/pulls/reviews/#list-reviews-on-a-pull-request"
   },
   {
@@ -576,6 +586,7 @@
       }
     ],
     "description": "",
+    "idName": "get-review",
     "documentationUrl": "https://developer.github.com/v3/pulls/reviews/#get-a-single-review"
   },
   {
@@ -614,6 +625,7 @@
       }
     ],
     "description": "",
+    "idName": "delete-pending-review",
     "documentationUrl": "https://developer.github.com/v3/pulls/reviews/#delete-a-pending-review"
   },
   {
@@ -668,6 +680,7 @@
       }
     ],
     "description": "",
+    "idName": "get-comments-for-review",
     "documentationUrl": "https://developer.github.com/v3/pulls/reviews/#get-comments-for-a-single-review"
   },
   {
@@ -753,6 +766,7 @@
       }
     ],
     "description": "**Note:** To comment on a specific line in a file, you need to first determine the _position_ of that line in the diff. The GitHub REST API v3 offers the `application/vnd.github.v3.diff` [media type](https://developer.github.com/v3/media/#commits-commit-comparison-and-pull-requests). To see a pull request diff, add this media type to the `Accept` header of a call to the [single pull request](https://developer.github.com/v3/pulls/#get-a-single-pull-request) endpoint.\n\nThe `position` value equals the number of lines down from the first \"@@\" hunk header in the file you want to add a comment. The line just below the \"@@\" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.",
+    "idName": "create-review",
     "documentationUrl": "https://developer.github.com/v3/pulls/reviews/#create-a-pull-request-review"
   },
   {
@@ -810,6 +824,7 @@
       }
     ],
     "description": "",
+    "idName": "submit-review",
     "documentationUrl": "https://developer.github.com/v3/pulls/reviews/#submit-a-pull-request-review"
   },
   {
@@ -855,6 +870,7 @@
       }
     ],
     "description": "**Note:** To dismiss a pull request review on a [protected branch](https://developer.github.com/v3/repos/branches/), you must be a repository administrator or be included in the list of people or teams who can dismiss pull request reviews.",
+    "idName": "dismiss-review",
     "documentationUrl": "https://developer.github.com/v3/pulls/reviews/#dismiss-a-pull-request-review"
   },
   {
@@ -932,6 +948,7 @@
       }
     ],
     "description": "By default, review comments are ordered by ascending ID.",
+    "idName": "list-comments",
     "documentationUrl": "https://developer.github.com/v3/pulls/comments/#list-comments-on-a-pull-request"
   },
   {
@@ -1002,6 +1019,7 @@
       }
     ],
     "description": "By default, review comments are ordered by ascending ID.",
+    "idName": "list-comments-for-repo",
     "documentationUrl": "https://developer.github.com/v3/pulls/comments/#list-comments-in-a-repository"
   },
   {
@@ -1033,6 +1051,7 @@
       }
     ],
     "description": "",
+    "idName": "get-comment",
     "documentationUrl": "https://developer.github.com/v3/pulls/comments/#get-a-single-comment"
   },
   {
@@ -1092,6 +1111,7 @@
       }
     ],
     "description": "**Note:** To comment on a specific line in a file, you need to first determine the _position_ of that line in the diff. The GitHub REST API v3 offers the `application/vnd.github.v3.diff` [media type](https://developer.github.com/v3/media/#commits-commit-comparison-and-pull-requests). To see a pull request diff, add this media type to the `Accept` header of a call to the [single pull request](https://developer.github.com/v3/pulls/#get-a-single-pull-request) endpoint.\n\nThe `position` value equals the number of lines down from the first \"@@\" hunk header in the file you want to add a comment. The line just below the \"@@\" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.",
+    "idName": "create-comment",
     "documentationUrl": "https://developer.github.com/v3/pulls/comments/#create-a-comment"
   },
   {
@@ -1137,6 +1157,7 @@
       }
     ],
     "description": "**Note:** To comment on a specific line in a file, you need to first determine the _position_ of that line in the diff. The GitHub REST API v3 offers the `application/vnd.github.v3.diff` [media type](https://developer.github.com/v3/media/#commits-commit-comparison-and-pull-requests). To see a pull request diff, add this media type to the `Accept` header of a call to the [single pull request](https://developer.github.com/v3/pulls/#get-a-single-pull-request) endpoint.\n\nThe `position` value equals the number of lines down from the first \"@@\" hunk header in the file you want to add a comment. The line just below the \"@@\" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.",
+    "idName": "create-comment-alternative",
     "documentationUrl": "https://developer.github.com/v3/pulls/comments/#create-a-comment"
   },
   {
@@ -1175,6 +1196,7 @@
       }
     ],
     "description": "",
+    "idName": "edit-comment",
     "documentationUrl": "https://developer.github.com/v3/pulls/comments/#edit-a-comment"
   },
   {
@@ -1206,6 +1228,7 @@
       }
     ],
     "description": "",
+    "idName": "delete-comment",
     "documentationUrl": "https://developer.github.com/v3/pulls/comments/#delete-a-comment"
   },
   {
@@ -1253,6 +1276,7 @@
       }
     ],
     "description": "",
+    "idName": "list-review-requests",
     "documentationUrl": "https://developer.github.com/v3/pulls/review_requests/#list-review-requests"
   },
   {
@@ -1298,6 +1322,7 @@
       }
     ],
     "description": "",
+    "idName": "create-review-request",
     "documentationUrl": "https://developer.github.com/v3/pulls/review_requests/#create-a-review-request"
   },
   {
@@ -1343,6 +1368,7 @@
       }
     ],
     "description": "",
+    "idName": "delete-review-request",
     "documentationUrl": "https://developer.github.com/v3/pulls/review_requests/#delete-a-review-request"
   }
 ]
