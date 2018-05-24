@@ -338,13 +338,14 @@
 <p>To use the check runs API, the GitHub App must have the <code>checks:write</code> permission and can also subscribe to the <a href="/v3/activity/events/types/#CheckRunEvent">check_run</a> webhook.</p>
 
 <h2>
-<a id="create-a-check-run" class="anchor" href="#create-a-check-run" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a check run</h2>
+<a id="create-a-check-run" class="anchor" href="#create-a-check-run" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a check run<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
 
 <div class="alert note">
 
 <p>The Checks API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the <a href="/changes/2018-05-07-new-checks-api-public-beta/">blog post</a> for full details. To access the API during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
 
-<pre><code>    application/vnd.github.antiope-preview+json
+<pre><code>  application/vnd.github.antiope-preview+json
 </code></pre>
 
 </div>
@@ -427,6 +428,11 @@
 <td><code>output</code></td>
 <td><code>object</code></td>
 <td>Check runs can accept a variety of data in the <code>output</code> object, including a <code>title</code> and <code>summary</code> and can optionally provide descriptive details about the run. See the <a href="#output-object"><code>output</code> object</a> description.</td>
+</tr>
+<tr>
+<td><code>actions</code></td>
+<td><code>object</code></td>
+<td>Possible further actions the integrator can perform, which a user may trigger. Each action includes a <code>label</code>, <code>identifier</code> and <code>description</code>. A maximum of three actions are accepted. See the <a href="#actions-object"><code>actions</code> object</a> description.</td>
 </tr>
 </tbody>
 </table>
@@ -566,6 +572,39 @@
 </tbody>
 </table>
 
+<h4>
+<a id="actions-object" class="anchor" href="#actions-object" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><code>actions</code> object</h4>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>label</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required</strong>. The text to be displayed on a button in the web UI. The maximum size is 20 characters.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required</strong>. A short explanation of what this action would do. The maximum size is 40 characters.</td>
+</tr>
+<tr>
+<td><code>identifier</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required</strong>. A reference for the action on the integrator's system. The maximum size is 20 characters.</td>
+</tr>
+</tbody>
+</table>
+
 <h3>
 <a id="example-of-in_progress-conclusion" class="anchor" href="#example-of-in_progress-conclusion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example of <code>in_progress</code> conclusion</h3>
 
@@ -668,7 +707,7 @@
   </span><span class="nt">"head_branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"master"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mighty_readme"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"head_sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ce587453ced02b1526dfb4cb910479d431683101"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"complete"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"completed"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"started_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-11-30T19:39:10Z"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"completed_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-11-30T19:49:10Z"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"output"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -703,7 +742,14 @@
         </span><span class="nt">"image_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://example.com/images/42"</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
-  </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"actions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fix"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fix_errors"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Allow us to fix these errors for you"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -787,13 +833,14 @@
 
 
 <h2>
-<a id="update-a-check-run" class="anchor" href="#update-a-check-run" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Update a check run</h2>
+<a id="update-a-check-run" class="anchor" href="#update-a-check-run" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Update a check run<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
 
 <div class="alert note">
 
 <p>The Checks API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the <a href="/changes/2018-05-07-new-checks-api-public-beta/">blog post</a> for full details. To access the API during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
 
-<pre><code>    application/vnd.github.antiope-preview+json
+<pre><code>  application/vnd.github.antiope-preview+json
 </code></pre>
 
 </div>
@@ -863,6 +910,11 @@
 <td><code>output</code></td>
 <td><code>object</code></td>
 <td>Check runs can accept a variety of data in the <code>output</code> object, including a <code>title</code> and <code>summary</code> and can optionally provide descriptive details about the run. See the <a href="#output-object-1"><code>output</code> object</a> description.</td>
+</tr>
+<tr>
+<td><code>actions</code></td>
+<td><code>object</code></td>
+<td>Possible further actions the integrator can perform, which a user may trigger. Each action includes a <code>label</code>, <code>identifier</code> and <code>description</code>. A maximum of three actions are accepted. See the <a href="#actions-object"><code>actions</code> object</a> description.</td>
 </tr>
 </tbody>
 </table>
@@ -1002,6 +1054,39 @@
 </tbody>
 </table>
 
+<h4>
+<a id="actions-object-1" class="anchor" href="#actions-object-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><code>actions</code> object</h4>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>label</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required</strong>. The text to be displayed on a button in the web UI. The maximum size is 20 characters.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required</strong>. A short explanation of what this action would do. The maximum size is 40 characters.</td>
+</tr>
+<tr>
+<td><code>identifier</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required</strong>. A reference for the action on the integrator's system. The maximum size is 20 characters.</td>
+</tr>
+</tbody>
+</table>
+
 <h3>
 <a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 
@@ -1126,13 +1211,14 @@
 
 
 <h2>
-<a id="list-check-runs-for-a-specific-ref" class="anchor" href="#list-check-runs-for-a-specific-ref" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List check runs for a specific ref</h2>
+<a id="list-check-runs-for-a-specific-ref" class="anchor" href="#list-check-runs-for-a-specific-ref" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List check runs for a specific ref<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
 
 <div class="alert note">
 
 <p>The Checks API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the <a href="/changes/2018-05-07-new-checks-api-public-beta/">blog post</a> for full details. To access the API during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
 
-<pre><code>    application/vnd.github.antiope-preview+json
+<pre><code>  application/vnd.github.antiope-preview+json
 </code></pre>
 
 </div>
@@ -1271,13 +1357,14 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 
 <h2>
-<a id="list-check-runs-in-a-check-suite" class="anchor" href="#list-check-runs-in-a-check-suite" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List check runs in a check suite</h2>
+<a id="list-check-runs-in-a-check-suite" class="anchor" href="#list-check-runs-in-a-check-suite" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List check runs in a check suite<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
 
 <div class="alert note">
 
 <p>The Checks API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the <a href="/changes/2018-05-07-new-checks-api-public-beta/">blog post</a> for full details. To access the API during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
 
-<pre><code>    application/vnd.github.antiope-preview+json
+<pre><code>  application/vnd.github.antiope-preview+json
 </code></pre>
 
 </div>
@@ -1290,7 +1377,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 <p>Lists check runs for a check suite using its <code>id</code>. To list check runs, your GitHub App must have the <code>checks:read</code> permission on a private repository or pull access to a public repository.</p>
 
-<pre><code>GET /repos/:owner/:repo/check-suites/:id/check-runs
+<pre><code>GET /repos/:owner/:repo/check-suites/:check_suite_id/check-runs
 </code></pre>
 
 <h3>
@@ -1410,13 +1497,14 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 
 <h2>
-<a id="get-a-single-check-run" class="anchor" href="#get-a-single-check-run" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get a single check run</h2>
+<a id="get-a-single-check-run" class="anchor" href="#get-a-single-check-run" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get a single check run<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
 
 <div class="alert note">
 
 <p>The Checks API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the <a href="/changes/2018-05-07-new-checks-api-public-beta/">blog post</a> for full details. To access the API during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
 
-<pre><code>    application/vnd.github.antiope-preview+json
+<pre><code>  application/vnd.github.antiope-preview+json
 </code></pre>
 
 </div>
@@ -1511,13 +1599,14 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 
 <h2>
-<a id="list-annotations-for-a-check-run" class="anchor" href="#list-annotations-for-a-check-run" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List annotations for a check run</h2>
+<a id="list-annotations-for-a-check-run" class="anchor" href="#list-annotations-for-a-check-run" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List annotations for a check run<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
 
 <div class="alert note">
 
 <p>The Checks API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the <a href="/changes/2018-05-07-new-checks-api-public-beta/">blog post</a> for full details. To access the API during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
 
-<pre><code>    application/vnd.github.antiope-preview+json
+<pre><code>  application/vnd.github.antiope-preview+json
 </code></pre>
 
 </div>
