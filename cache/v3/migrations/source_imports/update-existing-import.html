@@ -1,0 +1,148 @@
+<h2>
+<a id="update-existing-import" class="anchor" href="#update-existing-import" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Update existing import<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+<div class="alert note">
+
+<p>The source import APIs are currently in public preview. See the <a href="/v3/previews/#source-import">source import</a> preview for more details. To access the API during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+<pre><code>  application/vnd.github.barred-rock-preview
+</code></pre>
+
+</div>
+<div class="alert warning">
+
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
+
+</div>
+<p>An import can be updated with credentials or a project choice by passing in the appropriate parameters in this API request. If no parameters are provided, the import will be restarted.</p>
+<pre><code>PATCH /repos/:owner/:repo/import
+</code></pre>
+<h3>
+<a id="parameters-for-updating-authentication" class="anchor" href="#parameters-for-updating-authentication" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters for updating authentication</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>vcs_username</code></td>
+<td><code>string</code></td>
+<td>The username to provide to the originating repository.</td>
+</tr>
+<tr>
+<td><code>vcs_password</code></td>
+<td><code>string</code></td>
+<td>The password to provide to the originating repository.</td>
+</tr>
+</tbody>
+</table>
+<h3>
+<a id="example-1" class="anchor" href="#example-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;vcs_username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;octocat&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;vcs_password&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;secret&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;vcs&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;subversion&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;use_lfs&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;undecided&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;vcs_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://svn.mycompany.com/svn/myproject&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;detecting&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/socm/import&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;html_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://import.github.com/octocat/socm/import&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;authors_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/socm/import/authors&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;repository_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/socm&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="parameters-for-updating-project-choice" class="anchor" href="#parameters-for-updating-project-choice" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters for updating project choice</h3>
+<p>Some servers (e.g. TFS servers) can have several projects at a single URL. In those cases the import progress will have the status <code>detection_found_multiple</code> and the Import Progress response will include a <code>project_choices</code> array. You can select the project to import by providing one of the objects in the <code>project_choices</code> array in the update request.</p>
+<p>The following example demonstrates the workflow for updating an import with &quot;project1&quot; as the project choice. Given a <code>project_choices</code> array like such:</p>
+<pre class="highlight highlight-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;vcs&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tfvc&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;tfvc_project&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;project0&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;human_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;project0 (tfs)&quot;</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;vcs&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tfvc&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;tfvc_project&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;project1&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;human_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;project1 (tfs)&quot;</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;vcs&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tfvc&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;tfvc_project&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;project2&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;human_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;project2 (tfs)&quot;</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;vcs&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tfvc&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;tfvc_project&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;project3&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;human_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;project3 (tfs)&quot;</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="example-2" class="anchor" href="#example-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;vcs&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tfvc&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;tfvc_project&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;project1&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;human_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;project1 (tfs)&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="response-3" class="anchor" href="#response-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;vcs&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tfvc&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;use_lfs&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;undecided&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;vcs_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://tfs.mycompany.com/tfs/myproject&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;tfvc_project&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;project1&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;importing&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;status_text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Importing...&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;has_large_files&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;large_files_size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;large_files_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;authors_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;percent&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;commit_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1042</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/socm/import&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;html_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://import.github.com/octocat/socm/import&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;authors_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/socm/import/authors&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;repository_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/socm&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="parameters-for-restarting-import" class="anchor" href="#parameters-for-restarting-import" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters for restarting import</h3>
+<p>To restart an import, no parameters are provided in the update request.</p>
+<h3>
+<a id="response-4" class="anchor" href="#response-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+Location: https://api.github.com/repos/spraints/socm/import
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;vcs&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;subversion&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;use_lfs&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;undecided&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;vcs_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://svn.mycompany.com/svn/myproject&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;importing&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;status_text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Importing...&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;has_large_files&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;large_files_size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;large_files_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;authors_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;percent&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;commit_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1042</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/socm/import&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;html_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://import.github.com/octocat/socm/import&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;authors_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/socm/import/authors&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;repository_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/socm&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
