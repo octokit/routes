@@ -315,7 +315,7 @@
 <li><a href="#authentication" id="markdown-toc-authentication">Authentication</a></li>
 <li><a href="#parameters" id="markdown-toc-parameters">Parameters</a></li>
 <li><a href="#root-endpoint" id="markdown-toc-root-endpoint">Root endpoint</a></li>
-<li><a href="#graphql-global-relay-ids" id="markdown-toc-graphql-global-relay-ids">GraphQL global relay IDs</a></li>
+<li><a href="#graphql-global-node-ids" id="markdown-toc-graphql-global-node-ids">GraphQL global node IDs</a></li>
 <li><a href="#client-errors" id="markdown-toc-client-errors">Client errors</a></li>
 <li><a href="#http-redirects" id="markdown-toc-http-redirects">HTTP redirects</a></li>
 <li><a href="#http-verbs" id="markdown-toc-http-verbs">HTTP verbs</a></li>
@@ -338,7 +338,7 @@ We encourage you to <a href="/v3/media/#request-specific-version">explicitly req
 <pre><code>Accept: application/vnd.github.v3+json
 </code></pre>
 
-<p>For information about GitHub's GraphQL API v4, see the <a href="/v4">v4 documentation</a>.</p>
+<p>For information about GitHub's GraphQL API v4, see the <a href="/v4">v4 documentation</a>. For information about migrating to GraphQL, see "<a href="/v4/guides/migrating-from-rest/">Migrating from REST</a>."</p>
 
 <h2>
 <a id="schema" class="anchor" href="#schema" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Schema</h2>
@@ -512,103 +512,9 @@ with a Content-Type of 'application/json':</p>
 </pre>
 
 <h2>
-<a id="graphql-global-relay-ids" class="anchor" href="#graphql-global-relay-ids" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>GraphQL global relay IDs</h2>
+<a id="graphql-global-node-ids" class="anchor" href="#graphql-global-node-ids" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>GraphQL global node IDs</h2>
 
-<div class="alert warning">
-
-<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
-
-</div>
-
-<p>When preparing to migrate to the <a href="/v4/">GraphQL API v4</a>, you can use the <code>jean-grey</code> API preview to expose the <a href="https://facebook.github.io/relay/graphql/objectidentification.htm">GraphQL Relay ID</a> of many resources from within the REST API v3. Just provide a custom <a href="/v3/media/">media type</a> in the Accept header:</p>
-
-<pre><code>application/vnd.github.jean-grey-preview+json
-</code></pre>
-
-<p>The response will include a <code>node_id</code> field.</p>
-
-<p>For example, if you <a href="/v3/users#get-the-authenticated-user">request the authenticated user</a>:</p>
-
-<pre class="command-line">
-<span class="command">curl -i -u <em>username:token</em>
-https://api.github.com/user
-</span></pre>
-
-<p>you'll get a response that includes the <code>node_id</code> of the authenticated user:</p>
-
-<pre class="highlight highlight-headers"><code>Status: 200 OK
-</code></pre>
-
-
-<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"avatar_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/images/error/octocat_happy.gif"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"gravatar_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"followers_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/followers"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"following_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/following{/other_user}"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"gists_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/gists{/gist_id}"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"starred_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/starred{/owner}{/repo}"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"subscriptions_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/subscriptions"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"organizations_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/orgs"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"repos_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/repos"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/events{/privacy}"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"received_events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/received_events"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"site_admin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"monalisa octocat"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GitHub"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"blog"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/blog"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"San Francisco"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat@github.com"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"hireable"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"bio"</span><span class="p">:</span><span class="w"> </span><span class="s2">"There once was..."</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"public_repos"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"public_gists"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"followers"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"following"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2008-01-14T04:33:35Z"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2008-01-14T04:33:35Z"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"total_private_repos"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"owned_private_repos"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"private_gists"</span><span class="p">:</span><span class="w"> </span><span class="mi">81</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"disk_usage"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"collaborators"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"two_factor_authentication"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"plan"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Medium"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"space"</span><span class="p">:</span><span class="w"> </span><span class="mi">400</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"private_repos"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"collaborators"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDQ6VXNlcjU4MzIzMQ=="</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-
-<p>You can use the <code>node_id</code> value (<code>MDQ6VXNlcjU4MzIzMQ==</code> in this example) to reference a specific <a href="/v4/guides/intro-to-graphql/#node">node</a> in the GraphQL API v4. Just provide the node ID, and you can access data on the underlying type.</p>
-
-<p>You may find it easiest to use <a href="http://graphql.org/learn/queries/#inline-fragments">inline fragments</a> to accomplish this. For example:</p>
-
-<p class="explorer-link"><a href="/v4/explorer/?variables=%7B%7D&amp;query=query%20%7B%0A%20%20node%28id%3A%22MDQ6VXNlcjU4MzIzMQ%3D%3D%22%29%20%7B%0A%20%20%20...%20on%20User%20%7B%0A%20%20%20%20%20%20id%0A%20%20%20%20%20%20name%0A%20%20%20%20%20%20login%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D">Run in Explorer</a></p>
-
-<pre class="highlight highlight-graphql"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
-  </span><span class="n">node</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="s2">"MDQ6VXNlcjU4MzIzMQ=="</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
-   </span><span class="p">...</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">User</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="n">id</span><span class="w">
-      </span><span class="n">name</span><span class="w">
-      </span><span class="n">login</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-
-<p>See the <a href="/changes/2017-12-19-graphql-node-id/">blog post announcement</a> for a list of REST API v3 resources that will include the <code>node_id</code> in responses under this API preview.</p>
-
-<p>When building tools and integrations that use either the REST API v3 or the GraphQL API v4, it's best practice to persist this ID value so you can easily reference objects from the other API version. For more information, see "<a href="/v4/guides/migrating-from-rest/">Migrating from REST to GraphQL</a>."</p>
+<p>See the guide on "<a href="/v4/guides/using-global-node-ids">Using Global Node IDs</a>" for detailed information about how to find <code>node_id</code>s via the REST API v3 and use them in GraphQL operations.</p>
 
 <h2>
 <a id="client-errors" class="anchor" href="#client-errors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Client errors</h2>
