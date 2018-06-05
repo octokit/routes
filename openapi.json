@@ -3,15 +3,59 @@
   "info": {
     "version": "9.0.0",
     "title": "GitHub v3 REST API",
+    "description": "Generated from octokit/routes",
     "license": {
       "name": "MIT"
     }
   },
-  "servers": [
-    {
-      "url": "https://api.github.com"
+  "servers": [{
+    "url": "https://api.github.com"
+  }],
+  "components": {
+    "parameters": {
+      "owner": {
+        "name": "owner",
+        "in": "path",
+        "schema": {
+          "type": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "repo": {
+        "name": "repo",
+        "in": "path",
+        "schema": {
+          "type": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "per_page": {
+        "name": "per_page",
+        "in": "query",
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 30
+        },
+        "description": "Results per page (max 100)"
+      },
+      "page": {
+        "name": "page",
+        "in": "query",
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "minimum": 1,
+          "default": 1
+        },
+        "description": "Page number of the results to fetch."
+      }
     }
-  ],
+  },
   "paths": {
     "/repos/:owner/:repo/issues": {
       "get": {
@@ -22,34 +66,20 @@
           "issues"
         ],
         "externalDocs": {
-            "description": "API method documentation",
-            "url": "https://developer.github.com/v3/issues/#list-issues-for-a-repository"
+          "description": "API method documentation",
+          "url": "https://developer.github.com/v3/issues/#list-issues-for-a-repository"
         },
-        "parameters": [
-          {
-            "name": "owner",
-            "in": "path",
-            "schema": {
-              "type": "string"
-            },
-            "required": true,
-            "description": ""
+        "parameters": [{
+            "$ref": "#/components/parameters/owner"
           },
           {
-            "name": "repo",
-            "in": "path",
-            "schema": {
-              "type": "string"
-            },
-            "required": true,
-            "description": ""
+            "$ref": "#/components/parameters/repo"
           },
           {
             "name": "milestone",
             "in": "query",
             "schema": {
-              "oneOf": [
-                {
+              "oneOf": [{
                   "type": "integer",
                   "format": "int32",
                   "minimum": 1
@@ -60,8 +90,7 @@
                 }
               ]
             },
-            "description": "If an `integer` is passed, it should refer to a milestone by its `number` field. If the string `*` is passed, issues with any milestone are accepted. If the string `none` is passed, issues without milestones are returned.",
-            "required": false
+            "description": "If an `integer` is passed, it should refer to a milestone by its `number` field. If the string `*` is passed, issues with any milestone are accepted. If the string `none` is passed, issues without milestones are returned."
           },
           {
             "name": "state",
@@ -75,8 +104,7 @@
               ],
               "default": "open"
             },
-            "description": "Indicates the state of the issues to return. Can be either `open`, `closed`, or `all`.",
-            "required": false
+            "description": "Indicates the state of the issues to return. Can be either `open`, `closed`, or `all`."
           },
           {
             "name": "assignee",
@@ -84,8 +112,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "Can be the name of a user. Pass in `none` for issues with no assigned user, and `*` for issues assigned to any user.",
-            "required": false
+            "description": "Can be the name of a user. Pass in `none` for issues with no assigned user, and `*` for issues assigned to any user."
           },
           {
             "name": "creator",
@@ -93,8 +120,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "The user that created the issue.",
-            "required": false
+            "description": "The user that created the issue."
           },
           {
             "name": "mentioned",
@@ -102,8 +128,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "A user that's mentioned in the issue.",
-            "required": false
+            "description": "A user that's mentioned in the issue."
           },
           {
             "name": "labels",
@@ -111,8 +136,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "A list of comma separated label names. Example: `bug,ui,@high`",
-            "required": false
+            "description": "A list of comma separated label names. Example: `bug,ui,@high`"
           },
           {
             "name": "sort",
@@ -126,8 +150,7 @@
               ],
               "default": "created"
             },
-            "description": "What to sort results by. Can be either `created`, `updated`, `comments`.",
-            "required": false
+            "description": "What to sort results by. Can be either `created`, `updated`, `comments`."
           },
           {
             "name": "direction",
@@ -140,8 +163,7 @@
               ],
               "default": "desc"
             },
-            "description": "The direction of the sort. Can be either `asc` or `desc`.",
-            "required": false
+            "description": "The direction of the sort. Can be either `asc` or `desc`."
           },
           {
             "name": "since",
@@ -149,33 +171,13 @@
             "schema": {
               "type": "date-time"
             },
-            "description": "Only issues updated at or after this time are returned. This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.",
-            "required": false
+            "description": "Only issues updated at or after this time are returned. This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`."
           },
           {
-            "name": "per_page",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "minimum": 1,
-              "maximum": 100,
-              "default": 30
-            },
-            "required": false,
-            "description": "Results per page (max 100)",
+            "$ref": "#/components/parameters/per_page"
           },
           {
-            "name": "page",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "minimum": 1,
-              "default": 1
-            },
-            "required": false,
-            "description": "Page number of the results to fetch."
+            "$ref": "#/components/parameters/page"
           }
         ],
         "responses": {}
