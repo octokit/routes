@@ -1,0 +1,185 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "9.0.0",
+    "title": "GitHub v3 REST API",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.github.com"
+    }
+  ],
+  "paths": {
+    "/repos/:owner/:repo/issues": {
+      "get": {
+        "summary": "List issues for a repository",
+        "description": "...",
+        "operationId": "list-for-repo",
+        "tags": [
+          "issues"
+        ],
+        "externalDocs": {
+            "description": "API method documentation",
+            "url": "https://developer.github.com/v3/issues/#list-issues-for-a-repository"
+        },
+        "parameters": [
+          {
+            "name": "owner",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": ""
+          },
+          {
+            "name": "repo",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": ""
+          },
+          {
+            "name": "milestone",
+            "in": "query",
+            "schema": {
+              "oneOf": [
+                {
+                  "type": "integer",
+                  "format": "int32",
+                  "minimum": 1
+                },
+                {
+                  "type": "string",
+                  "enum": ["*"]
+                }
+              ]
+            },
+            "description": "If an `integer` is passed, it should refer to a milestone by its `number` field. If the string `*` is passed, issues with any milestone are accepted. If the string `none` is passed, issues without milestones are returned.",
+            "required": false
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "open",
+                "closed",
+                "all"
+              ],
+              "default": "open"
+            },
+            "description": "Indicates the state of the issues to return. Can be either `open`, `closed`, or `all`.",
+            "required": false
+          },
+          {
+            "name": "assignee",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Can be the name of a user. Pass in `none` for issues with no assigned user, and `*` for issues assigned to any user.",
+            "required": false
+          },
+          {
+            "name": "creator",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The user that created the issue.",
+            "required": false
+          },
+          {
+            "name": "mentioned",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "A user that's mentioned in the issue.",
+            "required": false
+          },
+          {
+            "name": "labels",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "A list of comma separated label names. Example: `bug,ui,@high`",
+            "required": false
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "created",
+                "updated",
+                "comments"
+              ],
+              "default": "created"
+            },
+            "description": "What to sort results by. Can be either `created`, `updated`, `comments`.",
+            "required": false
+          },
+          {
+            "name": "direction",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "default": "desc"
+            },
+            "description": "The direction of the sort. Can be either `asc` or `desc`.",
+            "required": false
+          },
+          {
+            "name": "since",
+            "in": "query",
+            "schema": {
+              "type": "date-time"
+            },
+            "description": "Only issues updated at or after this time are returned. This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.",
+            "required": false
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 30
+            },
+            "required": false,
+            "description": "Results per page (max 100)",
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1,
+              "default": 1
+            },
+            "required": false,
+            "description": "Page number of the results to fetch."
+          }
+        ],
+        "responses": {}
+      }
+    }
+  }
+}
