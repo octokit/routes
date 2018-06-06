@@ -16,8 +16,18 @@ action "lint" {
   args = "standard"
 }
 
+action "routes:lint" {
+  needs = "npm run routes:lint"
+  uses = "docker://node:alpine"
+  runs = "npx"
+  args = "standard"
+}
+
 action "test" {
-  needs = "lint"
+  needs = [
+    "lint",
+    "routes:lint"
+  ]
   uses = "docker://node:alpine"
   runs = "npm"
   args = "test"
