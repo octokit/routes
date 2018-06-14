@@ -43,7 +43,11 @@ function getRoutesForUrl (url) {
   const scope = kebabCase(matches[1])
   const path = kebabCase(matches[2])
   const routes = CACHED_ROUTES_BY_DOCUMENTATION_URL[url]
-  const names = routes.map(route => kebabCase(route.name).replace(/\bgit-hub\b/, 'github'))
+
+  const names = routes.map(route => {
+    const nameWithoutSpecialChars = route.name.replace(/[()]/g, '')
+    return kebabCase(nameWithoutSpecialChars).replace(/\bgit-hub\b/, 'github')
+  })
 
   return names.map(name => require(`../routes/${scope}/${path}/${name}.json`))
 }
