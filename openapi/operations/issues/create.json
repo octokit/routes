@@ -1,0 +1,85 @@
+{
+  "summary": "Create an issue",
+  "description": "Any user with pull access to a repository can create an issue.",
+  "operationId": "create",
+  "tags": [
+    "issues"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/issues/#create-an-issue"
+  },
+  "parameters": [{
+      "$ref": "../../parameters.json#/owner"
+    },
+    {
+      "$ref": "../../parameters.json#/repo"
+  }],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "The title of the issue."
+            },
+            "body": {
+              "type": "string",
+              "description": "The contents of the issue."
+            },
+            "assignee": {
+              "type": "string",
+              "description": "Login for the user that this issue should be assigned to. _NOTE: Only users with push access can set the assignee for new issues. The assignee is silently dropped otherwise. **This field is deprecated.**_"
+            },
+            "milestone": {
+              "type": "integer",
+              "format": "int32",
+              "description": "The `number` of the milestone to associate this issue with. _NOTE: Only users with push access can set the milestone for new issues. The milestone is silently dropped otherwise._"
+            },
+            "labels": {
+              "type": "array",
+              "items": {
+                "$ref": "../../schemas.json#/label-summary"
+              },
+              "description": "Labels to associate with this issue. _NOTE: Only users with push access can set labels for new issues. Labels are silently dropped otherwise._"
+            },
+            "assignees": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Logins for Users to assign to this issue. _NOTE: Only users with push access can set assignees for new issues. Assignees are silently dropped otherwise._"
+            }
+          },
+          "required": [
+            "title"
+          ]
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl https://api.github.com/repos/octocat/hello-world/issues/1"
+    },
+    {
+      "lang": "JS",
+      "source": "client.issues.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  number: 1\n})"
+    }
+  ],
+  "responses": {
+    "201": {
+      "description": "The created issue",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "../../schemas.json#/new-issue"
+          }
+        }
+      }
+    }
+  }
+}
