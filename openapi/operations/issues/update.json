@@ -1,0 +1,95 @@
+{
+  "summary": "Update an issue",
+  "description": "Issue owners and users with push access can edit an issue.",
+  "operationId": "update",
+  "tags": [
+    "issues"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/issues/#edit-an-issue"
+  },
+  "parameters": [{
+      "$ref": "../../parameters.json#/owner"
+    },
+    {
+      "$ref": "../../parameters.json#/repo"
+    },
+    {
+      "$ref": "../../parameters.json#/number"
+    }
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "The title of the issue."
+            },
+            "body": {
+              "type": "string",
+              "description": "The contents of the issue."
+            },
+            "assignee": {
+              "type": "string",
+              "description": "Login for the user that this issue should be assigned to. _NOTE: Only users with push access can set the assignee for new issues. The assignee is silently dropped otherwise. **This field is deprecated.**_"
+            },
+            "milestone": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true,
+              "description": "The `number` of the milestone to associate this issue with. _NOTE: Only users with push access can set the milestone for new issues. The milestone is silently dropped otherwise._"
+            },
+            "labels": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Labels to associate with this issue. Pass one or more Labels to _replace_ the set of Labels on this Issue. Send an empty array (`[]`) to clear all Labels from the Issue. _NOTE: Only users with push access can set labels for issues. Labels are silently dropped otherwise._"
+            },
+            "assignees": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Logins for Users to assign to this issue. Pass one or more user logins to _replace_ the set of assignees on this Issue. Send an empty array (`[]`) to clear all assignees from the Issue. _NOTE: Only users with push access can set assignees for new issues. Assignees are silently dropped otherwise._"
+            },
+            "state": {
+              "type": "string",
+              "enum": [
+                "open",
+                "closed"
+              ],
+              "description": "State of the issue. Either `open` or `closed`."
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl -X PUT -d '{\"title\": \"New title\"}' https://api.github.com/repos/octocat/hello-world/issues/1"
+    },
+    {
+      "lang": "JS",
+      "source": "client.issues.update({\n  owner: 'octocat',\n  repo: 'hello-world',\n  number: 1,\n  title: 'New title'\n})"
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "The updated issue",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "../../schemas.json#/issue"
+          }
+        }
+      }
+    }
+  }
+}
