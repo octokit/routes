@@ -14,7 +14,7 @@
 
 Example route definition
 
-```
+```json
 {
   "name": "Lock an issue",
   "enabledForApps": true,
