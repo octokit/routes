@@ -22,13 +22,56 @@ Example route definition
   "path": "/repos/:owner/:repo/issues/:number/lock",
   "params": [
     {
+      "name": "owner",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "repo",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "number",
+      "type": "integer",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
       "name": "lock_reason",
       "type": "string",
       "description": "The reason for locking the issue or pull request conversation. Lock will fail if you don't use one of these reasons:  \n\\* `off-topic`  \n\\* `too heated`  \n\\* `resolved`  \n\\* `spam`",
-      "required": false
+      "required": false,
+      "enum": [
+        "off-topic",
+        "too heated",
+        "resolved",
+        "spam"
+      ],
+      "location": "body"
     }
   ],
-  "description": "Users with push access can lock an issue or pull request's conversation.\n\nNote that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](/v3/#http-verbs).\"",
+  "requests": [
+    {
+      "locked": true,
+      "active_lock_reason": "too heated"
+    }
+  ],
+  "description": "Users with push access can lock an issue or pull request's conversation.\n\nNote that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](https://developer.github.com/v3/#http-verbs).\"",
+  "responses": [
+    {
+      "headers": {
+        "status": "204 No Content",
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "idName": "lock",
   "documentationUrl": "https://developer.github.com/v3/issues/#lock-an-issue"
 }
 ```
