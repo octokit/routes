@@ -525,6 +525,17 @@
         "location": "body"
       }
     ],
+    "requests": [
+      {
+        "name": "Hello-World",
+        "description": "This is your first repository",
+        "homepage": "https://github.com",
+        "private": false,
+        "has_issues": true,
+        "has_projects": true,
+        "has_wiki": true
+      }
+    ],
     "description": "**Note**: There are two endpoints for creating a repository: one to create a repository on a user account, and one to create a repository in an organization. The organization endpoint is fully enabled for [GitHub Apps](https://developer.github.com/v3/apps/available-endpoints/), whereas the user endpoint is enabled only for [user-to-server requests](https://developer.github.com/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#user-to-server-requests).\n\n**OAuth scope requirements**\n\nWhen using [OAuth](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/), authorizations must include:\n\n*   `public_repo` scope or `repo` scope to create a public repository\n*   `repo` scope to create a private repository",
     "responses": [
       {
@@ -760,6 +771,17 @@
         "default": true,
         "required": false,
         "location": "body"
+      }
+    ],
+    "requests": [
+      {
+        "name": "Hello-World",
+        "description": "This is your first repository",
+        "homepage": "https://github.com",
+        "private": false,
+        "has_issues": true,
+        "has_projects": true,
+        "has_wiki": true
       }
     ],
     "description": "**Note**: There are two endpoints for creating a repository: one to create a repository on a user account, and one to create a repository in an organization. The organization endpoint is fully enabled for [GitHub Apps](https://developer.github.com/v3/apps/available-endpoints/), whereas the user endpoint is enabled only for [user-to-server requests](https://developer.github.com/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#user-to-server-requests).\n\n**OAuth scope requirements**\n\nWhen using [OAuth](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/), authorizations must include:\n\n*   `public_repo` scope or `repo` scope to create a public repository\n*   `repo` scope to create a private repository",
@@ -1365,6 +1387,17 @@
         "location": "body"
       }
     ],
+    "requests": [
+      {
+        "name": "Hello-World",
+        "description": "This is your first repository",
+        "homepage": "https://github.com",
+        "private": true,
+        "has_issues": true,
+        "has_projects": true,
+        "has_wiki": true
+      }
+    ],
     "description": "**Note**: To edit a repository's topics, use the [`topics` endpoint](#replace-all-topics-for-a-repository).",
     "responses": [
       {
@@ -1779,6 +1812,16 @@
         "location": "body"
       }
     ],
+    "requests": [
+      {
+        "names": [
+          "octocat",
+          "atom",
+          "electron",
+          "API"
+        ]
+      }
+    ],
     "description": "",
     "responses": [
       {
@@ -2085,6 +2128,15 @@
         "description": "ID of the team or teams to add to the repository. Teams can only be added to organization-owned repositories.",
         "required": false,
         "location": "body"
+      }
+    ],
+    "requests": [
+      {
+        "new_owner": "github",
+        "team_ids": [
+          12,
+          345
+        ]
       }
     ],
     "description": "A transfer request will need to be accepted by the new owner when transferring a personal repository to another user. The response will contain the original `owner`, and the transfer will continue asynchronously. For more details on the requirements to transfer personal and organization-owned repositories, see [about repository transfers](https://help.github.com/articles/about-repository-transfers/).",
@@ -2647,6 +2699,38 @@
         "location": "body"
       }
     ],
+    "requests": [
+      {
+        "required_status_checks": {
+          "strict": true,
+          "contexts": [
+            "continuous-integration/travis-ci"
+          ]
+        },
+        "enforce_admins": true,
+        "required_pull_request_reviews": {
+          "dismissal_restrictions": {
+            "users": [
+              "octocat"
+            ],
+            "teams": [
+              "justice-league"
+            ]
+          },
+          "dismiss_stale_reviews": true,
+          "require_code_owner_reviews": true,
+          "required_approving_review_count": 2
+        },
+        "restrictions": {
+          "users": [
+            "octocat"
+          ],
+          "teams": [
+            "justice-league"
+          ]
+        }
+      }
+    ],
     "description": "Protecting a branch requires admin or owner permissions to the repository.\n\n**Note**: Passing new arrays of `users` and `teams` replaces their previous values.\n\n**Note**: The list of users and teams in total is limited to 100 items.",
     "responses": [
       {
@@ -2894,6 +2978,14 @@
         "location": "body"
       }
     ],
+    "requests": [
+      {
+        "strict": true,
+        "contexts": [
+          "continuous-integration/travis-ci"
+        ]
+      }
+    ],
     "description": "Updating required status checks requires admin or owner permissions to the repository and branch protection to be enabled.",
     "responses": [
       {
@@ -3006,6 +3098,11 @@
         "location": "url"
       }
     ],
+    "requests": [
+      [
+        "continuous-integration/travis-ci"
+      ]
+    ],
     "description": "",
     "responses": [
       {
@@ -3048,6 +3145,11 @@
         "description": "",
         "location": "url"
       }
+    ],
+    "requests": [
+      [
+        "continuous-integration/jenkins"
+      ]
     ],
     "description": "",
     "responses": [
@@ -3092,6 +3194,11 @@
         "description": "",
         "location": "url"
       }
+    ],
+    "requests": [
+      [
+        "continuous-integration/jenkins"
+      ]
     ],
     "description": "",
     "responses": [
@@ -3208,6 +3315,21 @@
         "description": "Specifies the number of reviewers required to approve pull requests. Use a number between 1 and 6.",
         "required": false,
         "location": "body"
+      }
+    ],
+    "requests": [
+      {
+        "dismissal_restrictions": {
+          "users": [
+            "octocat"
+          ],
+          "teams": [
+            "justice-league"
+          ]
+        },
+        "dismiss_stale_reviews": true,
+        "require_code_owner_reviews": true,
+        "required_approving_review_count": 2
       }
     ],
     "description": "Updating pull request review enforcement requires admin or owner permissions to the repository and branch protection to be enabled.\n\n**Note**: Passing new arrays of `users` and `teams` replaces their previous values.",
@@ -3620,7 +3742,40 @@
         "required": true,
         "description": "",
         "location": "url"
+      },
+      {
+        "name": "per_page",
+        "type": "integer",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30,
+        "location": "query"
+      },
+      {
+        "name": "page",
+        "type": "integer",
+        "required": false,
+        "description": "Page number of the results to fetch.",
+        "default": 1,
+        "location": "query"
       }
+    ],
+    "requests": [
+      [
+        {
+          "id": 1,
+          "node_id": "MDQ6VGVhbTE=",
+          "url": "https://api.github.com/teams/1",
+          "name": "Justice League",
+          "slug": "justice-league",
+          "description": "A great team.",
+          "privacy": "closed",
+          "permission": "admin",
+          "members_url": "https://api.github.com/teams/1/members{/member}",
+          "repositories_url": "https://api.github.com/teams/1/repos",
+          "parent": null
+        }
+      ]
     ],
     "description": "Lists the teams who have push access to this branch. If you pass the `hellcat-preview` media type, the list includes child teams.",
     "responses": [],
@@ -3654,6 +3809,11 @@
         "description": "",
         "location": "url"
       }
+    ],
+    "requests": [
+      [
+        "justice-league"
+      ]
     ],
     "description": "Replaces the list of teams that have push access to this branch. This removes all teams that previously had push access and grants push access to the new list of teams. If you pass the `hellcat-preview` media type, you can include child teams.\n\n| Type    | Description                                                                                                                         |\n| ------- | ----------------------------------------------------------------------------------------------------------------------------------- |\n| `array` | The teams that can have push access. Use the team's `slug`. **Note**: The list of users and teams in total is limited to 100 items. |",
     "responses": [
@@ -3710,6 +3870,11 @@
         "location": "url"
       }
     ],
+    "requests": [
+      [
+        "justice-league"
+      ]
+    ],
     "description": "Grants the specified teams push access for this branch. If you pass the `hellcat-preview` media type, you can also give push access to child teams.\n\n| Type    | Description                                                                                                                         |\n| ------- | ----------------------------------------------------------------------------------------------------------------------------------- |\n| `array` | The teams that can have push access. Use the team's `slug`. **Note**: The list of users and teams in total is limited to 100 items. |",
     "responses": [
       {
@@ -3764,6 +3929,11 @@
         "description": "",
         "location": "url"
       }
+    ],
+    "requests": [
+      [
+        "octocats"
+      ]
     ],
     "description": "Removes the ability of a team to push to this branch. If you pass the `hellcat-preview` media type, you can include child teams.\n\n| Type    | Description                                                                                                                                  |\n| ------- | -------------------------------------------------------------------------------------------------------------------------------------------- |\n| `array` | Teams that should no longer have push access. Use the team's `slug`. **Note**: The list of users and teams in total is limited to 100 items. |",
     "responses": [
@@ -3852,6 +4022,11 @@
         "location": "url"
       }
     ],
+    "requests": [
+      [
+        "octocat"
+      ]
+    ],
     "description": "Replaces the list of people that have push access to this branch. This removes all people that previously had push access and grants push access to the new list of people.\n\n| Type    | Description                                                                                                            |\n| ------- | ---------------------------------------------------------------------------------------------------------------------- |\n| `array` | Usernames for people who can have push access. **Note**: The list of users and teams in total is limited to 100 items. |",
     "responses": [
       {
@@ -3914,6 +4089,11 @@
         "location": "url"
       }
     ],
+    "requests": [
+      [
+        "octocat"
+      ]
+    ],
     "description": "Grants the specified people push access for this branch.\n\n| Type    | Description                                                                                                            |\n| ------- | ---------------------------------------------------------------------------------------------------------------------- |\n| `array` | Usernames for people who can have push access. **Note**: The list of users and teams in total is limited to 100 items. |",
     "responses": [
       {
@@ -3975,6 +4155,11 @@
         "description": "",
         "location": "url"
       }
+    ],
+    "requests": [
+      [
+        "defunkt"
+      ]
     ],
     "description": "Removes the ability of a team to push to this branch.\n\n| Type    | Description                                                                                                                            |\n| ------- | -------------------------------------------------------------------------------------------------------------------------------------- |\n| `array` | Usernames of the people who should no longer have push access. **Note**: The list of users and teams in total is limited to 100 items. |",
     "responses": [
@@ -4285,7 +4470,7 @@
         "location": "query"
       }
     ],
-    "description": "Commit Comments use [these custom media types](#custom-media-types). You can read more about the use of media types in the API [here](https://developer.github.com/v3/media/).\n\nComments are ordered by ascending ID.",
+    "description": "Commit Comments use [these custom media types](#custom-media-types). You can read more about the use of media types in the API [here](https://developer.github.com/v3/media/).\n\nComments are ordered by ascending ID.\n\n",
     "responses": [
       {
         "headers": {
@@ -4479,6 +4664,14 @@
         "location": "body"
       }
     ],
+    "requests": [
+      {
+        "body": "Great stuff",
+        "path": "file1.txt",
+        "position": 4,
+        "line": null
+      }
+    ],
     "description": "",
     "responses": [
       {
@@ -4630,6 +4823,11 @@
         "description": "The contents of the comment",
         "required": true,
         "location": "body"
+      }
+    ],
+    "requests": [
+      {
+        "body": "Nice change"
       }
     ],
     "description": "",
@@ -5094,6 +5292,269 @@
         "location": "url"
       }
     ],
+    "requests": [
+      {
+        "url": "https://api.github.com/repos/octocat/Hello-World/compare/master...topic",
+        "html_url": "https://github.com/octocat/Hello-World/compare/master...topic",
+        "permalink_url": "https://github.com/octocat/Hello-World/compare/octocat:bbcd538c8e72b8c175046e27cc8f907076331401...octocat:0328041d1152db8ae77652d1618a02e57f745f17",
+        "diff_url": "https://github.com/octocat/Hello-World/compare/master...topic.diff",
+        "patch_url": "https://github.com/octocat/Hello-World/compare/master...topic.patch",
+        "base_commit": {
+          "url": "https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+          "sha": "6dcb09b5b57875f334f61aebed695e2e4193db5e",
+          "node_id": "MDY6Q29tbWl0NmRjYjA5YjViNTc4NzVmMzM0ZjYxYWViZWQ2OTVlMmU0MTkzZGI1ZQ==",
+          "html_url": "https://github.com/octocat/Hello-World/commit/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+          "comments_url": "https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e/comments",
+          "commit": {
+            "url": "https://api.github.com/repos/octocat/Hello-World/git/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+            "author": {
+              "name": "Monalisa Octocat",
+              "email": "support@github.com",
+              "date": "2011-04-14T16:00:49Z"
+            },
+            "committer": {
+              "name": "Monalisa Octocat",
+              "email": "support@github.com",
+              "date": "2011-04-14T16:00:49Z"
+            },
+            "message": "Fix all the bugs",
+            "tree": {
+              "url": "https://api.github.com/repos/octocat/Hello-World/tree/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+              "sha": "6dcb09b5b57875f334f61aebed695e2e4193db5e"
+            },
+            "comment_count": 0,
+            "verification": {
+              "verified": false,
+              "reason": "unsigned",
+              "signature": null,
+              "payload": null
+            }
+          },
+          "author": {
+            "login": "octocat",
+            "id": 1,
+            "node_id": "MDQ6VXNlcjE=",
+            "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/octocat",
+            "html_url": "https://github.com/octocat",
+            "followers_url": "https://api.github.com/users/octocat/followers",
+            "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+            "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+            "organizations_url": "https://api.github.com/users/octocat/orgs",
+            "repos_url": "https://api.github.com/users/octocat/repos",
+            "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+            "received_events_url": "https://api.github.com/users/octocat/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "committer": {
+            "login": "octocat",
+            "id": 1,
+            "node_id": "MDQ6VXNlcjE=",
+            "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/octocat",
+            "html_url": "https://github.com/octocat",
+            "followers_url": "https://api.github.com/users/octocat/followers",
+            "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+            "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+            "organizations_url": "https://api.github.com/users/octocat/orgs",
+            "repos_url": "https://api.github.com/users/octocat/repos",
+            "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+            "received_events_url": "https://api.github.com/users/octocat/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "parents": [
+            {
+              "url": "https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+              "sha": "6dcb09b5b57875f334f61aebed695e2e4193db5e"
+            }
+          ]
+        },
+        "merge_base_commit": {
+          "url": "https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+          "sha": "6dcb09b5b57875f334f61aebed695e2e4193db5e",
+          "node_id": "MDY6Q29tbWl0NmRjYjA5YjViNTc4NzVmMzM0ZjYxYWViZWQ2OTVlMmU0MTkzZGI1ZQ==",
+          "html_url": "https://github.com/octocat/Hello-World/commit/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+          "comments_url": "https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e/comments",
+          "commit": {
+            "url": "https://api.github.com/repos/octocat/Hello-World/git/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+            "author": {
+              "name": "Monalisa Octocat",
+              "email": "support@github.com",
+              "date": "2011-04-14T16:00:49Z"
+            },
+            "committer": {
+              "name": "Monalisa Octocat",
+              "email": "support@github.com",
+              "date": "2011-04-14T16:00:49Z"
+            },
+            "message": "Fix all the bugs",
+            "tree": {
+              "url": "https://api.github.com/repos/octocat/Hello-World/tree/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+              "sha": "6dcb09b5b57875f334f61aebed695e2e4193db5e"
+            },
+            "comment_count": 0,
+            "verification": {
+              "verified": false,
+              "reason": "unsigned",
+              "signature": null,
+              "payload": null
+            }
+          },
+          "author": {
+            "login": "octocat",
+            "id": 1,
+            "node_id": "MDQ6VXNlcjE=",
+            "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/octocat",
+            "html_url": "https://github.com/octocat",
+            "followers_url": "https://api.github.com/users/octocat/followers",
+            "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+            "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+            "organizations_url": "https://api.github.com/users/octocat/orgs",
+            "repos_url": "https://api.github.com/users/octocat/repos",
+            "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+            "received_events_url": "https://api.github.com/users/octocat/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "committer": {
+            "login": "octocat",
+            "id": 1,
+            "node_id": "MDQ6VXNlcjE=",
+            "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/octocat",
+            "html_url": "https://github.com/octocat",
+            "followers_url": "https://api.github.com/users/octocat/followers",
+            "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+            "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+            "organizations_url": "https://api.github.com/users/octocat/orgs",
+            "repos_url": "https://api.github.com/users/octocat/repos",
+            "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+            "received_events_url": "https://api.github.com/users/octocat/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "parents": [
+            {
+              "url": "https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+              "sha": "6dcb09b5b57875f334f61aebed695e2e4193db5e"
+            }
+          ]
+        },
+        "status": "behind",
+        "ahead_by": 1,
+        "behind_by": 2,
+        "total_commits": 1,
+        "commits": [
+          {
+            "url": "https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+            "sha": "6dcb09b5b57875f334f61aebed695e2e4193db5e",
+            "node_id": "MDY6Q29tbWl0NmRjYjA5YjViNTc4NzVmMzM0ZjYxYWViZWQ2OTVlMmU0MTkzZGI1ZQ==",
+            "html_url": "https://github.com/octocat/Hello-World/commit/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+            "comments_url": "https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e/comments",
+            "commit": {
+              "url": "https://api.github.com/repos/octocat/Hello-World/git/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+              "author": {
+                "name": "Monalisa Octocat",
+                "email": "support@github.com",
+                "date": "2011-04-14T16:00:49Z"
+              },
+              "committer": {
+                "name": "Monalisa Octocat",
+                "email": "support@github.com",
+                "date": "2011-04-14T16:00:49Z"
+              },
+              "message": "Fix all the bugs",
+              "tree": {
+                "url": "https://api.github.com/repos/octocat/Hello-World/tree/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+                "sha": "6dcb09b5b57875f334f61aebed695e2e4193db5e"
+              },
+              "comment_count": 0,
+              "verification": {
+                "verified": false,
+                "reason": "unsigned",
+                "signature": null,
+                "payload": null
+              }
+            },
+            "author": {
+              "login": "octocat",
+              "id": 1,
+              "node_id": "MDQ6VXNlcjE=",
+              "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/octocat",
+              "html_url": "https://github.com/octocat",
+              "followers_url": "https://api.github.com/users/octocat/followers",
+              "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+              "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+              "organizations_url": "https://api.github.com/users/octocat/orgs",
+              "repos_url": "https://api.github.com/users/octocat/repos",
+              "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/octocat/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "committer": {
+              "login": "octocat",
+              "id": 1,
+              "node_id": "MDQ6VXNlcjE=",
+              "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/octocat",
+              "html_url": "https://github.com/octocat",
+              "followers_url": "https://api.github.com/users/octocat/followers",
+              "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+              "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+              "organizations_url": "https://api.github.com/users/octocat/orgs",
+              "repos_url": "https://api.github.com/users/octocat/repos",
+              "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/octocat/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "parents": [
+              {
+                "url": "https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+                "sha": "6dcb09b5b57875f334f61aebed695e2e4193db5e"
+              }
+            ]
+          }
+        ],
+        "files": [
+          {
+            "sha": "bbcd538c8e72b8c175046e27cc8f907076331401",
+            "filename": "file1.txt",
+            "status": "added",
+            "additions": 103,
+            "deletions": 21,
+            "changes": 124,
+            "blob_url": "https://github.com/octocat/Hello-World/blob/6dcb09b5b57875f334f61aebed695e2e4193db5e/file1.txt",
+            "raw_url": "https://github.com/octocat/Hello-World/raw/6dcb09b5b57875f334f61aebed695e2e4193db5e/file1.txt",
+            "contents_url": "https://api.github.com/repos/octocat/Hello-World/contents/file1.txt?ref=6dcb09b5b57875f334f61aebed695e2e4193db5e",
+            "patch": "@@ -132,7 +132,7 @@ module Test @@ -1000,7 +1000,7 @@ module Test"
+          }
+        ]
+      }
+    ],
     "description": "Both `:base` and `:head` must be branch names in `:repo`. To compare branches across other repositories in the same network as `:repo`, use the format `<USERNAME>:branch`. For example:\n\n```\nGET /repos/:owner/:repo/compare/hubot:branchname...octocat:branchname\n```\n\nThe response from the API is equivalent to running the `git log base..head` command; however, commits are returned in reverse chronological order.\n\nPass the appropriate [media type](https://developer.github.com/v3/media/#commits-commit-comparison-and-pull-requests) to fetch diff and patch formats.\n\n**Working with large comparisons**\n\nThe response will include a comparison of up to 250 commits. If you are working with a larger commit range, you can use the [Commit List API](https://developer.github.com/v3/repos/commits/#list-commits-on-a-repository) to enumerate all commits in the range.\n\nFor comparisons with extremely large diffs, you may receive an error response indicating that the diff took too long to generate. You can typically resolve this error by using a smaller commit range.",
     "responses": [],
     "idName": "compare-commits",
@@ -5330,6 +5791,16 @@
         "location": "body"
       }
     ],
+    "requests": [
+      {
+        "message": "my commit message",
+        "committer": {
+          "name": "Scott Chacon",
+          "email": "schacon@gmail.com"
+        },
+        "content": "bXkgbmV3IGZpbGUgY29udGVudHM="
+      }
+    ],
     "description": "This method creates a new file in a repository\n\nThe `author` section is optional and is filled in with the `committer` information if omitted. If the `committer` information is omitted, the authenticated user's information is used.\n\nYou must provide values for both `name` and `email`, whether you choose to use `author` or `committer`. Otherwise, you'll receive a `422` status code.\n\nBoth the `author` and `committer` parameters have the same keys:\n\n| name  | type   | description                                          |\n| ----- | ------ | ---------------------------------------------------- |\n| name  | string | The name of the author (or committer) of the commit  |\n| email | string | The email of the author (or committer) of the commit |",
     "responses": [
       {
@@ -5463,6 +5934,17 @@
         "location": "body"
       }
     ],
+    "requests": [
+      {
+        "message": "my commit message",
+        "committer": {
+          "name": "Scott Chacon",
+          "email": "schacon@gmail.com"
+        },
+        "content": "bXkgdXBkYXRlZCBmaWxlIGNvbnRlbnRz",
+        "sha": "329688480d39049927147c162b9d2deaf885005f"
+      }
+    ],
     "description": "This method updates a file in a repository\n\nThe `author` section is optional and is filled in with the `committer` information if omitted. If the `committer` information is omitted, the authenticated user's information is used.\n\nYou must provide values for both `name` and `email`, whether you choose to use `author` or `committer`. Otherwise, you'll receive a `422` status code.\n\nBoth the `author` and `committer` parameters have the same keys:\n\n| name  | type   | description                                          |\n| ----- | ------ | ---------------------------------------------------- |\n| name  | string | The name of the author (or committer) of the commit  |\n| email | string | The email of the author (or committer) of the commit |",
     "responses": [
       {
@@ -5587,6 +6069,16 @@
         "type": "object",
         "description": "object containing information about the author.",
         "location": "body"
+      }
+    ],
+    "requests": [
+      {
+        "message": "my commit message",
+        "committer": {
+          "name": "Scott Chacon",
+          "email": "schacon@gmail.com"
+        },
+        "sha": "329688480d39049927147c162b9d2deaf885005f"
       }
     ],
     "description": "This method deletes a file in a repository\n\nThe `author` section is optional and is filled in with the `committer` information if omitted. If the `committer` information is omitted, the authenticated user's information is used.\n\nYou must provide values for both `name` and `email`, whether you choose to use `author` or `committer`. Otherwise, you'll receive a `422` status code.\n\nBoth the `author` and `committer` parameters have the same keys:\n\n| name  | type   | description                                          |\n| ----- | ------ | ---------------------------------------------------- |\n| name  | string | The name of the author (or committer) of the commit  |\n| email | string | The email of the author (or committer) of the commit |",
@@ -5840,6 +6332,13 @@
         "description": "If `true`, the key will only be able to read repository contents. Otherwise, the key will be able to read and write.  \n  \nDeploy keys with write access can perform the same actions as an organization member with admin access, or a collaborator on a personal repository. For more information, see \"[Repository permission levels for an organization](https://help.github.com/articles/repository-permission-levels-for-an-organization/)\" and \"[Permission levels for a user account repository](https://help.github.com/articles/permission-levels-for-a-user-account-repository/).\"",
         "required": false,
         "location": "body"
+      }
+    ],
+    "requests": [
+      {
+        "title": "octocat@octomac",
+        "key": "ssh-rsa AAA...",
+        "read_only": true
       }
     ],
     "description": "Here's how you can create a read-only deploy key:\n\n",
@@ -6191,6 +6690,13 @@
         "location": "body"
       }
     ],
+    "requests": [
+      {
+        "ref": "topic-branch",
+        "payload": "{\"user\":\"atmos\",\"room_id\":123456}",
+        "description": "Deploying my sweet branch"
+      }
+    ],
     "description": "Deployments offer a few configurable parameters with sane defaults.\n\nThe `ref` parameter can be any named branch, tag, or SHA. At GitHub we often deploy branches and verify them before we merge a pull request.\n\nThe `environment` parameter allows deployments to be issued to different runtime environments. Teams often have multiple environments for verifying their applications, such as `production`, `staging`, and `qa`. This allows for easy tracking of which environments had deployments requested. The default environment is `production`.\n\nThe `auto_merge` parameter is used to ensure that the requested ref is not behind the repository's default branch. If the ref _is_ behind the default branch for the repository, we will attempt to merge it for you. If the merge succeeds, the API will return a successful merge commit. If merge conflicts prevent the merge from succeeding, the API will return a failure response.\n\nBy default, [commit statuses](https://developer.github.com/v3/repos/statuses) for every submitted context must be in a `success` state. The `required_contexts` parameter allows you to specify a subset of contexts that must be `success`, or to specify contexts that have not yet been submitted. You are not required to use commit statuses to deploy. If you do not require any contexts or create any commit statuses, the deployment will always succeed.\n\nThe `payload` parameter is available for any extra information that a deployment system might need. It is a JSON text field that will be passed on when a deployment event is dispatched.\n\nThe `task` parameter is used by the deployment system to allow different execution paths. In the web world this might be `deploy:migrations` to run schema changes on the system. In the compiled world this could be a flag to compile an application with debugging enabled.\n\nUsers with `repo` or `repo_deployment` scopes can create a deployment for a given ref:\n\nA simple example putting the user and room into the payload to notify back to chat networks.\n\nA more advanced example specifying required commit statuses and bypassing auto-merging.\n\nThis error happens when the `auto_merge` option is enabled and when the default branch (in this case `master`), can't be merged into the branch that's being deployed (in this case `topic-branch`), due to merge conflicts.\n\nThis error happens when the `required_contexts` parameter indicates that one or more contexts need to have a `success` status for the commit to be deployed, but one or more of the required contexts do not have a state of `success`.",
     "idName": "create-deployment",
     "documentationUrl": "https://developer.github.com/v3/repos/deployments/#create-a-deployment"
@@ -6458,6 +6964,13 @@
         "default": true,
         "required": false,
         "location": "body"
+      }
+    ],
+    "requests": [
+      {
+        "state": "success",
+        "target_url": "https://example.com/deployment/42/output",
+        "description": "Deployment finished successfully."
       }
     ],
     "description": "Users with push access can create deployment statuses for a given deployment:",
@@ -7702,6 +8215,13 @@
         "location": "body"
       }
     ],
+    "requests": [
+      {
+        "base": "master",
+        "head": "cool_feature",
+        "commit_message": "Shipped cool_feature!"
+      }
+    ],
     "description": "",
     "idName": "merge",
     "documentationUrl": "https://developer.github.com/v3/repos/merging/#perform-a-merge"
@@ -8412,6 +8932,16 @@
         "location": "body"
       }
     ],
+    "requests": [
+      {
+        "tag_name": "v1.0.0",
+        "target_commitish": "master",
+        "name": "v1.0.0",
+        "body": "Description of the release",
+        "draft": false,
+        "prerelease": false
+      }
+    ],
     "description": "Users with push access to the repository can create a release.",
     "responses": [
       {
@@ -8532,6 +9062,16 @@
         "description": "`true` to identify the release as a prerelease, `false` to identify the release as a full release.",
         "required": false,
         "location": "body"
+      }
+    ],
+    "requests": [
+      {
+        "tag_name": "v1.0.0",
+        "target_commitish": "master",
+        "name": "v1.0.0",
+        "body": "Description of the release",
+        "draft": false,
+        "prerelease": false
       }
     ],
     "description": "Users with push access to the repository can edit a release.",
@@ -8914,6 +9454,12 @@
         "description": "An alternate short description of the asset. Used in place of the filename.",
         "required": false,
         "location": "body"
+      }
+    ],
+    "requests": [
+      {
+        "name": "foo-1.0.0-osx.zip",
+        "label": "Mac binary"
       }
     ],
     "description": "Users with push access to the repository can edit a release asset.",
@@ -9414,6 +9960,14 @@
         "default": "default",
         "required": false,
         "location": "body"
+      }
+    ],
+    "requests": [
+      {
+        "state": "success",
+        "target_url": "https://example.com/build/status",
+        "description": "The build succeeded!",
+        "context": "continuous-integration/jenkins"
       }
     ],
     "description": "Users with push access in a repository can create commit statuses for a given SHA.\n\nNote: there is a limit of 1000 statuses per `sha` and `context` within a repository. Attempts to create more than 1000 statuses will result in a validation error.",
@@ -10262,6 +10816,20 @@
         "location": "body"
       }
     ],
+    "requests": [
+      {
+        "name": "web",
+        "active": true,
+        "events": [
+          "push",
+          "pull_request"
+        ],
+        "config": {
+          "url": "http://example.com/webhook",
+          "content_type": "json"
+        }
+      }
+    ],
     "description": "Repositories can have multiple webhooks installed. Each webhook should have a unique `config`. Multiple webhooks can share the same `config` as long as those webhooks do not have any `events` that overlap.\n\n**Note**: Repository service hooks (like email or Campfire) can have at most one configured at a time. Creating hooks for a service that already has one configured will [update the existing hook](#edit-a-hook).\n\n**Note**: GitHub Services will no longer be supported as of October 1, 2018. Please see the [blog post](/changes/2018-04-25-github-services-deprecation) for details. You can use the [Replacing GitHub Services guide](https://developer.github.com/v3/guides/replacing-github-services) to help you update your services to webhooks.\n\nHere's how you can create a hook that posts payloads in JSON format:",
     "responses": [
       {
@@ -10383,6 +10951,14 @@
         "default": true,
         "required": false,
         "location": "body"
+      }
+    ],
+    "requests": [
+      {
+        "active": true,
+        "add_events": [
+          "pull_request"
+        ]
       }
     ],
     "description": "",

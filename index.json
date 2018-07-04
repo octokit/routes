@@ -269,6 +269,14 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "scopes": [
+            "public_repo"
+          ],
+          "note": "admin script"
+        }
+      ],
       "description": "If you need a small number of personal access tokens, implementing the [web flow](https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/) can be cumbersome. Instead, tokens can be created using the OAuth Authorizations API using [Basic Authentication](https://developer.github.com/v3/auth#basic-authentication). To create personal access tokens for a particular OAuth application, you must provide its client ID and secret, found on the OAuth application settings page, linked from your [OAuth applications listing on GitHub](https://github.com/settings/developers).\n\nIf your OAuth application intends to create multiple tokens for one user, use `fingerprint` to differentiate between them.\n\nYou can also create OAuth tokens through the web UI via the [personal access tokens settings](https://github.com/settings/tokens). Read more about these tokens on the [GitHub Help site](https://help.github.com/articles/creating-an-access-token-for-command-line-use).\n\nOrganizations that enforce SAML SSO require personal access tokens to be whitelisted. Read more about whitelisting tokens on the [GitHub Help site](https://help.github.com/articles/about-identity-and-access-management-with-saml-single-sign-on).",
       "responses": [
         {
@@ -350,6 +358,15 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "client_secret": "abcdabcdabcdabcdabcdabcdabcdabcdabcdabcd",
+          "scopes": [
+            "public_repo"
+          ],
+          "note": "admin script"
+        }
+      ],
       "description": "This method will create a new authorization for the specified OAuth application, only if an authorization for that application doesn't already exist for the user. The URL includes the 20 character client ID for the OAuth app that is requesting the token. It returns the user's existing authorization for the application if one is present. Otherwise, it creates and returns a new one.",
       "idName": "get-or-create-authorization-for-app",
       "documentationUrl": "https://developer.github.com/v3/oauth_authorizations/#get-or-create-an-authorization-for-a-specific-app"
@@ -401,6 +418,15 @@
           "description": "A URL to remind you what app the OAuth token is for.",
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "client_secret": "abcdabcdabcdabcdabcdabcdabcdabcdabcdabcd",
+          "scopes": [
+            "public_repo"
+          ],
+          "note": "admin script"
         }
       ],
       "description": "This method will create a new authorization for the specified OAuth application, only if an authorization for that application and fingerprint do not already exist for the user. The URL includes the 20 character client ID for the OAuth app that is requesting the token. `fingerprint` is a unique string to distinguish an authorization from others created for the same client ID and user. It returns the user's existing authorization for the application if one is present. Otherwise, it creates and returns a new one.",
@@ -461,6 +487,14 @@
           "description": "A unique string to distinguish an authorization from others created for the same client ID and user.",
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "add_scopes": [
+            "repo"
+          ],
+          "note": "admin script"
         }
       ],
       "description": "You can only send one of these scope keys at a time.",
@@ -2953,6 +2987,21 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "head_branch": "master",
+          "name": "mighty_readme",
+          "head_sha": "ce587453ced02b1526dfb4cb910479d431683101",
+          "status": "in_progress",
+          "external_id": "42",
+          "started_at": "2018-05-04T01:14:52Z",
+          "output": {
+            "title": "Mighty Readme report",
+            "summary": "",
+            "text": ""
+          }
+        }
+      ],
       "description": "Creates a new check run for a specific commit in a repository. Your GitHub App must have the `checks:write` permission to create check runs.",
       "responses": [
         {
@@ -3275,6 +3324,47 @@
           "description": "A reference for the action on the integrator's system. The maximum size is 20 characters.",
           "required": true,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "name": "mighty_readme",
+          "started_at": "2018-05-04T01:14:52Z",
+          "status": "completed",
+          "completed_at": "2018-05-04T01:14:52Z",
+          "output": {
+            "title": "Mighty Readme report",
+            "summary": "There are 0 failures, 2 warnings, and 1 notices.",
+            "text": "You may have some misspelled words on lines 2 and 4. You also may want to add a section in your README about how to install your app.",
+            "annotations": [
+              {
+                "filename": "README.md",
+                "blob_href": "http://github.com/octocat/Hello-World/blob/837db83be4137ca555d9a5598d0a1ea2987ecfee/README.md",
+                "warning_level": "warning",
+                "title": "Spell Checker",
+                "message": "Check your spelling for 'banaas'.",
+                "raw_details": "Do you mean 'bananas' or 'banana'?",
+                "start_line": "2",
+                "end_line": "2"
+              },
+              {
+                "filename": "README.md",
+                "blob_href": "http://github.com/octocat/Hello-World/blob/837db83be4137ca555d9a5598d0a1ea2987ecfee/README.md",
+                "warning_level": "warning",
+                "title": "Spell Checker",
+                "message": "Check your spelling for 'aples'",
+                "raw_details": "Do you mean 'apples' or 'Naples'",
+                "start_line": "4",
+                "end_line": "4"
+              }
+            ],
+            "images": [
+              {
+                "alt": "Super bananas",
+                "image_url": "http://example.com/images/42"
+              }
+            ]
+          }
         }
       ],
       "description": "Updates a check run for a specific commit in a repository. Your GitHub App must have the `checks:write` permission to edit check runs.",
@@ -4300,6 +4390,16 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "auto_trigger_checks": [
+            {
+              "app_id": 4,
+              "setting": false
+            }
+          ]
+        }
+      ],
       "description": "Changes the default automatic flow when creating check suites. By default, the CheckSuiteEvent is automatically created each time code is pushed to a repository. When you disable the automatic creation of check suites, you can manually [Create a check suite](https://developer.github.com/v3/checks/suites/#create-a-check-suite). You must have admin permissions in the repository to set preferences for check suites.",
       "responses": [
         {
@@ -4463,6 +4563,12 @@
           "description": "The name of the head branch where the code changes are implemented.",
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "head_branch": "master",
+          "head_sha": "d6fde92930d4715a2b49857d24b940956b26d2d3"
         }
       ],
       "description": "By default, check suites are automatically created when you create a [check run](https://developer.github.com/v3/checks/runs/). You only need to use this endpoint for manually creating check suites when you've disabled automatic creation using \"[Set preferences for check suites on a repository](https://developer.github.com/v3/checks/suites/#set-preferences-for-check-suites-on-a-repository)\". Your GitHub App must have the `checks:write` permission to create check suites.",
@@ -5333,6 +5439,17 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "description": "the description for this gist",
+          "public": true,
+          "files": {
+            "file1.txt": {
+              "content": "String file contents"
+            }
+          }
+        }
+      ],
       "description": "The keys in the `files` object are the `string` filename, and the value is another `object` with a key of `content`, and a value of the file contents. For example:\n\n**Note:** Don't name your files \"gistfile\" with a numerical suffix. This is the format of the automatic naming scheme that Gist uses internally.",
       "responses": [
         {
@@ -5493,6 +5610,24 @@
           "description": "New name for this file.",
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "description": "the description for this gist",
+          "files": {
+            "file1.txt": {
+              "content": "updated file contents"
+            },
+            "old_name.txt": {
+              "filename": "new_name.txt",
+              "content": "modified contents"
+            },
+            "new_file.txt": {
+              "content": "a new file"
+            },
+            "delete_this_file.txt": null
+          }
         }
       ],
       "description": "The keys in the `files` object are the `string` filename. The value is another `object` with a key of `content` (indicating the new contents), or `filename` (indicating the new filename). For example:\n\n**Note**: All files from the previous version of the gist are carried over by default if not included in the object. Deletes can be performed by including the filename with a `null` object.",
@@ -6082,6 +6217,11 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "body": "Just commenting for the sake of commenting"
+        }
+      ],
       "description": "",
       "responses": [
         {
@@ -6148,6 +6288,11 @@
           "description": "The comment text.",
           "required": true,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "body": "Just commenting for the sake of commenting"
         }
       ],
       "description": "",
@@ -6308,6 +6453,12 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "content": "Content of the blob",
+          "encoding": "utf-8"
+        }
+      ],
       "description": "",
       "responses": [
         {
@@ -6447,6 +6598,21 @@
           "type": "object",
           "description": "object containing information about the author.",
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "message": "my commit message",
+          "author": {
+            "name": "Scott Chacon",
+            "email": "schacon@gmail.com",
+            "date": "2008-07-09T16:13:30+12:00"
+          },
+          "parents": [
+            "7d1b31e74ee336d15cbd21741bc88a537ed063a0"
+          ],
+          "tree": "827efc6d56897b048c772eb4087f854f46256132",
+          "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABAQAdFiEESn/54jMNIrGSE6Tp6cQjvhfv7nAFAlnT71cACgkQ6cQjvhfv\n7nCWwA//XVqBKWO0zF+bZl6pggvky3Oc2j1pNFuRWZ29LXpNuD5WUGXGG209B0hI\nDkmcGk19ZKUTnEUJV2Xd0R7AW01S/YSub7OYcgBkI7qUE13FVHN5ln1KvH2all2n\n2+JCV1HcJLEoTjqIFZSSu/sMdhkLQ9/NsmMAzpf/iIM0nQOyU4YRex9eD1bYj6nA\nOQPIDdAuaTQj1gFPHYLzM4zJnCqGdRlg0sOM/zC5apBNzIwlgREatOYQSCfCKV7k\nnrU34X8b9BzQaUx48Qa+Dmfn5KQ8dl27RNeWAqlkuWyv3pUauH9UeYW+KyuJeMkU\n+NyHgAsWFaCFl23kCHThbLStMZOYEnGagrd0hnm1TPS4GJkV4wfYMwnI4KuSlHKB\njHl3Js9vNzEUQipQJbgCgTiWvRJoK3ENwBTMVkKHaqT4x9U4Jk/XZB6Q8MA09ezJ\n3QgiTjTAGcum9E9QiJqMYdWQPWkaBIRRz5cET6HPB48YNXAAUsfmuYsGrnVLYbG+\nUpC6I97VybYHTy2O9XSGoaLeMI9CsFn38ycAxxbWagk5mhclNTP5mezIq6wKSwmr\nX11FW3n1J23fWZn5HJMBsRnUCgzqzX3871IqLYHqRJ/bpZ4h20RhTyPj5c/z7QXp\neSakNQMfbbMcljkha+ZMuVQX1K9aRlVqbmv3ZMWh+OijLYVU2bc=\n=5Io4\n-----END PGP SIGNATURE-----\n"
         }
       ],
       "description": "Creates a new Git [commit object](https://git-scm.com/book/en/v1/Git-Internals-Git-Objects#Commit-Objects).\n\nThe `committer` section is optional and will be filled with the `author` data if omitted. If the `author` section is omitted, it will be filled in with the authenticated user's information and the current date.\n\nBoth the `author` and `committer` parameters have the same keys:\n\n| name  | type   | description                                                                                                             |\n| ----- | ------ | ----------------------------------------------------------------------------------------------------------------------- |\n| name  | string | The name of the author (or committer) of the commit                                                                     |\n| email | string | The email of the author (or committer) of the commit                                                                    |\n| date  | string | Indicates when this commit was authored (or committed). This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. |\n\nYou can also provide an optional string `signature` parameter. This value will be added to the `gpgsig` header of the created commit. For a commit signature to be verifiable by Git or GitHub, it must be an ASCII-armored detached PGP signature over the string commit as it would be written to the object database.\n\n**Note**: To pass a `signature` parameter, you need to first manually create a valid PGP signature, which can be complicated. You may find it easier to [use the command line](https://git-scm.com/book/id/v2/Git-Tools-Signing-Your-Work) to create signed commits.\n\nIn this example, the payload that the signature is over would have been:\n\n",
@@ -6594,6 +6760,12 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "ref": "refs/heads/featureA",
+          "sha": "aa218f56b14c9653891f9e74264a383fa43fefbd"
+        }
+      ],
       "description": "Creates a reference for your repository. You are unable to create new references for empty repositories, even if the commit SHA-1 hash used exists. Empty repositories are repositories without branches.",
       "responses": [
         {
@@ -6657,6 +6829,12 @@
           "default": false,
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "sha": "aa218f56b14c9653891f9e74264a383fa43fefbd",
+          "force": true
         }
       ],
       "description": "",
@@ -6866,6 +7044,19 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "tag": "v0.0.1",
+          "message": "initial version\n",
+          "object": "c3d0be41ecbe669545ee3e94d31ed9a4bc91ee3c",
+          "type": "commit",
+          "tagger": {
+            "name": "Scott Chacon",
+            "email": "schacon@gmail.com",
+            "date": "2011-06-17T14:53:35-07:00"
+          }
+        }
+      ],
       "description": "Note that creating a tag object does not create the reference that makes a tag in Git. If you want to create an annotated tag in Git, you have to do this call to create the tag object, and then [create](https://developer.github.com/v3/git/refs/#create-a-reference) the `refs/tags/[tag]` reference. If you want to create a lightweight tag, you only have to [create](https://developer.github.com/v3/git/refs/#create-a-reference) the tag reference - this call would be unnecessary.",
       "responses": [
         {
@@ -7023,6 +7214,19 @@
           "description": "The SHA1 of the tree you want to update with new data. If you don't set this, the commit will be created on top of everything; however, it will only contain your change, the rest of your files will show up as deleted.",
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "base_tree": "9fb037999f264ba9a7fc6274d15fa3ae2ab98312",
+          "tree": [
+            {
+              "path": "file.rb",
+              "mode": "100644",
+              "type": "blob",
+              "sha": "44b4fc6d56897b048c772eb4087f854f46256132"
+            }
+          ]
         }
       ],
       "description": "The tree creation API will take nested entries as well. If both a tree and a nested path modifying that tree are specified, it will overwrite the contents of that tree with the new path contents and write a new tree out.",
@@ -8671,7 +8875,7 @@
           "location": "query"
         }
       ],
-      "description": "**Note**: GitHub's REST API v3 considers every pull request an issue, but not every issue is a pull request. For this reason, \"Issues\" endpoints may return both issues and pull requests in the response. You can identify pull requests by the `pull_request` key.\n\nBe aware that the `id` of a pull request returned from \"Issues\" endpoints will be an _issue id_. To find out the pull request id, use the \"[List pull requests](https://developer.github.com/v3/pulls/#list-pull-requests)\" endpoint.\n\n\n\n**Note:** If a user opened an issue via a GitHub App, the `performed_via_github_app` key contains information on that GitHub App.",
+      "description": "**Note**: GitHub's REST API v3 considers every pull request an issue, but not every issue is a pull request. For this reason, \"Issues\" endpoints may return both issues and pull requests in the response. You can identify pull requests by the `pull_request` key.\n\nBe aware that the `id` of a pull request returned from \"Issues\" endpoints will be an _issue id_. To find out the pull request id, use the \"[List pull requests](https://developer.github.com/v3/pulls/#list-pull-requests)\" endpoint.\n\n\n\n\n\n**Note:** If a user opened an issue via a GitHub App, the `performed_via_github_app` key contains information on that GitHub App.",
       "responses": [
         {
           "headers": {
@@ -9015,7 +9219,7 @@
           "location": "query"
         }
       ],
-      "description": "**Note**: GitHub's REST API v3 considers every pull request an issue, but not every issue is a pull request. For this reason, \"Issues\" endpoints may return both issues and pull requests in the response. You can identify pull requests by the `pull_request` key.\n\nBe aware that the `id` of a pull request returned from \"Issues\" endpoints will be an _issue id_. To find out the pull request id, use the \"[List pull requests](https://developer.github.com/v3/pulls/#list-pull-requests)\" endpoint.\n\n\n\n**Note:** If a user opened an issue via a GitHub App, the `performed_via_github_app` key contains information on that GitHub App.",
+      "description": "**Note**: GitHub's REST API v3 considers every pull request an issue, but not every issue is a pull request. For this reason, \"Issues\" endpoints may return both issues and pull requests in the response. You can identify pull requests by the `pull_request` key.\n\nBe aware that the `id` of a pull request returned from \"Issues\" endpoints will be an _issue id_. To find out the pull request id, use the \"[List pull requests](https://developer.github.com/v3/pulls/#list-pull-requests)\" endpoint.\n\n\n\n\n\n**Note:** If a user opened an issue via a GitHub App, the `performed_via_github_app` key contains information on that GitHub App.",
       "responses": [
         {
           "headers": {
@@ -9366,7 +9570,7 @@
           "location": "query"
         }
       ],
-      "description": "**Note**: GitHub's REST API v3 considers every pull request an issue, but not every issue is a pull request. For this reason, \"Issues\" endpoints may return both issues and pull requests in the response. You can identify pull requests by the `pull_request` key.\n\nBe aware that the `id` of a pull request returned from \"Issues\" endpoints will be an _issue id_. To find out the pull request id, use the \"[List pull requests](https://developer.github.com/v3/pulls/#list-pull-requests)\" endpoint.\n\n\n\n**Note:** If a user opened an issue via a GitHub App, the `performed_via_github_app` key contains information on that GitHub App.",
+      "description": "**Note**: GitHub's REST API v3 considers every pull request an issue, but not every issue is a pull request. For this reason, \"Issues\" endpoints may return both issues and pull requests in the response. You can identify pull requests by the `pull_request` key.\n\nBe aware that the `id` of a pull request returned from \"Issues\" endpoints will be an _issue id_. To find out the pull request id, use the \"[List pull requests](https://developer.github.com/v3/pulls/#list-pull-requests)\" endpoint.\n\n\n\n\n\n**Note:** If a user opened an issue via a GitHub App, the `performed_via_github_app` key contains information on that GitHub App.",
       "responses": [
         {
           "headers": {
@@ -9737,7 +9941,7 @@
           "location": "query"
         }
       ],
-      "description": "**Note**: GitHub's REST API v3 considers every pull request an issue, but not every issue is a pull request. For this reason, \"Issues\" endpoints may return both issues and pull requests in the response. You can identify pull requests by the `pull_request` key.\n\nBe aware that the `id` of a pull request returned from \"Issues\" endpoints will be an _issue id_. To find out the pull request id, use the \"[List pull requests](https://developer.github.com/v3/pulls/#list-pull-requests)\" endpoint.\n\n\n\n**Note:** If a user opened an issue via a GitHub App, the `performed_via_github_app` key contains information on that GitHub App.",
+      "description": "**Note**: GitHub's REST API v3 considers every pull request an issue, but not every issue is a pull request. For this reason, \"Issues\" endpoints may return both issues and pull requests in the response. You can identify pull requests by the `pull_request` key.\n\nBe aware that the `id` of a pull request returned from \"Issues\" endpoints will be an _issue id_. To find out the pull request id, use the \"[List pull requests](https://developer.github.com/v3/pulls/#list-pull-requests)\" endpoint.\n\n\n\n\n\n**Note:** If a user opened an issue via a GitHub App, the `performed_via_github_app` key contains information on that GitHub App.",
       "responses": [
         {
           "headers": {
@@ -9915,7 +10119,7 @@
           "location": "url"
         }
       ],
-      "description": "**Note**: GitHub's REST API v3 considers every pull request an issue, but not every issue is a pull request. For this reason, \"Issues\" endpoints may return both issues and pull requests in the response. You can identify pull requests by the `pull_request` key.\n\nBe aware that the `id` of a pull request returned from \"Issues\" endpoints will be an _issue id_. To find out the pull request id, use the \"[List pull requests](https://developer.github.com/v3/pulls/#list-pull-requests)\" endpoint.",
+      "description": "**Note**: GitHub's REST API v3 considers every pull request an issue, but not every issue is a pull request. For this reason, \"Issues\" endpoints may return both issues and pull requests in the response. You can identify pull requests by the `pull_request` key.\n\nBe aware that the `id` of a pull request returned from \"Issues\" endpoints will be an _issue id_. To find out the pull request id, use the \"[List pull requests](https://developer.github.com/v3/pulls/#list-pull-requests)\" endpoint.\n\n",
       "responses": [
         {
           "headers": {
@@ -10144,6 +10348,19 @@
           "description": "Logins for Users to assign to this issue. _NOTE: Only users with push access can set assignees for new issues. Assignees are silently dropped otherwise._",
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "title": "Found a bug",
+          "body": "I'm having a problem with this.",
+          "assignees": [
+            "octocat"
+          ],
+          "milestone": 1,
+          "labels": [
+            "bug"
+          ]
         }
       ],
       "description": "Any user with pull access to a repository can create an issue.",
@@ -10396,6 +10613,20 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "title": "Found a bug",
+          "body": "I'm having a problem with this.",
+          "assignees": [
+            "octocat"
+          ],
+          "milestone": 1,
+          "state": "open",
+          "labels": [
+            "bug"
+          ]
+        }
+      ],
       "description": "Issue owners and users with push access can edit an issue.",
       "responses": [
         {
@@ -10605,6 +10836,12 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "locked": true,
+          "active_lock_reason": "too heated"
+        }
+      ],
       "description": "Users with push access can lock an issue or pull request's conversation.\n\nNote that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](https://developer.github.com/v3/#http-verbs).\"",
       "responses": [
         {
@@ -10809,6 +11046,14 @@
           "description": "Usernames of people to assign this issue to. _NOTE: Only users with push access can add assignees to an issue. Assignees are silently ignored otherwise._",
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "assignees": [
+            "hubot",
+            "other_user"
+          ]
         }
       ],
       "description": "Adds up to 10 assignees to an issue. Users already assigned to an issue are not replaced.\n\nThis example adds two assignees to the existing `octocat` assignee.",
@@ -11034,6 +11279,14 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "assignees": [
+            "hubot",
+            "other_user"
+          ]
+        }
+      ],
       "description": "Removes one or more assignees from an issue.\n\nThis example removes two of three assignees, leaving the `octocat` assignee.",
       "responses": [
         {
@@ -11233,7 +11486,7 @@
           "location": "query"
         }
       ],
-      "description": "Issue Comments are ordered by ascending ID.",
+      "description": "Issue Comments are ordered by ascending ID.\n\n",
       "responses": [
         {
           "headers": {
@@ -11327,7 +11580,7 @@
           "location": "query"
         }
       ],
-      "description": "By default, Issue Comments are ordered by ascending ID.",
+      "description": "By default, Issue Comments are ordered by ascending ID.\n\n",
       "responses": [
         {
           "headers": {
@@ -11414,7 +11667,7 @@
           "location": "query"
         }
       ],
-      "description": "\n\n**Note:** If a user created an issue comment via a GitHub App, the `performed_via_github_app` key will contain information on that GitHub App.",
+      "description": "\n\n\n\n**Note:** If a user created an issue comment via a GitHub App, the `performed_via_github_app` key will contain information on that GitHub App.",
       "responses": [
         {
           "headers": {
@@ -11488,6 +11741,11 @@
           "description": "The contents of the comment.",
           "required": true,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "body": "Me too"
         }
       ],
       "description": "",
@@ -11564,6 +11822,11 @@
           "description": "The contents of the comment.",
           "required": true,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "body": "Me too"
         }
       ],
       "description": "",
@@ -12306,6 +12569,13 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "name": "bug",
+          "description": "Houston, we have a problem",
+          "color": "f29513"
+        }
+      ],
       "description": "",
       "responses": [
         {
@@ -12374,6 +12644,13 @@
           "description": "A short description of the label.",
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "name": "bug :bug:",
+          "description": "Small bug fix required",
+          "color": "b01f26"
         }
       ],
       "description": "",
@@ -12532,6 +12809,12 @@
           "location": "url"
         }
       ],
+      "requests": [
+        [
+          "Label1",
+          "Label2"
+        ]
+      ],
       "description": "",
       "responses": [
         {
@@ -12621,6 +12904,12 @@
           "description": "",
           "location": "url"
         }
+      ],
+      "requests": [
+        [
+          "Label1",
+          "Label2"
+        ]
       ],
       "description": "Sending an empty array (`[]`) will remove all Labels from the Issue.",
       "responses": [
@@ -13008,6 +13297,14 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "title": "v1.0",
+          "state": "open",
+          "description": "Tracking milestone for version 1.0",
+          "due_on": "2012-10-09T23:39:01Z"
+        }
+      ],
       "description": "",
       "responses": [
         {
@@ -13116,6 +13413,14 @@
           "description": "The milestone due date. This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.",
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "title": "v1.0",
+          "state": "open",
+          "description": "Tracking milestone for version 1.0",
+          "due_on": "2012-10-09T23:39:01Z"
         }
       ],
       "description": "",
@@ -13331,6 +13636,14 @@
           "default": false,
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "repositories": [
+            "github/Hello-World"
+          ],
+          "lock_repositories": true
         }
       ],
       "description": "Initiates the generation of a migration archive.",
@@ -13981,6 +14294,14 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "vcs": "subversion",
+          "vcs_url": "http://svn.mycompany.com/svn/myproject",
+          "vcs_username": "octocat",
+          "vcs_password": "secret"
+        }
+      ],
       "description": "Start a source import to a GitHub repository using GitHub Importer.",
       "responses": [
         {
@@ -14030,6 +14351,30 @@
           "description": "",
           "location": "url"
         }
+      ],
+      "requests": [
+        [
+          {
+            "vcs": "tfvc",
+            "tfvc_project": "project0",
+            "human_name": "project0 (tfs)"
+          },
+          {
+            "vcs": "tfvc",
+            "tfvc_project": "project1",
+            "human_name": "project1 (tfs)"
+          },
+          {
+            "vcs": "tfvc",
+            "tfvc_project": "project2",
+            "human_name": "project2 (tfs)"
+          },
+          {
+            "vcs": "tfvc",
+            "tfvc_project": "project3",
+            "human_name": "project3 (tfs)"
+          }
+        ]
       ],
       "description": "View the progress of an import.\n\n**Import status**\n\nThis section includes details about the possible values of the `status` field of the Import Progress response.\n\nAn import that does not have errors will progress through these steps:\n\n*   `detecting` \\- the \"detection\" step of the import is in progress because the request did not include a `vcs` parameter. The import is identifying the type of source control present at the URL.\n*   `importing` \\- the \"raw\" step of the import is in progress. This is where commit data is fetched from the original repository. The import progress response will include `commit_count` (the total number of raw commits that will be imported) and `percent` (0 - 100, the current progress through the import).\n*   `mapping` \\- the \"rewrite\" step of the import is in progress. This is where SVN branches are converted to Git branches, and where author updates are applied. The import progress response does not include progress information.\n*   `pushing` \\- the \"push\" step of the import is in progress. This is where the importer updates the repository on GitHub. The import progress response will include `push_percent`, which is the percent value reported by `git push` when it is \"Writing objects\".\n*   `complete` \\- the import is complete, and the repository is ready on GitHub.\n\nIf there are problems, you will see one of these in the `status` field:\n\n*   `auth_failed` \\- the import requires authentication in order to connect to the original repository. To update authentication for the import, please see the [Update Existing Import](#update-existing-import) section.\n*   `error` \\- the import encountered an error. The import progress response will include the `failed_step` and an error message. Contact [GitHub support](https://github.com/contact) for more information.\n*   `detection_needs_auth` \\- the importer requires authentication for the originating repository to continue detection. To update authentication for the import, please see the [Update Existing Import](#update-existing-import) section.\n*   `detection_found_nothing` \\- the importer didn't recognize any source control at the URL. To resolve, [Cancel the import](#cancel-an-import) and [retry](#start-an-import) with the correct URL.\n*   `detection_found_multiple` \\- the importer found several projects or repositories at the provided URL. When this is the case, the Import Progress response will also include a `project_choices` field with the possible project choices as values. To update project choice, please see the [Update Existing Import](#update-existing-import) section.\n\n**The project_choices field**\n\nWhen multiple projects are found at the provided URL, the response hash will include a `project_choices` field, the value of which is an array of hashes each representing a project choice. The exact key/value pairs of the project hashes will differ depending on the version control type.\n\n**Git LFS related fields**\n\nThis section includes details about Git LFS related fields that may be present in the Import Progress response.\n\n*   `use_lfs` \\- describes whether the import has been opted in or out of using Git LFS. The value can be `opt_in`, `opt_out`, or `undecided` if no action has been taken.\n*   `has_large_files` \\- the boolean value describing whether files larger than 100MB were found during the `importing` step.\n*   `large_files_size` \\- the total size in gigabytes of files larger than 100MB found in the originating repository.\n*   `large_files_count` \\- the total number of files larger than 100MB found in the originating repository. To see a list of these files, make a \"Get Large Files\" request.",
       "responses": [
@@ -14091,6 +14436,12 @@
           "description": "The password to provide to the originating repository.",
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "vcs_username": "octocat",
+          "vcs_password": "secret"
         }
       ],
       "description": "An import can be updated with credentials or a project choice by passing in the appropriate parameters in this API request. If no parameters are provided, the import will be restarted.\n\nSome servers (e.g. TFS servers) can have several projects at a single URL. In those cases the import progress will have the status `detection_found_multiple` and the Import Progress response will include a `project_choices` array. You can select the project to import by providing one of the objects in the `project_choices` array in the update request.\n\nThe following example demonstrates the workflow for updating an import with \"project1\" as the project choice. Given a `project_choices` array like such:\n\nTo restart an import, no parameters are provided in the update request.",
@@ -14226,6 +14577,12 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "email": "hubot@github.com",
+          "name": "Hubot the Robot"
+        }
+      ],
       "description": "Update an author's identity for the import. Your application can continue updating authors any time before you push new commits to the repository.",
       "responses": [
         {
@@ -14277,6 +14634,11 @@
             "opt_out"
           ],
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "use_lfs": "opt_in"
         }
       ],
       "description": "You can import repositories from Subversion, Mercurial, and TFS that include files larger than 100MB. This ability is powered by [Git LFS](https://git-lfs.github.com). You can learn more about our LFS feature and working with large files [on our help site](https://help.github.com/articles/versioning-large-files/).",
@@ -14420,6 +14782,14 @@
           "default": false,
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "repositories": [
+            "octocat/Hello-World"
+          ],
+          "lock_repositories": true
         }
       ],
       "description": "Initiates the generation of a user migration archive.",
@@ -15368,6 +15738,13 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "text": "Hello world github/linguist#1 **cool**, and #1!",
+          "mode": "gfm",
+          "context": "github/gollum"
+        }
+      ],
       "description": "",
       "responses": [
         {
@@ -15764,6 +16141,19 @@
           "default": true,
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "billing_email": "support@github.com",
+          "blog": "https://github.com/blog",
+          "company": "GitHub",
+          "email": "support@github.com",
+          "location": "San Francisco",
+          "name": "github",
+          "description": "GitHub, the company.",
+          "default_repository_permission": "read",
+          "members_can_create_repositories": true
         }
       ],
       "description": "",
@@ -16557,6 +16947,16 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "email": "octocat@github.com",
+          "role": "direct_member",
+          "team_ids": [
+            12,
+            26
+          ]
+        }
+      ],
       "description": "Invite people to an organization by using their GitHub user ID or their email address. In order to create invitations in an organization, the authenticated user must be an organization owner.",
       "responses": [
         {
@@ -16814,6 +17214,11 @@
             "active"
           ],
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "state": "active"
         }
       ],
       "description": "",
@@ -17193,6 +17598,20 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "name": "web",
+          "active": true,
+          "events": [
+            "push",
+            "pull_request"
+          ],
+          "config": {
+            "url": "http://example.com/webhook",
+            "content_type": "json"
+          }
+        }
+      ],
       "description": "Here's how you can create a hook that posts payloads in JSON format:",
       "responses": [
         {
@@ -17292,6 +17711,14 @@
           "default": true,
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "active": true,
+          "events": [
+            "pull_request"
+          ]
         }
       ],
       "description": "",
@@ -17706,6 +18133,12 @@
           "location": "query"
         }
       ],
+      "requests": [
+        {
+          "name": "Projects Documentation",
+          "body": "Developer documentation project for the developer site."
+        }
+      ],
       "description": "**Note**: The status code may also be `401` or `410`, depending on the scope of the authenticating token.",
       "responses": [
         {
@@ -17794,6 +18227,12 @@
           "description": "Page number of the results to fetch.",
           "default": 1,
           "location": "query"
+        }
+      ],
+      "requests": [
+        {
+          "name": "Organization Roadmap",
+          "body": "High-level roadmap for the upcoming year."
         }
       ],
       "description": "**Note**: The status code may also be `401` or `410`, depending on the scope of the authenticating token.",
@@ -17909,6 +18348,12 @@
           "description": "Page number of the results to fetch.",
           "default": 1,
           "location": "query"
+        }
+      ],
+      "requests": [
+        {
+          "name": "Outcomes Tracker",
+          "body": "The board to track work for the Outcomes application."
         }
       ],
       "description": "**Note**: The status code may also be `401` or `410`, depending on the scope of the authenticating token.",
@@ -18242,6 +18687,12 @@
           "description": "The `id` value of a column in the same project.",
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "position": "after:3",
+          "column_id": 5
         }
       ],
       "description": "",
@@ -18640,6 +19091,11 @@
             "after:<column_id>"
           ],
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "position": "after:3"
         }
       ],
       "description": "",
@@ -19678,6 +20134,14 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "title": "Amazing new feature",
+          "body": "Please pull this in!",
+          "head": "octocat:new-feature",
+          "base": "master"
+        }
+      ],
       "description": "**Note:** To open a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open a pull request.",
       "responses": [
         {
@@ -20133,6 +20597,13 @@
           "description": "Indicates whether [maintainers can modify](https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/) the pull request.",
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "issue": 5,
+          "head": "octocat:new-feature",
+          "base": "master"
         }
       ],
       "description": "**Note:** To open a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open a pull request.",
@@ -20608,6 +21079,14 @@
           "description": "Indicates whether [maintainers can modify](https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/) the pull request.",
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "title": "new title",
+          "body": "updated body",
+          "state": "open",
+          "base": "master"
         }
       ],
       "description": "**Note:** To open a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open a pull request.",
@@ -21781,6 +22260,20 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "commit_id": "ecdd80bb57125d7ba9641ffaa4d7d2c19d3f3091",
+          "body": "This is close to perfect! Please address the suggested inline change.",
+          "event": "REQUEST_CHANGES",
+          "comments": [
+            {
+              "path": "file.md",
+              "position": 6,
+              "body": "Please add more information here, and fix this typo."
+            }
+          ]
+        }
+      ],
       "description": "**Note:** To comment on a specific line in a file, you need to first determine the _position_ of that line in the diff. The GitHub REST API v3 offers the `application/vnd.github.v3.diff` [media type](https://developer.github.com/v3/media/#commits-commit-comparison-and-pull-requests). To see a pull request diff, add this media type to the `Accept` header of a call to the [single pull request](https://developer.github.com/v3/pulls/#get-a-single-pull-request) endpoint.\n\nThe `position` value equals the number of lines down from the first \"@@\" hunk header in the file you want to add a comment. The line just below the \"@@\" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.",
       "responses": [
         {
@@ -22098,7 +22591,7 @@
           "location": "query"
         }
       ],
-      "description": "By default, review comments are ordered by ascending ID.",
+      "description": "By default, review comments are ordered by ascending ID.\n\n",
       "responses": [
         {
           "headers": {
@@ -22228,7 +22721,7 @@
           "location": "query"
         }
       ],
-      "description": "By default, review comments are ordered by ascending ID.",
+      "description": "By default, review comments are ordered by ascending ID.\n\n",
       "responses": [
         {
           "headers": {
@@ -22436,6 +22929,14 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "body": "Nice change",
+          "commit_id": "6dcb09b5b57875f334f61aebed695e2e4193db5e",
+          "path": "file1.txt",
+          "position": 4
+        }
+      ],
       "description": "**Note:** To comment on a specific line in a file, you need to first determine the _position_ of that line in the diff. The GitHub REST API v3 offers the `application/vnd.github.v3.diff` [media type](https://developer.github.com/v3/media/#commits-commit-comparison-and-pull-requests). To see a pull request diff, add this media type to the `Accept` header of a call to the [single pull request](https://developer.github.com/v3/pulls/#get-a-single-pull-request) endpoint.\n\nThe `position` value equals the number of lines down from the first \"@@\" hunk header in the file you want to add a comment. The line just below the \"@@\" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.",
       "responses": [
         {
@@ -22539,6 +23040,12 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "body": "Nice change",
+          "in_reply_to": 4
+        }
+      ],
       "description": "**Note:** To comment on a specific line in a file, you need to first determine the _position_ of that line in the diff. The GitHub REST API v3 offers the `application/vnd.github.v3.diff` [media type](https://developer.github.com/v3/media/#commits-commit-comparison-and-pull-requests). To see a pull request diff, add this media type to the `Accept` header of a call to the [single pull request](https://developer.github.com/v3/pulls/#get-a-single-pull-request) endpoint.\n\nThe `position` value equals the number of lines down from the first \"@@\" hunk header in the file you want to add a comment. The line just below the \"@@\" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.",
       "responses": [
         {
@@ -22633,6 +23140,11 @@
           "description": "The text of the comment.",
           "required": true,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "body": "Nice change"
         }
       ],
       "description": "",
@@ -22871,6 +23383,18 @@
           "description": "An array of team `slug`s that will be requested.",
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "reviewers": [
+            "octocat",
+            "hubot",
+            "other_user"
+          ],
+          "team_reviewers": [
+            "justice-league"
+          ]
         }
       ],
       "description": "",
@@ -23400,6 +23924,18 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "reviewers": [
+            "octocat",
+            "hubot",
+            "other_user"
+          ],
+          "team_reviewers": [
+            "justice-league"
+          ]
+        }
+      ],
       "description": "",
       "responses": [
         {
@@ -23554,6 +24090,11 @@
             "hooray"
           ],
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "content": "heart"
         }
       ],
       "description": "Create a reaction to a [commit comment](https://developer.github.com/v3/repos/comments/). A response with a `Status: 200 OK` means that you already added the reaction type to this commit comment.",
@@ -23736,6 +24277,11 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "content": "heart"
+        }
+      ],
       "description": "Create a reaction to an [issue](https://developer.github.com/v3/issues/). A response with a `Status: 200 OK` means that you already added the reaction type to this issue.",
       "responses": [
         {
@@ -23914,6 +24460,11 @@
             "hooray"
           ],
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "content": "heart"
         }
       ],
       "description": "Create a reaction to an [issue comment](https://developer.github.com/v3/issues/comments/). A response with a `Status: 200 OK` means that you already added the reaction type to this issue comment.",
@@ -24096,6 +24647,11 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "content": "heart"
+        }
+      ],
       "description": "Create a reaction to a [pull request review comment](https://developer.github.com/v3/pulls/comments/). A response with a `Status: 200 OK` means that you already added the reaction type to this pull request review comment.",
       "responses": [
         {
@@ -24260,6 +24816,11 @@
             "hooray"
           ],
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "content": "heart"
         }
       ],
       "description": "Create a reaction to a [team discussion](https://developer.github.com/v3/teams/discussions/). OAuth access tokens require the `write:discussion` [scope](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/). A response with a `Status: 200 OK` means that you already added the reaction type to this team discussion.",
@@ -24440,6 +25001,11 @@
             "hooray"
           ],
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "content": "heart"
         }
       ],
       "description": "Create a reaction to a [team discussion comment](https://developer.github.com/v3/teams/discussion_comments/). OAuth access tokens require the `write:discussion` [scope](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/). A response with a `Status: 200 OK` means that you already added the reaction type to this team discussion comment.",
@@ -25034,6 +25600,17 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "name": "Hello-World",
+          "description": "This is your first repository",
+          "homepage": "https://github.com",
+          "private": false,
+          "has_issues": true,
+          "has_projects": true,
+          "has_wiki": true
+        }
+      ],
       "description": "**Note**: There are two endpoints for creating a repository: one to create a repository on a user account, and one to create a repository in an organization. The organization endpoint is fully enabled for [GitHub Apps](https://developer.github.com/v3/apps/available-endpoints/), whereas the user endpoint is enabled only for [user-to-server requests](https://developer.github.com/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#user-to-server-requests).\n\n**OAuth scope requirements**\n\nWhen using [OAuth](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/), authorizations must include:\n\n*   `public_repo` scope or `repo` scope to create a public repository\n*   `repo` scope to create a private repository",
       "responses": [
         {
@@ -25269,6 +25846,17 @@
           "default": true,
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "name": "Hello-World",
+          "description": "This is your first repository",
+          "homepage": "https://github.com",
+          "private": false,
+          "has_issues": true,
+          "has_projects": true,
+          "has_wiki": true
         }
       ],
       "description": "**Note**: There are two endpoints for creating a repository: one to create a repository on a user account, and one to create a repository in an organization. The organization endpoint is fully enabled for [GitHub Apps](https://developer.github.com/v3/apps/available-endpoints/), whereas the user endpoint is enabled only for [user-to-server requests](https://developer.github.com/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#user-to-server-requests).\n\n**OAuth scope requirements**\n\nWhen using [OAuth](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/), authorizations must include:\n\n*   `public_repo` scope or `repo` scope to create a public repository\n*   `repo` scope to create a private repository",
@@ -25874,6 +26462,17 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "name": "Hello-World",
+          "description": "This is your first repository",
+          "homepage": "https://github.com",
+          "private": true,
+          "has_issues": true,
+          "has_projects": true,
+          "has_wiki": true
+        }
+      ],
       "description": "**Note**: To edit a repository's topics, use the [`topics` endpoint](#replace-all-topics-for-a-repository).",
       "responses": [
         {
@@ -26288,6 +26887,16 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "names": [
+            "octocat",
+            "atom",
+            "electron",
+            "API"
+          ]
+        }
+      ],
       "description": "",
       "responses": [
         {
@@ -26594,6 +27203,15 @@
           "description": "ID of the team or teams to add to the repository. Teams can only be added to organization-owned repositories.",
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "new_owner": "github",
+          "team_ids": [
+            12,
+            345
+          ]
         }
       ],
       "description": "A transfer request will need to be accepted by the new owner when transferring a personal repository to another user. The response will contain the original `owner`, and the transfer will continue asynchronously. For more details on the requirements to transfer personal and organization-owned repositories, see [about repository transfers](https://help.github.com/articles/about-repository-transfers/).",
@@ -27156,6 +27774,38 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "required_status_checks": {
+            "strict": true,
+            "contexts": [
+              "continuous-integration/travis-ci"
+            ]
+          },
+          "enforce_admins": true,
+          "required_pull_request_reviews": {
+            "dismissal_restrictions": {
+              "users": [
+                "octocat"
+              ],
+              "teams": [
+                "justice-league"
+              ]
+            },
+            "dismiss_stale_reviews": true,
+            "require_code_owner_reviews": true,
+            "required_approving_review_count": 2
+          },
+          "restrictions": {
+            "users": [
+              "octocat"
+            ],
+            "teams": [
+              "justice-league"
+            ]
+          }
+        }
+      ],
       "description": "Protecting a branch requires admin or owner permissions to the repository.\n\n**Note**: Passing new arrays of `users` and `teams` replaces their previous values.\n\n**Note**: The list of users and teams in total is limited to 100 items.",
       "responses": [
         {
@@ -27403,6 +28053,14 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "strict": true,
+          "contexts": [
+            "continuous-integration/travis-ci"
+          ]
+        }
+      ],
       "description": "Updating required status checks requires admin or owner permissions to the repository and branch protection to be enabled.",
       "responses": [
         {
@@ -27515,6 +28173,11 @@
           "location": "url"
         }
       ],
+      "requests": [
+        [
+          "continuous-integration/travis-ci"
+        ]
+      ],
       "description": "",
       "responses": [
         {
@@ -27557,6 +28220,11 @@
           "description": "",
           "location": "url"
         }
+      ],
+      "requests": [
+        [
+          "continuous-integration/jenkins"
+        ]
       ],
       "description": "",
       "responses": [
@@ -27601,6 +28269,11 @@
           "description": "",
           "location": "url"
         }
+      ],
+      "requests": [
+        [
+          "continuous-integration/jenkins"
+        ]
       ],
       "description": "",
       "responses": [
@@ -27717,6 +28390,21 @@
           "description": "Specifies the number of reviewers required to approve pull requests. Use a number between 1 and 6.",
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "dismissal_restrictions": {
+            "users": [
+              "octocat"
+            ],
+            "teams": [
+              "justice-league"
+            ]
+          },
+          "dismiss_stale_reviews": true,
+          "require_code_owner_reviews": true,
+          "required_approving_review_count": 2
         }
       ],
       "description": "Updating pull request review enforcement requires admin or owner permissions to the repository and branch protection to be enabled.\n\n**Note**: Passing new arrays of `users` and `teams` replaces their previous values.",
@@ -28129,7 +28817,40 @@
           "required": true,
           "description": "",
           "location": "url"
+        },
+        {
+          "name": "per_page",
+          "type": "integer",
+          "required": false,
+          "description": "Results per page (max 100)",
+          "default": 30,
+          "location": "query"
+        },
+        {
+          "name": "page",
+          "type": "integer",
+          "required": false,
+          "description": "Page number of the results to fetch.",
+          "default": 1,
+          "location": "query"
         }
+      ],
+      "requests": [
+        [
+          {
+            "id": 1,
+            "node_id": "MDQ6VGVhbTE=",
+            "url": "https://api.github.com/teams/1",
+            "name": "Justice League",
+            "slug": "justice-league",
+            "description": "A great team.",
+            "privacy": "closed",
+            "permission": "admin",
+            "members_url": "https://api.github.com/teams/1/members{/member}",
+            "repositories_url": "https://api.github.com/teams/1/repos",
+            "parent": null
+          }
+        ]
       ],
       "description": "Lists the teams who have push access to this branch. If you pass the `hellcat-preview` media type, the list includes child teams.",
       "responses": [],
@@ -28163,6 +28884,11 @@
           "description": "",
           "location": "url"
         }
+      ],
+      "requests": [
+        [
+          "justice-league"
+        ]
       ],
       "description": "Replaces the list of teams that have push access to this branch. This removes all teams that previously had push access and grants push access to the new list of teams. If you pass the `hellcat-preview` media type, you can include child teams.\n\n| Type    | Description                                                                                                                         |\n| ------- | ----------------------------------------------------------------------------------------------------------------------------------- |\n| `array` | The teams that can have push access. Use the team's `slug`. **Note**: The list of users and teams in total is limited to 100 items. |",
       "responses": [
@@ -28219,6 +28945,11 @@
           "location": "url"
         }
       ],
+      "requests": [
+        [
+          "justice-league"
+        ]
+      ],
       "description": "Grants the specified teams push access for this branch. If you pass the `hellcat-preview` media type, you can also give push access to child teams.\n\n| Type    | Description                                                                                                                         |\n| ------- | ----------------------------------------------------------------------------------------------------------------------------------- |\n| `array` | The teams that can have push access. Use the team's `slug`. **Note**: The list of users and teams in total is limited to 100 items. |",
       "responses": [
         {
@@ -28273,6 +29004,11 @@
           "description": "",
           "location": "url"
         }
+      ],
+      "requests": [
+        [
+          "octocats"
+        ]
       ],
       "description": "Removes the ability of a team to push to this branch. If you pass the `hellcat-preview` media type, you can include child teams.\n\n| Type    | Description                                                                                                                                  |\n| ------- | -------------------------------------------------------------------------------------------------------------------------------------------- |\n| `array` | Teams that should no longer have push access. Use the team's `slug`. **Note**: The list of users and teams in total is limited to 100 items. |",
       "responses": [
@@ -28361,6 +29097,11 @@
           "location": "url"
         }
       ],
+      "requests": [
+        [
+          "octocat"
+        ]
+      ],
       "description": "Replaces the list of people that have push access to this branch. This removes all people that previously had push access and grants push access to the new list of people.\n\n| Type    | Description                                                                                                            |\n| ------- | ---------------------------------------------------------------------------------------------------------------------- |\n| `array` | Usernames for people who can have push access. **Note**: The list of users and teams in total is limited to 100 items. |",
       "responses": [
         {
@@ -28423,6 +29164,11 @@
           "location": "url"
         }
       ],
+      "requests": [
+        [
+          "octocat"
+        ]
+      ],
       "description": "Grants the specified people push access for this branch.\n\n| Type    | Description                                                                                                            |\n| ------- | ---------------------------------------------------------------------------------------------------------------------- |\n| `array` | Usernames for people who can have push access. **Note**: The list of users and teams in total is limited to 100 items. |",
       "responses": [
         {
@@ -28484,6 +29230,11 @@
           "description": "",
           "location": "url"
         }
+      ],
+      "requests": [
+        [
+          "defunkt"
+        ]
       ],
       "description": "Removes the ability of a team to push to this branch.\n\n| Type    | Description                                                                                                                            |\n| ------- | -------------------------------------------------------------------------------------------------------------------------------------- |\n| `array` | Usernames of the people who should no longer have push access. **Note**: The list of users and teams in total is limited to 100 items. |",
       "responses": [
@@ -28794,7 +29545,7 @@
           "location": "query"
         }
       ],
-      "description": "Commit Comments use [these custom media types](#custom-media-types). You can read more about the use of media types in the API [here](https://developer.github.com/v3/media/).\n\nComments are ordered by ascending ID.",
+      "description": "Commit Comments use [these custom media types](#custom-media-types). You can read more about the use of media types in the API [here](https://developer.github.com/v3/media/).\n\nComments are ordered by ascending ID.\n\n",
       "responses": [
         {
           "headers": {
@@ -28988,6 +29739,14 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "body": "Great stuff",
+          "path": "file1.txt",
+          "position": 4,
+          "line": null
+        }
+      ],
       "description": "",
       "responses": [
         {
@@ -29139,6 +29898,11 @@
           "description": "The contents of the comment",
           "required": true,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "body": "Nice change"
         }
       ],
       "description": "",
@@ -29603,6 +30367,269 @@
           "location": "url"
         }
       ],
+      "requests": [
+        {
+          "url": "https://api.github.com/repos/octocat/Hello-World/compare/master...topic",
+          "html_url": "https://github.com/octocat/Hello-World/compare/master...topic",
+          "permalink_url": "https://github.com/octocat/Hello-World/compare/octocat:bbcd538c8e72b8c175046e27cc8f907076331401...octocat:0328041d1152db8ae77652d1618a02e57f745f17",
+          "diff_url": "https://github.com/octocat/Hello-World/compare/master...topic.diff",
+          "patch_url": "https://github.com/octocat/Hello-World/compare/master...topic.patch",
+          "base_commit": {
+            "url": "https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+            "sha": "6dcb09b5b57875f334f61aebed695e2e4193db5e",
+            "node_id": "MDY6Q29tbWl0NmRjYjA5YjViNTc4NzVmMzM0ZjYxYWViZWQ2OTVlMmU0MTkzZGI1ZQ==",
+            "html_url": "https://github.com/octocat/Hello-World/commit/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+            "comments_url": "https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e/comments",
+            "commit": {
+              "url": "https://api.github.com/repos/octocat/Hello-World/git/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+              "author": {
+                "name": "Monalisa Octocat",
+                "email": "support@github.com",
+                "date": "2011-04-14T16:00:49Z"
+              },
+              "committer": {
+                "name": "Monalisa Octocat",
+                "email": "support@github.com",
+                "date": "2011-04-14T16:00:49Z"
+              },
+              "message": "Fix all the bugs",
+              "tree": {
+                "url": "https://api.github.com/repos/octocat/Hello-World/tree/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+                "sha": "6dcb09b5b57875f334f61aebed695e2e4193db5e"
+              },
+              "comment_count": 0,
+              "verification": {
+                "verified": false,
+                "reason": "unsigned",
+                "signature": null,
+                "payload": null
+              }
+            },
+            "author": {
+              "login": "octocat",
+              "id": 1,
+              "node_id": "MDQ6VXNlcjE=",
+              "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/octocat",
+              "html_url": "https://github.com/octocat",
+              "followers_url": "https://api.github.com/users/octocat/followers",
+              "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+              "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+              "organizations_url": "https://api.github.com/users/octocat/orgs",
+              "repos_url": "https://api.github.com/users/octocat/repos",
+              "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/octocat/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "committer": {
+              "login": "octocat",
+              "id": 1,
+              "node_id": "MDQ6VXNlcjE=",
+              "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/octocat",
+              "html_url": "https://github.com/octocat",
+              "followers_url": "https://api.github.com/users/octocat/followers",
+              "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+              "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+              "organizations_url": "https://api.github.com/users/octocat/orgs",
+              "repos_url": "https://api.github.com/users/octocat/repos",
+              "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/octocat/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "parents": [
+              {
+                "url": "https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+                "sha": "6dcb09b5b57875f334f61aebed695e2e4193db5e"
+              }
+            ]
+          },
+          "merge_base_commit": {
+            "url": "https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+            "sha": "6dcb09b5b57875f334f61aebed695e2e4193db5e",
+            "node_id": "MDY6Q29tbWl0NmRjYjA5YjViNTc4NzVmMzM0ZjYxYWViZWQ2OTVlMmU0MTkzZGI1ZQ==",
+            "html_url": "https://github.com/octocat/Hello-World/commit/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+            "comments_url": "https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e/comments",
+            "commit": {
+              "url": "https://api.github.com/repos/octocat/Hello-World/git/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+              "author": {
+                "name": "Monalisa Octocat",
+                "email": "support@github.com",
+                "date": "2011-04-14T16:00:49Z"
+              },
+              "committer": {
+                "name": "Monalisa Octocat",
+                "email": "support@github.com",
+                "date": "2011-04-14T16:00:49Z"
+              },
+              "message": "Fix all the bugs",
+              "tree": {
+                "url": "https://api.github.com/repos/octocat/Hello-World/tree/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+                "sha": "6dcb09b5b57875f334f61aebed695e2e4193db5e"
+              },
+              "comment_count": 0,
+              "verification": {
+                "verified": false,
+                "reason": "unsigned",
+                "signature": null,
+                "payload": null
+              }
+            },
+            "author": {
+              "login": "octocat",
+              "id": 1,
+              "node_id": "MDQ6VXNlcjE=",
+              "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/octocat",
+              "html_url": "https://github.com/octocat",
+              "followers_url": "https://api.github.com/users/octocat/followers",
+              "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+              "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+              "organizations_url": "https://api.github.com/users/octocat/orgs",
+              "repos_url": "https://api.github.com/users/octocat/repos",
+              "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/octocat/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "committer": {
+              "login": "octocat",
+              "id": 1,
+              "node_id": "MDQ6VXNlcjE=",
+              "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/octocat",
+              "html_url": "https://github.com/octocat",
+              "followers_url": "https://api.github.com/users/octocat/followers",
+              "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+              "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+              "organizations_url": "https://api.github.com/users/octocat/orgs",
+              "repos_url": "https://api.github.com/users/octocat/repos",
+              "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/octocat/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "parents": [
+              {
+                "url": "https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+                "sha": "6dcb09b5b57875f334f61aebed695e2e4193db5e"
+              }
+            ]
+          },
+          "status": "behind",
+          "ahead_by": 1,
+          "behind_by": 2,
+          "total_commits": 1,
+          "commits": [
+            {
+              "url": "https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+              "sha": "6dcb09b5b57875f334f61aebed695e2e4193db5e",
+              "node_id": "MDY6Q29tbWl0NmRjYjA5YjViNTc4NzVmMzM0ZjYxYWViZWQ2OTVlMmU0MTkzZGI1ZQ==",
+              "html_url": "https://github.com/octocat/Hello-World/commit/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+              "comments_url": "https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e/comments",
+              "commit": {
+                "url": "https://api.github.com/repos/octocat/Hello-World/git/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+                "author": {
+                  "name": "Monalisa Octocat",
+                  "email": "support@github.com",
+                  "date": "2011-04-14T16:00:49Z"
+                },
+                "committer": {
+                  "name": "Monalisa Octocat",
+                  "email": "support@github.com",
+                  "date": "2011-04-14T16:00:49Z"
+                },
+                "message": "Fix all the bugs",
+                "tree": {
+                  "url": "https://api.github.com/repos/octocat/Hello-World/tree/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+                  "sha": "6dcb09b5b57875f334f61aebed695e2e4193db5e"
+                },
+                "comment_count": 0,
+                "verification": {
+                  "verified": false,
+                  "reason": "unsigned",
+                  "signature": null,
+                  "payload": null
+                }
+              },
+              "author": {
+                "login": "octocat",
+                "id": 1,
+                "node_id": "MDQ6VXNlcjE=",
+                "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+                "gravatar_id": "",
+                "url": "https://api.github.com/users/octocat",
+                "html_url": "https://github.com/octocat",
+                "followers_url": "https://api.github.com/users/octocat/followers",
+                "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+                "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+                "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+                "organizations_url": "https://api.github.com/users/octocat/orgs",
+                "repos_url": "https://api.github.com/users/octocat/repos",
+                "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+                "received_events_url": "https://api.github.com/users/octocat/received_events",
+                "type": "User",
+                "site_admin": false
+              },
+              "committer": {
+                "login": "octocat",
+                "id": 1,
+                "node_id": "MDQ6VXNlcjE=",
+                "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+                "gravatar_id": "",
+                "url": "https://api.github.com/users/octocat",
+                "html_url": "https://github.com/octocat",
+                "followers_url": "https://api.github.com/users/octocat/followers",
+                "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+                "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+                "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+                "organizations_url": "https://api.github.com/users/octocat/orgs",
+                "repos_url": "https://api.github.com/users/octocat/repos",
+                "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+                "received_events_url": "https://api.github.com/users/octocat/received_events",
+                "type": "User",
+                "site_admin": false
+              },
+              "parents": [
+                {
+                  "url": "https://api.github.com/repos/octocat/Hello-World/commits/6dcb09b5b57875f334f61aebed695e2e4193db5e",
+                  "sha": "6dcb09b5b57875f334f61aebed695e2e4193db5e"
+                }
+              ]
+            }
+          ],
+          "files": [
+            {
+              "sha": "bbcd538c8e72b8c175046e27cc8f907076331401",
+              "filename": "file1.txt",
+              "status": "added",
+              "additions": 103,
+              "deletions": 21,
+              "changes": 124,
+              "blob_url": "https://github.com/octocat/Hello-World/blob/6dcb09b5b57875f334f61aebed695e2e4193db5e/file1.txt",
+              "raw_url": "https://github.com/octocat/Hello-World/raw/6dcb09b5b57875f334f61aebed695e2e4193db5e/file1.txt",
+              "contents_url": "https://api.github.com/repos/octocat/Hello-World/contents/file1.txt?ref=6dcb09b5b57875f334f61aebed695e2e4193db5e",
+              "patch": "@@ -132,7 +132,7 @@ module Test @@ -1000,7 +1000,7 @@ module Test"
+            }
+          ]
+        }
+      ],
       "description": "Both `:base` and `:head` must be branch names in `:repo`. To compare branches across other repositories in the same network as `:repo`, use the format `<USERNAME>:branch`. For example:\n\n```\nGET /repos/:owner/:repo/compare/hubot:branchname...octocat:branchname\n```\n\nThe response from the API is equivalent to running the `git log base..head` command; however, commits are returned in reverse chronological order.\n\nPass the appropriate [media type](https://developer.github.com/v3/media/#commits-commit-comparison-and-pull-requests) to fetch diff and patch formats.\n\n**Working with large comparisons**\n\nThe response will include a comparison of up to 250 commits. If you are working with a larger commit range, you can use the [Commit List API](https://developer.github.com/v3/repos/commits/#list-commits-on-a-repository) to enumerate all commits in the range.\n\nFor comparisons with extremely large diffs, you may receive an error response indicating that the diff took too long to generate. You can typically resolve this error by using a smaller commit range.",
       "responses": [],
       "idName": "compare-commits",
@@ -29839,6 +30866,16 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "message": "my commit message",
+          "committer": {
+            "name": "Scott Chacon",
+            "email": "schacon@gmail.com"
+          },
+          "content": "bXkgbmV3IGZpbGUgY29udGVudHM="
+        }
+      ],
       "description": "This method creates a new file in a repository\n\nThe `author` section is optional and is filled in with the `committer` information if omitted. If the `committer` information is omitted, the authenticated user's information is used.\n\nYou must provide values for both `name` and `email`, whether you choose to use `author` or `committer`. Otherwise, you'll receive a `422` status code.\n\nBoth the `author` and `committer` parameters have the same keys:\n\n| name  | type   | description                                          |\n| ----- | ------ | ---------------------------------------------------- |\n| name  | string | The name of the author (or committer) of the commit  |\n| email | string | The email of the author (or committer) of the commit |",
       "responses": [
         {
@@ -29972,6 +31009,17 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "message": "my commit message",
+          "committer": {
+            "name": "Scott Chacon",
+            "email": "schacon@gmail.com"
+          },
+          "content": "bXkgdXBkYXRlZCBmaWxlIGNvbnRlbnRz",
+          "sha": "329688480d39049927147c162b9d2deaf885005f"
+        }
+      ],
       "description": "This method updates a file in a repository\n\nThe `author` section is optional and is filled in with the `committer` information if omitted. If the `committer` information is omitted, the authenticated user's information is used.\n\nYou must provide values for both `name` and `email`, whether you choose to use `author` or `committer`. Otherwise, you'll receive a `422` status code.\n\nBoth the `author` and `committer` parameters have the same keys:\n\n| name  | type   | description                                          |\n| ----- | ------ | ---------------------------------------------------- |\n| name  | string | The name of the author (or committer) of the commit  |\n| email | string | The email of the author (or committer) of the commit |",
       "responses": [
         {
@@ -30096,6 +31144,16 @@
           "type": "object",
           "description": "object containing information about the author.",
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "message": "my commit message",
+          "committer": {
+            "name": "Scott Chacon",
+            "email": "schacon@gmail.com"
+          },
+          "sha": "329688480d39049927147c162b9d2deaf885005f"
         }
       ],
       "description": "This method deletes a file in a repository\n\nThe `author` section is optional and is filled in with the `committer` information if omitted. If the `committer` information is omitted, the authenticated user's information is used.\n\nYou must provide values for both `name` and `email`, whether you choose to use `author` or `committer`. Otherwise, you'll receive a `422` status code.\n\nBoth the `author` and `committer` parameters have the same keys:\n\n| name  | type   | description                                          |\n| ----- | ------ | ---------------------------------------------------- |\n| name  | string | The name of the author (or committer) of the commit  |\n| email | string | The email of the author (or committer) of the commit |",
@@ -30349,6 +31407,13 @@
           "description": "If `true`, the key will only be able to read repository contents. Otherwise, the key will be able to read and write.  \n  \nDeploy keys with write access can perform the same actions as an organization member with admin access, or a collaborator on a personal repository. For more information, see \"[Repository permission levels for an organization](https://help.github.com/articles/repository-permission-levels-for-an-organization/)\" and \"[Permission levels for a user account repository](https://help.github.com/articles/permission-levels-for-a-user-account-repository/).\"",
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "title": "octocat@octomac",
+          "key": "ssh-rsa AAA...",
+          "read_only": true
         }
       ],
       "description": "Here's how you can create a read-only deploy key:\n\n",
@@ -30700,6 +31765,13 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "ref": "topic-branch",
+          "payload": "{\"user\":\"atmos\",\"room_id\":123456}",
+          "description": "Deploying my sweet branch"
+        }
+      ],
       "description": "Deployments offer a few configurable parameters with sane defaults.\n\nThe `ref` parameter can be any named branch, tag, or SHA. At GitHub we often deploy branches and verify them before we merge a pull request.\n\nThe `environment` parameter allows deployments to be issued to different runtime environments. Teams often have multiple environments for verifying their applications, such as `production`, `staging`, and `qa`. This allows for easy tracking of which environments had deployments requested. The default environment is `production`.\n\nThe `auto_merge` parameter is used to ensure that the requested ref is not behind the repository's default branch. If the ref _is_ behind the default branch for the repository, we will attempt to merge it for you. If the merge succeeds, the API will return a successful merge commit. If merge conflicts prevent the merge from succeeding, the API will return a failure response.\n\nBy default, [commit statuses](https://developer.github.com/v3/repos/statuses) for every submitted context must be in a `success` state. The `required_contexts` parameter allows you to specify a subset of contexts that must be `success`, or to specify contexts that have not yet been submitted. You are not required to use commit statuses to deploy. If you do not require any contexts or create any commit statuses, the deployment will always succeed.\n\nThe `payload` parameter is available for any extra information that a deployment system might need. It is a JSON text field that will be passed on when a deployment event is dispatched.\n\nThe `task` parameter is used by the deployment system to allow different execution paths. In the web world this might be `deploy:migrations` to run schema changes on the system. In the compiled world this could be a flag to compile an application with debugging enabled.\n\nUsers with `repo` or `repo_deployment` scopes can create a deployment for a given ref:\n\nA simple example putting the user and room into the payload to notify back to chat networks.\n\nA more advanced example specifying required commit statuses and bypassing auto-merging.\n\nThis error happens when the `auto_merge` option is enabled and when the default branch (in this case `master`), can't be merged into the branch that's being deployed (in this case `topic-branch`), due to merge conflicts.\n\nThis error happens when the `required_contexts` parameter indicates that one or more contexts need to have a `success` status for the commit to be deployed, but one or more of the required contexts do not have a state of `success`.",
       "idName": "create-deployment",
       "documentationUrl": "https://developer.github.com/v3/repos/deployments/#create-a-deployment"
@@ -30967,6 +32039,13 @@
           "default": true,
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "state": "success",
+          "target_url": "https://example.com/deployment/42/output",
+          "description": "Deployment finished successfully."
         }
       ],
       "description": "Users with push access can create deployment statuses for a given deployment:",
@@ -32211,6 +33290,13 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "base": "master",
+          "head": "cool_feature",
+          "commit_message": "Shipped cool_feature!"
+        }
+      ],
       "description": "",
       "idName": "merge",
       "documentationUrl": "https://developer.github.com/v3/repos/merging/#perform-a-merge"
@@ -32921,6 +34007,16 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "tag_name": "v1.0.0",
+          "target_commitish": "master",
+          "name": "v1.0.0",
+          "body": "Description of the release",
+          "draft": false,
+          "prerelease": false
+        }
+      ],
       "description": "Users with push access to the repository can create a release.",
       "responses": [
         {
@@ -33041,6 +34137,16 @@
           "description": "`true` to identify the release as a prerelease, `false` to identify the release as a full release.",
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "tag_name": "v1.0.0",
+          "target_commitish": "master",
+          "name": "v1.0.0",
+          "body": "Description of the release",
+          "draft": false,
+          "prerelease": false
         }
       ],
       "description": "Users with push access to the repository can edit a release.",
@@ -33423,6 +34529,12 @@
           "description": "An alternate short description of the asset. Used in place of the filename.",
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "name": "foo-1.0.0-osx.zip",
+          "label": "Mac binary"
         }
       ],
       "description": "Users with push access to the repository can edit a release asset.",
@@ -33923,6 +35035,14 @@
           "default": "default",
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "state": "success",
+          "target_url": "https://example.com/build/status",
+          "description": "The build succeeded!",
+          "context": "continuous-integration/jenkins"
         }
       ],
       "description": "Users with push access in a repository can create commit statuses for a given SHA.\n\nNote: there is a limit of 1000 statuses per `sha` and `context` within a repository. Attempts to create more than 1000 statuses will result in a validation error.",
@@ -34771,6 +35891,20 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "name": "web",
+          "active": true,
+          "events": [
+            "push",
+            "pull_request"
+          ],
+          "config": {
+            "url": "http://example.com/webhook",
+            "content_type": "json"
+          }
+        }
+      ],
       "description": "Repositories can have multiple webhooks installed. Each webhook should have a unique `config`. Multiple webhooks can share the same `config` as long as those webhooks do not have any `events` that overlap.\n\n**Note**: Repository service hooks (like email or Campfire) can have at most one configured at a time. Creating hooks for a service that already has one configured will [update the existing hook](#edit-a-hook).\n\n**Note**: GitHub Services will no longer be supported as of October 1, 2018. Please see the [blog post](/changes/2018-04-25-github-services-deprecation) for details. You can use the [Replacing GitHub Services guide](https://developer.github.com/v3/guides/replacing-github-services) to help you update your services to webhooks.\n\nHere's how you can create a hook that posts payloads in JSON format:",
       "responses": [
         {
@@ -34892,6 +36026,14 @@
           "default": true,
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "active": true,
+          "add_events": [
+            "pull_request"
+          ]
         }
       ],
       "description": "",
@@ -35101,6 +36243,42 @@
           "location": "query"
         }
       ],
+      "requests": [
+        {
+          "text_matches": [
+            {
+              "object_url": "https://api.github.com/repositories/3081286",
+              "object_type": "Repository",
+              "property": "name",
+              "fragment": "Tetris",
+              "matches": [
+                {
+                  "text": "Tetris",
+                  "indices": [
+                    0,
+                    6
+                  ]
+                }
+              ]
+            },
+            {
+              "object_url": "https://api.github.com/repositories/3081286",
+              "object_type": "Repository",
+              "property": "description",
+              "fragment": "A C implementation of Tetris using Pennsim through LC4",
+              "matches": [
+                {
+                  "text": "Tetris",
+                  "indices": [
+                    22,
+                    28
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
       "description": "Find repositories via various criteria. This method returns up to 100 results [per page](https://developer.github.com/v3/#pagination).\n\nThe `q` search term can also contain any combination of the supported repository search qualifiers as described by the in-browser [repository search documentation](https://help.github.com/articles/searching-repositories/) and [search syntax documentation](https://help.github.com/articles/search-syntax/):\n\n*   [`created` or `pushed`](https://help.github.com/articles/searching-repositories#search-based-on-when-a-repository-was-created-or-last-updated) Filters repositories based on date of creation, or when they were last updated.\n*   [`fork`](https://help.github.com/articles/searching-repositories#search-based-on-the-number-of-forks-the-parent-repository-has) Filters whether forked repositories should be included (`true`) or only forked repositories should be returned (`only`).\n*   [`forks`](https://help.github.com/articles/searching-repositories#search-based-on-the-number-of-forks-the-parent-repository-has) Filters repositories based on the number of forks.\n*   [`in`](https://help.github.com/articles/searching-repositories#scope-the-search-fields) Qualifies which fields are searched. With this qualifier you can restrict the search to just the repository name, description, readme, or any combination of these.\n*   [`language`](https://help.github.com/articles/searching-repositories#search-based-on-the-main-language-of-a-repository) Searches repositories based on the language they're written in.\n*   [`license`](https://help.github.com/articles/searching-repositories#search-by-license) Filters repositories by license or license family, using the [license keyword](https://help.github.com/articles/licensing-a-repository/#searching-github-by-license-type).\n*   [`repo` or `user`](https://help.github.com/articles/searching-repositories#search-within-a-users-or-organizations-repositories) Limits searches to a specific repository or user.\n*   [`size`](https://help.github.com/articles/searching-repositories#search-based-on-the-size-of-a-repository) Finds repositories that match a certain size (in kilobytes).\n*   [`stars`](https://help.github.com/articles/searching-repositories#search-based-on-the-number-of-stars-a-repository-has) Searches repositories based on the number of stars.\n*   [`topic`](https://help.github.com/articles/classifying-your-repository-with-topics/) Filters repositories based on the specified topic.\n*   [`archived`](https://help.github.com/articles/searching-repositories/#search-based-on-whether-a-repository-is-archived) Filters whether archived repositories should be included (`true`) or not (`false`).\n\nSuppose you want to search for popular Tetris repositories written in Assembly. Your query might look like this.\n\nYou can search for multiple topics by adding more `topic:` instances, and including the `mercy-preview` header. For example:\n\nIn this request, we're searching for repositories with the word `tetris` in the name, the description, or the README. We're limiting the results to only find repositories where the primary language is Assembly. We're sorting by stars in descending order, so that the most popular repositories appear first in the search results.\n\n**Highlighting repository search results**\n\nYou might want to highlight the matching search terms when displaying search results. The API offers additional metadata to support this use case. To get this metadata in your search results, specify the `text-match` media type in your `Accept` header. For example, via cURL, the above query would look like this:\n\nThis produces the same JSON payload as above, with an extra key called `text_matches`, an array of objects. These objects provide information such as the position of your search terms within the text, as well as the `property` that included the search term.\n\nWhen searching for repositories, you can get text match metadata for the **name** and **description** fields. For details on the attributes present in the `text_matches` array, see [text match metadata](#text-match-metadata).\n\nHere's an example response:",
       "idName": "repos",
       "documentationUrl": "https://developer.github.com/v3/search/#search-repositories"
@@ -35216,6 +36394,42 @@
           "location": "query"
         }
       ],
+      "requests": [
+        {
+          "text_matches": [
+            {
+              "object_url": "https://api.github.com/repositories/167174/contents/src/attributes/classes.js?ref=825ac3773694e0cd23ee74895fd5aeb535b27da4",
+              "object_type": "FileContent",
+              "property": "content",
+              "fragment": ";\n\njQuery.fn.extend({\n\taddClass: function( value ) {\n\t\tvar classes, elem, cur, clazz, j, finalValue",
+              "matches": [
+                {
+                  "text": "addClass",
+                  "indices": [
+                    23,
+                    31
+                  ]
+                }
+              ]
+            },
+            {
+              "object_url": "https://api.github.com/repositories/167174/contents/src/attributes/classes.js?ref=825ac3773694e0cd23ee74895fd5aeb535b27da4",
+              "object_type": "FileContent",
+              "property": "content",
+              "fragment": ".isFunction( value ) ) {\n\t\t\treturn this.each(function( j ) {\n\t\t\t\tjQuery( this ).addClass( value.call( this",
+              "matches": [
+                {
+                  "text": "addClass",
+                  "indices": [
+                    80,
+                    88
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
       "description": "Find file contents via various criteria. This method returns up to 100 results [per page](https://developer.github.com/v3/#pagination).\n\n**Note:** You must [authenticate](https://developer.github.com/v3/#authentication) to search for code across all public repositories.\n\n**Considerations for code search**\n\nDue to the complexity of searching code, there are a few restrictions on how searches are performed:\n\n*   Only the _default branch_ is considered. In most cases, this will be the `master` branch.\n*   Only files smaller than 384 KB are searchable.\n*   You must always include at least one search term when searching source code. For example, searching for [`language:go`](https://github.com/search?utf8=%E2%9C%93&q=language%3Ago&type=Code) is not valid, while [`amazing language:go`](https://github.com/search?utf8=%E2%9C%93&q=amazing+language%3Ago&type=Code) is.\n\nThe `q` search term can also contain any combination of the supported code search qualifiers as described by the in-browser [code search documentation](https://help.github.com/articles/searching-code/) and [search syntax documentation](https://help.github.com/articles/search-syntax/):\n\n*   [`in`](https://help.github.com/articles/searching-code#scope-the-search-fields) Qualifies which fields are searched. With this qualifier you can restrict the search to the file contents (`file`), the file path (`path`), or both.\n*   [`language`](https://help.github.com/articles/searching-code#search-by-language) Searches code based on the language it's written in.\n*   [`fork`](https://help.github.com/articles/searching-code#search-by-the-number-of-forks-the-parent-repository-has) Specifies that code from forked repositories should be searched (`true`). Repository forks will not be searchable unless the fork has more stars than the parent repository.\n*   [`size`](https://help.github.com/articles/searching-code#search-by-the-size-of-the-parent-repository) Finds files that match a certain size (in bytes).\n*   [`path`](https://help.github.com/articles/searching-code#search-by-the-location-of-a-file-within-the-repository) Specifies the path prefix that the resulting file must be under.\n*   [`filename`](https://help.github.com/articles/searching-code#search-by-filename) Matches files by a substring of the filename.\n*   [`extension`](https://help.github.com/articles/searching-code#search-by-the-file-extension) Matches files with a certain extension after a dot.\n*   [`user` or `repo`](https://help.github.com/articles/searching-code#search-within-a-users-or-organizations-repositories) Limits searches to a specific user or repository.\n\nSuppose you want to find the definition of the `addClass` function inside [jQuery](https://github.com/jquery/jquery). Your query would look something like this:\n\nHere, we're searching for the keyword `addClass` within a file's contents. We're making sure that we're only looking in files where the language is JavaScript. And we're scoping the search to the `repo:jquery/jquery` repository.\n\n**Highlighting code search results**\n\nYou might want to highlight the matching search terms when displaying search results. The API offers additional metadata to support this use case. To get this metadata in your search results, specify the `text-match` media type in your `Accept` header. For example, via cURL, the above query would look like this:\n\nThis produces the same JSON payload as above, with an extra key called `text_matches`, an array of objects. These objects provide information such as the position of your search terms within the text, as well as the `property` that included the search term.\n\nWhen searching for code, you can get text match metadata for the file **content** and file **path** fields. For details on the attributes present in the `text_matches` array, see [text match metadata](#text-match-metadata).\n\nHere's an example response:",
       "idName": "code",
       "documentationUrl": "https://developer.github.com/v3/search/#search-code"
@@ -35273,6 +36487,49 @@
           "description": "Page number of the results to fetch.",
           "default": 1,
           "location": "query"
+        }
+      ],
+      "requests": [
+        {
+          "text_matches": [
+            {
+              "object_url": "https://api.github.com/repositories/215335/issues/132",
+              "object_type": "Issue",
+              "property": "body",
+              "fragment": "comprehensive windows font I know of).\n\nIf we can find a commonly distributed windows font that supports them then no problem (we can use html font tags) but otherwise the '(21)' style is probably better.\n",
+              "matches": [
+                {
+                  "text": "windows",
+                  "indices": [
+                    14,
+                    21
+                  ]
+                },
+                {
+                  "text": "windows",
+                  "indices": [
+                    78,
+                    85
+                  ]
+                }
+              ]
+            },
+            {
+              "object_url": "https://api.github.com/repositories/215335/issues/comments/25688",
+              "object_type": "IssueComment",
+              "property": "body",
+              "fragment": " right after that are a bit broken IMHO :). I suppose we could have some hack that maxes out at whatever the font does...\n\nI'll check what the state of play is on Windows.\n",
+              "matches": [
+                {
+                  "text": "Windows",
+                  "indices": [
+                    163,
+                    170
+                  ]
+                }
+              ]
+            }
+          ]
         }
       ],
       "description": "Find issues by state and keyword. This method returns up to 100 results [per page](https://developer.github.com/v3/#pagination).\n\nThe `q` search term can also contain any combination of the supported issue search qualifiers as described by the in-browser [issue search documentation](https://help.github.com/articles/searching-issues/) and [search syntax documentation](https://help.github.com/articles/search-syntax/):\n\n*   [`type`](https://help.github.com/articles/searching-issues#search-issues-or-pull-requests) With this qualifier you can restrict the search to issues (`issue`) or pull request (`pr`) only.\n*   [`in`](https://help.github.com/articles/searching-issues#scope-the-search-fields) Qualifies which fields are searched. With this qualifier you can restrict the search to just the title (`title`), body (`body`), comments (`comments`), or any combination of these.\n*   [`author`](https://help.github.com/articles/searching-issues#search-by-the-author-of-an-issue-or-pull-request) Finds issues or pull requests created by a certain user.\n*   [`assignee`](https://help.github.com/articles/searching-issues#search-by-the-assignee-of-an-issue-or-pull-request) Finds issues or pull requests that are assigned to a certain user.\n*   [`mentions`](https://help.github.com/articles/searching-issues#search-by-a-mentioned-user-within-an-issue-or-pull-request) Finds issues or pull requests that mention a certain user.\n*   [`commenter`](https://help.github.com/articles/searching-issues#search-by-a-commenter-within-an-issue-or-pull-request) Finds issues or pull requests that a certain user commented on.\n*   [`involves`](https://help.github.com/articles/searching-issues#search-by-a-user-thats-involved-within-an-issue-or-pull-request) Finds issues or pull requests that were either created by a certain user, assigned to that user, mention that user, or were commented on by that user.\n*   [`team`](https://help.github.com/articles/searching-issues/#search-by-a-team-thats-mentioned-within-an-issue-or-pull-request) For organizations you're a member of, finds issues or pull requests that @mention a team within the organization.\n*   [`state`](https://help.github.com/articles/searching-issues#search-based-on-whether-an-issue-or-pull-request-is-open) Filter issues or pull requests based on whether they're open or closed.\n*   [`labels`](https://help.github.com/articles/searching-issues#search-by-the-labels-on-an-issue) Filters issues or pull requests based on their labels.\n*   [`no`](https://help.github.com/articles/searching-issues#search-by-missing-metadata-on-an-issue-or-pull-request) Filters items missing certain metadata, such as `label`, `milestone`, or `assignee`\n*   [`language`](https://help.github.com/articles/searching-issues#search-by-the-main-language-of-a-repository) Searches for issues or pull requests within repositories that match a certain language.\n*   [`is`](https://help.github.com/articles/searching-issues#search-based-on-the-state-of-an-issue-or-pull-request) Searches for items within repositories that match a certain state, such as `open`, `closed`, or `merged`\n*   [`created` or `updated`](https://help.github.com/articles/searching-issues#search-based-on-when-an-issue-or-pull-request-was-created-or-last-updated) Filters issues or pull requests based on date of creation, or when they were last updated.\n*   [`merged`](https://help.github.com/articles/searching-issues#search-based-on-when-a-pull-request-was-merged) Filters pull requests based on the date when they were merged.\n*   [`status`](https://help.github.com/articles/searching-issues#search-based-on-commit-status) Filters pull requests based on the commit status.\n*   [`head` or `base`](https://help.github.com/articles/searching-issues#search-based-on-branch-names) Filters pull requests based on the branch that they came from or that they are modifying.\n*   [`closed`](https://help.github.com/articles/searching-issues#search-based-on-when-an-issue-or-pull-request-was-closed) Filters issues or pull requests based on the date when they were closed.\n*   [`comments`](https://help.github.com/articles/searching-issues#search-by-the-number-of-comments-an-issue-or-pull-request-has) Filters issues or pull requests based on the quantity of comments.\n*   [`user` or `repo`](https://help.github.com/articles/searching-issues#search-within-a-users-or-organizations-repositories) Limits searches to a specific user or repository.\n*   [`project`](https://help.github.com/articles/searching-issues/#search-by-project-board) Limits searches to a specific project board in a repository or organization.\n*   [`archived`](https://help.github.com/articles/searching-issues/#search-within-archived-repositories) Filters issues or pull requests based on whether they are in an archived repository.\n\nIf you know the specific SHA hash of a commit, you can use also [use it to search for pull requests](https://help.github.com/articles/searching-issues#search-by-the-commit-shas-within-a-pull-request) that contain that SHA. Note that the SHA syntax must be at least seven characters.\n\nLet's say you want to find the oldest unresolved Python bugs on Windows. Your query might look something like this.\n\nIn this query, we're searching for the keyword `windows`, within any open issue that's labeled as `bug`. The search runs across repositories whose primary language is Python. We’re sorting by creation date in ascending order, so that the oldest issues appear first in the search results.\n\n**Highlighting issue search results**\n\nYou might want to highlight the matching search terms when displaying search results. The API offers additional metadata to support this use case. To get this metadata in your search results, specify the `text-match` media type in your `Accept` header. For example, via cURL, the above query would look like this:\n\nThis produces the same JSON payload as above, with an extra key called `text_matches`, an array of objects. These objects provide information such as the position of your search terms within the text, as well as the `property` that included the search term.\n\nWhen searching for issues, you can get text match metadata for the issue **title**, issue **body**, and issue **comment body** fields. For details on the attributes present in the `text_matches` array, see [text match metadata](#text-match-metadata).\n\nHere's an example response:",
@@ -35334,6 +36591,42 @@
           "location": "query"
         }
       ],
+      "requests": [
+        {
+          "text_matches": [
+            {
+              "object_url": "https://api.github.com/users/mojombo",
+              "object_type": "User",
+              "property": "email",
+              "fragment": "tom@github.com",
+              "matches": [
+                {
+                  "text": "tom",
+                  "indices": [
+                    0,
+                    3
+                  ]
+                }
+              ]
+            },
+            {
+              "object_url": "https://api.github.com/users/mojombo",
+              "object_type": "User",
+              "property": "name",
+              "fragment": "Tom Preston-Werner",
+              "matches": [
+                {
+                  "text": "Tom",
+                  "indices": [
+                    0,
+                    3
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
       "description": "Find users via various criteria. This method returns up to 100 results [per page](https://developer.github.com/v3/#pagination).\n\nThe `q` search term can also contain any combination of the supported user search qualifiers as described by the in-browser [user search documentation](https://help.github.com/articles/searching-users/) and [search syntax documentation](https://help.github.com/articles/search-syntax/):\n\n*   [`type`](https://help.github.com/articles/searching-users#search-for-users-or-organizations) With this qualifier you can restrict the search to just personal accounts (`user`) or just organization accounts (`org`).\n*   [`in`](https://help.github.com/articles/searching-users#scope-the-search-fields) Qualifies which fields are searched. With this qualifier you can restrict the search to just the username (`login`), public email (`email`), full name (`fullname`), or any combination of these.\n*   [`repos`](https://help.github.com/articles/searching-users#search-based-on-the-number-of-repositories-a-user-has) Filters users based on the number of repositories they have.\n*   [`location`](https://help.github.com/articles/searching-users#search-based-on-the-location-where-a-user-resides) Filter users by the location indicated in their profile.\n*   [`language`](https://help.github.com/articles/searching-users#search-based-on-the-languages-of-a-users-repositories) Search for users that have repositories that match a certain language.\n*   [`created`](https://help.github.com/articles/searching-users#search-based-on-when-a-user-joined-github) Filter users based on when they joined.\n*   [`followers`](https://help.github.com/articles/searching-users#search-based-on-the-number-of-followers-a-user-has) Filter users based on the number of followers they have.\n\nImagine you're looking for a list of popular users. You might try out this query:\n\nHere, we're looking at users with the name Tom. We're only interested in those with more than 42 repositories, and only if they have over 1,000 followers.\n\n**Highlighting user search results**\n\nYou might want to highlight the matching search terms when displaying search results. The API offers additional metadata to support this use case. To get this metadata in your search results, specify the `text-match` media type in your `Accept` header. For example, via cURL, the above query would look like this:\n\nThis produces the same JSON payload as above, with an extra key called `text_matches`, an array of objects. These objects provide information such as the position of your search terms within the text, as well as the `property` that included the search term.\n\nWhen searching for users, you can get text match metadata for the issue **login**, **email**, and **name** fields. For details on the attributes present in the `text_matches` array, see [text match metadata](#text-match-metadata).",
       "idName": "users",
       "documentationUrl": "https://developer.github.com/v3/search/#search-users"
@@ -35350,6 +36643,275 @@
           "description": "The search terms.",
           "required": true,
           "location": "query"
+        }
+      ],
+      "requests": [
+        {
+          "total_count": 6,
+          "incomplete_results": false,
+          "items": [
+            {
+              "name": "ruby",
+              "display_name": "Ruby",
+              "short_description": "Ruby is a scripting language designed for simplified object-oriented programming.",
+              "description": "Ruby was developed by Yukihiro \"Matz\" Matsumoto in 1995 with the intent of having an easily readable programming language. It is integrated with the Rails framework to create dynamic web-applications. Ruby's syntax is similar to that of Perl and Python.",
+              "created_by": "Yukihiro Matsumoto",
+              "released": "December 21, 1995",
+              "created_at": "2016-11-28T22:03:59Z",
+              "updated_at": "2017-10-30T18:16:32Z",
+              "featured": true,
+              "curated": true,
+              "score": 1750.5697,
+              "text_matches": [
+                {
+                  "object_url": "https://api.github.com/search/repositories?q=topic:ruby",
+                  "object_type": "Topic",
+                  "property": "short_description",
+                  "fragment": "Ruby is a scripting language designed for simplified object-oriented programming.",
+                  "matches": [
+                    {
+                      "text": "Ruby",
+                      "indices": [
+                        0,
+                        4
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "object_url": "https://api.github.com/search/repositories?q=topic:ruby",
+                  "object_type": "Topic",
+                  "property": "description",
+                  "fragment": "Ruby was developed by Yukihiro \"Matz\" Matsumoto in 1995 with the intent of having an easily readable programming language. It is integrated with the Rails framework to create dynamic web-applications. Ruby's syntax is similar to that of Perl and Python.",
+                  "matches": [
+                    {
+                      "text": "Ruby",
+                      "indices": [
+                        0,
+                        4
+                      ]
+                    },
+                    {
+                      "text": "Ruby",
+                      "indices": [
+                        201,
+                        205
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "object_url": "https://api.github.com/search/repositories?q=topic:ruby",
+                  "object_type": "Topic",
+                  "property": "display_name",
+                  "fragment": "Ruby",
+                  "matches": [
+                    {
+                      "text": "Ruby",
+                      "indices": [
+                        0,
+                        4
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "object_url": "https://api.github.com/search/repositories?q=topic:ruby",
+                  "object_type": "Topic",
+                  "property": "name",
+                  "fragment": "ruby",
+                  "matches": [
+                    {
+                      "text": "ruby",
+                      "indices": [
+                        0,
+                        4
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "rails",
+              "display_name": "Rails",
+              "short_description": "Ruby on Rails (Rails) is a web application framework written in Ruby.",
+              "description": "Ruby on Rails (Rails) is a web application framework written in Ruby. It is meant to help simplify the building of complex websites.",
+              "created_by": "David Heinemeier Hansson",
+              "released": "December 13 2005",
+              "created_at": "2016-12-09T17:03:50Z",
+              "updated_at": "2017-10-30T16:20:19Z",
+              "featured": true,
+              "curated": true,
+              "score": 192.49652,
+              "text_matches": [
+                {
+                  "object_url": "https://api.github.com/search/repositories?q=topic:rails",
+                  "object_type": "Topic",
+                  "property": "short_description",
+                  "fragment": "Ruby on Rails (Rails) is a web application framework written in Ruby.",
+                  "matches": [
+                    {
+                      "text": "Ruby",
+                      "indices": [
+                        0,
+                        4
+                      ]
+                    },
+                    {
+                      "text": "Ruby",
+                      "indices": [
+                        64,
+                        68
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "object_url": "https://api.github.com/search/repositories?q=topic:rails",
+                  "object_type": "Topic",
+                  "property": "description",
+                  "fragment": "Ruby on Rails (Rails) is a web application framework written in Ruby. It is meant to help simplify the building of complex websites.",
+                  "matches": [
+                    {
+                      "text": "Ruby",
+                      "indices": [
+                        0,
+                        4
+                      ]
+                    },
+                    {
+                      "text": "Ruby",
+                      "indices": [
+                        64,
+                        68
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "python",
+              "display_name": "Python",
+              "short_description": "Python is a dynamically typed programming language.",
+              "description": "Python is a dynamically typed programming language designed by Guido Van Rossum. Much like the programming language Ruby, Python was designed to be easily read by programmers. Because of its large following and many libraries, Python can be implemented and used to do anything from webpages to scientific research.",
+              "created_by": "Guido van Rossum",
+              "released": "February 20, 1991",
+              "created_at": "2016-12-07T00:07:02Z",
+              "updated_at": "2017-10-27T22:45:43Z",
+              "featured": true,
+              "curated": true,
+              "score": 112.94006,
+              "text_matches": [
+                {
+                  "object_url": "https://api.github.com/search/repositories?q=topic:python",
+                  "object_type": "Topic",
+                  "property": "description",
+                  "fragment": "Python is a dynamically typed programming language designed by Guido Van Rossum. Much like the programming language Ruby, Python was designed to be easily read by programmers. Because of its large",
+                  "matches": [
+                    {
+                      "text": "Ruby",
+                      "indices": [
+                        116,
+                        120
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "jekyll",
+              "display_name": "Jekyll",
+              "short_description": "Jekyll is a simple, blog-aware static site generator.",
+              "description": "Jekyll is a blog-aware, site generator written in Ruby. It takes raw text files, runs it through a renderer and produces a publishable static website.",
+              "created_by": "Tom Preston-Werner",
+              "released": "2008",
+              "created_at": "2016-12-16T21:53:08Z",
+              "updated_at": "2017-10-27T19:00:24Z",
+              "featured": true,
+              "curated": true,
+              "score": 45.475624,
+              "text_matches": [
+                {
+                  "object_url": "https://api.github.com/search/repositories?q=topic:jekyll",
+                  "object_type": "Topic",
+                  "property": "description",
+                  "fragment": "Jekyll is a blog-aware, site generator written in Ruby. It takes raw text files, runs it through a renderer and produces a publishable static website.",
+                  "matches": [
+                    {
+                      "text": "Ruby",
+                      "indices": [
+                        50,
+                        54
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "sass",
+              "display_name": "Sass",
+              "short_description": "Sass is a stable extension to classic CSS.",
+              "description": "Sass is a stylesheet language with a main implementation in Ruby. It is an extension of CSS that makes improvements to the old stylesheet format, such as being able to declare variables and using a cleaner nesting syntax.",
+              "created_by": "Hampton Catlin, Natalie Weizenbaum, Chris Eppstein",
+              "released": "November 28, 2006",
+              "created_at": "2016-12-16T21:53:45Z",
+              "updated_at": "2018-01-16T16:30:40Z",
+              "featured": true,
+              "curated": true,
+              "score": 42.83278,
+              "text_matches": [
+                {
+                  "object_url": "https://api.github.com/search/repositories?q=topic:sass",
+                  "object_type": "Topic",
+                  "property": "description",
+                  "fragment": "Sass is a stylesheet language with a main implementation in Ruby. It is an extension of CSS that makes improvements to the old stylesheet format, such as being able to declare variables and using a cleaner nesting syntax.",
+                  "matches": [
+                    {
+                      "text": "Ruby",
+                      "indices": [
+                        60,
+                        64
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "homebrew",
+              "display_name": "Homebrew",
+              "short_description": "Homebrew is a package manager for macOS.",
+              "description": "Homebrew is a package manager for Apple's macOS operating system. It simplifies the installation of software and is popular in the Ruby on Rails community.",
+              "created_by": "Max Howell",
+              "released": "2009",
+              "created_at": "2016-12-17T20:30:44Z",
+              "updated_at": "2018-02-06T16:14:56Z",
+              "featured": true,
+              "curated": true,
+              "score": 19.368078,
+              "text_matches": [
+                {
+                  "object_url": "https://api.github.com/search/repositories?q=topic:homebrew",
+                  "object_type": "Topic",
+                  "property": "description",
+                  "fragment": "Homebrew is a package manager for Apple's macOS operating system. It simplifies the installation of software and is popular in the Ruby on Rails community.",
+                  "matches": [
+                    {
+                      "text": "Ruby",
+                      "indices": [
+                        131,
+                        135
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         }
       ],
       "description": "Find topics via various criteria. This method returns up to 100 results [per page](https://developer.github.com/v3/#pagination).\n\nResults are sorted by best match by default.\n\nThe `q` search term can also contain any combination of the supported topic search qualifiers as described by the in-browser [topic search documentation](https://help.github.com/articles/searching-topics/) and [search syntax documentation](https://help.github.com/articles/search-syntax/):\n\n*   `is:curated` Finds topics that have extra information, e.g., a description, display name, or logo, because they have an entry in the [`github/explore` repository](https://github.com/github/explore).\n*   `is:featured` Finds topics listed on [https://github.com/topics](https://github.com/topics). Any featured topic will also be curated.\n*   `is:not-featured` Finds topics not listed on [https://github.com/topics](https://github.com/topics).\n*   `is:not-curated` Finds topics that have no extra information because they haven't been added to the [`github/explore` repository](https://github.com/github/explore).\n*   `repositories:` Finds topics with some number of repositories using them, e.g., `repositories:>1000`.\n\nSuppose you want to search for topics related to Ruby that are featured on [https://github.com/topics](https://github.com/topics). Your query might look like this:\n\nIn this request, we're searching for topics with the keyword `ruby`, and we're limiting the results to find only topics that are featured. The topics that are the best match for the query appear first in the search results.\n\n**Note:** A search for featured Ruby topics only has 6 total results, so a [Link header](https://developer.github.com/v3/#link-header) indicating pagination is not included in the response.\n\n**Highlighting topic search results**\n\nYou might want to highlight the matching search terms when displaying search results. The API offers additional metadata to support this use case. To get this metadata in your search results, specify the `text-match` media type in your Accept header. For example, via cURL, the above query would look like this:\n\nThis produces the same JSON payload as above, with an extra key called `text_matches`, which is an array of objects. These objects provide information such as the position of your search terms within the text, as well as the `property` that included the search term.\n\nWhen searching for topics, you can get text match metadata for the topic's **short_description**, **description**, **name**, or **display_name** field. For details on the attributes present in the `text_matches` array, see [text match metadata](#text-match-metadata).",
@@ -35399,6 +36961,68 @@
             "desc"
           ],
           "location": "query"
+        }
+      ],
+      "requests": [
+        {
+          "total_count": 2,
+          "incomplete_results": false,
+          "items": [
+            {
+              "id": 418327088,
+              "node_id": "MDU6TGFiZWw0MTgzMjcwODg=",
+              "url": "https://api.github.com/repos/octocat/linguist/labels/enhancement",
+              "name": "enhancement",
+              "color": "84b6eb",
+              "default": true,
+              "description": "New feature or request.",
+              "score": 0.119338505,
+              "text_matches": [
+                {
+                  "object_url": "https://api.github.com/repos/octocat/linguist/labels/enhancement",
+                  "object_type": "Label",
+                  "property": "name",
+                  "fragment": "enhancement",
+                  "matches": [
+                    {
+                      "text": "enhancement",
+                      "indices": [
+                        0,
+                        11
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 418327086,
+              "node_id": "MDU6TGFiZWw0MTgzMjcwODY=",
+              "url": "https://api.github.com/repos/octocat/linguist/labels/bug",
+              "name": "bug",
+              "color": "ee0701",
+              "default": true,
+              "description": "Something isn't working.",
+              "score": 0.119286075,
+              "text_matches": [
+                {
+                  "object_url": "https://api.github.com/repos/octocat/linguist/labels/bug",
+                  "object_type": "Label",
+                  "property": "name",
+                  "fragment": "bug",
+                  "matches": [
+                    {
+                      "text": "bug",
+                      "indices": [
+                        0,
+                        3
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         }
       ],
       "description": "Find labels in a repository with names or descriptions that match search keywords. Returns up to 100 results [per page](https://developer.github.com/v3/#pagination).\n\nSuppose you want to find labels in the `linguist` repository that match `bug`, `defect`, or `enhancement`. Your query might look like this:\n\nThe labels that best match for the query appear first in the search results.\n\n**Highlighting label search results**\n\nYou might want to highlight the matching search terms when displaying search results. The API offers additional metadata to support this use case. To get this metadata in your search results, specify the `text-match` media type in your `Accept` header. For example, via cURL, the above query would look like this:\n\nThis produces the same JSON payload as above, with an extra key called `text_matches`, an array of objects. These objects provide information such as the position of your search terms within the text, as well as the `property` that included the search term.\n\nWhen searching for labels, you can get text match metadata for the label **name** and **description** fields. For details on the attributes present in the `text_matches` array, see [text match metadata](#text-match-metadata).",
@@ -35761,6 +37385,14 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "name": "Justice League",
+          "description": "A great team",
+          "permission": "admin",
+          "privacy": "closed"
+        }
+      ],
       "description": "To create a team, the authenticated user must be a member of `:org`.",
       "responses": [
         {
@@ -35857,6 +37489,13 @@
           "description": "The ID of a team to set as the parent team. **Note**: You must pass the `hellcat-preview` media type to use this parameter.",
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "name": "new team name",
+          "description": "new team description",
+          "privacy": "closed"
         }
       ],
       "description": "To edit a team, the authenticated user must either be an owner of the org that the team is associated with, or a maintainer of the team.\n\n**Note:** With nested teams, the `privacy` for parent teams cannot be `secret`.",
@@ -36767,6 +38406,12 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "title": "Our first team post",
+          "body": "Hi! This is an area for us to collaborate as a team."
+        }
+      ],
       "description": "Creates a new discussion post on a team's page. OAuth access tokens require the `write:discussion` [scope](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).",
       "responses": [
         {
@@ -36860,6 +38505,11 @@
           "description": "The discussion post's body text.",
           "required": false,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "title": "Welcome to our first team post"
         }
       ],
       "description": "Edits the title and body text of a discussion post. Only the parameters you provide are updated. OAuth access tokens require the `write:discussion` [scope](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).",
@@ -37172,6 +38822,11 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "body": "Do you like apples?"
+        }
+      ],
       "description": "Creates a new comment on a team discussion. OAuth access tokens require the `write:discussion` [scope](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).",
       "responses": [
         {
@@ -37260,6 +38915,11 @@
           "description": "The discussion comment's body text.",
           "required": true,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "body": "Do you like pineapples?"
         }
       ],
       "description": "Edits the body text of a discussion comment. OAuth access tokens require the `write:discussion` [scope](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).",
@@ -38180,6 +39840,17 @@
           "location": "body"
         }
       ],
+      "requests": [
+        {
+          "name": "monalisa octocat",
+          "email": "octocat@github.com",
+          "blog": "https://github.com/blog",
+          "company": "GitHub",
+          "location": "San Francisco",
+          "hireable": true,
+          "bio": "There once..."
+        }
+      ],
       "description": "**Note:** If your email is set to private and you send an `email` parameter as part of this request to update your profile, your privacy settings are still enforced: the email address will not be displayed on your public profile or via the API.",
       "responses": [
         {
@@ -38269,6 +39940,16 @@
           "description": "Uses the ID for the `subject_type` you specified. **Required** when using `subject_type`.",
           "required": false,
           "location": "query"
+        }
+      ],
+      "requests": [
+        {
+          "contexts": [
+            {
+              "message": "Owns this repository",
+              "octicon": "repo"
+            }
+          ]
         }
       ],
       "description": "Provides hovercard information when authenticated through basic auth or OAuth with the `repo` scope. You can find out more about someone in relation to their pull requests, issues, repositories, and organizations.\n\nThe `subject_type` and `subject_id` parameters provide context for the person's hovercard, which returns more information than without the parameters. For example, if you wanted to find out more about `octocat` who owns the `Spoon-Knife` repository via cURL, it would look like this:",
@@ -38558,6 +40239,12 @@
       "method": "POST",
       "path": "/user/emails",
       "params": [],
+      "requests": [
+        [
+          "octocat@github.com",
+          "support@github.com"
+        ]
+      ],
       "description": "You can post a single email address or an array of addresses:",
       "responses": [
         {
@@ -38588,6 +40275,12 @@
       "method": "DELETE",
       "path": "/user/emails",
       "params": [],
+      "requests": [
+        [
+          "octocat@github.com",
+          "support@github.com"
+        ]
+      ],
       "description": "You can include a single email address or an array of addresses:",
       "responses": [
         {
@@ -38619,6 +40312,12 @@
           "description": "Use `public` to enable an authenticated user to view the specified email address, or use `private` so this primary email address cannot be seen publicly.",
           "required": true,
           "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "email": "octocat@github.com",
+          "visibility": "public"
         }
       ],
       "description": "Sets the visibility for your primary email addresses.",
@@ -39113,6 +40812,12 @@
       "method": "POST",
       "path": "/user/keys",
       "params": [],
+      "requests": [
+        {
+          "title": "octocat@octomac",
+          "key": "ssh-rsa AAA..."
+        }
+      ],
       "description": "Creates a public key. Requires that you are authenticated via Basic Auth, or OAuth with at least `write:public_key` [scope](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).",
       "responses": [
         {
@@ -39375,6 +41080,11 @@
       "method": "POST",
       "path": "/user/gpg_keys",
       "params": [],
+      "requests": [
+        {
+          "armored_public_key": "-----BEGIN PGP PUBLIC KEY BLOCK-----\n...\n-----END PGP PUBLIC KEY BLOCK-----"
+        }
+      ],
       "description": "Creates a GPG key. Requires that you are authenticated via Basic Auth, or OAuth with at least `write:gpg_key` [scope](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).",
       "responses": [
         {
