@@ -374,13 +374,7 @@
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required</strong>. The name of the check (e.g., "code-coverage").</td>
-</tr>
-<tr>
-<td><code>head_branch</code></td>
-<td><code>string</code></td>
-<td>
-<strong>Required</strong>. The name of the branch to perform a check against.</td>
+<strong>Required</strong>. The name of the check. For example, "code-coverage".</td>
 </tr>
 <tr>
 <td><code>head_sha</code></td>
@@ -413,7 +407,7 @@
 <td><code>conclusion</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required if you provide a <code>status</code> of <code>completed</code></strong>. The final conclusion of the check. Can be one of <code>success</code>, <code>failure</code>, <code>neutral</code>, <code>cancelled</code>, <code>timed_out</code>, or <code>action_required</code>. When the conclusion is <code>action_required</code>, additional details should be provided on the site specified by <code>details_url</code>.</td>
+<strong>Required if you provide a status of <code>completed</code></strong>. The final conclusion of the check. Can be one of <code>success</code>, <code>failure</code>, <code>neutral</code>, <code>cancelled</code>, <code>timed_out</code>, or <code>action_required</code>. When the conclusion is <code>action_required</code>, additional details should be provided on the site specified by <code>details_url</code>. <br><strong>Note:</strong> Providing <code>conclusion</code> will automatically set the <code>status</code> parameter to <code>completed</code>.</td>
 </tr>
 <tr>
 <td><code>completed_at</code></td>
@@ -492,13 +486,13 @@
 <td><code>filename</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required</strong>. The name of the file to add an annotation to.</td>
+<strong>Required</strong>. The path of the file to add an annotation to. For example, <code>assets/css/main.css</code>.</td>
 </tr>
 <tr>
 <td><code>blob_href</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required</strong>. The file's full blob URL.</td>
+<strong>Required</strong>. The file's full blob URL. You can find the <code>blob_href</code> in the response of the <a href="/v3/repos/commits/#get-a-single-commit">Get a single commit</a> endpoint, by reading the <code>blob_url</code> from an element of the <code>files</code> array. You can also construct the blob URL from the <code>head_sha</code>, the repository, and the filename:<br> <code>https://github.com/:owner/:repo/blob/:head_sha/:filename</code>.</td>
 </tr>
 <tr>
 <td><code>start_line</code></td>
@@ -606,7 +600,6 @@
 <a id="example-of-in_progress-conclusion" class="anchor" href="#example-of-in_progress-conclusion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example of <code>in_progress</code> conclusion</h3>
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"head_branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"master"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mighty_readme"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"head_sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ce587453ced02b1526dfb4cb910479d431683101"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"in_progress"</span><span class="p">,</span><span class="w">
@@ -633,7 +626,7 @@
   </span><span class="nt">"head_sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ce587453ced02b1526dfb4cb910479d431683101"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"external_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"42"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/github/hello-world/check-runs/4"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://github.localhost/github/hello-world/runs/4"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://github.com/github/hello-world/runs/4"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"in_progress"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"conclusion"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
   </span><span class="nt">"started_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-04T01:14:52Z"</span><span class="p">,</span><span class="w">
@@ -704,7 +697,6 @@
 <a id="example-of-completed-conclusion" class="anchor" href="#example-of-completed-conclusion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example of <code>completed</code> conclusion</h3>
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"head_branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"master"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mighty_readme"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"head_sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ce587453ced02b1526dfb4cb910479d431683101"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"completed"</span><span class="p">,</span><span class="w">
@@ -766,7 +758,7 @@
   </span><span class="nt">"head_sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ce587453ced02b1526dfb4cb910479d431683101"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"external_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
   </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/github/hello-world/check-runs/4"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://github.localhost/github/hello-world/runs/4"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://github.com/github/hello-world/runs/4"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"completed"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"conclusion"</span><span class="p">:</span><span class="w"> </span><span class="s2">"neutral"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"started_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-04T01:14:52Z"</span><span class="p">,</span><span class="w">
@@ -875,7 +867,7 @@
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required</strong>. The name of the check (e.g., "code-coverage").</td>
+<strong>Required</strong>. The name of the check. For example, "code-coverage".</td>
 </tr>
 <tr>
 <td><code>details_url</code></td>
@@ -901,7 +893,7 @@
 <td><code>conclusion</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required if you provide a <code>status</code> of <code>completed</code></strong>. The final conclusion of the check. Can be one of <code>success</code>, <code>failure</code>, <code>neutral</code>, <code>cancelled</code>, <code>timed_out</code>, or <code>action_required</code>. When the conclusion is <code>action_required</code>, additional details should be provided on the site specified by <code>details_url</code>.</td>
+<strong>Required if you provide a status of <code>completed</code></strong>. The final conclusion of the check. Can be one of <code>success</code>, <code>failure</code>, <code>neutral</code>, <code>cancelled</code>, <code>timed_out</code>, or <code>action_required</code>. <br><strong>Note:</strong> Providing <code>conclusion</code> will automatically set the <code>status</code> parameter to <code>completed</code>.</td>
 </tr>
 <tr>
 <td><code>completed_at</code></td>
@@ -980,13 +972,13 @@
 <td><code>filename</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required</strong>. The name of the file to add an annotation to.</td>
+<strong>Required</strong>. The path of the file to add an annotation to. For example, <code>assets/css/main.css</code>.</td>
 </tr>
 <tr>
 <td><code>blob_href</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required</strong>. The file's full blob URL.</td>
+<strong>Required</strong>. The file's full blob URL. You can find the <code>blob_href</code> in the response of the <a href="/v3/repos/commits/#get-a-single-commit">Get a single commit</a> endpoint, by reading the <code>blob_url</code> from an element of the <code>files</code> array. You can also construct the blob URL from the <code>head_sha</code>, the repository, and the filename:<br> <code>https://github.com/:owner/:repo/blob/:head_sha/:filename</code>.</td>
 </tr>
 <tr>
 <td><code>start_line</code></td>
@@ -1147,7 +1139,7 @@
   </span><span class="nt">"head_sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ce587453ced02b1526dfb4cb910479d431683101"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"external_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
   </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/github/hello-world/check-runs/4"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://github.localhost/github/hello-world/runs/4"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://github.com/github/hello-world/runs/4"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"completed"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"conclusion"</span><span class="p">:</span><span class="w"> </span><span class="s2">"neutral"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"started_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-04T01:14:52Z"</span><span class="p">,</span><span class="w">
@@ -1235,7 +1227,7 @@
 
 </div>
 
-<p>Lists check runs for a SHA, branch name, or tag name. To list check runs, your GitHub App must have the <code>checks:read</code> permission on a private repository or pull access to a public repository.</p>
+<p>Lists check runs for a commit ref. The <code>ref</code> can be a SHA, branch name, or a tag name. To list check runs, your GitHub App must have the <code>checks:read</code> permission on a private repository or pull access to a public repository.</p>
 
 <pre><code>GET /repos/:owner/:repo/commits/:ref/check-runs
 </code></pre>
@@ -1252,12 +1244,6 @@
 </tr>
 </thead>
 <tbody>
-<tr>
-<td><code>ref</code></td>
-<td><code>string</code></td>
-<td>
-<strong>Required</strong>. Can be a SHA, branch name, or tag name.</td>
-</tr>
 <tr>
 <td><code>check_name</code></td>
 <td><code>string</code></td>
@@ -1294,7 +1280,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
       </span><span class="nt">"head_sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ce587453ced02b1526dfb4cb910479d431683101"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"external_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
       </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/github/hello-world/check-runs/4"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://github.localhost/github/hello-world/runs/4"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://github.com/github/hello-world/runs/4"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"completed"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"conclusion"</span><span class="p">:</span><span class="w"> </span><span class="s2">"neutral"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"started_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-04T01:14:52Z"</span><span class="p">,</span><span class="w">
@@ -1437,7 +1423,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
       </span><span class="nt">"head_sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ce587453ced02b1526dfb4cb910479d431683101"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"external_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
       </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/github/hello-world/check-runs/4"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://github.localhost/github/hello-world/runs/4"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://github.com/github/hello-world/runs/4"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"completed"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"conclusion"</span><span class="p">:</span><span class="w"> </span><span class="s2">"neutral"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"started_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-04T01:14:52Z"</span><span class="p">,</span><span class="w">
@@ -1544,7 +1530,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
   </span><span class="nt">"head_sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ce587453ced02b1526dfb4cb910479d431683101"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"external_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
   </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/github/hello-world/check-runs/4"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://github.localhost/github/hello-world/runs/4"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://github.com/github/hello-world/runs/4"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"completed"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"conclusion"</span><span class="p">:</span><span class="w"> </span><span class="s2">"neutral"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"started_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-05-04T01:14:52Z"</span><span class="p">,</span><span class="w">
