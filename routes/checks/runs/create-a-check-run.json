@@ -21,14 +21,7 @@
     {
       "name": "name",
       "type": "string",
-      "description": "The name of the check (e.g., \"code-coverage\").",
-      "required": true,
-      "location": "body"
-    },
-    {
-      "name": "head_branch",
-      "type": "string",
-      "description": "The name of the branch to perform a check against.",
+      "description": "The name of the check. For example, \"code-coverage\".",
       "required": true,
       "location": "body"
     },
@@ -76,7 +69,7 @@
     {
       "name": "conclusion",
       "type": "string",
-      "description": "**Required if you provide a `status` of `completed`**. The final conclusion of the check. Can be one of `success`, `failure`, `neutral`, `cancelled`, `timed_out`, or `action_required`. When the conclusion is `action_required`, additional details should be provided on the site specified by `details_url`.",
+      "description": "**Required if you provide a status of `completed`**. The final conclusion of the check. Can be one of `success`, `failure`, `neutral`, `cancelled`, `timed_out`, or `action_required`. When the conclusion is `action_required`, additional details should be provided on the site specified by `details_url`.  \n**Note:** Providing `conclusion` will automatically set the `status` parameter to `completed`.",
       "required": false,
       "enum": [
         "success",
@@ -85,7 +78,10 @@
         "cancelled",
         "timed_out",
         "action_required",
-        "details_url"
+        "details_url",
+        "conclusion",
+        "status",
+        "completed"
       ],
       "location": "body"
     },
@@ -134,14 +130,14 @@
     {
       "name": "output.annotations[].filename",
       "type": "string",
-      "description": "The name of the file to add an annotation to.",
+      "description": "The path of the file to add an annotation to. For example, `assets/css/main.css`.",
       "required": true,
       "location": "body"
     },
     {
       "name": "output.annotations[].blob_href",
       "type": "string",
-      "description": "The file's full blob URL.",
+      "description": "The file's full blob URL. You can find the `blob_href` in the response of the [Get a single commit](https://developer.github.com/v3/repos/commits/#get-a-single-commit) endpoint, by reading the `blob_url` from an element of the `files` array. You can also construct the blob URL from the `head_sha`, the repository, and the filename:  \n`https://github.com/:owner/:repo/blob/:head_sha/:filename`.",
       "required": true,
       "location": "body"
     },
@@ -251,7 +247,6 @@
   ],
   "requests": [
     {
-      "head_branch": "master",
       "name": "mighty_readme",
       "head_sha": "ce587453ced02b1526dfb4cb910479d431683101",
       "status": "in_progress",
@@ -276,7 +271,7 @@
         "head_sha": "ce587453ced02b1526dfb4cb910479d431683101",
         "external_id": "42",
         "url": "https://api.github.com/repos/github/hello-world/check-runs/4",
-        "html_url": "http://github.localhost/github/hello-world/runs/4",
+        "html_url": "http://github.com/github/hello-world/runs/4",
         "status": "in_progress",
         "conclusion": null,
         "started_at": "2018-05-04T01:14:52Z",
