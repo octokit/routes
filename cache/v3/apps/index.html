@@ -317,7 +317,7 @@
 <li><a href="#find-user-installation" id="markdown-toc-find-user-installation">Find user installation</a></li>
 </ul>
 
-<p>For information on how to authenticate as a GitHub App, see "<a href="/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app">Authentication Options for GitHub Apps</a>."</p>
+<p>The GitHub Apps API enables you to get high-level information about a GitHub App as well as specific information about installations of the app. For information on how to authenticate as a GitHub App, see "<a href="/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app">Authenticating as a GitHub App</a>."</p>
 
 <div class="alert note">
 
@@ -342,6 +342,8 @@
 <p><strong>Note</strong>: The <code>:app_slug</code> is just the URL-friendly name of your GitHub App. You can find this on the settings page for your GitHub App (e.g., <code>https://github.com/settings/apps/:app_slug</code>).</p>
 
 </div>
+
+<p>If the GitHub App you specify is public, you can access this endpoint without authenticating. If the GitHub App you specify is private, you must authenticate with a <a href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/">personal access token</a> or an <a href="/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-an-installation">installation access token</a> to access this endpoint.</p>
 
 <pre><code>GET /apps/:app_slug
 </code></pre>
@@ -398,7 +400,9 @@
 
 </div>
 
-<p>Returns the GitHub App associated with the <a href="/apps/building-github-apps/authenticating-with-github-apps#authenticating-as-a-github-app">authentication credentials</a> used.</p>
+<p>Returns the GitHub App associated with the authentication credentials used.</p>
+
+<p>You must use a <a href="/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app">JWT</a> to access this endpoint.</p>
 
 <pre><code>GET /app
 </code></pre>
@@ -454,6 +458,8 @@
 <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
 
 </div>
+
+<p>You must use a <a href="/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app">JWT</a> to access this endpoint.</p>
 
 <pre><code>GET /app/installations
 </code></pre>
@@ -531,6 +537,8 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 </div>
 
+<p>You must use a <a href="/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app">JWT</a> to access this endpoint.</p>
+
 <pre><code>GET /app/installations/:installation_id
 </code></pre>
 
@@ -598,7 +606,11 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 <p>Lists installations in a repository that the authenticated user has explicit permission (<code>:read</code>, <code>:write</code>, or <code>:admin</code>) to access.</p>
 
-<pre><code>GET /user/installations?access_token=...
+<p>You must use a <a href="/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#identifying-users-on-your-site">user-to-server OAuth access token</a>, created for a user who has authorized your GitHub App, to access this endpoint.</p>
+
+<p>The authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership.</p>
+
+<pre><code>GET /user/installations
 </code></pre>
 
 <h3>
@@ -702,8 +714,6 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <a id="create-a-new-installation-token" class="anchor" href="#create-a-new-installation-token" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a new installation token<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
-<p>Creates an access token that enables a GitHub App to make authenticated API requests for the app's installation on an organization or individual account. Installation tokens expire one hour from the time you create them. Using an expired token produces a status code of <code>401 - Unauthorized</code>, and requires creating a new installation token.</p>
-
 <div class="alert note">
 
 <p><strong>Note:</strong> To access the API with your integration, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> Header for your requests.</p>
@@ -717,6 +727,10 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
 
 </div>
+
+<p>Creates an access token that enables a GitHub App to make authenticated API requests for the app's installation on an organization or individual account. Installation tokens expire one hour from the time you create them. Using an expired token produces a status code of <code>401 - Unauthorized</code>, and requires creating a new installation token.</p>
+
+<p>You must use a <a href="/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app">JWT</a> to access this endpoint.</p>
 
 <pre><code>POST /installations/:installation_id/access_tokens
 </code></pre>
@@ -753,6 +767,8 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </div>
 
 <p>Enables an authenticated GitHub App to find the organization's installation information.</p>
+
+<p>You must use a <a href="/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app">JWT</a> to access this endpoint.</p>
 
 <pre><code>GET /orgs/:org/installation
 </code></pre>
@@ -827,6 +843,8 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 <p>Enables an authenticated GitHub App to find the repository's installation information. The installation's account type will be either an organization or a user account, depending which account the repository belongs to.</p>
 
+<p>You must use a <a href="/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app">JWT</a> to access this endpoint.</p>
+
 <pre><code>GET /repos/:owner/:repo/installation
 </code></pre>
 
@@ -899,6 +917,8 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </div>
 
 <p>Enables an authenticated GitHub App to find the user’s installation information.</p>
+
+<p>You must use a <a href="/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app">JWT</a> to access this endpoint.</p>
 
 <pre><code>GET /users/:username/installation
 </code></pre>
