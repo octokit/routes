@@ -89,7 +89,7 @@
         "location": "query"
       }
     ],
-    "description": "List repositories that the authenticated user has explicit permission (`:read`, `:write`, or `:admin`) to access.",
+    "description": "List repositories that the authenticated user has explicit permission (`:read`, `:write`, or `:admin`) to access.\n\nThe authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership.",
     "idName": "list",
     "documentationUrl": "https://developer.github.com/v3/repos/#list-your-repositories"
   },
@@ -8207,6 +8207,64 @@
     ],
     "idName": "get-pages",
     "documentationUrl": "https://developer.github.com/v3/repos/pages/#get-information-about-a-pages-site"
+  },
+  {
+    "name": "Update information about a Pages site",
+    "enabledForApps": true,
+    "method": "PUT",
+    "path": "/repos/:owner/:repo/pages",
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "cname",
+        "type": "string",
+        "description": "Specify a custom domain for the repository. Sending a `null` value will remove the custom domain. For more about custom domains, see \"[Using a custom domain with GitHub Pages](https://help.github.com/articles/using-a-custom-domain-with-github-pages/).\"",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "source",
+        "type": "string",
+        "description": "Update the source for the repository. Must include the branch name, and may optionally specify the subdirectory `/docs`. Possible values are `\"gh-pages\"`, `\"master\"`, and `\"master /docs\"`.",
+        "required": false,
+        "enum": [
+          "\"gh-pages\"",
+          "\"master\"",
+          "\"master /docs\""
+        ],
+        "location": "body"
+      }
+    ],
+    "requests": [
+      {
+        "cname": "octocatblog.com",
+        "source": "master /docs"
+      }
+    ],
+    "description": "",
+    "responses": [
+      {
+        "headers": {
+          "status": "204 No Content",
+          "content-type": "application/json; charset=utf-8"
+        }
+      }
+    ],
+    "idName": "update-information-about-pages-site",
+    "documentationUrl": "https://developer.github.com/v3/repos/pages/#update-information-about-a-pages-site"
   },
   {
     "name": "Request a page build",
