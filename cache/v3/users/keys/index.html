@@ -347,7 +347,7 @@
 <pre><code>GET /users/:username/keys
 </code></pre>
 
-<p>Lists the <em>verified</em> public keys for a user.  This is accessible by anyone.</p>
+<p>Lists the <em>verified</em> public SSH keys for a user. This is accessible by anyone.</p>
 
 <h3>
 <a id="response" class="anchor" href="#response" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
@@ -373,7 +373,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <pre><code>GET /user/keys
 </code></pre>
 
-<p>Lists the current user's keys. Requires that you are authenticated via
+<p>Lists the public SSH keys for the authenticated user's GitHub account. Requires that you are authenticated via
 Basic Auth or via OAuth with at least <code>read:public_key</code>
 <a href="/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/">scope</a>.</p>
 
@@ -403,7 +403,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <h2>
 <a id="get-a-single-public-key" class="anchor" href="#get-a-single-public-key" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get a single public key</h2>
 
-<p>View extended details for a single public key. Requires that you are
+<p>View extended details for a single public SSH key. Requires that you are
 authenticated via Basic Auth or via OAuth with at least <code>read:public_key</code>
 <a href="/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/">scope</a>.</p>
 
@@ -432,7 +432,7 @@ authenticated via Basic Auth or via OAuth with at least <code>read:public_key</c
 <h2>
 <a id="create-a-public-key" class="anchor" href="#create-a-public-key" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a public key</h2>
 
-<p>Creates a public key. Requires that you are authenticated via Basic Auth,
+<p>Adds a public SSH key to the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth,
 or OAuth with at least <code>write:public_key</code> <a href="/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/">scope</a>.</p>
 
 <pre><code>POST /user/keys
@@ -440,6 +440,31 @@ or OAuth with at least <code>write:public_key</code> <a href="/apps/building-oau
 
 <h3>
 <a id="input" class="anchor" href="#input" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Input</h3>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>A descriptive name for the new key. Use a name that will help you recognize this key in your GitHub account. For example, if you're using a personal Mac, you might call this key "Personal MacBook Air".</td>
+</tr>
+<tr>
+<td><code>key</code></td>
+<td><code>string</code></td>
+<td>The public SSH key to add to your GitHub account. See "<a href="https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/">Generating a new SSH key</a>" for guidance on how to create a public SSH key.</td>
+</tr>
+</tbody>
+</table>
+
+<h3>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat@octomac"</span><span class="p">,</span><span class="w">
@@ -478,7 +503,7 @@ instead.</p>
 <h2>
 <a id="delete-a-public-key" class="anchor" href="#delete-a-public-key" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Delete a public key</h2>
 
-<p>Removes a public key. Requires that you are authenticated via Basic Auth
+<p>Removes a public SSH key from the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth
 or via OAuth with at least <code>admin:public_key</code> <a href="/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/">scope</a>.</p>
 
 <pre><code>DELETE /user/keys/:key_id
