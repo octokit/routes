@@ -991,7 +991,7 @@
         "location": "query"
       }
     ],
-    "description": "Lists the _verified_ public keys for a user. This is accessible by anyone.",
+    "description": "Lists the _verified_ public SSH keys for a user. This is accessible by anyone.",
     "responses": [
       {
         "headers": {
@@ -1032,7 +1032,7 @@
         "location": "query"
       }
     ],
-    "description": "Lists the current user's keys. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:public_key` [scope](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).",
+    "description": "Lists the public SSH keys for the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:public_key` [scope](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).",
     "responses": [
       {
         "headers": {
@@ -1069,7 +1069,7 @@
         "location": "url"
       }
     ],
-    "description": "View extended details for a single public key. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:public_key` [scope](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).",
+    "description": "View extended details for a single public SSH key. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:public_key` [scope](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).",
     "responses": [
       {
         "headers": {
@@ -1095,14 +1095,29 @@
     "enabledForApps": false,
     "method": "POST",
     "path": "/user/keys",
-    "params": [],
+    "params": [
+      {
+        "name": "title",
+        "type": "string",
+        "description": "A descriptive name for the new key. Use a name that will help you recognize this key in your GitHub account. For example, if you're using a personal Mac, you might call this key \"Personal MacBook Air\".",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "key",
+        "type": "string",
+        "description": "The public SSH key to add to your GitHub account. See \"[Generating a new SSH key](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)\" for guidance on how to create a public SSH key.",
+        "required": false,
+        "location": "body"
+      }
+    ],
     "requests": [
       {
         "title": "octocat@octomac",
         "key": "ssh-rsa AAA..."
       }
     ],
-    "description": "Creates a public key. Requires that you are authenticated via Basic Auth, or OAuth with at least `write:public_key` [scope](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).",
+    "description": "Adds a public SSH key to the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth, or OAuth with at least `write:public_key` [scope](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).",
     "responses": [
       {
         "headers": {
@@ -1137,7 +1152,7 @@
         "location": "url"
       }
     ],
-    "description": "Removes a public key. Requires that you are authenticated via Basic Auth or via OAuth with at least `admin:public_key` [scope](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).",
+    "description": "Removes a public SSH key from the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth or via OAuth with at least `admin:public_key` [scope](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).",
     "responses": [
       {
         "headers": {
@@ -1363,13 +1378,21 @@
     "enabledForApps": false,
     "method": "POST",
     "path": "/user/gpg_keys",
-    "params": [],
+    "params": [
+      {
+        "name": "armored_public_key",
+        "type": "string",
+        "description": "Your GPG key, generated in ASCII-armored format. See \"[Generating a new GPG key](https://help.github.com/articles/generating-a-new-gpg-key/)\" for help creating a GPG key.",
+        "required": false,
+        "location": "body"
+      }
+    ],
     "requests": [
       {
         "armored_public_key": "-----BEGIN PGP PUBLIC KEY BLOCK-----\n...\n-----END PGP PUBLIC KEY BLOCK-----"
       }
     ],
-    "description": "Creates a GPG key. Requires that you are authenticated via Basic Auth, or OAuth with at least `write:gpg_key` [scope](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).",
+    "description": "Adds a GPG key to the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth, or OAuth with at least `write:gpg_key` [scope](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).",
     "responses": [
       {
         "headers": {
@@ -1429,7 +1452,7 @@
         "location": "url"
       }
     ],
-    "description": "Removes a GPG key. Requires that you are authenticated via Basic Auth or via OAuth with at least `admin:gpg_key` [scope](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).",
+    "description": "Removes a GPG key from the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth or via OAuth with at least `admin:gpg_key` [scope](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).",
     "responses": [
       {
         "headers": {
