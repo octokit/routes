@@ -1,11 +1,8 @@
 <h2>
-<a id="watchevent" class="anchor" href="#watchevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>WatchEvent</h2>
-<p>The WatchEvent is related to <a href="/v3/activity/starring/#star-a-repository">starring a repository</a>, not <a href="/v3/activity/watching/">watching</a>.
-See <a href="/changes/2012-09-05-watcher-api/">this API blog post</a> for an explanation.</p>
-<p>The event&#x2019;s actor is the <a href="/v3/users/">user</a> who starred a repository, and the
-event&#x2019;s repository is the <a href="/v3/repos/">repository</a> that was starred.</p>
+<a id="repositoryimportevent" class="anchor" href="#repositoryimportevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>RepositoryImportEvent</h2>
+<p>Triggered when a successful or unsuccessful repository import finishes for a GitHub organization or a personal repository. To receive this event for a personal repository, you must create an empty repository prior to the import. This event can be triggered using either the <a href="https://help.github.com/articles/importing-a-repository-with-github-importer/">GitHub Importer</a> or the <a href="/v3/migrations/source_imports/">Source imports API</a>.</p>
 <h3>
-<a id="events-api-payload-39" class="anchor" href="#events-api-payload-39" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
+<a id="events-api-payload-34" class="anchor" href="#events-api-payload-34" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
 <table>
 <thead>
 <tr>
@@ -16,19 +13,34 @@ event&#x2019;s repository is the <a href="/v3/repos/">repository</a> that was st
 </thead>
 <tbody>
 <tr>
-<td><code>action</code></td>
+<td><code>status</code></td>
 <td><code>string</code></td>
-<td>The action that was performed. Currently, can only be <code>started</code>.</td>
+<td>The final state of the import. This can be either <code>success</code> or <code>failure</code>.</td>
+</tr>
+<tr>
+<td><code>repository</code></td>
+<td><code>object</code></td>
+<td>The <a href="/v3/repos/">repository</a> you are importing.</td>
+</tr>
+<tr>
+<td><code>organization</code></td>
+<td><code>object</code></td>
+<td>The information about the organization where the imported repository will live.</td>
+</tr>
+<tr>
+<td><code>sender</code></td>
+<td><code>object</code></td>
+<td>The GitHub user who is importing the repository.</td>
 </tr>
 </tbody>
 </table>
 <h3>
-<a id="webhook-event-name-41" class="anchor" href="#webhook-event-name-41" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook event name</h3>
-<p><code>watch</code></p>
+<a id="webhook-event-name-36" class="anchor" href="#webhook-event-name-36" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook event name</h3>
+<p><code>repository_import</code></p>
 <h3>
-<a id="webhook-payload-example-36" class="anchor" href="#webhook-payload-example-36" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook payload example</h3>
+<a id="webhook-payload-example-31" class="anchor" href="#webhook-payload-example-31" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook payload example</h3>
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">&quot;action&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;started&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;repository&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">135493233</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MDEwOlJlcG9zaXRvcnkxMzU0OTMyMzM=&quot;</span><span class="p">,</span><span class="w">
@@ -96,16 +108,16 @@ event&#x2019;s repository is the <a href="/v3/repos/">repository</a> that was st
     </span><span class="nt">&quot;releases_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/Codertocat/Hello-World/releases{/id}&quot;</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;deployments_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/Codertocat/Hello-World/deployments&quot;</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2018-05-30T20:18:04Z&quot;</span><span class="p">,</span><span class="w">
-    </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2018-05-30T20:18:34Z&quot;</span><span class="p">,</span><span class="w">
-    </span><span class="nt">&quot;pushed_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2018-05-30T20:18:30Z&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2018-05-30T20:18:49Z&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;pushed_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2018-05-30T20:18:48Z&quot;</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;git_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;git://github.com/Codertocat/Hello-World.git&quot;</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;ssh_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;git@github.com:Codertocat/Hello-World.git&quot;</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;clone_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/Codertocat/Hello-World.git&quot;</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;svn_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/Codertocat/Hello-World&quot;</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;homepage&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="nt">&quot;stargazers_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="nt">&quot;watchers_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;stargazers_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;watchers_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;language&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;has_issues&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;has_projects&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
@@ -119,8 +131,22 @@ event&#x2019;s repository is the <a href="/v3/repos/">repository</a> that was st
     </span><span class="nt">&quot;license&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;forks&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;open_issues&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="nt">&quot;watchers&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;watchers&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;default_branch&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;master&quot;</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">&quot;organization&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;login&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Octocoders&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">38302899</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MDEyOk9yZ2FuaXphdGlvbjM4MzAyODk5&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/orgs/Octocoders&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;repos_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/orgs/Octocoders/repos&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;events_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/orgs/Octocoders/events&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;hooks_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/orgs/Octocoders/hooks&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;issues_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/orgs/Octocoders/issues&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;members_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/orgs/Octocoders/members{/member}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;public_members_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/orgs/Octocoders/public_members{/member}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;avatar_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://avatars1.githubusercontent.com/u/38302899?v=4&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="nt">&quot;sender&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nt">&quot;login&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Codertocat&quot;</span><span class="p">,</span><span class="w">
