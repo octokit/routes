@@ -1,8 +1,8 @@
 {
-  "name": "Get the status of a migration",
+  "name": "Start an organization migration",
   "enabledForApps": false,
-  "method": "GET",
-  "path": "/orgs/:org/migrations/:migration_id",
+  "method": "POST",
+  "path": "/orgs/:org/migrations",
   "params": [
     {
       "name": "org",
@@ -12,18 +12,42 @@
       "location": "url"
     },
     {
-      "name": "migration_id",
-      "type": "string",
+      "name": "repositories",
+      "type": "string[]",
+      "description": "A list of arrays indicating which repositories should be migrated.",
       "required": true,
-      "description": "",
-      "location": "url"
+      "location": "body"
+    },
+    {
+      "name": "lock_repositories",
+      "type": "boolean",
+      "description": "Indicates whether repositories should be locked (to prevent manipulation) while migrating data.",
+      "default": false,
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "exclude_attachments",
+      "type": "boolean",
+      "description": "Indicates whether attachments should be excluded from the migration (to reduce migration archive file size).",
+      "default": false,
+      "required": false,
+      "location": "body"
     }
   ],
-  "description": "Fetches the status of a migration.\n\nThe `state` of a migration can be one of the following values:\n\n*   `pending`, which means the migration hasn't started yet.\n*   `exporting`, which means the migration is in progress.\n*   `exported`, which means the migration finished successfully.\n*   `failed`, which means the migration failed.",
+  "requests": [
+    {
+      "repositories": [
+        "github/Hello-World"
+      ],
+      "lock_repositories": true
+    }
+  ],
+  "description": "Initiates the generation of a migration archive.",
   "responses": [
     {
       "headers": {
-        "status": "200 OK",
+        "status": "201 Created",
         "content-type": "application/json; charset=utf-8"
       },
       "body": {
@@ -43,7 +67,7 @@
           "description": "A great organization"
         },
         "guid": "0b989ba4-242f-11e5-81e1-c7b6966d2516",
-        "state": "exported",
+        "state": "pending",
         "lock_repositories": true,
         "exclude_attachments": false,
         "repositories": [
@@ -156,10 +180,9 @@
         "url": "https://api.github.com/orgs/octo-org/migrations/79",
         "created_at": "2015-07-06T15:33:38-07:00",
         "updated_at": "2015-07-06T15:33:38-07:00"
-      },
-      "description": "*   `pending`, which means the migration hasn't started yet.\n*   `exporting`, which means the migration is in progress.\n*   `exported`, which means the migration finished successfully.\n*   `failed`, which means the migration failed."
+      }
     }
   ],
-  "idName": "get-status-for-org",
-  "documentationUrl": "https://developer.github.com/v3/migrations/orgs/#get-the-status-of-a-migration"
+  "idName": "start-for-org",
+  "documentationUrl": "https://developer.github.com/v3/migrations/orgs/#start-an-organization-migration"
 }
