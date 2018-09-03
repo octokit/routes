@@ -336,7 +336,6 @@
 <li><a href="#list-check-suites-for-a-specific-ref" id="markdown-toc-list-check-suites-for-a-specific-ref">List check suites for a specific ref</a></li>
 <li><a href="#set-preferences-for-check-suites-on-a-repository" id="markdown-toc-set-preferences-for-check-suites-on-a-repository">Set preferences for check suites on a repository</a></li>
 <li><a href="#create-a-check-suite" id="markdown-toc-create-a-check-suite">Create a check suite</a></li>
-<li><a href="#request-check-suites" id="markdown-toc-request-check-suites">Request check suites</a></li>
 <li><a href="#rerequest-check-suite" id="markdown-toc-rerequest-check-suite">Rerequest check suite</a></li>
 </ul>
 
@@ -385,6 +384,7 @@
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDEwOkNoZWNrU3VpdGU1"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"head_branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"master"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"head_sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"d6fde92930d4715a2b49857d24b940956b26d2d3"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"completed"</span><span class="p">,</span><span class="w">
@@ -600,6 +600,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
   </span><span class="nt">"check_suites"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
       </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDEwOkNoZWNrU3VpdGU1"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"head_branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"master"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"head_sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"d6fde92930d4715a2b49857d24b940956b26d2d3"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"completed"</span><span class="p">,</span><span class="w">
@@ -1021,6 +1022,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDEwOkNoZWNrU3VpdGU1"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"head_branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"master"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"head_sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"d6fde92930d4715a2b49857d24b940956b26d2d3"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"completed"</span><span class="p">,</span><span class="w">
@@ -1165,73 +1167,6 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 
 <h2>
-<a id="request-check-suites" class="anchor" href="#request-check-suites" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Request check suites<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
-</h2>
-
-<div class="alert note">
-
-<p><strong>Note:</strong> This endpoint is deprecated, and has been superseded by the <a href="/v3/checks/suites/#rerequest-check-suite">Rerequest check suite endpoint</a>.</p>
-
-</div>
-
-<div class="alert note">
-
-<p>The Checks API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the <a href="/changes/2018-05-07-new-checks-api-public-beta/">blog post</a> for full details. To access the API during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
-
-<pre><code>  application/vnd.github.antiope-preview+json
-</code></pre>
-
-</div>
-
-<div class="alert warning">
-
-<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
-
-</div>
-
-<p>Triggers GitHub to create a new check suite, without pushing new code to a repository. To request a check suite, your GitHub App must have the <code>checks:read</code> permission on a private repository or pull access to a public repository.</p>
-
-<pre><code>POST /repos/:owner/:repo/check-suite-requests
-</code></pre>
-
-<h3>
-<a id="parameters-3" class="anchor" href="#parameters-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
-
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>head_sha</code></td>
-<td><code>string</code></td>
-<td>
-<strong>Required.</strong> The sha of the head commit.</td>
-</tr>
-</tbody>
-</table>
-
-<h3>
-<a id="example-3" class="anchor" href="#example-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
-
-<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"head_sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"d6fde92930d4715a2b49857d24b940956b26d2d3"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-
-<h3>
-<a id="response-4" class="anchor" href="#response-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
-
-<pre class="highlight highlight-headers"><code>Status: 201 Created
-</code></pre>
-
-
-<h2>
 <a id="rerequest-check-suite" class="anchor" href="#rerequest-check-suite" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Rerequest check suite<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
@@ -1258,7 +1193,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </code></pre>
 
 <h3>
-<a id="response-5" class="anchor" href="#response-5" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-4" class="anchor" href="#response-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 201 Created
 </code></pre>
