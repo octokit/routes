@@ -14707,7 +14707,7 @@
           }
         ]
       ],
-      "description": "View the progress of an import.\n\n**Import status**\n\nThis section includes details about the possible values of the `status` field of the Import Progress response.\n\nAn import that does not have errors will progress through these steps:\n\n*   `detecting` \\- the \"detection\" step of the import is in progress because the request did not include a `vcs` parameter. The import is identifying the type of source control present at the URL.\n*   `importing` \\- the \"raw\" step of the import is in progress. This is where commit data is fetched from the original repository. The import progress response will include `commit_count` (the total number of raw commits that will be imported) and `percent` (0 - 100, the current progress through the import).\n*   `mapping` \\- the \"rewrite\" step of the import is in progress. This is where SVN branches are converted to Git branches, and where author updates are applied. The import progress response does not include progress information.\n*   `pushing` \\- the \"push\" step of the import is in progress. This is where the importer updates the repository on GitHub. The import progress response will include `push_percent`, which is the percent value reported by `git push` when it is \"Writing objects\".\n*   `complete` \\- the import is complete, and the repository is ready on GitHub.\n\nIf there are problems, you will see one of these in the `status` field:\n\n*   `auth_failed` \\- the import requires authentication in order to connect to the original repository. To update authentication for the import, please see the [Update Existing Import](#update-existing-import) section.\n*   `error` \\- the import encountered an error. The import progress response will include the `failed_step` and an error message. Contact [GitHub support](https://github.com/contact) for more information.\n*   `detection_needs_auth` \\- the importer requires authentication for the originating repository to continue detection. To update authentication for the import, please see the [Update Existing Import](#update-existing-import) section.\n*   `detection_found_nothing` \\- the importer didn't recognize any source control at the URL. To resolve, [Cancel the import](#cancel-an-import) and [retry](#start-an-import) with the correct URL.\n*   `detection_found_multiple` \\- the importer found several projects or repositories at the provided URL. When this is the case, the Import Progress response will also include a `project_choices` field with the possible project choices as values. To update project choice, please see the [Update Existing Import](#update-existing-import) section.\n\n**The project_choices field**\n\nWhen multiple projects are found at the provided URL, the response hash will include a `project_choices` field, the value of which is an array of hashes each representing a project choice. The exact key/value pairs of the project hashes will differ depending on the version control type.\n\n**Git LFS related fields**\n\nThis section includes details about Git LFS related fields that may be present in the Import Progress response.\n\n*   `use_lfs` \\- describes whether the import has been opted in or out of using Git LFS. The value can be `opt_in`, `opt_out`, or `undecided` if no action has been taken.\n*   `has_large_files` \\- the boolean value describing whether files larger than 100MB were found during the `importing` step.\n*   `large_files_size` \\- the total size in gigabytes of files larger than 100MB found in the originating repository.\n*   `large_files_count` \\- the total number of files larger than 100MB found in the originating repository. To see a list of these files, make a \"Get Large Files\" request.",
+      "description": "View the progress of an import.\n\n**Import status**\n\nThis section includes details about the possible values of the `status` field of the Import Progress response.\n\nAn import that does not have errors will progress through these steps:\n\n*   `detecting` - the \"detection\" step of the import is in progress because the request did not include a `vcs` parameter. The import is identifying the type of source control present at the URL.\n*   `importing` - the \"raw\" step of the import is in progress. This is where commit data is fetched from the original repository. The import progress response will include `commit_count` (the total number of raw commits that will be imported) and `percent` (0 - 100, the current progress through the import).\n*   `mapping` - the \"rewrite\" step of the import is in progress. This is where SVN branches are converted to Git branches, and where author updates are applied. The import progress response does not include progress information.\n*   `pushing` - the \"push\" step of the import is in progress. This is where the importer updates the repository on GitHub. The import progress response will include `push_percent`, which is the percent value reported by `git push` when it is \"Writing objects\".\n*   `complete` - the import is complete, and the repository is ready on GitHub.\n\nIf there are problems, you will see one of these in the `status` field:\n\n*   `auth_failed` - the import requires authentication in order to connect to the original repository. To update authentication for the import, please see the [Update Existing Import](#update-existing-import) section.\n*   `error` - the import encountered an error. The import progress response will include the `failed_step` and an error message. Contact [GitHub support](https://github.com/contact) for more information.\n*   `detection_needs_auth` - the importer requires authentication for the originating repository to continue detection. To update authentication for the import, please see the [Update Existing Import](#update-existing-import) section.\n*   `detection_found_nothing` - the importer didn't recognize any source control at the URL. To resolve, [Cancel the import](#cancel-an-import) and [retry](#start-an-import) with the correct URL.\n*   `detection_found_multiple` - the importer found several projects or repositories at the provided URL. When this is the case, the Import Progress response will also include a `project_choices` field with the possible project choices as values. To update project choice, please see the [Update Existing Import](#update-existing-import) section.\n\n**The project_choices field**\n\nWhen multiple projects are found at the provided URL, the response hash will include a `project_choices` field, the value of which is an array of hashes each representing a project choice. The exact key/value pairs of the project hashes will differ depending on the version control type.\n\n**Git LFS related fields**\n\nThis section includes details about Git LFS related fields that may be present in the Import Progress response.\n\n*   `use_lfs` - describes whether the import has been opted in or out of using Git LFS. The value can be `opt_in`, `opt_out`, or `undecided` if no action has been taken.\n*   `has_large_files` - the boolean value describing whether files larger than 100MB were found during the `importing` step.\n*   `large_files_size` - the total size in gigabytes of files larger than 100MB found in the originating repository.\n*   `large_files_count` - the total number of files larger than 100MB found in the originating repository. To see a list of these files, make a \"Get Large Files\" request.",
       "responses": [
         {
           "headers": {
@@ -15460,7 +15460,7 @@
           "location": "url"
         }
       ],
-      "description": "Fetches a single user migration. The response includes the `state` of the migration, which can be one of the following values:\n\n*   `pending` \\- the migration hasn't started yet.\n*   `exporting` \\- the migration is in progress.\n*   `exported` \\- the migration finished successfully.\n*   `failed` \\- the migration failed.\n\nOnce the migration has been `exported` you can [download the migration archive](#download-a-user-migration-archive).",
+      "description": "Fetches a single user migration. The response includes the `state` of the migration, which can be one of the following values:\n\n*   `pending` - the migration hasn't started yet.\n*   `exporting` - the migration is in progress.\n*   `exported` - the migration finished successfully.\n*   `failed` - the migration failed.\n\nOnce the migration has been `exported` you can [download the migration archive](#download-a-user-migration-archive).",
       "responses": [
         {
           "headers": {
@@ -15623,7 +15623,7 @@
           "location": "url"
         }
       ],
-      "description": "Fetches the URL to download the migration archive as a `tar.gz` file. Depending on the resources your repository uses, the migration archive can contain JSON files with data for these objects:\n\n*   attachments\n*   bases\n*   commit_comments\n*   issue_comments\n*   issue_events\n*   issues\n*   milestones\n*   organizations\n*   projects\n*   protected_branches\n*   pull\\_request\\_reviews\n*   pull_requests\n*   releases\n*   repositories\n*   review_comments\n*   schema\n*   users\n\nThe archive will also contain an `attachments` directory that includes all attachment files uploaded to GitHub.com and a `repositories` directory that contains the repository's Git data.\n\n",
+      "description": "Fetches the URL to download the migration archive as a `tar.gz` file. Depending on the resources your repository uses, the migration archive can contain JSON files with data for these objects:\n\n*   attachments\n*   bases\n*   commit\\_comments\n*   issue\\_comments\n*   issue\\_events\n*   issues\n*   milestones\n*   organizations\n*   projects\n*   protected\\_branches\n*   pull\\_request\\_reviews\n*   pull\\_requests\n*   releases\n*   repositories\n*   review\\_comments\n*   schema\n*   users\n\nThe archive will also contain an `attachments` directory that includes all attachment files uploaded to GitHub.com and a `repositories` directory that contains the repository's Git data.\n\n",
       "responses": [
         {
           "headers": {
@@ -16463,7 +16463,7 @@
         {
           "name": "default_repository_permission",
           "type": "string",
-          "description": "Default permission level members have for organization repositories:  \n\\* `read` \\- can pull, but not push to or administer this repository.  \n\\* `write` \\- can pull and push, but not administer this repository.  \n\\* `admin` \\- can pull, push, and administer this repository.  \n\\* `none` \\- no permissions granted by default.",
+          "description": "Default permission level members have for organization repositories:  \n\\* `read` - can pull, but not push to or administer this repository.  \n\\* `write` - can pull and push, but not administer this repository.  \n\\* `admin` - can pull, push, and administer this repository.  \n\\* `none` - no permissions granted by default.",
           "default": "read",
           "required": false,
           "enum": [
@@ -16477,7 +16477,7 @@
         {
           "name": "members_can_create_repositories",
           "type": "boolean",
-          "description": "Toggles ability of non-admin organization members to create repositories  \n\\* `true` \\- all organization members can create repositories.  \n\\* `false` \\- only admin members can create repositories.",
+          "description": "Toggles ability of non-admin organization members to create repositories  \n\\* `true` - all organization members can create repositories.  \n\\* `false` - only admin members can create repositories.",
           "default": true,
           "required": false,
           "location": "body"
@@ -16722,7 +16722,7 @@
         {
           "name": "filter",
           "type": "string",
-          "description": "Filter members returned in the list. Can be one of:  \n\\* `2fa_disabled` \\- Members without [two-factor authentication](https://github.com/blog/1614-two-factor-authentication) enabled. Available for organization owners.  \n\\* `all` \\- All members the authenticated user can see.",
+          "description": "Filter members returned in the list. Can be one of:  \n\\* `2fa_disabled` - Members without [two-factor authentication](https://github.com/blog/1614-two-factor-authentication) enabled. Available for organization owners.  \n\\* `all` - All members the authenticated user can see.",
           "default": "all",
           "required": false,
           "enum": [
@@ -16734,7 +16734,7 @@
         {
           "name": "role",
           "type": "string",
-          "description": "Filter members returned by their role. Can be one of:  \n\\* `all` \\- All members of the organization, regardless of role.  \n\\* `admin` \\- Organization owners.  \n\\* `member` \\- Non-owner organization members.",
+          "description": "Filter members returned by their role. Can be one of:  \n\\* `all` - All members of the organization, regardless of role.  \n\\* `admin` - Organization owners.  \n\\* `member` - Non-owner organization members.",
           "default": "all",
           "required": false,
           "enum": [
@@ -17056,7 +17056,7 @@
         {
           "name": "role",
           "type": "string",
-          "description": "The role to give the user in the organization. Can be one of:  \n\\* `admin` \\- The user will become an owner of the organization.  \n\\* `member` \\- The user will become a non-owner member of the organization.",
+          "description": "The role to give the user in the organization. Can be one of:  \n\\* `admin` - The user will become an owner of the organization.  \n\\* `member` - The user will become a non-owner member of the organization.",
           "default": "member",
           "required": false,
           "enum": [
@@ -17270,7 +17270,7 @@
         {
           "name": "role",
           "type": "string",
-          "description": "Specify role for new member. Can be one of:  \n\\* `admin` \\- Organization owners with full administrative rights to the organization and complete access to all repositories and teams.  \n\\* `direct_member` \\- Non-owner organization members with ability to see other members and join teams by invitation.  \n\\* `billing_manager` \\- Non-owner organization members with ability to manage the billing settings of your organization.",
+          "description": "Specify role for new member. Can be one of:  \n\\* `admin` - Organization owners with full administrative rights to the organization and complete access to all repositories and teams.  \n\\* `direct_member` - Non-owner organization members with ability to see other members and join teams by invitation.  \n\\* `billing_manager` - Non-owner organization members with ability to manage the billing settings of your organization.",
           "default": "direct_member",
           "required": false,
           "enum": [
@@ -18670,7 +18670,7 @@
         {
           "name": "public",
           "type": "boolean",
-          "description": "Sets visibility of the project within the organization. Updating a project's visibility requires `admin` access to the project. Setting visibility is only available for organization projects. Can be one of:  \n\\* `true` \\- Anyone that can view the organization can see the project.  \n\\* `false` \\- The project must be an organization project to set project visibility.",
+          "description": "Sets visibility of the project within the organization. Updating a project's visibility requires `admin` access to the project. Setting visibility is only available for organization projects. Can be one of:  \n\\* `true` - Anyone that can view the organization can see the project.  \n\\* `false` - The project must be an organization project to set project visibility.",
           "required": false,
           "location": "body"
         },
@@ -19210,7 +19210,7 @@
         {
           "name": "permission",
           "type": "string",
-          "description": "The permission to grant the collaborator. Note that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](https://developer.github.com/v3/#http-verbs).\" Can be one of:  \n\\* `read` \\- can read, but not write to or administer this project.  \n\\* `write` \\- can read and write, but not administer this project.  \n\\* `admin` \\- can read, write and administer this project.",
+          "description": "The permission to grant the collaborator. Note that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](https://developer.github.com/v3/#http-verbs).\" Can be one of:  \n\\* `read` - can read, but not write to or administer this project.  \n\\* `write` - can read and write, but not administer this project.  \n\\* `admin` - can read, write and administer this project.",
           "default": "write",
           "required": false,
           "enum": [
@@ -29856,7 +29856,7 @@
         {
           "name": "permission",
           "type": "string",
-          "description": "The permission to grant the collaborator. **Only valid on organization-owned repositories.** Can be one of:  \n\\* `pull` \\- can pull, but not push to or administer this repository.  \n\\* `push` \\- can pull and push, but not administer this repository.  \n\\* `admin` \\- can pull, push and administer this repository.",
+          "description": "The permission to grant the collaborator. **Only valid on organization-owned repositories.** Can be one of:  \n\\* `pull` - can pull, but not push to or administer this repository.  \n\\* `push` - can pull and push, but not administer this repository.  \n\\* `admin` - can pull, push and administer this repository.",
           "default": "push",
           "required": false,
           "enum": [
@@ -31059,7 +31059,7 @@
           "location": "url"
         }
       ],
-      "description": "This endpoint will return all community profile metrics, including an overall health score, repository description, the presence of documentation, detected code of conduct, detected license, and the presence of ISSUE\\_TEMPLATE, PULL\\_REQUEST_TEMPLATE, README, and CONTRIBUTING files.",
+      "description": "This endpoint will return all community profile metrics, including an overall health score, repository description, the presence of documentation, detected code of conduct, detected license, and the presence of ISSUE\\_TEMPLATE, PULL\\_REQUEST\\_TEMPLATE, README, and CONTRIBUTING files.",
       "responses": [
         {
           "headers": {
@@ -34999,7 +34999,7 @@
           "location": "url"
         }
       ],
-      "description": "*   `total` \\- The Total number of commits authored by the contributor.\n\nWeekly Hash (`weeks` array):\n\n*   `w` \\- Start of the week, given as a [Unix timestamp](http://en.wikipedia.org/wiki/Unix_time).\n*   `a` \\- Number of additions\n*   `d` \\- Number of deletions\n*   `c` \\- Number of commits\n\n",
+      "description": "*   `total` - The Total number of commits authored by the contributor.\n\nWeekly Hash (`weeks` array):\n\n*   `w` - Start of the week, given as a [Unix timestamp](http://en.wikipedia.org/wiki/Unix_time).\n*   `a` - Number of additions\n*   `d` - Number of deletions\n*   `c` - Number of commits\n\n",
       "responses": [
         {
           "headers": {
@@ -35039,7 +35039,7 @@
               ]
             }
           ],
-          "description": "*   `w` \\- Start of the week, given as a [Unix timestamp](http://en.wikipedia.org/wiki/Unix_time).\n*   `a` \\- Number of additions\n*   `d` \\- Number of deletions\n*   `c` \\- Number of commits"
+          "description": "*   `w` - Start of the week, given as a [Unix timestamp](http://en.wikipedia.org/wiki/Unix_time).\n*   `a` - Number of additions\n*   `d` - Number of deletions\n*   `c` - Number of commits"
         }
       ],
       "idName": "get-contributors-stats",
@@ -37306,7 +37306,7 @@
           ]
         }
       ],
-      "description": "Find topics via various criteria. This method returns up to 100 results [per page](https://developer.github.com/v3/#pagination).\n\nResults are sorted by best match by default.\n\nThe `q` search term can also contain any combination of the supported topic search qualifiers as described by the in-browser [topic search documentation](https://help.github.com/articles/searching-topics/) and [search syntax documentation](https://help.github.com/articles/search-syntax/):\n\n*   `is:curated` Finds topics that have extra information, e.g., a description, display name, or logo, because they have an entry in the [`github/explore` repository](https://github.com/github/explore).\n*   `is:featured` Finds topics listed on [https://github.com/topics](https://github.com/topics). Any featured topic will also be curated.\n*   `is:not-featured` Finds topics not listed on [https://github.com/topics](https://github.com/topics).\n*   `is:not-curated` Finds topics that have no extra information because they haven't been added to the [`github/explore` repository](https://github.com/github/explore).\n*   `repositories:` Finds topics with some number of repositories using them, e.g., `repositories:>1000`.\n\nSuppose you want to search for topics related to Ruby that are featured on [https://github.com/topics](https://github.com/topics). Your query might look like this:\n\nIn this request, we're searching for topics with the keyword `ruby`, and we're limiting the results to find only topics that are featured. The topics that are the best match for the query appear first in the search results.\n\n**Note:** A search for featured Ruby topics only has 6 total results, so a [Link header](https://developer.github.com/v3/#link-header) indicating pagination is not included in the response.\n\n**Highlighting topic search results**\n\nYou might want to highlight the matching search terms when displaying search results. The API offers additional metadata to support this use case. To get this metadata in your search results, specify the `text-match` media type in your Accept header. For example, via cURL, the above query would look like this:\n\nThis produces the same JSON payload as above, with an extra key called `text_matches`, which is an array of objects. These objects provide information such as the position of your search terms within the text, as well as the `property` that included the search term.\n\nWhen searching for topics, you can get text match metadata for the topic's **short_description**, **description**, **name**, or **display_name** field. For details on the attributes present in the `text_matches` array, see [text match metadata](#text-match-metadata).",
+      "description": "Find topics via various criteria. This method returns up to 100 results [per page](https://developer.github.com/v3/#pagination).\n\nResults are sorted by best match by default.\n\nThe `q` search term can also contain any combination of the supported topic search qualifiers as described by the in-browser [topic search documentation](https://help.github.com/articles/searching-topics/) and [search syntax documentation](https://help.github.com/articles/search-syntax/):\n\n*   `is:curated` Finds topics that have extra information, e.g., a description, display name, or logo, because they have an entry in the [`github/explore` repository](https://github.com/github/explore).\n*   `is:featured` Finds topics listed on [https://github.com/topics](https://github.com/topics). Any featured topic will also be curated.\n*   `is:not-featured` Finds topics not listed on [https://github.com/topics](https://github.com/topics).\n*   `is:not-curated` Finds topics that have no extra information because they haven't been added to the [`github/explore` repository](https://github.com/github/explore).\n*   `repositories:` Finds topics with some number of repositories using them, e.g., `repositories:>1000`.\n\nSuppose you want to search for topics related to Ruby that are featured on [https://github.com/topics](https://github.com/topics). Your query might look like this:\n\nIn this request, we're searching for topics with the keyword `ruby`, and we're limiting the results to find only topics that are featured. The topics that are the best match for the query appear first in the search results.\n\n**Note:** A search for featured Ruby topics only has 6 total results, so a [Link header](https://developer.github.com/v3/#link-header) indicating pagination is not included in the response.\n\n**Highlighting topic search results**\n\nYou might want to highlight the matching search terms when displaying search results. The API offers additional metadata to support this use case. To get this metadata in your search results, specify the `text-match` media type in your Accept header. For example, via cURL, the above query would look like this:\n\nThis produces the same JSON payload as above, with an extra key called `text_matches`, which is an array of objects. These objects provide information such as the position of your search terms within the text, as well as the `property` that included the search term.\n\nWhen searching for topics, you can get text match metadata for the topic's **short\\_description**, **description**, **name**, or **display\\_name** field. For details on the attributes present in the `text_matches` array, see [text match metadata](#text-match-metadata).",
       "idName": "topics",
       "documentationUrl": "https://developer.github.com/v3/search/#search-topics"
     },
@@ -37762,7 +37762,7 @@
         {
           "name": "privacy",
           "type": "string",
-          "description": "The level of privacy this team should have. The options are:  \n**For a non-nested team:**  \n\\* `secret` \\- only visible to organization owners and members of this team.  \n\\* `closed` \\- visible to all members of this organization.  \nDefault: `secret`  \n**For a parent or child team:**  \n\\* `closed` \\- visible to all members of this organization.  \nDefault for child team: `closed`  \n**Note**: You must pass the `hellcat-preview` media type to set privacy default to `closed` for child teams. **For a parent or child team:**  ",
+          "description": "The level of privacy this team should have. The options are:  \n**For a non-nested team:**  \n\\* `secret` - only visible to organization owners and members of this team.  \n\\* `closed` - visible to all members of this organization.  \nDefault: `secret`  \n**For a parent or child team:**  \n\\* `closed` - visible to all members of this organization.  \nDefault for child team: `closed`  \n**Note**: You must pass the `hellcat-preview` media type to set privacy default to `closed` for child teams. **For a parent or child team:**  ",
           "default": "secret",
           "required": false,
           "enum": [
@@ -37774,7 +37774,7 @@
         {
           "name": "permission",
           "type": "string",
-          "description": "**Deprecated**. The permission that new repositories will be added to the team with when none is specified. Can be one of:  \n\\* `pull` \\- team members can pull, but not push to or administer newly-added repositories.  \n\\* `push` \\- team members can pull and push, but not administer newly-added repositories.  \n\\* `admin` \\- team members can pull, push and administer newly-added repositories.",
+          "description": "**Deprecated**. The permission that new repositories will be added to the team with when none is specified. Can be one of:  \n\\* `pull` - team members can pull, but not push to or administer newly-added repositories.  \n\\* `push` - team members can pull and push, but not administer newly-added repositories.  \n\\* `admin` - team members can pull, push and administer newly-added repositories.",
           "default": "pull",
           "required": false,
           "enum": [
@@ -37888,14 +37888,14 @@
         {
           "name": "privacy",
           "type": "string",
-          "description": "The level of privacy this team should have. Editing teams without specifying this parameter leaves `privacy` intact. The options are:  \n**For a non-nested team:**  \n\\* `secret` \\- only visible to organization owners and members of this team.  \n\\* `closed` \\- visible to all members of this organization.  \n**For a parent or child team:**  \n\\* `closed` \\- visible to all members of this organization.",
+          "description": "The level of privacy this team should have. Editing teams without specifying this parameter leaves `privacy` intact. The options are:  \n**For a non-nested team:**  \n\\* `secret` - only visible to organization owners and members of this team.  \n\\* `closed` - visible to all members of this organization.  \n**For a parent or child team:**  \n\\* `closed` - visible to all members of this organization.",
           "required": false,
           "location": "body"
         },
         {
           "name": "permission",
           "type": "string",
-          "description": "**Deprecated**. The permission that new repositories will be added to the team with when none is specified. Can be one of:  \n\\* `pull` \\- team members can pull, but not push to or administer newly-added repositories.  \n\\* `push` \\- team members can pull and push, but not administer newly-added repositories.  \n\\* `admin` \\- team members can pull, push and administer newly-added repositories.",
+          "description": "**Deprecated**. The permission that new repositories will be added to the team with when none is specified. Can be one of:  \n\\* `pull` - team members can pull, but not push to or administer newly-added repositories.  \n\\* `push` - team members can pull and push, but not administer newly-added repositories.  \n\\* `admin` - team members can pull, push and administer newly-added repositories.",
           "default": "pull",
           "required": false,
           "enum": [
@@ -38256,7 +38256,7 @@
         {
           "name": "permission",
           "type": "string",
-          "description": "The permission to grant the team on this repository. Can be one of:  \n\\* `pull` \\- team members can pull, but not push to or administer this repository.  \n\\* `push` \\- team members can pull and push, but not administer this repository.  \n\\* `admin` \\- team members can pull, push and administer this repository.  \n  \nIf no permission is specified, the team's `permission` attribute will be used to determine what permission to grant the team on this repository.  \n**Note**: If you pass the `hellcat-preview` media type, you can promote—but not demote—a `permission` attribute inherited through a parent team.",
+          "description": "The permission to grant the team on this repository. Can be one of:  \n\\* `pull` - team members can pull, but not push to or administer this repository.  \n\\* `push` - team members can pull and push, but not administer this repository.  \n\\* `admin` - team members can pull, push and administer this repository.  \n  \nIf no permission is specified, the team's `permission` attribute will be used to determine what permission to grant the team on this repository.  \n**Note**: If you pass the `hellcat-preview` media type, you can promote—but not demote—a `permission` attribute inherited through a parent team.",
           "required": false,
           "enum": [
             "pull",
@@ -38583,7 +38583,7 @@
         {
           "name": "permission",
           "type": "string",
-          "description": "The permission to grant to the team for this project. Can be one of:  \n\\* `read` \\- team members can read, but not write to or administer this project.  \n\\* `write` \\- team members can read and write, but not administer this project.  \n\\* `admin` \\- team members can read, write and administer this project.  \nDefault: the team's `permission` attribute will be used to determine what permission to grant the team on this project. Note that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](https://developer.github.com/v3/#http-verbs).\"  \n**Note**: If you pass the `hellcat-preview` media type, you can promote—but not demote—a `permission` attribute inherited from a parent team.",
+          "description": "The permission to grant to the team for this project. Can be one of:  \n\\* `read` - team members can read, but not write to or administer this project.  \n\\* `write` - team members can read and write, but not administer this project.  \n\\* `admin` - team members can read, write and administer this project.  \nDefault: the team's `permission` attribute will be used to determine what permission to grant the team on this project. Note that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](https://developer.github.com/v3/#http-verbs).\"  \n**Note**: If you pass the `hellcat-preview` media type, you can promote—but not demote—a `permission` attribute inherited from a parent team.",
           "required": false,
           "enum": [
             "read",
@@ -39486,7 +39486,7 @@
         {
           "name": "role",
           "type": "string",
-          "description": "Filters members returned by their role in the team. Can be one of:  \n\\* `member` \\- normal members of the team.  \n\\* `maintainer` \\- team maintainers.  \n\\* `all` \\- all members of the team.",
+          "description": "Filters members returned by their role in the team. Can be one of:  \n\\* `member` - normal members of the team.  \n\\* `maintainer` - team maintainers.  \n\\* `all` - all members of the team.",
           "default": "all",
           "required": false,
           "enum": [
@@ -39720,7 +39720,7 @@
         {
           "name": "role",
           "type": "string",
-          "description": "The role that this user should have in the team. Can be one of:  \n\\* `member` \\- a normal member of the team.  \n\\* `maintainer` \\- a team maintainer. Able to add/remove other team members, promote other team members to team maintainer, and edit the team's name and description.",
+          "description": "The role that this user should have in the team. Can be one of:  \n\\* `member` - a normal member of the team.  \n\\* `maintainer` - a team maintainer. Able to add/remove other team members, promote other team members to team maintainer, and edit the team's name and description.",
           "default": "member",
           "required": false,
           "enum": [
