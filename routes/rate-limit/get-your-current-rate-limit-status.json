@@ -4,7 +4,7 @@
   "method": "GET",
   "path": "/rate_limit",
   "params": [],
-  "description": "Note: Accessing this endpoint does not count against your rate limit.\n\n\n\n**Understanding Your Rate Limit Status**\n\nThe Search API has a [custom rate limit](https://developer.github.com/v3/search/#rate-limit), separate from the rate limit governing the rest of the API. For that reason, the response (shown above) categorizes your rate limit by resource. Within the `\"resources\"` object, the `\"search\"` object provides your rate limit status for the [Search API](https://developer.github.com/v3/search). The `\"core\"` object provides your rate limit status for all the _rest_ of the API.\n\nThe `\"rate\"` object (shown at the bottom of the response above) is deprecated.\n\nIf you're writing new API client code (or updating your existing code), you should use the `\"core\"` object instead of the `\"rate\"` object. The `\"core\"` object contains the same information that is present in the `\"rate\"` object.",
+  "description": "**Note:** Accessing this endpoint does not count against your REST API rate limit.\n\n**Understanding your rate limit status**\n\nThe Search API has a [custom rate limit](https://developer.github.com/v3/search/#rate-limit), separate from the rate limit governing the rest of the REST API. The GraphQL API also has a [custom rate limit](/v4/guides/resource-limitations/#rate-limit) that is separate from and calculated differently than rate limits in the REST API.\n\nFor these reasons, the Rate Limit API response categorizes your rate limit. Under `resources`, you'll see three objects:\n\n*   The `core` object provides your rate limit status for all non-search-related resources in the REST API.\n*   The `search` object provides your rate limit status for the [Search API](https://developer.github.com/v3/search/).\n*   The `graphql` object provides your rate limit status for the [GraphQL API](/v4/).\n\nFor more information on the headers and values in the rate limit response, see \"[Rate limiting](https://developer.github.com/v3/#rate-limiting).\"\n\nThe `rate` object (shown at the bottom of the response above) is deprecated.\n\nIf you're writing new API client code or updating existing code, you should use the `core` object instead of the `rate` object. The `core` object contains the same information that is present in the `rate` object.",
   "responses": [
     {
       "headers": {
@@ -22,6 +22,11 @@
             "limit": 30,
             "remaining": 18,
             "reset": 1372697452
+          },
+          "graphql": {
+            "limit": 5000,
+            "remaining": 4993,
+            "reset": 1372700389
           }
         },
         "rate": {
