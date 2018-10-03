@@ -1,4 +1,4 @@
-const {flatten, kebabCase} = require('lodash')
+const { flatten, kebabCase } = require('lodash')
 
 module.exports = {
   getAllRoutesByScope,

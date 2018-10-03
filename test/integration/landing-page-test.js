@@ -1,4 +1,4 @@
-const {test} = require('tap')
+const { test } = require('tap')
 
 const cache = require('../../lib/cache')
 const getDocPages = require('../../lib/landing-page/to-pages-json')
