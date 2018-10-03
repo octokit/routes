@@ -73,8 +73,6 @@
             
             <a class="dropdown-menu-item" data-proofer-ignore>Enterprise 2.12</a>
             
-            <a class="dropdown-menu-item" data-proofer-ignore>Enterprise 2.11</a>
-            
           </div>
       </div>
       <form accept-charset="UTF-8" action="#" class="site-header-nav-item site-header-search">
@@ -92,6 +90,8 @@
 
   <div class="container">
     
+
+
 
 
 
@@ -224,7 +224,6 @@
     
     <option value="/v3/orgs/members/">Members</option>
     <option value="/v3/orgs/outside_collaborators/">Outside Collaborators</option>
-    
     <option value="/v3/orgs/hooks/">Webhooks</option>
   </optgroup>
 
@@ -273,7 +272,6 @@
     <option value="/v3/repos/invitations/">Invitations</option>
     <option value="/v3/repos/merging/">Merging</option>
     <option value="/v3/repos/pages/">Pages</option>
-    
     <option value="/v3/repos/releases/">Releases</option>
     <option value="/v3/repos/statistics/">Statistics</option>
     <option value="/v3/repos/statuses/">Statuses</option>
@@ -331,7 +329,7 @@
         <h1>
 <a id="rate-limit" class="anchor" href="#rate-limit" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Rate Limit</h1>
 
-<p>The overview documentation describes the <a href="/v3/#rate-limiting">rate limit rules</a>.
+<p>The REST API overview documentation describes the <a href="/v3/#rate-limiting">rate limit rules</a>.
 You can check your current rate limit status at any time using the Rate Limit
 API described below.</p>
 
@@ -339,7 +337,11 @@ API described below.</p>
 <a id="get-your-current-rate-limit-status" class="anchor" href="#get-your-current-rate-limit-status" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get your current rate limit status<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
-<p>Note: Accessing this endpoint does not count against your rate limit.</p>
+<div class="alert note">
+
+<p><strong>Note:</strong> Accessing this endpoint does not count against your REST API rate limit.</p>
+
+</div>
 
 <pre><code>GET /rate_limit
 </code></pre>
@@ -365,6 +367,11 @@ X-RateLimit-Reset: 1372700873
       </span><span class="nt">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w">
       </span><span class="nt">"remaining"</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span><span class="p">,</span><span class="w">
       </span><span class="nt">"reset"</span><span class="p">:</span><span class="w"> </span><span class="mi">1372697452</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"graphql"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"limit"</span><span class="p">:</span><span class="w"> </span><span class="mi">5000</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"remaining"</span><span class="p">:</span><span class="w"> </span><span class="mi">4993</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"reset"</span><span class="p">:</span><span class="w"> </span><span class="mi">1372700389</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="nt">"rate"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -376,26 +383,29 @@ X-RateLimit-Reset: 1372700873
 </span></code></pre>
 
 
-<p><br></p>
+<h4>
+<a id="understanding-your-rate-limit-status" class="anchor" href="#understanding-your-rate-limit-status" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Understanding your rate limit status</h4>
+
+<p>The Search API has a <a href="/v3/search/#rate-limit">custom rate limit</a>, separate from the rate limit governing the rest of the REST API. The GraphQL API also has a <a href="/v4/guides/resource-limitations/#rate-limit">custom rate limit</a> that is separate from and calculated differently than rate limits in the REST API.</p>
+
+<p>For these reasons, the Rate Limit API response categorizes your rate limit. Under <code>resources</code>, you'll see three objects:</p>
+
+<ul>
+<li>The <code>core</code> object provides your rate limit status for all non-search-related resources in the REST API.</li>
+<li>The <code>search</code> object provides your rate limit status for the <a href="/v3/search/">Search API</a>.</li>
+<li>The <code>graphql</code> object provides your rate limit status for the <a href="/v4/">GraphQL API</a>.</li>
+</ul>
+
+<p>For more information on the headers and values in the rate limit response, see "<a href="/v3/#rate-limiting">Rate limiting</a>."</p>
 
 <h4>
-<a id="understanding-your-rate-limit-status" class="anchor" href="#understanding-your-rate-limit-status" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Understanding Your Rate Limit Status</h4>
+<a id="deprecation-notice" class="anchor" href="#deprecation-notice" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Deprecation notice</h4>
 
-<p>The Search API has a <a href="/v3/search/#rate-limit">custom rate limit</a>, separate from
-the rate limit governing the rest of the API. For that reason, the response
-(shown above) categorizes your rate limit by resource. Within the <code>"resources"</code>
-object, the <code>"search"</code> object provides your rate limit status for the
-<a href="/v3/search">Search API</a>. The <code>"core"</code> object provides your rate limit status for
-all the <em>rest</em> of the API.</p>
+<p>The <code>rate</code> object (shown at the bottom of the response above) is deprecated.</p>
 
-<h4>
-<a id="deprecation-notice" class="anchor" href="#deprecation-notice" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Deprecation Notice</h4>
-
-<p>The <code>"rate"</code> object (shown at the bottom of the response above) is deprecated.</p>
-
-<p>If you're writing new API client code (or updating your existing code), you
-should use the <code>"core"</code> object instead of the <code>"rate"</code> object. The <code>"core"</code> object
-contains the same information that is present in the <code>"rate"</code> object.</p>
+<p>If you're writing new API client code or updating existing code, you
+should use the <code>core</code> object instead of the <code>rate</code> object. The <code>core</code> object
+contains the same information that is present in the <code>rate</code> object.</p>
       </div>
 
       <div class="nav-select nav-select-bottom hide-lg hide-xl">
@@ -497,7 +507,6 @@ contains the same information that is present in the <code>"rate"</code> object.
     
     <option value="/v3/orgs/members/">Members</option>
     <option value="/v3/orgs/outside_collaborators/">Outside Collaborators</option>
-    
     <option value="/v3/orgs/hooks/">Webhooks</option>
   </optgroup>
 
@@ -546,7 +555,6 @@ contains the same information that is present in the <code>"rate"</code> object.
     <option value="/v3/repos/invitations/">Invitations</option>
     <option value="/v3/repos/merging/">Merging</option>
     <option value="/v3/repos/pages/">Pages</option>
-    
     <option value="/v3/repos/releases/">Releases</option>
     <option value="/v3/repos/statistics/">Statistics</option>
     <option value="/v3/repos/statuses/">Statuses</option>
@@ -704,7 +712,6 @@ contains the same information that is present in the <code>"rate"</code> object.
           
           <li><a href="/v3/orgs/members/">Members</a></li>
           <li><a href="/v3/orgs/outside_collaborators/">Outside Collaborators</a></li>
-          
           <li><a href="/v3/orgs/hooks/">Webhooks</a></li>
         </ul>
       </li>
@@ -757,7 +764,6 @@ contains the same information that is present in the <code>"rate"</code> object.
           <li><a href="/v3/repos/invitations/">Invitations</a></li>
           <li><a href="/v3/repos/merging/">Merging</a></li>
           <li><a href="/v3/repos/pages/">Pages</a></li>
-          
           <li><a href="/v3/repos/releases/">Releases</a></li>
           <li><a href="/v3/repos/statistics/">Statistics</a></li>
           <li><a href="/v3/repos/statuses/">Statuses</a></li>

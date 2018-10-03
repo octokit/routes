@@ -73,8 +73,6 @@
             
             <a class="dropdown-menu-item" data-proofer-ignore>Enterprise 2.12</a>
             
-            <a class="dropdown-menu-item" data-proofer-ignore>Enterprise 2.11</a>
-            
           </div>
       </div>
       <form accept-charset="UTF-8" action="#" class="site-header-nav-item site-header-search">
@@ -92,6 +90,8 @@
 
   <div class="container">
     
+
+
 
 
 
@@ -224,7 +224,6 @@
     
     <option value="/v3/orgs/members/">Members</option>
     <option value="/v3/orgs/outside_collaborators/">Outside Collaborators</option>
-    
     <option value="/v3/orgs/hooks/">Webhooks</option>
   </optgroup>
 
@@ -273,7 +272,6 @@
     <option value="/v3/repos/invitations/">Invitations</option>
     <option value="/v3/repos/merging/">Merging</option>
     <option value="/v3/repos/pages/">Pages</option>
-    
     <option value="/v3/repos/releases/">Releases</option>
     <option value="/v3/repos/statistics/">Statistics</option>
     <option value="/v3/repos/statuses/">Statuses</option>
@@ -616,12 +614,6 @@ Git uses the given URL when cloning the submodule repository, and checks out the
 </thead>
 <tbody>
 <tr>
-<td><code>path</code></td>
-<td><code>string</code></td>
-<td>
-<strong>Required</strong>. The content path.</td>
-</tr>
-<tr>
 <td><code>message</code></td>
 <td><code>string</code></td>
 <td>
@@ -631,29 +623,25 @@ Git uses the given URL when cloning the submodule repository, and checks out the
 <td><code>content</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required</strong>. The new file content, Base64 encoded.</td>
+<strong>Required</strong>. The new file content, using Base64 encoding.</td>
 </tr>
 <tr>
 <td><code>branch</code></td>
 <td><code>string</code></td>
 <td>The branch name. Default: the repository’s default branch (usually <code>master</code>)</td>
 </tr>
+<tr>
+<td><code>committer</code></td>
+<td><code>object</code></td>
+<td>The person that committed the file. Default: the authenticated user.</td>
+</tr>
+<tr>
+<td><code>author</code></td>
+<td><code>object</code></td>
+<td>The author of the file. Default: The <code>committer</code> or the authenticated user if you omit <code>committer</code>.</td>
+</tr>
 </tbody>
 </table>
-
-<h3>
-<a id="optional-parameters" class="anchor" href="#optional-parameters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Optional Parameters</h3>
-
-<p>You can provide an additional <code>committer</code> parameter, which is an object containing
-information about the committer. Or, you can provide an <code>author</code> parameter, which
-is an object containing information about the author.</p>
-
-<p>The <code>author</code> section is optional and is filled in with the <code>committer</code>
-information if omitted. If the <code>committer</code> information is omitted, the authenticated
-user's information is used.</p>
-
-<p>You must provide values for both <code>name</code> and <code>email</code>, whether you choose to use
-<code>author</code> or <code>committer</code>. Otherwise, you'll receive a <code>422</code> status code.</p>
 
 <p>Both the <code>author</code> and <code>committer</code> parameters have the same keys:</p>
 
@@ -669,12 +657,14 @@ user's information is used.</p>
 <tr>
 <td><code>name</code></td>
 <td><code>string</code></td>
-<td>The name of the author (or committer) of the commit</td>
+<td>
+<strong>Required</strong>. The name of the author or committer of the commit. You'll receive a <code>422</code> status code if <code>name</code> is omitted.</td>
 </tr>
 <tr>
 <td><code>email</code></td>
 <td><code>string</code></td>
-<td>The email of the author (or committer) of the commit</td>
+<td>
+<strong>Required</strong>. The email of the author or committer of the commit. You'll receive a <code>422</code> status code if <code>name</code> is omitted.</td>
 </tr>
 </tbody>
 </table>
@@ -777,12 +767,6 @@ user's information is used.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>path</code></td>
-<td><code>string</code></td>
-<td>
-<strong>Required</strong>. The content path.</td>
-</tr>
-<tr>
 <td><code>message</code></td>
 <td><code>string</code></td>
 <td>
@@ -792,7 +776,7 @@ user's information is used.</p>
 <td><code>content</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required</strong>. The updated file content, Base64 encoded.</td>
+<strong>Required</strong>. The new file content, using Base64 encoding.</td>
 </tr>
 <tr>
 <td><code>sha</code></td>
@@ -805,22 +789,18 @@ user's information is used.</p>
 <td><code>string</code></td>
 <td>The branch name. Default: the repository’s default branch (usually <code>master</code>)</td>
 </tr>
+<tr>
+<td><code>committer</code></td>
+<td><code>object</code></td>
+<td>The person that committed the file. Default: the authenticated user.</td>
+</tr>
+<tr>
+<td><code>author</code></td>
+<td><code>object</code></td>
+<td>The author of the file. Default: The <code>committer</code> or the authenticated user if you omit <code>committer</code>.</td>
+</tr>
 </tbody>
 </table>
-
-<h3>
-<a id="optional-parameters-1" class="anchor" href="#optional-parameters-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Optional Parameters</h3>
-
-<p>You can provide an additional <code>committer</code> parameter, which is an object containing
-information about the committer. Or, you can provide an <code>author</code> parameter, which
-is an object containing information about the author.</p>
-
-<p>The <code>author</code> section is optional and is filled in with the <code>committer</code>
-information if omitted. If the <code>committer</code> information is omitted, the authenticated
-user's information is used.</p>
-
-<p>You must provide values for both <code>name</code> and <code>email</code>, whether you choose to use
-<code>author</code> or <code>committer</code>. Otherwise, you'll receive a <code>422</code> status code.</p>
 
 <p>Both the <code>author</code> and <code>committer</code> parameters have the same keys:</p>
 
@@ -836,12 +816,14 @@ user's information is used.</p>
 <tr>
 <td><code>name</code></td>
 <td><code>string</code></td>
-<td>The name of the author (or committer) of the commit</td>
+<td>
+<strong>Required</strong>. The name of the author or committer of the commit. You'll receive a <code>422</code> status code if you omit <code>name</code>.</td>
 </tr>
 <tr>
 <td><code>email</code></td>
 <td><code>string</code></td>
-<td>The email of the author (or committer) of the commit</td>
+<td>
+<strong>Required</strong>. The email of the author or committer of the commit. You'll receive a <code>422</code> status code if you omit <code>name</code>.</td>
 </tr>
 </tbody>
 </table>
@@ -971,7 +953,7 @@ user's information is used.</p>
 </table>
 
 <h3>
-<a id="optional-parameters-2" class="anchor" href="#optional-parameters-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Optional Parameters</h3>
+<a id="optional-parameters" class="anchor" href="#optional-parameters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Optional Parameters</h3>
 
 <p>You can provide an additional <code>committer</code> parameter, which is an object containing
 information about the committer. Or, you can provide an <code>author</code> parameter, which
@@ -1249,7 +1231,6 @@ for a directory, the response will be an object with an <code>entries</code> att
     
     <option value="/v3/orgs/members/">Members</option>
     <option value="/v3/orgs/outside_collaborators/">Outside Collaborators</option>
-    
     <option value="/v3/orgs/hooks/">Webhooks</option>
   </optgroup>
 
@@ -1298,7 +1279,6 @@ for a directory, the response will be an object with an <code>entries</code> att
     <option value="/v3/repos/invitations/">Invitations</option>
     <option value="/v3/repos/merging/">Merging</option>
     <option value="/v3/repos/pages/">Pages</option>
-    
     <option value="/v3/repos/releases/">Releases</option>
     <option value="/v3/repos/statistics/">Statistics</option>
     <option value="/v3/repos/statuses/">Statuses</option>
@@ -1456,7 +1436,6 @@ for a directory, the response will be an object with an <code>entries</code> att
           
           <li><a href="/v3/orgs/members/">Members</a></li>
           <li><a href="/v3/orgs/outside_collaborators/">Outside Collaborators</a></li>
-          
           <li><a href="/v3/orgs/hooks/">Webhooks</a></li>
         </ul>
       </li>
@@ -1509,7 +1488,6 @@ for a directory, the response will be an object with an <code>entries</code> att
           <li><a href="/v3/repos/invitations/">Invitations</a></li>
           <li><a href="/v3/repos/merging/">Merging</a></li>
           <li><a href="/v3/repos/pages/">Pages</a></li>
-          
           <li><a href="/v3/repos/releases/">Releases</a></li>
           <li><a href="/v3/repos/statistics/">Statistics</a></li>
           <li><a href="/v3/repos/statuses/">Statuses</a></li>
