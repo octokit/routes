@@ -1,6 +1,6 @@
-const {test} = require('tap')
+const { test } = require('tap')
 
-const {getAllRoutesByDocumentUrl, getAllDocumentationUrls} = require('../util')
+const { getAllRoutesByDocumentUrl, getAllDocumentationUrls } = require('../util')
 const getEndpoint = require('../../lib/endpoint/get')
 
 // Add URL(s) below for endpoints that you are currently debugging

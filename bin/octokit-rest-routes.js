@@ -2,7 +2,7 @@
 
 const checkOrUpdateRoutes = require('../lib/check-or-update-routes')
 
-const {cached, urls, _: [command]} = require('yargs')
+const { cached, urls, _: [command] } = require('yargs')
   .command('update', 'Update route files', yargs => {
     yargs
       .options({
@@ -39,5 +39,5 @@ if (!['update', 'check'].includes(command)) {
   process.exit(1)
 }
 
-checkOrUpdateRoutes({cached, urls, checkOnly: command === 'check'})
+checkOrUpdateRoutes({ cached, urls, checkOnly: command === 'check' })
   .catch(error => console.log(error.stack))

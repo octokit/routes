@@ -1,5 +1,5 @@
 const proxyquire = require('proxyquire')
-const {test} = require('tap')
+const { test } = require('tap')
 
 const parseUrlsOption = proxyquire('../../lib/options/urls', {
   '../landing-page/get': (state) => ([

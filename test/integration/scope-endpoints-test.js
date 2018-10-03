@@ -1,6 +1,6 @@
-const {test} = require('tap')
+const { test } = require('tap')
 
-const {getScopeRoutesByDocumentUrl, getAllDocumentationUrls} = require('../util')
+const { getScopeRoutesByDocumentUrl, getAllDocumentationUrls } = require('../util')
 const getEndpoint = require('../../lib/endpoint/get')
 
 getAllDocumentationUrls().forEach(url => {
