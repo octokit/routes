@@ -16,12 +16,6 @@
 </thead>
 <tbody>
 <tr>
-<td><code>path</code></td>
-<td><code>string</code></td>
-<td>
-<strong>Required</strong>. The content path.</td>
-</tr>
-<tr>
 <td><code>message</code></td>
 <td><code>string</code></td>
 <td>
@@ -31,25 +25,25 @@
 <td><code>content</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required</strong>. The new file content, Base64 encoded.</td>
+<strong>Required</strong>. The new file content, using Base64 encoding.</td>
 </tr>
 <tr>
 <td><code>branch</code></td>
 <td><code>string</code></td>
 <td>The branch name. Default: the repository&#x2019;s default branch (usually <code>master</code>)</td>
 </tr>
+<tr>
+<td><code>committer</code></td>
+<td><code>object</code></td>
+<td>The person that committed the file. Default: the authenticated user.</td>
+</tr>
+<tr>
+<td><code>author</code></td>
+<td><code>object</code></td>
+<td>The author of the file. Default: The <code>committer</code> or the authenticated user if you omit <code>committer</code>.</td>
+</tr>
 </tbody>
 </table>
-<h3>
-<a id="optional-parameters" class="anchor" href="#optional-parameters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Optional Parameters</h3>
-<p>You can provide an additional <code>committer</code> parameter, which is an object containing
-information about the committer. Or, you can provide an <code>author</code> parameter, which
-is an object containing information about the author.</p>
-<p>The <code>author</code> section is optional and is filled in with the <code>committer</code>
-information if omitted. If the <code>committer</code> information is omitted, the authenticated
-user&apos;s information is used.</p>
-<p>You must provide values for both <code>name</code> and <code>email</code>, whether you choose to use
-<code>author</code> or <code>committer</code>. Otherwise, you&apos;ll receive a <code>422</code> status code.</p>
 <p>Both the <code>author</code> and <code>committer</code> parameters have the same keys:</p>
 <table>
 <thead>
@@ -63,12 +57,14 @@ user&apos;s information is used.</p>
 <tr>
 <td><code>name</code></td>
 <td><code>string</code></td>
-<td>The name of the author (or committer) of the commit</td>
+<td>
+<strong>Required</strong>. The name of the author or committer of the commit. You&apos;ll receive a <code>422</code> status code if <code>name</code> is omitted.</td>
 </tr>
 <tr>
 <td><code>email</code></td>
 <td><code>string</code></td>
-<td>The email of the author (or committer) of the commit</td>
+<td>
+<strong>Required</strong>. The email of the author or committer of the commit. You&apos;ll receive a <code>422</code> status code if <code>name</code> is omitted.</td>
 </tr>
 </tbody>
 </table>
