@@ -4,11 +4,11 @@
 <ul>
 <li><a href="/v3/#root-endpoint"><code>GET /</code></a></li>
 <li><a href="/v3/codes_of_conduct/#list-all-codes-of-conduct"><code>GET /codes_of_conduct</code></a></li>
-<li><a href="/v3/codes_of_conduct/#get-an-individual-code-of-conduct"><code>GET /codes_of_conduct/:code_of_conduct</code></a></li>
+<li><a href="/v3/codes_of_conduct/#get-an-individual-code-of-conduct"><code>GET /codes_of_conduct/:key</code></a></li>
 <li><a href="/v3/emojis/#emojis"><code>GET /emojis</code></a></li>
 <li><a href="/v3/activity/feeds/#list-feeds"><code>GET /feeds</code></a></li>
 <li><a href="/v3/licenses/#list-all-licenses"><code>GET /licenses</code></a></li>
-<li><a href="/v3/licenses/#get-an-individual-license"><code>GET /licenses/:license</code></a></li>
+<li><a href="/v3/licenses/#get-an-individual-license"><code>GET /licenses/:key</code></a></li>
 <li><a href="/v3/markdown/#render-an-arbitrary-markdown-document"><code>POST /markdown</code></a></li>
 <li><a href="/v3/markdown/#render-a-markdown-document-in-raw-mode"><code>POST /markdown/raw</code></a></li>
 <li><a href="/v3/meta/#meta"><code>GET /meta</code></a></li>
@@ -17,8 +17,7 @@
 <li><a href="/v3/projects/#list-organization-projects"><code>GET /orgs/:org/projects</code></a></li>
 <li><a href="/v3/repos/#list-organization-repositories"><code>GET /orgs/:org/repos</code></a></li>
 <li><a href="/v3/rate_limit/#get-your-current-rate-limit-status"><code>GET /rate_limit</code></a></li>
-<li><a href="/v3/repos/#get"><code>GET /repos/:owner/:repo</code></a></li>
-<li><p><a href="/v3/repos/contents/#get-archive-link"><code>GET /repos/:owner/:repo/:archive_format/:ref</code></a></p></li>
+<li><p><a href="/v3/repos/#get"><code>GET /repos/:owner/:repo</code></a></p></li>
 <li><p><a href="/v3/repos/community/#retrieve-community-profile-metrics"><code>GET /repos/:owner/:repo/community/profile</code></a></p></li>
 <li><p><a href="/v3/repos/#list-contributors"><code>GET /repos/:owner/:repo/contributors</code></a></p></li>
 <li><a href="/v3/repos/forks/#list-forks"><code>GET /repos/:owner/:repo/forks</code></a></li>
@@ -33,9 +32,11 @@
 <li><a href="/v3/activity/watching/#list-watchers"><code>GET /repos/:owner/:repo/subscribers</code></a></li>
 <li><a href="/v3/repos/#list-tags"><code>GET /repos/:owner/:repo/tags</code></a></li>
 <li><a href="/v3/repos#list-all-topics-for-a-repository"><code>GET /repos/:owner/:repo/topics</code></a></li>
-<li><a href="/v3/activity/starring/#list-stargazers"><code>GET /repos/:owner/:repo/watchers</code></a></li>
 <li><a href="/v3/repos/#list-all-public-repositories"><code>GET /repositories</code></a></li>
-<li><a href="/v3/users/#get-all-users"><code>GET /users</code></a></li>
+<li><p><a href="/v3/repos/#list-your-repositories"><code>GET /user/repos</code></a></p></li>
+<li><p><a href="/v3/activity/starring/#list-repositories-being-starred"><code>GET /user/starred</code></a></p></li>
+<li><p><a href="/v3/activity/watching/#list-repositories-being-watched"><code>GET /user/subscriptions</code></a></p></li>
+<li><p><a href="/v3/users/#get-all-users"><code>GET /users</code></a></p></li>
 <li><a href="/v3/users/#get-a-single-user"><code>GET /users/:username</code></a></li>
 <li><a href="/v3/users/followers/#list-followers-of-a-user"><code>GET /users/:username/followers</code></a></li>
 <li><a href="/v3/users/followers/#list-users-followed-by-another-user"><code>GET /users/:username/following</code></a></li>
@@ -44,7 +45,9 @@
 <li><a href="/v3/orgs/#list-user-organizations"><code>GET /users/:username/orgs</code></a></li>
 <li><a href="/v3/activity/events/#list-events-that-a-user-has-received"><code>GET /users/:username/received_events</code></a></li>
 <li><a href="/v3/activity/events/#list-public-events-that-a-user-has-received"><code>GET /users/:username/received_events/public</code></a></li>
-<li><a href="/v3/repos/#list-user-repositories"><code>GET /users/:username/repos</code></a></li>
+<li><p><a href="/v3/repos/#list-user-repositories"><code>GET /users/:username/repos</code></a></p></li>
+<li><p><a href="/v3/activity/starring/#list-repositories-being-starred"><code>GET /users/:username/starred</code></a></p></li>
+<li><p><a href="/v3/activity/watching/#list-repositories-being-watched"><code>GET /users/:username/subscriptions</code></a></p></li>
 </ul>
 <p><em>Collaborators</em></p>
 <ul>
@@ -61,7 +64,7 @@
 <p><em>Events</em></p>
 <ul>
 <li><a href="/v3/activity/events/#list-public-events"><code>GET /events</code></a></li>
-<li><a href="/v3/activity/events/#list-public-events-for-a-network-of-repositories"><code>GET /networks/:user/:repo/events</code></a></li>
+<li><a href="/v3/activity/events/#list-public-events-for-a-network-of-repositories"><code>GET /networks/:owner/:repo/events</code></a></li>
 <li><a href="/v3/activity/events/#list-public-events-for-an-organization"><code>GET /orgs/:org/events</code></a></li>
 <li><a href="/v3/activity/events/#list-repository-events"><code>GET /repos/:owner/:repo/events</code></a></li>
 <li><a href="/v3/activity/events/#list-events-performed-by-a-user"><code>GET /users/:username/events</code></a></li>
@@ -70,7 +73,7 @@
 <p><em>Git</em></p>
 <ul>
 <li><a href="/v3/gitignore/#listing-available-templates"><code>GET /gitignore/templates</code></a></li>
-<li><a href="/v3/gitignore/#get-a-single-template"><code>GET /gitignore/templates/:name</code></a></li>
+<li><a href="/v3/gitignore/#get-a-single-template"><code>GET /gitignore/templates/:key</code></a></li>
 </ul>
 <p><em>Keys</em></p>
 <ul>
@@ -78,9 +81,10 @@
 </ul>
 <p><em>Organization members</em></p>
 <ul>
+<li><a href="/v3/orgs/members/#members-list"><code>GET /orgs/:org/members</code></a></li>
 <li><a href="/v3/orgs/members/#check-membership"><code>GET /orgs/:org/members/:username</code></a></li>
 <li><a href="/v3/orgs/members/#public-members-list"><code>GET /orgs/:org/public_members</code></a></li>
-<li><a href="/v3/orgs/members/#check-public-membership"><code>GET /orgs/:org/public_members/:user</code></a></li>
+<li><a href="/v3/orgs/members/#check-public-membership"><code>GET /orgs/:org/public_members/:username</code></a></li>
 </ul>
 <p><em>Search</em></p>
 <ul>
