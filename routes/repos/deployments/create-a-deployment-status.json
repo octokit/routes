@@ -6,7 +6,7 @@
   "previews": [
     {
       "name": "ant-man",
-      "description": "The new `inactive` state, rename of the `target_url` parameter to `log_url`, and new `environment_url` and `auto_inactive` parameters are currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the [blog post](/changes/2016-04-06-deployment-and-deployment-status-enhancements) for full details.\n\nTo access the API during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.ant-man-preview+json\n\n```",
+      "description": "The new `inactive` state, `log_url`, `environment_url`, and `auto_inactive` parameters are currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the [blog post](/changes/2016-04-06-deployment-and-deployment-status-enhancements) for full details.\n\nTo access the API during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.ant-man-preview+json\n\n```",
       "required": false
     }
   ],
@@ -35,14 +35,15 @@
     {
       "name": "state",
       "type": "string",
-      "description": "The state of the status. Can be one of `error`, `failure`, `inactive`, `pending`, or `success`. **The `inactive` state requires a custom media type to be specified. Please see more in the alert below.**",
+      "description": "The state of the status. Can be one of `error`, `failure`, `inactive`, `pending`, or `success`.  \n**Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type.",
       "required": true,
       "enum": [
         "error",
         "failure",
         "inactive",
         "pending",
-        "success"
+        "success",
+        "application/vnd.github.ant-man-preview+json"
       ],
       "location": "body"
     },
@@ -57,7 +58,7 @@
     {
       "name": "log_url",
       "type": "string",
-      "description": "This is functionally equivalent to `target_url`. We will continue accept `target_url` to support legacy uses, but we recommend modifying this to the new name to avoid confusion. **This parameter requires a custom media type to be specified. Please see more in the alert below.**",
+      "description": "This is functionally equivalent to `target_url`. We will continue accept `target_url` to support legacy uses, but we recommend modifying this to the new name to avoid confusion. Default: `\"\"`  \n**Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type. **Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type.",
       "default": "\"\"",
       "required": false,
       "location": "body"
@@ -73,7 +74,7 @@
     {
       "name": "environment_url",
       "type": "string",
-      "description": "Sets the URL for accessing your environment. **This parameter requires a custom media type to be specified. Please see more in the alert below.**",
+      "description": "Sets the URL for accessing your environment. Default: `\"\"`  \n**Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type. **Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type.",
       "default": "\"\"",
       "required": false,
       "location": "body"
@@ -81,7 +82,7 @@
     {
       "name": "auto_inactive",
       "type": "boolean",
-      "description": "Adds a new `inactive` status to all non-transient, non-production environment deployments with the same repository and environment name as the created status's deployment. **This parameter requires a custom media type to be specified. Please see more in the alert below.**",
+      "description": "Adds a new `inactive` status to all non-transient, non-production environment deployments with the same repository and environment name as the created status's deployment. Default: `true`  \n**Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type. **Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type.",
       "default": true,
       "required": false,
       "location": "body"

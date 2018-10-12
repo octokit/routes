@@ -2167,7 +2167,7 @@
   },
   {
     "name": "Transfer a repository",
-    "enabledForApps": false,
+    "enabledForApps": true,
     "method": "POST",
     "path": "/repos/:owner/:repo/transfer",
     "previews": [
@@ -6870,7 +6870,7 @@
     "previews": [
       {
         "name": "machine-man",
-        "description": "**Note:** An additional `performed_via_github_app` object in the issue payload is currently available for developers to preview. For more information, see the [related blog post](/changes/2016-09-14-Integrations-Early-Access).\n\nTo access the API, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.machine-man-preview\n\n```",
+        "description": "**Note:** If a deployment is created via a GitHub App, the response will include the `performed_via_github_app` object with information about the GitHub App. For more information, see the [related blog post](/changes/2016-09-14-Integrations-Early-Access).\n\nTo receive the `performed_via_github_app` object is the response, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.machine-man-preview\n\n```",
         "required": false
       }
     ],
@@ -6897,7 +6897,7 @@
         "location": "url"
       }
     ],
-    "description": "\n\n**Note:** If a user created a deployment via a GitHub App, the `performed_via_github_app` key will contain information on that GitHub App.",
+    "description": "",
     "responses": [
       {
         "headers": {
@@ -7030,7 +7030,7 @@
       {
         "name": "transient_environment",
         "type": "boolean",
-        "description": "Specifies if the given environment is specific to the deployment and will no longer exist at some point in the future. **This parameter requires a custom media type to be specified. Please see more in the alert below.**",
+        "description": "Specifies if the given environment is specific to the deployment and will no longer exist at some point in the future. Default: `false`  \n**Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type. **Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type.",
         "default": false,
         "required": false,
         "location": "body"
@@ -7038,7 +7038,7 @@
       {
         "name": "production_environment",
         "type": "boolean",
-        "description": "Specifies if the given environment is one that end-users directly interact with. **This parameter requires a custom media type to be specified. Please see more in the alert below.**",
+        "description": "Specifies if the given environment is one that end-users directly interact with. Default: `true` when `environment` is `production` and `false` otherwise.  \n**Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type.  ",
         "default": "`true` when `environment` is `production` and `false` otherwise",
         "required": false,
         "location": "body"
@@ -7160,13 +7160,8 @@
     "path": "/repos/:owner/:repo/deployments/:deployment_id/statuses/:status_id",
     "previews": [
       {
-        "name": "ant-man",
-        "description": "This endpoint is part of the deployment and deployment status enhancement. During the preview period, the API may change without advance notice. Please see the [blog post](/changes/2016-04-06-deployment-and-deployment-status-enhancements) for full details.\n\nTo access the API during the Early Access period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.ant-man-preview+json\n\n```",
-        "required": true
-      },
-      {
         "name": "machine-man",
-        "description": "**Note:** An additional `performed_via_github_app` object in the issue payload is currently available for developers to preview. For more information, see the [related blog post](/changes/2016-09-14-Integrations-Early-Access).\n\nTo access the API, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.machine-man-preview\n\n```",
+        "description": "**Note:** If a deployment is created via a GitHub App, the response will include the `performed_via_github_app` object with information about the GitHub App. For more information, see the [related blog post](/changes/2016-09-14-Integrations-Early-Access).\n\nTo receive the `performed_via_github_app` object is the response, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.machine-man-preview\n\n```",
         "required": false
       }
     ],
@@ -7207,7 +7202,7 @@
         "location": "url"
       }
     ],
-    "description": "Users with pull access can view a deployment status for a deployment:\n\n\n\n**Note:** If a user created a deployment status via a GitHub App, the `performed_via_github_app` key will contain information on that GitHub App.",
+    "description": "Users with pull access can view a deployment status for a deployment:",
     "responses": [
       {
         "headers": {
@@ -7259,7 +7254,7 @@
     "previews": [
       {
         "name": "ant-man",
-        "description": "The new `inactive` state, rename of the `target_url` parameter to `log_url`, and new `environment_url` and `auto_inactive` parameters are currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the [blog post](/changes/2016-04-06-deployment-and-deployment-status-enhancements) for full details.\n\nTo access the API during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.ant-man-preview+json\n\n```",
+        "description": "The new `inactive` state, `log_url`, `environment_url`, and `auto_inactive` parameters are currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the [blog post](/changes/2016-04-06-deployment-and-deployment-status-enhancements) for full details.\n\nTo access the API during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.ant-man-preview+json\n\n```",
         "required": false
       }
     ],
@@ -7288,14 +7283,15 @@
       {
         "name": "state",
         "type": "string",
-        "description": "The state of the status. Can be one of `error`, `failure`, `inactive`, `pending`, or `success`. **The `inactive` state requires a custom media type to be specified. Please see more in the alert below.**",
+        "description": "The state of the status. Can be one of `error`, `failure`, `inactive`, `pending`, or `success`.  \n**Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type.",
         "required": true,
         "enum": [
           "error",
           "failure",
           "inactive",
           "pending",
-          "success"
+          "success",
+          "application/vnd.github.ant-man-preview+json"
         ],
         "location": "body"
       },
@@ -7310,7 +7306,7 @@
       {
         "name": "log_url",
         "type": "string",
-        "description": "This is functionally equivalent to `target_url`. We will continue accept `target_url` to support legacy uses, but we recommend modifying this to the new name to avoid confusion. **This parameter requires a custom media type to be specified. Please see more in the alert below.**",
+        "description": "This is functionally equivalent to `target_url`. We will continue accept `target_url` to support legacy uses, but we recommend modifying this to the new name to avoid confusion. Default: `\"\"`  \n**Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type. **Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type.",
         "default": "\"\"",
         "required": false,
         "location": "body"
@@ -7326,7 +7322,7 @@
       {
         "name": "environment_url",
         "type": "string",
-        "description": "Sets the URL for accessing your environment. **This parameter requires a custom media type to be specified. Please see more in the alert below.**",
+        "description": "Sets the URL for accessing your environment. Default: `\"\"`  \n**Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type. **Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type.",
         "default": "\"\"",
         "required": false,
         "location": "body"
@@ -7334,7 +7330,7 @@
       {
         "name": "auto_inactive",
         "type": "boolean",
-        "description": "Adds a new `inactive` status to all non-transient, non-production environment deployments with the same repository and environment name as the created status's deployment. **This parameter requires a custom media type to be specified. Please see more in the alert below.**",
+        "description": "Adds a new `inactive` status to all non-transient, non-production environment deployments with the same repository and environment name as the created status's deployment. Default: `true`  \n**Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type. **Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type.",
         "default": true,
         "required": false,
         "location": "body"
@@ -11112,7 +11108,7 @@
   },
   {
     "name": "Get single hook",
-    "enabledForApps": false,
+    "enabledForApps": true,
     "method": "GET",
     "path": "/repos/:owner/:repo/hooks/:hook_id",
     "previews": [],
@@ -11171,7 +11167,7 @@
   },
   {
     "name": "Create a hook",
-    "enabledForApps": false,
+    "enabledForApps": true,
     "method": "POST",
     "path": "/repos/:owner/:repo/hooks",
     "previews": [],
@@ -11295,7 +11291,7 @@
   },
   {
     "name": "Edit a hook",
-    "enabledForApps": false,
+    "enabledForApps": true,
     "method": "PATCH",
     "path": "/repos/:owner/:repo/hooks/:hook_id",
     "previews": [],
@@ -11427,7 +11423,7 @@
   },
   {
     "name": "Test a push hook",
-    "enabledForApps": false,
+    "enabledForApps": true,
     "method": "POST",
     "path": "/repos/:owner/:repo/hooks/:hook_id/tests",
     "previews": [],
@@ -11468,7 +11464,7 @@
   },
   {
     "name": "Ping a hook",
-    "enabledForApps": false,
+    "enabledForApps": true,
     "method": "POST",
     "path": "/repos/:owner/:repo/hooks/:hook_id/pings",
     "previews": [],

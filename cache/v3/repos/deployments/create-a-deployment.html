@@ -1,6 +1,21 @@
 <h2>
 <a id="create-a-deployment" class="anchor" href="#create-a-deployment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a deployment<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
+<div class="alert note">
+
+<p>The new <code>transient_environment</code> and <code>production_environment</code> parameters are currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the <a href="/changes/2016-04-06-deployment-and-deployment-status-enhancements">blog post</a> for full details.</p>
+
+<p>To access the API during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+<pre><code>application/vnd.github.ant-man-preview+json
+</code></pre>
+
+</div>
+<div class="alert warning">
+
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
+
+</div>
 <p>Deployments offer a few configurable parameters with sane defaults.</p>
 <p>The <code>ref</code> parameter can be any named branch, tag, or SHA. At GitHub we often
 deploy branches and verify them before we merge a pull request.</p>
@@ -85,27 +100,15 @@ compile an application with debugging enabled.</p>
 <tr>
 <td><code>transient_environment</code></td>
 <td><code>boolean</code></td>
-<td>Specifies if the given environment is specific to the deployment and will no longer exist at some point in the future. Default: <code>false</code> <strong>This parameter requires a custom media type to be specified. Please see more in the alert below.</strong>
-</td>
+<td>Specifies if the given environment is specific to the deployment and will no longer exist at some point in the future. Default: <code>false</code> <br><strong>Note:</strong> This parameter requires you to use the <a href="/v3/previews/#enhanced-deployments"><code>application/vnd.github.ant-man-preview+json</code></a> custom media type.</td>
 </tr>
 <tr>
 <td><code>production_environment</code></td>
 <td><code>boolean</code></td>
-<td>Specifies if the given environment is one that end-users directly interact with. Default: <code>true</code> when <code>environment</code> is <code>production</code> and <code>false</code> otherwise. <strong>This parameter requires a custom media type to be specified. Please see more in the alert below.</strong>
-</td>
+<td>Specifies if the given environment is one that end-users directly interact with. Default: <code>true</code> when <code>environment</code> is <code>production</code> and <code>false</code> otherwise. <br><strong>Note:</strong> This parameter requires you to use the <a href="/v3/previews/#enhanced-deployments"><code>application/vnd.github.ant-man-preview+json</code></a> custom media type.</td>
 </tr>
 </tbody>
 </table>
-<div class="alert tip">
-
-<p>The new <code>transient_environment</code> and <code>production_environment</code> parameters are currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the <a href="/changes/2016-04-06-deployment-and-deployment-status-enhancements">blog post</a> for full details.</p>
-
-<p>To access the API during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
-
-<pre><code>application/vnd.github.ant-man-preview+json
-</code></pre>
-
-</div>
 <h4>
 <a id="simple-example" class="anchor" href="#simple-example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Simple example</h4>
 <p>A simple example putting the user and room into the payload to notify back to
