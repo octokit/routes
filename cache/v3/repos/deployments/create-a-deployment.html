@@ -3,7 +3,7 @@
 </h2>
 <div class="alert note">
 
-<p>The new <code>transient_environment</code> and <code>production_environment</code> parameters are currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the <a href="/changes/2016-04-06-deployment-and-deployment-status-enhancements">blog post</a> for full details.</p>
+<p><strong>Note:</strong> The <code>transient_environment</code> and <code>production_environment</code> parameters are currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the <a href="/changes/2016-04-06-deployment-and-deployment-status-enhancements">blog post</a> for full details.</p>
 
 <p>To access the API during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
 
@@ -17,30 +17,13 @@
 
 </div>
 <p>Deployments offer a few configurable parameters with sane defaults.</p>
-<p>The <code>ref</code> parameter can be any named branch, tag, or SHA. At GitHub we often
-deploy branches and verify them before we merge a pull request.</p>
-<p>The <code>environment</code> parameter allows deployments to be issued to different
-runtime environments. Teams often have multiple environments for verifying
-their applications, such as <code>production</code>, <code>staging</code>, and <code>qa</code>. This allows for
-easy tracking of which environments had deployments requested. The default
-environment is <code>production</code>.</p>
-<p>The <code>auto_merge</code> parameter is used to ensure that the requested ref is not
-behind the repository&apos;s default branch. If the ref <em>is</em> behind the default
-branch for the repository, we will attempt to merge it for you. If the merge
-succeeds, the API will return a successful merge commit. If merge conflicts
-prevent the merge from succeeding, the API will return a failure response.</p>
-<p>By default, <a href="/v3/repos/statuses">commit statuses</a> for every submitted context
-must be in a <code>success</code> state. The <code>required_contexts</code> parameter allows you to
-specify a subset of contexts that must be <code>success</code>, or to specify contexts
-that have not yet been submitted. You are not required to use commit statuses
-to deploy. If you do not require any contexts or create any commit statuses,
-the deployment will always succeed.</p>
-<p>The <code>payload</code> parameter is available for any extra information that a
-deployment system might need. It is a JSON text field that will be passed on
-when a deployment event is dispatched.</p>
-<p>The <code>task</code> parameter is used by the deployment system to allow different
-execution paths. In the web world this might be <code>deploy:migrations</code> to run
-schema changes on the system. In the compiled world this could be a flag to
+<p>The <code>ref</code> parameter can be any named branch, tag, or SHA. At GitHub we often deploy branches and verify them before we merge a pull request.</p>
+<p>The <code>environment</code> parameter allows deployments to be issued to different runtime environments. Teams often have multiple environments for verifying their applications, such as <code>production</code>, <code>staging</code>, and <code>qa</code>. This parameter makes it easier to track which environments have requested deployments. The default environment is <code>production</code>.</p>
+<p>The <code>auto_merge</code> parameter is used to ensure that the requested ref is not behind the repository&apos;s default branch. If the ref <em>is</em> behind the default branch for the repository, we will attempt to merge it for you. If the merge
+succeeds, the API will return a successful merge commit. If merge conflicts prevent the merge from succeeding, the API will return a failure response.</p>
+<p>By default, <a href="/v3/repos/statuses">commit statuses</a> for every submitted context must be in a <code>success</code> state. The <code>required_contexts</code> parameter allows you to specify a subset of contexts that must be <code>success</code>, or to specify contexts that have not yet been submitted. You are not required to use commit statuses to deploy. If you do not require any contexts or create any commit statuses, the deployment will always succeed.</p>
+<p>The <code>payload</code> parameter is available for any extra information that a deployment system might need. It is a JSON text field that will be passed on when a deployment event is dispatched.</p>
+<p>The <code>task</code> parameter is used by the deployment system to allow different execution paths. In the web world this might be <code>deploy:migrations</code> to run schema changes on the system. In the compiled world this could be a flag to
 compile an application with debugging enabled.</p>
 <p>Users with <code>repo</code> or <code>repo_deployment</code> scopes can create a deployment for a given ref:</p>
 <pre><code>POST /repos/:owner/:repo/deployments
@@ -71,13 +54,13 @@ compile an application with debugging enabled.</p>
 <tr>
 <td><code>auto_merge</code></td>
 <td><code>boolean</code></td>
-<td>Attempts to automatically merge the default branch into the requested ref, if it is behind the default branch. Default: <code>true</code>
+<td>Attempts to automatically merge the default branch into the requested ref, if it&apos;s behind the default branch. Default: <code>true</code>
 </td>
 </tr>
 <tr>
 <td><code>required_contexts</code></td>
 <td><code>array</code></td>
-<td>The status contexts to verify against commit status checks. If this parameter is omitted, then all unique contexts will be verified before a deployment is created. To bypass checking entirely pass an empty array. Defaults to all unique contexts.</td>
+<td>The <a href="/v3/repos/statuses/">status</a> contexts to verify against commit status checks. If you omit this parameter, GitHub verifies all unique contexts before creating a deployment. To bypass checking entirely, pass an empty array. Defaults to all unique contexts.</td>
 </tr>
 <tr>
 <td><code>payload</code></td>
@@ -115,8 +98,10 @@ compile an application with debugging enabled.</p>
 chat networks.</p>
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">&quot;ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;topic-branch&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="nt">&quot;payload&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{\&quot;user\&quot;:\&quot;atmos\&quot;,\&quot;room_id\&quot;:123456}&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Deploying my sweet branch&quot;</span><span class="w">
+  </span><span class="nt">&quot;payload&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;deploy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;migrate&quot;</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Deploy request from hubot&quot;</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <h3>
@@ -129,11 +114,12 @@ Location: https://api.github.com/repos/octocat/example/deployments/1
   </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MDEwOkRlcGxveW1lbnQx&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;sha&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;a84d88e7554fc1fa21bcbc4efae3c782a70d2b9d&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="nt">&quot;ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;master&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;topic-branch&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;task&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;deploy&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;payload&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">&quot;task&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;deploy:migrate&quot;</span><span class="w">
+    </span><span class="nt">&quot;deploy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;migrate&quot;</span><span class="w">
   </span><span class="p">},</span><span class="w">
+  </span><span class="nt">&quot;original_environment&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;staging&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;environment&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;production&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Deploy request from hubot&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;creator&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -159,7 +145,9 @@ Location: https://api.github.com/repos/octocat/example/deployments/1
   </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2012-07-20T01:19:13Z&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2012-07-20T01:19:13Z&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;statuses_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/example/deployments/1/statuses&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="nt">&quot;repository_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/example&quot;</span><span class="w">
+  </span><span class="nt">&quot;repository_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/example&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;transient_environment&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;production_environment&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <h4>
@@ -168,8 +156,10 @@ Location: https://api.github.com/repos/octocat/example/deployments/1
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">&quot;ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;topic-branch&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;auto_merge&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-  </span><span class="nt">&quot;payload&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{\&quot;user\&quot;:\&quot;atmos\&quot;,\&quot;room_id\&quot;:123456}&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Deploying my sweet branch&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;payload&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;deploy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;migrate&quot;</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Deploy request from hubot&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;required_contexts&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="s2">&quot;ci/janky&quot;</span><span class="p">,</span><span class="w">
     </span><span class="s2">&quot;security/brakeman&quot;</span><span class="w">
@@ -186,11 +176,12 @@ Location: https://api.github.com/repos/octocat/example/deployments/1
   </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MDEwOkRlcGxveW1lbnQx&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;sha&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;a84d88e7554fc1fa21bcbc4efae3c782a70d2b9d&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="nt">&quot;ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;master&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;topic-branch&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;task&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;deploy&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;payload&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">&quot;task&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;deploy:migrate&quot;</span><span class="w">
+    </span><span class="nt">&quot;deploy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;migrate&quot;</span><span class="w">
   </span><span class="p">},</span><span class="w">
+  </span><span class="nt">&quot;original_environment&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;staging&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;environment&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;production&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Deploy request from hubot&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;creator&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -216,7 +207,9 @@ Location: https://api.github.com/repos/octocat/example/deployments/1
   </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2012-07-20T01:19:13Z&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2012-07-20T01:19:13Z&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;statuses_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/example/deployments/1/statuses&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="nt">&quot;repository_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/example&quot;</span><span class="w">
+  </span><span class="nt">&quot;repository_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/example&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;transient_environment&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;production_environment&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <h3>

@@ -52,10 +52,11 @@
     <a class="site-header-logo mt-1" href="/"><img src="/assets/images/github-developer-logo.svg" alt="GitHub Developer"></a>
     <nav class="site-header-nav" aria-label="Main Navigation">
       <div class="dropdown" id="api-docs-dropdown">
-          <div class="dropdown-button" tabIndex="0" aria-haspopup="true" aria-expanded="false"><span class="dropdown-button-link" tabIndex="-1">API Docs</span> <div class="dropdown-caret"></div></div>
+          <div class="dropdown-button" tabIndex="0" aria-haspopup="true" aria-expanded="false"><span class="dropdown-button-link" tabIndex="-1">Docs</span> <div class="dropdown-caret"></div></div>
           <div id="js-dropdown-menu" class="dropdown-menu">
             <a class="dropdown-menu-item" href="/v4/">GraphQL API v4</a>
             <a class="dropdown-menu-item" href="/v3/">REST API v3</a>
+            <a class="dropdown-menu-item" href="/actions/">GitHub Actions</a>
             <a class="dropdown-menu-item" href="/apps/">Apps</a>
             <a class="dropdown-menu-item" href="/webhooks/">Webhooks</a>
           </div>
@@ -66,6 +67,8 @@
           <div class="dropdown-button" tabIndex="0" aria-haspopup="true" aria-expanded="false"><span class="dropdown-button-link" tabIndex="-1">Versions</span> <div class="dropdown-caret"></div></div>
           <div id="js-dropdown-menu" class="dropdown-menu">
             <a class="dropdown-menu-item" data-proofer-ignore>GitHub.com</a>
+            
+            <a class="dropdown-menu-item" data-proofer-ignore>Enterprise 2.15</a>
             
             <a class="dropdown-menu-item" data-proofer-ignore>Enterprise 2.14</a>
             
@@ -378,6 +381,7 @@ created for various internal and webhook purposes.</p>
 <li><a href="#repositoryevent" id="markdown-toc-repositoryevent">RepositoryEvent</a></li>
 <li><a href="#repositoryimportevent" id="markdown-toc-repositoryimportevent">RepositoryImportEvent</a></li>
 <li><a href="#repositoryvulnerabilityalertevent" id="markdown-toc-repositoryvulnerabilityalertevent">RepositoryVulnerabilityAlertEvent</a></li>
+<li><a href="#securityadvisoryevent" id="markdown-toc-securityadvisoryevent">SecurityAdvisoryEvent</a></li>
 <li><a href="#statusevent" id="markdown-toc-statusevent">StatusEvent</a></li>
 <li><a href="#teamevent" id="markdown-toc-teamevent">TeamEvent</a></li>
 <li><a href="#teamaddevent" id="markdown-toc-teamaddevent">TeamAddEvent</a></li>
@@ -692,7 +696,7 @@ created for various internal and webhook purposes.</p>
 <h2>
 <a id="checksuiteevent" class="anchor" href="#checksuiteevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>CheckSuiteEvent</h2>
 
-<p>Triggered when a check suite is <code>completed</code>, <code>requested</code>, or <code>rerequested</code>. The <code>checks</code> permission allows you to use the checks API. If you plan to create or modify check runs, your GitHub App will need to have the <code>checks:write</code> permission. If you only plan to consume check runs, your GitHub App only needs the <code>checks:read</code> permission.</p>
+<p>Triggered when a check suite is <code>completed</code>, <code>requested</code>, or <code>rerequested</code>. The <code>checks</code> permission allows you to use the Checks API. If you plan to create or modify check runs, your GitHub App will need to have the <code>checks:write</code> permission. If you only plan to consume check runs, your GitHub App only needs the <code>checks:read</code> permission.</p>
 
 <p>GitHub Apps with the <code>checks:write</code> permission will receive the <code>requested</code> and <code>rerequested</code> action payloads without subscribing to the <code>check_suite</code> webhook event. The <code>requested</code> action triggers when new code is pushed to the app's repository. A <code>rerequested</code> action occurs when someone requests to re-run the entire check suite from the pull request UI. See "<a href="https://help.github.com/articles/about-status-checks#checks">About status checks</a>" for more details about the GitHub UI. When you receive the <code>requested</code> or <code>rerequested</code> action events, you'll need to <a href="/v3/checks/runs/#create-a-check-run">create a new check run</a>. Only the GitHub App that is being asked to run a check will receive the <code>requested</code> and <code>rerequested</code> payloads.</p>
 
@@ -7668,6 +7672,98 @@ You cannot create webhooks that listen to these events.</p>
 
 
 <h2>
+<a id="securityadvisoryevent" class="anchor" href="#securityadvisoryevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>SecurityAdvisoryEvent</h2>
+
+<p>Triggered when a new security advisory is published, updated, or withdrawn. A security advisory provides information about security-related vulnerabilities in software on GitHub. Security Advisory webhooks are available to GitHub Apps only. The security advisory dataset also powers the GitHub security alerts, see "<a href="https://help.github.com/articles/about-security-alerts-for-vulnerable-dependencies/">About security alerts for vulnerable dependencies</a>.</p>
+
+<h3>
+<a id="events-api-payload-36" class="anchor" href="#events-api-payload-36" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
+
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>action</code></td>
+<td><code>string</code></td>
+<td>The action that was performed. The action can be one of <code>published</code>, <code>updated</code>, or <code>performed</code> for all new events.</td>
+</tr>
+<tr>
+<td><code>security_advisory</code></td>
+<td><code>object</code></td>
+<td>The details of the security advisory, including summary, description, and severity.</td>
+</tr>
+</tbody>
+</table>
+
+<h3>
+<a id="webhook-event-name-38" class="anchor" href="#webhook-event-name-38" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook event name</h3>
+
+<p><code>security_advisory</code></p>
+
+<h3>
+<a id="webhook-payload-example-33" class="anchor" href="#webhook-payload-example-33" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook payload example</h3>
+
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"published"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"security_advisory"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"ghsa_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GHSA-rf4j-j272-fj86"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"summary"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Moderate severity vulnerability that affects django"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"django.contrib.auth.forms.AuthenticationForm in Django 2.0 before 2.0.2, and 1.11.8 and 1.11.9, allows remote attackers to obtain potentially sensitive information by leveraging data exposure from the confirm_login_allowed() method, as demonstrated by discovering whether a user account is inactive."</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"severity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"moderate"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"identifiers"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GHSA-rf4j-j272-fj86"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GHSA"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CVE-2018-6188"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CVE"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"references"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://nvd.nist.gov/vuln/detail/CVE-2018-6188"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"published_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-10-03T21:13:54Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-10-03T21:13:54Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"withdrawn_at"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"vulnerabilities"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"package"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"ecosystem"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pip"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"django"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"severity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"moderate"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"vulnerable_version_range"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&gt;= 2.0.0, &lt; 2.0.2"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"first_patched_version"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.0.2"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"package"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"ecosystem"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pip"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"django"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"severity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"moderate"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"vulnerable_version_range"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&gt;= 1.11.8, &lt; 1.11.10"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"first_patched_version"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"identifier"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.11.10"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+
+<h2>
 <a id="statusevent" class="anchor" href="#statusevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>StatusEvent</h2>
 
 <p>Triggered when the status of a Git commit changes.</p>
@@ -7675,7 +7771,7 @@ You cannot create webhooks that listen to these events.</p>
 <p>Events of this type are not visible in timelines. These events are only used to trigger hooks.</p>
 
 <h3>
-<a id="events-api-payload-36" class="anchor" href="#events-api-payload-36" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
+<a id="events-api-payload-37" class="anchor" href="#events-api-payload-37" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
 
 <table>
 <thead>
@@ -7715,12 +7811,12 @@ You cannot create webhooks that listen to these events.</p>
 </table>
 
 <h3>
-<a id="webhook-event-name-38" class="anchor" href="#webhook-event-name-38" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook event name</h3>
+<a id="webhook-event-name-39" class="anchor" href="#webhook-event-name-39" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook event name</h3>
 
 <p><code>status</code></p>
 
 <h3>
-<a id="webhook-payload-example-33" class="anchor" href="#webhook-payload-example-33" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook payload example</h3>
+<a id="webhook-payload-example-34" class="anchor" href="#webhook-payload-example-34" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook payload example</h3>
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">5018968172</span><span class="p">,</span><span class="w">
@@ -7955,7 +8051,7 @@ You cannot create webhooks that listen to these events.</p>
 <p>Events of this type are not visible in timelines. These events are only used to trigger organization hooks.</p>
 
 <h3>
-<a id="events-api-payload-37" class="anchor" href="#events-api-payload-37" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
+<a id="events-api-payload-38" class="anchor" href="#events-api-payload-38" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
 
 <table>
 <thead>
@@ -8020,12 +8116,12 @@ You cannot create webhooks that listen to these events.</p>
 </table>
 
 <h3>
-<a id="webhook-event-name-39" class="anchor" href="#webhook-event-name-39" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook event name</h3>
+<a id="webhook-event-name-40" class="anchor" href="#webhook-event-name-40" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook event name</h3>
 
 <p><code>team</code></p>
 
 <h3>
-<a id="webhook-payload-example-34" class="anchor" href="#webhook-payload-example-34" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook payload example</h3>
+<a id="webhook-payload-example-35" class="anchor" href="#webhook-payload-example-35" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook payload example</h3>
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"added_to_repository"</span><span class="p">,</span><span class="w">
@@ -8185,7 +8281,7 @@ You cannot create webhooks that listen to these events.</p>
 <p>Events of this type are not visible in timelines. These events are only used to trigger hooks.</p>
 
 <h3>
-<a id="events-api-payload-38" class="anchor" href="#events-api-payload-38" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
+<a id="events-api-payload-39" class="anchor" href="#events-api-payload-39" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
 
 <table>
 <thead>
@@ -8210,12 +8306,12 @@ You cannot create webhooks that listen to these events.</p>
 </table>
 
 <h3>
-<a id="webhook-event-name-40" class="anchor" href="#webhook-event-name-40" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook event name</h3>
+<a id="webhook-event-name-41" class="anchor" href="#webhook-event-name-41" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook event name</h3>
 
 <p><code>team_add</code></p>
 
 <h3>
-<a id="webhook-payload-example-35" class="anchor" href="#webhook-payload-example-35" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook payload example</h3>
+<a id="webhook-payload-example-36" class="anchor" href="#webhook-payload-example-36" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook payload example</h3>
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"team"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -8371,7 +8467,7 @@ See <a href="/changes/2012-09-05-watcher-api/">this API blog post</a> for an exp
 event’s repository is the <a href="/v3/repos/">repository</a> that was starred.</p>
 
 <h3>
-<a id="events-api-payload-39" class="anchor" href="#events-api-payload-39" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
+<a id="events-api-payload-40" class="anchor" href="#events-api-payload-40" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
 
 <table>
 <thead>
@@ -8391,12 +8487,12 @@ event’s repository is the <a href="/v3/repos/">repository</a> that was starred
 </table>
 
 <h3>
-<a id="webhook-event-name-41" class="anchor" href="#webhook-event-name-41" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook event name</h3>
+<a id="webhook-event-name-42" class="anchor" href="#webhook-event-name-42" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook event name</h3>
 
 <p><code>watch</code></p>
 
 <h3>
-<a id="webhook-payload-example-36" class="anchor" href="#webhook-payload-example-36" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook payload example</h3>
+<a id="webhook-payload-example-37" class="anchor" href="#webhook-payload-example-37" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook payload example</h3>
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"started"</span><span class="p">,</span><span class="w">
