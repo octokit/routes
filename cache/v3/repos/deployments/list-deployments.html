@@ -1,6 +1,21 @@
 <h2>
 <a id="list-deployments" class="anchor" href="#list-deployments" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List deployments<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
+<div class="alert note">
+
+<p><strong>Note:</strong> The <code>transient_environment</code> and <code>production_environment</code> parameters are currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the <a href="/changes/2016-04-06-deployment-and-deployment-status-enhancements">blog post</a> for full details.</p>
+
+<p>To access the API during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+<pre><code>application/vnd.github.ant-man-preview+json
+</code></pre>
+
+</div>
+<div class="alert warning">
+
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub support</a>.</p>
+
+</div>
 <p>Simple filtering of deployments is available via query parameters:</p>
 <pre><code>GET /repos/:owner/:repo/deployments
 </code></pre>
@@ -16,7 +31,7 @@
 <tr>
 <td><code>sha</code></td>
 <td><code>string</code></td>
-<td>The SHA that was recorded at creation time. Default: <code>none</code>
+<td>The SHA recorded at creation time. Default: <code>none</code>
 </td>
 </tr>
 <tr>
@@ -51,11 +66,12 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel=&quot;next&quot;,
     </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MDEwOkRlcGxveW1lbnQx&quot;</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;sha&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;a84d88e7554fc1fa21bcbc4efae3c782a70d2b9d&quot;</span><span class="p">,</span><span class="w">
-    </span><span class="nt">&quot;ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;master&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;topic-branch&quot;</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;task&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;deploy&quot;</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;payload&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">&quot;task&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;deploy:migrate&quot;</span><span class="w">
+      </span><span class="nt">&quot;deploy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;migrate&quot;</span><span class="w">
     </span><span class="p">},</span><span class="w">
+    </span><span class="nt">&quot;original_environment&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;staging&quot;</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;environment&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;production&quot;</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Deploy request from hubot&quot;</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;creator&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -81,7 +97,9 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel=&quot;next&quot;,
     </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2012-07-20T01:19:13Z&quot;</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2012-07-20T01:19:13Z&quot;</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;statuses_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/example/deployments/1/statuses&quot;</span><span class="p">,</span><span class="w">
-    </span><span class="nt">&quot;repository_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/example&quot;</span><span class="w">
+    </span><span class="nt">&quot;repository_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/example&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;transient_environment&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;production_environment&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
