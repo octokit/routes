@@ -6746,7 +6746,13 @@
     "enabledForApps": true,
     "method": "GET",
     "path": "/repos/:owner/:repo/deployments",
-    "previews": [],
+    "previews": [
+      {
+        "name": "ant-man",
+        "description": "**Note:** The `transient_environment` and `production_environment` parameters are currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the [blog post](/changes/2016-04-06-deployment-and-deployment-status-enhancements) for full details.\n\nTo access the API during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.ant-man-preview+json\n\n```",
+        "required": false
+      }
+    ],
     "params": [
       {
         "name": "owner",
@@ -6765,7 +6771,7 @@
       {
         "name": "sha",
         "type": "string",
-        "description": "The SHA that was recorded at creation time.",
+        "description": "The SHA recorded at creation time.",
         "default": "none",
         "required": false,
         "location": "query"
@@ -6824,11 +6830,12 @@
             "id": 1,
             "node_id": "MDEwOkRlcGxveW1lbnQx",
             "sha": "a84d88e7554fc1fa21bcbc4efae3c782a70d2b9d",
-            "ref": "master",
+            "ref": "topic-branch",
             "task": "deploy",
             "payload": {
-              "task": "deploy:migrate"
+              "deploy": "migrate"
             },
+            "original_environment": "staging",
             "environment": "production",
             "description": "Deploy request from hubot",
             "creator": {
@@ -6854,7 +6861,9 @@
             "created_at": "2012-07-20T01:19:13Z",
             "updated_at": "2012-07-20T01:19:13Z",
             "statuses_url": "https://api.github.com/repos/octocat/example/deployments/1/statuses",
-            "repository_url": "https://api.github.com/repos/octocat/example"
+            "repository_url": "https://api.github.com/repos/octocat/example",
+            "transient_environment": false,
+            "production_environment": true
           }
         ]
       }
@@ -6871,6 +6880,11 @@
       {
         "name": "machine-man",
         "description": "**Note:** If a deployment is created via a GitHub App, the response will include the `performed_via_github_app` object with information about the GitHub App. For more information, see the [related blog post](/changes/2016-09-14-Integrations-Early-Access).\n\nTo receive the `performed_via_github_app` object is the response, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.machine-man-preview\n\n```",
+        "required": false
+      },
+      {
+        "name": "ant-man",
+        "description": "**Note:** The `transient_environment` and `production_environment` parameters are currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the [blog post](/changes/2016-04-06-deployment-and-deployment-status-enhancements) for full details.\n\nTo access the API during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.ant-man-preview+json\n\n```",
         "required": false
       }
     ],
@@ -6909,11 +6923,12 @@
           "id": 1,
           "node_id": "MDEwOkRlcGxveW1lbnQx",
           "sha": "a84d88e7554fc1fa21bcbc4efae3c782a70d2b9d",
-          "ref": "master",
+          "ref": "topic-branch",
           "task": "deploy",
           "payload": {
-            "task": "deploy:migrate"
+            "deploy": "migrate"
           },
+          "original_environment": "staging",
           "environment": "production",
           "description": "Deploy request from hubot",
           "creator": {
@@ -6939,7 +6954,9 @@
           "created_at": "2012-07-20T01:19:13Z",
           "updated_at": "2012-07-20T01:19:13Z",
           "statuses_url": "https://api.github.com/repos/octocat/example/deployments/1/statuses",
-          "repository_url": "https://api.github.com/repos/octocat/example"
+          "repository_url": "https://api.github.com/repos/octocat/example",
+          "transient_environment": false,
+          "production_environment": true
         }
       }
     ],
@@ -6954,7 +6971,7 @@
     "previews": [
       {
         "name": "ant-man",
-        "description": "The new `transient_environment` and `production_environment` parameters are currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the [blog post](/changes/2016-04-06-deployment-and-deployment-status-enhancements) for full details.\n\nTo access the API during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.ant-man-preview+json\n\n```",
+        "description": "**Note:** The `transient_environment` and `production_environment` parameters are currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the [blog post](/changes/2016-04-06-deployment-and-deployment-status-enhancements) for full details.\n\nTo access the API during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.ant-man-preview+json\n\n```",
         "required": false
       }
     ],
@@ -6991,7 +7008,7 @@
       {
         "name": "auto_merge",
         "type": "boolean",
-        "description": "Attempts to automatically merge the default branch into the requested ref, if it is behind the default branch.",
+        "description": "Attempts to automatically merge the default branch into the requested ref, if it's behind the default branch.",
         "default": true,
         "required": false,
         "location": "body"
@@ -6999,7 +7016,7 @@
       {
         "name": "required_contexts",
         "type": "string[]",
-        "description": "The status contexts to verify against commit status checks. If this parameter is omitted, then all unique contexts will be verified before a deployment is created. To bypass checking entirely pass an empty array. Defaults to all unique contexts.",
+        "description": "The [status](https://developer.github.com/v3/repos/statuses/) contexts to verify against commit status checks. If you omit this parameter, GitHub verifies all unique contexts before creating a deployment. To bypass checking entirely, pass an empty array. Defaults to all unique contexts.",
         "required": false,
         "location": "body"
       },
@@ -7047,11 +7064,13 @@
     "requests": [
       {
         "ref": "topic-branch",
-        "payload": "{\"user\":\"atmos\",\"room_id\":123456}",
-        "description": "Deploying my sweet branch"
+        "payload": {
+          "deploy": "migrate"
+        },
+        "description": "Deploy request from hubot"
       }
     ],
-    "description": "Deployments offer a few configurable parameters with sane defaults.\n\nThe `ref` parameter can be any named branch, tag, or SHA. At GitHub we often deploy branches and verify them before we merge a pull request.\n\nThe `environment` parameter allows deployments to be issued to different runtime environments. Teams often have multiple environments for verifying their applications, such as `production`, `staging`, and `qa`. This allows for easy tracking of which environments had deployments requested. The default environment is `production`.\n\nThe `auto_merge` parameter is used to ensure that the requested ref is not behind the repository's default branch. If the ref _is_ behind the default branch for the repository, we will attempt to merge it for you. If the merge succeeds, the API will return a successful merge commit. If merge conflicts prevent the merge from succeeding, the API will return a failure response.\n\nBy default, [commit statuses](https://developer.github.com/v3/repos/statuses) for every submitted context must be in a `success` state. The `required_contexts` parameter allows you to specify a subset of contexts that must be `success`, or to specify contexts that have not yet been submitted. You are not required to use commit statuses to deploy. If you do not require any contexts or create any commit statuses, the deployment will always succeed.\n\nThe `payload` parameter is available for any extra information that a deployment system might need. It is a JSON text field that will be passed on when a deployment event is dispatched.\n\nThe `task` parameter is used by the deployment system to allow different execution paths. In the web world this might be `deploy:migrations` to run schema changes on the system. In the compiled world this could be a flag to compile an application with debugging enabled.\n\nUsers with `repo` or `repo_deployment` scopes can create a deployment for a given ref:\n\nA simple example putting the user and room into the payload to notify back to chat networks.\n\nA more advanced example specifying required commit statuses and bypassing auto-merging.\n\nThis error happens when the `auto_merge` option is enabled and when the default branch (in this case `master`), can't be merged into the branch that's being deployed (in this case `topic-branch`), due to merge conflicts.\n\nThis error happens when the `required_contexts` parameter indicates that one or more contexts need to have a `success` status for the commit to be deployed, but one or more of the required contexts do not have a state of `success`.",
+    "description": "Deployments offer a few configurable parameters with sane defaults.\n\nThe `ref` parameter can be any named branch, tag, or SHA. At GitHub we often deploy branches and verify them before we merge a pull request.\n\nThe `environment` parameter allows deployments to be issued to different runtime environments. Teams often have multiple environments for verifying their applications, such as `production`, `staging`, and `qa`. This parameter makes it easier to track which environments have requested deployments. The default environment is `production`.\n\nThe `auto_merge` parameter is used to ensure that the requested ref is not behind the repository's default branch. If the ref _is_ behind the default branch for the repository, we will attempt to merge it for you. If the merge succeeds, the API will return a successful merge commit. If merge conflicts prevent the merge from succeeding, the API will return a failure response.\n\nBy default, [commit statuses](https://developer.github.com/v3/repos/statuses) for every submitted context must be in a `success` state. The `required_contexts` parameter allows you to specify a subset of contexts that must be `success`, or to specify contexts that have not yet been submitted. You are not required to use commit statuses to deploy. If you do not require any contexts or create any commit statuses, the deployment will always succeed.\n\nThe `payload` parameter is available for any extra information that a deployment system might need. It is a JSON text field that will be passed on when a deployment event is dispatched.\n\nThe `task` parameter is used by the deployment system to allow different execution paths. In the web world this might be `deploy:migrations` to run schema changes on the system. In the compiled world this could be a flag to compile an application with debugging enabled.\n\nUsers with `repo` or `repo_deployment` scopes can create a deployment for a given ref:\n\nA simple example putting the user and room into the payload to notify back to chat networks.\n\nA more advanced example specifying required commit statuses and bypassing auto-merging.\n\nThis error happens when the `auto_merge` option is enabled and when the default branch (in this case `master`), can't be merged into the branch that's being deployed (in this case `topic-branch`), due to merge conflicts.\n\nThis error happens when the `required_contexts` parameter indicates that one or more contexts need to have a `success` status for the commit to be deployed, but one or more of the required contexts do not have a state of `success`.",
     "idName": "create-deployment",
     "documentationUrl": "https://developer.github.com/v3/repos/deployments/#create-a-deployment"
   },
@@ -7060,7 +7079,18 @@
     "enabledForApps": true,
     "method": "GET",
     "path": "/repos/:owner/:repo/deployments/:deployment_id/statuses",
-    "previews": [],
+    "previews": [
+      {
+        "name": "flash",
+        "description": "**Note:** New features in the Deployments API on GitHub are currently available during a public beta. Please see the [blog post](/changes/2018-10-16-deployments-environments-states-and-auto-inactive-updates/) for full details.\n\nTo access the new `environment` parameter, the two new values for the `state` parameter (`in_progress` and `queued`), and use `auto_inactive` on production deployments during the public beta period, you must provide the following custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.flash-preview+json\n\n```",
+        "required": false
+      },
+      {
+        "name": "ant-man",
+        "description": "**Note:** The `inactive` state and the `log_url`, `environment_url`, and `auto_inactive` parameters are currently available for developers to preview. Please see the [blog post](/changes/2016-04-06-deployment-and-deployment-status-enhancements) for full details.\n\nTo access the API during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.ant-man-preview+json\n\n```",
+        "required": false
+      }
+    ],
     "params": [
       {
         "name": "owner",
@@ -7141,11 +7171,14 @@
               "site_admin": false
             },
             "description": "Deployment finished successfully.",
+            "environment": "production",
             "target_url": "https://example.com/deployment/42/output",
             "created_at": "2012-07-20T01:19:13Z",
             "updated_at": "2012-07-20T01:19:13Z",
             "deployment_url": "https://api.github.com/repos/octocat/example/deployments/42",
-            "repository_url": "https://api.github.com/repos/octocat/example"
+            "repository_url": "https://api.github.com/repos/octocat/example",
+            "environment_url": "",
+            "log_url": "https://example.com/deployment/42/output"
           }
         ]
       }
@@ -7162,6 +7195,16 @@
       {
         "name": "machine-man",
         "description": "**Note:** If a deployment is created via a GitHub App, the response will include the `performed_via_github_app` object with information about the GitHub App. For more information, see the [related blog post](/changes/2016-09-14-Integrations-Early-Access).\n\nTo receive the `performed_via_github_app` object is the response, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.machine-man-preview\n\n```",
+        "required": false
+      },
+      {
+        "name": "flash",
+        "description": "**Note:** New features in the Deployments API on GitHub are currently available during a public beta. Please see the [blog post](/changes/2018-10-16-deployments-environments-states-and-auto-inactive-updates/) for full details.\n\nTo access the new `environment` parameter, the two new values for the `state` parameter (`in_progress` and `queued`), and use `auto_inactive` on production deployments during the public beta period, you must provide the following custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.flash-preview+json\n\n```",
+        "required": false
+      },
+      {
+        "name": "ant-man",
+        "description": "**Note:** The `inactive` state and the `log_url`, `environment_url`, and `auto_inactive` parameters are currently available for developers to preview. Please see the [blog post](/changes/2016-04-06-deployment-and-deployment-status-enhancements) for full details.\n\nTo access the API during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.ant-man-preview+json\n\n```",
         "required": false
       }
     ],
@@ -7235,11 +7278,14 @@
             "site_admin": false
           },
           "description": "Deployment finished successfully.",
+          "environment": "production",
           "target_url": "https://example.com/deployment/42/output",
           "created_at": "2012-07-20T01:19:13Z",
           "updated_at": "2012-07-20T01:19:13Z",
           "deployment_url": "https://api.github.com/repos/octocat/example/deployments/42",
-          "repository_url": "https://api.github.com/repos/octocat/example"
+          "repository_url": "https://api.github.com/repos/octocat/example",
+          "environment_url": "",
+          "log_url": "https://example.com/deployment/42/output"
         }
       }
     ],
@@ -7253,8 +7299,13 @@
     "path": "/repos/:owner/:repo/deployments/:deployment_id/statuses",
     "previews": [
       {
+        "name": "flash",
+        "description": "**Note:** New features in the Deployments API on GitHub are currently available during a public beta. Please see the [blog post](/changes/2018-10-16-deployments-environments-states-and-auto-inactive-updates/) for full details.\n\nTo access the new `environment` parameter, the two new values for the `state` parameter (`in_progress` and `queued`), and use `auto_inactive` on production deployments during the public beta period, you must provide the following custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.flash-preview+json\n\n```",
+        "required": false
+      },
+      {
         "name": "ant-man",
-        "description": "The new `inactive` state, `log_url`, `environment_url`, and `auto_inactive` parameters are currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the [blog post](/changes/2016-04-06-deployment-and-deployment-status-enhancements) for full details.\n\nTo access the API during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.ant-man-preview+json\n\n```",
+        "description": "**Note:** The `inactive` state and the `log_url`, `environment_url`, and `auto_inactive` parameters are currently available for developers to preview. Please see the [blog post](/changes/2016-04-06-deployment-and-deployment-status-enhancements) for full details.\n\nTo access the API during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.ant-man-preview+json\n\n```",
         "required": false
       }
     ],
@@ -7283,12 +7334,14 @@
       {
         "name": "state",
         "type": "string",
-        "description": "The state of the status. Can be one of `error`, `failure`, `inactive`, `pending`, or `success`.  \n**Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type.",
+        "description": "The state of the status. Can be one of `error`, `failure`, `inactive`, `in_progress`, `queued` `pending`, or `success`. **Note:** To use the `inactive` state, you must provide the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type. To use the `in_progress` and `queued` states, you must provide the [`application/vnd.github.flash-preview+json`](https://developer.github.com/v3/previews/#deployment-statuses) custom media type.",
         "required": true,
         "enum": [
           "error",
           "failure",
           "inactive",
+          "in_progress",
+          "queued",
           "pending",
           "success"
         ],
@@ -7297,7 +7350,7 @@
       {
         "name": "target_url",
         "type": "string",
-        "description": "The target URL to associate with this status. This URL should contain output to keep the user updated while the task is running or serve as historical information for what happened in the deployment.",
+        "description": "The target URL to associate with this status. This URL should contain output to keep the user updated while the task is running or serve as historical information for what happened in the deployment. **Note:** It's recommended to use the `log_url` parameter, which replaces `target_url`.",
         "default": "\"\"",
         "required": false,
         "location": "body"
@@ -7305,7 +7358,7 @@
       {
         "name": "log_url",
         "type": "string",
-        "description": "This is functionally equivalent to `target_url`. We will continue accept `target_url` to support legacy uses, but we recommend modifying this to the new name to avoid confusion. Default: `\"\"`  \n**Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type. **Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type.",
+        "description": "The full URL of the deployment's output. This parameter replaces `target_url`. We will continue to accept `target_url` to support legacy uses, but we recommend replacing `target_url` with `log_url`. Setting `log_url` will automatically set `target_url` to the same value. Default: `\"\"`  \n**Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type. **Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type.",
         "default": "\"\"",
         "required": false,
         "location": "body"
@@ -7313,9 +7366,21 @@
       {
         "name": "description",
         "type": "string",
-        "description": "A short description of the status. Maximum length of 140 characters.",
+        "description": "A short description of the status. The maximum description length is 140 characters.",
         "default": "\"\"",
         "required": false,
+        "location": "body"
+      },
+      {
+        "name": "environment",
+        "type": "string",
+        "description": "Name for the target deployment environment, which can be changed when setting a deploy status. For example, `production`, `staging`, or `qa`. **Note:** This parameter requires you to use the [`application/vnd.github.flash-preview+json`](https://developer.github.com/v3/previews/#deployment-statuses) custom media type.",
+        "required": false,
+        "enum": [
+          "production",
+          "staging",
+          "qa"
+        ],
         "location": "body"
       },
       {
@@ -7329,7 +7394,7 @@
       {
         "name": "auto_inactive",
         "type": "boolean",
-        "description": "Adds a new `inactive` status to all non-transient, non-production environment deployments with the same repository and environment name as the created status's deployment. Default: `true`  \n**Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type. **Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type.",
+        "description": "Adds a new `inactive` status to all prior non-transient, non-production environment deployments with the same repository and `environment` name as the created status's deployment. An `inactive` status is only added to deployments that had a `success` state. Default: `true`  \n**Note:** To add an `inactive` status to `production` environments, you must use the [`application/vnd.github.flash-preview+json`](https://developer.github.com/v3/previews/#deployment-statuses) custom media type.  \n**Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type. **Note:** To add an `inactive` status to `production` environments, you must use the [`application/vnd.github.flash-preview+json`](https://developer.github.com/v3/previews/#deployment-statuses) custom media type.  ",
         "default": true,
         "required": false,
         "location": "body"
@@ -7337,12 +7402,13 @@
     ],
     "requests": [
       {
+        "environment": "production",
         "state": "success",
-        "target_url": "https://example.com/deployment/42/output",
+        "log_url": "https://example.com/deployment/42/output",
         "description": "Deployment finished successfully."
       }
     ],
-    "description": "Users with push access can create deployment statuses for a given deployment:",
+    "description": "Users with `push` access can create deployment statuses for a given deployment.\n\nGitHub Apps require `read & write` access to \"Deployments\" and `read-only` access to \"Repo contents\" (for private repos). OAuth Apps require the `repo_deployment` scope.",
     "responses": [
       {
         "headers": {
@@ -7375,11 +7441,14 @@
             "site_admin": false
           },
           "description": "Deployment finished successfully.",
+          "environment": "production",
           "target_url": "https://example.com/deployment/42/output",
           "created_at": "2012-07-20T01:19:13Z",
           "updated_at": "2012-07-20T01:19:13Z",
           "deployment_url": "https://api.github.com/repos/octocat/example/deployments/42",
-          "repository_url": "https://api.github.com/repos/octocat/example"
+          "repository_url": "https://api.github.com/repos/octocat/example",
+          "environment_url": "",
+          "log_url": "https://example.com/deployment/42/output"
         }
       }
     ],
