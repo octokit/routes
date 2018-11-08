@@ -342,14 +342,13 @@
 <li><a href="#custom-media-types" id="markdown-toc-custom-media-types">Custom media types</a></li>
 </ul>
 
-<p>These API methods let you retrieve the contents of files within a repository as
-Base64 encoded content. See <a href="#custom-media-types">media types</a> for requesting the raw format or rendered HTML (when supported).</p>
+<p>These API endpoints let you create, modify, and delete Base64 encoded content in a repository. See <a href="#custom-media-types">media types</a> for requesting the raw format or rendered HTML (when supported).</p>
 
 <h2>
 <a id="get-the-readme" class="anchor" href="#get-the-readme" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get the README<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
-<p>This method returns the preferred README for a repository.</p>
+<p>Gets the preferred README for a repository.</p>
 
 <pre><code>GET /repos/:owner/:repo/readme
 </code></pre>
@@ -408,7 +407,7 @@ Base64 encoded content. See <a href="#custom-media-types">media types</a> for re
 <a id="get-contents" class="anchor" href="#get-contents" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get contents<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
-<p>This method returns the contents of a file or directory in a repository.</p>
+<p>Gets the contents of a file or directory in a repository. Specify the file path or directory in <code>:path</code>. If you omit <code>:path</code>, you will receive the contents of all files in the repository.</p>
 
 <pre><code>GET /repos/:owner/:repo/contents/:path
 </code></pre>
@@ -416,7 +415,7 @@ Base64 encoded content. See <a href="#custom-media-types">media types</a> for re
 <p>Files and symlinks support <a href="#custom-media-types">a custom media type</a> for retrieving the raw content or rendered HTML (when supported).
 All content types support <a href="#custom-media-types">a custom media type</a> to ensure the content is returned in a consistent object format.</p>
 
-<div class="alert tip">
+<div class="alert note">
 
 <p><strong>Note</strong>:</p>
 
@@ -440,11 +439,6 @@ All content types support <a href="#custom-media-types">a custom media type</a> 
 </tr>
 </thead>
 <tbody>
-<tr>
-<td><code>path</code></td>
-<td><code>string</code></td>
-<td>The content path.</td>
-</tr>
 <tr>
 <td><code>ref</code></td>
 <td><code>string</code></td>
@@ -599,7 +593,7 @@ Git uses the given URL when cloning the submodule repository, and checks out the
 <a id="create-a-file" class="anchor" href="#create-a-file" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a file<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
-<p>This method creates a new file in a repository</p>
+<p>Creates a new file in a repository.</p>
 
 <pre><code>PUT /repos/:owner/:repo/contents/:path
 </code></pre>
@@ -752,7 +746,7 @@ Git uses the given URL when cloning the submodule repository, and checks out the
 <a id="update-a-file" class="anchor" href="#update-a-file" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Update a file<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
-<p>This method updates a file in a repository</p>
+<p>Updates a file in a repository.</p>
 
 <pre><code>PUT /repos/:owner/:repo/contents/:path
 </code></pre>
@@ -912,7 +906,7 @@ Git uses the given URL when cloning the submodule repository, and checks out the
 <a id="delete-a-file" class="anchor" href="#delete-a-file" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Delete a file<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
-<p>This method deletes a file in a repository</p>
+<p>Deletes a file in a repository.</p>
 
 <pre><code>DELETE /repos/:owner/:repo/contents/:path
 </code></pre>
@@ -929,12 +923,6 @@ Git uses the given URL when cloning the submodule repository, and checks out the
 </tr>
 </thead>
 <tbody>
-<tr>
-<td><code>path</code></td>
-<td><code>string</code></td>
-<td>
-<strong>Required</strong>. The content path.</td>
-</tr>
 <tr>
 <td><code>message</code></td>
 <td><code>string</code></td>
@@ -1058,41 +1046,14 @@ user's information is used.</p>
 <a id="get-archive-link" class="anchor" href="#get-archive-link" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get archive link<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
-<p>This method will return a <code>302</code> to a URL to download a tarball
-or zipball archive for a repository. Please make sure your HTTP framework
-is configured to follow redirects or you will need to use the <code>Location</code> header
+<p>Gets a redirect URL to download an archive for a repository. The <code>:archive_format</code> can be either <code>tarball</code>
+or <code>zipball</code>. The <code>:ref</code> must be a valid Git reference. If you omit <code>:ref</code>, the repository’s default branch (usually <code>master</code>) will be used. Please make sure your HTTP framework is configured to follow redirects or you will need to use the <code>Location</code> header
 to make a second <code>GET</code> request.</p>
 
 <p><em>Note</em>: For private repositories, these links are temporary and expire after five minutes.</p>
 
 <pre><code>GET /repos/:owner/:repo/:archive_format/:ref
 </code></pre>
-
-<h3>
-<a id="parameters-5" class="anchor" href="#parameters-5" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
-
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>archive_format</code></td>
-<td><code>string</code></td>
-<td>Can be either <code>tarball</code> or <code>zipball</code>. Default: <code>tarball</code>
-</td>
-</tr>
-<tr>
-<td><code>ref</code></td>
-<td><code>string</code></td>
-<td>A valid Git reference. Default: the repository’s default branch (usually <code>master</code>)</td>
-</tr>
-</tbody>
-</table>
 
 <h3>
 <a id="response-4" class="anchor" href="#response-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
