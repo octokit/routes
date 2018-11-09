@@ -2,12 +2,18 @@
   "name": "Get a list of provisioned identities",
   "enabledForApps": true,
   "method": "GET",
-  "path": "/scim/v2/organizations/:organization_id/Users",
-  "previews": [],
+  "path": "/scim/v2/organizations/:org/Users",
+  "previews": [
+    {
+      "name": "cloud-9",
+      "description": "**Note:** The SCIM API on GitHub is currently available for developers to preview. To access the API, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.cloud-9-preview+json+scim\n\n```",
+      "required": true
+    }
+  ],
   "params": [
     {
-      "name": "organization_id",
-      "type": "integer",
+      "name": "org",
+      "type": "string",
       "required": true,
       "description": "",
       "location": "url"
@@ -15,81 +21,26 @@
     {
       "name": "startIndex",
       "type": "integer",
-      "description": "Used for pagination: the index of the first result to return",
+      "description": "Used for pagination: the index of the first result to return.",
       "required": false,
       "location": "query"
     },
     {
       "name": "count",
       "type": "integer",
-      "description": "Used for pagination: the number of results to return",
+      "description": "Used for pagination: the number of results to return.",
       "required": false,
       "location": "query"
     },
     {
       "name": "filter",
       "type": "string",
-      "description": "Only `eq` type filters are supported",
+      "description": "Filters results using the equals query parameter operator (`eq`). You can filter results that are equal to `id`, `userName`, `emails`, and `external_id`. For example, to search for an identity with the `userName` Octocat, you would use this query: `?filter=userName%20eq%20\\\"Octocat\\\"`",
       "required": false,
       "location": "query"
     }
   ],
-  "description": "**Filter parameter**\n\nYou can filter results with the `id`, `userName`, `emails` and `external_id` query parameters.\n\n```\nGET /scim/v2/organizations/:organization_id/Users?filter=userName\n```\n\nRetrieves a paginated list of all provisioned organization members, including pending invitations.",
-  "responses": [
-    {
-      "headers": {
-        "status": "200 OK",
-        "content-type": "application/json; charset=utf-8"
-      },
-      "body": {
-        "schemas": [
-          "urn:ietf:params:scim:api:messages:2.0:ListResponse"
-        ],
-        "totalResults": 2,
-        "itemsPerPage": 2,
-        "startIndex": 1,
-        "Resources": [
-          {
-            "schemas": [
-              "urn:ietf:params:scim:schemas:core:2.0:User"
-            ],
-            "id": "8773fe-ffff-42837498757",
-            "externalId": "239482347928374",
-            "userName": "mona@example.com",
-            "name": {
-              "givenName": "mona",
-              "familyName": "octocat"
-            },
-            "active": true,
-            "meta": {
-              "resourceType": "User",
-              "created": "2017-03-09T16:11:13-05:00",
-              "lastModified": "2017-03-09T16:11:13-05:00"
-            }
-          },
-          {
-            "schemas": [
-              "urn:ietf:params:scim:schemas:core:2.0:User"
-            ],
-            "id": "77563764-eb6-24-0598234-958243",
-            "externalId": "sdfoiausdofiua",
-            "userName": "hubot@example.com",
-            "name": {
-              "givenName": "hu",
-              "familyName": "bot"
-            },
-            "active": true,
-            "meta": {
-              "resourceType": "User",
-              "created": "2017-03-09T16:11:13-05:00",
-              "lastModified": "2017-03-09T16:11:13-05:00"
-            }
-          }
-        ]
-      },
-      "description": "Retrieves a paginated list of all provisioned organization members, including pending invitations."
-    }
-  ],
-  "idName": "get-provisioned-identities-list",
+  "description": "If you want to filter by a specific email address, you'd use the `email` query parameter and the `eq` operator:\n\n```\nGET /scim/v2/organizations/:org/Users?filter=emails\n```\n\nYour filter might look like this using cURL:\n\nRetrieves users that match the filter. In the example, we searched only for [octocat@github.com](mailto:octocat@github.com).\n\nRetrieves a paginated list of all provisioned organization members, including pending invitations.",
+  "idName": "list-provisioned-identities",
   "documentationUrl": "https://developer.github.com/v3/scim/#get-a-list-of-provisioned-identities"
 }
