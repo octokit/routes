@@ -29,3 +29,18 @@ Please follow these steps to report such a problem
    Once you did, push your changes and wait for us to review. If you have any
    questions at any point, comment on the pull request, we are happy to help you out.
 9. Now you are more than awesome, thank you so much! 💐
+
+## Merging the Pull Request & releasing a new version
+
+Releases are automated using [semantic-release](https://github.com/semantic-release/semantic-release).
+The following commit message conventions determine which version is released:
+
+1. `fix: ...` or `fix(scope name): ...` prefix in subject: bumps fix version, e.g. `1.2.3` → `1.2.4`
+2. `feat: ...` or `feat(scope name): ...` prefix in subject: bumps feature version, e.g. `1.2.3` → `1.3.0`
+3. `BREAKING CHANGE: ` in body: bumps breaking version, e.g. `1.2.3` → `2.0.0`
+
+Only one version number is bumped at a time, the highest version change trumps the others.
+Besides publishing a new version to npm, semantic-release also creates a git tag and release
+on GitHub, generates changelogs from the commit messages and puts them into the release notes.
+
+If the pull request looks good but does not follow the commit conventions, use the "Squash & merge" button.
