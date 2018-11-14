@@ -40,4 +40,7 @@ if (!['update', 'check'].includes(command)) {
 }
 
 checkOrUpdateRoutes({ cached, urls, checkOnly: command === 'check' })
-  .catch(error => console.log(error.stack))
+  .catch(error => {
+    console.log(error.stack)
+    process.exit(1)
+  })
