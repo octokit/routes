@@ -622,7 +622,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
       </span><span class="nt">"private"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
       </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat/Hello-World"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This your first repo!"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"fork"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"fork"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
       </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"archive_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"assignees_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/assignees{/user}"</span><span class="p">,</span><span class="w">
@@ -1045,7 +1045,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 </div>
 
-<p>The API returns a <a href="/v3/#http-redirects"><code>301 Moved Permanently</code> status</a> if the issue was transferred to another repository. If the issue has been deleted or transferred to a repository where the authenticated user lacks read access, then the API returns a <code>404 Not Found</code> status. To receive webhook events for transferred and deleted issues, subscribe to the <a href="/v3/activity/events/types/#issuesevent"><code>issues</code></a> webhook.</p>
+<p>The API returns a <a href="/v3/#http-redirects"><code>301 Moved Permanently</code> status</a> if the issue was <a href="https://help.github.com/articles/transferring-an-issue-to-another-repository/">transferred</a> to another repository. If the issue was transferred to or deleted from a repository where the authenticated user lacks read access, the API returns a <code>404 Not Found</code> status. If the issue was deleted from a repository where the authenticated user has read access, the API returns a <code>410 Gone</code> status. To receive webhook events for transferred and deleted issues, subscribe to the <a href="/v3/activity/events/types/#issuesevent"><code>issues</code></a> webhook.</p>
 
 <pre><code>GET /repos/:owner/:repo/issues/:number
 </code></pre>
@@ -1791,7 +1791,7 @@ Location: https://api.github.com/repos/octocat/Hello-World/issues/1347
 
 <div class="alert note">
 
-<p><strong>Note:</strong> You can now use the REST API to add a reason when you lock an issue, and you will see lock reasons in issue and pull request responses. This feature is currently available for developers to preview. See the <a href="/changes/2018-01-10-lock-reason-api-preview">blog post</a> for full details. To access this feature, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+<p><strong>Note:</strong> You can now use the REST API to add a reason when you lock an issue, and you will see lock reasons in responses that include issues or pull requests. You will also see lock reasons in <code>locked</code> events. This feature is currently available for developers to preview. See the <a href="/changes/2018-01-10-lock-reason-api-preview">blog post</a> for full details. To access this feature, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
 
 <pre><code>application/vnd.github.sailor-v-preview+json
 </code></pre>
