@@ -3,7 +3,13 @@
   "enabledForApps": true,
   "method": "PATCH",
   "path": "/orgs/:org",
-  "previews": [],
+  "previews": [
+    {
+      "name": "surtur",
+      "description": "**Note:** New repository creation permissions are available to preview. You can now set the `members_allowed_repository_creation_type` parameter to configure whether organization members can create repositories and the type of repositories they can create.\n\nTo access the API during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.surtur-preview+json\n\n```",
+      "required": true
+    }
+  ],
   "params": [
     {
       "name": "org",
@@ -85,9 +91,21 @@
     {
       "name": "members_can_create_repositories",
       "type": "boolean",
-      "description": "Toggles ability of non-admin organization members to create repositories  \n\\* `true` - all organization members can create repositories.  \n\\* `false` - only admin members can create repositories.",
+      "description": "Toggles the ability of non-admin organization members to create repositories. Can be one of:  \n\\* `true` - all organization members can create repositories.  \n\\* `false` - only admin members can create repositories.  \nDefault: `true`  \n**Note:** Another parameter can override the this parameter. See [this note](#members_can_create_repositories) for details. **Note:** Another parameter can override the this parameter. See [this note](#members_can_create_repositories) for details.",
       "default": true,
       "required": false,
+      "location": "body"
+    },
+    {
+      "name": "members_allowed_repository_creation_type",
+      "type": "string",
+      "description": "Specifies which types of repositories non-admin organization members can create. Can be one of:  \n\\* `all` - all organization members can create public and private repositories.  \n\\* `private` - members can create private repositories. This option is only available to repositories that are part of an organization on [GitHub Business Cloud](https://github.com/pricing/business-cloud).  \n\\* `none` - only admin members can create repositories.  \n**Note:** Using this parameter will override values set in `members_can_create_repositories`. See [this note](#members_can_create_repositories) for details.",
+      "required": false,
+      "enum": [
+        "all",
+        "private",
+        "none"
+      ],
       "location": "body"
     }
   ],
@@ -101,10 +119,11 @@
       "name": "github",
       "description": "GitHub, the company.",
       "default_repository_permission": "read",
-      "members_can_create_repositories": true
+      "members_can_create_repositories": true,
+      "members_allowed_repository_creation_type": "all"
     }
   ],
-  "description": "",
+  "description": "**Note:** The new `members_allowed_repository_creation_type` replaces the functionality of `members_can_create_repositories`.\n\nSetting `members_allowed_repository_creation_type` will override the value of `members_can_create_repositories` in the following ways:\n\n*   Setting `members_allowed_repository_creation_type` to `all` or `private` sets `members_can_create_repositories` to `true`.\n*   Setting `members_allowed_repository_creation_type` to `none` sets `members_can_create_repositories` to `false`.\n*   If you omit `members_allowed_repository_creation_type`, `members_can_create_repositories` is not modified.",
   "responses": [
     {
       "headers": {
@@ -152,7 +171,8 @@
         },
         "default_repository_settings": "read",
         "members_can_create_repositories": true,
-        "two_factor_requirement_enabled": true
+        "two_factor_requirement_enabled": true,
+        "members_allowed_repository_creation_type": "all"
       }
     }
   ],
