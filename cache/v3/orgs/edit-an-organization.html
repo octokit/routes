@@ -1,6 +1,21 @@
 <h2>
 <a id="edit-an-organization" class="anchor" href="#edit-an-organization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Edit an organization<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
+<div class="alert note">
+
+<p><strong>Note:</strong> New repository creation permissions are available to preview. You can now set the <code>members_allowed_repository_creation_type</code> parameter to configure whether organization members can create repositories and the type of repositories they can create.</p>
+
+<p>To access the API during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+<pre><code>  application/vnd.github.surtur-preview+json
+</code></pre>
+
+</div>
+<div class="alert warning">
+
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub Support</a>.</p>
+
+</div>
 <pre><code>PATCH /orgs/:org
 </code></pre>
 <h3>
@@ -63,11 +78,29 @@
 <tr>
 <td><code>members_can_create_repositories</code></td>
 <td><code>boolean</code></td>
-<td>Toggles ability of non-admin organization members to create repositories<br> * <code>true</code> - all organization members can create repositories.<br> * <code>false</code> - only admin members can create repositories.<br> Default: <code>true</code><br>
-</td>
+<td>Toggles the ability of non-admin organization members to create repositories. Can be one of:<br>* <code>true</code> - all organization members can create repositories.<br>* <code>false</code> - only admin members can create repositories.<br>Default: <code>true</code><br><strong>Note:</strong> Another parameter can override the this parameter. See <a href="#members_can_create_repositories">this note</a> for details.</td>
+</tr>
+<tr>
+<td><code style="font-size:10px !important">members_allowed_repository_creation_type</code></td>
+<td><code>string</code></td>
+<td>Specifies which types of repositories non-admin organization members can create. Can be one of:<br>* <code>all</code> - all organization members can create public and private repositories.<br>* <code>private</code> - members can create private repositories. This option is only available to repositories that are part of an organization on <a href="https://github.com/pricing/business-cloud">GitHub Business Cloud</a>.<br>* <code>none</code> - only admin members can create repositories. <br> <strong>Note:</strong> Using this parameter will override values set in <code>members_can_create_repositories</code>. See <a href="#members_can_create_repositories">this note</a> for details.</td>
 </tr>
 </tbody>
 </table>
+<div class="alert note">
+
+<p><a id="members_can_create_repositories"></a>
+<strong>Note:</strong> The new <code>members_allowed_repository_creation_type</code> replaces the functionality of <code>members_can_create_repositories</code>.</p>
+
+<p>Setting <code>members_allowed_repository_creation_type</code> will override the value of <code>members_can_create_repositories</code> in the following ways:</p>
+
+<ul>
+<li>Setting <code>members_allowed_repository_creation_type</code> to <code>all</code> or <code>private</code> sets <code>members_can_create_repositories</code> to <code>true</code>.</li>
+<li>Setting <code>members_allowed_repository_creation_type</code> to <code>none</code> sets <code>members_can_create_repositories</code> to <code>false</code>.</li>
+<li>If you omit <code>members_allowed_repository_creation_type</code>, <code>members_can_create_repositories</code> is not modified.</li>
+</ul>
+
+</div>
 <h3>
 <a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
@@ -79,7 +112,8 @@
   </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;github&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;GitHub, the company.&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;default_repository_permission&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;read&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="nt">&quot;members_can_create_repositories&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+  </span><span class="nt">&quot;members_can_create_repositories&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;members_allowed_repository_creation_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;all&quot;</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <h3>
@@ -127,6 +161,7 @@
   </span><span class="p">},</span><span class="w">
   </span><span class="nt">&quot;default_repository_settings&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;read&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;members_can_create_repositories&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="nt">&quot;two_factor_requirement_enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+  </span><span class="nt">&quot;two_factor_requirement_enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;members_allowed_repository_creation_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;all&quot;</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
