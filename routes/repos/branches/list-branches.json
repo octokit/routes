@@ -22,7 +22,7 @@
     {
       "name": "protected",
       "type": "boolean",
-      "description": "Setting to `true` returns only protected branches.",
+      "description": "Setting to `true` returns only protected branches and each branch in the response includes the `protected` and `protection` keys. When you omit this parameter, all branches are returned and protected branches do not contain the `protected` and `protection` keys.",
       "required": false,
       "location": "query"
     },
@@ -58,7 +58,17 @@
             "url": "https://api.github.com/repos/octocat/Hello-World/commits/c5b97d5ae6c19d5c5df71a34c7fbeeda2479ccbc"
           },
           "protected": true,
-          "protection_url": "https://api.github.com/repos/octocat/Hello-World/branches/master/protection"
+          "protection": {
+            "enabled": true,
+            "required_status_checks": {
+              "enforcement_level": "non_admins",
+              "contexts": [
+                "ci-test",
+                "linter"
+              ]
+            }
+          },
+          "protection_url": "https://api.github.com/repos/octocat/hello-world/branches/master/protection"
         }
       ]
     }
