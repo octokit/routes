@@ -1,6 +1,6 @@
 const { test } = require('tap')
 
-const cache = require('../../lib/cache')
+const Cache = require('../../lib/cache')
 const getDocPages = require('../../lib/landing-page/to-pages-json')
 
 // if you found a problem with how cache/v3/index.html is parsed into
@@ -14,9 +14,14 @@ const getDocPages = require('../../lib/landing-page/to-pages-json')
 // 5. push all changes to your pull request. Review your changes, once you are
 //    happy remove the "WIP" from the pull request and ask for a review
 test(`v3/index.html -> pages.json`, async t => {
-  const expectedPages = require('../../cache/pages.json')
+  const expectedPages = require('../../cache/api.github.com/pages.json')
+  const cache = new Cache('api.github.com')
   const html = await cache.read('v3/index.html')
-  const actualPages = getDocPages(html)
+  const actualPages = getDocPages({
+    baseUrl: 'https://developer.github.com/v3/',
+    folderName: 'api.github.com',
+    cache
+  }, html)
 
   t.deepEquals(actualPages, expectedPages)
   t.end()
