@@ -1,0 +1,106 @@
+<h2>
+<a id="create-a-tree" class="anchor" href="#create-a-tree" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a tree<a href="/enterprise/2.14/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+<p>The tree creation API will take nested entries as well. If both a
+tree and a nested path modifying that tree are specified, it will
+overwrite the contents of that tree with the new path contents and write
+a new tree out.</p>
+<pre><code>POST /repos/:owner/:repo/git/trees
+</code></pre>
+<h3>
+<a id="parameters" class="anchor" href="#parameters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tree</code></td>
+<td>
+<code>array</code> of <code>object</code>s</td>
+<td>
+<strong>Required</strong>. Objects (of <code>path</code>, <code>mode</code>, <code>type</code>, and <code>sha</code>) specifying a tree structure</td>
+</tr>
+<tr>
+<td><code>base_tree</code></td>
+<td><code>string</code></td>
+<td>The SHA1 of the tree you want to update with new data. If you don&apos;t set this, the commit will be created on top of everything; however, it will only contain your change, the rest of your files will show up as deleted.</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>tree</code> parameter takes the following keys:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>path</code></td>
+<td><code>string</code></td>
+<td>The file referenced in the tree</td>
+</tr>
+<tr>
+<td><code>mode</code></td>
+<td><code>string</code></td>
+<td>The file mode; one of <code>100644</code> for file (blob), <code>100755</code> for executable (blob), <code>040000</code> for subdirectory (tree), <code>160000</code> for submodule (commit), or <code>120000</code> for a blob that specifies the path of a symlink</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td><code>string</code></td>
+<td>Either <code>blob</code>, <code>tree</code>, or <code>commit</code>
+</td>
+</tr>
+<tr>
+<td><code>sha</code></td>
+<td><code>string</code></td>
+<td>The SHA1 checksum ID of the object in the tree</td>
+</tr>
+<tr>
+<td><code>content</code></td>
+<td><code>string</code></td>
+<td>The content you want this file to have. GitHub Enterprise will write this blob out and use that SHA for this entry.  Use either this, or <code>tree.sha</code>.</td>
+</tr>
+</tbody>
+</table>
+<h3>
+<a id="input" class="anchor" href="#input" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Input</h3>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;base_tree&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;9fb037999f264ba9a7fc6274d15fa3ae2ab98312&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;tree&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;file.rb&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;100644&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;blob&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;sha&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;44b4fc6d56897b048c772eb4087f854f46256132&quot;</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 201 Created
+Location: https://api.github.com/repos/octocat/Hello-World/trees/cd8274d15fa3ae2ab983129fb037999f264ba9a7
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;sha&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cd8274d15fa3ae2ab983129fb037999f264ba9a7&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Hello-World/trees/cd8274d15fa3ae2ab983129fb037999f264ba9a7&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;tree&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;file.rb&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;100644&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;blob&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">132</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;sha&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7c258a9869f33c1e1e1f74fbb32f07c86cb5a75b&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Hello-World/git/blobs/7c258a9869f33c1e1e1f74fbb32f07c86cb5a75b&quot;</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>

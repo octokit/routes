@@ -1,0 +1,1050 @@
+[
+  {
+    "name": "Search repositories",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/search/repositories",
+    "previews": [
+      {
+        "name": "mercy",
+        "description": "**Note:** The `topics` property for repositories on GitHub Enterprise is currently available for developers to preview. To view the `topics` property in calls that return repository results, you must provide a custom [media type](/enterprise/2.14/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.mercy-preview+json\n\n```",
+        "required": false
+      }
+    ],
+    "params": [
+      {
+        "name": "q",
+        "type": "string",
+        "description": "The search keywords, as well as any qualifiers.",
+        "required": true,
+        "location": "query"
+      },
+      {
+        "name": "sort",
+        "type": "string",
+        "description": "The sort field. One of `stars`, `forks`, or `updated`.",
+        "default": "results are sorted by best match.",
+        "required": false,
+        "enum": [
+          "stars",
+          "forks",
+          "updated"
+        ],
+        "location": "query"
+      },
+      {
+        "name": "order",
+        "type": "string",
+        "description": "The sort order if `sort` parameter is provided. One of `asc` or `desc`.",
+        "default": "desc",
+        "required": false,
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "location": "query"
+      },
+      {
+        "name": "per_page",
+        "type": "integer",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30,
+        "location": "query"
+      },
+      {
+        "name": "page",
+        "type": "integer",
+        "required": false,
+        "description": "Page number of the results to fetch.",
+        "default": 1,
+        "location": "query"
+      }
+    ],
+    "requests": [
+      {
+        "text_matches": [
+          {
+            "object_url": "https://api.github.com/repositories/3081286",
+            "object_type": "Repository",
+            "property": "name",
+            "fragment": "Tetris",
+            "matches": [
+              {
+                "text": "Tetris",
+                "indices": [
+                  0,
+                  6
+                ]
+              }
+            ]
+          },
+          {
+            "object_url": "https://api.github.com/repositories/3081286",
+            "object_type": "Repository",
+            "property": "description",
+            "fragment": "A C implementation of Tetris using Pennsim through LC4",
+            "matches": [
+              {
+                "text": "Tetris",
+                "indices": [
+                  22,
+                  28
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "description": "Find repositories via various criteria. This method returns up to 100 results [per page](/enterprise/2.14/v3/#pagination).\n\nThe `q` search term can also contain any combination of the supported repository search qualifiers as described by the in-browser [repository search documentation](https://help.github.com/articles/searching-for-repositories/) and [search syntax documentation](https://help.github.com/articles/search-syntax/):\n\n*   [`created` or `pushed`](https://help.github.com/articles/searching-for-repositories/#search-by-when-a-repository-was-created-or-last-updated) Filters repositories based on date of creation, or when they were last updated.\n*   [`fork`](https://help.github.com/articles/searching-for-repositories/#search-by-number-of-forks) Filters whether forked repositories should be included (`true`) or only forked repositories should be returned (`only`).\n*   [`forks`](https://help.github.com/articles/searching-for-repositories/#search-by-number-of-forks) Filters repositories based on the number of forks.\n*   [`in`](https://help.github.com/articles/searching-for-repositories) Qualifies which fields are searched. With this qualifier you can restrict the search to just the repository name, description, readme, or any combination of these.\n*   [`language`](https://help.github.com/articles/searching-for-repositories/#search-by-language) Searches repositories based on the language they're written in.\n*   [`license`](https://help.github.com/articles/searching-for-repositories/#search-by-license) Filters repositories by license or license family, using the [license keyword](https://help.github.com/articles/licensing-a-repository/#searching-github-by-license-type).\n*   [`repo` or `user`](https://help.github.com/articles/searching-for-repositories/#search-within-a-users-or-organizations-repositories) Limits searches to a specific repository or user.\n*   [`size`](https://help.github.com/articles/searching-for-repositories/#search-by-repository-size) Finds repositories that match a certain size (in kilobytes).\n*   [`stars`](https://help.github.com/articles/searching-for-repositories/#search-by-number-of-stars) Searches repositories based on the number of stars.\n*   [`topic`](https://help.github.com/articles/classifying-your-repository-with-topics/) Filters repositories based on the specified topic.\n*   [`archived`](https://help.github.com/articles/searching-for-repositories/#search-based-on-whether-a-repository-is-archived) Filters whether archived repositories should be included (`true`) or not (`false`).\n\nSuppose you want to search for popular Tetris repositories written in Assembly. Your query might look like this.\n\nYou can search for multiple topics by adding more `topic:` instances, and including the `mercy-preview` header. For example:\n\nIn this request, we're searching for repositories with the word `tetris` in the name, the description, or the README. We're limiting the results to only find repositories where the primary language is Assembly. We're sorting by stars in descending order, so that the most popular repositories appear first in the search results.\n\n**Highlighting repository search results**\n\nYou might want to highlight the matching search terms when displaying search results. The API offers additional metadata to support this use case. To get this metadata in your search results, specify the `text-match` media type in your `Accept` header. For example, via cURL, the above query would look like this:\n\nThis produces the same JSON payload as above, with an extra key called `text_matches`, an array of objects. These objects provide information such as the position of your search terms within the text, as well as the `property` that included the search term.\n\nWhen searching for repositories, you can get text match metadata for the **name** and **description** fields. For details on the attributes present in the `text_matches` array, see [text match metadata](#text-match-metadata).\n\nHere's an example response:",
+    "idName": "repos",
+    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/search/#search-repositories"
+  },
+  {
+    "name": "Search commits",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/search/commits",
+    "previews": [
+      {
+        "name": "cloak",
+        "description": "The Commit Search API is currently available for developers to preview. During the preview period, the APIs may change without advance notice. Please see the [blog post](/changes/2017-01-05-commit-search-api/) for full details.\n\nTo access the API you must provide a custom [media type](/enterprise/2.14/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.cloak-preview\n\n```",
+        "required": true
+      }
+    ],
+    "params": [
+      {
+        "name": "q",
+        "type": "string",
+        "description": "The search terms.",
+        "required": true,
+        "location": "query"
+      },
+      {
+        "name": "sort",
+        "type": "string",
+        "description": "The sort field. Can be `author-date` or `committer-date`.",
+        "default": "results are sorted by best match.",
+        "required": false,
+        "enum": [
+          "author-date",
+          "committer-date"
+        ],
+        "location": "query"
+      },
+      {
+        "name": "order",
+        "type": "string",
+        "description": "The sort order if `sort` parameter is provided. One of `asc` or `desc`.",
+        "default": "desc",
+        "required": false,
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "location": "query"
+      },
+      {
+        "name": "per_page",
+        "type": "integer",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30,
+        "location": "query"
+      },
+      {
+        "name": "page",
+        "type": "integer",
+        "required": false,
+        "description": "Page number of the results to fetch.",
+        "default": 1,
+        "location": "query"
+      }
+    ],
+    "description": "Find commits via various criteria. This method returns up to 100 results [per page](/enterprise/2.14/v3/#pagination).\n\n**Considerations for commit search**\n\nOnly the _default branch_ is considered. In most cases, this will be the `master` branch.\n\nThe `q` search term can also contain any combination of the supported commit search qualifiers as described by the in-browser [commit search documentation](https://help.github.com/articles/searching-commits/) and [search syntax documentation](https://help.github.com/articles/search-syntax/):\n\n*   [`author`](https://help.github.com/articles/searching-commits#search-by-author-or-committer) Matches commits authored by a user (based on email settings).\n*   [`committer`](https://help.github.com/articles/searching-commits#search-by-author-or-committer) Matches commits committed by a user (based on email settings).\n*   [`author-name`](https://help.github.com/articles/searching-commits#search-by-author-or-committer) Matches commits by author name.\n*   [`committer-name`](https://help.github.com/articles/searching-commits#search-by-author-or-committer) Matches commits by committer name.\n*   [`author-email`](https://help.github.com/articles/searching-commits#search-by-author-or-committer) Matches commits by author email.\n*   [`committer-email`](https://help.github.com/articles/searching-commits#search-by-author-or-committer) Matches commits by committer email.\n*   [`author-date`](https://help.github.com/articles/searching-commits#search-by-authored-or-committed-date) Matches commits by author date range.\n*   [`committer-date`](https://help.github.com/articles/searching-commits/#search-by-authored-or-committed-date) Matches commits by committer date range.\n*   [`merge`](https://help.github.com/articles/searching-commits#filter-merge-commits) `true` filters to merge commits, `false` filters out merge commits.\n*   [`hash`](https://help.github.com/articles/searching-commits#search-by-hash) Matches commits by hash.\n*   [`parent`](https://help.github.com/articles/searching-commits#search-by-parent) Matches commits that have a particular parent.\n*   [`tree`](https://help.github.com/articles/searching-commits#search-by-tree) Matches commits by tree hash.\n*   [`is`](https://help.github.com/articles/searching-commits#filter-to-public-or-private-repositories) Matches `public` or `private` repositories.\n*   [`user`, `org`, or `repo`](https://help.github.com/articles/searching-commits#search-within-a-users-or-organizations-repositories) Limits searches to a specific user, organization, or repository.\n\nSuppose you want to find commits related to CSS in the [octocat/Spoon-Knife](https://github.com/octocat/Spoon-Knife) repository. Your query would look something like this:\n\n**Highlighting code search results**\n\nWhen searching for commits, you can get text match metadata for the **message** field. See the section on [text match metadata](#text-match-metadata) for full details.",
+    "idName": "commits",
+    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/search/#search-commits"
+  },
+  {
+    "name": "Search code",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/search/code",
+    "previews": [],
+    "params": [
+      {
+        "name": "q",
+        "type": "string",
+        "description": "The search terms.",
+        "required": true,
+        "location": "query"
+      },
+      {
+        "name": "sort",
+        "type": "string",
+        "description": "The sort field. Can only be `indexed`, which indicates how recently a file has been indexed by the GitHub Enterprise search infrastructure.",
+        "default": "results are sorted by best match.",
+        "required": false,
+        "enum": [
+          "indexed"
+        ],
+        "location": "query"
+      },
+      {
+        "name": "order",
+        "type": "string",
+        "description": "The sort order if `sort` parameter is provided. One of `asc` or `desc`.",
+        "default": "desc",
+        "required": false,
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "location": "query"
+      },
+      {
+        "name": "per_page",
+        "type": "integer",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30,
+        "location": "query"
+      },
+      {
+        "name": "page",
+        "type": "integer",
+        "required": false,
+        "description": "Page number of the results to fetch.",
+        "default": 1,
+        "location": "query"
+      }
+    ],
+    "requests": [
+      {
+        "text_matches": [
+          {
+            "object_url": "https://api.github.com/repositories/167174/contents/src/attributes/classes.js?ref=825ac3773694e0cd23ee74895fd5aeb535b27da4",
+            "object_type": "FileContent",
+            "property": "content",
+            "fragment": ";\n\njQuery.fn.extend({\n\taddClass: function( value ) {\n\t\tvar classes, elem, cur, clazz, j, finalValue",
+            "matches": [
+              {
+                "text": "addClass",
+                "indices": [
+                  23,
+                  31
+                ]
+              }
+            ]
+          },
+          {
+            "object_url": "https://api.github.com/repositories/167174/contents/src/attributes/classes.js?ref=825ac3773694e0cd23ee74895fd5aeb535b27da4",
+            "object_type": "FileContent",
+            "property": "content",
+            "fragment": ".isFunction( value ) ) {\n\t\t\treturn this.each(function( j ) {\n\t\t\t\tjQuery( this ).addClass( value.call( this",
+            "matches": [
+              {
+                "text": "addClass",
+                "indices": [
+                  80,
+                  88
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "description": "Find file contents via various criteria. This method returns up to 100 results [per page](/enterprise/2.14/v3/#pagination).\n\n**Note:** You must [authenticate](/enterprise/2.14/v3/#authentication) to search for code across all public repositories.\n\n**Considerations for code search**\n\nDue to the complexity of searching code, there are a few restrictions on how searches are performed:\n\n*   Only the _default branch_ is considered. In most cases, this will be the `master` branch.\n*   Only files smaller than 10 MB are searchable.\n\nThe `q` search term can also contain any combination of the supported code search qualifiers as described by the in-browser [code search documentation](https://help.github.com/articles/searching-code/) and [search syntax documentation](https://help.github.com/articles/search-syntax/):\n\n*   [`in`](https://help.github.com/articles/searching-code#scope-the-search-fields) Qualifies which fields are searched. With this qualifier you can restrict the search to the file contents (`file`), the file path (`path`), or both.\n*   [`language`](https://help.github.com/articles/searching-code#search-by-language) Searches code based on the language it's written in.\n*   [`fork`](https://help.github.com/articles/searching-code#search-by-the-number-of-forks-the-parent-repository-has) Specifies that code from forked repositories should be searched (`true`). Repository forks will not be searchable unless the fork has more stars than the parent repository.\n*   [`size`](https://help.github.com/articles/searching-code#search-by-the-size-of-the-parent-repository) Finds files that match a certain size (in bytes).\n*   [`path`](https://help.github.com/articles/searching-code#search-by-the-location-of-a-file-within-the-repository) Specifies the path prefix that the resulting file must be under.\n*   [`filename`](https://help.github.com/articles/searching-code#search-by-filename) Matches files by a substring of the filename.\n*   [`extension`](https://help.github.com/articles/searching-code#search-by-the-file-extension) Matches files with a certain extension after a dot.\n*   [`user` or `repo`](https://help.github.com/articles/searching-code#search-within-a-users-or-organizations-repositories) Limits searches to a specific user or repository.\n\nSuppose you want to find the definition of the `addClass` function inside [jQuery](https://github.com/jquery/jquery). Your query would look something like this:\n\nHere, we're searching for the keyword `addClass` within a file's contents. We're making sure that we're only looking in files where the language is JavaScript. And we're scoping the search to the `repo:jquery/jquery` repository.\n\n**Highlighting code search results**\n\nYou might want to highlight the matching search terms when displaying search results. The API offers additional metadata to support this use case. To get this metadata in your search results, specify the `text-match` media type in your `Accept` header. For example, via cURL, the above query would look like this:\n\nThis produces the same JSON payload as above, with an extra key called `text_matches`, an array of objects. These objects provide information such as the position of your search terms within the text, as well as the `property` that included the search term.\n\nWhen searching for code, you can get text match metadata for the file **content** and file **path** fields. For details on the attributes present in the `text_matches` array, see [text match metadata](#text-match-metadata).\n\nHere's an example response:",
+    "idName": "code",
+    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/search/#search-code"
+  },
+  {
+    "name": "Search issues",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/search/issues",
+    "previews": [
+      {
+        "name": "symmetra",
+        "description": "**Note:** You can now use emoji in label names, add descriptions to labels, and search for labels in a repository. See the [blog post](/changes/2018-02-22-label-description-search-preview) for full details. To access these features and receive payloads with this data during the preview period, you must provide a custom [media type](/enterprise/2.14/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.symmetra-preview+json\n\n```",
+        "required": false
+      }
+    ],
+    "params": [
+      {
+        "name": "q",
+        "type": "string",
+        "description": "The search terms.",
+        "required": true,
+        "location": "query"
+      },
+      {
+        "name": "sort",
+        "type": "string",
+        "description": "The sort field. Can be `comments`, `created`, or `updated`.",
+        "default": "results are sorted by best match.",
+        "required": false,
+        "enum": [
+          "comments",
+          "created",
+          "updated"
+        ],
+        "location": "query"
+      },
+      {
+        "name": "order",
+        "type": "string",
+        "description": "The sort order if `sort` parameter is provided. One of `asc` or `desc`.",
+        "default": "desc",
+        "required": false,
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "location": "query"
+      },
+      {
+        "name": "per_page",
+        "type": "integer",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30,
+        "location": "query"
+      },
+      {
+        "name": "page",
+        "type": "integer",
+        "required": false,
+        "description": "Page number of the results to fetch.",
+        "default": 1,
+        "location": "query"
+      }
+    ],
+    "requests": [
+      {
+        "text_matches": [
+          {
+            "object_url": "https://api.github.com/repositories/215335/issues/132",
+            "object_type": "Issue",
+            "property": "body",
+            "fragment": "comprehensive windows font I know of).\n\nIf we can find a commonly distributed windows font that supports them then no problem (we can use html font tags) but otherwise the '(21)' style is probably better.\n",
+            "matches": [
+              {
+                "text": "windows",
+                "indices": [
+                  14,
+                  21
+                ]
+              },
+              {
+                "text": "windows",
+                "indices": [
+                  78,
+                  85
+                ]
+              }
+            ]
+          },
+          {
+            "object_url": "https://api.github.com/repositories/215335/issues/comments/25688",
+            "object_type": "IssueComment",
+            "property": "body",
+            "fragment": " right after that are a bit broken IMHO :). I suppose we could have some hack that maxes out at whatever the font does...\n\nI'll check what the state of play is on Windows.\n",
+            "matches": [
+              {
+                "text": "Windows",
+                "indices": [
+                  163,
+                  170
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "description": "Find issues by state and keyword. This method returns up to 100 results [per page](/enterprise/2.14/v3/#pagination).\n\nThe `q` search term can also contain any combination of the supported issue search qualifiers as described by the in-browser [issue search documentation](https://help.github.com/articles/searching-issues/) and [search syntax documentation](https://help.github.com/articles/search-syntax/):\n\n*   [`type`](https://help.github.com/articles/searching-issues#search-issues-or-pull-requests) With this qualifier you can restrict the search to issues (`issue`) or pull request (`pr`) only.\n*   [`in`](https://help.github.com/articles/searching-issues#scope-the-search-fields) Qualifies which fields are searched. With this qualifier you can restrict the search to just the title (`title`), body (`body`), comments (`comments`), or any combination of these.\n*   [`author`](https://help.github.com/articles/searching-issues#search-by-the-author-of-an-issue-or-pull-request) Finds issues or pull requests created by a certain user.\n*   [`assignee`](https://help.github.com/articles/searching-issues#search-by-the-assignee-of-an-issue-or-pull-request) Finds issues or pull requests that are assigned to a certain user.\n*   [`mentions`](https://help.github.com/articles/searching-issues#search-by-a-mentioned-user-within-an-issue-or-pull-request) Finds issues or pull requests that mention a certain user.\n*   [`commenter`](https://help.github.com/articles/searching-issues#search-by-a-commenter-within-an-issue-or-pull-request) Finds issues or pull requests that a certain user commented on.\n*   [`involves`](https://help.github.com/articles/searching-issues#search-by-a-user-thats-involved-within-an-issue-or-pull-request) Finds issues or pull requests that were either created by a certain user, assigned to that user, mention that user, or were commented on by that user.\n*   [`team`](https://help.github.com/articles/searching-issues/#search-by-a-team-thats-mentioned-within-an-issue-or-pull-request) For organizations you're a member of, finds issues or pull requests that @mention a team within the organization.\n*   [`state`](https://help.github.com/articles/searching-issues#search-based-on-whether-an-issue-or-pull-request-is-open) Filter issues or pull requests based on whether they're open or closed.\n*   [`labels`](https://help.github.com/articles/searching-issues#search-by-the-labels-on-an-issue) Filters issues or pull requests based on their labels.\n*   [`no`](https://help.github.com/articles/searching-issues#search-by-missing-metadata-on-an-issue-or-pull-request) Filters items missing certain metadata, such as `label`, `milestone`, or `assignee`\n*   [`language`](https://help.github.com/articles/searching-issues#search-by-the-main-language-of-a-repository) Searches for issues or pull requests within repositories that match a certain language.\n*   [`is`](https://help.github.com/articles/searching-issues#search-based-on-the-state-of-an-issue-or-pull-request) Searches for items within repositories that match a certain state, such as `open`, `closed`, or `merged`\n*   [`created` or `updated`](https://help.github.com/articles/searching-issues#search-based-on-when-an-issue-or-pull-request-was-created-or-last-updated) Filters issues or pull requests based on date of creation, or when they were last updated.\n*   [`merged`](https://help.github.com/articles/searching-issues#search-based-on-when-a-pull-request-was-merged) Filters pull requests based on the date when they were merged.\n*   [`status`](https://help.github.com/articles/searching-issues#search-based-on-commit-status) Filters pull requests based on the commit status.\n*   [`head` or `base`](https://help.github.com/articles/searching-issues#search-based-on-branch-names) Filters pull requests based on the branch that they came from or that they are modifying.\n*   [`closed`](https://help.github.com/articles/searching-issues#search-based-on-when-an-issue-or-pull-request-was-closed) Filters issues or pull requests based on the date when they were closed.\n*   [`comments`](https://help.github.com/articles/searching-issues#search-by-the-number-of-comments-an-issue-or-pull-request-has) Filters issues or pull requests based on the quantity of comments.\n*   [`user` or `repo`](https://help.github.com/articles/searching-issues#search-within-a-users-or-organizations-repositories) Limits searches to a specific user or repository.\n*   [`project`](https://help.github.com/articles/searching-issues/#search-by-project-board) Limits searches to a specific project board in a repository or organization.\n*   [`archived`](https://help.github.com/articles/searching-issues/#search-within-archived-repositories) Filters issues or pull requests based on whether they are in an archived repository.\n\nIf you know the specific SHA hash of a commit, you can use also [use it to search for pull requests](https://help.github.com/articles/searching-issues#search-by-the-commit-shas-within-a-pull-request) that contain that SHA. Note that the SHA syntax must be at least seven characters.\n\nLet's say you want to find the oldest unresolved Python bugs on Windows. Your query might look something like this.\n\nIn this query, we're searching for the keyword `windows`, within any open issue that's labeled as `bug`. The search runs across repositories whose primary language is Python. We’re sorting by creation date in ascending order, so that the oldest issues appear first in the search results.\n\n**Highlighting issue search results**\n\nYou might want to highlight the matching search terms when displaying search results. The API offers additional metadata to support this use case. To get this metadata in your search results, specify the `text-match` media type in your `Accept` header. For example, via cURL, the above query would look like this:\n\nThis produces the same JSON payload as above, with an extra key called `text_matches`, an array of objects. These objects provide information such as the position of your search terms within the text, as well as the `property` that included the search term.\n\nWhen searching for issues, you can get text match metadata for the issue **title**, issue **body**, and issue **comment body** fields. For details on the attributes present in the `text_matches` array, see [text match metadata](#text-match-metadata).\n\nHere's an example response:",
+    "idName": "issues",
+    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/search/#search-issues"
+  },
+  {
+    "name": "Search users",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/search/users",
+    "previews": [],
+    "params": [
+      {
+        "name": "q",
+        "type": "string",
+        "description": "The search terms.",
+        "required": true,
+        "location": "query"
+      },
+      {
+        "name": "sort",
+        "type": "string",
+        "description": "The sort field. Can be `followers`, `repositories`, or `joined`.",
+        "default": "results are sorted by best match.",
+        "required": false,
+        "enum": [
+          "followers",
+          "repositories",
+          "joined"
+        ],
+        "location": "query"
+      },
+      {
+        "name": "order",
+        "type": "string",
+        "description": "The sort order if `sort` parameter is provided. One of `asc` or `desc`.",
+        "default": "desc",
+        "required": false,
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "location": "query"
+      },
+      {
+        "name": "per_page",
+        "type": "integer",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30,
+        "location": "query"
+      },
+      {
+        "name": "page",
+        "type": "integer",
+        "required": false,
+        "description": "Page number of the results to fetch.",
+        "default": 1,
+        "location": "query"
+      }
+    ],
+    "requests": [
+      {
+        "text_matches": [
+          {
+            "object_url": "https://api.github.com/users/mojombo",
+            "object_type": "User",
+            "property": "email",
+            "fragment": "tom@github.com",
+            "matches": [
+              {
+                "text": "tom",
+                "indices": [
+                  0,
+                  3
+                ]
+              }
+            ]
+          },
+          {
+            "object_url": "https://api.github.com/users/mojombo",
+            "object_type": "User",
+            "property": "name",
+            "fragment": "Tom Preston-Werner",
+            "matches": [
+              {
+                "text": "Tom",
+                "indices": [
+                  0,
+                  3
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "description": "Find users via various criteria. This method returns up to 100 results [per page](/enterprise/2.14/v3/#pagination).\n\nThe `q` search term can also contain any combination of the supported user search qualifiers as described by the in-browser [user search documentation](https://help.github.com/articles/searching-users/) and [search syntax documentation](https://help.github.com/articles/search-syntax/):\n\n*   [`type`](https://help.github.com/articles/searching-users#search-for-users-or-organizations) With this qualifier you can restrict the search to just personal accounts (`user`) or just organization accounts (`org`).\n*   [`in`](https://help.github.com/articles/searching-users#scope-the-search-fields) Qualifies which fields are searched. With this qualifier you can restrict the search to just the username (`login`), public email (`email`), full name (`fullname`), or any combination of these.\n*   [`repos`](https://help.github.com/articles/searching-users#search-based-on-the-number-of-repositories-a-user-has) Filters users based on the number of repositories they have.\n*   [`location`](https://help.github.com/articles/searching-users#search-based-on-the-location-where-a-user-resides) Filter users by the location indicated in their profile.\n*   [`language`](https://help.github.com/articles/searching-users#search-based-on-the-languages-of-a-users-repositories) Search for users that have repositories that match a certain language.\n*   [`created`](https://help.github.com/articles/searching-users#search-based-on-when-a-user-joined-github) Filter users based on when they joined.\n*   [`followers`](https://help.github.com/articles/searching-users#search-based-on-the-number-of-followers-a-user-has) Filter users based on the number of followers they have.\n\nImagine you're looking for a list of popular users. You might try out this query:\n\nHere, we're looking at users with the name Tom. We're only interested in those with more than 42 repositories, and only if they have over 1,000 followers.\n\n**Highlighting user search results**\n\nYou might want to highlight the matching search terms when displaying search results. The API offers additional metadata to support this use case. To get this metadata in your search results, specify the `text-match` media type in your `Accept` header. For example, via cURL, the above query would look like this:\n\nThis produces the same JSON payload as above, with an extra key called `text_matches`, an array of objects. These objects provide information such as the position of your search terms within the text, as well as the `property` that included the search term.\n\nWhen searching for users, you can get text match metadata for the issue **login**, **email**, and **name** fields. For details on the attributes present in the `text_matches` array, see [text match metadata](#text-match-metadata).",
+    "idName": "users",
+    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/search/#search-users"
+  },
+  {
+    "name": "Search topics",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/search/topics",
+    "previews": [
+      {
+        "name": "mercy",
+        "description": "**Note:** The `topics` property for repositories on GitHub Enterprise is currently available for developers to preview. To view the `topics` property in calls that return repository results, you must provide a custom [media type](/enterprise/2.14/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.mercy-preview+json\n\n```",
+        "required": false
+      }
+    ],
+    "params": [
+      {
+        "name": "q",
+        "type": "string",
+        "description": "The search terms.",
+        "required": true,
+        "location": "query"
+      }
+    ],
+    "requests": [
+      {
+        "total_count": 6,
+        "incomplete_results": false,
+        "items": [
+          {
+            "name": "ruby",
+            "display_name": "Ruby",
+            "short_description": "Ruby is a scripting language designed for simplified object-oriented programming.",
+            "description": "Ruby was developed by Yukihiro \"Matz\" Matsumoto in 1995 with the intent of having an easily readable programming language. It is integrated with the Rails framework to create dynamic web-applications. Ruby's syntax is similar to that of Perl and Python.",
+            "created_by": "Yukihiro Matsumoto",
+            "released": "December 21, 1995",
+            "created_at": "2016-11-28T22:03:59Z",
+            "updated_at": "2017-10-30T18:16:32Z",
+            "featured": true,
+            "curated": true,
+            "score": 1750.5697,
+            "text_matches": [
+              {
+                "object_url": "https://api.github.com/search/repositories?q=topic:ruby",
+                "object_type": "Topic",
+                "property": "short_description",
+                "fragment": "Ruby is a scripting language designed for simplified object-oriented programming.",
+                "matches": [
+                  {
+                    "text": "Ruby",
+                    "indices": [
+                      0,
+                      4
+                    ]
+                  }
+                ]
+              },
+              {
+                "object_url": "https://api.github.com/search/repositories?q=topic:ruby",
+                "object_type": "Topic",
+                "property": "description",
+                "fragment": "Ruby was developed by Yukihiro \"Matz\" Matsumoto in 1995 with the intent of having an easily readable programming language. It is integrated with the Rails framework to create dynamic web-applications. Ruby's syntax is similar to that of Perl and Python.",
+                "matches": [
+                  {
+                    "text": "Ruby",
+                    "indices": [
+                      0,
+                      4
+                    ]
+                  },
+                  {
+                    "text": "Ruby",
+                    "indices": [
+                      201,
+                      205
+                    ]
+                  }
+                ]
+              },
+              {
+                "object_url": "https://api.github.com/search/repositories?q=topic:ruby",
+                "object_type": "Topic",
+                "property": "display_name",
+                "fragment": "Ruby",
+                "matches": [
+                  {
+                    "text": "Ruby",
+                    "indices": [
+                      0,
+                      4
+                    ]
+                  }
+                ]
+              },
+              {
+                "object_url": "https://api.github.com/search/repositories?q=topic:ruby",
+                "object_type": "Topic",
+                "property": "name",
+                "fragment": "ruby",
+                "matches": [
+                  {
+                    "text": "ruby",
+                    "indices": [
+                      0,
+                      4
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "rails",
+            "display_name": "Rails",
+            "short_description": "Ruby on Rails (Rails) is a web application framework written in Ruby.",
+            "description": "Ruby on Rails (Rails) is a web application framework written in Ruby. It is meant to help simplify the building of complex websites.",
+            "created_by": "David Heinemeier Hansson",
+            "released": "December 13 2005",
+            "created_at": "2016-12-09T17:03:50Z",
+            "updated_at": "2017-10-30T16:20:19Z",
+            "featured": true,
+            "curated": true,
+            "score": 192.49652,
+            "text_matches": [
+              {
+                "object_url": "https://api.github.com/search/repositories?q=topic:rails",
+                "object_type": "Topic",
+                "property": "short_description",
+                "fragment": "Ruby on Rails (Rails) is a web application framework written in Ruby.",
+                "matches": [
+                  {
+                    "text": "Ruby",
+                    "indices": [
+                      0,
+                      4
+                    ]
+                  },
+                  {
+                    "text": "Ruby",
+                    "indices": [
+                      64,
+                      68
+                    ]
+                  }
+                ]
+              },
+              {
+                "object_url": "https://api.github.com/search/repositories?q=topic:rails",
+                "object_type": "Topic",
+                "property": "description",
+                "fragment": "Ruby on Rails (Rails) is a web application framework written in Ruby. It is meant to help simplify the building of complex websites.",
+                "matches": [
+                  {
+                    "text": "Ruby",
+                    "indices": [
+                      0,
+                      4
+                    ]
+                  },
+                  {
+                    "text": "Ruby",
+                    "indices": [
+                      64,
+                      68
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "python",
+            "display_name": "Python",
+            "short_description": "Python is a dynamically typed programming language.",
+            "description": "Python is a dynamically typed programming language designed by Guido Van Rossum. Much like the programming language Ruby, Python was designed to be easily read by programmers. Because of its large following and many libraries, Python can be implemented and used to do anything from webpages to scientific research.",
+            "created_by": "Guido van Rossum",
+            "released": "February 20, 1991",
+            "created_at": "2016-12-07T00:07:02Z",
+            "updated_at": "2017-10-27T22:45:43Z",
+            "featured": true,
+            "curated": true,
+            "score": 112.94006,
+            "text_matches": [
+              {
+                "object_url": "https://api.github.com/search/repositories?q=topic:python",
+                "object_type": "Topic",
+                "property": "description",
+                "fragment": "Python is a dynamically typed programming language designed by Guido Van Rossum. Much like the programming language Ruby, Python was designed to be easily read by programmers. Because of its large",
+                "matches": [
+                  {
+                    "text": "Ruby",
+                    "indices": [
+                      116,
+                      120
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "jekyll",
+            "display_name": "Jekyll",
+            "short_description": "Jekyll is a simple, blog-aware static site generator.",
+            "description": "Jekyll is a blog-aware, site generator written in Ruby. It takes raw text files, runs it through a renderer and produces a publishable static website.",
+            "created_by": "Tom Preston-Werner",
+            "released": "2008",
+            "created_at": "2016-12-16T21:53:08Z",
+            "updated_at": "2017-10-27T19:00:24Z",
+            "featured": true,
+            "curated": true,
+            "score": 45.475624,
+            "text_matches": [
+              {
+                "object_url": "https://api.github.com/search/repositories?q=topic:jekyll",
+                "object_type": "Topic",
+                "property": "description",
+                "fragment": "Jekyll is a blog-aware, site generator written in Ruby. It takes raw text files, runs it through a renderer and produces a publishable static website.",
+                "matches": [
+                  {
+                    "text": "Ruby",
+                    "indices": [
+                      50,
+                      54
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "sass",
+            "display_name": "Sass",
+            "short_description": "Sass is a stable extension to classic CSS.",
+            "description": "Sass is a stylesheet language with a main implementation in Ruby. It is an extension of CSS that makes improvements to the old stylesheet format, such as being able to declare variables and using a cleaner nesting syntax.",
+            "created_by": "Hampton Catlin, Natalie Weizenbaum, Chris Eppstein",
+            "released": "November 28, 2006",
+            "created_at": "2016-12-16T21:53:45Z",
+            "updated_at": "2018-01-16T16:30:40Z",
+            "featured": true,
+            "curated": true,
+            "score": 42.83278,
+            "text_matches": [
+              {
+                "object_url": "https://api.github.com/search/repositories?q=topic:sass",
+                "object_type": "Topic",
+                "property": "description",
+                "fragment": "Sass is a stylesheet language with a main implementation in Ruby. It is an extension of CSS that makes improvements to the old stylesheet format, such as being able to declare variables and using a cleaner nesting syntax.",
+                "matches": [
+                  {
+                    "text": "Ruby",
+                    "indices": [
+                      60,
+                      64
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "homebrew",
+            "display_name": "Homebrew",
+            "short_description": "Homebrew is a package manager for macOS.",
+            "description": "Homebrew is a package manager for Apple's macOS operating system. It simplifies the installation of software and is popular in the Ruby on Rails community.",
+            "created_by": "Max Howell",
+            "released": "2009",
+            "created_at": "2016-12-17T20:30:44Z",
+            "updated_at": "2018-02-06T16:14:56Z",
+            "featured": true,
+            "curated": true,
+            "score": 19.368078,
+            "text_matches": [
+              {
+                "object_url": "https://api.github.com/search/repositories?q=topic:homebrew",
+                "object_type": "Topic",
+                "property": "description",
+                "fragment": "Homebrew is a package manager for Apple's macOS operating system. It simplifies the installation of software and is popular in the Ruby on Rails community.",
+                "matches": [
+                  {
+                    "text": "Ruby",
+                    "indices": [
+                      131,
+                      135
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "description": "Find topics via various criteria. This method returns up to 100 results [per page](/enterprise/2.14/v3/#pagination).\n\nResults are sorted by best match by default.\n\nThe `q` search term can also contain any combination of the supported topic search qualifiers as described by the in-browser [topic search documentation](https://help.github.com/articles/searching-topics/) and [search syntax documentation](https://help.github.com/articles/search-syntax/):\n\n*   `is:curated` Finds topics that have extra information, e.g., a description, display name, or logo, because they have an entry in the [`github/explore` repository](https://github.com/github/explore).\n*   `is:featured` Finds topics listed on [https://github.com/topics](https://github.com/topics). Any featured topic will also be curated.\n*   `is:not-featured` Finds topics not listed on [https://github.com/topics](https://github.com/topics).\n*   `is:not-curated` Finds topics that have no extra information because they haven't been added to the [`github/explore` repository](https://github.com/github/explore).\n*   `repositories:` Finds topics with some number of repositories using them, e.g., `repositories:>1000`.\n\nSuppose you want to search for topics related to Ruby that are featured on [https://github.com/topics](https://github.com/topics). Your query might look like this:\n\nIn this request, we're searching for topics with the keyword `ruby`, and we're limiting the results to find only topics that are featured. The topics that are the best match for the query appear first in the search results.\n\n**Note:** A search for featured Ruby topics only has 6 total results, so a [Link header](/enterprise/2.14/v3/#link-header) indicating pagination is not included in the response.\n\n**Highlighting topic search results**\n\nYou might want to highlight the matching search terms when displaying search results. The API offers additional metadata to support this use case. To get this metadata in your search results, specify the `text-match` media type in your Accept header. For example, via cURL, the above query would look like this:\n\nThis produces the same JSON payload as above, with an extra key called `text_matches`, which is an array of objects. These objects provide information such as the position of your search terms within the text, as well as the `property` that included the search term.\n\nWhen searching for topics, you can get text match metadata for the topic's **short\\_description**, **description**, **name**, or **display\\_name** field. For details on the attributes present in the `text_matches` array, see [text match metadata](#text-match-metadata).",
+    "idName": "topics",
+    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/search/#search-topics"
+  },
+  {
+    "name": "Search labels",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/search/labels",
+    "previews": [
+      {
+        "name": "symmetra",
+        "description": "**Note:** You can now use emoji in label names, add descriptions to labels, and search for labels in a repository. See the [blog post](/changes/2018-02-22-label-description-search-preview) for full details. To access these features and receive payloads with this data during the preview period, you must provide a custom [media type](/enterprise/2.14/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.symmetra-preview+json\n\n```",
+        "required": false
+      }
+    ],
+    "params": [
+      {
+        "name": "repository_id",
+        "type": "integer",
+        "description": "The id of the repository.",
+        "required": true,
+        "location": "query"
+      },
+      {
+        "name": "q",
+        "type": "string",
+        "description": "The search keywords.",
+        "required": true,
+        "location": "query"
+      },
+      {
+        "name": "sort",
+        "type": "string",
+        "description": "The sort field. Can be one of `created` or `updated`.",
+        "default": "results are sorted by best match.",
+        "required": false,
+        "enum": [
+          "created",
+          "updated"
+        ],
+        "location": "query"
+      },
+      {
+        "name": "order",
+        "type": "string",
+        "description": "The sort order if the sort parameter is provided. Can be one of `asc` or `desc`.",
+        "default": "desc",
+        "required": false,
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "location": "query"
+      }
+    ],
+    "requests": [
+      {
+        "total_count": 2,
+        "incomplete_results": false,
+        "items": [
+          {
+            "id": 418327088,
+            "node_id": "MDU6TGFiZWw0MTgzMjcwODg=",
+            "url": "https://api.github.com/repos/octocat/linguist/labels/enhancement",
+            "name": "enhancement",
+            "color": "84b6eb",
+            "default": true,
+            "description": "New feature or request.",
+            "score": 0.119338505,
+            "text_matches": [
+              {
+                "object_url": "https://api.github.com/repos/octocat/linguist/labels/enhancement",
+                "object_type": "Label",
+                "property": "name",
+                "fragment": "enhancement",
+                "matches": [
+                  {
+                    "text": "enhancement",
+                    "indices": [
+                      0,
+                      11
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": 418327086,
+            "node_id": "MDU6TGFiZWw0MTgzMjcwODY=",
+            "url": "https://api.github.com/repos/octocat/linguist/labels/bug",
+            "name": "bug",
+            "color": "ee0701",
+            "default": true,
+            "description": "Something isn't working.",
+            "score": 0.119286075,
+            "text_matches": [
+              {
+                "object_url": "https://api.github.com/repos/octocat/linguist/labels/bug",
+                "object_type": "Label",
+                "property": "name",
+                "fragment": "bug",
+                "matches": [
+                  {
+                    "text": "bug",
+                    "indices": [
+                      0,
+                      3
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "description": "Find labels in a repository with names or descriptions that match search keywords. Returns up to 100 results [per page](/enterprise/2.14/v3/#pagination).\n\nSuppose you want to find labels in the `linguist` repository that match `bug`, `defect`, or `enhancement`. Your query might look like this:\n\nThe labels that best match for the query appear first in the search results.\n\n**Highlighting label search results**\n\nYou might want to highlight the matching search terms when displaying search results. The API offers additional metadata to support this use case. To get this metadata in your search results, specify the `text-match` media type in your `Accept` header. For example, via cURL, the above query would look like this:\n\nThis produces the same JSON payload as above, with an extra key called `text_matches`, an array of objects. These objects provide information such as the position of your search terms within the text, as well as the `property` that included the search term.\n\nWhen searching for labels, you can get text match metadata for the label **name** and **description** fields. For details on the attributes present in the `text_matches` array, see [text match metadata](#text-match-metadata).",
+    "idName": "labels",
+    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/search/#search-labels"
+  },
+  {
+    "name": "Search issues",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/legacy/issues/search/:owner/:repository/:state/:keyword",
+    "previews": [],
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "repository",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "state",
+        "type": "string",
+        "description": "Indicates the state of the issues to return. Can be either `open` or `closed`.",
+        "required": true,
+        "enum": [
+          "open",
+          "closed"
+        ],
+        "location": "url"
+      },
+      {
+        "name": "keyword",
+        "type": "string",
+        "description": "The search term.",
+        "required": true,
+        "location": "url"
+      }
+    ],
+    "description": "Find issues by state and keyword.",
+    "idName": "issues-legacy",
+    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/search/legacy/#search-issues"
+  },
+  {
+    "name": "Search repositories",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/legacy/repos/search/:keyword",
+    "previews": [],
+    "params": [
+      {
+        "name": "keyword",
+        "type": "string",
+        "description": "The search term.",
+        "required": true,
+        "location": "url"
+      },
+      {
+        "name": "language",
+        "type": "string",
+        "description": "Filter results by language.",
+        "required": false,
+        "location": "query"
+      },
+      {
+        "name": "start_page",
+        "type": "string",
+        "description": "The page number to fetch.",
+        "required": false,
+        "location": "query"
+      },
+      {
+        "name": "sort",
+        "type": "string",
+        "description": "The sort field. One of `stars`, `forks`, or `updated`.",
+        "default": "results are sorted by best match.",
+        "required": false,
+        "enum": [
+          "stars",
+          "forks",
+          "updated"
+        ],
+        "location": "query"
+      },
+      {
+        "name": "order",
+        "type": "string",
+        "description": "The sort field. if `sort` param is provided. Can be either `asc` or `desc`.",
+        "required": false,
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "location": "query"
+      }
+    ],
+    "description": "Find repositories by keyword. Note, this legacy method does not follow the v3 pagination pattern. This method returns up to 100 results per page and pages can be fetched using the `start_page` parameter.",
+    "idName": "repos-legacy",
+    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/search/legacy/#search-repositories"
+  },
+  {
+    "name": "Search users",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/legacy/user/search/:keyword",
+    "previews": [],
+    "params": [
+      {
+        "name": "keyword",
+        "type": "string",
+        "description": "The search term.",
+        "required": true,
+        "location": "url"
+      },
+      {
+        "name": "start_page",
+        "type": "string",
+        "description": "The page number to fetch.",
+        "required": false,
+        "location": "query"
+      },
+      {
+        "name": "sort",
+        "type": "string",
+        "description": "The sort field. One of `stars`, `forks`, or `updated`.",
+        "default": "results are sorted by best match.",
+        "required": false,
+        "enum": [
+          "stars",
+          "forks",
+          "updated"
+        ],
+        "location": "query"
+      },
+      {
+        "name": "order",
+        "type": "string",
+        "description": "The sort field. if `sort` param is provided. Can be either `asc` or `desc`.",
+        "required": false,
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "location": "query"
+      }
+    ],
+    "description": "Find users by keyword.",
+    "idName": "users-legacy",
+    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/search/legacy/#search-users"
+  },
+  {
+    "name": "Email search",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/legacy/user/email/:email",
+    "previews": [],
+    "params": [
+      {
+        "name": "email",
+        "type": "string",
+        "description": "The email address.",
+        "required": true,
+        "location": "url"
+      }
+    ],
+    "description": "This API call is added for compatibility reasons only. There's no guarantee that full email searches will always be available. The `@` character in the address must be left unencoded. Searches only against public email addresses (as configured on the user's GitHub Enterprise profile).",
+    "idName": "email-legacy",
+    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/search/legacy/#email-search"
+  }
+]

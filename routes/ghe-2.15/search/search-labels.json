@@ -1,0 +1,118 @@
+{
+  "name": "Search labels",
+  "enabledForApps": true,
+  "method": "GET",
+  "path": "/search/labels",
+  "previews": [
+    {
+      "name": "symmetra",
+      "description": "**Note:** You can now use emoji in label names, add descriptions to labels, and search for labels in a repository. See the [blog post](/changes/2018-02-22-label-description-search-preview) for full details. To access these features and receive payloads with this data during the preview period, you must provide a custom [media type](/enterprise/2.15/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.symmetra-preview+json\n\n```",
+      "required": false
+    }
+  ],
+  "params": [
+    {
+      "name": "repository_id",
+      "type": "integer",
+      "description": "The id of the repository.",
+      "required": true,
+      "location": "query"
+    },
+    {
+      "name": "q",
+      "type": "string",
+      "description": "The search keywords.",
+      "required": true,
+      "location": "query"
+    },
+    {
+      "name": "sort",
+      "type": "string",
+      "description": "The sort field. Can be one of `created` or `updated`.",
+      "default": "results are sorted by best match.",
+      "required": false,
+      "enum": [
+        "created",
+        "updated"
+      ],
+      "location": "query"
+    },
+    {
+      "name": "order",
+      "type": "string",
+      "description": "The sort order if the sort parameter is provided. Can be one of `asc` or `desc`.",
+      "default": "desc",
+      "required": false,
+      "enum": [
+        "asc",
+        "desc"
+      ],
+      "location": "query"
+    }
+  ],
+  "requests": [
+    {
+      "total_count": 2,
+      "incomplete_results": false,
+      "items": [
+        {
+          "id": 418327088,
+          "node_id": "MDU6TGFiZWw0MTgzMjcwODg=",
+          "url": "https://api.github.com/repos/octocat/linguist/labels/enhancement",
+          "name": "enhancement",
+          "color": "84b6eb",
+          "default": true,
+          "description": "New feature or request.",
+          "score": 0.119338505,
+          "text_matches": [
+            {
+              "object_url": "https://api.github.com/repos/octocat/linguist/labels/enhancement",
+              "object_type": "Label",
+              "property": "name",
+              "fragment": "enhancement",
+              "matches": [
+                {
+                  "text": "enhancement",
+                  "indices": [
+                    0,
+                    11
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 418327086,
+          "node_id": "MDU6TGFiZWw0MTgzMjcwODY=",
+          "url": "https://api.github.com/repos/octocat/linguist/labels/bug",
+          "name": "bug",
+          "color": "ee0701",
+          "default": true,
+          "description": "Something isn't working.",
+          "score": 0.119286075,
+          "text_matches": [
+            {
+              "object_url": "https://api.github.com/repos/octocat/linguist/labels/bug",
+              "object_type": "Label",
+              "property": "name",
+              "fragment": "bug",
+              "matches": [
+                {
+                  "text": "bug",
+                  "indices": [
+                    0,
+                    3
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "description": "Find labels in a repository with names or descriptions that match search keywords. Returns up to 100 results [per page](/enterprise/2.15/v3/#pagination).\n\nSuppose you want to find labels in the `linguist` repository that match `bug`, `defect`, or `enhancement`. Your query might look like this:\n\nThe labels that best match for the query appear first in the search results.\n\n**Highlighting label search results**\n\nYou might want to highlight the matching search terms when displaying search results. The API offers additional metadata to support this use case. To get this metadata in your search results, specify the `text-match` media type in your `Accept` header. For example, via cURL, the above query would look like this:\n\nThis produces the same JSON payload as above, with an extra key called `text_matches`, an array of objects. These objects provide information such as the position of your search terms within the text, as well as the `property` that included the search term.\n\nWhen searching for labels, you can get text match metadata for the label **name** and **description** fields. For details on the attributes present in the `text_matches` array, see [text match metadata](#text-match-metadata).",
+  "idName": "labels",
+  "documentationUrl": "https://developer.github.com/enterprise/2.15/v3/search/#search-labels"
+}

@@ -2,16 +2,23 @@
 
 const checkOrUpdateRoutes = require('../lib/check-or-update-routes')
 
-const { cached, urls, _: [command] } = require('yargs')
+const options = {
+  'cached': {
+    describe: 'Load HTML from local cache',
+    type: 'boolean',
+    default: false
+  },
+  'ghe': {
+    describe: 'GitHub Enterprise version, e.g. "2.15"',
+    type: 'string',
+    default: ''
+  }
+}
+
+const { cached, urls, ghe, _: [command] } = require('yargs')
   .command('update', 'Update route files', yargs => {
     yargs
-      .options({
-        'cached': {
-          describe: 'Load HTML from local cache',
-          type: 'boolean',
-          default: false
-        }
-      })
+      .options(options)
       .example('$0 update https://developer.github.com/v3/git/commits/#create-a-commit --cached')
   })
   .command('check [urls..]', 'Check if route files are up-to-date', yargs => {
@@ -19,13 +26,7 @@ const { cached, urls, _: [command] } = require('yargs')
       .positional('urls...', {
         describe: 'Optional selected REST API documentation URLs to check'
       })
-      .options({
-        'cached': {
-          describe: 'Load HTML from local cache',
-          type: 'boolean',
-          default: false
-        }
-      })
+      .options(options)
       .example('$0 check https://developer.github.com/v3/git/commits/#create-a-commit --cached')
   })
   .help('h')
@@ -39,7 +40,7 @@ if (!['update', 'check'].includes(command)) {
   process.exit(1)
 }
 
-checkOrUpdateRoutes({ cached, urls, checkOnly: command === 'check' })
+checkOrUpdateRoutes({ cached, urls, ghe, checkOnly: command === 'check' })
   .catch(error => {
     console.log(error.stack)
     process.exit(1)

@@ -1,0 +1,60 @@
+{
+  "name": "Create a new user",
+  "enabledForApps": false,
+  "method": "POST",
+  "path": "/admin/users",
+  "previews": [],
+  "params": [
+    {
+      "name": "login",
+      "type": "string",
+      "description": "The user's username.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "email",
+      "type": "string",
+      "description": "**Required for built-in authentication.** The user's email address. This parameter can be omitted when using CAS, LDAP, or SAML. For details on built-in and centrally-managed authentication, see the the [GitHub enterprise authentication guide](https://help.github.com/enterprise/2.15/admin/guides/user-management/authenticating-users-for-your-github-enterprise-instance/).",
+      "required": false,
+      "location": "body"
+    }
+  ],
+  "requests": [
+    {
+      "login": "monalisa",
+      "email": "octocat@github.com"
+    }
+  ],
+  "description": "If an external authentication mechanism is used, the login name should match the login name in the external system. If you are using LDAP authentication, you should also [update the LDAP mapping](/enterprise/2.15/v3/enterprise-admin/ldap/#update-ldap-mapping-for-a-user) for the user.\n\nThe login name will be normalized to only contain alphanumeric characters or single hyphens. For example, if you send `\"octo_cat\"` as the login, a user named `\"octo-cat\"` will be created.\n\nIf the login name or email address is already associated with an account, the server will return a `422` response.",
+  "responses": [
+    {
+      "headers": {
+        "status": "201 Created",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "login": "octocat",
+        "id": 1,
+        "node_id": "MDQ6VXNlcjE=",
+        "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/octocat",
+        "html_url": "https://github.com/octocat",
+        "followers_url": "https://api.github.com/users/octocat/followers",
+        "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+        "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+        "organizations_url": "https://api.github.com/users/octocat/orgs",
+        "repos_url": "https://api.github.com/users/octocat/repos",
+        "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/octocat/received_events",
+        "type": "User",
+        "site_admin": false
+      }
+    }
+  ],
+  "idName": "create-user",
+  "documentationUrl": "https://developer.github.com/enterprise/2.15/v3/enterprise-admin/users/#create-a-new-user"
+}

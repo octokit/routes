@@ -1,0 +1,33 @@
+{
+  "name": "Get a reference",
+  "enabledForApps": true,
+  "method": "GET",
+  "path": "/repos/:owner/:repo/git/refs/:ref",
+  "previews": [],
+  "params": [
+    {
+      "name": "owner",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "repo",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "ref",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    }
+  ],
+  "description": "Returns a single reference from your Git database.\n\n**Note:** You need to explicitly [request a pull request](/enterprise/2.15/v3/pulls/#get-a-single-pull-request) to trigger a merge commit creation. For more information, see \"[Checking mergeability of pull requests](/enterprise/2.15/v3/git/#checking-mergeability-of-pull-requests)\".\n\nThe `ref` in the URL must be formatted as `heads/branch`, not just `branch`. For example, the call to get the data for a branch named `skunkworkz/featureA` would be:\n\n```\nGET /repos/:owner/:repo/git/refs/heads/skunkworkz/featureA\n```\n\nIf the `ref` doesn't exist in the repository, but existing refs start with `ref` they will be returned as an array. For example, a call to get the data for a branch named `feature`, which doesn't exist, would return head refs including `featureA` and `featureB` which do.\n\n```\nGET /repos/:owner/:repo/git/refs/heads/feature\n```\n\nIf the `ref` doesn't match an existing ref or any prefixes a 404 will be returned.\n\n```\nGET /repos/:owner/:repo/git/refs/heads/feature-branch-that-no-longer-exists\n```",
+  "idName": "get-ref",
+  "documentationUrl": "https://developer.github.com/enterprise/2.15/v3/git/refs/#get-a-reference"
+}

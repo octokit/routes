@@ -1,0 +1,127 @@
+{
+  "name": "Edit team",
+  "enabledForApps": true,
+  "method": "PATCH",
+  "path": "/teams/:team_id",
+  "previews": [
+    {
+      "name": "hellcat",
+      "description": "**Note:** The Nested Teams API is currently available for developers to preview. See the [blog post](/changes/2017-08-30-preview-nested-teams) for full details. To access the API, you must provide a custom [media type](/enterprise/2.13/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.hellcat-preview+json\n\n```",
+      "required": false
+    }
+  ],
+  "params": [
+    {
+      "name": "team_id",
+      "type": "integer",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "The name of the team.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "description": "The description of the team.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "privacy",
+      "type": "string",
+      "description": "The level of privacy this team should have. Editing teams without specifying this parameter leaves `privacy` intact. The options are:  \n**For a non-nested team:**  \n\\* `secret` - only visible to organization owners and members of this team.  \n\\* `closed` - visible to all members of this organization.  \n**For a parent or child team:**  \n\\* `closed` - visible to all members of this organization.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "permission",
+      "type": "string",
+      "description": "**Deprecated**. The permission that new repositories will be added to the team with when none is specified. Can be one of:  \n\\* `pull` - team members can pull, but not push to or administer newly-added repositories.  \n\\* `push` - team members can pull and push, but not administer newly-added repositories.  \n\\* `admin` - team members can pull, push and administer newly-added repositories.",
+      "default": "pull",
+      "required": false,
+      "enum": [
+        "pull",
+        "push",
+        "admin"
+      ],
+      "location": "body"
+    },
+    {
+      "name": "parent_team_id",
+      "type": "integer",
+      "description": "The ID of a team to set as the parent team. **Note**: You must pass the `hellcat-preview` media type to use this parameter.",
+      "required": false,
+      "location": "body"
+    }
+  ],
+  "requests": [
+    {
+      "name": "new team name",
+      "description": "new team description",
+      "privacy": "closed"
+    }
+  ],
+  "description": "To edit a team, the authenticated user must either be an owner of the org that the team is associated with, or a maintainer of the team.\n\n**Note:** With nested teams, the `privacy` for parent teams cannot be `secret`.",
+  "responses": [
+    {
+      "headers": {
+        "status": "201 Created",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "id": 1,
+        "node_id": "MDQ6VGVhbTE=",
+        "url": "https://api.github.com/teams/1",
+        "name": "Justice League",
+        "slug": "justice-league",
+        "description": "A great team.",
+        "privacy": "closed",
+        "permission": "admin",
+        "members_url": "https://api.github.com/teams/1/members{/member}",
+        "repositories_url": "https://api.github.com/teams/1/repos",
+        "parent": null,
+        "members_count": 3,
+        "repos_count": 10,
+        "created_at": "2017-07-14T16:53:42Z",
+        "updated_at": "2017-08-17T12:37:15Z",
+        "organization": {
+          "login": "github",
+          "id": 1,
+          "node_id": "MDEyOk9yZ2FuaXphdGlvbjE=",
+          "url": "https://api.github.com/orgs/github",
+          "repos_url": "https://api.github.com/orgs/github/repos",
+          "events_url": "https://api.github.com/orgs/github/events",
+          "hooks_url": "https://api.github.com/orgs/github/hooks",
+          "issues_url": "https://api.github.com/orgs/github/issues",
+          "members_url": "https://api.github.com/orgs/github/members{/member}",
+          "public_members_url": "https://api.github.com/orgs/github/public_members{/member}",
+          "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+          "description": "A great organization",
+          "name": "github",
+          "company": "GitHub",
+          "blog": "https://github.com/blog",
+          "location": "San Francisco",
+          "email": "octocat@github.com",
+          "has_organization_projects": true,
+          "has_repository_projects": true,
+          "public_repos": 2,
+          "public_gists": 1,
+          "followers": 20,
+          "following": 0,
+          "html_url": "https://github.com/octocat",
+          "created_at": "2008-01-14T04:33:35Z",
+          "type": "Organization"
+        },
+        "ldap_dn": "uid=asdf,ou=users,dc=github,dc=com"
+      }
+    }
+  ],
+  "idName": "edit",
+  "documentationUrl": "https://developer.github.com/enterprise/2.13/v3/teams/#edit-team"
+}

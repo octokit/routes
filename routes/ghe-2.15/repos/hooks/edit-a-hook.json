@@ -1,0 +1,132 @@
+{
+  "name": "Edit a hook",
+  "enabledForApps": true,
+  "method": "PATCH",
+  "path": "/repos/:owner/:repo/hooks/:hook_id",
+  "previews": [],
+  "params": [
+    {
+      "name": "owner",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "repo",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "hook_id",
+      "type": "integer",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "config",
+      "type": "object",
+      "description": "Key/value pairs to provide settings for this webhook. [These are defined below](#create-hook-config-params).",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "config.url",
+      "type": "string",
+      "description": "The URL to which the payloads will be delivered.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "config.content_type",
+      "type": "string",
+      "description": "The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "config.secret",
+      "type": "string",
+      "description": "If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value in the [`X-Hub-Signature`](/enterprise/2.15/webhooks/#delivery-headers) header.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "config.insecure_ssl",
+      "type": "string",
+      "description": "Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.**",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "events",
+      "type": "string[]",
+      "description": "Determines what [events](/enterprise/2.15/v3/activity/events/types/) the hook is triggered for. This replaces the entire array of events.",
+      "default": "[\"push\"]",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "add_events",
+      "type": "string[]",
+      "description": "Determines a list of events to be added to the list of events that the Hook triggers for.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "remove_events",
+      "type": "string[]",
+      "description": "Determines a list of events to be removed from the list of events that the Hook triggers for.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "active",
+      "type": "boolean",
+      "description": "Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.",
+      "default": true,
+      "required": false,
+      "location": "body"
+    }
+  ],
+  "requests": [
+    {
+      "active": true,
+      "add_events": [
+        "pull_request"
+      ]
+    }
+  ],
+  "description": "",
+  "responses": [
+    {
+      "headers": {
+        "status": "200 OK",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "id": 1,
+        "url": "https://api.github.com/repos/octocat/Hello-World/hooks/1",
+        "test_url": "https://api.github.com/repos/octocat/Hello-World/hooks/1/test",
+        "ping_url": "https://api.github.com/repos/octocat/Hello-World/hooks/1/pings",
+        "name": "web",
+        "events": [
+          "push",
+          "pull_request"
+        ],
+        "active": true,
+        "config": {
+          "url": "http://example.com/webhook",
+          "content_type": "json"
+        },
+        "updated_at": "2011-09-06T20:39:23Z",
+        "created_at": "2011-09-06T17:26:27Z"
+      }
+    }
+  ],
+  "idName": "edit-hook",
+  "documentationUrl": "https://developer.github.com/enterprise/2.15/v3/repos/hooks/#edit-a-hook"
+}

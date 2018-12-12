@@ -6,9 +6,11 @@
 
 ## Downloads
 
-- All routes: [octokit.github.io/routes/index.json](https://octokit.github.io/routes/index.json)
-- All routes for a scope, e.g. `repos`: [octokit.github.io/routes/routes/repos.json](https://octokit.github.io/routes/routes/repos.json)
-- A single route, e.g. `GET /repos/:owner/:repo`: [octokit.github.io/routes/routes/repos/get.json](https://octokit.github.io/routes/routes/repos/get.json)
+- All routes: [octokit.github.io/routes/routes/api.github.com/index.json](https://octokit.github.io/routes/index.json)
+- All routes for a scope, e.g. `repos`: [octokit.github.io/routes/routes/api.github.com/repos.json](https://octokit.github.io/routes/routes/repos.json)
+- A single route, e.g. `GET /repos/:owner/:repo`: [octokit.github.io/routes/routes/api.github.com/repos/get.json](https://octokit.github.io/routes/routes/repos/get.json)
+
+Enterprise routes follow the same folder structure, but instead of `routes/api.github.com` it is `routes/ghe-2.15`, etc.
 
 ## Example
 
@@ -108,6 +110,12 @@ and a ton of regular expressions :)
 
 For simpler local testing and tracking of changes all loaded pages are cached
 in the [`cache/`](cache/) folder.
+
+To pass the enterprise routes you have to set the `--ghe` option
+
+```
+node bin/octokit-rest-routes.js update --ghe 2.15
+```
 
 ### 1. Find documentation pages
 

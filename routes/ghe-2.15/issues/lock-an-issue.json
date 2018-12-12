@@ -1,0 +1,66 @@
+{
+  "name": "Lock an issue",
+  "enabledForApps": true,
+  "method": "PUT",
+  "path": "/repos/:owner/:repo/issues/:number/lock",
+  "previews": [
+    {
+      "name": "sailor-v",
+      "description": "**Note:** You can now use the REST API to add a reason when you lock an issue, and you will see lock reasons in responses that include issues or pull requests. You will also see lock reasons in `locked` events. This feature is currently available for developers to preview. See the [blog post](/changes/2018-01-10-lock-reason-api-preview) for full details. To access this feature, you must provide a custom [media type](/enterprise/2.15/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.sailor-v-preview+json\n\n```",
+      "required": false
+    }
+  ],
+  "params": [
+    {
+      "name": "owner",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "repo",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "number",
+      "type": "integer",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "lock_reason",
+      "type": "string",
+      "description": "The reason for locking the issue or pull request conversation. Lock will fail if you don't use one of these reasons:  \n\\* `off-topic`  \n\\* `too heated`  \n\\* `resolved`  \n\\* `spam`",
+      "required": false,
+      "enum": [
+        "off-topic",
+        "too heated",
+        "resolved",
+        "spam"
+      ],
+      "location": "body"
+    }
+  ],
+  "requests": [
+    {
+      "locked": true,
+      "active_lock_reason": "too heated"
+    }
+  ],
+  "description": "Users with push access can lock an issue or pull request's conversation.\n\nNote that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](/enterprise/2.15/v3/#http-verbs).\"",
+  "responses": [
+    {
+      "headers": {
+        "status": "204 No Content",
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "idName": "lock",
+  "documentationUrl": "https://developer.github.com/enterprise/2.15/v3/issues/#lock-an-issue"
+}

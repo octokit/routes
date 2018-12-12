@@ -1,0 +1,71 @@
+<h2>
+<a id="add-or-update-team-membership" class="anchor" href="#add-or-update-team-membership" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Add or update team membership<a href="/enterprise/2.14/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+<p>If the user is already a member of the team&apos;s organization, this endpoint will
+add the user to the team. To add a membership between an organization
+member and a team, the authenticated user must be an organization owner or a
+maintainer of the team.</p>
+<p>If the user is unaffiliated with the team&apos;s organization, this endpoint will
+send an invitation to the user via email. This newly-created membership will be
+in the &quot;pending&quot; state until the user accepts the invitation, at which point the
+membership will transition to the &quot;active&quot; state and the user will be added as a
+member of the team. To add a membership between an unaffiliated user
+and a team, the authenticated user must be an organization owner.</p>
+<p>If the user is already a member of the team, this endpoint will update the role
+of the team member&apos;s role. To update the membership of a team member,
+the authenticated user must be an organization owner or a maintainer of the team.</p>
+<pre><code>PUT /teams/:team_id/memberships/:username
+</code></pre>
+<h3>
+<a id="parameters" class="anchor" href="#parameters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>role</code></td>
+<td><code>string</code></td>
+<td>The role that this user should have in the team. Can be one of:<br> * <code>member</code> - a normal member of the team.<br> * <code>maintainer</code> - a team maintainer. Able to add/remove other team members, promote other team members to team maintainer, and edit the team&apos;s name and description.<br>Default: <code>member</code>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>
+<a id="response-if-users-membership-with-team-is-now-active" class="anchor" href="#response-if-users-membership-with-team-is-now-active" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if user&apos;s membership with team is now active</h3>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/teams/1/memberships/octocat&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;member&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;active&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="response-if-users-membership-with-team-is-now-pending" class="anchor" href="#response-if-users-membership-with-team-is-now-pending" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if user&apos;s membership with team is now pending</h3>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/teams/1/memberships/octocat&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;member&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pending&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>If you attempt to add an organization to a team, you will get this:</p>
+<pre class="highlight highlight-headers"><code>Status: 422 Unprocessable Entity
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Cannot add an organization as a member.&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;errors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;org&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;field&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;TeamMember&quot;</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>

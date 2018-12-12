@@ -1,0 +1,53 @@
+{
+  "name": "Add user as a collaborator",
+  "enabledForApps": true,
+  "method": "PUT",
+  "path": "/projects/:project_id/collaborators/:username",
+  "previews": [
+    {
+      "name": "inertia",
+      "description": "The Projects API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the [blog post](/changes/2016-10-27-changes-to-projects-api) for full details. To access the API during the preview period, you must provide a custom [media type](/enterprise/2.14/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.inertia-preview+json\n\n```",
+      "required": true
+    }
+  ],
+  "params": [
+    {
+      "name": "project_id",
+      "type": "integer",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "permission",
+      "type": "string",
+      "description": "The permission to grant the collaborator. Note that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](/enterprise/2.14/v3/#http-verbs).\" Can be one of:  \n\\* `read` - can read, but not write to or administer this project.  \n\\* `write` - can read and write, but not administer this project.  \n\\* `admin` - can read, write and administer this project.",
+      "default": "write",
+      "required": false,
+      "enum": [
+        "read",
+        "write",
+        "admin"
+      ],
+      "location": "body"
+    }
+  ],
+  "description": "Adds a collaborator to a an organization project and sets their permission level. You must be an organization owner or a project `admin` to add a collaborator.",
+  "responses": [
+    {
+      "headers": {
+        "status": "204 No Content",
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "idName": "add-collaborator",
+  "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/projects/collaborators/#add-user-as-a-collaborator"
+}

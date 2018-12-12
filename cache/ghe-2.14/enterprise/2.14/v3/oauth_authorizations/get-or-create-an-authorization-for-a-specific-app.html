@@ -1,0 +1,108 @@
+<h2>
+<a id="get-or-create-an-authorization-for-a-specific-app" class="anchor" href="#get-or-create-an-authorization-for-a-specific-app" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get-or-create an authorization for a specific app</h2>
+<p>This method will create a new authorization for the specified OAuth application,
+only if an authorization for that application doesn&apos;t already exist for the
+user. The URL includes the 20 character client ID for the OAuth app that is
+requesting the token. It returns the user&apos;s existing authorization for the
+application if one is present. Otherwise, it creates and returns a new one.</p>
+<pre><code>PUT /authorizations/clients/:client_id
+</code></pre>
+<h3>
+<a id="parameters-1" class="anchor" href="#parameters-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>client_secret</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required</strong>. The 40 character OAuth app client secret associated with the client ID specified in the URL.</td>
+</tr>
+<tr>
+<td><code>scopes</code></td>
+<td><code>array</code></td>
+<td>A list of scopes that this authorization is in.</td>
+</tr>
+<tr>
+<td><code>note</code></td>
+<td><code>string</code></td>
+<td>A note to remind you what the OAuth token is for.</td>
+</tr>
+<tr>
+<td><code>note_url</code></td>
+<td><code>string</code></td>
+<td>A URL to remind you what app the OAuth token is for.</td>
+</tr>
+<tr>
+<td><code>fingerprint</code></td>
+<td><code>string</code></td>
+<td>A unique string to distinguish an authorization from others created for the same client and user. If provided, this API is functionally equivalent to <a href="/enterprise/2.14/v3/oauth_authorizations/#get-or-create-an-authorization-for-a-specific-app-and-fingerprint">Get-or-create an authorization for a specific app and fingerprint</a>.</td>
+</tr>
+</tbody>
+</table>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;client_secret&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abcdabcdabcdabcdabcdabcdabcdabcdabcdabcd&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;scopes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">&quot;public_repo&quot;</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nt">&quot;note&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;admin script&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="response-if-returning-a-new-token" class="anchor" href="#response-if-returning-a-new-token" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if returning a new token</h3>
+<pre class="highlight highlight-headers"><code>Status: 201 Created
+Location: https://api.github.com/authorizations/1
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/authorizations/1&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;scopes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">&quot;public_repo&quot;</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nt">&quot;token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abcdefgh12345678&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;token_last_eight&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;12345678&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;hashed_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;25f94a2a5c7fbaf499c665bc73d67c1c87e496da8985131633ee0a95819db2e8&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;app&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://my-github-app.com&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;my github app&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;client_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abcde12345fghij67890&quot;</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">&quot;note&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;optional note&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;note_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://optional/note/url&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2011-09-06T20:39:23Z&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2011-09-06T17:26:27Z&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;fingerprint&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="response-if-returning-an-existing-token" class="anchor" href="#response-if-returning-an-existing-token" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if returning an existing token</h3>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+Location: https://api.github.com/authorizations/1
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/authorizations/1&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;scopes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">&quot;public_repo&quot;</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nt">&quot;token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;token_last_eight&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;12345678&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;hashed_token&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;25f94a2a5c7fbaf499c665bc73d67c1c87e496da8985131633ee0a95819db2e8&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;app&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://my-github-app.com&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;my github app&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;client_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abcde12345fghij67890&quot;</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">&quot;note&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;optional note&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;note_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://optional/note/url&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2011-09-06T20:39:23Z&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2011-09-06T17:26:27Z&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;fingerprint&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>

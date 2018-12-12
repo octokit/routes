@@ -1,0 +1,57 @@
+{
+  "name": "Add or update team project",
+  "enabledForApps": true,
+  "method": "PUT",
+  "path": "/teams/:team_id/projects/:project_id",
+  "previews": [
+    {
+      "name": "inertia",
+      "description": "The Projects API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the [blog post](/changes/2016-10-27-changes-to-projects-api) for full details. To access the API during the preview period, you must provide a custom [media type](/enterprise/2.14/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.inertia-preview+json\n\n```",
+      "required": true
+    },
+    {
+      "name": "hellcat",
+      "description": "**Note:** The Nested Teams API is currently available for developers to preview. See the [blog post](/changes/2017-08-30-preview-nested-teams) for full details. To access the API, you must provide a custom [media type](/enterprise/2.14/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.hellcat-preview+json\n\n```",
+      "required": false
+    }
+  ],
+  "params": [
+    {
+      "name": "team_id",
+      "type": "integer",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "project_id",
+      "type": "integer",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "permission",
+      "type": "string",
+      "description": "The permission to grant to the team for this project. Can be one of:  \n\\* `read` - team members can read, but not write to or administer this project.  \n\\* `write` - team members can read and write, but not administer this project.  \n\\* `admin` - team members can read, write and administer this project.  \nDefault: the team's `permission` attribute will be used to determine what permission to grant the team on this project. Note that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](/enterprise/2.14/v3/#http-verbs).\"  \n**Note**: If you pass the `hellcat-preview` media type, you can promote—but not demote—a `permission` attribute inherited from a parent team.",
+      "required": false,
+      "enum": [
+        "read",
+        "write",
+        "admin"
+      ],
+      "location": "body"
+    }
+  ],
+  "description": "Adds an organization project to a team. To add a project to a team or update the team's permission on a project, the authenticated user must have `admin` permissions for the project. The project and team must be part of the same organization.",
+  "responses": [
+    {
+      "headers": {
+        "status": "204 No Content",
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "idName": "add-or-update-project",
+  "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/teams/#add-or-update-team-project"
+}

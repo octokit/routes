@@ -1,0 +1,62 @@
+{
+  "name": "List feeds",
+  "enabledForApps": true,
+  "method": "GET",
+  "path": "/feeds",
+  "previews": [],
+  "params": [],
+  "description": "GitHub Enterprise provides several timeline resources in [Atom](http://en.wikipedia.org/wiki/Atom_(standard)) format. The Feeds API lists all the feeds available to the authenticated user:\n\n*   **Timeline**: The GitHub Enterprise global public timeline\n*   **User**: The public timeline for any user, using [URI template](/enterprise/2.15/v3/#hypermedia)\n*   **Current user public**: The public timeline for the authenticated user\n*   **Current user**: The private timeline for the authenticated user\n*   **Current user actor**: The private timeline for activity created by the authenticated user\n*   **Current user organizations**: The private timeline for the organizations the authenticated user is a member of.\n\n**Note**: Private feeds are only returned when [authenticating via Basic Auth](/enterprise/2.15/v3/#basic-authentication) since current feed URIs use the older, non revocable auth tokens.",
+  "responses": [
+    {
+      "headers": {
+        "status": "200 OK",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "timeline_url": "https://github.com/timeline",
+        "user_url": "https://github.com/{user}",
+        "current_user_public_url": "https://github.com/defunkt",
+        "current_user_url": "https://github.com/defunkt.private?token=abc123",
+        "current_user_actor_url": "https://github.com/defunkt.private.actor?token=abc123",
+        "current_user_organization_url": "",
+        "current_user_organization_urls": [
+          "https://github.com/organizations/github/defunkt.private.atom?token=abc123"
+        ],
+        "_links": {
+          "timeline": {
+            "href": "https://github.com/timeline",
+            "type": "application/atom+xml"
+          },
+          "user": {
+            "href": "https://github.com/{user}",
+            "type": "application/atom+xml"
+          },
+          "current_user_public": {
+            "href": "https://github.com/defunkt",
+            "type": "application/atom+xml"
+          },
+          "current_user": {
+            "href": "https://github.com/defunkt.private?token=abc123",
+            "type": "application/atom+xml"
+          },
+          "current_user_actor": {
+            "href": "https://github.com/defunkt.private.actor?token=abc123",
+            "type": "application/atom+xml"
+          },
+          "current_user_organization": {
+            "href": "",
+            "type": ""
+          },
+          "current_user_organizations": [
+            {
+              "href": "https://github.com/organizations/github/defunkt.private.atom?token=abc123",
+              "type": "application/atom+xml"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "idName": "list-feeds",
+  "documentationUrl": "https://developer.github.com/enterprise/2.15/v3/activity/feeds/#list-feeds"
+}

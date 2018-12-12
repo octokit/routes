@@ -1,0 +1,59 @@
+{
+  "name": "Add or update team repository",
+  "enabledForApps": true,
+  "method": "PUT",
+  "path": "/teams/:team_id/repos/:owner/:repo",
+  "previews": [
+    {
+      "name": "hellcat",
+      "description": "**Note:** The Nested Teams API is currently available for developers to preview. See the [blog post](/changes/2017-08-30-preview-nested-teams) for full details. To access the API, you must provide a custom [media type](/enterprise/2.15/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.hellcat-preview+json\n\n```",
+      "required": false
+    }
+  ],
+  "params": [
+    {
+      "name": "team_id",
+      "type": "integer",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "owner",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "repo",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "permission",
+      "type": "string",
+      "description": "The permission to grant the team on this repository. Can be one of:  \n\\* `pull` - team members can pull, but not push to or administer this repository.  \n\\* `push` - team members can pull and push, but not administer this repository.  \n\\* `admin` - team members can pull, push and administer this repository.  \n  \nIf no permission is specified, the team's `permission` attribute will be used to determine what permission to grant the team on this repository.  \n**Note**: If you pass the `hellcat-preview` media type, you can promote—but not demote—a `permission` attribute inherited through a parent team.",
+      "required": false,
+      "enum": [
+        "pull",
+        "push",
+        "admin"
+      ],
+      "location": "body"
+    }
+  ],
+  "description": "To add a repository to a team or update the team's permission on a repository, the authenticated user must have admin access to the repository, and must be able to see the team. The repository must be owned by the organization, or a direct fork of a repository owned by the organization.\n\nIf you pass the `hellcat-preview` media type, you can modify repository permissions of child teams.\n\nNote that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](/enterprise/2.15/v3/#http-verbs).\"\n\n",
+  "responses": [
+    {
+      "headers": {
+        "status": "204 No Content",
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "idName": "add-or-update-repo",
+  "documentationUrl": "https://developer.github.com/enterprise/2.15/v3/teams/#add-or-update-team-repository"
+}

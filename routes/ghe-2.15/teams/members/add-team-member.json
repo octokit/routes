@@ -1,0 +1,68 @@
+{
+  "name": "Add team member",
+  "enabledForApps": true,
+  "method": "PUT",
+  "path": "/teams/:team_id/members/:username",
+  "previews": [],
+  "params": [
+    {
+      "name": "team_id",
+      "type": "integer",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    }
+  ],
+  "description": "The \"Add team member\" API (described below) is deprecated.\n\nWe recommend using the [Add team membership API](/enterprise/2.15/v3/teams/members/#add-or-update-team-membership) instead. It allows you to invite new organization members to your teams.\n\nTo add a user to a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with, and the user being added must already be a member of at least one other team on the same organization.\n\nNote that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](/enterprise/2.15/v3/#http-verbs).\"\n\nIf you attempt to add an organization to a team, you will get this:\n\nIf you attempt to add a user to a team and that user is not a member of at least one other team on the same organization, you will get this:",
+  "responses": [
+    {
+      "headers": {
+        "status": "204 No Content",
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "headers": {
+        "status": "422 Unprocessable Entity",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "message": "Cannot add an organization as a member.",
+        "errors": [
+          {
+            "code": "org",
+            "field": "user",
+            "resource": "TeamMember"
+          }
+        ]
+      },
+      "description": "If you attempt to add an organization to a team, you will get this:"
+    },
+    {
+      "headers": {
+        "status": "422 Unprocessable Entity",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "message": "User isn't a member of this organization. Please invite them first.",
+        "errors": [
+          {
+            "code": "unaffiliated",
+            "field": "user",
+            "resource": "TeamMember"
+          }
+        ]
+      },
+      "description": "If you attempt to add a user to a team and that user is not a member of at least one other team on the same organization, you will get this:"
+    }
+  ],
+  "idName": "add-member",
+  "documentationUrl": "https://developer.github.com/enterprise/2.15/v3/teams/members/#add-team-member"
+}

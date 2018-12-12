@@ -1,0 +1,96 @@
+{
+  "name": "Search users",
+  "enabledForApps": true,
+  "method": "GET",
+  "path": "/search/users",
+  "previews": [],
+  "params": [
+    {
+      "name": "q",
+      "type": "string",
+      "description": "The search terms.",
+      "required": true,
+      "location": "query"
+    },
+    {
+      "name": "sort",
+      "type": "string",
+      "description": "The sort field. Can be `followers`, `repositories`, or `joined`.",
+      "default": "results are sorted by best match.",
+      "required": false,
+      "enum": [
+        "followers",
+        "repositories",
+        "joined"
+      ],
+      "location": "query"
+    },
+    {
+      "name": "order",
+      "type": "string",
+      "description": "The sort order if `sort` parameter is provided. One of `asc` or `desc`.",
+      "default": "desc",
+      "required": false,
+      "enum": [
+        "asc",
+        "desc"
+      ],
+      "location": "query"
+    },
+    {
+      "name": "per_page",
+      "type": "integer",
+      "required": false,
+      "description": "Results per page (max 100)",
+      "default": 30,
+      "location": "query"
+    },
+    {
+      "name": "page",
+      "type": "integer",
+      "required": false,
+      "description": "Page number of the results to fetch.",
+      "default": 1,
+      "location": "query"
+    }
+  ],
+  "requests": [
+    {
+      "text_matches": [
+        {
+          "object_url": "https://api.github.com/users/mojombo",
+          "object_type": "User",
+          "property": "email",
+          "fragment": "tom@github.com",
+          "matches": [
+            {
+              "text": "tom",
+              "indices": [
+                0,
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "object_url": "https://api.github.com/users/mojombo",
+          "object_type": "User",
+          "property": "name",
+          "fragment": "Tom Preston-Werner",
+          "matches": [
+            {
+              "text": "Tom",
+              "indices": [
+                0,
+                3
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "description": "Find users via various criteria. This method returns up to 100 results [per page](/enterprise/2.15/v3/#pagination).\n\nThe `q` search term can also contain any combination of the supported user search qualifiers as described by the in-browser [user search documentation](https://help.github.com/articles/searching-users/) and [search syntax documentation](https://help.github.com/articles/search-syntax/):\n\n*   [`type`](https://help.github.com/articles/searching-users#search-for-users-or-organizations) With this qualifier you can restrict the search to just personal accounts (`user`) or just organization accounts (`org`).\n*   [`in`](https://help.github.com/articles/searching-users#scope-the-search-fields) Qualifies which fields are searched. With this qualifier you can restrict the search to just the username (`login`), public email (`email`), full name (`fullname`), or any combination of these.\n*   [`repos`](https://help.github.com/articles/searching-users#search-based-on-the-number-of-repositories-a-user-has) Filters users based on the number of repositories they have.\n*   [`location`](https://help.github.com/articles/searching-users#search-based-on-the-location-where-a-user-resides) Filter users by the location indicated in their profile.\n*   [`language`](https://help.github.com/articles/searching-users#search-based-on-the-languages-of-a-users-repositories) Search for users that have repositories that match a certain language.\n*   [`created`](https://help.github.com/articles/searching-users#search-based-on-when-a-user-joined-github) Filter users based on when they joined.\n*   [`followers`](https://help.github.com/articles/searching-users#search-based-on-the-number-of-followers-a-user-has) Filter users based on the number of followers they have.\n\nImagine you're looking for a list of popular users. You might try out this query:\n\nHere, we're looking at users with the name Tom. We're only interested in those with more than 42 repositories, and only if they have over 1,000 followers.\n\n**Highlighting user search results**\n\nYou might want to highlight the matching search terms when displaying search results. The API offers additional metadata to support this use case. To get this metadata in your search results, specify the `text-match` media type in your `Accept` header. For example, via cURL, the above query would look like this:\n\nThis produces the same JSON payload as above, with an extra key called `text_matches`, an array of objects. These objects provide information such as the position of your search terms within the text, as well as the `property` that included the search term.\n\nWhen searching for users, you can get text match metadata for the issue **login**, **email**, and **name** fields. For details on the attributes present in the `text_matches` array, see [text match metadata](#text-match-metadata).",
+  "idName": "users",
+  "documentationUrl": "https://developer.github.com/enterprise/2.15/v3/search/#search-users"
+}

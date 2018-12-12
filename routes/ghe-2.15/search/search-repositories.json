@@ -1,0 +1,102 @@
+{
+  "name": "Search repositories",
+  "enabledForApps": true,
+  "method": "GET",
+  "path": "/search/repositories",
+  "previews": [
+    {
+      "name": "mercy",
+      "description": "**Note:** The `topics` property for repositories on GitHub Enterprise is currently available for developers to preview. To view the `topics` property in calls that return repository results, you must provide a custom [media type](/enterprise/2.15/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.mercy-preview+json\n\n```",
+      "required": false
+    }
+  ],
+  "params": [
+    {
+      "name": "q",
+      "type": "string",
+      "description": "The search keywords, as well as any qualifiers.",
+      "required": true,
+      "location": "query"
+    },
+    {
+      "name": "sort",
+      "type": "string",
+      "description": "The sort field. One of `stars`, `forks`, or `updated`.",
+      "default": "results are sorted by best match.",
+      "required": false,
+      "enum": [
+        "stars",
+        "forks",
+        "updated"
+      ],
+      "location": "query"
+    },
+    {
+      "name": "order",
+      "type": "string",
+      "description": "The sort order if `sort` parameter is provided. One of `asc` or `desc`.",
+      "default": "desc",
+      "required": false,
+      "enum": [
+        "asc",
+        "desc"
+      ],
+      "location": "query"
+    },
+    {
+      "name": "per_page",
+      "type": "integer",
+      "required": false,
+      "description": "Results per page (max 100)",
+      "default": 30,
+      "location": "query"
+    },
+    {
+      "name": "page",
+      "type": "integer",
+      "required": false,
+      "description": "Page number of the results to fetch.",
+      "default": 1,
+      "location": "query"
+    }
+  ],
+  "requests": [
+    {
+      "text_matches": [
+        {
+          "object_url": "https://api.github.com/repositories/3081286",
+          "object_type": "Repository",
+          "property": "name",
+          "fragment": "Tetris",
+          "matches": [
+            {
+              "text": "Tetris",
+              "indices": [
+                0,
+                6
+              ]
+            }
+          ]
+        },
+        {
+          "object_url": "https://api.github.com/repositories/3081286",
+          "object_type": "Repository",
+          "property": "description",
+          "fragment": "A C implementation of Tetris using Pennsim through LC4",
+          "matches": [
+            {
+              "text": "Tetris",
+              "indices": [
+                22,
+                28
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "description": "Find repositories via various criteria. This method returns up to 100 results [per page](/enterprise/2.15/v3/#pagination).\n\nThe `q` search term can also contain any combination of the supported repository search qualifiers as described by the in-browser [repository search documentation](https://help.github.com/articles/searching-for-repositories/) and [search syntax documentation](https://help.github.com/articles/search-syntax/):\n\n*   [`created` or `pushed`](https://help.github.com/articles/searching-for-repositories/#search-by-when-a-repository-was-created-or-last-updated) Filters repositories based on date of creation, or when they were last updated.\n*   [`fork`](https://help.github.com/articles/searching-for-repositories/#search-by-number-of-forks) Filters whether forked repositories should be included (`true`) or only forked repositories should be returned (`only`).\n*   [`forks`](https://help.github.com/articles/searching-for-repositories/#search-by-number-of-forks) Filters repositories based on the number of forks.\n*   [`in`](https://help.github.com/articles/searching-for-repositories) Qualifies which fields are searched. With this qualifier you can restrict the search to just the repository name, description, readme, or any combination of these.\n*   [`language`](https://help.github.com/articles/searching-for-repositories/#search-by-language) Searches repositories based on the language they're written in.\n*   [`license`](https://help.github.com/articles/searching-for-repositories/#search-by-license) Filters repositories by license or license family, using the [license keyword](https://help.github.com/articles/licensing-a-repository/#searching-github-by-license-type).\n*   [`repo` or `user`](https://help.github.com/articles/searching-for-repositories/#search-within-a-users-or-organizations-repositories) Limits searches to a specific repository or user.\n*   [`size`](https://help.github.com/articles/searching-for-repositories/#search-by-repository-size) Finds repositories that match a certain size (in kilobytes).\n*   [`stars`](https://help.github.com/articles/searching-for-repositories/#search-by-number-of-stars) Searches repositories based on the number of stars.\n*   [`topic`](https://help.github.com/articles/classifying-your-repository-with-topics/) Filters repositories based on the specified topic.\n*   [`archived`](https://help.github.com/articles/searching-for-repositories/#search-based-on-whether-a-repository-is-archived) Filters whether archived repositories should be included (`true`) or not (`false`).\n\nSuppose you want to search for popular Tetris repositories written in Assembly. Your query might look like this.\n\nYou can search for multiple topics by adding more `topic:` instances, and including the `mercy-preview` header. For example:\n\nIn this request, we're searching for repositories with the word `tetris` in the name, the description, or the README. We're limiting the results to only find repositories where the primary language is Assembly. We're sorting by stars in descending order, so that the most popular repositories appear first in the search results.\n\n**Highlighting repository search results**\n\nYou might want to highlight the matching search terms when displaying search results. The API offers additional metadata to support this use case. To get this metadata in your search results, specify the `text-match` media type in your `Accept` header. For example, via cURL, the above query would look like this:\n\nThis produces the same JSON payload as above, with an extra key called `text_matches`, an array of objects. These objects provide information such as the position of your search terms within the text, as well as the `property` that included the search term.\n\nWhen searching for repositories, you can get text match metadata for the **name** and **description** fields. For details on the attributes present in the `text_matches` array, see [text match metadata](#text-match-metadata).\n\nHere's an example response:",
+  "idName": "repos",
+  "documentationUrl": "https://developer.github.com/enterprise/2.15/v3/search/#search-repositories"
+}
