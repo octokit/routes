@@ -1,0 +1,54 @@
+{
+  "name": "Upload a release asset",
+  "enabledForApps": true,
+  "method": "POST",
+  "path": "https://<upload_url>/repos/:owner/:repo/releases/:release_id/assets?name=foo.zip",
+  "previews": [],
+  "params": [
+    {
+      "name": "owner",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "repo",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "release_id",
+      "type": "integer",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "Content-Type",
+      "type": "string",
+      "description": "The content type of the asset. This should be set in the Header. Example: `\"application/zip\"`. For a list of acceptable types, refer this list of [media types](https://www.iana.org/assignments/media-types/media-types.xhtml).",
+      "required": true,
+      "location": "headers"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "The file name of the asset. This should be set in a URI query parameter.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "description": "An alternate short description of the asset. Used in place of the filename. This should be set in a URI query parameter.",
+      "required": false,
+      "location": "body"
+    }
+  ],
+  "description": "This endpoint makes use of [a Hypermedia relation](/enterprise/2.14/v3/#hypermedia) to determine which URL to access. This endpoint is provided by a URI template in [the release's API response](#get-a-single-release).\n\nThe asset data is expected in its raw binary form, rather than JSON. Everything else about the endpoint is the same as the rest of the API. For example, you'll still need to pass your authentication to be able to upload an asset.\n\nSend the raw binary content of the asset as the request body.\n\nThis may leave an empty asset with a state of `new`. It can be safely deleted.",
+  "idName": "upload-release-asset",
+  "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/repos/releases/#upload-a-release-asset"
+}

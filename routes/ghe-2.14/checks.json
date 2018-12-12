@@ -1,0 +1,2109 @@
+[
+  {
+    "name": "Create a check run",
+    "enabledForApps": true,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/check-runs",
+    "previews": [
+      {
+        "name": "antiope",
+        "description": "The Checks API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the [blog post](/changes/2018-05-07-new-checks-api-public-beta/) for full details. To access the API during the preview period, you must provide a custom [media type](/enterprise/2.14/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.antiope-preview+json\n\n```",
+        "required": true
+      }
+    ],
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "description": "The name of the check. For example, \"code-coverage\".",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "head_sha",
+        "type": "string",
+        "description": "The SHA of the commit.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "details_url",
+        "type": "string",
+        "description": "The URL of the integrator's site that has the full details of the check.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "external_id",
+        "type": "string",
+        "description": "A reference for the run on the integrator's system.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "status",
+        "type": "string",
+        "description": "The current status. Can be one of `queued`, `in_progress`, or `completed`.",
+        "default": "queued",
+        "required": false,
+        "enum": [
+          "queued",
+          "in_progress",
+          "completed"
+        ],
+        "location": "body"
+      },
+      {
+        "name": "started_at",
+        "type": "string",
+        "description": "The time that the check run began in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "conclusion",
+        "type": "string",
+        "description": "**Required if you provide `completed_at` or a `status` of `completed`**. The final conclusion of the check. Can be one of `success`, `failure`, `neutral`, `cancelled`, `timed_out`, or `action_required`. When the conclusion is `action_required`, additional details should be provided on the site specified by `details_url`.  \n**Note:** Providing `conclusion` will automatically set the `status` parameter to `completed`.",
+        "required": false,
+        "enum": [
+          "success",
+          "failure",
+          "neutral",
+          "cancelled",
+          "timed_out",
+          "action_required"
+        ],
+        "location": "body"
+      },
+      {
+        "name": "completed_at",
+        "type": "string",
+        "description": "**Required if you provide `conclusion`**. The time the check completed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "output",
+        "type": "object",
+        "description": "Check runs can accept a variety of data in the `output` object, including a `title` and `summary` and can optionally provide descriptive details about the run. See the [`output` object](#output-object) description.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "output.title",
+        "type": "string",
+        "description": "The title of the check run.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "output.summary",
+        "type": "string",
+        "description": "The summary of the check run. This parameter supports Markdown.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "output.text",
+        "type": "string",
+        "description": "The details of the check run. This parameter supports Markdown.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "output.annotations",
+        "type": "object[]",
+        "description": "Adds information from your analysis to specific lines of code. Annotations are visible in GitHub's pull request UI. For details about annotations in the UI, see \"[About status checks](https://help.github.com/articles/about-status-checks#checks)\". See the [`annotations` object](#annotations-object) description for details about how to use this parameter.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "output.annotations[].filename",
+        "type": "string",
+        "description": "The path of the file to add an annotation to. For example, `assets/css/main.css`.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "output.annotations[].blob_href",
+        "type": "string",
+        "description": "The file's full blob URL. You can find the `blob_href` in the response of the [Get a single commit](/enterprise/2.14/v3/repos/commits/#get-a-single-commit) endpoint, by reading the `blob_url` from an element of the `files` array. You can also construct the blob URL from the `head_sha`, the repository, and the filename:  \n`https://github.com/:owner/:repo/blob/:head_sha/:filename`.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "output.annotations[].start_line",
+        "type": "integer",
+        "description": "The start line of the annotation.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "output.annotations[].end_line",
+        "type": "integer",
+        "description": "The end line of the annotation.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "output.annotations[].warning_level",
+        "type": "string",
+        "description": "The warning level of the annotation. Can be one of `notice`, `warning`, or `failure`.",
+        "required": true,
+        "enum": [
+          "notice",
+          "warning",
+          "failure"
+        ],
+        "location": "body"
+      },
+      {
+        "name": "output.annotations[].message",
+        "type": "string",
+        "description": "A short description of the feedback for these lines of code. The maximum size is 64 KB.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "output.annotations[].title",
+        "type": "string",
+        "description": "The title that represents the annotation. The maximum size is 255 characters.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "output.annotations[].raw_details",
+        "type": "string",
+        "description": "Details about this annotation. The maximum size is 64 KB.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "output.images",
+        "type": "object[]",
+        "description": "Adds images to the output displayed in the GitHub pull request UI. See the [`images` object](#images-object) description for details.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "output.images[].alt",
+        "type": "string",
+        "description": "The alternative text for the image.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "output.images[].image_url",
+        "type": "string",
+        "description": "The full URL of the image.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "output.images[].caption",
+        "type": "string",
+        "description": "A short image description.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "actions",
+        "type": "object[]",
+        "description": "Possible further actions the integrator can perform, which a user may trigger. Each action includes a `label`, `identifier` and `description`. A maximum of three actions are accepted. See the [`actions` object](#actions-object) description.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "actions[].label",
+        "type": "string",
+        "description": "The text to be displayed on a button in the web UI. The maximum size is 20 characters.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "actions[].description",
+        "type": "string",
+        "description": "A short explanation of what this action would do. The maximum size is 40 characters.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "actions[].identifier",
+        "type": "string",
+        "description": "A reference for the action on the integrator's system. The maximum size is 20 characters.",
+        "required": true,
+        "location": "body"
+      }
+    ],
+    "requests": [
+      {
+        "name": "mighty_readme",
+        "head_sha": "ce587453ced02b1526dfb4cb910479d431683101",
+        "status": "in_progress",
+        "external_id": "42",
+        "started_at": "2018-05-04T01:14:52Z",
+        "output": {
+          "title": "Mighty Readme report",
+          "summary": "",
+          "text": ""
+        }
+      }
+    ],
+    "description": "Creates a new check run for a specific commit in a repository. Your GitHub App must have the `checks:write` permission to create check runs.",
+    "responses": [
+      {
+        "headers": {
+          "status": "201 Created",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "id": 4,
+          "head_sha": "ce587453ced02b1526dfb4cb910479d431683101",
+          "external_id": "42",
+          "url": "https://api.github.com/repos/github/hello-world/check-runs/4",
+          "html_url": "http://github.com/github/hello-world/runs/4",
+          "status": "in_progress",
+          "conclusion": null,
+          "started_at": "2018-05-04T01:14:52Z",
+          "completed_at": null,
+          "output": {
+            "title": "Mighty Readme Report",
+            "summary": "",
+            "text": ""
+          },
+          "name": "mighty_readme",
+          "check_suite": {
+            "id": 5
+          },
+          "app": {
+            "id": 1,
+            "node_id": "MDExOkludGVncmF0aW9uMQ==",
+            "owner": {
+              "login": "github",
+              "id": 1,
+              "node_id": "MDEyOk9yZ2FuaXphdGlvbjE=",
+              "url": "https://api.github.com/orgs/github",
+              "repos_url": "https://api.github.com/orgs/github/repos",
+              "events_url": "https://api.github.com/orgs/github/events",
+              "hooks_url": "https://api.github.com/orgs/github/hooks",
+              "issues_url": "https://api.github.com/orgs/github/issues",
+              "members_url": "https://api.github.com/orgs/github/members{/member}",
+              "public_members_url": "https://api.github.com/orgs/github/public_members{/member}",
+              "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+              "description": "A great organization"
+            },
+            "name": "Super CI",
+            "description": "",
+            "external_url": "https://example.com",
+            "html_url": "https://github.com/apps/super-ci",
+            "created_at": "2017-07-08T16:18:44-04:00",
+            "updated_at": "2017-07-08T16:18:44-04:00"
+          },
+          "pull_requests": [
+            {
+              "url": "https://api.github.com/repos/github/hello-world/pulls/1",
+              "id": 1934,
+              "number": 3956,
+              "head": {
+                "ref": "say-hello",
+                "sha": "3dca65fa3e8d4b3da3f3d056c59aee1c50f41390",
+                "repo": {
+                  "id": 526,
+                  "url": "https://api.github.com/repos/github/hello-world",
+                  "name": "hello-world"
+                }
+              },
+              "base": {
+                "ref": "master",
+                "sha": "e7fdf7640066d71ad16a86fbcbb9c6a10a18af4f",
+                "repo": {
+                  "id": 526,
+                  "url": "https://api.github.com/repos/github/hello-world",
+                  "name": "hello-world"
+                }
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "idName": "create",
+    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/checks/runs/#create-a-check-run"
+  },
+  {
+    "name": "Update a check run",
+    "enabledForApps": true,
+    "method": "PATCH",
+    "path": "/repos/:owner/:repo/check-runs/:check_run_id",
+    "previews": [
+      {
+        "name": "antiope",
+        "description": "The Checks API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the [blog post](/changes/2018-05-07-new-checks-api-public-beta/) for full details. To access the API during the preview period, you must provide a custom [media type](/enterprise/2.14/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.antiope-preview+json\n\n```",
+        "required": true
+      }
+    ],
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "check_run_id",
+        "type": "integer",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "description": "The name of the check. For example, \"code-coverage\".",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "details_url",
+        "type": "string",
+        "description": "The URL of the integrator's site that has the full details of the check.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "external_id",
+        "type": "string",
+        "description": "A reference for the run on the integrator's system.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "started_at",
+        "type": "string",
+        "description": "A timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "status",
+        "type": "string",
+        "description": "The current status. Can be one of `queued`, `in_progress`, or `completed`.",
+        "required": false,
+        "enum": [
+          "queued",
+          "in_progress",
+          "completed"
+        ],
+        "location": "body"
+      },
+      {
+        "name": "conclusion",
+        "type": "string",
+        "description": "**Required if you provide `completed_at` or a `status` of `completed`**. The final conclusion of the check. Can be one of `success`, `failure`, `neutral`, `cancelled`, `timed_out`, or `action_required`.  \n**Note:** Providing `conclusion` will automatically set the `status` parameter to `completed`.",
+        "required": false,
+        "enum": [
+          "success",
+          "failure",
+          "neutral",
+          "cancelled",
+          "timed_out",
+          "action_required"
+        ],
+        "location": "body"
+      },
+      {
+        "name": "completed_at",
+        "type": "string",
+        "description": "**Required if you provide `conclusion`**. The time the check completed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "output",
+        "type": "object",
+        "description": "Check runs can accept a variety of data in the `output` object, including a `title` and `summary` and can optionally provide descriptive details about the run. See the [`output` object](#output-object-1) description.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "output.title",
+        "type": "string",
+        "description": "**Required**.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "output.summary",
+        "type": "string",
+        "description": "Can contain Markdown.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "output.text",
+        "type": "string",
+        "description": "Can contain Markdown.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "output.annotations",
+        "type": "object[]",
+        "description": "Adds information from your analysis to specific lines of code. Annotations are visible in GitHub's pull request UI. For details about annotations in the UI, see \"[About status checks](https://help.github.com/articles/about-status-checks#checks)\". See the [`annotations` object](#annotations-object-1) description for details.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "output.annotations[].filename",
+        "type": "string",
+        "description": "The path of the file to add an annotation to. For example, `assets/css/main.css`.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "output.annotations[].blob_href",
+        "type": "string",
+        "description": "The file's full blob URL. You can find the `blob_href` in the response of the [Get a single commit](/enterprise/2.14/v3/repos/commits/#get-a-single-commit) endpoint, by reading the `blob_url` from an element of the `files` array. You can also construct the blob URL from the `head_sha`, the repository, and the filename:  \n`https://github.com/:owner/:repo/blob/:head_sha/:filename`.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "output.annotations[].start_line",
+        "type": "integer",
+        "description": "The start line of the annotation.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "output.annotations[].end_line",
+        "type": "integer",
+        "description": "The end line of the annotation.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "output.annotations[].warning_level",
+        "type": "string",
+        "description": "The warning level of the annotation. Can be one of `notice`, `warning`, or `failure`.",
+        "required": true,
+        "enum": [
+          "notice",
+          "warning",
+          "failure"
+        ],
+        "location": "body"
+      },
+      {
+        "name": "output.annotations[].message",
+        "type": "string",
+        "description": "A short description of the feedback for these lines of code. The maximum size is 64 KB.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "output.annotations[].title",
+        "type": "string",
+        "description": "The title that represents the annotation. The maximum size is 255 characters.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "output.annotations[].raw_details",
+        "type": "string",
+        "description": "Details about this annotation. The maximum size is 64 KB.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "output.images",
+        "type": "object[]",
+        "description": "Adds images to the output displayed in the GitHub pull request UI. See the [`images` object](#annotations-object-1) description for details.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "output.images[].alt",
+        "type": "string",
+        "description": "The alternative text for the image.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "output.images[].image_url",
+        "type": "string",
+        "description": "The full URL of the image.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "output.images[].caption",
+        "type": "string",
+        "description": "A short image description.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "actions",
+        "type": "object[]",
+        "description": "Possible further actions the integrator can perform, which a user may trigger. Each action includes a `label`, `identifier` and `description`. A maximum of three actions are accepted. See the [`actions` object](#actions-object) description.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "actions[].label",
+        "type": "string",
+        "description": "The text to be displayed on a button in the web UI. The maximum size is 20 characters.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "actions[].description",
+        "type": "string",
+        "description": "A short explanation of what this action would do. The maximum size is 40 characters.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "actions[].identifier",
+        "type": "string",
+        "description": "A reference for the action on the integrator's system. The maximum size is 20 characters.",
+        "required": true,
+        "location": "body"
+      }
+    ],
+    "requests": [
+      {
+        "name": "mighty_readme",
+        "started_at": "2018-05-04T01:14:52Z",
+        "status": "completed",
+        "completed_at": "2018-05-04T01:14:52Z",
+        "output": {
+          "title": "Mighty Readme report",
+          "summary": "There are 0 failures, 2 warnings, and 1 notices.",
+          "text": "You may have some misspelled words on lines 2 and 4. You also may want to add a section in your README about how to install your app.",
+          "annotations": [
+            {
+              "filename": "README.md",
+              "blob_href": "http://github.com/octocat/Hello-World/blob/837db83be4137ca555d9a5598d0a1ea2987ecfee/README.md",
+              "warning_level": "warning",
+              "title": "Spell Checker",
+              "message": "Check your spelling for 'banaas'.",
+              "raw_details": "Do you mean 'bananas' or 'banana'?",
+              "start_line": 2,
+              "end_line": 2
+            },
+            {
+              "filename": "README.md",
+              "blob_href": "http://github.com/octocat/Hello-World/blob/837db83be4137ca555d9a5598d0a1ea2987ecfee/README.md",
+              "warning_level": "warning",
+              "title": "Spell Checker",
+              "message": "Check your spelling for 'aples'",
+              "raw_details": "Do you mean 'apples' or 'Naples'",
+              "start_line": 4,
+              "end_line": 4
+            }
+          ],
+          "images": [
+            {
+              "alt": "Super bananas",
+              "image_url": "http://example.com/images/42"
+            }
+          ]
+        }
+      }
+    ],
+    "description": "Updates a check run for a specific commit in a repository. Your GitHub App must have the `checks:write` permission to edit check runs.",
+    "responses": [
+      {
+        "headers": {
+          "status": "200 OK",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "id": 4,
+          "head_sha": "ce587453ced02b1526dfb4cb910479d431683101",
+          "external_id": "",
+          "url": "https://api.github.com/repos/github/hello-world/check-runs/4",
+          "html_url": "http://github.com/github/hello-world/runs/4",
+          "status": "completed",
+          "conclusion": "neutral",
+          "started_at": "2018-05-04T01:14:52Z",
+          "completed_at": "2018-05-04T01:14:52Z",
+          "output": {
+            "title": "Mighty Readme report",
+            "summary": "There are 0 failures, 2 warnings, and 1 notice.",
+            "text": "You may have some misspelled words on lines 2 and 4. You also may want to add a section in your README about how to install your app.",
+            "annotations_count": 2,
+            "annotations_url": "https://api.github.com/repos/github/hello-world/check-runs/4/annotations"
+          },
+          "name": "mighty_readme",
+          "check_suite": {
+            "id": 5
+          },
+          "app": {
+            "id": 1,
+            "node_id": "MDExOkludGVncmF0aW9uMQ==",
+            "owner": {
+              "login": "github",
+              "id": 1,
+              "node_id": "MDEyOk9yZ2FuaXphdGlvbjE=",
+              "url": "https://api.github.com/orgs/github",
+              "repos_url": "https://api.github.com/orgs/github/repos",
+              "events_url": "https://api.github.com/orgs/github/events",
+              "hooks_url": "https://api.github.com/orgs/github/hooks",
+              "issues_url": "https://api.github.com/orgs/github/issues",
+              "members_url": "https://api.github.com/orgs/github/members{/member}",
+              "public_members_url": "https://api.github.com/orgs/github/public_members{/member}",
+              "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+              "description": "A great organization"
+            },
+            "name": "Super CI",
+            "description": "",
+            "external_url": "https://example.com",
+            "html_url": "https://github.com/apps/super-ci",
+            "created_at": "2017-07-08T16:18:44-04:00",
+            "updated_at": "2017-07-08T16:18:44-04:00"
+          },
+          "pull_requests": [
+            {
+              "url": "https://api.github.com/repos/github/hello-world/pulls/1",
+              "id": 1934,
+              "number": 3956,
+              "head": {
+                "ref": "say-hello",
+                "sha": "3dca65fa3e8d4b3da3f3d056c59aee1c50f41390",
+                "repo": {
+                  "id": 526,
+                  "url": "https://api.github.com/repos/github/hello-world",
+                  "name": "hello-world"
+                }
+              },
+              "base": {
+                "ref": "master",
+                "sha": "e7fdf7640066d71ad16a86fbcbb9c6a10a18af4f",
+                "repo": {
+                  "id": 526,
+                  "url": "https://api.github.com/repos/github/hello-world",
+                  "name": "hello-world"
+                }
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "idName": "update",
+    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/checks/runs/#update-a-check-run"
+  },
+  {
+    "name": "List check runs for a specific ref",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/commits/:ref/check-runs",
+    "previews": [
+      {
+        "name": "antiope",
+        "description": "The Checks API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the [blog post](/changes/2018-05-07-new-checks-api-public-beta/) for full details. To access the API during the preview period, you must provide a custom [media type](/enterprise/2.14/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.antiope-preview+json\n\n```",
+        "required": true
+      }
+    ],
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "ref",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "check_name",
+        "type": "string",
+        "description": "Returns check runs with the specified `name`.",
+        "required": false,
+        "location": "query"
+      },
+      {
+        "name": "status",
+        "type": "string",
+        "description": "Returns check runs with the specified `status`. Can be one of `queued`, `in_progress`, or `completed`.",
+        "required": false,
+        "enum": [
+          "queued",
+          "in_progress",
+          "completed"
+        ],
+        "location": "query"
+      },
+      {
+        "name": "filter",
+        "type": "string",
+        "description": "Filters check runs by their `completed_at` timestamp. Can be one of `latest` (returning the most recent check runs) or `all`.",
+        "default": "latest",
+        "required": false,
+        "enum": [
+          "latest",
+          "all"
+        ],
+        "location": "query"
+      },
+      {
+        "name": "per_page",
+        "type": "integer",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30,
+        "location": "query"
+      },
+      {
+        "name": "page",
+        "type": "integer",
+        "required": false,
+        "description": "Page number of the results to fetch.",
+        "default": 1,
+        "location": "query"
+      }
+    ],
+    "description": "Lists check runs for a commit ref. The `ref` can be a SHA, branch name, or a tag name. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check runs. OAuth Apps and authenticated users must have the `repo` scope to get check runs in a private repository.",
+    "responses": [
+      {
+        "headers": {
+          "status": "200 OK",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "total_count": 1,
+          "check_runs": [
+            {
+              "id": 4,
+              "head_sha": "ce587453ced02b1526dfb4cb910479d431683101",
+              "node_id": "MDg6Q2hlY2tSdW40",
+              "external_id": "",
+              "url": "https://api.github.com/repos/github/hello-world/check-runs/4",
+              "html_url": "http://github.com/github/hello-world/runs/4",
+              "details_url": "https://example.com",
+              "status": "completed",
+              "conclusion": "neutral",
+              "started_at": "2018-05-04T01:14:52Z",
+              "completed_at": "2018-05-04T01:14:52Z",
+              "output": {
+                "title": "Mighty Readme report",
+                "summary": "There are 0 failures, 2 warnings, and 1 notice.",
+                "text": "You may have some misspelled words on lines 2 and 4. You also may want to add a section in your README about how to install your app.",
+                "annotations_count": 2,
+                "annotations_url": "https://api.github.com/repos/github/hello-world/check-runs/4/annotations"
+              },
+              "name": "mighty_readme",
+              "check_suite": {
+                "id": 5
+              },
+              "app": {
+                "id": 1,
+                "node_id": "MDExOkludGVncmF0aW9uMQ==",
+                "owner": {
+                  "login": "github",
+                  "id": 1,
+                  "node_id": "MDEyOk9yZ2FuaXphdGlvbjE=",
+                  "url": "https://api.github.com/orgs/github",
+                  "repos_url": "https://api.github.com/orgs/github/repos",
+                  "events_url": "https://api.github.com/orgs/github/events",
+                  "hooks_url": "https://api.github.com/orgs/github/hooks",
+                  "issues_url": "https://api.github.com/orgs/github/issues",
+                  "members_url": "https://api.github.com/orgs/github/members{/member}",
+                  "public_members_url": "https://api.github.com/orgs/github/public_members{/member}",
+                  "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+                  "description": "A great organization"
+                },
+                "name": "Super CI",
+                "description": "",
+                "external_url": "https://example.com",
+                "html_url": "https://github.com/apps/super-ci",
+                "created_at": "2017-07-08T16:18:44-04:00",
+                "updated_at": "2017-07-08T16:18:44-04:00"
+              },
+              "pull_requests": [
+                {
+                  "url": "https://api.github.com/repos/github/hello-world/pulls/1",
+                  "id": 1934,
+                  "number": 3956,
+                  "head": {
+                    "ref": "say-hello",
+                    "sha": "3dca65fa3e8d4b3da3f3d056c59aee1c50f41390",
+                    "repo": {
+                      "id": 526,
+                      "url": "https://api.github.com/repos/github/hello-world",
+                      "name": "hello-world"
+                    }
+                  },
+                  "base": {
+                    "ref": "master",
+                    "sha": "e7fdf7640066d71ad16a86fbcbb9c6a10a18af4f",
+                    "repo": {
+                      "id": 526,
+                      "url": "https://api.github.com/repos/github/hello-world",
+                      "name": "hello-world"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "idName": "list-for-ref",
+    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/checks/runs/#list-check-runs-for-a-specific-ref"
+  },
+  {
+    "name": "List check runs in a check suite",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/check-suites/:check_suite_id/check-runs",
+    "previews": [
+      {
+        "name": "antiope",
+        "description": "The Checks API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the [blog post](/changes/2018-05-07-new-checks-api-public-beta/) for full details. To access the API during the preview period, you must provide a custom [media type](/enterprise/2.14/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.antiope-preview+json\n\n```",
+        "required": true
+      }
+    ],
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "check_suite_id",
+        "type": "integer",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "check_name",
+        "type": "string",
+        "description": "Returns check runs with the specified `name`.",
+        "required": false,
+        "location": "query"
+      },
+      {
+        "name": "status",
+        "type": "string",
+        "description": "Returns check runs with the specified `status`. Can be one of `queued`, `in_progress`, or `completed`.",
+        "required": false,
+        "enum": [
+          "queued",
+          "in_progress",
+          "completed"
+        ],
+        "location": "query"
+      },
+      {
+        "name": "filter",
+        "type": "string",
+        "description": "Filters check runs by their `completed_at` timestamp. Can be one of `latest` (returning the most recent check runs) or `all`.",
+        "default": "latest",
+        "required": false,
+        "enum": [
+          "latest",
+          "all"
+        ],
+        "location": "query"
+      },
+      {
+        "name": "per_page",
+        "type": "integer",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30,
+        "location": "query"
+      },
+      {
+        "name": "page",
+        "type": "integer",
+        "required": false,
+        "description": "Page number of the results to fetch.",
+        "default": 1,
+        "location": "query"
+      }
+    ],
+    "description": "Lists check runs for a check suite using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check runs. OAuth Apps and authenticated users must have the `repo` scope to get check runs in a private repository.",
+    "responses": [
+      {
+        "headers": {
+          "status": "200 OK",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "total_count": 1,
+          "check_runs": [
+            {
+              "id": 4,
+              "head_sha": "ce587453ced02b1526dfb4cb910479d431683101",
+              "node_id": "MDg6Q2hlY2tSdW40",
+              "external_id": "",
+              "url": "https://api.github.com/repos/github/hello-world/check-runs/4",
+              "html_url": "http://github.com/github/hello-world/runs/4",
+              "details_url": "https://example.com",
+              "status": "completed",
+              "conclusion": "neutral",
+              "started_at": "2018-05-04T01:14:52Z",
+              "completed_at": "2018-05-04T01:14:52Z",
+              "output": {
+                "title": "Mighty Readme report",
+                "summary": "There are 0 failures, 2 warnings, and 1 notice.",
+                "text": "You may have some misspelled words on lines 2 and 4. You also may want to add a section in your README about how to install your app.",
+                "annotations_count": 2,
+                "annotations_url": "https://api.github.com/repos/github/hello-world/check-runs/4/annotations"
+              },
+              "name": "mighty_readme",
+              "check_suite": {
+                "id": 5
+              },
+              "app": {
+                "id": 1,
+                "node_id": "MDExOkludGVncmF0aW9uMQ==",
+                "owner": {
+                  "login": "github",
+                  "id": 1,
+                  "node_id": "MDEyOk9yZ2FuaXphdGlvbjE=",
+                  "url": "https://api.github.com/orgs/github",
+                  "repos_url": "https://api.github.com/orgs/github/repos",
+                  "events_url": "https://api.github.com/orgs/github/events",
+                  "hooks_url": "https://api.github.com/orgs/github/hooks",
+                  "issues_url": "https://api.github.com/orgs/github/issues",
+                  "members_url": "https://api.github.com/orgs/github/members{/member}",
+                  "public_members_url": "https://api.github.com/orgs/github/public_members{/member}",
+                  "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+                  "description": "A great organization"
+                },
+                "name": "Super CI",
+                "description": "",
+                "external_url": "https://example.com",
+                "html_url": "https://github.com/apps/super-ci",
+                "created_at": "2017-07-08T16:18:44-04:00",
+                "updated_at": "2017-07-08T16:18:44-04:00"
+              },
+              "pull_requests": [
+                {
+                  "url": "https://api.github.com/repos/github/hello-world/pulls/1",
+                  "id": 1934,
+                  "number": 3956,
+                  "head": {
+                    "ref": "say-hello",
+                    "sha": "3dca65fa3e8d4b3da3f3d056c59aee1c50f41390",
+                    "repo": {
+                      "id": 526,
+                      "url": "https://api.github.com/repos/github/hello-world",
+                      "name": "hello-world"
+                    }
+                  },
+                  "base": {
+                    "ref": "master",
+                    "sha": "e7fdf7640066d71ad16a86fbcbb9c6a10a18af4f",
+                    "repo": {
+                      "id": 526,
+                      "url": "https://api.github.com/repos/github/hello-world",
+                      "name": "hello-world"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "idName": "list-for-suite",
+    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/checks/runs/#list-check-runs-in-a-check-suite"
+  },
+  {
+    "name": "Get a single check run",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/check-runs/:check_run_id",
+    "previews": [
+      {
+        "name": "antiope",
+        "description": "The Checks API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the [blog post](/changes/2018-05-07-new-checks-api-public-beta/) for full details. To access the API during the preview period, you must provide a custom [media type](/enterprise/2.14/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.antiope-preview+json\n\n```",
+        "required": true
+      }
+    ],
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "check_run_id",
+        "type": "integer",
+        "required": true,
+        "description": "",
+        "location": "url"
+      }
+    ],
+    "description": "Gets a single check run using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check runs. OAuth Apps and authenticated users must have the `repo` scope to get check runs in a private repository.",
+    "responses": [
+      {
+        "headers": {
+          "status": "200 OK",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "id": 4,
+          "head_sha": "ce587453ced02b1526dfb4cb910479d431683101",
+          "external_id": "",
+          "url": "https://api.github.com/repos/github/hello-world/check-runs/4",
+          "html_url": "http://github.com/github/hello-world/runs/4",
+          "status": "completed",
+          "conclusion": "neutral",
+          "started_at": "2018-05-04T01:14:52Z",
+          "completed_at": "2018-05-04T01:14:52Z",
+          "output": {
+            "title": "Mighty Readme report",
+            "summary": "There are 0 failures, 2 warnings, and 1 notice.",
+            "text": "You may have some misspelled words on lines 2 and 4. You also may want to add a section in your README about how to install your app.",
+            "annotations_count": 2,
+            "annotations_url": "https://api.github.com/repos/github/hello-world/check-runs/4/annotations"
+          },
+          "name": "mighty_readme",
+          "check_suite": {
+            "id": 5
+          },
+          "app": {
+            "id": 1,
+            "node_id": "MDExOkludGVncmF0aW9uMQ==",
+            "owner": {
+              "login": "github",
+              "id": 1,
+              "node_id": "MDEyOk9yZ2FuaXphdGlvbjE=",
+              "url": "https://api.github.com/orgs/github",
+              "repos_url": "https://api.github.com/orgs/github/repos",
+              "events_url": "https://api.github.com/orgs/github/events",
+              "hooks_url": "https://api.github.com/orgs/github/hooks",
+              "issues_url": "https://api.github.com/orgs/github/issues",
+              "members_url": "https://api.github.com/orgs/github/members{/member}",
+              "public_members_url": "https://api.github.com/orgs/github/public_members{/member}",
+              "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+              "description": "A great organization"
+            },
+            "name": "Super CI",
+            "description": "",
+            "external_url": "https://example.com",
+            "html_url": "https://github.com/apps/super-ci",
+            "created_at": "2017-07-08T16:18:44-04:00",
+            "updated_at": "2017-07-08T16:18:44-04:00"
+          },
+          "pull_requests": [
+            {
+              "url": "https://api.github.com/repos/github/hello-world/pulls/1",
+              "id": 1934,
+              "number": 3956,
+              "head": {
+                "ref": "say-hello",
+                "sha": "3dca65fa3e8d4b3da3f3d056c59aee1c50f41390",
+                "repo": {
+                  "id": 526,
+                  "url": "https://api.github.com/repos/github/hello-world",
+                  "name": "hello-world"
+                }
+              },
+              "base": {
+                "ref": "master",
+                "sha": "e7fdf7640066d71ad16a86fbcbb9c6a10a18af4f",
+                "repo": {
+                  "id": 526,
+                  "url": "https://api.github.com/repos/github/hello-world",
+                  "name": "hello-world"
+                }
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "idName": "get",
+    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/checks/runs/#get-a-single-check-run"
+  },
+  {
+    "name": "List annotations for a check run",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/check-runs/:check_run_id/annotations",
+    "previews": [
+      {
+        "name": "antiope",
+        "description": "The Checks API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the [blog post](/changes/2018-05-07-new-checks-api-public-beta/) for full details. To access the API during the preview period, you must provide a custom [media type](/enterprise/2.14/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.antiope-preview+json\n\n```",
+        "required": true
+      }
+    ],
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "check_run_id",
+        "type": "integer",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "per_page",
+        "type": "integer",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30,
+        "location": "query"
+      },
+      {
+        "name": "page",
+        "type": "integer",
+        "required": false,
+        "description": "Page number of the results to fetch.",
+        "default": 1,
+        "location": "query"
+      }
+    ],
+    "description": "Lists annotations for a check run using the annotation `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get annotations for a check run. OAuth Apps and authenticated users must have the `repo` scope to get annotations for a check run in a private repository.",
+    "responses": [
+      {
+        "headers": {
+          "status": "200 OK",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": [
+          {
+            "start_line": 2,
+            "end_line": 2,
+            "message": "Check your spelling for 'banaas'.",
+            "raw_details": "Do you mean 'bananas' or 'banana'?",
+            "filename": "README.md",
+            "blob_href": "https://github.com/octocat/Hello-World/blob/837db83be4137ca555d9a5598d0a1ea2987ecfee/README.md",
+            "warning_level": "warning"
+          }
+        ]
+      }
+    ],
+    "idName": "list-annotations",
+    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/checks/runs/#list-annotations-for-a-check-run"
+  },
+  {
+    "name": "Get a single check suite",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/check-suites/:check_suite_id",
+    "previews": [
+      {
+        "name": "antiope",
+        "description": "The Checks API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the [blog post](/changes/2018-05-07-new-checks-api-public-beta/) for full details. To access the API during the preview period, you must provide a custom [media type](/enterprise/2.14/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.antiope-preview+json\n\n```",
+        "required": true
+      }
+    ],
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "check_suite_id",
+        "type": "integer",
+        "required": true,
+        "description": "",
+        "location": "url"
+      }
+    ],
+    "description": "Gets a single check suite using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check suites. OAuth Apps and authenticated users must have the `repo` scope to get check suites in a private repository.",
+    "responses": [
+      {
+        "headers": {
+          "status": "200 OK",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "id": 5,
+          "head_branch": "master",
+          "head_sha": "d6fde92930d4715a2b49857d24b940956b26d2d3",
+          "status": "completed",
+          "conclusion": "neutral",
+          "url": "https://api.github.com/repos/github/hello-world/check-suites/5",
+          "before": "146e867f55c26428e5f9fade55a9bbf5e95a7912",
+          "after": "d6fde92930d4715a2b49857d24b940956b26d2d3",
+          "pull_requests": [],
+          "app": {
+            "id": 1,
+            "node_id": "MDExOkludGVncmF0aW9uMQ==",
+            "owner": {
+              "login": "github",
+              "id": 1,
+              "node_id": "MDEyOk9yZ2FuaXphdGlvbjE=",
+              "url": "https://api.github.com/orgs/github",
+              "repos_url": "https://api.github.com/orgs/github/repos",
+              "events_url": "https://api.github.com/orgs/github/events",
+              "hooks_url": "https://api.github.com/orgs/github/hooks",
+              "issues_url": "https://api.github.com/orgs/github/issues",
+              "members_url": "https://api.github.com/orgs/github/members{/member}",
+              "public_members_url": "https://api.github.com/orgs/github/public_members{/member}",
+              "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+              "description": "A great organization"
+            },
+            "name": "Super CI",
+            "description": "",
+            "external_url": "https://example.com",
+            "html_url": "https://github.com/apps/super-ci",
+            "created_at": "2017-07-08T16:18:44-04:00",
+            "updated_at": "2017-07-08T16:18:44-04:00"
+          },
+          "repository": {
+            "id": 1296269,
+            "node_id": "MDEwOlJlcG9zaXRvcnkxMjk2MjY5",
+            "name": "Hello-World",
+            "full_name": "octocat/Hello-World",
+            "owner": {
+              "login": "octocat",
+              "id": 1,
+              "node_id": "MDQ6VXNlcjE=",
+              "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/octocat",
+              "html_url": "https://github.com/octocat",
+              "followers_url": "https://api.github.com/users/octocat/followers",
+              "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+              "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+              "organizations_url": "https://api.github.com/users/octocat/orgs",
+              "repos_url": "https://api.github.com/users/octocat/repos",
+              "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/octocat/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "private": false,
+            "html_url": "https://github.com/octocat/Hello-World",
+            "description": "This your first repo!",
+            "fork": false,
+            "url": "https://api.github.com/repos/octocat/Hello-World",
+            "archive_url": "http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}",
+            "assignees_url": "http://api.github.com/repos/octocat/Hello-World/assignees{/user}",
+            "blobs_url": "http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}",
+            "branches_url": "http://api.github.com/repos/octocat/Hello-World/branches{/branch}",
+            "collaborators_url": "http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}",
+            "comments_url": "http://api.github.com/repos/octocat/Hello-World/comments{/number}",
+            "commits_url": "http://api.github.com/repos/octocat/Hello-World/commits{/sha}",
+            "compare_url": "http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}",
+            "contents_url": "http://api.github.com/repos/octocat/Hello-World/contents/{+path}",
+            "contributors_url": "http://api.github.com/repos/octocat/Hello-World/contributors",
+            "deployments_url": "http://api.github.com/repos/octocat/Hello-World/deployments",
+            "downloads_url": "http://api.github.com/repos/octocat/Hello-World/downloads",
+            "events_url": "http://api.github.com/repos/octocat/Hello-World/events",
+            "forks_url": "http://api.github.com/repos/octocat/Hello-World/forks",
+            "git_commits_url": "http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}",
+            "git_refs_url": "http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}",
+            "git_tags_url": "http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}",
+            "git_url": "git:github.com/octocat/Hello-World.git",
+            "issue_comment_url": "http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}",
+            "issue_events_url": "http://api.github.com/repos/octocat/Hello-World/issues/events{/number}",
+            "issues_url": "http://api.github.com/repos/octocat/Hello-World/issues{/number}",
+            "keys_url": "http://api.github.com/repos/octocat/Hello-World/keys{/key_id}",
+            "labels_url": "http://api.github.com/repos/octocat/Hello-World/labels{/name}",
+            "languages_url": "http://api.github.com/repos/octocat/Hello-World/languages",
+            "merges_url": "http://api.github.com/repos/octocat/Hello-World/merges",
+            "milestones_url": "http://api.github.com/repos/octocat/Hello-World/milestones{/number}",
+            "notifications_url": "http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}",
+            "pulls_url": "http://api.github.com/repos/octocat/Hello-World/pulls{/number}",
+            "releases_url": "http://api.github.com/repos/octocat/Hello-World/releases{/id}",
+            "ssh_url": "git@github.com:octocat/Hello-World.git",
+            "stargazers_url": "http://api.github.com/repos/octocat/Hello-World/stargazers",
+            "statuses_url": "http://api.github.com/repos/octocat/Hello-World/statuses/{sha}",
+            "subscribers_url": "http://api.github.com/repos/octocat/Hello-World/subscribers",
+            "subscription_url": "http://api.github.com/repos/octocat/Hello-World/subscription",
+            "tags_url": "http://api.github.com/repos/octocat/Hello-World/tags",
+            "teams_url": "http://api.github.com/repos/octocat/Hello-World/teams",
+            "trees_url": "http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}",
+            "clone_url": "https://github.com/octocat/Hello-World.git",
+            "mirror_url": "git:git.example.com/octocat/Hello-World",
+            "hooks_url": "http://api.github.com/repos/octocat/Hello-World/hooks",
+            "svn_url": "https://svn.github.com/octocat/Hello-World",
+            "homepage": "https://github.com",
+            "language": null,
+            "forks_count": 9,
+            "stargazers_count": 80,
+            "watchers_count": 80,
+            "size": 108,
+            "default_branch": "master",
+            "open_issues_count": 0,
+            "topics": [
+              "octocat",
+              "atom",
+              "electron",
+              "API"
+            ],
+            "has_issues": true,
+            "has_projects": true,
+            "has_wiki": true,
+            "has_pages": false,
+            "has_downloads": true,
+            "archived": false,
+            "pushed_at": "2011-01-26T19:06:43Z",
+            "created_at": "2011-01-26T19:01:12Z",
+            "updated_at": "2011-01-26T19:14:43Z",
+            "permissions": {
+              "admin": false,
+              "push": false,
+              "pull": true
+            },
+            "allow_rebase_merge": true,
+            "allow_squash_merge": true,
+            "allow_merge_commit": true,
+            "subscribers_count": 42,
+            "network_count": 0,
+            "anonymous_access_enabled": false
+          }
+        }
+      }
+    ],
+    "idName": "get-suite",
+    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/checks/suites/#get-a-single-check-suite"
+  },
+  {
+    "name": "List check suites for a specific ref",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/commits/:ref/check-suites",
+    "previews": [
+      {
+        "name": "antiope",
+        "description": "The Checks API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the [blog post](/changes/2018-05-07-new-checks-api-public-beta/) for full details. To access the API during the preview period, you must provide a custom [media type](/enterprise/2.14/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.antiope-preview+json\n\n```",
+        "required": true
+      }
+    ],
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "ref",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "app_id",
+        "type": "integer",
+        "description": "Filters check suites by GitHub App `id`.",
+        "required": false,
+        "location": "query"
+      },
+      {
+        "name": "check_name",
+        "type": "string",
+        "description": "Filters checks suites by the name of the [check run](/enterprise/2.14/v3/checks/runs/).",
+        "required": false,
+        "location": "query"
+      },
+      {
+        "name": "per_page",
+        "type": "integer",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30,
+        "location": "query"
+      },
+      {
+        "name": "page",
+        "type": "integer",
+        "required": false,
+        "description": "Page number of the results to fetch.",
+        "default": 1,
+        "location": "query"
+      }
+    ],
+    "requests": [
+      {
+        "app_id": 1
+      }
+    ],
+    "description": "Lists check suites for a commit `ref`. The `ref` can be a SHA, branch name, or a tag name. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to list check suites. OAuth Apps and authenticated users must have the `repo` scope to get check suites in a private repository.",
+    "responses": [
+      {
+        "headers": {
+          "status": "200 OK",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "total_count": 1,
+          "check_suites": [
+            {
+              "id": 5,
+              "head_branch": "master",
+              "head_sha": "d6fde92930d4715a2b49857d24b940956b26d2d3",
+              "status": "completed",
+              "conclusion": "neutral",
+              "url": "https://api.github.com/repos/github/hello-world/check-suites/5",
+              "before": "146e867f55c26428e5f9fade55a9bbf5e95a7912",
+              "after": "d6fde92930d4715a2b49857d24b940956b26d2d3",
+              "pull_requests": [],
+              "app": {
+                "id": 1,
+                "node_id": "MDExOkludGVncmF0aW9uMQ==",
+                "owner": {
+                  "login": "github",
+                  "id": 1,
+                  "node_id": "MDEyOk9yZ2FuaXphdGlvbjE=",
+                  "url": "https://api.github.com/orgs/github",
+                  "repos_url": "https://api.github.com/orgs/github/repos",
+                  "events_url": "https://api.github.com/orgs/github/events",
+                  "hooks_url": "https://api.github.com/orgs/github/hooks",
+                  "issues_url": "https://api.github.com/orgs/github/issues",
+                  "members_url": "https://api.github.com/orgs/github/members{/member}",
+                  "public_members_url": "https://api.github.com/orgs/github/public_members{/member}",
+                  "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+                  "description": "A great organization"
+                },
+                "name": "Super CI",
+                "description": "",
+                "external_url": "https://example.com",
+                "html_url": "https://github.com/apps/super-ci",
+                "created_at": "2017-07-08T16:18:44-04:00",
+                "updated_at": "2017-07-08T16:18:44-04:00"
+              },
+              "repository": {
+                "id": 1296269,
+                "node_id": "MDEwOlJlcG9zaXRvcnkxMjk2MjY5",
+                "name": "Hello-World",
+                "full_name": "octocat/Hello-World",
+                "owner": {
+                  "login": "octocat",
+                  "id": 1,
+                  "node_id": "MDQ6VXNlcjE=",
+                  "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+                  "gravatar_id": "",
+                  "url": "https://api.github.com/users/octocat",
+                  "html_url": "https://github.com/octocat",
+                  "followers_url": "https://api.github.com/users/octocat/followers",
+                  "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+                  "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+                  "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+                  "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+                  "organizations_url": "https://api.github.com/users/octocat/orgs",
+                  "repos_url": "https://api.github.com/users/octocat/repos",
+                  "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+                  "received_events_url": "https://api.github.com/users/octocat/received_events",
+                  "type": "User",
+                  "site_admin": false
+                },
+                "private": false,
+                "html_url": "https://github.com/octocat/Hello-World",
+                "description": "This your first repo!",
+                "fork": false,
+                "url": "https://api.github.com/repos/octocat/Hello-World",
+                "archive_url": "http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}",
+                "assignees_url": "http://api.github.com/repos/octocat/Hello-World/assignees{/user}",
+                "blobs_url": "http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}",
+                "branches_url": "http://api.github.com/repos/octocat/Hello-World/branches{/branch}",
+                "collaborators_url": "http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}",
+                "comments_url": "http://api.github.com/repos/octocat/Hello-World/comments{/number}",
+                "commits_url": "http://api.github.com/repos/octocat/Hello-World/commits{/sha}",
+                "compare_url": "http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}",
+                "contents_url": "http://api.github.com/repos/octocat/Hello-World/contents/{+path}",
+                "contributors_url": "http://api.github.com/repos/octocat/Hello-World/contributors",
+                "deployments_url": "http://api.github.com/repos/octocat/Hello-World/deployments",
+                "downloads_url": "http://api.github.com/repos/octocat/Hello-World/downloads",
+                "events_url": "http://api.github.com/repos/octocat/Hello-World/events",
+                "forks_url": "http://api.github.com/repos/octocat/Hello-World/forks",
+                "git_commits_url": "http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}",
+                "git_refs_url": "http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}",
+                "git_tags_url": "http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}",
+                "git_url": "git:github.com/octocat/Hello-World.git",
+                "issue_comment_url": "http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}",
+                "issue_events_url": "http://api.github.com/repos/octocat/Hello-World/issues/events{/number}",
+                "issues_url": "http://api.github.com/repos/octocat/Hello-World/issues{/number}",
+                "keys_url": "http://api.github.com/repos/octocat/Hello-World/keys{/key_id}",
+                "labels_url": "http://api.github.com/repos/octocat/Hello-World/labels{/name}",
+                "languages_url": "http://api.github.com/repos/octocat/Hello-World/languages",
+                "merges_url": "http://api.github.com/repos/octocat/Hello-World/merges",
+                "milestones_url": "http://api.github.com/repos/octocat/Hello-World/milestones{/number}",
+                "notifications_url": "http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}",
+                "pulls_url": "http://api.github.com/repos/octocat/Hello-World/pulls{/number}",
+                "releases_url": "http://api.github.com/repos/octocat/Hello-World/releases{/id}",
+                "ssh_url": "git@github.com:octocat/Hello-World.git",
+                "stargazers_url": "http://api.github.com/repos/octocat/Hello-World/stargazers",
+                "statuses_url": "http://api.github.com/repos/octocat/Hello-World/statuses/{sha}",
+                "subscribers_url": "http://api.github.com/repos/octocat/Hello-World/subscribers",
+                "subscription_url": "http://api.github.com/repos/octocat/Hello-World/subscription",
+                "tags_url": "http://api.github.com/repos/octocat/Hello-World/tags",
+                "teams_url": "http://api.github.com/repos/octocat/Hello-World/teams",
+                "trees_url": "http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}",
+                "clone_url": "https://github.com/octocat/Hello-World.git",
+                "mirror_url": "git:git.example.com/octocat/Hello-World",
+                "hooks_url": "http://api.github.com/repos/octocat/Hello-World/hooks",
+                "svn_url": "https://svn.github.com/octocat/Hello-World",
+                "homepage": "https://github.com",
+                "language": null,
+                "forks_count": 9,
+                "stargazers_count": 80,
+                "watchers_count": 80,
+                "size": 108,
+                "default_branch": "master",
+                "open_issues_count": 0,
+                "topics": [
+                  "octocat",
+                  "atom",
+                  "electron",
+                  "API"
+                ],
+                "has_issues": true,
+                "has_projects": true,
+                "has_wiki": true,
+                "has_pages": false,
+                "has_downloads": true,
+                "archived": false,
+                "pushed_at": "2011-01-26T19:06:43Z",
+                "created_at": "2011-01-26T19:01:12Z",
+                "updated_at": "2011-01-26T19:14:43Z",
+                "permissions": {
+                  "admin": false,
+                  "push": false,
+                  "pull": true
+                },
+                "allow_rebase_merge": true,
+                "allow_squash_merge": true,
+                "allow_merge_commit": true,
+                "subscribers_count": 42,
+                "network_count": 0,
+                "anonymous_access_enabled": false
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "idName": "list-suites-for-ref",
+    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/checks/suites/#list-check-suites-for-a-specific-ref"
+  },
+  {
+    "name": "Set preferences for check suites on a repository",
+    "enabledForApps": true,
+    "method": "PATCH",
+    "path": "/repos/:owner/:repo/check-suites/preferences",
+    "previews": [
+      {
+        "name": "antiope",
+        "description": "The Checks API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the [blog post](/changes/2018-05-07-new-checks-api-public-beta/) for full details. To access the API during the preview period, you must provide a custom [media type](/enterprise/2.14/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.antiope-preview+json\n\n```",
+        "required": true
+      }
+    ],
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "auto_trigger_checks",
+        "type": "object[]",
+        "description": "Enables or disables automatic creation of CheckSuite events upon pushes to the repository. Enabled by default. See the [`auto_trigger_checks` object](#auto_trigger_checks-object) description for details.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "auto_trigger_checks[].app_id",
+        "type": "integer",
+        "description": "The `id` of the GitHub App.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "auto_trigger_checks[].setting",
+        "type": "boolean",
+        "description": "Set to `true` to enable automatic creation of CheckSuite events upon pushes to the repository, or `false` to disable them.",
+        "default": true,
+        "required": true,
+        "location": "body"
+      }
+    ],
+    "requests": [
+      {
+        "auto_trigger_checks": [
+          {
+            "app_id": 4,
+            "setting": false
+          }
+        ]
+      }
+    ],
+    "description": "Changes the default automatic flow when creating check suites. By default, the CheckSuiteEvent is automatically created each time code is pushed to a repository. When you disable the automatic creation of check suites, you can manually [Create a check suite](/enterprise/2.14/v3/checks/suites/#create-a-check-suite). You must have admin permissions in the repository to set preferences for check suites.",
+    "responses": [
+      {
+        "headers": {
+          "status": "200 OK",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "preferences": {
+            "auto_trigger_checks": [
+              {
+                "app_id": 2,
+                "setting": true
+              },
+              {
+                "app_id": 4,
+                "setting": false
+              }
+            ]
+          },
+          "repository": {
+            "id": 1296269,
+            "node_id": "MDEwOlJlcG9zaXRvcnkxMjk2MjY5",
+            "name": "Hello-World",
+            "full_name": "octocat/Hello-World",
+            "owner": {
+              "login": "octocat",
+              "id": 1,
+              "node_id": "MDQ6VXNlcjE=",
+              "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/octocat",
+              "html_url": "https://github.com/octocat",
+              "followers_url": "https://api.github.com/users/octocat/followers",
+              "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+              "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+              "organizations_url": "https://api.github.com/users/octocat/orgs",
+              "repos_url": "https://api.github.com/users/octocat/repos",
+              "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/octocat/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "private": false,
+            "html_url": "https://github.com/octocat/Hello-World",
+            "description": "This your first repo!",
+            "fork": false,
+            "url": "https://api.github.com/repos/octocat/Hello-World",
+            "archive_url": "http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}",
+            "assignees_url": "http://api.github.com/repos/octocat/Hello-World/assignees{/user}",
+            "blobs_url": "http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}",
+            "branches_url": "http://api.github.com/repos/octocat/Hello-World/branches{/branch}",
+            "collaborators_url": "http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}",
+            "comments_url": "http://api.github.com/repos/octocat/Hello-World/comments{/number}",
+            "commits_url": "http://api.github.com/repos/octocat/Hello-World/commits{/sha}",
+            "compare_url": "http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}",
+            "contents_url": "http://api.github.com/repos/octocat/Hello-World/contents/{+path}",
+            "contributors_url": "http://api.github.com/repos/octocat/Hello-World/contributors",
+            "deployments_url": "http://api.github.com/repos/octocat/Hello-World/deployments",
+            "downloads_url": "http://api.github.com/repos/octocat/Hello-World/downloads",
+            "events_url": "http://api.github.com/repos/octocat/Hello-World/events",
+            "forks_url": "http://api.github.com/repos/octocat/Hello-World/forks",
+            "git_commits_url": "http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}",
+            "git_refs_url": "http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}",
+            "git_tags_url": "http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}",
+            "git_url": "git:github.com/octocat/Hello-World.git",
+            "issue_comment_url": "http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}",
+            "issue_events_url": "http://api.github.com/repos/octocat/Hello-World/issues/events{/number}",
+            "issues_url": "http://api.github.com/repos/octocat/Hello-World/issues{/number}",
+            "keys_url": "http://api.github.com/repos/octocat/Hello-World/keys{/key_id}",
+            "labels_url": "http://api.github.com/repos/octocat/Hello-World/labels{/name}",
+            "languages_url": "http://api.github.com/repos/octocat/Hello-World/languages",
+            "merges_url": "http://api.github.com/repos/octocat/Hello-World/merges",
+            "milestones_url": "http://api.github.com/repos/octocat/Hello-World/milestones{/number}",
+            "notifications_url": "http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}",
+            "pulls_url": "http://api.github.com/repos/octocat/Hello-World/pulls{/number}",
+            "releases_url": "http://api.github.com/repos/octocat/Hello-World/releases{/id}",
+            "ssh_url": "git@github.com:octocat/Hello-World.git",
+            "stargazers_url": "http://api.github.com/repos/octocat/Hello-World/stargazers",
+            "statuses_url": "http://api.github.com/repos/octocat/Hello-World/statuses/{sha}",
+            "subscribers_url": "http://api.github.com/repos/octocat/Hello-World/subscribers",
+            "subscription_url": "http://api.github.com/repos/octocat/Hello-World/subscription",
+            "tags_url": "http://api.github.com/repos/octocat/Hello-World/tags",
+            "teams_url": "http://api.github.com/repos/octocat/Hello-World/teams",
+            "trees_url": "http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}",
+            "clone_url": "https://github.com/octocat/Hello-World.git",
+            "mirror_url": "git:git.example.com/octocat/Hello-World",
+            "hooks_url": "http://api.github.com/repos/octocat/Hello-World/hooks",
+            "svn_url": "https://svn.github.com/octocat/Hello-World",
+            "homepage": "https://github.com",
+            "language": null,
+            "forks_count": 9,
+            "stargazers_count": 80,
+            "watchers_count": 80,
+            "size": 108,
+            "default_branch": "master",
+            "open_issues_count": 0,
+            "topics": [
+              "octocat",
+              "atom",
+              "electron",
+              "API"
+            ],
+            "has_issues": true,
+            "has_projects": true,
+            "has_wiki": true,
+            "has_pages": false,
+            "has_downloads": true,
+            "archived": false,
+            "pushed_at": "2011-01-26T19:06:43Z",
+            "created_at": "2011-01-26T19:01:12Z",
+            "updated_at": "2011-01-26T19:14:43Z",
+            "permissions": {
+              "admin": false,
+              "push": false,
+              "pull": true
+            },
+            "allow_rebase_merge": true,
+            "allow_squash_merge": true,
+            "allow_merge_commit": true,
+            "subscribers_count": 42,
+            "network_count": 0,
+            "anonymous_access_enabled": false
+          }
+        }
+      }
+    ],
+    "idName": "set-suites-preferences",
+    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/checks/suites/#set-preferences-for-check-suites-on-a-repository"
+  },
+  {
+    "name": "Create a check suite",
+    "enabledForApps": true,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/check-suites",
+    "previews": [
+      {
+        "name": "antiope",
+        "description": "The Checks API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the [blog post](/changes/2018-05-07-new-checks-api-public-beta/) for full details. To access the API during the preview period, you must provide a custom [media type](/enterprise/2.14/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.antiope-preview+json\n\n```",
+        "required": true
+      }
+    ],
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "head_sha",
+        "type": "string",
+        "description": "The sha of the head commit.",
+        "required": true,
+        "location": "body"
+      }
+    ],
+    "requests": [
+      {
+        "head_sha": "d6fde92930d4715a2b49857d24b940956b26d2d3"
+      }
+    ],
+    "description": "By default, check suites are automatically created when you create a [check run](/enterprise/2.14/v3/checks/runs/). You only need to use this endpoint for manually creating check suites when you've disabled automatic creation using \"[Set preferences for check suites on a repository](/enterprise/2.14/v3/checks/suites/#set-preferences-for-check-suites-on-a-repository)\". Your GitHub App must have the `checks:write` permission to create check suites.",
+    "responses": [
+      {
+        "headers": {
+          "status": "201 Created",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "id": 5,
+          "head_branch": "master",
+          "head_sha": "d6fde92930d4715a2b49857d24b940956b26d2d3",
+          "status": "completed",
+          "conclusion": "neutral",
+          "url": "https://api.github.com/repos/github/hello-world/check-suites/5",
+          "before": "146e867f55c26428e5f9fade55a9bbf5e95a7912",
+          "after": "d6fde92930d4715a2b49857d24b940956b26d2d3",
+          "pull_requests": [],
+          "app": {
+            "id": 1,
+            "node_id": "MDExOkludGVncmF0aW9uMQ==",
+            "owner": {
+              "login": "github",
+              "id": 1,
+              "node_id": "MDEyOk9yZ2FuaXphdGlvbjE=",
+              "url": "https://api.github.com/orgs/github",
+              "repos_url": "https://api.github.com/orgs/github/repos",
+              "events_url": "https://api.github.com/orgs/github/events",
+              "hooks_url": "https://api.github.com/orgs/github/hooks",
+              "issues_url": "https://api.github.com/orgs/github/issues",
+              "members_url": "https://api.github.com/orgs/github/members{/member}",
+              "public_members_url": "https://api.github.com/orgs/github/public_members{/member}",
+              "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+              "description": "A great organization"
+            },
+            "name": "Super CI",
+            "description": "",
+            "external_url": "https://example.com",
+            "html_url": "https://github.com/apps/super-ci",
+            "created_at": "2017-07-08T16:18:44-04:00",
+            "updated_at": "2017-07-08T16:18:44-04:00"
+          },
+          "repository": {
+            "id": 1296269,
+            "node_id": "MDEwOlJlcG9zaXRvcnkxMjk2MjY5",
+            "name": "Hello-World",
+            "full_name": "octocat/Hello-World",
+            "owner": {
+              "login": "octocat",
+              "id": 1,
+              "node_id": "MDQ6VXNlcjE=",
+              "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/octocat",
+              "html_url": "https://github.com/octocat",
+              "followers_url": "https://api.github.com/users/octocat/followers",
+              "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+              "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+              "organizations_url": "https://api.github.com/users/octocat/orgs",
+              "repos_url": "https://api.github.com/users/octocat/repos",
+              "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/octocat/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "private": false,
+            "html_url": "https://github.com/octocat/Hello-World",
+            "description": "This your first repo!",
+            "fork": false,
+            "url": "https://api.github.com/repos/octocat/Hello-World",
+            "archive_url": "http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}",
+            "assignees_url": "http://api.github.com/repos/octocat/Hello-World/assignees{/user}",
+            "blobs_url": "http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}",
+            "branches_url": "http://api.github.com/repos/octocat/Hello-World/branches{/branch}",
+            "collaborators_url": "http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}",
+            "comments_url": "http://api.github.com/repos/octocat/Hello-World/comments{/number}",
+            "commits_url": "http://api.github.com/repos/octocat/Hello-World/commits{/sha}",
+            "compare_url": "http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}",
+            "contents_url": "http://api.github.com/repos/octocat/Hello-World/contents/{+path}",
+            "contributors_url": "http://api.github.com/repos/octocat/Hello-World/contributors",
+            "deployments_url": "http://api.github.com/repos/octocat/Hello-World/deployments",
+            "downloads_url": "http://api.github.com/repos/octocat/Hello-World/downloads",
+            "events_url": "http://api.github.com/repos/octocat/Hello-World/events",
+            "forks_url": "http://api.github.com/repos/octocat/Hello-World/forks",
+            "git_commits_url": "http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}",
+            "git_refs_url": "http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}",
+            "git_tags_url": "http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}",
+            "git_url": "git:github.com/octocat/Hello-World.git",
+            "issue_comment_url": "http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}",
+            "issue_events_url": "http://api.github.com/repos/octocat/Hello-World/issues/events{/number}",
+            "issues_url": "http://api.github.com/repos/octocat/Hello-World/issues{/number}",
+            "keys_url": "http://api.github.com/repos/octocat/Hello-World/keys{/key_id}",
+            "labels_url": "http://api.github.com/repos/octocat/Hello-World/labels{/name}",
+            "languages_url": "http://api.github.com/repos/octocat/Hello-World/languages",
+            "merges_url": "http://api.github.com/repos/octocat/Hello-World/merges",
+            "milestones_url": "http://api.github.com/repos/octocat/Hello-World/milestones{/number}",
+            "notifications_url": "http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}",
+            "pulls_url": "http://api.github.com/repos/octocat/Hello-World/pulls{/number}",
+            "releases_url": "http://api.github.com/repos/octocat/Hello-World/releases{/id}",
+            "ssh_url": "git@github.com:octocat/Hello-World.git",
+            "stargazers_url": "http://api.github.com/repos/octocat/Hello-World/stargazers",
+            "statuses_url": "http://api.github.com/repos/octocat/Hello-World/statuses/{sha}",
+            "subscribers_url": "http://api.github.com/repos/octocat/Hello-World/subscribers",
+            "subscription_url": "http://api.github.com/repos/octocat/Hello-World/subscription",
+            "tags_url": "http://api.github.com/repos/octocat/Hello-World/tags",
+            "teams_url": "http://api.github.com/repos/octocat/Hello-World/teams",
+            "trees_url": "http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}",
+            "clone_url": "https://github.com/octocat/Hello-World.git",
+            "mirror_url": "git:git.example.com/octocat/Hello-World",
+            "hooks_url": "http://api.github.com/repos/octocat/Hello-World/hooks",
+            "svn_url": "https://svn.github.com/octocat/Hello-World",
+            "homepage": "https://github.com",
+            "language": null,
+            "forks_count": 9,
+            "stargazers_count": 80,
+            "watchers_count": 80,
+            "size": 108,
+            "default_branch": "master",
+            "open_issues_count": 0,
+            "topics": [
+              "octocat",
+              "atom",
+              "electron",
+              "API"
+            ],
+            "has_issues": true,
+            "has_projects": true,
+            "has_wiki": true,
+            "has_pages": false,
+            "has_downloads": true,
+            "archived": false,
+            "pushed_at": "2011-01-26T19:06:43Z",
+            "created_at": "2011-01-26T19:01:12Z",
+            "updated_at": "2011-01-26T19:14:43Z",
+            "permissions": {
+              "admin": false,
+              "push": false,
+              "pull": true
+            },
+            "allow_rebase_merge": true,
+            "allow_squash_merge": true,
+            "allow_merge_commit": true,
+            "subscribers_count": 42,
+            "network_count": 0,
+            "anonymous_access_enabled": false
+          }
+        }
+      }
+    ],
+    "idName": "create-suite",
+    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/checks/suites/#create-a-check-suite"
+  },
+  {
+    "name": "Request check suites",
+    "enabledForApps": true,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/check-suite-requests",
+    "previews": [
+      {
+        "name": "antiope",
+        "description": "The Checks API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the [blog post](/changes/2018-05-07-new-checks-api-public-beta/) for full details. To access the API during the preview period, you must provide a custom [media type](/enterprise/2.14/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.antiope-preview+json\n\n```",
+        "required": true
+      }
+    ],
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "head_sha",
+        "type": "string",
+        "description": "The sha of the head commit.",
+        "required": true,
+        "location": "body"
+      }
+    ],
+    "requests": [
+      {
+        "head_sha": "d6fde92930d4715a2b49857d24b940956b26d2d3"
+      }
+    ],
+    "description": "Triggers GitHub to create a new check suite, without pushing new code to a repository. To request a check suite, your GitHub App must have the `checks:read` permission on a private repository or pull access to a public repository.",
+    "responses": [
+      {
+        "headers": {
+          "status": "201 Created",
+          "content-type": "application/json; charset=utf-8"
+        }
+      }
+    ],
+    "idName": "request-suites",
+    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/checks/suites/#request-check-suites"
+  }
+]

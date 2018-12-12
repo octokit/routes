@@ -1,0 +1,34 @@
+{
+  "name": "Suspend a user",
+  "enabledForApps": false,
+  "method": "PUT",
+  "path": "/users/:username/suspended",
+  "previews": [],
+  "params": [
+    {
+      "name": "username",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "reason",
+      "type": "string",
+      "description": "The reason the user is being suspended. This message will be logged in the [audit log](https://help.github.com/enterprise/admin/articles/audit-logging/). If you don't provide a `reason`, it will default to \"Suspended via API by _SITE\\_ADMINISTRATOR_\", where _SITE\\_ADMINISTRATOR_ is the person who performed the action.",
+      "required": false,
+      "location": "body"
+    }
+  ],
+  "description": "If your GitHub Enterprise appliance has [LDAP Sync with Active Directory LDAP servers](https://help.github.com/enterprise/admin/guides/user-management/using-ldap), this API is disabled and will return a `403` response. Users managed by an external account cannot be suspended via the API.\n\nYou can suspend any user account except your own.\n\nNote that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](/enterprise/2.14/v3/#http-verbs).\"",
+  "responses": [
+    {
+      "headers": {
+        "status": "204 No Content",
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "idName": "suspend-user",
+  "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/enterprise-admin/users/#suspend-a-user"
+}

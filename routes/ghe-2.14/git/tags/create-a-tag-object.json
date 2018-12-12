@@ -1,0 +1,131 @@
+{
+  "name": "Create a tag object",
+  "enabledForApps": true,
+  "method": "POST",
+  "path": "/repos/:owner/:repo/git/tags",
+  "previews": [],
+  "params": [
+    {
+      "name": "owner",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "repo",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "tag",
+      "type": "string",
+      "description": "The tag's name. This is typically a version (e.g., \"v0.0.1\").",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "message",
+      "type": "string",
+      "description": "The tag message.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "object",
+      "type": "string",
+      "description": "The SHA of the git object this is tagging.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "type",
+      "type": "string",
+      "description": "The type of the object we're tagging. Normally this is a `commit` but it can also be a `tree` or a `blob`.",
+      "required": true,
+      "enum": [
+        "commit",
+        "tree",
+        "blob"
+      ],
+      "location": "body"
+    },
+    {
+      "name": "tagger",
+      "type": "object",
+      "description": "An object with information about the individual creating the tag.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "tagger.name",
+      "type": "string",
+      "description": "The name of the author of the tag",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "tagger.email",
+      "type": "string",
+      "description": "The email of the author of the tag",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "tagger.date",
+      "type": "string",
+      "description": "When this object was tagged. This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.",
+      "required": false,
+      "location": "body"
+    }
+  ],
+  "requests": [
+    {
+      "tag": "v0.0.1",
+      "message": "initial version\n",
+      "object": "c3d0be41ecbe669545ee3e94d31ed9a4bc91ee3c",
+      "type": "commit",
+      "tagger": {
+        "name": "Scott Chacon",
+        "email": "schacon@gmail.com",
+        "date": "2011-06-17T14:53:35-07:00"
+      }
+    }
+  ],
+  "description": "Note that creating a tag object does not create the reference that makes a tag in Git. If you want to create an annotated tag in Git, you have to do this call to create the tag object, and then [create](/enterprise/2.14/v3/git/refs/#create-a-reference) the `refs/tags/[tag]` reference. If you want to create a lightweight tag, you only have to [create](/enterprise/2.14/v3/git/refs/#create-a-reference) the tag reference - this call would be unnecessary.",
+  "responses": [
+    {
+      "headers": {
+        "status": "201 Created",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "node_id": "MDM6VGFnOTQwYmQzMzYyNDhlZmFlMGY5ZWU1YmM3YjJkNWM5ODU4ODdiMTZhYw==",
+        "tag": "v0.0.1",
+        "sha": "940bd336248efae0f9ee5bc7b2d5c985887b16ac",
+        "url": "https://api.github.com/repos/octocat/Hello-World/git/tags/940bd336248efae0f9ee5bc7b2d5c985887b16ac",
+        "message": "initial version",
+        "tagger": {
+          "name": "Scott Chacon",
+          "email": "schacon@gmail.com",
+          "date": "2014-11-07T22:01:45Z"
+        },
+        "object": {
+          "type": "commit",
+          "sha": "c3d0be41ecbe669545ee3e94d31ed9a4bc91ee3c",
+          "url": "https://api.github.com/repos/octocat/Hello-World/git/commits/c3d0be41ecbe669545ee3e94d31ed9a4bc91ee3c"
+        },
+        "verification": {
+          "verified": false,
+          "reason": "unsigned",
+          "signature": null,
+          "payload": null
+        }
+      }
+    }
+  ],
+  "idName": "create-tag",
+  "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/git/tags/#create-a-tag-object"
+}

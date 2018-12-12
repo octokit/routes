@@ -1,0 +1,122 @@
+{
+  "name": "Create a global hook",
+  "enabledForApps": false,
+  "method": "POST",
+  "path": "/admin/hooks",
+  "previews": [
+    {
+      "name": "superpro",
+      "description": "**Note:** The [Global Webhooks API](/enterprise/2.14/v3/enterprise-admin/global_webhooks/) is currently available for developers to preview. To access the API during the preview period, you must provide a custom [media type](/enterprise/2.14/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.superpro-preview+json\n\n```",
+      "required": true
+    }
+  ],
+  "params": [
+    {
+      "name": "name",
+      "type": "string",
+      "description": "Must be passed as \"web\".",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "config",
+      "type": "object",
+      "description": "Key/value pairs to provide settings for this webhook. [These are defined below](#create-hook-config-params).",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "config.url",
+      "type": "string",
+      "description": "The URL to which the payloads will be delivered.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "config.content_type",
+      "type": "string",
+      "description": "The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "config.secret",
+      "type": "string",
+      "description": "If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value in the [`X-Hub-Signature`](/enterprise/2.14/webhooks/#delivery-headers) header.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "config.insecure_ssl",
+      "type": "string",
+      "description": "Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.**",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "events",
+      "type": "string",
+      "description": "The [events](/enterprise/2.14/v3/activity/events/types/) that trigger this webhook. A global webhook can be triggered by `user` and `organization` events.",
+      "default": "`user` and `organization`",
+      "required": false,
+      "enum": [
+        "user",
+        "organization"
+      ],
+      "location": "body"
+    },
+    {
+      "name": "active",
+      "type": "boolean",
+      "description": "Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.",
+      "default": true,
+      "required": false,
+      "location": "body"
+    }
+  ],
+  "requests": [
+    {
+      "name": "web",
+      "events": [
+        "organization",
+        "user"
+      ],
+      "config": {
+        "url": "https://example.com/webhook",
+        "content_type": "json",
+        "secret": "secret"
+      }
+    }
+  ],
+  "description": "",
+  "responses": [
+    {
+      "headers": {
+        "status": "201 Created",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "type": "Global",
+        "id": 1,
+        "name": "web",
+        "active": true,
+        "events": [
+          "organization",
+          "user"
+        ],
+        "config": {
+          "url": "https://example.com",
+          "content_type": "json",
+          "insecure_ssl": "0",
+          "secret": "********"
+        },
+        "updated_at": "2017-12-07T00:14:59Z",
+        "created_at": "2017-12-07T00:14:59Z",
+        "url": "https://api.github.com/admin/hooks/1",
+        "ping_url": "https://api.github.com/admin/hooks/1/pings"
+      }
+    }
+  ],
+  "idName": "create-global-hook",
+  "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/enterprise-admin/global_webhooks/#create-a-global-hook"
+}
