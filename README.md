@@ -10,6 +10,8 @@
 - All routes for a scope, e.g. `repos`: [octokit.github.io/routes/routes/api.github.com/repos.json](https://octokit.github.io/routes/routes/repos.json)
 - A single route, e.g. `GET /repos/:owner/:repo`: [octokit.github.io/routes/routes/api.github.com/repos/get.json](https://octokit.github.io/routes/routes/repos/get.json)
 
+Enterprise routes follow the same folder structure, but instead of `routes/api.github.com` it is `routes/ghe-2.15`, etc.
+
 ## Example
 
 Example route definition
