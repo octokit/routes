@@ -1,0 +1,86 @@
+<h2>
+<a id="upload-a-release-asset" class="anchor" href="#upload-a-release-asset" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Upload a release asset<a href="/enterprise/2.14/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+<p>This endpoint makes use of <a href="/enterprise/2.14/v3/#hypermedia">a Hypermedia relation</a> to determine which URL to access.
+This endpoint is provided by a URI template in <a href="#get-a-single-release">the release&apos;s API response</a>.</p>
+<p>The asset data is expected in its raw binary form, rather than JSON.
+Everything else about the endpoint is the same as the rest of the API. For example, you&apos;ll still need to pass your authentication to be able to upload an asset.</p>
+<pre><code>POST https://&lt;upload_url&gt;/repos/:owner/:repo/releases/:release_id/assets?name=foo.zip
+</code></pre>
+<h3>
+<a id="input-2" class="anchor" href="#input-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Input</h3>
+<p>The raw file is uploaded to GitHub Enterprise.  Set the content type appropriately, and the
+asset&apos;s name and label in URI query parameters.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Content-Type</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required</strong>. The content type of the asset. This should be set in the Header. Example: <code>&quot;application/zip&quot;</code>. For a list of acceptable types, refer this list of <a href="https://www.iana.org/assignments/media-types/media-types.xhtml">media types</a>.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required</strong>. The file name of the asset. This should be set in a URI query parameter.</td>
+</tr>
+<tr>
+<td><code>label</code></td>
+<td><code>string</code></td>
+<td>An alternate short description of the asset. Used in place of the filename. This should be set in a URI query parameter.</td>
+</tr>
+</tbody>
+</table>
+<p>Send the raw binary content of the asset as the request body.</p>
+<h3>
+<a id="response-for-successful-upload" class="anchor" href="#response-for-successful-upload" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response for successful upload</h3>
+<pre class="highlight highlight-headers"><code>Status: 201 Created
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Hello-World/releases/assets/1&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;browser_download_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/octocat/Hello-World/releases/download/v1.0.0/example.zip&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MDEyOlJlbGVhc2VBc3NldDE=&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;example.zip&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;short description&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;uploaded&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;content_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;application/zip&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1024</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;download_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2013-02-27T19:35:32Z&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2013-02-27T19:35:32Z&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;uploader&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;login&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;octocat&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MDQ6VXNlcjE=&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;avatar_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/images/error/octocat_happy.gif&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;gravatar_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;html_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/octocat&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;followers_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/followers&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;following_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/following{/other_user}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;gists_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/gists{/gist_id}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;starred_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/starred{/owner}{/repo}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;subscriptions_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/subscriptions&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;organizations_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/orgs&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;repos_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/repos&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;events_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/events{/privacy}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;received_events_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/received_events&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;User&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;site_admin&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="response-for-upstream-failure" class="anchor" href="#response-for-upstream-failure" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response for upstream failure</h3>
+<p>This may leave an empty asset with a state of <code>new</code>.  It can be safely deleted.</p>
+<pre class="highlight highlight-headers"><code>Status: 502 Bad Gateway
+</code></pre>

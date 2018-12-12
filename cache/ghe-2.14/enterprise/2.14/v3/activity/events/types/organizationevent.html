@@ -1,0 +1,106 @@
+<h2>
+<a id="organizationevent" class="anchor" href="#organizationevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>OrganizationEvent</h2>
+<p>Triggered when a user is created, deleted, added, removed, or invited to an Organization. <a href="/enterprise/2.14/v3/enterprise-admin/global_webhooks/">Global webhooks</a> will only receive notifications when an organization is <code>created</code> and <code>deleted</code>. <a href="/enterprise/2.14/v3/orgs/hooks/">Organization webhooks</a> will receive notifications for <code>deleted</code>, <code>added</code>, <code>removed</code>, and <code>invited</code> events.</p>
+<p>Events of this type are not visible in timelines. These events are only used to trigger organization hooks.</p>
+<h3>
+<a id="events-api-payload-20" class="anchor" href="#events-api-payload-20" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>action</code></td>
+<td><code>string</code></td>
+<td>The action that was performed. Can be one of: <code>created</code>, <code>deleted</code>, <code>member_added</code>, <code>member_removed</code>, or <code>member_invited</code>.</td>
+</tr>
+<tr>
+<td><code>invitation</code></td>
+<td><code>object</code></td>
+<td>The invitation for the user or email if the action is <code>member_invited</code>.</td>
+</tr>
+<tr>
+<td><code>membership</code></td>
+<td><code>object</code></td>
+<td>The membership between the user and the organization.  Not present when the action is <code>member_invited</code>.</td>
+</tr>
+<tr>
+<td><code>organization</code></td>
+<td><code>object</code></td>
+<td>The organization in question.</td>
+</tr>
+</tbody>
+</table>
+<h3>
+<a id="webhook-event-name-21" class="anchor" href="#webhook-event-name-21" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook event name</h3>
+<p><code>organization</code></p>
+<h3>
+<a id="webhook-payload-example-17" class="anchor" href="#webhook-payload-example-17" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook payload example</h3>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;action&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;member_added&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;membership&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/orgs/Octocoders/memberships/Hacktocat&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;active&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;member&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;organization_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/orgs/Octocoders&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;user&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;login&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Hacktocat&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MDQ6VXNlcjU=&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;avatar_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/avatars/u/5?&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;gravatar_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Hacktocat&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;html_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/Hacktocat&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;followers_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Hacktocat/followers&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;following_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Hacktocat/following{/other_user}&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;gists_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Hacktocat/gists{/gist_id}&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;starred_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Hacktocat/starred{/owner}{/repo}&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;subscriptions_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Hacktocat/subscriptions&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;organizations_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Hacktocat/orgs&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;repos_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Hacktocat/repos&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;events_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Hacktocat/events{/privacy}&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;received_events_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Hacktocat/received_events&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;User&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;site_admin&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">&quot;organization&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;login&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Octocoders&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MDEyOk9yZ2FuaXphdGlvbjY=&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/orgs/Octocoders&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;repos_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/orgs/Octocoders/repos&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;events_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/orgs/Octocoders/events&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;hooks_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/orgs/Octocoders/hooks&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;issues_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/orgs/Octocoders/issues&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;members_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/orgs/Octocoders/members{/member}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;public_members_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/orgs/Octocoders/public_members{/member}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;avatar_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/avatars/u/6?&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">&quot;sender&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;login&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Codertocat&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MDQ6VXNlcjQ=&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;avatar_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/avatars/u/4?&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;gravatar_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Codertocat&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;html_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/Codertocat&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;followers_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Codertocat/followers&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;following_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Codertocat/following{/other_user}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;gists_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Codertocat/gists{/gist_id}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;starred_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Codertocat/starred{/owner}{/repo}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;subscriptions_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Codertocat/subscriptions&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;organizations_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Codertocat/orgs&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;repos_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Codertocat/repos&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;events_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Codertocat/events{/privacy}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;received_events_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Codertocat/received_events&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;User&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;site_admin&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>

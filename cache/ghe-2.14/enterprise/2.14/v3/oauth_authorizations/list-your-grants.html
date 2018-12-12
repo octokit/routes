@@ -1,0 +1,28 @@
+<h2>
+<a id="list-your-grants" class="anchor" href="#list-your-grants" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List your grants</h2>
+<p>You can use this API to list the set of OAuth applications that have been granted access to your account. Unlike the <a href="/enterprise/2.14/v3/oauth_authorizations/#list-your-authorizations">list your authorizations</a> API, this API does not manage individual tokens. This API will return one entry for each OAuth application that has been granted access to your account, regardless of the number of tokens an application has generated for your user. The list of OAuth applications returned matches what is shown on <a href="https://github.com/settings/applications#authorized">the application authorizations settings screen within GitHub</a>. The <code>scopes</code> returned are the union of scopes authorized for the application. For example, if an application has one token with <code>repo</code> scope and another token with <code>user</code> scope, the grant will return <code>[&quot;repo&quot;, &quot;user&quot;]</code>.</p>
+<pre><code>GET /applications/grants
+</code></pre>
+<h3>
+<a id="response" class="anchor" href="#response" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+Link: &lt;https://api.github.com/resource?page=2&gt;; rel=&quot;next&quot;,
+      &lt;https://api.github.com/resource?page=5&gt;; rel=&quot;last&quot;
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/applications/grants/1&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;app&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://my-github-app.com&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;my github app&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;client_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;abcde12345fghij67890&quot;</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2011-09-06T17:26:27Z&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2011-09-06T20:39:23Z&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;scopes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">&quot;public_repo&quot;</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
