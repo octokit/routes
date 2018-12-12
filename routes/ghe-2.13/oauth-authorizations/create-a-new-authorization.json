@@ -1,0 +1,90 @@
+{
+  "name": "Create a new authorization",
+  "enabledForApps": false,
+  "method": "POST",
+  "path": "/authorizations",
+  "previews": [],
+  "params": [
+    {
+      "name": "scopes",
+      "type": "string[]",
+      "description": "A list of scopes that this authorization is in.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "note",
+      "type": "string",
+      "description": "A note to remind you what the OAuth token is for. Tokens not associated with a specific OAuth application (i.e. personal access tokens) must have a unique note.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "note_url",
+      "type": "string",
+      "description": "A URL to remind you what app the OAuth token is for.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "client_id",
+      "type": "string",
+      "description": "The 20 character OAuth app client key for which to create the token.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "client_secret",
+      "type": "string",
+      "description": "The 40 character OAuth app client secret for which to create the token.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "fingerprint",
+      "type": "string",
+      "description": "A unique string to distinguish an authorization from others created for the same client ID and user.",
+      "required": false,
+      "location": "body"
+    }
+  ],
+  "requests": [
+    {
+      "scopes": [
+        "public_repo"
+      ],
+      "note": "admin script"
+    }
+  ],
+  "description": "If you need a small number of personal access tokens, implementing the [web flow](/enterprise/2.13/apps/building-oauth-apps/authorizing-oauth-apps/) can be cumbersome. Instead, tokens can be created using the OAuth Authorizations API using [Basic Authentication](/enterprise/2.13/v3/auth#basic-authentication). To create personal access tokens for a particular OAuth application, you must provide its client ID and secret, found on the OAuth application settings page, linked from your [OAuth applications listing on GitHub](https://github.com/settings/developers).\n\nIf your OAuth application intends to create multiple tokens for one user, use `fingerprint` to differentiate between them.\n\nYou can also create OAuth tokens through the web UI via the [personal access tokens settings](https://github.com/settings/tokens). Read more about these tokens on the [GitHub Help site](https://help.github.com/articles/creating-an-access-token-for-command-line-use).",
+  "responses": [
+    {
+      "headers": {
+        "status": "201 Created",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "id": 1,
+        "url": "https://api.github.com/authorizations/1",
+        "scopes": [
+          "public_repo"
+        ],
+        "token": "abcdefgh12345678",
+        "token_last_eight": "12345678",
+        "hashed_token": "25f94a2a5c7fbaf499c665bc73d67c1c87e496da8985131633ee0a95819db2e8",
+        "app": {
+          "url": "http://my-github-app.com",
+          "name": "my github app",
+          "client_id": "abcde12345fghij67890"
+        },
+        "note": "optional note",
+        "note_url": "http://optional/note/url",
+        "updated_at": "2011-09-06T20:39:23Z",
+        "created_at": "2011-09-06T17:26:27Z",
+        "fingerprint": ""
+      }
+    }
+  ],
+  "idName": "create-authorization",
+  "documentationUrl": "https://developer.github.com/enterprise/2.13/v3/oauth_authorizations/#create-a-new-authorization"
+}

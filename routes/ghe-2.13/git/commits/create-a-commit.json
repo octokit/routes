@@ -1,0 +1,114 @@
+{
+  "name": "Create a commit",
+  "enabledForApps": true,
+  "method": "POST",
+  "path": "/repos/:owner/:repo/git/commits",
+  "previews": [],
+  "params": [
+    {
+      "name": "owner",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "repo",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "message",
+      "type": "string",
+      "description": "The commit message",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "tree",
+      "type": "string",
+      "description": "The SHA of the tree object this commit points to",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "parents",
+      "type": "string[]",
+      "description": "The SHAs of the commits that were the parents of this commit. If omitted or empty, the commit will be written as a root commit. For a single parent, an array of one SHA should be provided; for a merge commit, an array of more than one should be provided.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "committer",
+      "type": "object",
+      "description": "object containing information about the committer.",
+      "location": "body"
+    },
+    {
+      "name": "author",
+      "type": "object",
+      "description": "object containing information about the author.",
+      "location": "body"
+    }
+  ],
+  "requests": [
+    {
+      "message": "my commit message",
+      "author": {
+        "name": "Scott Chacon",
+        "email": "schacon@gmail.com",
+        "date": "2008-07-09T16:13:30+12:00"
+      },
+      "parents": [
+        "7d1b31e74ee336d15cbd21741bc88a537ed063a0"
+      ],
+      "tree": "827efc6d56897b048c772eb4087f854f46256132",
+      "signature": "-----BEGIN PGP SIGNATURE-----\n\niQIzBAABAQAdFiEESn/54jMNIrGSE6Tp6cQjvhfv7nAFAlnT71cACgkQ6cQjvhfv\n7nCWwA//XVqBKWO0zF+bZl6pggvky3Oc2j1pNFuRWZ29LXpNuD5WUGXGG209B0hI\nDkmcGk19ZKUTnEUJV2Xd0R7AW01S/YSub7OYcgBkI7qUE13FVHN5ln1KvH2all2n\n2+JCV1HcJLEoTjqIFZSSu/sMdhkLQ9/NsmMAzpf/iIM0nQOyU4YRex9eD1bYj6nA\nOQPIDdAuaTQj1gFPHYLzM4zJnCqGdRlg0sOM/zC5apBNzIwlgREatOYQSCfCKV7k\nnrU34X8b9BzQaUx48Qa+Dmfn5KQ8dl27RNeWAqlkuWyv3pUauH9UeYW+KyuJeMkU\n+NyHgAsWFaCFl23kCHThbLStMZOYEnGagrd0hnm1TPS4GJkV4wfYMwnI4KuSlHKB\njHl3Js9vNzEUQipQJbgCgTiWvRJoK3ENwBTMVkKHaqT4x9U4Jk/XZB6Q8MA09ezJ\n3QgiTjTAGcum9E9QiJqMYdWQPWkaBIRRz5cET6HPB48YNXAAUsfmuYsGrnVLYbG+\nUpC6I97VybYHTy2O9XSGoaLeMI9CsFn38ycAxxbWagk5mhclNTP5mezIq6wKSwmr\nX11FW3n1J23fWZn5HJMBsRnUCgzqzX3871IqLYHqRJ/bpZ4h20RhTyPj5c/z7QXp\neSakNQMfbbMcljkha+ZMuVQX1K9aRlVqbmv3ZMWh+OijLYVU2bc=\n=5Io4\n-----END PGP SIGNATURE-----\n"
+    }
+  ],
+  "description": "Creates a new Git [commit object](https://git-scm.com/book/en/v1/Git-Internals-Git-Objects#Commit-Objects).\n\nThe `committer` section is optional and will be filled with the `author` data if omitted. If the `author` section is omitted, it will be filled in with the authenticated user's information and the current date.\n\nBoth the `author` and `committer` parameters have the same keys:\n\n| name  | type   | description                                                                                                             |\n| ----- | ------ | ----------------------------------------------------------------------------------------------------------------------- |\n| name  | string | The name of the author (or committer) of the commit                                                                     |\n| email | string | The email of the author (or committer) of the commit                                                                    |\n| date  | string | Indicates when this commit was authored (or committed). This is a timestamp in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`. |\n\nYou can also provide an optional string `signature` parameter. This value will be added to the `gpgsig` header of the created commit. For a commit signature to be verifiable by Git or GitHub, it must be an ASCII-armored detached PGP signature over the string commit as it would be written to the object database.\n\n**Note**: To pass a `signature` parameter, you need to first manually create a valid PGP signature, which can be complicated. You may find it easier to [use the command line](https://git-scm.com/book/id/v2/Git-Tools-Signing-Your-Work) to create signed commits.\n\nIn this example, the payload that the signature is over would have been:\n\n",
+  "responses": [
+    {
+      "headers": {
+        "status": "201 Created",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "sha": "7638417db6d59f3c431d3e1f261cc637155684cd",
+        "node_id": "MDY6Q29tbWl0NzYzODQxN2RiNmQ1OWYzYzQzMWQzZTFmMjYxY2M2MzcxNTU2ODRjZA==",
+        "url": "https://api.github.com/repos/octocat/Hello-World/git/commits/7638417db6d59f3c431d3e1f261cc637155684cd",
+        "author": {
+          "date": "2014-11-07T22:01:45Z",
+          "name": "Scott Chacon",
+          "email": "schacon@gmail.com"
+        },
+        "committer": {
+          "date": "2014-11-07T22:01:45Z",
+          "name": "Scott Chacon",
+          "email": "schacon@gmail.com"
+        },
+        "message": "my commit message",
+        "tree": {
+          "url": "https://api.github.com/repos/octocat/Hello-World/git/trees/827efc6d56897b048c772eb4087f854f46256132",
+          "sha": "827efc6d56897b048c772eb4087f854f46256132"
+        },
+        "parents": [
+          {
+            "url": "https://api.github.com/repos/octocat/Hello-World/git/commits/7d1b31e74ee336d15cbd21741bc88a537ed063a0",
+            "sha": "7d1b31e74ee336d15cbd21741bc88a537ed063a0"
+          }
+        ],
+        "verification": {
+          "verified": false,
+          "reason": "unsigned",
+          "signature": null,
+          "payload": null
+        }
+      }
+    }
+  ],
+  "idName": "create-commit",
+  "documentationUrl": "https://developer.github.com/enterprise/2.13/v3/git/commits/#create-a-commit"
+}

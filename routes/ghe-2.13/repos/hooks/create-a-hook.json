@@ -1,0 +1,124 @@
+{
+  "name": "Create a hook",
+  "enabledForApps": true,
+  "method": "POST",
+  "path": "/repos/:owner/:repo/hooks",
+  "previews": [],
+  "params": [
+    {
+      "name": "owner",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "repo",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "Use \"web\" for a webhook or use the name of a valid service. You can use [/hooks](https://api.github.com/hooks) for the list of valid service names. **Note:** GitHub Enterprise release 2.17 and higher will discontinue allowing admins to install GitHub Services. Please see the [Replacing GitHub Services guide](/enterprise/2.13/v3/guides/replacing-github-services) for details.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "config",
+      "type": "object",
+      "description": "Key/value pairs to provide settings for this webhook. [These are defined below](#create-hook-config-params).",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "config.url",
+      "type": "string",
+      "description": "The URL to which the payloads will be delivered.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "config.content_type",
+      "type": "string",
+      "description": "The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "config.secret",
+      "type": "string",
+      "description": "If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value in the [`X-Hub-Signature`](/enterprise/2.13/webhooks/#delivery-headers) header.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "config.insecure_ssl",
+      "type": "string",
+      "description": "Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.**",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "events",
+      "type": "string[]",
+      "description": "Determines what [events](/enterprise/2.13/v3/activity/events/types/) the hook is triggered for.",
+      "default": "[\"push\"]",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "active",
+      "type": "boolean",
+      "description": "Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.",
+      "default": true,
+      "required": false,
+      "location": "body"
+    }
+  ],
+  "requests": [
+    {
+      "name": "web",
+      "active": true,
+      "events": [
+        "push",
+        "pull_request"
+      ],
+      "config": {
+        "url": "http://example.com/webhook",
+        "content_type": "json"
+      }
+    }
+  ],
+  "description": "Repositories can have multiple webhooks installed. Each webhook should have a unique `config`. Multiple webhooks can share the same `config` as long as those webhooks do not have any `events` that overlap.\n\n**Note:** GitHub Enterprise release 2.17 and higher will discontinue allowing admins to install GitHub Services, and existing services will stop working in GitHub Enterprise release 2.20 and higher. You can use the [Replacing GitHub Services guide](/enterprise/2.13/v3/guides/replacing-github-services) to help you update your services to webhooks.\n\nHere's how you can create a hook that posts payloads in JSON format:",
+  "responses": [
+    {
+      "headers": {
+        "status": "201 Created",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "id": 1,
+        "url": "https://api.github.com/repos/octocat/Hello-World/hooks/1",
+        "test_url": "https://api.github.com/repos/octocat/Hello-World/hooks/1/test",
+        "ping_url": "https://api.github.com/repos/octocat/Hello-World/hooks/1/pings",
+        "name": "web",
+        "events": [
+          "push",
+          "pull_request"
+        ],
+        "active": true,
+        "config": {
+          "url": "http://example.com/webhook",
+          "content_type": "json"
+        },
+        "updated_at": "2011-09-06T20:39:23Z",
+        "created_at": "2011-09-06T17:26:27Z"
+      }
+    }
+  ],
+  "idName": "create-hook",
+  "documentationUrl": "https://developer.github.com/enterprise/2.13/v3/repos/hooks/#create-a-hook"
+}
