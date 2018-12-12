@@ -8,14 +8,14 @@ const options = {
     type: 'boolean',
     default: false
   },
-  'url': {
-    describe: 'Documentation index URL',
+  'ghe': {
+    describe: 'GitHub Enterprise version, e.g. "2.15"',
     type: 'string',
-    default: 'https://developer.github.com/v3/'
+    default: ''
   }
 }
 
-const { cached, urls, url: baseUrl, _: [command] } = require('yargs')
+const { cached, urls, ghe, _: [command] } = require('yargs')
   .command('update', 'Update route files', yargs => {
     yargs
       .options(options)
@@ -40,7 +40,7 @@ if (!['update', 'check'].includes(command)) {
   process.exit(1)
 }
 
-checkOrUpdateRoutes({ cached, urls, baseUrl, checkOnly: command === 'check' })
+checkOrUpdateRoutes({ cached, urls, ghe, checkOnly: command === 'check' })
   .catch(error => {
     console.log(error.stack)
     process.exit(1)
