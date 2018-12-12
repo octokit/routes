@@ -109,10 +109,10 @@ and a ton of regular expressions :)
 For simpler local testing and tracking of changes all loaded pages are cached
 in the [`cache/`](cache/) folder.
 
-To pass the enterprise routes you have to set the `--url` option
+To pass the enterprise routes you have to set the `--ghe` option
 
 ```
-node bin/octokit-rest-routes.js update --url https://developer.github.com/enterprise/2.15/v3/
+node bin/octokit-rest-routes.js update --ghe 2.15
 ```
 
 ### 1. Find documentation pages
