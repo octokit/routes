@@ -1,0 +1,56 @@
+{
+  "name": "Get contextual information about a user",
+  "enabledForApps": false,
+  "method": "GET",
+  "path": "/users/:username/hovercard",
+  "previews": [
+    {
+      "name": "hagar",
+      "description": "**Note:** You can now retrieve someone's hovercard information in different contexts using the Hovercard API. This feature is currently available for developers to preview. See the [blog post](/changes/2018-03-21-hovercard-api-preview) for full details. To access the API during the preview period, you must provide a custom [media type](/enterprise/2.15/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.hagar-preview+json\n\n```",
+      "required": true
+    }
+  ],
+  "params": [
+    {
+      "name": "username",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "subject_type",
+      "type": "string",
+      "description": "Identifies which additional information you'd like to receive about the person's hovercard. Can be `organization`, `repository`, `issue`, `pull_request`. **Required** when using `subject_id`.",
+      "required": false,
+      "enum": [
+        "organization",
+        "repository",
+        "issue",
+        "pull_request"
+      ],
+      "location": "query"
+    },
+    {
+      "name": "subject_id",
+      "type": "string",
+      "description": "Uses the ID for the `subject_type` you specified. **Required** when using `subject_type`.",
+      "required": false,
+      "location": "query"
+    }
+  ],
+  "requests": [
+    {
+      "contexts": [
+        {
+          "message": "Owns this repository",
+          "octicon": "repo"
+        }
+      ]
+    }
+  ],
+  "description": "Provides hovercard information when authenticated through basic auth or OAuth with the `repo` scope. You can find out more about someone in relation to their pull requests, issues, repositories, and organizations.\n\nThe `subject_type` and `subject_id` parameters provide context for the person's hovercard, which returns more information than without the parameters. For example, if you wanted to find out more about `octocat` who owns the `Spoon-Knife` repository via cURL, it would look like this:",
+  "responses": [],
+  "idName": "get-context-for-user",
+  "documentationUrl": "https://developer.github.com/enterprise/2.15/v3/users/#get-contextual-information-about-a-user"
+}

@@ -1,0 +1,96 @@
+{
+  "name": "List collaborators",
+  "enabledForApps": true,
+  "method": "GET",
+  "path": "/repos/:owner/:repo/collaborators",
+  "previews": [
+    {
+      "name": "hellcat",
+      "description": "**Note:** The Nested Teams API is currently available for developers to preview. See the [blog post](/changes/2017-08-30-preview-nested-teams) for full details. To access the API, you must provide a custom [media type](/enterprise/2.15/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.hellcat-preview+json\n\n```",
+      "required": false
+    }
+  ],
+  "params": [
+    {
+      "name": "owner",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "repo",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "affiliation",
+      "type": "string",
+      "description": "Filter collaborators returned by their affiliation. Can be one of:  \n\\* `outside`: All outside collaborators of an organization-owned repository.  \n\\* `direct`: All collaborators with permissions to an organization-owned repository, regardless of organization membership status.  \n\\* `all`: All collaborators the authenticated user can see.",
+      "default": "all",
+      "required": false,
+      "enum": [
+        "outside",
+        "direct",
+        "all"
+      ],
+      "location": "query"
+    },
+    {
+      "name": "per_page",
+      "type": "integer",
+      "required": false,
+      "description": "Results per page (max 100)",
+      "default": 30,
+      "location": "query"
+    },
+    {
+      "name": "page",
+      "type": "integer",
+      "required": false,
+      "description": "Page number of the results to fetch.",
+      "default": 1,
+      "location": "query"
+    }
+  ],
+  "description": "For organization-owned repositories, the list of collaborators includes outside collaborators, organization members that are direct collaborators, organization members with access through team memberships, organization members with access through default organization permissions, and organization owners.\n\nIf you pass the `hellcat-preview` media type, team members will include the members of child teams.",
+  "responses": [
+    {
+      "headers": {
+        "status": "200 OK",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": [
+        {
+          "login": "octocat",
+          "id": 1,
+          "node_id": "MDQ6VXNlcjE=",
+          "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/octocat",
+          "html_url": "https://github.com/octocat",
+          "followers_url": "https://api.github.com/users/octocat/followers",
+          "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+          "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+          "organizations_url": "https://api.github.com/users/octocat/orgs",
+          "repos_url": "https://api.github.com/users/octocat/repos",
+          "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/octocat/received_events",
+          "type": "User",
+          "site_admin": false,
+          "permissions": {
+            "pull": true,
+            "push": true,
+            "admin": false
+          }
+        }
+      ]
+    }
+  ],
+  "idName": "list-collaborators",
+  "documentationUrl": "https://developer.github.com/enterprise/2.15/v3/repos/collaborators/#list-collaborators"
+}

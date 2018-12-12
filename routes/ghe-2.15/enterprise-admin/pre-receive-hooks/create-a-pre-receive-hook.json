@@ -1,0 +1,105 @@
+{
+  "name": "Create a pre-receive hook",
+  "enabledForApps": false,
+  "method": "POST",
+  "path": "/admin/pre-receive-hooks",
+  "previews": [],
+  "params": [
+    {
+      "name": "name",
+      "type": "string",
+      "description": "The name of the hook.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "script",
+      "type": "string",
+      "description": "The script that the hook runs.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "script_repository",
+      "type": "object",
+      "description": "The GitHub repository where the script is kept.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "environment",
+      "type": "object",
+      "description": "The pre-receive environment where the script is executed.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "enforcement",
+      "type": "string",
+      "description": "The state of enforcement for this hook. default: `disabled`",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "allow_downstream_configuration",
+      "type": "boolean",
+      "description": "Whether enforcement can be overridden at the org or repo level. default: `false`",
+      "required": false,
+      "location": "body"
+    }
+  ],
+  "requests": [
+    {
+      "name": "Check Commits",
+      "script": "scripts/commit_check.sh",
+      "enforcement": "disabled",
+      "allow_downstream_configuration": false,
+      "script_repository": {
+        "full_name": "DevIT/hooks"
+      },
+      "environment": {
+        "id": 2
+      }
+    }
+  ],
+  "description": "",
+  "responses": [
+    {
+      "headers": {
+        "status": "201 Created",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "id": 1,
+        "name": "Check Commits",
+        "enforcement": "disabled",
+        "script": "scripts/commmit_check.sh",
+        "script_repository": {
+          "id": 595,
+          "full_name": "DevIT/hooks",
+          "url": "https://github.example.com/api/v3/repos/DevIT/hooks",
+          "html_url": "https://github.example.com/DevIT/hooks"
+        },
+        "environment": {
+          "id": 2,
+          "name": "DevTools Hook Env",
+          "image_url": "https://my_file_server/path/to/devtools_env.tar.gz",
+          "url": "https://github.example.com/api/v3/admin/pre-receive-environments/2",
+          "html_url": "https://github.example.com/admin/pre-receive-environments/2",
+          "default_environment": false,
+          "created_at": "2016-05-20T11:35:45-05:00",
+          "hooks_count": 1,
+          "download": {
+            "url": "https://github.example.com/api/v3/admin/pre-receive-environments/2/downloads/latest",
+            "state": "success",
+            "downloaded_at": "2016-05-26T07:42:53-05:00",
+            "message": null
+          }
+        },
+        "allow_downstream_configuration": false
+      }
+    }
+  ],
+  "idName": "create-pre-receive-hook",
+  "documentationUrl": "https://developer.github.com/enterprise/2.15/v3/enterprise-admin/pre_receive_hooks/#create-a-pre-receive-hook"
+}

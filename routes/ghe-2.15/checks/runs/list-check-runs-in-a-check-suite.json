@@ -1,0 +1,172 @@
+{
+  "name": "List check runs in a check suite",
+  "enabledForApps": true,
+  "method": "GET",
+  "path": "/repos/:owner/:repo/check-suites/:check_suite_id/check-runs",
+  "previews": [
+    {
+      "name": "antiope",
+      "description": "The Checks API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the [blog post](/changes/2018-05-07-new-checks-api-public-beta/) for full details. To access the API during the preview period, you must provide a custom [media type](/enterprise/2.15/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.antiope-preview+json\n\n```",
+      "required": true
+    }
+  ],
+  "params": [
+    {
+      "name": "owner",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "repo",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "check_suite_id",
+      "type": "integer",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "check_name",
+      "type": "string",
+      "description": "Returns check runs with the specified `name`.",
+      "required": false,
+      "location": "query"
+    },
+    {
+      "name": "status",
+      "type": "string",
+      "description": "Returns check runs with the specified `status`. Can be one of `queued`, `in_progress`, or `completed`.",
+      "required": false,
+      "enum": [
+        "queued",
+        "in_progress",
+        "completed"
+      ],
+      "location": "query"
+    },
+    {
+      "name": "filter",
+      "type": "string",
+      "description": "Filters check runs by their `completed_at` timestamp. Can be one of `latest` (returning the most recent check runs) or `all`.",
+      "default": "latest",
+      "required": false,
+      "enum": [
+        "latest",
+        "all"
+      ],
+      "location": "query"
+    },
+    {
+      "name": "per_page",
+      "type": "integer",
+      "required": false,
+      "description": "Results per page (max 100)",
+      "default": 30,
+      "location": "query"
+    },
+    {
+      "name": "page",
+      "type": "integer",
+      "required": false,
+      "description": "Page number of the results to fetch.",
+      "default": 1,
+      "location": "query"
+    }
+  ],
+  "description": "Lists check runs for a check suite using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check runs. OAuth Apps and authenticated users must have the `repo` scope to get check runs in a private repository.",
+  "responses": [
+    {
+      "headers": {
+        "status": "200 OK",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "total_count": 1,
+        "check_runs": [
+          {
+            "id": 4,
+            "head_sha": "ce587453ced02b1526dfb4cb910479d431683101",
+            "node_id": "MDg6Q2hlY2tSdW40",
+            "external_id": "",
+            "url": "https://api.github.com/repos/github/hello-world/check-runs/4",
+            "html_url": "http://github.com/github/hello-world/runs/4",
+            "details_url": "https://example.com",
+            "status": "completed",
+            "conclusion": "neutral",
+            "started_at": "2018-05-04T01:14:52Z",
+            "completed_at": "2018-05-04T01:14:52Z",
+            "output": {
+              "title": "Mighty Readme report",
+              "summary": "There are 0 failures, 2 warnings, and 1 notice.",
+              "text": "You may have some misspelled words on lines 2 and 4. You also may want to add a section in your README about how to install your app.",
+              "annotations_count": 2,
+              "annotations_url": "https://api.github.com/repos/github/hello-world/check-runs/4/annotations"
+            },
+            "name": "mighty_readme",
+            "check_suite": {
+              "id": 5
+            },
+            "app": {
+              "id": 1,
+              "node_id": "MDExOkludGVncmF0aW9uMQ==",
+              "owner": {
+                "login": "github",
+                "id": 1,
+                "node_id": "MDEyOk9yZ2FuaXphdGlvbjE=",
+                "url": "https://api.github.com/orgs/github",
+                "repos_url": "https://api.github.com/orgs/github/repos",
+                "events_url": "https://api.github.com/orgs/github/events",
+                "hooks_url": "https://api.github.com/orgs/github/hooks",
+                "issues_url": "https://api.github.com/orgs/github/issues",
+                "members_url": "https://api.github.com/orgs/github/members{/member}",
+                "public_members_url": "https://api.github.com/orgs/github/public_members{/member}",
+                "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+                "description": "A great organization"
+              },
+              "name": "Super CI",
+              "description": "",
+              "external_url": "https://example.com",
+              "html_url": "https://github.com/apps/super-ci",
+              "created_at": "2017-07-08T16:18:44-04:00",
+              "updated_at": "2017-07-08T16:18:44-04:00"
+            },
+            "pull_requests": [
+              {
+                "url": "https://api.github.com/repos/github/hello-world/pulls/1",
+                "id": 1934,
+                "number": 3956,
+                "head": {
+                  "ref": "say-hello",
+                  "sha": "3dca65fa3e8d4b3da3f3d056c59aee1c50f41390",
+                  "repo": {
+                    "id": 526,
+                    "url": "https://api.github.com/repos/github/hello-world",
+                    "name": "hello-world"
+                  }
+                },
+                "base": {
+                  "ref": "master",
+                  "sha": "e7fdf7640066d71ad16a86fbcbb9c6a10a18af4f",
+                  "repo": {
+                    "id": 526,
+                    "url": "https://api.github.com/repos/github/hello-world",
+                    "name": "hello-world"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "idName": "list-for-suite",
+  "documentationUrl": "https://developer.github.com/enterprise/2.15/v3/checks/runs/#list-check-runs-in-a-check-suite"
+}
