@@ -12,7 +12,7 @@ module.exports = {
 const SCOPES = Object.keys(getAllRoutesByScope())
 
 function getAllRoutesByScope () {
-  return require('../index.json')
+  return require('../routes/api.github.com/index.json')
 }
 
 const CACHED_ROUTES_BY_DOCUMENTATION_URL = flatten(
@@ -31,7 +31,7 @@ function getAllDocumentationUrls () {
 }
 
 function getScopeRoutes (scope) {
-  return require(`../routes/${kebabCase(scope)}.json`)
+  return require(`../routes/api.github.com/${kebabCase(scope)}.json`)
 }
 
 function getScopeRoutesByDocumentUrl (scope) {
@@ -49,7 +49,7 @@ function getRoutesForUrl (url) {
     return kebabCase(nameWithoutSpecialChars).replace(/\bgit-hub\b/, 'github')
   })
 
-  return names.map(name => require(`../routes/${scope}/${path}/${name}.json`))
+  return names.map(name => require(`../routes/api.github.com/${scope}/${path}/${name}.json`))
 }
 
 function reduceByDocumentationUrl (map, endpoint) {
