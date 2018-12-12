@@ -1,0 +1,215 @@
+<h2>
+<a id="teamevent" class="anchor" href="#teamevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>TeamEvent</h2>
+<p>Triggered when an organization&apos;s team is created or deleted.</p>
+<p>Events of this type are not visible in timelines. These events are only used to trigger organization hooks.</p>
+<h3>
+<a id="events-api-payload-32" class="anchor" href="#events-api-payload-32" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>action</code></td>
+<td><code>string</code></td>
+<td>The action that was performed. Can be one of <code>created</code>, <code>deleted</code>, <code>edited</code>, <code>added_to_repository</code>, or <code>removed_from_repository</code>.</td>
+</tr>
+<tr>
+<td><code>team</code></td>
+<td><code>object</code></td>
+<td>The team itself.</td>
+</tr>
+<tr>
+<td><code>changes</code></td>
+<td><code>object</code></td>
+<td>The changes to the team if the action was &quot;edited&quot;.</td>
+</tr>
+<tr>
+<td><code>changes[description][from]</code></td>
+<td><code>string</code></td>
+<td>The previous version of the description if the action was <code>edited</code>.</td>
+</tr>
+<tr>
+<td><code>changes[name][from]</code></td>
+<td><code>string</code></td>
+<td>The previous version of the name if the action was <code>edited</code>.</td>
+</tr>
+<tr>
+<td><code>changes[privacy][from]</code></td>
+<td><code>string</code></td>
+<td>The previous version of the team&apos;s privacy if the action was <code>edited</code>.</td>
+</tr>
+<tr>
+<td><code>changes[repository][permissions][from][admin]</code></td>
+<td><code>boolean</code></td>
+<td>The previous version of the team member&apos;s <code>admin</code> permission on a repository, if the action was <code>edited</code>.</td>
+</tr>
+<tr>
+<td><code>changes[repository][permissions][from][pull]</code></td>
+<td><code>boolean</code></td>
+<td>The previous version of the team member&apos;s <code>pull</code> permission on a repository, if the action was <code>edited</code>.</td>
+</tr>
+<tr>
+<td><code>changes[repository][permissions][from][push]</code></td>
+<td><code>boolean</code></td>
+<td>The previous version of the team member&apos;s <code>push</code> permission on a repository, if the action was <code>edited</code>.</td>
+</tr>
+<tr>
+<td><code>repository</code></td>
+<td><code>object</code></td>
+<td>The repository that was added or removed from to the team&apos;s purview if the action was <code>added_to_repository</code>, <code>removed_from_repository</code>, or <code>edited</code>. For <code>edited</code> actions, <code>repository</code> also contains the team&apos;s new permission levels for the repository.</td>
+</tr>
+</tbody>
+</table>
+<h3>
+<a id="webhook-event-name-32" class="anchor" href="#webhook-event-name-32" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook event name</h3>
+<p><code>team</code></p>
+<h3>
+<a id="webhook-payload-example-28" class="anchor" href="#webhook-payload-example-28" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook payload example</h3>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;action&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;added_to_repository&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;team&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;github&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;slug&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;github&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;My collabtocats&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;privacy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;closed&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/teams/1&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;members_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/teams/1/members{/member}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;repositories_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/teams/1/repos&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;permission&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pull&quot;</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">&quot;repository&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Hello-World&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;full_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Octocoders/Hello-World&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;owner&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;login&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Octocoders&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;avatar_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/avatars/u/6?&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;gravatar_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Octocoders&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;html_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/Octocoders&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;followers_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Octocoders/followers&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;following_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Octocoders/following{/other_user}&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;gists_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Octocoders/gists{/gist_id}&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;starred_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Octocoders/starred{/owner}{/repo}&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;subscriptions_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Octocoders/subscriptions&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;organizations_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Octocoders/orgs&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;repos_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Octocoders/repos&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;events_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Octocoders/events{/privacy}&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;received_events_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Octocoders/received_events&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Organization&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;site_admin&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">&quot;private&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;html_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/Octocoders/Hello-World&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;fork&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;forks_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/forks&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;keys_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/keys{/key_id}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;collaborators_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/collaborators{/collaborator}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;teams_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/teams&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;hooks_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/hooks&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;issue_events_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/issues/events{/number}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;events_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/events&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;assignees_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/assignees{/user}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;branches_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/branches{/branch}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;tags_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/tags&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;blobs_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/git/blobs{/sha}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;git_tags_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/git/tags{/sha}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;git_refs_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/git/refs{/sha}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;trees_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/git/trees{/sha}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;statuses_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/statuses/{sha}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;languages_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/languages&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;stargazers_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/stargazers&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;contributors_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/contributors&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;subscribers_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/subscribers&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;subscription_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/subscription&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;commits_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/commits{/sha}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;git_commits_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/git/commits{/sha}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;comments_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/comments{/number}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;issue_comment_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/issues/comments{/number}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;contents_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/contents/{+path}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;compare_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/compare/{base}...{head}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;merges_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/merges&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;archive_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/{archive_format}{/ref}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;downloads_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/downloads&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;issues_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/issues{/number}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;pulls_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/pulls{/number}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;milestones_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/milestones{/number}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;notifications_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/notifications{?since,all,participating}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;labels_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/labels{/name}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;releases_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/releases{/id}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;deployments_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/repos/Octocoders/Hello-World/deployments&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2018-06-05T15:17:25Z&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2018-06-05T15:17:24Z&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;pushed_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2018-06-05T15:17:19Z&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;git_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;git://octocoders.github.io/Octocoders/Hello-World.git&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;ssh_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;git@octocoders.github.io:Octocoders/Hello-World.git&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;clone_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/Octocoders/Hello-World.git&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;svn_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/Octocoders/Hello-World&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;homepage&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;stargazers_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;watchers_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;language&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;has_issues&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;has_projects&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;has_downloads&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;has_wiki&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;has_pages&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;forks_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;mirror_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;archived&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;open_issues_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;license&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;forks&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;open_issues&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;watchers&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;default_branch&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;master&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;pull&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;push&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;admin&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">&quot;organization&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;login&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Octocoders&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/orgs/Octocoders&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;repos_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/orgs/Octocoders/repos&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;events_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/orgs/Octocoders/events&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;hooks_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/orgs/Octocoders/hooks&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;issues_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/orgs/Octocoders/issues&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;members_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/orgs/Octocoders/members{/member}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;public_members_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/orgs/Octocoders/public_members{/member}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;avatar_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/avatars/u/6?&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">&quot;sender&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;login&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Codertocat&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;avatar_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/avatars/u/4?&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;gravatar_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Codertocat&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;html_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/Codertocat&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;followers_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Codertocat/followers&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;following_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Codertocat/following{/other_user}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;gists_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Codertocat/gists{/gist_id}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;starred_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Codertocat/starred{/owner}{/repo}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;subscriptions_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Codertocat/subscriptions&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;organizations_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Codertocat/orgs&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;repos_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Codertocat/repos&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;events_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Codertocat/events{/privacy}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;received_events_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://octocoders.github.io/api/v3/users/Codertocat/received_events&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;User&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;site_admin&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
