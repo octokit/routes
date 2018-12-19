@@ -1,0 +1,62 @@
+{
+  "name": "Add or update interaction restrictions for a repository",
+  "enabledForApps": false,
+  "method": "PUT",
+  "path": "/repos/:owner/:repo/interaction-limits",
+  "previews": [
+    {
+      "name": "sombra",
+      "description": "**Note:** The Interactions APIs are currently in public preview. See the [blog post](/changes/2018-12-18-interactions-preview) preview for more details. To access the API during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.sombra-preview\n\n```",
+      "required": true
+    }
+  ],
+  "params": [
+    {
+      "name": "owner",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "repo",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "limit",
+      "type": "string",
+      "description": "Specifies the group of GitHub users who can comment, open issues, or create pull requests for the given repository. Must be one of: `existing_users`, `contributors_only`, or `collaborators_only`.",
+      "required": true,
+      "enum": [
+        "existing_users",
+        "contributors_only",
+        "collaborators_only"
+      ],
+      "location": "body"
+    }
+  ],
+  "requests": [
+    {
+      "limit": "collaborators_only"
+    }
+  ],
+  "description": "Temporarily restricts interactions to certain GitHub users within the given repository. You must have owner or admin access to set restrictions.",
+  "responses": [
+    {
+      "headers": {
+        "status": "200 OK",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "limit": "collaborators_only",
+        "origin": "repository",
+        "expires_at": "2018-08-17T04:18:39Z"
+      }
+    }
+  ],
+  "idName": "add-or-update-restrictions-for-repo",
+  "documentationUrl": "https://developer.github.com/v3/interactions/repos/#add-or-update-interaction-restrictions-for-a-repository"
+}
