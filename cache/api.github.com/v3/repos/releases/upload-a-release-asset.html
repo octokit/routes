@@ -6,13 +6,12 @@
 <h2>
 <a id="upload-a-release-asset" class="anchor" href="#upload-a-release-asset" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Upload a release asset<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
-<p>This endpoint makes use of <a href="/v3/#hypermedia">a Hypermedia relation</a> to determine which URL to access.
-This endpoint is provided by a URI template in <a href="#get-a-single-release">the release&apos;s API response</a>.
-You need to use an HTTP client which supports
+<p>This endpoint makes use of <a href="/v3/#hypermedia">a Hypermedia relation</a> to determine which URL to access. The endpoint you call to upload release assets is specific to your release. Use the <code>upload_url</code> returned in the response of the <a href="#create-a-release">Create a release endpoint</a> to upload a release asset.</p>
+<p>You need to use an HTTP client which supports
 <a href="http://en.wikipedia.org/wiki/Server_Name_Indication">SNI</a> to make calls to this endpoint.</p>
 <p>The asset data is expected in its raw binary form, rather than JSON.
 Everything else about the endpoint is the same as the rest of the API. For example, you&apos;ll still need to pass your authentication to be able to upload an asset.</p>
-<pre><code>POST https://&lt;upload_url&gt;/repos/:owner/:repo/releases/:release_id/assets?name=foo.zip
+<pre><code>POST &lt;upload_url&gt;
 </code></pre>
 <div class="alert note">
 
@@ -57,6 +56,10 @@ asset&apos;s name and label in URI query parameters.</p>
 </tbody>
 </table>
 <p>Send the raw binary content of the asset as the request body.</p>
+<h3>
+<a id="example-2" class="anchor" href="#example-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+<pre><code>POST https://uploads.github.com/repos/octocat/Hello-World/releases/1/assets?name=foo.zip
+</code></pre>
 <h3>
 <a id="response-for-successful-upload" class="anchor" href="#response-for-successful-upload" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response for successful upload</h3>
 <pre class="highlight highlight-headers"><code>Status: 201 Created
