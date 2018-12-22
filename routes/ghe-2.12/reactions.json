@@ -1,0 +1,815 @@
+[
+  {
+    "name": "List reactions for a commit comment",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/comments/:comment_id/reactions",
+    "previews": [
+      {
+        "name": "squirrel-girl",
+        "description": "**Note:** APIs for managing reactions are currently available for developers to preview. See the [blog post](/changes/2016-05-12-reactions-api-preview) for full details. To access the API during the preview period, you must provide a custom [media type](/enterprise/2.12/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.squirrel-girl-preview+json\n\n```",
+        "required": true
+      }
+    ],
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "comment_id",
+        "type": "integer",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "content",
+        "type": "string",
+        "description": "Returns a single [reaction type](/enterprise/2.12/v3/reactions/#reaction-types). Omit this parameter to list all reactions to a commit comment.",
+        "required": false,
+        "enum": [
+          "+1",
+          "-1",
+          "laugh",
+          "confused",
+          "heart",
+          "hooray"
+        ],
+        "location": "query"
+      },
+      {
+        "name": "per_page",
+        "type": "integer",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30,
+        "location": "query"
+      },
+      {
+        "name": "page",
+        "type": "integer",
+        "required": false,
+        "description": "Page number of the results to fetch.",
+        "default": 1,
+        "location": "query"
+      }
+    ],
+    "description": "List the reactions to a [commit comment](/enterprise/2.12/v3/repos/comments/).",
+    "responses": [
+      {
+        "headers": {
+          "status": "200 OK",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": [
+          {
+            "id": 1,
+            "user": {
+              "login": "octocat",
+              "id": 1,
+              "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/octocat",
+              "html_url": "https://github.com/octocat",
+              "followers_url": "https://api.github.com/users/octocat/followers",
+              "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+              "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+              "organizations_url": "https://api.github.com/users/octocat/orgs",
+              "repos_url": "https://api.github.com/users/octocat/repos",
+              "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/octocat/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "content": "heart",
+            "created_at": "2016-05-20T20:09:31Z"
+          }
+        ]
+      }
+    ],
+    "idName": "list-for-commit-comment",
+    "documentationUrl": "https://developer.github.com/enterprise/2.12/v3/reactions/#list-reactions-for-a-commit-comment"
+  },
+  {
+    "name": "Create reaction for a commit comment",
+    "enabledForApps": true,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/comments/:comment_id/reactions",
+    "previews": [
+      {
+        "name": "squirrel-girl",
+        "description": "**Note:** APIs for managing reactions are currently available for developers to preview. See the [blog post](/changes/2016-05-12-reactions-api-preview) for full details. To access the API during the preview period, you must provide a custom [media type](/enterprise/2.12/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.squirrel-girl-preview+json\n\n```",
+        "required": true
+      }
+    ],
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "comment_id",
+        "type": "integer",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "content",
+        "type": "string",
+        "description": "The [reaction type](/enterprise/2.12/v3/reactions/#reaction-types) to add to the commit comment.",
+        "required": true,
+        "enum": [
+          "+1",
+          "-1",
+          "laugh",
+          "confused",
+          "heart",
+          "hooray"
+        ],
+        "location": "body"
+      }
+    ],
+    "requests": [
+      {
+        "content": "heart"
+      }
+    ],
+    "description": "Create a reaction to a [commit comment](/enterprise/2.12/v3/repos/comments/). A response with a `Status: 200 OK` means that you already added the reaction type to this commit comment.",
+    "responses": [
+      {
+        "headers": {
+          "status": "201 Created",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "id": 1,
+          "user": {
+            "login": "octocat",
+            "id": 1,
+            "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/octocat",
+            "html_url": "https://github.com/octocat",
+            "followers_url": "https://api.github.com/users/octocat/followers",
+            "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+            "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+            "organizations_url": "https://api.github.com/users/octocat/orgs",
+            "repos_url": "https://api.github.com/users/octocat/repos",
+            "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+            "received_events_url": "https://api.github.com/users/octocat/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "content": "heart",
+          "created_at": "2016-05-20T20:09:31Z"
+        }
+      }
+    ],
+    "idName": "create-for-commit-comment",
+    "documentationUrl": "https://developer.github.com/enterprise/2.12/v3/reactions/#create-reaction-for-a-commit-comment"
+  },
+  {
+    "name": "List reactions for an issue",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/issues/:number/reactions",
+    "previews": [
+      {
+        "name": "squirrel-girl",
+        "description": "**Note:** APIs for managing reactions are currently available for developers to preview. See the [blog post](/changes/2016-05-12-reactions-api-preview) for full details. To access the API during the preview period, you must provide a custom [media type](/enterprise/2.12/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.squirrel-girl-preview+json\n\n```",
+        "required": true
+      }
+    ],
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "content",
+        "type": "string",
+        "description": "Returns a single [reaction type](/enterprise/2.12/v3/reactions/#reaction-types). Omit this parameter to list all reactions to an issue.",
+        "required": false,
+        "enum": [
+          "+1",
+          "-1",
+          "laugh",
+          "confused",
+          "heart",
+          "hooray"
+        ],
+        "location": "query"
+      },
+      {
+        "name": "per_page",
+        "type": "integer",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30,
+        "location": "query"
+      },
+      {
+        "name": "page",
+        "type": "integer",
+        "required": false,
+        "description": "Page number of the results to fetch.",
+        "default": 1,
+        "location": "query"
+      }
+    ],
+    "description": "List the reactions to an [issue](/enterprise/2.12/v3/issues/).",
+    "responses": [
+      {
+        "headers": {
+          "status": "200 OK",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": [
+          {
+            "id": 1,
+            "user": {
+              "login": "octocat",
+              "id": 1,
+              "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/octocat",
+              "html_url": "https://github.com/octocat",
+              "followers_url": "https://api.github.com/users/octocat/followers",
+              "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+              "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+              "organizations_url": "https://api.github.com/users/octocat/orgs",
+              "repos_url": "https://api.github.com/users/octocat/repos",
+              "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/octocat/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "content": "heart",
+            "created_at": "2016-05-20T20:09:31Z"
+          }
+        ]
+      }
+    ],
+    "idName": "list-for-issue",
+    "documentationUrl": "https://developer.github.com/enterprise/2.12/v3/reactions/#list-reactions-for-an-issue"
+  },
+  {
+    "name": "Create reaction for an issue",
+    "enabledForApps": false,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/issues/:number/reactions",
+    "previews": [
+      {
+        "name": "squirrel-girl",
+        "description": "**Note:** APIs for managing reactions are currently available for developers to preview. See the [blog post](/changes/2016-05-12-reactions-api-preview) for full details. To access the API during the preview period, you must provide a custom [media type](/enterprise/2.12/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.squirrel-girl-preview+json\n\n```",
+        "required": true
+      }
+    ],
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "content",
+        "type": "string",
+        "description": "The [reaction type](/enterprise/2.12/v3/reactions/#reaction-types) to add to the issue.",
+        "required": true,
+        "enum": [
+          "+1",
+          "-1",
+          "laugh",
+          "confused",
+          "heart",
+          "hooray"
+        ],
+        "location": "body"
+      }
+    ],
+    "requests": [
+      {
+        "content": "heart"
+      }
+    ],
+    "description": "Create a reaction to an [issue](/enterprise/2.12/v3/issues/). A response with a `Status: 200 OK` means that you already added the reaction type to this issue.",
+    "responses": [
+      {
+        "headers": {
+          "status": "201 Created",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "id": 1,
+          "user": {
+            "login": "octocat",
+            "id": 1,
+            "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/octocat",
+            "html_url": "https://github.com/octocat",
+            "followers_url": "https://api.github.com/users/octocat/followers",
+            "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+            "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+            "organizations_url": "https://api.github.com/users/octocat/orgs",
+            "repos_url": "https://api.github.com/users/octocat/repos",
+            "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+            "received_events_url": "https://api.github.com/users/octocat/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "content": "heart",
+          "created_at": "2016-05-20T20:09:31Z"
+        }
+      }
+    ],
+    "idName": "create-for-issue",
+    "documentationUrl": "https://developer.github.com/enterprise/2.12/v3/reactions/#create-reaction-for-an-issue"
+  },
+  {
+    "name": "List reactions for an issue comment",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/issues/comments/:comment_id/reactions",
+    "previews": [
+      {
+        "name": "squirrel-girl",
+        "description": "**Note:** APIs for managing reactions are currently available for developers to preview. See the [blog post](/changes/2016-05-12-reactions-api-preview) for full details. To access the API during the preview period, you must provide a custom [media type](/enterprise/2.12/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.squirrel-girl-preview+json\n\n```",
+        "required": true
+      }
+    ],
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "comment_id",
+        "type": "integer",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "content",
+        "type": "string",
+        "description": "Returns a single [reaction type](/enterprise/2.12/v3/reactions/#reaction-types). Omit this parameter to list all reactions to an issue comment.",
+        "required": false,
+        "enum": [
+          "+1",
+          "-1",
+          "laugh",
+          "confused",
+          "heart",
+          "hooray"
+        ],
+        "location": "query"
+      },
+      {
+        "name": "per_page",
+        "type": "integer",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30,
+        "location": "query"
+      },
+      {
+        "name": "page",
+        "type": "integer",
+        "required": false,
+        "description": "Page number of the results to fetch.",
+        "default": 1,
+        "location": "query"
+      }
+    ],
+    "description": "List the reactions to an [issue comment](/enterprise/2.12/v3/issues/comments/).",
+    "responses": [
+      {
+        "headers": {
+          "status": "200 OK",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": [
+          {
+            "id": 1,
+            "user": {
+              "login": "octocat",
+              "id": 1,
+              "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/octocat",
+              "html_url": "https://github.com/octocat",
+              "followers_url": "https://api.github.com/users/octocat/followers",
+              "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+              "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+              "organizations_url": "https://api.github.com/users/octocat/orgs",
+              "repos_url": "https://api.github.com/users/octocat/repos",
+              "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/octocat/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "content": "heart",
+            "created_at": "2016-05-20T20:09:31Z"
+          }
+        ]
+      }
+    ],
+    "idName": "list-for-issue-comment",
+    "documentationUrl": "https://developer.github.com/enterprise/2.12/v3/reactions/#list-reactions-for-an-issue-comment"
+  },
+  {
+    "name": "Create reaction for an issue comment",
+    "enabledForApps": true,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/issues/comments/:comment_id/reactions",
+    "previews": [
+      {
+        "name": "squirrel-girl",
+        "description": "**Note:** APIs for managing reactions are currently available for developers to preview. See the [blog post](/changes/2016-05-12-reactions-api-preview) for full details. To access the API during the preview period, you must provide a custom [media type](/enterprise/2.12/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.squirrel-girl-preview+json\n\n```",
+        "required": true
+      }
+    ],
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "comment_id",
+        "type": "integer",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "content",
+        "type": "string",
+        "description": "The [reaction type](/enterprise/2.12/v3/reactions/#reaction-types) to add to the issue comment.",
+        "required": true,
+        "enum": [
+          "+1",
+          "-1",
+          "laugh",
+          "confused",
+          "heart",
+          "hooray"
+        ],
+        "location": "body"
+      }
+    ],
+    "requests": [
+      {
+        "content": "heart"
+      }
+    ],
+    "description": "Create a reaction to an [issue comment](/enterprise/2.12/v3/issues/comments/). A response with a `Status: 200 OK` means that you already added the reaction type to this issue comment.",
+    "responses": [
+      {
+        "headers": {
+          "status": "201 Created",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "id": 1,
+          "user": {
+            "login": "octocat",
+            "id": 1,
+            "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/octocat",
+            "html_url": "https://github.com/octocat",
+            "followers_url": "https://api.github.com/users/octocat/followers",
+            "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+            "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+            "organizations_url": "https://api.github.com/users/octocat/orgs",
+            "repos_url": "https://api.github.com/users/octocat/repos",
+            "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+            "received_events_url": "https://api.github.com/users/octocat/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "content": "heart",
+          "created_at": "2016-05-20T20:09:31Z"
+        }
+      }
+    ],
+    "idName": "create-for-issue-comment",
+    "documentationUrl": "https://developer.github.com/enterprise/2.12/v3/reactions/#create-reaction-for-an-issue-comment"
+  },
+  {
+    "name": "List reactions for a pull request review comment",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/pulls/comments/:comment_id/reactions",
+    "previews": [
+      {
+        "name": "squirrel-girl",
+        "description": "**Note:** APIs for managing reactions are currently available for developers to preview. See the [blog post](/changes/2016-05-12-reactions-api-preview) for full details. To access the API during the preview period, you must provide a custom [media type](/enterprise/2.12/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.squirrel-girl-preview+json\n\n```",
+        "required": true
+      }
+    ],
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "comment_id",
+        "type": "integer",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "content",
+        "type": "string",
+        "description": "Returns a single [reaction type](/enterprise/2.12/v3/reactions/#reaction-types). Omit this parameter to list all reactions to a pull request review comment.",
+        "required": false,
+        "enum": [
+          "+1",
+          "-1",
+          "laugh",
+          "confused",
+          "heart",
+          "hooray"
+        ],
+        "location": "query"
+      },
+      {
+        "name": "per_page",
+        "type": "integer",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30,
+        "location": "query"
+      },
+      {
+        "name": "page",
+        "type": "integer",
+        "required": false,
+        "description": "Page number of the results to fetch.",
+        "default": 1,
+        "location": "query"
+      }
+    ],
+    "description": "List the reactions to a [pull request review comment](/enterprise/2.12/v3/pulls/comments/).",
+    "responses": [
+      {
+        "headers": {
+          "status": "200 OK",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": [
+          {
+            "id": 1,
+            "user": {
+              "login": "octocat",
+              "id": 1,
+              "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/octocat",
+              "html_url": "https://github.com/octocat",
+              "followers_url": "https://api.github.com/users/octocat/followers",
+              "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+              "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+              "organizations_url": "https://api.github.com/users/octocat/orgs",
+              "repos_url": "https://api.github.com/users/octocat/repos",
+              "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/octocat/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "content": "heart",
+            "created_at": "2016-05-20T20:09:31Z"
+          }
+        ]
+      }
+    ],
+    "idName": "list-for-pull-request-review-comment",
+    "documentationUrl": "https://developer.github.com/enterprise/2.12/v3/reactions/#list-reactions-for-a-pull-request-review-comment"
+  },
+  {
+    "name": "Create reaction for a pull request review comment",
+    "enabledForApps": true,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/pulls/comments/:comment_id/reactions",
+    "previews": [
+      {
+        "name": "squirrel-girl",
+        "description": "**Note:** APIs for managing reactions are currently available for developers to preview. See the [blog post](/changes/2016-05-12-reactions-api-preview) for full details. To access the API during the preview period, you must provide a custom [media type](/enterprise/2.12/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.squirrel-girl-preview+json\n\n```",
+        "required": true
+      }
+    ],
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "comment_id",
+        "type": "integer",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "content",
+        "type": "string",
+        "description": "The [reaction type](/enterprise/2.12/v3/reactions/#reaction-types) to add to the pull request review comment.",
+        "required": true,
+        "enum": [
+          "+1",
+          "-1",
+          "laugh",
+          "confused",
+          "heart",
+          "hooray"
+        ],
+        "location": "body"
+      }
+    ],
+    "requests": [
+      {
+        "content": "heart"
+      }
+    ],
+    "description": "Create a reaction to a [pull request review comment](/enterprise/2.12/v3/pulls/comments/). A response with a `Status: 200 OK` means that you already added the reaction type to this pull request review comment.",
+    "responses": [
+      {
+        "headers": {
+          "status": "201 Created",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "id": 1,
+          "user": {
+            "login": "octocat",
+            "id": 1,
+            "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/octocat",
+            "html_url": "https://github.com/octocat",
+            "followers_url": "https://api.github.com/users/octocat/followers",
+            "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+            "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+            "organizations_url": "https://api.github.com/users/octocat/orgs",
+            "repos_url": "https://api.github.com/users/octocat/repos",
+            "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+            "received_events_url": "https://api.github.com/users/octocat/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "content": "heart",
+          "created_at": "2016-05-20T20:09:31Z"
+        }
+      }
+    ],
+    "idName": "create-for-pull-request-review-comment",
+    "documentationUrl": "https://developer.github.com/enterprise/2.12/v3/reactions/#create-reaction-for-a-pull-request-review-comment"
+  },
+  {
+    "name": "Delete a reaction",
+    "enabledForApps": true,
+    "method": "DELETE",
+    "path": "/reactions/:reaction_id",
+    "previews": [
+      {
+        "name": "squirrel-girl",
+        "description": "**Note:** APIs for managing reactions are currently available for developers to preview. See the [blog post](/changes/2016-05-12-reactions-api-preview) for full details. To access the API during the preview period, you must provide a custom [media type](/enterprise/2.12/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.squirrel-girl-preview+json\n\n```",
+        "required": true
+      }
+    ],
+    "params": [
+      {
+        "name": "reaction_id",
+        "type": "integer",
+        "required": true,
+        "description": "",
+        "location": "url"
+      }
+    ],
+    "description": "",
+    "responses": [
+      {
+        "headers": {
+          "status": "204 No Content",
+          "content-type": "application/json; charset=utf-8"
+        }
+      }
+    ],
+    "idName": "delete",
+    "documentationUrl": "https://developer.github.com/enterprise/2.12/v3/reactions/#delete-a-reaction"
+  }
+]

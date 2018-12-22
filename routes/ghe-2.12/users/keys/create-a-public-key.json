@@ -1,0 +1,49 @@
+{
+  "name": "Create a public key",
+  "enabledForApps": false,
+  "method": "POST",
+  "path": "/user/keys",
+  "previews": [],
+  "params": [
+    {
+      "name": "title",
+      "type": "string",
+      "description": "A descriptive name for the new key. Use a name that will help you recognize this key in your GitHub account. For example, if you're using a personal Mac, you might call this key \"Personal MacBook Air\".",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "key",
+      "type": "string",
+      "description": "The public SSH key to add to your GitHub account. See \"[Generating a new SSH key](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)\" for guidance on how to create a public SSH key.",
+      "required": false,
+      "location": "body"
+    }
+  ],
+  "requests": [
+    {
+      "title": "octocat@octomac",
+      "key": "ssh-rsa AAA..."
+    }
+  ],
+  "description": "Adds a public SSH key to the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth, or OAuth with at least `write:public_key` [scope](/enterprise/2.12/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).\n\nIf your GitHub Enterprise appliance has [LDAP Sync enabled](https://help.github.com/enterprise/admin/guides/user-management/using-ldap) and the option to synchronize SSH keys enabled, this API is disabled and will return a `403` response. Users managed in LDAP won't be able to add an SSH key address via the API with these options enabled.",
+  "responses": [
+    {
+      "headers": {
+        "status": "201 Created",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "id": 1,
+        "key": "ssh-rsa AAA...",
+        "url": "https://api.github.com/user/keys/1",
+        "title": "octocat@octomac",
+        "verified": true,
+        "created_at": "2014-12-10T15:53:42Z",
+        "read_only": true
+      }
+    }
+  ],
+  "idName": "create-public-key",
+  "documentationUrl": "https://developer.github.com/enterprise/2.12/v3/users/keys/#create-a-public-key"
+}

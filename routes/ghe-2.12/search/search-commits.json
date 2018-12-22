@@ -1,0 +1,65 @@
+{
+  "name": "Search commits",
+  "enabledForApps": true,
+  "method": "GET",
+  "path": "/search/commits",
+  "previews": [
+    {
+      "name": "cloak",
+      "description": "The Commit Search API is currently available for developers to preview. During the preview period, the APIs may change without advance notice. Please see the [blog post](/changes/2017-01-05-commit-search-api/) for full details.\n\nTo access the API you must provide a custom [media type](/enterprise/2.12/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.cloak-preview\n\n```",
+      "required": true
+    }
+  ],
+  "params": [
+    {
+      "name": "q",
+      "type": "string",
+      "description": "The search terms.",
+      "required": true,
+      "location": "query"
+    },
+    {
+      "name": "sort",
+      "type": "string",
+      "description": "The sort field. Can be `author-date` or `committer-date`.",
+      "default": "results are sorted by best match.",
+      "required": false,
+      "enum": [
+        "author-date",
+        "committer-date"
+      ],
+      "location": "query"
+    },
+    {
+      "name": "order",
+      "type": "string",
+      "description": "The sort order if `sort` parameter is provided. One of `asc` or `desc`.",
+      "default": "desc",
+      "required": false,
+      "enum": [
+        "asc",
+        "desc"
+      ],
+      "location": "query"
+    },
+    {
+      "name": "per_page",
+      "type": "integer",
+      "required": false,
+      "description": "Results per page (max 100)",
+      "default": 30,
+      "location": "query"
+    },
+    {
+      "name": "page",
+      "type": "integer",
+      "required": false,
+      "description": "Page number of the results to fetch.",
+      "default": 1,
+      "location": "query"
+    }
+  ],
+  "description": "Find commits via various criteria. This method returns up to 100 results [per page](/enterprise/2.12/v3/#pagination).\n\n**Considerations for commit search**\n\nOnly the _default branch_ is considered. In most cases, this will be the `master` branch.\n\nThe `q` search term can also contain any combination of the supported commit search qualifiers as described by the in-browser [commit search documentation](https://help.github.com/articles/searching-commits/) and [search syntax documentation](https://help.github.com/articles/search-syntax/):\n\n*   [`author`](https://help.github.com/articles/searching-commits#search-by-author-or-committer) Matches commits authored by a user (based on email settings).\n*   [`committer`](https://help.github.com/articles/searching-commits#search-by-author-or-committer) Matches commits committed by a user (based on email settings).\n*   [`author-name`](https://help.github.com/articles/searching-commits#search-by-author-or-committer) Matches commits by author name.\n*   [`committer-name`](https://help.github.com/articles/searching-commits#search-by-author-or-committer) Matches commits by committer name.\n*   [`author-email`](https://help.github.com/articles/searching-commits#search-by-author-or-committer) Matches commits by author email.\n*   [`committer-email`](https://help.github.com/articles/searching-commits#search-by-author-or-committer) Matches commits by committer email.\n*   [`author-date`](https://help.github.com/articles/searching-commits#search-by-authored-or-committed-date) Matches commits by author date range.\n*   [`committer-date`](https://help.github.com/articles/searching-commits/#search-by-authored-or-committed-date) Matches commits by committer date range.\n*   [`merge`](https://help.github.com/articles/searching-commits#filter-merge-commits) `true` filters to merge commits, `false` filters out merge commits.\n*   [`hash`](https://help.github.com/articles/searching-commits#search-by-hash) Matches commits by hash.\n*   [`parent`](https://help.github.com/articles/searching-commits#search-by-parent) Matches commits that have a particular parent.\n*   [`tree`](https://help.github.com/articles/searching-commits#search-by-tree) Matches commits by tree hash.\n*   [`is`](https://help.github.com/articles/searching-commits#filter-to-public-or-private-repositories) Matches `public` or `private` repositories.\n*   [`user`, `org`, or `repo`](https://help.github.com/articles/searching-commits#search-within-a-users-or-organizations-repositories) Limits searches to a specific user, organization, or repository.\n\nSuppose you want to find commits related to CSS in the [octocat/Spoon-Knife](https://github.com/octocat/Spoon-Knife) repository. Your query would look something like this:\n\n**Highlighting code search results**\n\nWhen searching for commits, you can get text match metadata for the **message** field. See the section on [text match metadata](#text-match-metadata) for full details.",
+  "idName": "commits",
+  "documentationUrl": "https://developer.github.com/enterprise/2.12/v3/search/#search-commits"
+}

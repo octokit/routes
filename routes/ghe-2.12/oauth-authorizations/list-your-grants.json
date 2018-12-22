@@ -1,0 +1,52 @@
+{
+  "name": "List your grants",
+  "enabledForApps": false,
+  "method": "GET",
+  "path": "/applications/grants",
+  "previews": [],
+  "params": [
+    {
+      "name": "per_page",
+      "type": "integer",
+      "required": false,
+      "description": "Results per page (max 100)",
+      "default": 30,
+      "location": "query"
+    },
+    {
+      "name": "page",
+      "type": "integer",
+      "required": false,
+      "description": "Page number of the results to fetch.",
+      "default": 1,
+      "location": "query"
+    }
+  ],
+  "description": "You can use this API to list the set of OAuth applications that have been granted access to your account. Unlike the [list your authorizations](/enterprise/2.12/v3/oauth_authorizations/#list-your-authorizations) API, this API does not manage individual tokens. This API will return one entry for each OAuth application that has been granted access to your account, regardless of the number of tokens an application has generated for your user. The list of OAuth applications returned matches what is shown on [the application authorizations settings screen within GitHub](https://github.com/settings/applications#authorized). The `scopes` returned are the union of scopes authorized for the application. For example, if an application has one token with `repo` scope and another token with `user` scope, the grant will return `[\"repo\", \"user\"]`.",
+  "responses": [
+    {
+      "headers": {
+        "status": "200 OK",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": [
+        {
+          "id": 1,
+          "url": "https://api.github.com/applications/grants/1",
+          "app": {
+            "url": "http://my-github-app.com",
+            "name": "my github app",
+            "client_id": "abcde12345fghij67890"
+          },
+          "created_at": "2011-09-06T17:26:27Z",
+          "updated_at": "2011-09-06T20:39:23Z",
+          "scopes": [
+            "public_repo"
+          ]
+        }
+      ]
+    }
+  ],
+  "idName": "list-grants",
+  "documentationUrl": "https://developer.github.com/enterprise/2.12/v3/oauth_authorizations/#list-your-grants"
+}
