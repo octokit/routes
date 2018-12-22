@@ -1,0 +1,105 @@
+{
+  "name": "List review requests",
+  "enabledForApps": true,
+  "method": "GET",
+  "path": "/repos/:owner/:repo/pulls/:number/requested_reviewers",
+  "previews": [
+    {
+      "name": "thor",
+      "description": "**Note:** Team-based review requests in the Review Requests API on GitHub Enterprise are currently available for developers to preview. See the [blog post](/changes/2017-07-26-team-review-request-thor-preview) for full details.\n\nTo access the API during the preview period, you must provide a custom [media type](/enterprise/2.12/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.thor-preview+json\n\n```",
+      "required": true
+    },
+    {
+      "name": "thor",
+      "description": "**Note**: When you call this endpoint without passing the preview header, the response will only include requested users (without requested teams). This response will be deprecated when this API preview ends. To get the most up-to-date response, provide `application/vnd.github.thor-preview+json` in the `Accept` header. See the [blog post](/changes/2017-07-26-team-review-request-thor-preview) for full details.",
+      "required": false
+    }
+  ],
+  "params": [
+    {
+      "name": "owner",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "repo",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "number",
+      "type": "integer",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "per_page",
+      "type": "integer",
+      "required": false,
+      "description": "Results per page (max 100)",
+      "default": 30,
+      "location": "query"
+    },
+    {
+      "name": "page",
+      "type": "integer",
+      "required": false,
+      "description": "Page number of the results to fetch.",
+      "default": 1,
+      "location": "query"
+    }
+  ],
+  "description": "",
+  "responses": [
+    {
+      "headers": {
+        "status": "200 OK",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "users": [
+          {
+            "login": "octocat",
+            "id": 1,
+            "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/octocat",
+            "html_url": "https://github.com/octocat",
+            "followers_url": "https://api.github.com/users/octocat/followers",
+            "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+            "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+            "organizations_url": "https://api.github.com/users/octocat/orgs",
+            "repos_url": "https://api.github.com/users/octocat/repos",
+            "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+            "received_events_url": "https://api.github.com/users/octocat/received_events",
+            "type": "User",
+            "site_admin": false
+          }
+        ],
+        "teams": [
+          {
+            "id": 1,
+            "url": "https://api.github.com/teams/1",
+            "name": "Justice League",
+            "slug": "justice-league",
+            "description": "A great team.",
+            "privacy": "closed",
+            "permission": "admin",
+            "members_url": "https://api.github.com/teams/1/members{/member}",
+            "repositories_url": "https://api.github.com/teams/1/repos",
+            "parent": null
+          }
+        ]
+      }
+    }
+  ],
+  "idName": "list-review-requests",
+  "documentationUrl": "https://developer.github.com/enterprise/2.12/v3/pulls/review_requests/#list-review-requests"
+}

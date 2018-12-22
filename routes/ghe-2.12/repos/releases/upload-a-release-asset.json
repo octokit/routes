@@ -1,0 +1,56 @@
+{
+  "name": "Upload a release asset",
+  "enabledForApps": true,
+  "method": "POST",
+  "path": ":url",
+  "previews": [],
+  "params": [
+    {
+      "name": "url",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "Content-Length",
+      "type": "integer",
+      "description": "The content size of the asset in bytes",
+      "required": true,
+      "location": "headers"
+    },
+    {
+      "name": "Content-Type",
+      "type": "string",
+      "description": "The content type of the asset. This should be set in the Header. Example: `\"application/zip\"`. For a list of acceptable types, refer this list of [media types](https://www.iana.org/assignments/media-types/media-types.xhtml).",
+      "required": true,
+      "location": "headers"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "The file name of the asset. This should be set in a URI query parameter.",
+      "required": true,
+      "location": "query"
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "description": "An alternate short description of the asset. Used in place of the filename. This should be set in a URI query parameter.",
+      "required": false,
+      "location": "query"
+    },
+    {
+      "name": "file",
+      "type": "string | object",
+      "description": "",
+      "required": true,
+      "location": "body",
+      "mapTo": "input"
+    }
+  ],
+  "description": "This endpoint makes use of [a Hypermedia relation](https://developer.github.com/v3/#hypermedia) to determine which URL to access. This endpoint is provided by a URI template in [the release's API response](#get-a-single-release). You need to use an HTTP client which supports [SNI](http://en.wikipedia.org/wiki/Server_Name_Indication) to make calls to this endpoint.\n\nThe asset data is expected in its raw binary form, rather than JSON. Everything else about the endpoint is the same as the rest of the API. For example, you'll still need to pass your authentication to be able to upload an asset.\n\nSend the raw binary content of the asset as the request body.\n\nThis may leave an empty asset with a state of `\"new\"`. It can be safely deleted.",
+  "idName": "upload-release-asset",
+  "documentationUrl": "https://developer.github.com/enterprise/2.12/v3/repos/releases/#upload-a-release-asset",
+  "isOverride": true
+}
