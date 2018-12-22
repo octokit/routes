@@ -854,48 +854,6 @@
       "documentationUrl": "https://developer.github.com/enterprise/2.13/v3/activity/events/#list-repository-events"
     },
     {
-      "name": "List issue events for a repository",
-      "enabledForApps": false,
-      "method": "GET",
-      "path": "/repos/:owner/:repo/issues/events",
-      "previews": [],
-      "params": [
-        {
-          "name": "owner",
-          "type": "string",
-          "required": true,
-          "description": "",
-          "location": "url"
-        },
-        {
-          "name": "repo",
-          "type": "string",
-          "required": true,
-          "description": "",
-          "location": "url"
-        },
-        {
-          "name": "per_page",
-          "type": "integer",
-          "required": false,
-          "description": "Results per page (max 100)",
-          "default": 30,
-          "location": "query"
-        },
-        {
-          "name": "page",
-          "type": "integer",
-          "required": false,
-          "description": "Page number of the results to fetch.",
-          "default": 1,
-          "location": "query"
-        }
-      ],
-      "description": "Repository issue events have a different format than other events, as documented in the [Issue Events API](/enterprise/2.13/v3/issues/events/).",
-      "idName": "list-issue-events-for-repo",
-      "documentationUrl": "https://developer.github.com/enterprise/2.13/v3/activity/events/#list-issue-events-for-a-repository"
-    },
-    {
       "name": "List public events for a network of repositories",
       "enabledForApps": true,
       "method": "GET",
@@ -7491,20 +7449,21 @@
         {
           "name": "ref",
           "type": "string",
+          "description": "Must be formatted as `heads/branch`, not just `branch`",
           "required": true,
-          "description": "",
           "location": "url"
         }
       ],
-      "description": "Returns a single reference from your Git database.\n\n**Note:** You need to explicitly [request a pull request](/enterprise/2.13/v3/pulls/#get-a-single-pull-request) to trigger a merge commit creation. For more information, see \"[Checking mergeability of pull requests](/enterprise/2.13/v3/git/#checking-mergeability-of-pull-requests)\".\n\nThe `ref` in the URL must be formatted as `heads/branch`, not just `branch`. For example, the call to get the data for a branch named `skunkworkz/featureA` would be:\n\n```\nGET /repos/:owner/:repo/git/refs/heads/skunkworkz/featureA\n```\n\nIf the `ref` doesn't exist in the repository, but existing refs start with `ref` they will be returned as an array. For example, a call to get the data for a branch named `feature`, which doesn't exist, would return head refs including `featureA` and `featureB` which do.\n\n```\nGET /repos/:owner/:repo/git/refs/heads/feature\n```\n\nIf the `ref` doesn't match an existing ref or any prefixes a 404 will be returned.\n\n```\nGET /repos/:owner/:repo/git/refs/heads/feature-branch-that-no-longer-exists\n```",
+      "description": "Returns a branch or tag reference. Other than the [REST API](https://developer.github.com/v3/git/refs/#get-a-reference) it always returns a single reference. If the REST API returns with an array then the method responds with an error.",
       "idName": "get-ref",
-      "documentationUrl": "https://developer.github.com/enterprise/2.13/v3/git/refs/#get-a-reference"
+      "documentationUrl": "https://developer.github.com/enterprise/2.13/v3/git/refs/#get-a-reference",
+      "isOverride": true
     },
     {
       "name": "Get all references",
       "enabledForApps": true,
       "method": "GET",
-      "path": "/repos/:owner/:repo/git/refs",
+      "path": "/repos/:owner/:repo/git/refs/:namespace",
       "previews": [],
       "params": [
         {
@@ -7519,6 +7478,13 @@
           "type": "string",
           "required": true,
           "description": "",
+          "location": "url"
+        },
+        {
+          "name": "namespace",
+          "type": "string",
+          "description": "Filter by sub-namespace (reference prefix). Most commen examples would be `'heads/'` and `'tags/'` to retrieve branches or tags",
+          "required": false,
           "location": "url"
         },
         {
@@ -7538,9 +7504,10 @@
           "location": "query"
         }
       ],
-      "description": "Returns an array of all the references from your Git database, including notes and stashes if they exist on the server. Anything in the namespace, not just `heads` and `tags`, though that would be the most common.\n\n**Note:** You need to explicitly [request a pull request](/enterprise/2.13/v3/pulls/#get-a-single-pull-request) to trigger a merge commit creation. For more information, see \"[Checking mergeability of pull requests](/enterprise/2.13/v3/git/#checking-mergeability-of-pull-requests)\".\n\nYou can also request a sub-namespace. For example, to get all the tag references, you can call:\n\n```\nGET /repos/:owner/:repo/git/refs/tags\n```\n\nFor a full refs listing, you'll get something that looks like:",
-      "idName": "get-refs",
-      "documentationUrl": "https://developer.github.com/enterprise/2.13/v3/git/refs/#get-all-references"
+      "description": "This will return an array of all the references on the system, including things like notes and stashes if they exist on the server",
+      "idName": "list-refs",
+      "documentationUrl": "https://developer.github.com/enterprise/2.13/v3/git/refs/#get-all-references",
+      "isOverride": true
     },
     {
       "name": "Create a reference",
@@ -7941,107 +7908,21 @@
           "required": true,
           "description": "",
           "location": "url"
-        }
-      ],
-      "description": "If `truncated` is `true`, the number of items in the `tree` array exceeded our maximum limit. If you need to fetch more items, you can clone the repository and iterate over the Git data locally.",
-      "responses": [
+        },
         {
-          "headers": {
-            "status": "200 OK",
-            "content-type": "application/json; charset=utf-8"
-          },
-          "body": {
-            "sha": "9fb037999f264ba9a7fc6274d15fa3ae2ab98312",
-            "url": "https://api.github.com/repos/octocat/Hello-World/trees/9fb037999f264ba9a7fc6274d15fa3ae2ab98312",
-            "tree": [
-              {
-                "path": "file.rb",
-                "mode": "100644",
-                "type": "blob",
-                "size": 30,
-                "sha": "44b4fc6d56897b048c772eb4087f854f46256132",
-                "url": "https://api.github.com/repos/octocat/Hello-World/git/blobs/44b4fc6d56897b048c772eb4087f854f46256132"
-              },
-              {
-                "path": "subdir",
-                "mode": "040000",
-                "type": "tree",
-                "sha": "f484d249c660418515fb01c2b9662073663c242e",
-                "url": "https://api.github.com/repos/octocat/Hello-World/git/blobs/f484d249c660418515fb01c2b9662073663c242e"
-              },
-              {
-                "path": "exec_file",
-                "mode": "100755",
-                "type": "blob",
-                "size": 75,
-                "sha": "45b983be36b73c0788dc9cbcb76cbb80fc7bb057",
-                "url": "https://api.github.com/repos/octocat/Hello-World/git/blobs/45b983be36b73c0788dc9cbcb76cbb80fc7bb057"
-              }
-            ],
-            "truncated": false
-          },
-          "description": "If `truncated` is `true`, the number of items in the `tree` array exceeded our maximum limit. If you need to fetch more items, you can clone the repository and iterate over the Git data locally."
+          "name": "recursive",
+          "type": "integer",
+          "description": "",
+          "enum": [
+            1
+          ],
+          "location": "query"
         }
       ],
+      "description": "If `truncated` in the response is `true`, the number of items in the `tree` array exceeded our maximum limit. If you need to fetch more items, omit the `recursive` parameter, and fetch one sub-tree at a time. If you need to fetch even more items, you can clone the repository and iterate over the Git data locally.",
       "idName": "get-tree",
-      "documentationUrl": "https://developer.github.com/enterprise/2.13/v3/git/trees/#get-a-tree"
-    },
-    {
-      "name": "Get a tree recursively",
-      "enabledForApps": false,
-      "method": "GET",
-      "path": "/repos/:owner/:repo/git/trees/:tree_sha?recursive=1",
-      "previews": [],
-      "params": [
-        {
-          "name": "owner",
-          "type": "string",
-          "required": true,
-          "description": "",
-          "location": "url"
-        },
-        {
-          "name": "repo",
-          "type": "string",
-          "required": true,
-          "description": "",
-          "location": "url"
-        },
-        {
-          "name": "tree_sha",
-          "type": "string",
-          "required": true,
-          "description": "",
-          "location": "url"
-        }
-      ],
-      "description": "If `truncated` is `true`, the number of items in the `tree` array exceeded our maximum limit. If you need to fetch more items, use the non-recursive method of fetching trees, and fetch one sub-tree at a time.",
-      "responses": [
-        {
-          "headers": {
-            "status": "200 OK",
-            "content-type": "application/json; charset=utf-8"
-          },
-          "body": {
-            "sha": "fc6274d15fa3ae2ab983129fb037999f264ba9a7",
-            "url": "https://api.github.com/repos/octocat/Hello-World/trees/fc6274d15fa3ae2ab983129fb037999f264ba9a7",
-            "tree": [
-              {
-                "path": "subdir/file.txt",
-                "mode": "100644",
-                "type": "blob",
-                "size": 132,
-                "sha": "7c258a9869f33c1e1e1f74fbb32f07c86cb5a75b",
-                "url": "https://api.github.com/repos/octocat/Hello-World/git/7c258a9869f33c1e1e1f74fbb32f07c86cb5a75b"
-              }
-            ],
-            "truncated": false
-          },
-          "description": "If `truncated` is `true`, the number of items in the `tree` array exceeded our maximum limit. If you need to fetch more items, use the non-recursive method of fetching trees, and fetch one sub-tree at a time."
-        }
-      ],
-      "idName": "get-tree-recursively",
-      "documentationUrl": "https://developer.github.com/enterprise/2.13/v3/git/trees/#get-a-tree-recursively"
+      "documentationUrl": "https://developer.github.com/enterprise/2.13/v3/git/trees/#get-a-tree",
+      "isOverride": true
     },
     {
       "name": "Create a tree",
@@ -14319,144 +14200,6 @@
       ],
       "idName": "get-conduct-code",
       "documentationUrl": "https://developer.github.com/enterprise/2.13/v3/codes_of_conduct/#get-an-individual-code-of-conduct"
-    },
-    {
-      "name": "Get a repository's code of conduct",
-      "enabledForApps": true,
-      "method": "GET",
-      "path": "/repos/:owner/:repo",
-      "previews": [
-        {
-          "name": "scarlet-witch",
-          "description": "**Note:** The Codes of Conduct API is currently available for developers to preview.\n\nTo access the API during the preview period, you must provide a custom [media type](/enterprise/2.13/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.scarlet-witch-preview+json\n\n```",
-          "required": true
-        }
-      ],
-      "params": [
-        {
-          "name": "owner",
-          "type": "string",
-          "required": true,
-          "description": "",
-          "location": "url"
-        },
-        {
-          "name": "repo",
-          "type": "string",
-          "required": true,
-          "description": "",
-          "location": "url"
-        }
-      ],
-      "description": "When passed the preview media type, requests to get a repository will also return the repository's code of conduct if it can be detected from the repository's code of conduct file.",
-      "responses": [
-        {
-          "headers": {
-            "status": "200 OK",
-            "content-type": "application/json; charset=utf-8"
-          },
-          "body": {
-            "id": 88760408,
-            "node_id": "MDEwOlJlcG9zaXRvcnk4ODc2MDQwOA==",
-            "name": "cosee",
-            "full_name": "LindseyB/cosee",
-            "owner": {
-              "login": "LindseyB",
-              "id": 33750,
-              "node_id": "MDQ6VXNlcjMzNzUw",
-              "avatar_url": "https://avatars2.githubusercontent.com/u/33750?v=3",
-              "gravatar_id": "",
-              "url": "https://api.github.com/users/LindseyB",
-              "html_url": "https://github.com/LindseyB",
-              "followers_url": "https://api.github.com/users/LindseyB/followers",
-              "following_url": "https://api.github.com/users/LindseyB/following{/other_user}",
-              "gists_url": "https://api.github.com/users/LindseyB/gists{/gist_id}",
-              "starred_url": "https://api.github.com/users/LindseyB/starred{/owner}{/repo}",
-              "subscriptions_url": "https://api.github.com/users/LindseyB/subscriptions",
-              "organizations_url": "https://api.github.com/users/LindseyB/orgs",
-              "repos_url": "https://api.github.com/users/LindseyB/repos",
-              "events_url": "https://api.github.com/users/LindseyB/events{/privacy}",
-              "received_events_url": "https=>//api.github.com/users/LindseyB/received_events",
-              "type": "User",
-              "site_admin": true
-            },
-            "private": false,
-            "html_url": "https://github.com/LindseyB/cosee",
-            "description": null,
-            "fork": false,
-            "url": "https://api.github.com/repos/LindseyB/cosee",
-            "forks_url": "https://api.github.com/repos/LindseyB/cosee/forks",
-            "keys_url": "https://api.github.com/repos/LindseyB/cosee/keys{/key_id}",
-            "collaborators_url": "https://api.github.com/repos/LindseyB/cosee/collaborators{/collaborator}",
-            "teams_url": "https://api.github.com/repos/LindseyB/cosee/teams",
-            "hooks_url": "https://api.github.com/repos/LindseyB/cosee/hooks",
-            "issue_events_url": "https://api.github.com/repos/LindseyB/cosee/issues/events{/number}",
-            "events_url": "https://api.github.com/repos/LindseyB/cosee/events",
-            "assignees_url": "https://api.github.com/repos/LindseyB/cosee/assignees{/user}",
-            "branches_url": "https://api.github.com/repos/LindseyB/cosee/branches{/branch}",
-            "tags_url": "https://api.github.com/repos/LindseyB/cosee/tags",
-            "blobs_url": "https://api.github.com/repos/LindseyB/cosee/git/blobs{/sha}",
-            "git_tags_url": "https://api.github.com/repos/LindseyB/cosee/git/tags{/sha}",
-            "git_refs_url": "https://api.github.com/repos/LindseyB/cosee/git/refs{/sha}",
-            "trees_url": "https://api.github.com/repos/LindseyB/cosee/git/trees{/sha}",
-            "statuses_url": "https://api.github.com/repos/LindseyB/cosee/statuses/{sha}",
-            "languages_url": "https://api.github.com/repos/LindseyB/cosee/languages",
-            "stargazers_url": "https://api.github.com/repos/LindseyB/cosee/stargazers",
-            "contributors_url": "https://api.github.com/repos/LindseyB/cosee/contributors",
-            "subscribers_url": "https://api.github.com/repos/LindseyB/cosee/subscribers",
-            "subscription_url": "https://api.github.com/repos/LindseyB/cosee/subscription",
-            "commits_url": "https://api.github.com/repos/LindseyB/cosee/commits{/sha}",
-            "git_commits_url": "https://api.github.com/repos/LindseyB/cosee/git/commits{/sha}",
-            "comments_url": "https://api.github.com/repos/LindseyB/cosee/comments{/number}",
-            "issue_comment_url": "https://api.github.com/repos/LindseyB/cosee/issues/comments{/number}",
-            "contents_url": "https://api.github.com/repos/LindseyB/cosee/contents/{+path}",
-            "compare_url": "https://api.github.com/repos/LindseyB/cosee/compare/{base}...{head}",
-            "merges_url": "https://api.github.com/repos/LindseyB/cosee/merges",
-            "archive_url": "https://api.github.com/repos/LindseyB/cosee/{archive_format}{/ref}",
-            "downloads_url": "https://api.github.com/repos/LindseyB/cosee/downloads",
-            "issues_url": "https://api.github.com/repos/LindseyB/cosee/issues{/number}",
-            "pulls_url": "https://api.github.com/repos/LindseyB/cosee/pulls{/number}",
-            "milestones_url": "https://api.github.com/repos/LindseyB/cosee/milestones{/number}",
-            "notifications_url": "https://api.github.com/repos/LindseyB/cosee/notifications{?since,all,participating}",
-            "labels_url": "https://api.github.com/repos/LindseyB/cosee/labels{/name}",
-            "releases_url": "https://api.github.com/repos/LindseyB/cosee/releases{/id}",
-            "deployments_url": "https://api.github.com/repos/LindseyB/cosee/deployments",
-            "created_at": "2017-04-19T15=>23=>26Z",
-            "updated_at": "2017-04-19T15=>23=>26Z",
-            "pushed_at": "2017-04-19T15=>34=>03Z",
-            "git_url": "git://github.com/LindseyB/cosee.git",
-            "ssh_url": "git@github.com=>LindseyB/cosee.git",
-            "clone_url": "https://github.com/LindseyB/cosee.git",
-            "svn_url": "https://github.com/LindseyB/cosee",
-            "homepage": null,
-            "size": 1,
-            "stargazers_count": 0,
-            "watchers_count": 0,
-            "language": null,
-            "has_issues": true,
-            "has_projects": true,
-            "has_downloads": true,
-            "has_wiki": true,
-            "has_pages": false,
-            "forks_count": 0,
-            "mirror_url": null,
-            "open_issues_count": 0,
-            "forks": 0,
-            "open_issues": 0,
-            "watchers": 0,
-            "default_branch": "master",
-            "code_of_conduct": {
-              "key": "contributor_covenant",
-              "name": "Contributor Covenant",
-              "url": "https://github.com/LindseyB/cosee/blob/master/CODE_OF_CONDUCT.md"
-            },
-            "network_count": 0,
-            "subscribers_count": 0
-          }
-        }
-      ],
-      "idName": "get-conduct-repo-code",
-      "documentationUrl": "https://developer.github.com/enterprise/2.13/v3/codes_of_conduct/#get-a-repositorys-code-of-conduct"
     },
     {
       "name": "Get the contents of a repository's code of conduct",
@@ -33651,29 +33394,22 @@
       "name": "Upload a release asset",
       "enabledForApps": true,
       "method": "POST",
-      "path": "https://<upload_url>/repos/:owner/:repo/releases/:release_id/assets?name=foo.zip",
+      "path": ":url",
       "previews": [],
       "params": [
         {
-          "name": "owner",
+          "name": "url",
           "type": "string",
           "required": true,
           "description": "",
           "location": "url"
         },
         {
-          "name": "repo",
-          "type": "string",
-          "required": true,
-          "description": "",
-          "location": "url"
-        },
-        {
-          "name": "release_id",
+          "name": "Content-Length",
           "type": "integer",
+          "description": "The content size of the asset in bytes",
           "required": true,
-          "description": "",
-          "location": "url"
+          "location": "headers"
         },
         {
           "name": "Content-Type",
@@ -33687,19 +33423,28 @@
           "type": "string",
           "description": "The file name of the asset. This should be set in a URI query parameter.",
           "required": true,
-          "location": "body"
+          "location": "query"
         },
         {
           "name": "label",
           "type": "string",
           "description": "An alternate short description of the asset. Used in place of the filename. This should be set in a URI query parameter.",
           "required": false,
-          "location": "body"
+          "location": "query"
+        },
+        {
+          "name": "file",
+          "type": "string | object",
+          "description": "",
+          "required": true,
+          "location": "body",
+          "mapTo": "input"
         }
       ],
-      "description": "This endpoint makes use of [a Hypermedia relation](/enterprise/2.13/v3/#hypermedia) to determine which URL to access. This endpoint is provided by a URI template in [the release's API response](#get-a-single-release).\n\nThe asset data is expected in its raw binary form, rather than JSON. Everything else about the endpoint is the same as the rest of the API. For example, you'll still need to pass your authentication to be able to upload an asset.\n\nSend the raw binary content of the asset as the request body.\n\nThis may leave an empty asset with a state of `new`. It can be safely deleted.",
+      "description": "This endpoint makes use of [a Hypermedia relation](https://developer.github.com/v3/#hypermedia) to determine which URL to access. This endpoint is provided by a URI template in [the release's API response](#get-a-single-release). You need to use an HTTP client which supports [SNI](http://en.wikipedia.org/wiki/Server_Name_Indication) to make calls to this endpoint.\n\nThe asset data is expected in its raw binary form, rather than JSON. Everything else about the endpoint is the same as the rest of the API. For example, you'll still need to pass your authentication to be able to upload an asset.\n\nSend the raw binary content of the asset as the request body.\n\nThis may leave an empty asset with a state of `\"new\"`. It can be safely deleted.",
       "idName": "upload-release-asset",
-      "documentationUrl": "https://developer.github.com/enterprise/2.13/v3/repos/releases/#upload-a-release-asset"
+      "documentationUrl": "https://developer.github.com/enterprise/2.13/v3/repos/releases/#upload-a-release-asset",
+      "isOverride": true
     },
     {
       "name": "Get a single release asset",
