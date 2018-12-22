@@ -2,7 +2,7 @@
   "name": "Get all references",
   "enabledForApps": true,
   "method": "GET",
-  "path": "/repos/:owner/:repo/git/refs",
+  "path": "/repos/:owner/:repo/git/refs/:namespace",
   "previews": [],
   "params": [
     {
@@ -17,6 +17,13 @@
       "type": "string",
       "required": true,
       "description": "",
+      "location": "url"
+    },
+    {
+      "name": "namespace",
+      "type": "string",
+      "description": "Filter by sub-namespace (reference prefix). Most commen examples would be `'heads/'` and `'tags/'` to retrieve branches or tags",
+      "required": false,
       "location": "url"
     },
     {
@@ -36,7 +43,8 @@
       "location": "query"
     }
   ],
-  "description": "Returns an array of all the references from your Git database, including notes and stashes if they exist on the server. Anything in the namespace, not just `heads` and `tags`, though that would be the most common.\n\n**Note:** You need to explicitly [request a pull request](/enterprise/2.15/v3/pulls/#get-a-single-pull-request) to trigger a merge commit creation. For more information, see \"[Checking mergeability of pull requests](/enterprise/2.15/v3/git/#checking-mergeability-of-pull-requests)\".\n\nYou can also request a sub-namespace. For example, to get all the tag references, you can call:\n\n```\nGET /repos/:owner/:repo/git/refs/tags\n```\n\nFor a full refs listing, you'll get something that looks like:",
-  "idName": "get-refs",
-  "documentationUrl": "https://developer.github.com/enterprise/2.15/v3/git/refs/#get-all-references"
+  "description": "This will return an array of all the references on the system, including things like notes and stashes if they exist on the server",
+  "idName": "list-refs",
+  "documentationUrl": "https://developer.github.com/enterprise/2.15/v3/git/refs/#get-all-references",
+  "isOverride": true
 }
