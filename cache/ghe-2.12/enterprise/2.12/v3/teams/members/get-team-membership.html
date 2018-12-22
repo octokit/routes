@@ -1,0 +1,52 @@
+<h2>
+<a id="get-team-membership" class="anchor" href="#get-team-membership" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get team membership<a href="/enterprise/2.12/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+<div class="alert note">
+<p><strong>Note:</strong> The Nested Teams API is currently available for developers to preview. See the <a href="/changes/2017-08-30-preview-nested-teams">blog post</a> for full details. To access the API, you must provide a custom <a href="/enterprise/2.12/v3/media">media type</a> in the <code>Accept</code> header:</p>
+<pre><code>application/vnd.github.hellcat-preview+json
+</code></pre>
+</div>
+<div class="alert warning">
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
+</div>
+<p>If you pass the <code>hellcat-preview</code> media type, team members will include the members of child teams.</p>
+<p>To get a user&apos;s membership with a team, the team must be visible to the authenticated user.</p>
+<pre><code>GET /teams/:team_id/memberships/:username
+</code></pre>
+<div class="alert tip">
+<p><strong>Note:</strong> The <code>role</code> for organization owners returns as <code>maintainer</code>. For more information about <code>maintainer</code> roles, see <a href="/enterprise/2.12/v3/teams#create-team">Create team</a>.</p>
+</div>
+<h3>
+<a id="response-if-user-has-an-active-membership-with-team" class="anchor" href="#response-if-user-has-an-active-membership-with-team" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if user has an active membership with team</h3>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/teams/1/memberships/octocat&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;member&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;active&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="response-if-user-is-a-team-maintainer" class="anchor" href="#response-if-user-is-a-team-maintainer" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if user is a team maintainer</h3>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/teams/1/memberships/octocat&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;maintainer&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;active&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="response-if-user-has-a-pending-membership-with-team" class="anchor" href="#response-if-user-has-a-pending-membership-with-team" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if user has a pending membership with team</h3>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/teams/1/memberships/octocat&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;member&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pending&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="no-membership-response" class="anchor" href="#no-membership-response" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>No membership response</h3>
+<pre class="highlight highlight-headers"><code>Status: 404 Not Found
+</code></pre>

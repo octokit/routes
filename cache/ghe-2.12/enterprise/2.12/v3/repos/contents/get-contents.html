@@ -1,0 +1,150 @@
+<h2>
+<a id="get-contents" class="anchor" href="#get-contents" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get contents<a href="/enterprise/2.12/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+<p>Gets the contents of a file or directory in a repository. Specify the file path or directory in <code>:path</code>. If you omit <code>:path</code>, you will receive the contents of all files in the repository.</p>
+<pre><code>GET /repos/:owner/:repo/contents/:path
+</code></pre>
+<p>Files and symlinks support <a href="#custom-media-types">a custom media type</a> for retrieving the raw content or rendered HTML (when supported).
+All content types support <a href="#custom-media-types">a custom media type</a> to ensure the content is returned in a consistent object format.</p>
+<div class="alert note">
+<p><strong>Note</strong>:</p>
+<ul>
+<li>To get a repository&apos;s contents recursively, you can <a href="/enterprise/2.12/v3/git/trees/">recursively get the tree</a>.</li>
+<li>This API has an upper limit of 1,000 files for a directory. If you need to retrieve more files, use the <a href="/enterprise/2.12/v3/git/trees/#get-a-tree">Git Trees API</a>.</li>
+<li>This API supports files up to 1 megabyte in size.</li>
+</ul>
+</div>
+<h3>
+<a id="parameters-1" class="anchor" href="#parameters-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ref</code></td>
+<td><code>string</code></td>
+<td>The name of the commit/branch/tag. Default: the repository&#x2019;s default branch (usually <code>master</code>)</td>
+</tr>
+</tbody>
+</table>
+<h3>
+<a id="response-if-content-is-a-file" class="anchor" href="#response-if-content-is-a-file" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if content is a file</h3>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;file&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;encoding&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;base64&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5362</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;README.md&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;README.md&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;content&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;encoded content ...&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;sha&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;3d21ec53a331a6f037a91c368710b99387d012c1&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octokit/octokit.rb/contents/README.md&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;git_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octokit/octokit.rb/git/blobs/3d21ec53a331a6f037a91c368710b99387d012c1&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;html_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/octokit/octokit.rb/blob/master/README.md&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;download_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://raw.githubusercontent.com/octokit/octokit.rb/master/README.md&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;_links&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;git&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octokit/octokit.rb/git/blobs/3d21ec53a331a6f037a91c368710b99387d012c1&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;self&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octokit/octokit.rb/contents/README.md&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;html&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/octokit/octokit.rb/blob/master/README.md&quot;</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="response-if-content-is-a-directory" class="anchor" href="#response-if-content-is-a-directory" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if content is a directory</h3>
+<p>The response will be an array of objects, one object for each item in the directory.</p>
+<p>When listing the contents of a directory, submodules have their &quot;type&quot;
+specified as &quot;file&quot;. Logically, the value <em>should</em> be &quot;submodule&quot;. This behavior
+exists in API v3 <a href="https://git.io/v1YCW">for backwards compatibility purposes</a>.
+In the next major version of the API, the type will be returned as &quot;submodule&quot;.</p>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;file&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">625</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;octokit.rb&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lib/octokit.rb&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;sha&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fff6fe3a23bf1c8ea0692b4a883af99bee26fd3b&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octokit/octokit.rb/contents/lib/octokit.rb&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;git_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octokit/octokit.rb/git/blobs/fff6fe3a23bf1c8ea0692b4a883af99bee26fd3b&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;html_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/octokit/octokit.rb/blob/master/lib/octokit.rb&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;download_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://raw.githubusercontent.com/octokit/octokit.rb/master/lib/octokit.rb&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;_links&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;self&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octokit/octokit.rb/contents/lib/octokit.rb&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;git&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octokit/octokit.rb/git/blobs/fff6fe3a23bf1c8ea0692b4a883af99bee26fd3b&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;html&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/octokit/octokit.rb/blob/master/lib/octokit.rb&quot;</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dir&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;octokit&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lib/octokit&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;sha&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;a84d88e7554fc1fa21bcbc4efae3c782a70d2b9d&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octokit/octokit.rb/contents/lib/octokit&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;git_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octokit/octokit.rb/git/trees/a84d88e7554fc1fa21bcbc4efae3c782a70d2b9d&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;html_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/octokit/octokit.rb/tree/master/lib/octokit&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;download_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;_links&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;self&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octokit/octokit.rb/contents/lib/octokit&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;git&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octokit/octokit.rb/git/trees/a84d88e7554fc1fa21bcbc4efae3c782a70d2b9d&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;html&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/octokit/octokit.rb/tree/master/lib/octokit&quot;</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="response-if-content-is-a-symlink" class="anchor" href="#response-if-content-is-a-symlink" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if content is a symlink</h3>
+<p>If the requested <code>:path</code> points to a symlink, and the symlink&apos;s target is a normal file in the repository, then the API responds with the content of the file (in the <a href="#response-if-content-is-a-file">format shown above</a>).</p>
+<p>Otherwise, the API responds with an object describing the symlink itself:</p>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;symlink&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;target&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/path/to/symlink/target&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">23</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;some-symlink&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bin/some-symlink&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;sha&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;452a98979c88e093d682cab404a3ec82babebb48&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octokit/octokit.rb/contents/bin/some-symlink&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;git_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octokit/octokit.rb/git/blobs/452a98979c88e093d682cab404a3ec82babebb48&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;html_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/octokit/octokit.rb/blob/master/bin/some-symlink&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;download_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://raw.githubusercontent.com/octokit/octokit.rb/master/bin/some-symlink&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;_links&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;git&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octokit/octokit.rb/git/blobs/452a98979c88e093d682cab404a3ec82babebb48&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;self&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octokit/octokit.rb/contents/bin/some-symlink&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;html&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/octokit/octokit.rb/blob/master/bin/some-symlink&quot;</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="response-if-content-is-a-submodule" class="anchor" href="#response-if-content-is-a-submodule" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if content is a submodule</h3>
+<p>The <code>submodule_git_url</code> identifies the location of the submodule repository, and the <code>sha</code> identifies a specific commit within the submodule repository.
+Git uses the given URL when cloning the submodule repository, and checks out the submodule at that specific commit.</p>
+<p>If the submodule repository is not hosted on github.com, the Git URLs (<code>git_url</code> and <code>_links[&quot;git&quot;]</code>) and the github.com URLs (<code>html_url</code> and <code>_links[&quot;html&quot;]</code>) will have null values.</p>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;submodule&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;submodule_git_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;git://github.com/jquery/qunit.git&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;qunit&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test/qunit&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;sha&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;6ca3721222109997540bd6d9ccd396902e0ad2f9&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/jquery/jquery/contents/test/qunit?ref=master&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;git_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/jquery/qunit/git/trees/6ca3721222109997540bd6d9ccd396902e0ad2f9&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;html_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/jquery/qunit/tree/6ca3721222109997540bd6d9ccd396902e0ad2f9&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;download_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;_links&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;git&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/jquery/qunit/git/trees/6ca3721222109997540bd6d9ccd396902e0ad2f9&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;self&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/jquery/jquery/contents/test/qunit?ref=master&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;html&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/jquery/qunit/tree/6ca3721222109997540bd6d9ccd396902e0ad2f9&quot;</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
