@@ -64,7 +64,6 @@
             <a class="dropdown-menu-item" data-proofer-ignore>Enterprise 2.15</a>
             <a class="dropdown-menu-item" data-proofer-ignore>Enterprise 2.14</a>
             <a class="dropdown-menu-item" data-proofer-ignore>Enterprise 2.13</a>
-            <a class="dropdown-menu-item" data-proofer-ignore>Enterprise 2.12</a>
           </div>
       </div>
       <form accept-charset="UTF-8" action="#" class="site-header-nav-item site-header-search">
@@ -939,12 +938,18 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <h2>
 <a id="upload-a-release-asset" class="anchor" href="#upload-a-release-asset" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Upload a release asset<a href="/enterprise/2.14/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
-<p>This endpoint makes use of <a href="/enterprise/2.14/v3/#hypermedia">a Hypermedia relation</a> to determine which URL to access.
-This endpoint is provided by a URI template in <a href="#get-a-single-release">the release's API response</a>.</p>
+<p>This endpoint makes use of <a href="/enterprise/2.14/v3/#hypermedia">a Hypermedia relation</a> to determine which URL to access. The endpoint you call to upload release assets is specific to your release. Use the <code>upload_url</code> returned in the response of the <a href="#create-a-release">Create a release endpoint</a> to upload a release asset.</p>
 <p>The asset data is expected in its raw binary form, rather than JSON.
 Everything else about the endpoint is the same as the rest of the API. For example, you'll still need to pass your authentication to be able to upload an asset.</p>
-<pre><code>POST https://&lt;upload_url&gt;/repos/:owner/:repo/releases/:release_id/assets?name=foo.zip
+<pre><code>POST &lt;upload_url&gt;
 </code></pre>
+<div class="alert note">
+<p><strong>Notes:</strong></p>
+<ul>
+<li>GitHub renames asset filenames that have special characters, non-alphanumeric characters, and leading or trailing periods. The "<a href="#list-assets-for-a-release">List assets for a release</a>" endpoint lists the renamed filenames. For more information and help, contact <a href="https://github.com/contact">GitHub Support</a>.</li>
+<li>If you upload an asset with the same filename as another uploaded asset, you'll receive an error and must delete the old file before you can re-upload the new asset.</li>
+</ul>
+</div>
 <h3>
 <a id="input-2" class="anchor" href="#input-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Input</h3>
 <p>The raw file is uploaded to GitHub Enterprise.  Set the content type appropriately, and the
@@ -978,6 +983,10 @@ asset's name and label in URI query parameters.</p>
 </tbody>
 </table>
 <p>Send the raw binary content of the asset as the request body.</p>
+<h3>
+<a id="example-2" class="anchor" href="#example-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+<pre><code>POST https://uploads.github.com/repos/octocat/Hello-World/releases/1/assets?name=foo.zip
+</code></pre>
 <h3>
 <a id="response-for-successful-upload" class="anchor" href="#response-for-successful-upload" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response for successful upload</h3>
 <pre class="highlight highlight-headers"><code>Status: 201 Created
@@ -1101,7 +1110,7 @@ API clients should handle both a <code>200</code> or <code>302</code> response.<
 </tbody>
 </table>
 <h4>
-<a id="example-2" class="anchor" href="#example-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h4>
+<a id="example-3" class="anchor" href="#example-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h4>
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"foo-1.0.0-osx.zip"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mac binary"</span><span class="w">

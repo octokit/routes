@@ -64,7 +64,6 @@
             <a class="dropdown-menu-item" data-proofer-ignore>Enterprise 2.15</a>
             <a class="dropdown-menu-item" data-proofer-ignore>Enterprise 2.14</a>
             <a class="dropdown-menu-item" data-proofer-ignore>Enterprise 2.13</a>
-            <a class="dropdown-menu-item" data-proofer-ignore>Enterprise 2.12</a>
           </div>
       </div>
       <form accept-charset="UTF-8" action="#" class="site-header-nav-item site-header-search">
@@ -324,7 +323,7 @@ created for various internal and webhook purposes.</p>
 <tr>
 <td><code>action</code></td>
 <td><code>string</code></td>
-<td>The action performed. Can be <code>created</code>, <code>rerequested</code>, <code>completed</code>, or <code>requested_action</code>.</td>
+<td>The action performed. Can be one of: <br>* <code>created</code> - A new check run was created.<br>* <code>rerequested</code> - Someone requested to re-run your check run.<br>* <code>requested_action</code> - Someone requested that an action be taken. For example, this <code>action</code> will be sent if someone clicks a "Fix it" button in the UI. See <a href="/changes/2018-05-23-request-actions-on-checks/">Request further actions from a check run</a> for details.</td>
 </tr>
 <tr>
 <td><code>check_run</code></td>
@@ -1021,7 +1020,8 @@ created for various internal and webhook purposes.</p>
 <tr>
 <td><code>ref_type</code></td>
 <td><code>string</code></td>
-<td>The object that was created. Can be one of "repository", "branch", or "tag"</td>
+<td>The object that was created. Can be one of <code>repository</code>, <code>branch</code>, or <code>tag</code>
+</td>
 </tr>
 <tr>
 <td><code>ref</code></td>
@@ -1184,7 +1184,7 @@ created for various internal and webhook purposes.</p>
 <tr>
 <td><code>ref_type</code></td>
 <td><code>string</code></td>
-<td>The object that was deleted. Can be "branch" or "tag".</td>
+<td>The object that was deleted. Can be <code>branch</code> or <code>tag</code>.</td>
 </tr>
 <tr>
 <td><code>ref</code></td>
@@ -2031,7 +2031,7 @@ You cannot create webhooks that listen to these events.</p>
 </span></code></pre>
 <h2>
 <a id="forkapplyevent" class="anchor" href="#forkapplyevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ForkApplyEvent</h2>
-<p>Triggered when a patch is applied in the Fork Queue.</p>
+<p>Triggered when a patch is applied in the fork queue.</p>
 <div class="alert warning">
 <p>Events of this type are <strong>no longer delivered</strong>, but it's possible that they exist in timelines of some users.
 You cannot create webhooks that listen to these events.</p>
@@ -2088,7 +2088,8 @@ You cannot create webhooks that listen to these events.</p>
 <tr>
 <td><code>action</code></td>
 <td><code>string</code></td>
-<td>The action that was performed. Can be "create" or "update"</td>
+<td>The action that was performed. Can be <code>create</code> or <code>update</code>
+</td>
 </tr>
 <tr>
 <td><code>gist</code></td>
@@ -2132,7 +2133,7 @@ You cannot create webhooks that listen to these events.</p>
 <tr>
 <td><code>pages[][action]</code></td>
 <td><code>string</code></td>
-<td>The action that was performed on the page. Can be "created" or "edited".</td>
+<td>The action that was performed on the page. Can be <code>created</code> or <code>edited</code>.</td>
 </tr>
 <tr>
 <td><code>pages[][sha]</code></td>
@@ -2279,7 +2280,7 @@ You cannot create webhooks that listen to these events.</p>
 </span></code></pre>
 <h2>
 <a id="installationevent" class="anchor" href="#installationevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>InstallationEvent</h2>
-<p>Triggered when a GitHub App has been installed or uninstalled.</p>
+<p>Triggered when a GitHub App has been installed (<code>created</code>) or uninstalled (<code>deleted</code>).</p>
 <h3>
 <a id="events-api-payload-12" class="anchor" href="#events-api-payload-12" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
 <table>
@@ -2294,7 +2295,7 @@ You cannot create webhooks that listen to these events.</p>
 <tr>
 <td><code>action</code></td>
 <td><code>string</code></td>
-<td>The action that was performed. Can be either "created" or "deleted".</td>
+<td>The action that was performed. Can be either <code>created</code> or <code>deleted</code>.</td>
 </tr>
 <tr>
 <td><code>installation</code></td>
@@ -2372,7 +2373,7 @@ You cannot create webhooks that listen to these events.</p>
 </span></code></pre>
 <h2>
 <a id="installationrepositoriesevent" class="anchor" href="#installationrepositoriesevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>InstallationRepositoriesEvent</h2>
-<p>Triggered when a repository is added or removed from an installation.</p>
+<p>Triggered when a repository is <code>added</code> or <code>removed</code> from an installation.</p>
 <h3>
 <a id="events-api-payload-13" class="anchor" href="#events-api-payload-13" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
 <table>
@@ -2387,7 +2388,7 @@ You cannot create webhooks that listen to these events.</p>
 <tr>
 <td><code>action</code></td>
 <td><code>string</code></td>
-<td>The action that was performed. Can be either "added" or "removed".</td>
+<td>The action that was performed. Can be either <code>added</code> or <code>removed</code>.</td>
 </tr>
 <tr>
 <td><code>installation</code></td>
@@ -2397,7 +2398,7 @@ You cannot create webhooks that listen to these events.</p>
 <tr>
 <td><code>repository_selection</code></td>
 <td><code>string</code></td>
-<td>The choice of repositories the installation is on. Can be either "selected" or "all".</td>
+<td>The choice of repositories the installation is on. Can be either <code>selected</code> or <code>all</code>.</td>
 </tr>
 <tr>
 <td><code>repositories_added</code></td>
@@ -2491,7 +2492,7 @@ You cannot create webhooks that listen to these events.</p>
 </span></code></pre>
 <h2>
 <a id="issuecommentevent" class="anchor" href="#issuecommentevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>IssueCommentEvent</h2>
-<p>Triggered when an <a href="/enterprise/2.14/v3/issues/comments/">issue comment</a> is created, edited, or deleted.</p>
+<p>Triggered when an <a href="/enterprise/2.14/v3/issues/comments/">issue comment</a> is <code>created</code>, <code>edited</code>, or <code>deleted</code>.</p>
 <h3>
 <a id="events-api-payload-14" class="anchor" href="#events-api-payload-14" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
 <table>
@@ -2506,17 +2507,17 @@ You cannot create webhooks that listen to these events.</p>
 <tr>
 <td><code>action</code></td>
 <td><code>string</code></td>
-<td>The action that was performed on the comment. Can be one of "created", "edited", or "deleted".</td>
+<td>The action that was performed on the comment. Can be one of <code>created</code>, <code>edited</code>, or <code>deleted</code>.</td>
 </tr>
 <tr>
 <td><code>changes</code></td>
 <td><code>object</code></td>
-<td>The changes to the comment if the action was "edited".</td>
+<td>The changes to the comment if the action was <code>edited</code>.</td>
 </tr>
 <tr>
 <td><code>changes[body][from]</code></td>
 <td><code>string</code></td>
-<td>The previous version of the body if the action was "edited".</td>
+<td>The previous version of the body if the action was <code>edited</code>.</td>
 </tr>
 <tr>
 <td><code>issue</code></td>
@@ -2764,17 +2765,17 @@ You cannot create webhooks that listen to these events.</p>
 <tr>
 <td><code>changes</code></td>
 <td><code>object</code></td>
-<td>The changes to the issue if the action was "edited".</td>
+<td>The changes to the issue if the action was <code>edited</code>.</td>
 </tr>
 <tr>
 <td><code>changes[title][from]</code></td>
 <td><code>string</code></td>
-<td>The previous version of the title if the action was "edited".</td>
+<td>The previous version of the title if the action was <code>edited</code>.</td>
 </tr>
 <tr>
 <td><code>changes[body][from]</code></td>
 <td><code>string</code></td>
-<td>The previous version of the body if the action was "edited".</td>
+<td>The previous version of the body if the action was <code>edited</code>.</td>
 </tr>
 <tr>
 <td><code>assignee</code></td>
@@ -2968,7 +2969,7 @@ You cannot create webhooks that listen to these events.</p>
 </span></code></pre>
 <h2>
 <a id="labelevent" class="anchor" href="#labelevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>LabelEvent</h2>
-<p>Triggered when a repository's label is <a href="/enterprise/2.14/v3/issues/labels/#create-a-label">created</a>, <a href="/enterprise/2.14/v3/issues/labels/#update-a-label">edited</a>, or <a href="/enterprise/2.14/v3/issues/labels/#delete-a-label">deleted</a>.</p>
+<p>Triggered when a repository's label is <code>created</code>, <code>edited</code>, or <code>deleted</code>.</p>
 <p>Events of this type are not visible in timelines. These events are only used to trigger hooks.</p>
 <h3>
 <a id="events-api-payload-16" class="anchor" href="#events-api-payload-16" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API Payload</h3>
@@ -2984,7 +2985,7 @@ You cannot create webhooks that listen to these events.</p>
 <tr>
 <td><code>action</code></td>
 <td><code>string</code></td>
-<td>The action that was performed. Can be "created", "edited", or "deleted".</td>
+<td>The action that was performed. Can be <code>created</code>, <code>edited</code>, or <code>deleted</code>.</td>
 </tr>
 <tr>
 <td><code>label</code></td>
@@ -2994,17 +2995,17 @@ You cannot create webhooks that listen to these events.</p>
 <tr>
 <td><code>changes</code></td>
 <td><code>object</code></td>
-<td>The changes to the label if the action was "edited".</td>
+<td>The changes to the label if the action was <code>edited</code>.</td>
 </tr>
 <tr>
 <td><code>changes[name][from]</code></td>
 <td><code>string</code></td>
-<td>The previous version of the name if the action was "edited".</td>
+<td>The previous version of the name if the action was <code>edited</code>.</td>
 </tr>
 <tr>
 <td><code>changes[color][from]</code></td>
 <td><code>string</code></td>
-<td>The previous version of the color if the action was "edited".</td>
+<td>The previous version of the color if the action was <code>edited</code>.</td>
 </tr>
 </tbody>
 </table>
@@ -3318,8 +3319,8 @@ You cannot create webhooks that listen to these events.</p>
 </span></code></pre>
 <h2>
 <a id="membershipevent" class="anchor" href="#membershipevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>MembershipEvent</h2>
-<p>Triggered when a user is added or removed from a team.</p>
-<p>Events of this type are not visible in timelines. These events are only used to trigger hooks.</p>
+<p>Triggered when a user is <code>added</code> or <code>removed</code> from a team.</p>
+<p>Events of this type are not visible in timelines. These events are only used to trigger organization hooks.</p>
 <h3>
 <a id="events-api-payload-18" class="anchor" href="#events-api-payload-18" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
 <table>
@@ -3334,12 +3335,12 @@ You cannot create webhooks that listen to these events.</p>
 <tr>
 <td><code>action</code></td>
 <td><code>string</code></td>
-<td>The action that was performed. Can be "added" or "removed".</td>
+<td>The action that was performed. Can be <code>added</code> or <code>removed</code>.</td>
 </tr>
 <tr>
 <td><code>scope</code></td>
 <td><code>string</code></td>
-<td>The scope of the membership. Currently, can only be "team".</td>
+<td>The scope of the membership. Currently, can only be <code>team</code>.</td>
 </tr>
 <tr>
 <td><code>member</code></td>
@@ -3431,7 +3432,7 @@ You cannot create webhooks that listen to these events.</p>
 </span></code></pre>
 <h2>
 <a id="milestoneevent" class="anchor" href="#milestoneevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>MilestoneEvent</h2>
-<p>Triggered when a milestone is created, closed, opened, edited, or deleted.</p>
+<p>Triggered when a milestone is <code>created</code>, <code>closed</code>, <code>opened</code>, <code>edited</code>, or <code>deleted</code>.</p>
 <p>Events of this type are not visible in timelines. These events are only used to trigger hooks.</p>
 <h3>
 <a id="events-api-payload-19" class="anchor" href="#events-api-payload-19" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
@@ -3637,7 +3638,7 @@ You cannot create webhooks that listen to these events.</p>
 </span></code></pre>
 <h2>
 <a id="organizationevent" class="anchor" href="#organizationevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>OrganizationEvent</h2>
-<p>Triggered when a user is created, deleted, added, removed, or invited to an Organization. <a href="/enterprise/2.14/v3/enterprise-admin/global_webhooks/">Global webhooks</a> will only receive notifications when an organization is <code>created</code> and <code>deleted</code>. <a href="/enterprise/2.14/v3/orgs/hooks/">Organization webhooks</a> will receive notifications for <code>deleted</code>, <code>added</code>, <code>removed</code>, and <code>invited</code> events.</p>
+<p>Triggered when a user is created, deleted, added, removed, or invited to an organization. <a href="/enterprise/2.14/v3/enterprise-admin/global_webhooks/">Global webhooks</a> will only receive notifications when an organization is <code>created</code> and <code>deleted</code>. <a href="/enterprise/2.14/v3/orgs/hooks/">Organization webhooks</a> will receive notifications for <code>deleted</code>, <code>added</code>, <code>removed</code>, and <code>invited</code> events.</p>
 <p>Events of this type are not visible in timelines. These events are only used to trigger organization hooks.</p>
 <h3>
 <a id="events-api-payload-20" class="anchor" href="#events-api-payload-20" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
@@ -3919,7 +3920,7 @@ You cannot create webhooks that listen to these events.</p>
 </span></code></pre>
 <h2>
 <a id="projectcardevent" class="anchor" href="#projectcardevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ProjectCardEvent</h2>
-<p>Triggered when a <a href="/enterprise/2.14/v3/projects/cards">project card</a> is created, updated, moved, converted to an issue, or deleted.</p>
+<p>Triggered when a <a href="/enterprise/2.14/v3/projects/cards">project card</a> is <code>created</code>, <code>updated</code>, <code>moved</code>, <code>converted</code> to an issue, or <code>deleted</code>.</p>
 <h3>
 <a id="events-api-payload-22" class="anchor" href="#events-api-payload-22" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
 <table>
@@ -3934,17 +3935,17 @@ You cannot create webhooks that listen to these events.</p>
 <tr>
 <td><code>action</code></td>
 <td><code>string</code></td>
-<td>The action performed on the project card. Can be "created", "edited", "converted", "moved", or "deleted".</td>
+<td>The action performed on the project card. Can be <code>created</code>, <code>updated</code>, <code>moved</code>, <code>converted</code>, or <code>deleted</code>.</td>
 </tr>
 <tr>
 <td><code>changes</code></td>
 <td><code>object</code></td>
-<td>The changes to the project card if the action was "edited" or "converted".</td>
+<td>The changes to the project card if the action was <code>edited</code> or <code>converted</code>.</td>
 </tr>
 <tr>
 <td><code>changes[note][from]</code></td>
 <td><code>string</code></td>
-<td>The previous version of the note if the action was "edited" or "converted".</td>
+<td>The previous version of the note if the action was <code>edited</code> or <code>converted</code>.</td>
 </tr>
 <tr>
 <td><code>after_id</code></td>
@@ -4112,7 +4113,7 @@ You cannot create webhooks that listen to these events.</p>
 </span></code></pre>
 <h2>
 <a id="projectcolumnevent" class="anchor" href="#projectcolumnevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ProjectColumnEvent</h2>
-<p>Triggered when a <a href="/enterprise/2.14/v3/projects/columns">project column</a> is created, updated, moved, or deleted.</p>
+<p>Triggered when a <a href="/enterprise/2.14/v3/projects/columns">project column</a> is <code>created</code>, <code>updated</code>, <code>moved</code>, or <code>deleted</code>.</p>
 <h3>
 <a id="events-api-payload-23" class="anchor" href="#events-api-payload-23" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
 <table>
@@ -4127,17 +4128,17 @@ You cannot create webhooks that listen to these events.</p>
 <tr>
 <td><code>action</code></td>
 <td><code>string</code></td>
-<td>The action that was performed on the project column. Can be one of "created", "edited", "moved" or "deleted".</td>
+<td>The action that was performed on the project column. Can be one of <code>created</code>, <code>edited</code>, <code>moved</code> or <code>deleted</code>.</td>
 </tr>
 <tr>
 <td><code>changes</code></td>
 <td><code>object</code></td>
-<td>The changes to the project column if the action was "edited".</td>
+<td>The changes to the project column if the action was <code>edited</code>.</td>
 </tr>
 <tr>
 <td><code>changes[name][from]</code></td>
 <td><code>string</code></td>
-<td>The previous version of the name if the action was "edited".</td>
+<td>The previous version of the name if the action was <code>edited</code>.</td>
 </tr>
 <tr>
 <td><code>after_id</code></td>
@@ -4285,7 +4286,7 @@ You cannot create webhooks that listen to these events.</p>
 </span></code></pre>
 <h2>
 <a id="projectevent" class="anchor" href="#projectevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ProjectEvent</h2>
-<p>Triggered when a <a href="/enterprise/2.14/v3/projects/">project</a> is created, updated, closed, reopened, or deleted.</p>
+<p>Triggered when a <a href="/enterprise/2.14/v3/projects/">project</a> is <code>created</code>, <code>updated</code>, <code>closed</code>, <code>reopened</code>, or <code>deleted</code>.</p>
 <h3>
 <a id="events-api-payload-24" class="anchor" href="#events-api-payload-24" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
 <table>
@@ -4300,22 +4301,22 @@ You cannot create webhooks that listen to these events.</p>
 <tr>
 <td><code>action</code></td>
 <td><code>string</code></td>
-<td>The action that was performed on the project. Can be one of "created", "edited", "closed", "reopened", or "deleted".</td>
+<td>The action that was performed on the project. Can be one of <code>created</code>, <code>edited</code>, <code>closed</code>, <code>reopened</code>, or <code>deleted</code>.</td>
 </tr>
 <tr>
 <td><code>changes</code></td>
 <td><code>object</code></td>
-<td>The changes to the project if the action was "edited".</td>
+<td>The changes to the project if the action was <code>edited</code>.</td>
 </tr>
 <tr>
 <td><code>changes[name][from]</code></td>
 <td><code>string</code></td>
-<td>The previous version of the name if the action was "edited".</td>
+<td>The previous version of the name if the action was <code>edited</code>.</td>
 </tr>
 <tr>
 <td><code>changes[body][from]</code></td>
 <td><code>string</code></td>
-<td>The previous version of the body if the action was "edited".</td>
+<td>The previous version of the body if the action was <code>edited</code>.</td>
 </tr>
 <tr>
 <td><code>project</code></td>
@@ -4608,7 +4609,7 @@ You cannot create webhooks that listen to these events.</p>
 </span></code></pre>
 <h2>
 <a id="pullrequestevent" class="anchor" href="#pullrequestevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PullRequestEvent</h2>
-<p>Triggered when a <a href="/enterprise/2.14/v3/pulls">pull request</a> is assigned, unassigned, labeled, unlabeled, opened, edited, closed, reopened, or synchronized. Also triggered when a pull request review is requested, or when a review request is removed.</p>
+<p>Triggered when a <a href="/enterprise/2.14/v3/pulls">pull request</a> is <code>assigned</code>, <code>unassigned</code>, <code>labeled</code>, <code>unlabeled</code>, <code>opened</code>, <code>edited</code>, <code>closed</code>, <code>reopened</code>, <code>synchronized</code>, a pull request review is requested, or a review request is removed.</p>
 <h3>
 <a id="events-api-payload-26" class="anchor" href="#events-api-payload-26" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
 <table>
@@ -4623,7 +4624,7 @@ You cannot create webhooks that listen to these events.</p>
 <tr>
 <td><code>action</code></td>
 <td><code>string</code></td>
-<td>The action that was performed. Can be one of "assigned", "unassigned", "review_requested", "review_request_removed", "labeled", "unlabeled", "opened", "edited", "closed", or "reopened". If the action is "closed" and the <code>merged</code> key is <code>false</code>, the pull request was closed with unmerged commits. If the action is "closed" and the <code>merged</code> key is <code>true</code>, the pull request was merged. While webhooks are also triggered when a pull request is synchronized, Events API timelines don't include pull request events with the "synchronize" action.</td>
+<td>The action that was performed. Can be one of <code>assigned</code>, <code>unassigned</code>, <code>review_requested</code>, <code>review_request_removed</code>, <code>labeled</code>, <code>unlabeled</code>, <code>opened</code>, <code>edited</code>, <code>closed</code>, or <code>reopened</code>. If the action is <code>closed</code> and the <code>merged</code> key is <code>false</code>, the pull request was closed with unmerged commits. If the action is <code>closed</code> and the <code>merged</code> key is <code>true</code>, the pull request was merged. While webhooks are also triggered when a pull request is synchronized, Events API timelines don't include pull request events with the <code>synchronize</code> action.</td>
 </tr>
 <tr>
 <td><code>number</code></td>
@@ -4633,17 +4634,17 @@ You cannot create webhooks that listen to these events.</p>
 <tr>
 <td><code>changes</code></td>
 <td><code>object</code></td>
-<td>The changes to the comment if the action was "edited".</td>
+<td>The changes to the comment if the action was <code>edited</code>.</td>
 </tr>
 <tr>
 <td><code>changes[title][from]</code></td>
 <td><code>string</code></td>
-<td>The previous version of the title if the action was "edited".</td>
+<td>The previous version of the title if the action was <code>edited</code>.</td>
 </tr>
 <tr>
 <td><code>changes[body][from]</code></td>
 <td><code>string</code></td>
-<td>The previous version of the body if the action was "edited".</td>
+<td>The previous version of the body if the action was <code>edited</code>.</td>
 </tr>
 <tr>
 <td><code>pull_request</code></td>
@@ -5107,7 +5108,7 @@ You cannot create webhooks that listen to these events.</p>
 </span></code></pre>
 <h2>
 <a id="pullrequestreviewevent" class="anchor" href="#pullrequestreviewevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PullRequestReviewEvent</h2>
-<p>Triggered when a pull request review is submitted into a non-pending state, the body is edited, or the review is dismissed.</p>
+<p>Triggered when a pull request review is <code>submitted</code> into a non-pending state, the body is <code>edited</code>, or the review is <code>dismissed</code>.</p>
 <h3>
 <a id="events-api-payload-27" class="anchor" href="#events-api-payload-27" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API Payload</h3>
 <table>
@@ -5122,7 +5123,7 @@ You cannot create webhooks that listen to these events.</p>
 <tr>
 <td><code>action</code></td>
 <td><code>string</code></td>
-<td>The action that was performed. Can be "submitted", "edited", or "dismissed".</td>
+<td>The action that was performed. Can be <code>submitted</code>, <code>edited</code>, or <code>dismissed</code>.</td>
 </tr>
 <tr>
 <td><code>pull_request</code></td>
@@ -5137,7 +5138,7 @@ You cannot create webhooks that listen to these events.</p>
 <tr>
 <td><code>changes[body][from]</code></td>
 <td><code>string</code></td>
-<td>The previous version of the body if the action was "edited".</td>
+<td>The previous version of the body if the action was <code>edited</code>.</td>
 </tr>
 </tbody>
 </table>
@@ -5621,7 +5622,7 @@ You cannot create webhooks that listen to these events.</p>
 </span></code></pre>
 <h2>
 <a id="pullrequestreviewcommentevent" class="anchor" href="#pullrequestreviewcommentevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PullRequestReviewCommentEvent</h2>
-<p>Triggered when a <a href="/enterprise/2.14/v3/pulls/comments">comment on a pull request's unified diff</a> is created, edited, or deleted (in the Files Changed tab).</p>
+<p>Triggered when a <a href="/enterprise/2.14/v3/pulls/comments">comment on a pull request's unified diff</a> is <code>created</code>, <code>edited</code>, or <code>deleted</code> (in the Files Changed tab).</p>
 <h3>
 <a id="events-api-payload-28" class="anchor" href="#events-api-payload-28" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
 <table>
@@ -5636,17 +5637,17 @@ You cannot create webhooks that listen to these events.</p>
 <tr>
 <td><code>action</code></td>
 <td><code>string</code></td>
-<td>The action that was performed on the comment. Can be one of "created", "edited", or "deleted".</td>
+<td>The action that was performed on the comment. Can be one of <code>created</code>, <code>edited</code>, or <code>deleted</code>.</td>
 </tr>
 <tr>
 <td><code>changes</code></td>
 <td><code>object</code></td>
-<td>The changes to the comment if the action was "edited".</td>
+<td>The changes to the comment if the action was <code>edited</code>.</td>
 </tr>
 <tr>
 <td><code>changes[body][from]</code></td>
 <td><code>string</code></td>
-<td>The previous version of the body if the action was "edited".</td>
+<td>The previous version of the body if the action was <code>edited</code>.</td>
 </tr>
 <tr>
 <td><code>pull_request</code></td>
@@ -6374,7 +6375,7 @@ You cannot create webhooks that listen to these events.</p>
 </span></code></pre>
 <h2>
 <a id="releaseevent" class="anchor" href="#releaseevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ReleaseEvent</h2>
-<p>Triggered when a <a href="/enterprise/2.14/v3/repos/releases/#get-a-single-release">release</a> is published.</p>
+<p>Triggered when a <a href="/enterprise/2.14/v3/repos/releases/#get-a-single-release">release</a> is <code>published</code>.</p>
 <h3>
 <a id="events-api-payload-30" class="anchor" href="#events-api-payload-30" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
 <table>
@@ -6389,7 +6390,7 @@ You cannot create webhooks that listen to these events.</p>
 <tr>
 <td><code>action</code></td>
 <td><code>string</code></td>
-<td>The action that was performed. Currently, can only be "published".</td>
+<td>The action that was performed. Currently, can only be <code>published</code>.</td>
 </tr>
 <tr>
 <td><code>release</code></td>
@@ -6562,7 +6563,7 @@ You cannot create webhooks that listen to these events.</p>
 </span></code></pre>
 <h2>
 <a id="repositoryevent" class="anchor" href="#repositoryevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>RepositoryEvent</h2>
-<p>Triggered when a repository is created, archived, unarchived, <a href="/enterprise/2.14/v3/previews/#anonymous-git-access-to-repositories">enabled for anonymous Git access</a>, <a href="/enterprise/2.14/v3/previews/#anonymous-git-access-to-repositories">disabled for anonymous Git access</a>, made public, or made private. <a href="/enterprise/2.14/v3/orgs/hooks/">Organization hooks</a> are also triggered when a repository is deleted.</p>
+<p>Triggered when a repository is <code>created</code>, <code>archived</code>, <code>unarchived</code>, <a href="/enterprise/2.14/v3/previews/#anonymous-git-access-to-repositories">enabled for anonymous Git access</a>, <a href="/enterprise/2.14/v3/previews/#anonymous-git-access-to-repositories">disabled for anonymous Git access</a>, made public, or made private. <a href="/enterprise/2.14/v3/orgs/hooks/">Organization hooks</a> are also triggered when a repository is <code>deleted</code>.</p>
 <p>Events of this type are not visible in timelines. These events are only used to trigger hooks.</p>
 <h3>
 <a id="events-api-payload-31" class="anchor" href="#events-api-payload-31" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
@@ -6961,7 +6962,7 @@ You cannot create webhooks that listen to these events.</p>
 </span></code></pre>
 <h2>
 <a id="teamevent" class="anchor" href="#teamevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>TeamEvent</h2>
-<p>Triggered when an organization's team is created or deleted.</p>
+<p>Triggered when an organization's team is <code>created</code>, <code>deleted</code>, <code>edited</code>, <code>added_to_repository</code>, or <code>removed_from_repository</code>.</p>
 <p>Events of this type are not visible in timelines. These events are only used to trigger organization hooks.</p>
 <h3>
 <a id="events-api-payload-33" class="anchor" href="#events-api-payload-33" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
@@ -6987,7 +6988,7 @@ You cannot create webhooks that listen to these events.</p>
 <tr>
 <td><code>changes</code></td>
 <td><code>object</code></td>
-<td>The changes to the team if the action was "edited".</td>
+<td>The changes to the team if the action was <code>edited</code>.</td>
 </tr>
 <tr>
 <td><code>changes[description][from]</code></td>
@@ -7430,7 +7431,7 @@ You cannot create webhooks that listen to these events.</p>
 </span></code></pre>
 <h2>
 <a id="watchevent" class="anchor" href="#watchevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>WatchEvent</h2>
-<p>The WatchEvent is related to <a href="/enterprise/2.14/v3/activity/starring/#star-a-repository">starring a repository</a>, not <a href="/enterprise/2.14/v3/activity/watching/">watching</a>.
+<p>Triggered when someone <a href="/enterprise/2.14/v3/activity/starring/#star-a-repository">stars a repository</a>.  This event is not related to <a href="/enterprise/2.14/v3/activity/watching/">watching a repository</a>.
 See <a href="/changes/2012-09-05-watcher-api/">this API blog post</a> for an explanation.</p>
 <p>The event’s actor is the <a href="/enterprise/2.14/v3/users/">user</a> who starred a repository, and the
 event’s repository is the <a href="/enterprise/2.14/v3/repos/">repository</a> that was starred.</p>
