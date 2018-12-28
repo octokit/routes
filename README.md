@@ -12,6 +12,11 @@
 
 Enterprise routes follow the same folder structure, but instead of `routes/api.github.com` it is `routes/ghe-2.15`, etc.
 
+Or install from package managers
+
+- [npm](https://www.npmjs.com/package/@octokit/routes)
+- [pypi](https://pypi.org/project/octokitpy-routes)
+
 ## Example
 
 Example route definition
