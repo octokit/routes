@@ -41,15 +41,10 @@ function getScopeRoutesByDocumentUrl (scope) {
 function getRoutesForUrl (url) {
   const matches = url.match(/\/v3\/([^/#]+)((\/[^/#]+)*)/)
   const scope = kebabCase(matches[1])
-  const path = kebabCase(matches[2])
   const routes = CACHED_ROUTES_BY_DOCUMENTATION_URL[url]
+  const idNames = routes.map(route => route.idName)
 
-  const names = routes.map(route => {
-    const nameWithoutSpecialChars = route.name.replace(/[()]/g, '')
-    return kebabCase(nameWithoutSpecialChars).replace(/\bgit-hub\b/, 'github')
-  })
-
-  return names.map(name => require(`../routes/api.github.com/${scope}/${path}/${name}.json`))
+  return idNames.map(idName => require(`../routes/api.github.com/${scope}/${idName}.json`))
 }
 
 function reduceByDocumentationUrl (map, endpoint) {
