@@ -1,5 +1,5 @@
 <h2>
-<a id="search-issues" class="anchor" href="#search-issues" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Search issues<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+<a id="search-issues-and-pull-requests" class="anchor" href="#search-issues-and-pull-requests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Search issues and pull requests<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 <div class="alert note">
 
@@ -15,6 +15,9 @@
 
 </div>
 <p>Find issues by state and keyword. This method returns up to 100 results <a href="/v3/#pagination">per page</a>.</p>
+<p>When searching for issues, you can get text match metadata for the issue
+<strong>title</strong>, issue <strong>body</strong>, and issue <strong>comment body</strong> fields when you pass the
+<code>text-match</code> media type. For more details about how to receive highlighted search results, see <a href="#text-match-metadata">Text match metadata</a>.</p>
 <pre><code>GET /search/issues
 </code></pre>
 <h3>
@@ -32,94 +35,22 @@
 <td><code>q</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required</strong>. The search terms.</td>
+<strong>Required</strong>. The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as GitHub.com. To learn more about the format of the query, see <a href="#constructing-a-search-query">Constructing a search query</a>. See &quot;<a href="https://help.github.com/articles/searching-issues-and-pull-requests/">Searching issues and pull requests</a>&quot; for a detailed list of qualifiers.</td>
 </tr>
 <tr>
 <td><code>sort</code></td>
 <td><code>string</code></td>
-<td>The sort field. Can be <code>comments</code>, <code>created</code>, or <code>updated</code>. Default: results are sorted by best match.</td>
+<td>Sorts the results of your query by the number of <code>comments</code>, <code>reactions</code>, <code>reactions-+1</code>, <code>reactions--1</code>, <code>reactions-smile</code>, <code>reactions-thinking_face</code>, <code>reactions-heart</code>, <code>reactions-tada</code>, or <code>interactions</code>. You can also sort results by how recently the items were <code>created</code> or <code>updated</code>, Default: <a href="#ranking-search-results">best match</a>
+</td>
 </tr>
 <tr>
 <td><code>order</code></td>
 <td><code>string</code></td>
-<td>The sort order if <code>sort</code> parameter is provided. One of <code>asc</code> or <code>desc</code>. Default: <code>desc</code>
+<td>Determines whether the first search result returned is the highest number of matches (<code>desc</code>) or lowest number of matches (<code>asc</code>). This parameter is ignored unless you provide <code>sort</code>. Default: <code>desc</code>
 </td>
 </tr>
 </tbody>
 </table>
-<p>The <code>q</code> search term can also contain any combination of the supported issue search qualifiers as described by the in-browser <a href="https://help.github.com/articles/searching-issues/">issue search documentation</a> and <a href="https://help.github.com/articles/search-syntax/">search syntax documentation</a>:</p>
-<ul>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-issues-or-pull-requests"><code>type</code></a>
-With this qualifier you can restrict the search to issues (<code>issue</code>) or pull request (<code>pr</code>) only.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#scope-the-search-fields"><code>in</code></a>
-Qualifies which fields are searched. With this qualifier you can restrict the
-search to just the title (<code>title</code>), body (<code>body</code>), comments (<code>comments</code>), or any combination of these.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-by-the-author-of-an-issue-or-pull-request"><code>author</code></a>
-Finds issues or pull requests created by a certain user.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-by-the-assignee-of-an-issue-or-pull-request"><code>assignee</code></a>
-Finds issues or pull requests that are assigned to a certain user.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-by-a-mentioned-user-within-an-issue-or-pull-request"><code>mentions</code></a>
-Finds issues or pull requests that mention a certain user.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-by-a-commenter-within-an-issue-or-pull-request"><code>commenter</code></a>
-Finds issues or pull requests that a certain user commented on.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-by-a-user-thats-involved-within-an-issue-or-pull-request"><code>involves</code></a>
-Finds issues or pull requests that were either created by a certain user, assigned to that
- user, mention that user, or were commented on by that user.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues/#search-by-a-team-thats-mentioned-within-an-issue-or-pull-request"><code>team</code></a>
-For organizations you&apos;re a member of, finds issues or pull requests that @mention a team within the organization.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-based-on-whether-an-issue-or-pull-request-is-open"><code>state</code></a>
-Filter issues or pull requests based on whether they&apos;re open or closed.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-by-the-labels-on-an-issue"><code>labels</code></a>
-Filters issues or pull requests based on their labels.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-by-missing-metadata-on-an-issue-or-pull-request"><code>no</code></a>
-Filters items missing certain metadata, such as <code>label</code>, <code>milestone</code>, or <code>assignee</code>
-</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-by-the-main-language-of-a-repository"><code>language</code></a>
-Searches for issues or pull requests within repositories that match a certain language.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-based-on-the-state-of-an-issue-or-pull-request"><code>is</code></a>
-Searches for items within repositories that match a certain state, such as <code>open</code>, <code>closed</code>, or <code>merged</code>
-</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-based-on-when-an-issue-or-pull-request-was-created-or-last-updated"><code>created</code> or <code>updated</code></a>
-Filters issues or pull requests based on date of creation, or when they were last updated.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-based-on-when-a-pull-request-was-merged"><code>merged</code></a>
-Filters pull requests based on the date when they were merged.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-based-on-commit-status"><code>status</code></a>
-Filters pull requests based on the commit status.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-based-on-branch-names"><code>head</code> or <code>base</code></a>
-Filters pull requests based on the branch that they came from or that they are modifying.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-based-on-when-an-issue-or-pull-request-was-closed"><code>closed</code></a>
-Filters issues or pull requests based on the date when they were closed.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-by-the-number-of-comments-an-issue-or-pull-request-has"><code>comments</code></a>
-Filters issues or pull requests based on the quantity of comments.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-within-a-users-or-organizations-repositories"><code>user</code> or <code>repo</code></a>
-Limits searches to a specific user or repository.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues/#search-by-project-board"><code>project</code></a> Limits searches to a specific project board in a repository or organization.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues/#search-within-archived-repositories"><code>archived</code></a>
-Filters issues or pull requests based on whether they are in an archived repository.</li>
-</ul>
-<p>If you know the specific SHA hash of a commit, you can use also <a href="https://help.github.com/articles/searching-issues#search-by-the-commit-shas-within-a-pull-request">use it to search for pull requests</a> that contain that SHA. Note that the SHA syntax must be at least seven characters.</p>
 <h3>
 <a id="example-3" class="anchor" href="#example-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 <p>Let&apos;s say you want to find the oldest unresolved Python bugs on Windows. Your
@@ -193,65 +124,6 @@ X-RateLimit-Remaining: 19
       </span><span class="p">},</span><span class="w">
       </span><span class="nt">&quot;body&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="p">,</span><span class="w">
       </span><span class="nt">&quot;score&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.3859273</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<h3>
-<a id="highlighting-issue-search-results" class="anchor" href="#highlighting-issue-search-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Highlighting issue search results</h3>
-<p>You might want to highlight the matching search terms when
-displaying search results. The API offers additional metadata to support this
-use case. To get this metadata in your search results, specify the <code>text-match</code>
-media type in your <code>Accept</code> header. For example, via cURL, the above query would
-look like this:</p>
-<pre class="command-line">curl -H &apos;Accept: application/vnd.github.v3.text-match+json&apos; \
-&apos;https://api.github.com/search/issues?q=windows+label:bug+language:python+state:open&amp;sort=created&amp;order=asc&apos;
-</pre>
-<p>This produces the same JSON payload as above, with an extra key called
-<code>text_matches</code>, an array of objects. These objects provide information such as
-the position of your search terms within the text, as well as the <code>property</code> that
-included the search term.</p>
-<p>When searching for issues, you can get text match metadata for the issue
-<strong>title</strong>, issue <strong>body</strong>, and issue <strong>comment body</strong> fields. For details on the attributes present in the <code>text_matches</code> array, see <a href="#text-match-metadata">text match metadata</a>.</p>
-<p>Here&apos;s an example response:</p>
-<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">&quot;text_matches&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">&quot;object_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repositories/215335/issues/132&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="nt">&quot;object_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Issue&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="nt">&quot;property&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;body&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="nt">&quot;fragment&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;comprehensive windows font I know of).\n\nIf we can find a commonly distributed windows font that supports them then no problem (we can use html font tags) but otherwise the &apos;(21)&apos; style is probably better.\n&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="nt">&quot;matches&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;windows&quot;</span><span class="p">,</span><span class="w">
-          </span><span class="nt">&quot;indices&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="mi">14</span><span class="p">,</span><span class="w">
-            </span><span class="mi">21</span><span class="w">
-          </span><span class="p">]</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;windows&quot;</span><span class="p">,</span><span class="w">
-          </span><span class="nt">&quot;indices&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="mi">78</span><span class="p">,</span><span class="w">
-            </span><span class="mi">85</span><span class="w">
-          </span><span class="p">]</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">]</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">&quot;object_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repositories/215335/issues/comments/25688&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="nt">&quot;object_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IssueComment&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="nt">&quot;property&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;body&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="nt">&quot;fragment&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot; right after that are a bit broken IMHO :). I suppose we could have some hack that maxes out at whatever the font does...\n\nI&apos;ll check what the state of play is on Windows.\n&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="nt">&quot;matches&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Windows&quot;</span><span class="p">,</span><span class="w">
-          </span><span class="nt">&quot;indices&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="mi">163</span><span class="p">,</span><span class="w">
-            </span><span class="mi">170</span><span class="w">
-          </span><span class="p">]</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">]</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">

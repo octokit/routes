@@ -10,6 +10,9 @@
 <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
 </div>
 <p>Find repositories via various criteria. This method returns up to 100 results <a href="/enterprise/2.13/v3/#pagination">per page</a>.</p>
+<p>When searching for repositories, you can get text match metadata for the
+<strong>name</strong> and <strong>description</strong> fields when you pass the <code>text-match</code> media type.
+For more details about how to receive highlighted search results, see <a href="#text-match-metadata">Text match metadata</a>.</p>
 <pre><code>GET /search/repositories
 </code></pre>
 <h3>
@@ -27,57 +30,23 @@
 <td><code>q</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required</strong>. The search keywords, as well as any qualifiers.</td>
+<strong>Required</strong>. The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as GitHub.com. To learn more about the format of the query, see <a href="#constructing-a-search-query">Constructing a search query</a>. See &quot;<a href="https://help.github.com/articles/searching-for-repositories/">Searching repositories</a>&quot; for a detailed list of qualifiers.</td>
 </tr>
 <tr>
 <td><code>sort</code></td>
 <td><code>string</code></td>
-<td>The sort field. One of <code>stars</code>, <code>forks</code>, or <code>updated</code>. Default: results are sorted by best match.</td>
+<td>Sorts the results of your query by number of <code>stars</code>, <code>forks</code>, or <code>help-wanted-issues</code> or how recently the items were <code>updated</code>. Default: <a href="#ranking-search-results">best match</a>
+</td>
 </tr>
 <tr>
 <td><code>order</code></td>
 <td><code>string</code></td>
-<td>The sort order if <code>sort</code> parameter is provided. One of <code>asc</code> or <code>desc</code>. Default: <code>desc</code>
+<td>Determines whether the first search result returned is the highest number of matches (<code>desc</code>) or lowest number of matches (<code>asc</code>). This parameter is ignored unless you provide <code>sort</code>. Default: <code>desc</code>
 </td>
 </tr>
 </tbody>
 </table>
-<p>The <code>q</code> search term can also contain any combination of the supported repository search qualifiers as described by the in-browser <a href="https://help.github.com/articles/searching-for-repositories/">repository search documentation</a> and <a href="https://help.github.com/articles/search-syntax/">search syntax documentation</a>:</p>
-<ul>
-<li>
-<a href="https://help.github.com/articles/searching-for-repositories/#search-by-when-a-repository-was-created-or-last-updated"><code>created</code> or <code>pushed</code></a>
-Filters repositories based on date of creation, or when they were last updated.</li>
-<li>
-<a href="https://help.github.com/articles/searching-for-repositories/#search-by-number-of-forks"><code>fork</code></a>
-Filters whether forked repositories should be included (<code>true</code>) or only forked repositories should be returned (<code>only</code>).</li>
-<li>
-<a href="https://help.github.com/articles/searching-for-repositories/#search-by-number-of-forks"><code>forks</code></a>
-Filters repositories based on the number of forks.</li>
-<li>
-<a href="https://help.github.com/articles/searching-for-repositories"><code>in</code></a>
-Qualifies which fields are searched. With this qualifier you can restrict the search to just the repository name, description, readme, or any combination of these.</li>
-<li>
-<a href="https://help.github.com/articles/searching-for-repositories/#search-by-language"><code>language</code></a>
-Searches repositories based on the language they&apos;re written in.</li>
-<li>
-<a href="https://help.github.com/articles/searching-for-repositories/#search-by-license"><code>license</code></a> Filters repositories by license or license family, using the <a href="https://help.github.com/articles/licensing-a-repository/#searching-github-by-license-type">license keyword</a>.</li>
-<li>
-<a href="https://help.github.com/articles/searching-for-repositories/#search-within-a-users-or-organizations-repositories"><code>repo</code> or <code>user</code></a>
-Limits searches to a specific repository or user.</li>
-<li>
-<a href="https://help.github.com/articles/searching-for-repositories/#search-by-repository-size"><code>size</code></a>
-Finds repositories that match a certain size (in kilobytes).</li>
-<li>
-<a href="https://help.github.com/articles/searching-for-repositories/#search-by-number-of-stars"><code>stars</code></a>
-Searches repositories based on the number of stars.</li>
-<li>
-<a href="https://help.github.com/articles/classifying-your-repository-with-topics/"><code>topic</code></a>
-Filters repositories based on the specified topic.</li>
-<li>
-<a href="https://help.github.com/articles/searching-for-repositories/#search-based-on-whether-a-repository-is-archived"><code>archived</code></a>
-Filters whether archived repositories should be included (<code>true</code>) or not (<code>false</code>).</li>
-</ul>
-<h3 id="repository-search-example">
+<h3>
 <a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 <p>Suppose you want to search for popular Tetris repositories written in Assembly.
 Your query might look like this.</p>
@@ -135,58 +104,6 @@ X-RateLimit-Remaining: 19
       </span><span class="nt">&quot;master_branch&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;master&quot;</span><span class="p">,</span><span class="w">
       </span><span class="nt">&quot;default_branch&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;master&quot;</span><span class="p">,</span><span class="w">
       </span><span class="nt">&quot;score&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">10.309712</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<h3>
-<a id="highlighting-repository-search-results" class="anchor" href="#highlighting-repository-search-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Highlighting repository search results</h3>
-<p>You might want to highlight the matching search terms when
-displaying search results. The API offers additional metadata to support this
-use case. To get this metadata in your search results, specify the <code>text-match</code>
-media type in your <code>Accept</code> header. For example, via cURL, the above query would
-look like this:</p>
-<pre class="command-line">curl -H &apos;Accept: application/vnd.github.v3.text-match+json&apos; \
-&apos;http(s)://<em>[hostname]</em>/api/v3/search/repositories?q=tetris+language:assembly&amp;sort=stars&amp;order=desc&apos;
-</pre>
-<p>This produces the same JSON payload as above, with an extra key called
-<code>text_matches</code>, an array of objects. These objects provide information such as
-the position of your search terms within the text, as well as the <code>property</code> that
-included the search term.</p>
-<p>When searching for repositories, you can get text match metadata for the
-<strong>name</strong> and <strong>description</strong> fields. For details on the attributes present in the <code>text_matches</code> array, see <a href="#text-match-metadata">text match metadata</a>.</p>
-<p>Here&apos;s an example response:</p>
-<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">&quot;text_matches&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">&quot;object_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repositories/3081286&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="nt">&quot;object_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Repository&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="nt">&quot;property&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;name&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="nt">&quot;fragment&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Tetris&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="nt">&quot;matches&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Tetris&quot;</span><span class="p">,</span><span class="w">
-          </span><span class="nt">&quot;indices&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="mi">0</span><span class="p">,</span><span class="w">
-            </span><span class="mi">6</span><span class="w">
-          </span><span class="p">]</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">]</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">&quot;object_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repositories/3081286&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="nt">&quot;object_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Repository&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="nt">&quot;property&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;description&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="nt">&quot;fragment&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;A C implementation of Tetris using Pennsim through LC4&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="nt">&quot;matches&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Tetris&quot;</span><span class="p">,</span><span class="w">
-          </span><span class="nt">&quot;indices&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="mi">22</span><span class="p">,</span><span class="w">
-            </span><span class="mi">28</span><span class="w">
-          </span><span class="p">]</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">]</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">

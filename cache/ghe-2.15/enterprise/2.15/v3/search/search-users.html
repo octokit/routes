@@ -2,6 +2,10 @@
 <a id="search-users" class="anchor" href="#search-users" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Search users<a href="/enterprise/2.15/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 <p>Find users via various criteria. This method returns up to 100 results <a href="/enterprise/2.15/v3/#pagination">per page</a>.</p>
+<p>When searching for users, you can get text match metadata for the issue
+<strong>login</strong>, <strong>email</strong>, and <strong>name</strong> fields when you pass the <code>text-match</code> media type.
+For more details about highlighting search results, see <a href="#text-match-metadata">Text match metadata</a>.
+For more details about how to receive highlighted search results, see <a href="#text-match-metadata">Text match metadata</a>.</p>
 <pre><code>GET /search/users
 </code></pre>
 <h3>
@@ -19,48 +23,22 @@
 <td><code>q</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required</strong>. The search terms.</td>
+<strong>Required</strong>. The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as GitHub.com. To learn more about the format of the query, see <a href="#constructing-a-search-query">Constructing a search query</a>. See &quot;<a href="https://help.github.com/articles/searching-users/">Searching users</a>&quot; for a detailed list of qualifiers.</td>
 </tr>
 <tr>
 <td><code>sort</code></td>
 <td><code>string</code></td>
-<td>The sort field. Can be <code>followers</code>, <code>repositories</code>, or <code>joined</code>.  Default: results are sorted by best match.</td>
+<td>Sorts the results of your query by number of <code>followers</code> or <code>repositories</code>, or when the person <code>joined</code> GitHub Enterprise.  Default: <a href="#ranking-search-results">best match</a>
+</td>
 </tr>
 <tr>
 <td><code>order</code></td>
 <td><code>string</code></td>
-<td>The sort order if <code>sort</code> parameter is provided. One of <code>asc</code> or <code>desc</code>. Default: <code>desc</code>
+<td>Determines whether the first search result returned is the highest number of matches (<code>desc</code>) or lowest number of matches (<code>asc</code>). This parameter is ignored unless you provide <code>sort</code>. Default: <code>desc</code>
 </td>
 </tr>
 </tbody>
 </table>
-<p>The <code>q</code> search term can also contain any combination of the supported user search qualifiers as described by the in-browser <a href="https://help.github.com/articles/searching-users/">user search documentation</a> and <a href="https://help.github.com/articles/search-syntax/">search syntax documentation</a>:</p>
-<ul>
-<li>
-<a href="https://help.github.com/articles/searching-users#search-for-users-or-organizations"><code>type</code></a>
-With this qualifier you can restrict the search to just personal accounts (<code>user</code>) or
-just organization accounts (<code>org</code>).</li>
-<li>
-<a href="https://help.github.com/articles/searching-users#scope-the-search-fields"><code>in</code></a>
-Qualifies which fields are searched. With this qualifier you can restrict
-the search to just the username (<code>login</code>), public email (<code>email</code>), full name (<code>fullname</code>), or any
-combination of these.</li>
-<li>
-<a href="https://help.github.com/articles/searching-users#search-based-on-the-number-of-repositories-a-user-has"><code>repos</code></a>
-Filters users based on the number of repositories they have.</li>
-<li>
-<a href="https://help.github.com/articles/searching-users#search-based-on-the-location-where-a-user-resides"><code>location</code></a>
-Filter users by the location indicated in their profile.</li>
-<li>
-<a href="https://help.github.com/articles/searching-users#search-based-on-the-languages-of-a-users-repositories"><code>language</code></a>
-Search for users that have repositories that match a certain language.</li>
-<li>
-<a href="https://help.github.com/articles/searching-users#search-based-on-when-a-user-joined-github"><code>created</code></a>
-Filter users based on when they joined.</li>
-<li>
-<a href="https://help.github.com/articles/searching-users#search-based-on-the-number-of-followers-a-user-has"><code>followers</code></a>
-Filter users based on the number of followers they have.</li>
-</ul>
 <h3>
 <a id="example-4" class="anchor" href="#example-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 <p>Imagine you&apos;re looking for a list of popular users. You might try out this query:</p>
@@ -93,57 +71,6 @@ X-RateLimit-Remaining: 19
       </span><span class="nt">&quot;received_events_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/mojombo/received_events&quot;</span><span class="p">,</span><span class="w">
       </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;User&quot;</span><span class="p">,</span><span class="w">
       </span><span class="nt">&quot;score&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">105.47857</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<h3>
-<a id="highlighting-user-search-results" class="anchor" href="#highlighting-user-search-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Highlighting user search results</h3>
-<p>You might want to highlight the matching search terms when
-displaying search results. The API offers additional metadata to support this
-use case. To get this metadata in your search results, specify the <code>text-match</code>
-media type in your <code>Accept</code> header. For example, via cURL, the above query would
-look like this:</p>
-<pre class="command-line">curl -H &apos;Accept: application/vnd.github.v3.text-match+json&apos; \
-http(s)://<em>[hostname]</em>/api/v3/search/users?q=tom+repos:%3E42+followers:%3E1000
-</pre>
-<p>This produces the same JSON payload as above, with an extra key called
-<code>text_matches</code>, an array of objects. These objects provide information such as
-the position of your search terms within the text, as well as the <code>property</code> that
-included the search term.</p>
-<p>When searching for users, you can get text match metadata for the issue
-<strong>login</strong>, <strong>email</strong>, and <strong>name</strong> fields. For details on the attributes present in the <code>text_matches</code> array, see <a href="#text-match-metadata">text match metadata</a>.</p>
-<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">&quot;text_matches&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">&quot;object_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/mojombo&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="nt">&quot;object_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;User&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="nt">&quot;property&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;email&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="nt">&quot;fragment&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tom@github.com&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="nt">&quot;matches&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tom&quot;</span><span class="p">,</span><span class="w">
-          </span><span class="nt">&quot;indices&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="mi">0</span><span class="p">,</span><span class="w">
-            </span><span class="mi">3</span><span class="w">
-          </span><span class="p">]</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">]</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">&quot;object_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/mojombo&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="nt">&quot;object_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;User&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="nt">&quot;property&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;name&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="nt">&quot;fragment&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Tom Preston-Werner&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="nt">&quot;matches&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Tom&quot;</span><span class="p">,</span><span class="w">
-          </span><span class="nt">&quot;indices&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="mi">0</span><span class="p">,</span><span class="w">
-            </span><span class="mi">3</span><span class="w">
-          </span><span class="p">]</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">]</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
