@@ -1,8 +1,7 @@
 <h2>
 <a id="search-commits" class="anchor" href="#search-commits" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Search commits<a href="/enterprise/2.14/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
-<div class="alert tip">
-<p><a name="preview-period"></a></p>
+<div class="alert note">
 <p>The Commit Search API is currently available for developers to preview.
   During the preview period, the APIs may change without advance notice.
   Please see the <a href="/changes/2017-01-05-commit-search-api/">blog post</a> for full details.</p>
@@ -10,7 +9,13 @@
 <pre><code>  application/vnd.github.cloak-preview
 </code></pre>
 </div>
+<div class="alert warning">
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
+</div>
 <p>Find commits via various criteria. This method returns up to 100 results <a href="/enterprise/2.14/v3/#pagination">per page</a>.</p>
+<p>When searching for commits, you can get text match metadata for the <strong>message</strong>
+field when you provide the <code>text-match</code> media type.
+For more details about how to receive highlighted search results, see <a href="#text-match-metadata">Text match metadata</a>.</p>
 <pre><code>GET /search/commits
 </code></pre>
 <h3>
@@ -31,66 +36,22 @@
 <td><code>q</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required</strong>. The search terms.</td>
+<strong>Required</strong>. The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as GitHub.com. To learn more about the format of the query, see <a href="#constructing-a-search-query">Constructing a search query</a>. See &quot;<a href="https://help.github.com/articles/searching-commits/">Searching commits</a>&quot; for a detailed list of qualifiers.</td>
 </tr>
 <tr>
 <td><code>sort</code></td>
 <td><code>string</code></td>
-<td>The sort field. Can be <code>author-date</code> or <code>committer-date</code>. Default: results are sorted by best match.</td>
+<td>Sorts the results of your query by <code>author-date</code> or <code>committer-date</code>. Default: <a href="#ranking-search-results">best match</a>
+</td>
 </tr>
 <tr>
 <td><code>order</code></td>
 <td><code>string</code></td>
-<td>The sort order if <code>sort</code> parameter is provided. One of <code>asc</code> or <code>desc</code>. Default: <code>desc</code>
+<td>Determines whether the first search result returned is the highest number of matches (<code>desc</code>) or lowest number of matches (<code>asc</code>). This parameter is ignored unless you provide <code>sort</code>. Default: <code>desc</code>
 </td>
 </tr>
 </tbody>
 </table>
-<p>The <code>q</code> search term can also contain any combination of the supported commit search qualifiers as described by the in-browser <a href="https://help.github.com/articles/searching-commits/">commit search documentation</a> and <a href="https://help.github.com/articles/search-syntax/">search syntax documentation</a>:</p>
-<ul>
-<li>
-<a href="https://help.github.com/articles/searching-commits#search-by-author-or-committer"><code>author</code></a>
-Matches commits authored by a user (based on email settings).</li>
-<li>
-<a href="https://help.github.com/articles/searching-commits#search-by-author-or-committer"><code>committer</code></a>
-Matches commits committed by a user (based on email settings).</li>
-<li>
-<a href="https://help.github.com/articles/searching-commits#search-by-author-or-committer"><code>author-name</code></a>
-Matches commits by author name.</li>
-<li>
-<a href="https://help.github.com/articles/searching-commits#search-by-author-or-committer"><code>committer-name</code></a>
-Matches commits by committer name.</li>
-<li>
-<a href="https://help.github.com/articles/searching-commits#search-by-author-or-committer"><code>author-email</code></a>
-Matches commits by author email.</li>
-<li>
-<a href="https://help.github.com/articles/searching-commits#search-by-author-or-committer"><code>committer-email</code></a>
-Matches commits by committer email.</li>
-<li>
-<a href="https://help.github.com/articles/searching-commits#search-by-authored-or-committed-date"><code>author-date</code></a>
-Matches commits by author date range.</li>
-<li>
-<a href="https://help.github.com/articles/searching-commits/#search-by-authored-or-committed-date"><code>committer-date</code></a>
-Matches commits by committer date range.</li>
-<li>
-<a href="https://help.github.com/articles/searching-commits#filter-merge-commits"><code>merge</code></a>
-<code>true</code> filters to merge commits, <code>false</code> filters out merge commits.</li>
-<li>
-<a href="https://help.github.com/articles/searching-commits#search-by-hash"><code>hash</code></a>
-Matches commits by hash.</li>
-<li>
-<a href="https://help.github.com/articles/searching-commits#search-by-parent"><code>parent</code></a>
-Matches commits that have a particular parent.</li>
-<li>
-<a href="https://help.github.com/articles/searching-commits#search-by-tree"><code>tree</code></a>
-Matches commits by tree hash.</li>
-<li>
-<a href="https://help.github.com/articles/searching-commits#filter-to-public-or-private-repositories"><code>is</code></a>
-Matches <code>public</code> or <code>private</code> repositories.</li>
-<li>
-<a href="https://help.github.com/articles/searching-commits#search-within-a-users-or-organizations-repositories"><code>user</code>, <code>org</code>, or <code>repo</code></a>
-Limits searches to a specific user, organization, or repository.</li>
-</ul>
 <h3>
 <a id="example-1" class="anchor" href="#example-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 <p>Suppose you want to find commits related to CSS in the <a href="https://github.com/octocat/Spoon-Knife">octocat/Spoon-Knife</a>
@@ -251,7 +212,3 @@ X-RateLimit-Remaining: 19
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<h3>
-<a id="highlighting-code-search-results" class="anchor" href="#highlighting-code-search-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Highlighting code search results</h3>
-<p>When searching for commits, you can get text match metadata for the
-<strong>message</strong> field. See the section on <a href="#text-match-metadata">text match metadata</a> for full details.</p>
