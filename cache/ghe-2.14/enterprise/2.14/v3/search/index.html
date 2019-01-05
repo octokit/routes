@@ -228,7 +228,7 @@
 <option value="/v3/search/#search-repositories">Repositories</option>
     <option value="/v3/search/#search-code">Code</option>
     <option value="/v3/search/#search-commits">Commits</option>
-    <option value="/v3/search/#search-issues">Issues</option>
+    <option value="/v3/search/#search-issues-and-pull-requests">Issues</option>
     <option value="/v3/search/#search-users">Users</option>
     <option value="/v3/search/#search-topics">Topics</option>
     <option value="/v3/search/#text-match-metadata">Text match metadata</option>
@@ -261,30 +261,13 @@
 <li><a href="#search-repositories" id="markdown-toc-search-repositories">Search repositories</a></li>
 <li><a href="#search-commits" id="markdown-toc-search-commits">Search commits</a></li>
 <li><a href="#search-code" id="markdown-toc-search-code">Search code</a></li>
-<li><a href="#search-issues" id="markdown-toc-search-issues">Search issues</a></li>
+<li><a href="#search-issues-and-pull-requests" id="markdown-toc-search-issues-and-pull-requests">Search issues and pull requests</a></li>
 <li><a href="#search-users" id="markdown-toc-search-users">Search users</a></li>
 <li><a href="#search-topics" id="markdown-toc-search-topics">Search topics</a></li>
 <li><a href="#search-labels" id="markdown-toc-search-labels">Search labels</a></li>
 <li><a href="#text-match-metadata" id="markdown-toc-text-match-metadata">Text match metadata</a></li>
 </ul>
-<div class="alert note">
-<p><strong>Note:</strong> The <code>topics</code> property for repositories on GitHub Enterprise is currently available for developers to preview. To view the <code>topics</code> property in calls that return repository results, you must provide a custom <a href="/enterprise/2.14/v3/media">media type</a> in the <code>Accept</code> header:</p>
-<pre><code>application/vnd.github.mercy-preview+json
-</code></pre>
-</div>
-<div class="alert warning">
-<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
-</div>
-<h3>
-<a id="about-the-search-api" class="anchor" href="#about-the-search-api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>About the search API</h3>
-<p>The Search API is optimized to help you find the specific item you're looking
-for (e.g., a specific user, a specific file in a repository, etc.). Think of it
-the way you think of performing a search on Google. It's designed to help you
-find the one result you're looking for (or maybe the few results you're looking
-for). Just like searching on Google, you sometimes want to see a few pages of
-search results so that you can find the item that best meets your needs. To
-satisfy that need, the GitHub Enterprise Search API
-provides <strong>up to 1,000 results for each search</strong>.</p>
+<p>The Search API helps you search for the specific item you want to find. For example, you can find a user or a specific file in a repository. Think of it the way you think of performing a search on Google. It's designed to help you find the one result you're looking for (or maybe the few results you're looking for). Just like searching on Google, you sometimes want to see a few pages of search results so that you can find the item that best meets your needs. To satisfy that need, the GitHub Enterprise Search API provides <strong>up to 1,000 results for each search</strong>.</p>
 <h3>
 <a id="ranking-search-results" class="anchor" href="#ranking-search-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Ranking search results</h3>
 <p>Unless another sort option is provided as a query parameter, results are sorted
@@ -302,6 +285,22 @@ to make up to 10 requests per minute.</p>
 <p>Note that the limits mentioned above are the default rate limits for a GitHub Enterprise instance. Contact your site administrator to confirm if rate limits are enabled and how they are configured.</p>
 <p>See the <a href="/enterprise/2.14/v3/#rate-limiting">rate limit documentation</a> for details on
 determining your current rate limit status.</p>
+<h3>
+<a id="constructing-a-search-query" class="anchor" href="#constructing-a-search-query" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Constructing a search query</h3>
+<p>Each endpoint in the Search API uses <a href="https://en.wikipedia.org/wiki/Query_string">query parameters</a> to perform searches on GitHub Enterprise. See the individual endpoint in the Search API for an example that includes the endpoint and query parameters.</p>
+<p>A query can contain any combination of search qualifiers supported on GitHub.com.
+The format of the search query is:</p>
+<pre><code>q=SEARCH_KEYWORD_1+SEARCH_KEYWORD_N+QUALIFIER_1+QUALIFIER_N
+</code></pre>
+<p>For example, if you wanted to search for all <em>repositories</em> owned by <code>defunkt</code> that
+contained the word <code>GitHub</code> and <code>Octocat</code> in the README file, you would use the
+following query with the <a href="#search-repositories">search repositories</a> endpoint:</p>
+<pre><code>q=GitHub+Octocat+in:readme+user:defunkt
+</code></pre>
+<p>See "<a href="https://help.github.com/articles/searching-on-github/">Searching on GitHub</a>"
+for a complete list of available qualifiers, their format, and an example of
+how to use them. For information about how to use operators to match specific
+quantities, dates, or to exclude results, see "<a href="https://help.github.com/articles/understanding-the-search-syntax/">Understanding the search syntax</a>."</p>
 <h3>
 <a id="timeouts-and-incomplete-results" class="anchor" href="#timeouts-and-incomplete-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Timeouts and incomplete results</h3>
 <p>To keep the Search API fast for everyone, we limit how long any individual query
@@ -322,6 +321,9 @@ More results might have been found, but also might not.</p>
 <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
 </div>
 <p>Find repositories via various criteria. This method returns up to 100 results <a href="/enterprise/2.14/v3/#pagination">per page</a>.</p>
+<p>When searching for repositories, you can get text match metadata for the
+<strong>name</strong> and <strong>description</strong> fields when you pass the <code>text-match</code> media type.
+For more details about how to receive highlighted search results, see <a href="#text-match-metadata">Text match metadata</a>.</p>
 <pre><code>GET /search/repositories
 </code></pre>
 <h3>
@@ -339,57 +341,23 @@ More results might have been found, but also might not.</p>
 <td><code>q</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required</strong>. The search keywords, as well as any qualifiers.</td>
+<strong>Required</strong>. The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as GitHub.com. To learn more about the format of the query, see <a href="#constructing-a-search-query">Constructing a search query</a>. See "<a href="https://help.github.com/articles/searching-for-repositories/">Searching repositories</a>" for a detailed list of qualifiers.</td>
 </tr>
 <tr>
 <td><code>sort</code></td>
 <td><code>string</code></td>
-<td>The sort field. One of <code>stars</code>, <code>forks</code>, or <code>updated</code>. Default: results are sorted by best match.</td>
+<td>Sorts the results of your query by number of <code>stars</code>, <code>forks</code>, or <code>help-wanted-issues</code> or how recently the items were <code>updated</code>. Default: <a href="#ranking-search-results">best match</a>
+</td>
 </tr>
 <tr>
 <td><code>order</code></td>
 <td><code>string</code></td>
-<td>The sort order if <code>sort</code> parameter is provided. One of <code>asc</code> or <code>desc</code>. Default: <code>desc</code>
+<td>Determines whether the first search result returned is the highest number of matches (<code>desc</code>) or lowest number of matches (<code>asc</code>). This parameter is ignored unless you provide <code>sort</code>. Default: <code>desc</code>
 </td>
 </tr>
 </tbody>
 </table>
-<p>The <code>q</code> search term can also contain any combination of the supported repository search qualifiers as described by the in-browser <a href="https://help.github.com/articles/searching-for-repositories/">repository search documentation</a> and <a href="https://help.github.com/articles/search-syntax/">search syntax documentation</a>:</p>
-<ul>
-<li>
-<a href="https://help.github.com/articles/searching-for-repositories/#search-by-when-a-repository-was-created-or-last-updated"><code>created</code> or <code>pushed</code></a>
-Filters repositories based on date of creation, or when they were last updated.</li>
-<li>
-<a href="https://help.github.com/articles/searching-for-repositories/#search-by-number-of-forks"><code>fork</code></a>
-Filters whether forked repositories should be included (<code>true</code>) or only forked repositories should be returned (<code>only</code>).</li>
-<li>
-<a href="https://help.github.com/articles/searching-for-repositories/#search-by-number-of-forks"><code>forks</code></a>
-Filters repositories based on the number of forks.</li>
-<li>
-<a href="https://help.github.com/articles/searching-for-repositories"><code>in</code></a>
-Qualifies which fields are searched. With this qualifier you can restrict the search to just the repository name, description, readme, or any combination of these.</li>
-<li>
-<a href="https://help.github.com/articles/searching-for-repositories/#search-by-language"><code>language</code></a>
-Searches repositories based on the language they're written in.</li>
-<li>
-<a href="https://help.github.com/articles/searching-for-repositories/#search-by-license"><code>license</code></a> Filters repositories by license or license family, using the <a href="https://help.github.com/articles/licensing-a-repository/#searching-github-by-license-type">license keyword</a>.</li>
-<li>
-<a href="https://help.github.com/articles/searching-for-repositories/#search-within-a-users-or-organizations-repositories"><code>repo</code> or <code>user</code></a>
-Limits searches to a specific repository or user.</li>
-<li>
-<a href="https://help.github.com/articles/searching-for-repositories/#search-by-repository-size"><code>size</code></a>
-Finds repositories that match a certain size (in kilobytes).</li>
-<li>
-<a href="https://help.github.com/articles/searching-for-repositories/#search-by-number-of-stars"><code>stars</code></a>
-Searches repositories based on the number of stars.</li>
-<li>
-<a href="https://help.github.com/articles/classifying-your-repository-with-topics/"><code>topic</code></a>
-Filters repositories based on the specified topic.</li>
-<li>
-<a href="https://help.github.com/articles/searching-for-repositories/#search-based-on-whether-a-repository-is-archived"><code>archived</code></a>
-Filters whether archived repositories should be included (<code>true</code>) or not (<code>false</code>).</li>
-</ul>
-<h3 id="repository-search-example">
+<h3>
 <a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 <p>Suppose you want to search for popular Tetris repositories written in Assembly.
 Your query might look like this.</p>
@@ -453,64 +421,10 @@ X-RateLimit-Remaining: 19
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<h3>
-<a id="highlighting-repository-search-results" class="anchor" href="#highlighting-repository-search-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Highlighting repository search results</h3>
-<p>You might want to highlight the matching search terms when
-displaying search results. The API offers additional metadata to support this
-use case. To get this metadata in your search results, specify the <code>text-match</code>
-media type in your <code>Accept</code> header. For example, via cURL, the above query would
-look like this:</p>
-<pre class="command-line">
-curl -H 'Accept: application/vnd.github.v3.text-match+json' \
-'http(s)://<em>[hostname]</em>/api/v3/search/repositories?q=tetris+language:assembly&amp;sort=stars&amp;order=desc'
-</pre>
-<p>This produces the same JSON payload as above, with an extra key called
-<code>text_matches</code>, an array of objects. These objects provide information such as
-the position of your search terms within the text, as well as the <code>property</code> that
-included the search term.</p>
-<p>When searching for repositories, you can get text match metadata for the
-<strong>name</strong> and <strong>description</strong> fields. For details on the attributes present in the <code>text_matches</code> array, see <a href="#text-match-metadata">text match metadata</a>.</p>
-<p>Here's an example response:</p>
-<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"text_matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"object_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repositories/3081286"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"object_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Repository"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"property"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"fragment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tetris"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tetris"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"indices"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="mi">0</span><span class="p">,</span><span class="w">
-            </span><span class="mi">6</span><span class="w">
-          </span><span class="p">]</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">]</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"object_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repositories/3081286"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"object_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Repository"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"property"</span><span class="p">:</span><span class="w"> </span><span class="s2">"description"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"fragment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A C implementation of Tetris using Pennsim through LC4"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tetris"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"indices"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="mi">22</span><span class="p">,</span><span class="w">
-            </span><span class="mi">28</span><span class="w">
-          </span><span class="p">]</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">]</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
 <h2>
 <a id="search-commits" class="anchor" href="#search-commits" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Search commits<a href="/enterprise/2.14/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
-<div class="alert tip">
-<p><a name="preview-period"></a></p>
+<div class="alert note">
 <p>The Commit Search API is currently available for developers to preview.
   During the preview period, the APIs may change without advance notice.
   Please see the <a href="/changes/2017-01-05-commit-search-api/">blog post</a> for full details.</p>
@@ -518,7 +432,13 @@ included the search term.</p>
 <pre><code>  application/vnd.github.cloak-preview
 </code></pre>
 </div>
+<div class="alert warning">
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
+</div>
 <p>Find commits via various criteria. This method returns up to 100 results <a href="/enterprise/2.14/v3/#pagination">per page</a>.</p>
+<p>When searching for commits, you can get text match metadata for the <strong>message</strong>
+field when you provide the <code>text-match</code> media type.
+For more details about how to receive highlighted search results, see <a href="#text-match-metadata">Text match metadata</a>.</p>
 <pre><code>GET /search/commits
 </code></pre>
 <h3>
@@ -539,66 +459,22 @@ included the search term.</p>
 <td><code>q</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required</strong>. The search terms.</td>
+<strong>Required</strong>. The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as GitHub.com. To learn more about the format of the query, see <a href="#constructing-a-search-query">Constructing a search query</a>. See "<a href="https://help.github.com/articles/searching-commits/">Searching commits</a>" for a detailed list of qualifiers.</td>
 </tr>
 <tr>
 <td><code>sort</code></td>
 <td><code>string</code></td>
-<td>The sort field. Can be <code>author-date</code> or <code>committer-date</code>. Default: results are sorted by best match.</td>
+<td>Sorts the results of your query by <code>author-date</code> or <code>committer-date</code>. Default: <a href="#ranking-search-results">best match</a>
+</td>
 </tr>
 <tr>
 <td><code>order</code></td>
 <td><code>string</code></td>
-<td>The sort order if <code>sort</code> parameter is provided. One of <code>asc</code> or <code>desc</code>. Default: <code>desc</code>
+<td>Determines whether the first search result returned is the highest number of matches (<code>desc</code>) or lowest number of matches (<code>asc</code>). This parameter is ignored unless you provide <code>sort</code>. Default: <code>desc</code>
 </td>
 </tr>
 </tbody>
 </table>
-<p>The <code>q</code> search term can also contain any combination of the supported commit search qualifiers as described by the in-browser <a href="https://help.github.com/articles/searching-commits/">commit search documentation</a> and <a href="https://help.github.com/articles/search-syntax/">search syntax documentation</a>:</p>
-<ul>
-<li>
-<a href="https://help.github.com/articles/searching-commits#search-by-author-or-committer"><code>author</code></a>
-Matches commits authored by a user (based on email settings).</li>
-<li>
-<a href="https://help.github.com/articles/searching-commits#search-by-author-or-committer"><code>committer</code></a>
-Matches commits committed by a user (based on email settings).</li>
-<li>
-<a href="https://help.github.com/articles/searching-commits#search-by-author-or-committer"><code>author-name</code></a>
-Matches commits by author name.</li>
-<li>
-<a href="https://help.github.com/articles/searching-commits#search-by-author-or-committer"><code>committer-name</code></a>
-Matches commits by committer name.</li>
-<li>
-<a href="https://help.github.com/articles/searching-commits#search-by-author-or-committer"><code>author-email</code></a>
-Matches commits by author email.</li>
-<li>
-<a href="https://help.github.com/articles/searching-commits#search-by-author-or-committer"><code>committer-email</code></a>
-Matches commits by committer email.</li>
-<li>
-<a href="https://help.github.com/articles/searching-commits#search-by-authored-or-committed-date"><code>author-date</code></a>
-Matches commits by author date range.</li>
-<li>
-<a href="https://help.github.com/articles/searching-commits/#search-by-authored-or-committed-date"><code>committer-date</code></a>
-Matches commits by committer date range.</li>
-<li>
-<a href="https://help.github.com/articles/searching-commits#filter-merge-commits"><code>merge</code></a>
-<code>true</code> filters to merge commits, <code>false</code> filters out merge commits.</li>
-<li>
-<a href="https://help.github.com/articles/searching-commits#search-by-hash"><code>hash</code></a>
-Matches commits by hash.</li>
-<li>
-<a href="https://help.github.com/articles/searching-commits#search-by-parent"><code>parent</code></a>
-Matches commits that have a particular parent.</li>
-<li>
-<a href="https://help.github.com/articles/searching-commits#search-by-tree"><code>tree</code></a>
-Matches commits by tree hash.</li>
-<li>
-<a href="https://help.github.com/articles/searching-commits#filter-to-public-or-private-repositories"><code>is</code></a>
-Matches <code>public</code> or <code>private</code> repositories.</li>
-<li>
-<a href="https://help.github.com/articles/searching-commits#search-within-a-users-or-organizations-repositories"><code>user</code>, <code>org</code>, or <code>repo</code></a>
-Limits searches to a specific user, organization, or repository.</li>
-</ul>
 <h3>
 <a id="example-1" class="anchor" href="#example-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 <p>Suppose you want to find commits related to CSS in the <a href="https://github.com/octocat/Spoon-Knife">octocat/Spoon-Knife</a>
@@ -760,14 +636,13 @@ X-RateLimit-Remaining: 19
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<h3>
-<a id="highlighting-code-search-results" class="anchor" href="#highlighting-code-search-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Highlighting code search results</h3>
-<p>When searching for commits, you can get text match metadata for the
-<strong>message</strong> field. See the section on <a href="#text-match-metadata">text match metadata</a> for full details.</p>
 <h2>
 <a id="search-code" class="anchor" href="#search-code" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Search code<a href="/enterprise/2.14/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 <p>Find file contents via various criteria. This method returns up to 100 results <a href="/enterprise/2.14/v3/#pagination">per page</a>.</p>
+<p>When searching for code, you can get text match metadata for the file <strong>content</strong>
+and file <strong>path</strong> fields when you pass the <code>text-match</code> media type.
+For more details about how to receive highlighted search results, see <a href="#text-match-metadata">Text match metadata</a>.</p>
 <pre><code>GET /search/code
 </code></pre>
 <div class="alert note">
@@ -795,52 +670,23 @@ X-RateLimit-Remaining: 19
 <td><code>q</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required</strong>. The search terms.</td>
+<strong>Required</strong>. The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as GitHub.com. To learn more about the format of the query, see <a href="#constructing-a-search-query">Constructing a search query</a>. See "<a href="https://help.github.com/articles/searching-code/">Searching code</a>" for a detailed list of qualifiers.</td>
 </tr>
 <tr>
 <td><code>sort</code></td>
 <td><code>string</code></td>
-<td>The sort field. Can only be <code>indexed</code>, which indicates how recently a file has been indexed by the GitHub Enterprise search infrastructure. Default: results are sorted by best match.</td>
+<td>Sorts the results of your query. Can only be <code>indexed</code>, which indicates how recently a file has been indexed by the GitHub Enterprise search infrastructure. Default: <a href="#ranking-search-results">best match</a>
+</td>
 </tr>
 <tr>
 <td><code>order</code></td>
 <td><code>string</code></td>
-<td>The sort order if <code>sort</code> parameter is provided. One of <code>asc</code> or <code>desc</code>. Default: <code>desc</code>
+<td>Determines whether the first search result returned is the highest number of matches (<code>desc</code>) or lowest number of matches (<code>asc</code>). This parameter is ignored unless you provide <code>sort</code>. Default: <code>desc</code>
 </td>
 </tr>
 </tbody>
 </table>
-<p>The <code>q</code> search term can also contain any combination of the supported code search qualifiers as described by the in-browser <a href="https://help.github.com/articles/searching-code/">code search documentation</a> and <a href="https://help.github.com/articles/search-syntax/">search syntax documentation</a>:</p>
-<ul>
-<li>
-<a href="https://help.github.com/articles/searching-code#scope-the-search-fields"><code>in</code></a>
-Qualifies which fields are searched. With this qualifier you can restrict the
-search to the file contents (<code>file</code>), the file path (<code>path</code>), or both.</li>
-<li>
-<a href="https://help.github.com/articles/searching-code#search-by-language"><code>language</code></a>
-Searches code based on the language it's written in.</li>
-<li>
-<a href="https://help.github.com/articles/searching-code#search-by-the-number-of-forks-the-parent-repository-has"><code>fork</code></a>
-Specifies that code from forked repositories should be searched (<code>true</code>). Repository
-forks will not be searchable unless the fork has more stars than the parent
-repository.</li>
-<li>
-<a href="https://help.github.com/articles/searching-code#search-by-the-size-of-the-parent-repository"><code>size</code></a>
-Finds files that match a certain size (in bytes).</li>
-<li>
-<a href="https://help.github.com/articles/searching-code#search-by-the-location-of-a-file-within-the-repository"><code>path</code></a>
-Specifies the path prefix that the resulting file must be under.</li>
-<li>
-<a href="https://help.github.com/articles/searching-code#search-by-filename"><code>filename</code></a>
-Matches files by a substring of the filename.</li>
-<li>
-<a href="https://help.github.com/articles/searching-code#search-by-the-file-extension"><code>extension</code></a>
-Matches files with a certain extension after a dot.</li>
-<li>
-<a href="https://help.github.com/articles/searching-code#search-within-a-users-or-organizations-repositories"><code>user</code> or <code>repo</code></a>
-Limits searches to a specific user or repository.</li>
-</ul>
-<h3 id="code-search-example">
+<h3>
 <a id="example-2" class="anchor" href="#example-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 <p>Suppose you want to find the definition of the <code>addClass</code> function inside
 <a href="https://github.com/jquery/jquery">jQuery</a>. Your query would look something like
@@ -938,61 +784,8 @@ X-RateLimit-Remaining: 19
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<h3>
-<a id="highlighting-code-search-results-1" class="anchor" href="#highlighting-code-search-results-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Highlighting code search results</h3>
-<p>You might want to highlight the matching search terms when
-displaying search results. The API offers additional metadata to support this
-use case. To get this metadata in your search results, specify the <code>text-match</code>
-media type in your <code>Accept</code> header. For example, via cURL, the above query would
-look like this:</p>
-<pre class="command-line">
-curl -H 'Accept: application/vnd.github.v3.text-match+json' \
-http(s)://<em>[hostname]</em>/api/v3/search/code?q=addClass+in:file+language:js+repo:jquery/jquery
-</pre>
-<p>This produces the same JSON payload as above, with an extra key called
-<code>text_matches</code>, an array of objects. These objects provide information such as
-the position of your search terms within the text, as well as the <code>property</code> that
-included the search term.</p>
-<p>When searching for code, you can get text match metadata for the file
-<strong>content</strong> and file <strong>path</strong> fields. For details on the attributes present in the <code>text_matches</code> array, see <a href="#text-match-metadata">text match metadata</a>.</p>
-<p>Here's an example response:</p>
-<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"text_matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"object_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repositories/167174/contents/src/attributes/classes.js?ref=825ac3773694e0cd23ee74895fd5aeb535b27da4"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"object_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FileContent"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"property"</span><span class="p">:</span><span class="w"> </span><span class="s2">"content"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"fragment"</span><span class="p">:</span><span class="w"> </span><span class="s2">";\n\njQuery.fn.extend({\n\taddClass: function( value ) {\n\t\tvar classes, elem, cur, clazz, j, finalValue"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"addClass"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"indices"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="mi">23</span><span class="p">,</span><span class="w">
-            </span><span class="mi">31</span><span class="w">
-          </span><span class="p">]</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">]</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"object_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repositories/167174/contents/src/attributes/classes.js?ref=825ac3773694e0cd23ee74895fd5aeb535b27da4"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"object_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FileContent"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"property"</span><span class="p">:</span><span class="w"> </span><span class="s2">"content"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"fragment"</span><span class="p">:</span><span class="w"> </span><span class="s2">".isFunction( value ) ) {\n\t\t\treturn this.each(function( j ) {\n\t\t\t\tjQuery( this ).addClass( value.call( this"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"addClass"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"indices"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="mi">80</span><span class="p">,</span><span class="w">
-            </span><span class="mi">88</span><span class="w">
-          </span><span class="p">]</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">]</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
 <h2>
-<a id="search-issues" class="anchor" href="#search-issues" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Search issues<a href="/enterprise/2.14/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+<a id="search-issues-and-pull-requests" class="anchor" href="#search-issues-and-pull-requests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Search issues and pull requests<a href="/enterprise/2.14/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 <div class="alert note">
 <p><strong>Note:</strong> You can now use emoji in label names, add descriptions to labels, and search for labels in a repository. See the <a href="/changes/2018-02-22-label-description-search-preview">blog post</a> for full details. To access these features and receive payloads with this data during the preview period, you must provide a custom <a href="/enterprise/2.14/v3/media">media type</a> in the <code>Accept</code> header:</p>
@@ -1003,6 +796,9 @@ included the search term.</p>
 <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
 </div>
 <p>Find issues by state and keyword. This method returns up to 100 results <a href="/enterprise/2.14/v3/#pagination">per page</a>.</p>
+<p>When searching for issues, you can get text match metadata for the issue
+<strong>title</strong>, issue <strong>body</strong>, and issue <strong>comment body</strong> fields when you pass the
+<code>text-match</code> media type. For more details about how to receive highlighted search results, see <a href="#text-match-metadata">Text match metadata</a>.</p>
 <pre><code>GET /search/issues
 </code></pre>
 <h3>
@@ -1020,94 +816,22 @@ included the search term.</p>
 <td><code>q</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required</strong>. The search terms.</td>
+<strong>Required</strong>. The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as GitHub.com. To learn more about the format of the query, see <a href="#constructing-a-search-query">Constructing a search query</a>. See "<a href="https://help.github.com/articles/searching-issues-and-pull-requests/">Searching issues and pull requests</a>" for a detailed list of qualifiers.</td>
 </tr>
 <tr>
 <td><code>sort</code></td>
 <td><code>string</code></td>
-<td>The sort field. Can be <code>comments</code>, <code>created</code>, or <code>updated</code>. Default: results are sorted by best match.</td>
+<td>Sorts the results of your query by the number of <code>comments</code>, <code>reactions</code>, <code>reactions-+1</code>, <code>reactions--1</code>, <code>reactions-smile</code>, <code>reactions-thinking_face</code>, <code>reactions-heart</code>, <code>reactions-tada</code>, or <code>interactions</code>. You can also sort results by how recently the items were <code>created</code> or <code>updated</code>, Default: <a href="#ranking-search-results">best match</a>
+</td>
 </tr>
 <tr>
 <td><code>order</code></td>
 <td><code>string</code></td>
-<td>The sort order if <code>sort</code> parameter is provided. One of <code>asc</code> or <code>desc</code>. Default: <code>desc</code>
+<td>Determines whether the first search result returned is the highest number of matches (<code>desc</code>) or lowest number of matches (<code>asc</code>). This parameter is ignored unless you provide <code>sort</code>. Default: <code>desc</code>
 </td>
 </tr>
 </tbody>
 </table>
-<p>The <code>q</code> search term can also contain any combination of the supported issue search qualifiers as described by the in-browser <a href="https://help.github.com/articles/searching-issues/">issue search documentation</a> and <a href="https://help.github.com/articles/search-syntax/">search syntax documentation</a>:</p>
-<ul>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-issues-or-pull-requests"><code>type</code></a>
-With this qualifier you can restrict the search to issues (<code>issue</code>) or pull request (<code>pr</code>) only.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#scope-the-search-fields"><code>in</code></a>
-Qualifies which fields are searched. With this qualifier you can restrict the
-search to just the title (<code>title</code>), body (<code>body</code>), comments (<code>comments</code>), or any combination of these.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-by-the-author-of-an-issue-or-pull-request"><code>author</code></a>
-Finds issues or pull requests created by a certain user.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-by-the-assignee-of-an-issue-or-pull-request"><code>assignee</code></a>
-Finds issues or pull requests that are assigned to a certain user.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-by-a-mentioned-user-within-an-issue-or-pull-request"><code>mentions</code></a>
-Finds issues or pull requests that mention a certain user.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-by-a-commenter-within-an-issue-or-pull-request"><code>commenter</code></a>
-Finds issues or pull requests that a certain user commented on.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-by-a-user-thats-involved-within-an-issue-or-pull-request"><code>involves</code></a>
-Finds issues or pull requests that were either created by a certain user, assigned to that
- user, mention that user, or were commented on by that user.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues/#search-by-a-team-thats-mentioned-within-an-issue-or-pull-request"><code>team</code></a>
-For organizations you're a member of, finds issues or pull requests that @mention a team within the organization.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-based-on-whether-an-issue-or-pull-request-is-open"><code>state</code></a>
-Filter issues or pull requests based on whether they're open or closed.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-by-the-labels-on-an-issue"><code>labels</code></a>
-Filters issues or pull requests based on their labels.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-by-missing-metadata-on-an-issue-or-pull-request"><code>no</code></a>
-Filters items missing certain metadata, such as <code>label</code>, <code>milestone</code>, or <code>assignee</code>
-</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-by-the-main-language-of-a-repository"><code>language</code></a>
-Searches for issues or pull requests within repositories that match a certain language.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-based-on-the-state-of-an-issue-or-pull-request"><code>is</code></a>
-Searches for items within repositories that match a certain state, such as <code>open</code>, <code>closed</code>, or <code>merged</code>
-</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-based-on-when-an-issue-or-pull-request-was-created-or-last-updated"><code>created</code> or <code>updated</code></a>
-Filters issues or pull requests based on date of creation, or when they were last updated.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-based-on-when-a-pull-request-was-merged"><code>merged</code></a>
-Filters pull requests based on the date when they were merged.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-based-on-commit-status"><code>status</code></a>
-Filters pull requests based on the commit status.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-based-on-branch-names"><code>head</code> or <code>base</code></a>
-Filters pull requests based on the branch that they came from or that they are modifying.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-based-on-when-an-issue-or-pull-request-was-closed"><code>closed</code></a>
-Filters issues or pull requests based on the date when they were closed.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-by-the-number-of-comments-an-issue-or-pull-request-has"><code>comments</code></a>
-Filters issues or pull requests based on the quantity of comments.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues#search-within-a-users-or-organizations-repositories"><code>user</code> or <code>repo</code></a>
-Limits searches to a specific user or repository.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues/#search-by-project-board"><code>project</code></a> Limits searches to a specific project board in a repository or organization.</li>
-<li>
-<a href="https://help.github.com/articles/searching-issues/#search-within-archived-repositories"><code>archived</code></a>
-Filters issues or pull requests based on whether they are in an archived repository.</li>
-</ul>
-<p>If you know the specific SHA hash of a commit, you can use also <a href="https://help.github.com/articles/searching-issues#search-by-the-commit-shas-within-a-pull-request">use it to search for pull requests</a> that contain that SHA. Note that the SHA syntax must be at least seven characters.</p>
 <h3>
 <a id="example-3" class="anchor" href="#example-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 <p>Let's say you want to find the oldest unresolved Python bugs on Windows. Your
@@ -1186,70 +910,14 @@ X-RateLimit-Remaining: 19
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<h3>
-<a id="highlighting-issue-search-results" class="anchor" href="#highlighting-issue-search-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Highlighting issue search results</h3>
-<p>You might want to highlight the matching search terms when
-displaying search results. The API offers additional metadata to support this
-use case. To get this metadata in your search results, specify the <code>text-match</code>
-media type in your <code>Accept</code> header. For example, via cURL, the above query would
-look like this:</p>
-<pre class="command-line">
-curl -H 'Accept: application/vnd.github.v3.text-match+json' \
-'http(s)://<em>[hostname]</em>/api/v3/search/issues?q=windows+label:bug+language:python+state:open&amp;sort=created&amp;order=asc'
-</pre>
-<p>This produces the same JSON payload as above, with an extra key called
-<code>text_matches</code>, an array of objects. These objects provide information such as
-the position of your search terms within the text, as well as the <code>property</code> that
-included the search term.</p>
-<p>When searching for issues, you can get text match metadata for the issue
-<strong>title</strong>, issue <strong>body</strong>, and issue <strong>comment body</strong> fields. For details on the attributes present in the <code>text_matches</code> array, see <a href="#text-match-metadata">text match metadata</a>.</p>
-<p>Here's an example response:</p>
-<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"text_matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"object_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repositories/215335/issues/132"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"object_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Issue"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"property"</span><span class="p">:</span><span class="w"> </span><span class="s2">"body"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"fragment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"comprehensive windows font I know of).\n\nIf we can find a commonly distributed windows font that supports them then no problem (we can use html font tags) but otherwise the '(21)' style is probably better.\n"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"windows"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"indices"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="mi">14</span><span class="p">,</span><span class="w">
-            </span><span class="mi">21</span><span class="w">
-          </span><span class="p">]</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"windows"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"indices"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="mi">78</span><span class="p">,</span><span class="w">
-            </span><span class="mi">85</span><span class="w">
-          </span><span class="p">]</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">]</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"object_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repositories/215335/issues/comments/25688"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"object_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"IssueComment"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"property"</span><span class="p">:</span><span class="w"> </span><span class="s2">"body"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"fragment"</span><span class="p">:</span><span class="w"> </span><span class="s2">" right after that are a bit broken IMHO :). I suppose we could have some hack that maxes out at whatever the font does...\n\nI'll check what the state of play is on Windows.\n"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Windows"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"indices"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="mi">163</span><span class="p">,</span><span class="w">
-            </span><span class="mi">170</span><span class="w">
-          </span><span class="p">]</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">]</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
 <h2>
 <a id="search-users" class="anchor" href="#search-users" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Search users<a href="/enterprise/2.14/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 <p>Find users via various criteria. This method returns up to 100 results <a href="/enterprise/2.14/v3/#pagination">per page</a>.</p>
+<p>When searching for users, you can get text match metadata for the issue
+<strong>login</strong>, <strong>email</strong>, and <strong>name</strong> fields when you pass the <code>text-match</code> media type.
+For more details about highlighting search results, see <a href="#text-match-metadata">Text match metadata</a>.
+For more details about how to receive highlighted search results, see <a href="#text-match-metadata">Text match metadata</a>.</p>
 <pre><code>GET /search/users
 </code></pre>
 <h3>
@@ -1267,48 +935,22 @@ included the search term.</p>
 <td><code>q</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required</strong>. The search terms.</td>
+<strong>Required</strong>. The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as GitHub.com. To learn more about the format of the query, see <a href="#constructing-a-search-query">Constructing a search query</a>. See "<a href="https://help.github.com/articles/searching-users/">Searching users</a>" for a detailed list of qualifiers.</td>
 </tr>
 <tr>
 <td><code>sort</code></td>
 <td><code>string</code></td>
-<td>The sort field. Can be <code>followers</code>, <code>repositories</code>, or <code>joined</code>.  Default: results are sorted by best match.</td>
+<td>Sorts the results of your query by number of <code>followers</code> or <code>repositories</code>, or when the person <code>joined</code> GitHub Enterprise.  Default: <a href="#ranking-search-results">best match</a>
+</td>
 </tr>
 <tr>
 <td><code>order</code></td>
 <td><code>string</code></td>
-<td>The sort order if <code>sort</code> parameter is provided. One of <code>asc</code> or <code>desc</code>. Default: <code>desc</code>
+<td>Determines whether the first search result returned is the highest number of matches (<code>desc</code>) or lowest number of matches (<code>asc</code>). This parameter is ignored unless you provide <code>sort</code>. Default: <code>desc</code>
 </td>
 </tr>
 </tbody>
 </table>
-<p>The <code>q</code> search term can also contain any combination of the supported user search qualifiers as described by the in-browser <a href="https://help.github.com/articles/searching-users/">user search documentation</a> and <a href="https://help.github.com/articles/search-syntax/">search syntax documentation</a>:</p>
-<ul>
-<li>
-<a href="https://help.github.com/articles/searching-users#search-for-users-or-organizations"><code>type</code></a>
-With this qualifier you can restrict the search to just personal accounts (<code>user</code>) or
-just organization accounts (<code>org</code>).</li>
-<li>
-<a href="https://help.github.com/articles/searching-users#scope-the-search-fields"><code>in</code></a>
-Qualifies which fields are searched. With this qualifier you can restrict
-the search to just the username (<code>login</code>), public email (<code>email</code>), full name (<code>fullname</code>), or any
-combination of these.</li>
-<li>
-<a href="https://help.github.com/articles/searching-users#search-based-on-the-number-of-repositories-a-user-has"><code>repos</code></a>
-Filters users based on the number of repositories they have.</li>
-<li>
-<a href="https://help.github.com/articles/searching-users#search-based-on-the-location-where-a-user-resides"><code>location</code></a>
-Filter users by the location indicated in their profile.</li>
-<li>
-<a href="https://help.github.com/articles/searching-users#search-based-on-the-languages-of-a-users-repositories"><code>language</code></a>
-Search for users that have repositories that match a certain language.</li>
-<li>
-<a href="https://help.github.com/articles/searching-users#search-based-on-when-a-user-joined-github"><code>created</code></a>
-Filter users based on when they joined.</li>
-<li>
-<a href="https://help.github.com/articles/searching-users#search-based-on-the-number-of-followers-a-user-has"><code>followers</code></a>
-Filter users based on the number of followers they have.</li>
-</ul>
 <h3>
 <a id="example-4" class="anchor" href="#example-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 <p>Imagine you're looking for a list of popular users. You might try out this query:</p>
@@ -1346,58 +988,6 @@ X-RateLimit-Remaining: 19
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<h3>
-<a id="highlighting-user-search-results" class="anchor" href="#highlighting-user-search-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Highlighting user search results</h3>
-<p>You might want to highlight the matching search terms when
-displaying search results. The API offers additional metadata to support this
-use case. To get this metadata in your search results, specify the <code>text-match</code>
-media type in your <code>Accept</code> header. For example, via cURL, the above query would
-look like this:</p>
-<pre class="command-line">
-curl -H 'Accept: application/vnd.github.v3.text-match+json' \
-http(s)://<em>[hostname]</em>/api/v3/search/users?q=tom+repos:%3E42+followers:%3E1000
-</pre>
-<p>This produces the same JSON payload as above, with an extra key called
-<code>text_matches</code>, an array of objects. These objects provide information such as
-the position of your search terms within the text, as well as the <code>property</code> that
-included the search term.</p>
-<p>When searching for users, you can get text match metadata for the issue
-<strong>login</strong>, <strong>email</strong>, and <strong>name</strong> fields. For details on the attributes present in the <code>text_matches</code> array, see <a href="#text-match-metadata">text match metadata</a>.</p>
-<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"text_matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"object_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/mojombo"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"object_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"property"</span><span class="p">:</span><span class="w"> </span><span class="s2">"email"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"fragment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tom@github.com"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tom"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"indices"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="mi">0</span><span class="p">,</span><span class="w">
-            </span><span class="mi">3</span><span class="w">
-          </span><span class="p">]</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">]</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"object_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/mojombo"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"object_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"property"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"fragment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tom Preston-Werner"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tom"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"indices"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="mi">0</span><span class="p">,</span><span class="w">
-            </span><span class="mi">3</span><span class="w">
-          </span><span class="p">]</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">]</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
 <h2>
 <a id="search-topics" class="anchor" href="#search-topics" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Search topics<a href="/enterprise/2.14/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
@@ -1406,7 +996,14 @@ included the search term.</p>
 <pre><code>application/vnd.github.mercy-preview+json
 </code></pre>
 </div>
-<p>Find topics via various criteria. This method returns up to 100 results <a href="/enterprise/2.14/v3/#pagination">per page</a>.</p>
+<div class="alert warning">
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
+</div>
+<p>Find topics via various criteria. Results are sorted by best match.
+This method returns up to 100 results <a href="/enterprise/2.14/v3/#pagination">per page</a>.</p>
+<p>When searching for topics, you can get text match metadata for the topic's <strong>short_description</strong>,
+<strong>description</strong>, <strong>name</strong>, or <strong>display_name</strong> field when you pass the <code>text-match</code>
+media type. For more details about how to receive highlighted search results, see <a href="#text-match-metadata">Text match metadata</a>.</p>
 <pre><code>GET /search/topics
 </code></pre>
 <h3>
@@ -1424,24 +1021,11 @@ included the search term.</p>
 <td><code>q</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required</strong>. The search terms.</td>
+<strong>Required</strong>. The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as GitHub.com. To learn more about the format of the query, see <a href="#constructing-a-search-query">Constructing a search query</a>.</td>
 </tr>
 </tbody>
 </table>
-<p>Results are sorted by best match by default.</p>
-<p>The <code>q</code> search term can also contain any combination of the supported topic search qualifiers as described by the in-browser <a href="https://help.github.com/articles/searching-topics/">topic search documentation</a> and <a href="https://help.github.com/articles/search-syntax/">search syntax documentation</a>:</p>
-<ul>
-<li>
-<code>is:curated</code> Finds topics that have extra information, e.g., a description, display name, or logo, because they have an entry in the <a href="https://github.com/github/explore"><code>github/explore</code> repository</a>.</li>
-<li>
-<code>is:featured</code> Finds topics listed on <a href="https://github.com/topics">https://github.com/topics</a>. Any featured topic will also be curated.</li>
-<li>
-<code>is:not-featured</code> Finds topics not listed on <a href="https://github.com/topics">https://github.com/topics</a>.</li>
-<li>
-<code>is:not-curated</code> Finds topics that have no extra information because they haven't been added to the <a href="https://github.com/github/explore"><code>github/explore</code> repository</a>.</li>
-<li>
-<code>repositories:</code> Finds topics with some number of repositories using them, e.g., <code>repositories:&gt;1000</code>.</li>
-</ul>
+<p>See "<a href="https://help.github.com/articles/searching-topics/">Searching topics</a>" for a detailed list of qualifiers.</p>
 <h3>
 <a id="example-5" class="anchor" href="#example-5" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 <p>Suppose you want to search for topics related to Ruby that are featured on <a href="https://github.com/topics">https://github.com/topics</a>. Your query might look like this:</p>
@@ -1542,290 +1126,6 @@ X-RateLimit-Remaining: 19
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<h3>
-<a id="highlighting-topic-search-results" class="anchor" href="#highlighting-topic-search-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Highlighting topic search results</h3>
-<p>You might want to highlight the matching search terms when
-displaying search results. The API offers additional metadata to support this
-use case. To get this metadata in your search results, specify the <code>text-match</code>
-media type in your Accept header. For example, via cURL, the above query would
-look like this:</p>
-<pre class="command-line">
-curl -H 'Accept: application/vnd.github.v3.text-match+json, application/vnd.github.mercy-preview' \
-'https://api.github.com/search/topics?q=ruby+is:featured'
-</pre>
-<p>This produces the same JSON payload as above, with an extra key called
-<code>text_matches</code>, which is an array of objects. These objects provide information such as
-the position of your search terms within the text, as well as the <code>property</code> that
-included the search term.</p>
-<p>When searching for topics, you can get text match metadata for the topic's <strong>short_description</strong>, <strong>description</strong>, <strong>name</strong>, or <strong>display_name</strong> field. For details on the attributes present in the <code>text_matches</code> array, see <a href="#text-match-metadata">text match metadata</a>.</p>
-<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"total_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"incomplete_results"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"items"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ruby"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ruby"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"short_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ruby is a scripting language designed for simplified object-oriented programming."</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ruby was developed by Yukihiro \"Matz\" Matsumoto in 1995 with the intent of having an easily readable programming language. It is integrated with the Rails framework to create dynamic web-applications. Ruby's syntax is similar to that of Perl and Python."</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"created_by"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Yukihiro Matsumoto"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"released"</span><span class="p">:</span><span class="w"> </span><span class="s2">"December 21, 1995"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-11-28T22:03:59Z"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-10-30T18:16:32Z"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"featured"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"curated"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"score"</span><span class="p">:</span><span class="w"> </span><span class="mf">1750.5697</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"text_matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"object_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/search/repositories?q=topic:ruby"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"object_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Topic"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"property"</span><span class="p">:</span><span class="w"> </span><span class="s2">"short_description"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"fragment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ruby is a scripting language designed for simplified object-oriented programming."</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="p">{</span><span class="w">
-              </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ruby"</span><span class="p">,</span><span class="w">
-              </span><span class="nt">"indices"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-                </span><span class="mi">0</span><span class="p">,</span><span class="w">
-                </span><span class="mi">4</span><span class="w">
-              </span><span class="p">]</span><span class="w">
-            </span><span class="p">}</span><span class="w">
-          </span><span class="p">]</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"object_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/search/repositories?q=topic:ruby"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"object_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Topic"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"property"</span><span class="p">:</span><span class="w"> </span><span class="s2">"description"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"fragment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ruby was developed by Yukihiro \"Matz\" Matsumoto in 1995 with the intent of having an easily readable programming language. It is integrated with the Rails framework to create dynamic web-applications. Ruby's syntax is similar to that of Perl and Python."</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="p">{</span><span class="w">
-              </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ruby"</span><span class="p">,</span><span class="w">
-              </span><span class="nt">"indices"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-                </span><span class="mi">0</span><span class="p">,</span><span class="w">
-                </span><span class="mi">4</span><span class="w">
-              </span><span class="p">]</span><span class="w">
-            </span><span class="p">},</span><span class="w">
-            </span><span class="p">{</span><span class="w">
-              </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ruby"</span><span class="p">,</span><span class="w">
-              </span><span class="nt">"indices"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-                </span><span class="mi">201</span><span class="p">,</span><span class="w">
-                </span><span class="mi">205</span><span class="w">
-              </span><span class="p">]</span><span class="w">
-            </span><span class="p">}</span><span class="w">
-          </span><span class="p">]</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"object_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/search/repositories?q=topic:ruby"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"object_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Topic"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"property"</span><span class="p">:</span><span class="w"> </span><span class="s2">"display_name"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"fragment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ruby"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="p">{</span><span class="w">
-              </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ruby"</span><span class="p">,</span><span class="w">
-              </span><span class="nt">"indices"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-                </span><span class="mi">0</span><span class="p">,</span><span class="w">
-                </span><span class="mi">4</span><span class="w">
-              </span><span class="p">]</span><span class="w">
-            </span><span class="p">}</span><span class="w">
-          </span><span class="p">]</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"object_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/search/repositories?q=topic:ruby"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"object_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Topic"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"property"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"fragment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ruby"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="p">{</span><span class="w">
-              </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ruby"</span><span class="p">,</span><span class="w">
-              </span><span class="nt">"indices"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-                </span><span class="mi">0</span><span class="p">,</span><span class="w">
-                </span><span class="mi">4</span><span class="w">
-              </span><span class="p">]</span><span class="w">
-            </span><span class="p">}</span><span class="w">
-          </span><span class="p">]</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">]</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"rails"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rails"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"short_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ruby on Rails (Rails) is a web application framework written in Ruby."</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ruby on Rails (Rails) is a web application framework written in Ruby. It is meant to help simplify the building of complex websites."</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"created_by"</span><span class="p">:</span><span class="w"> </span><span class="s2">"David Heinemeier Hansson"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"released"</span><span class="p">:</span><span class="w"> </span><span class="s2">"December 13 2005"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-12-09T17:03:50Z"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-10-30T16:20:19Z"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"featured"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"curated"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"score"</span><span class="p">:</span><span class="w"> </span><span class="mf">192.49652</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"text_matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"object_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/search/repositories?q=topic:rails"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"object_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Topic"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"property"</span><span class="p">:</span><span class="w"> </span><span class="s2">"short_description"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"fragment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ruby on Rails (Rails) is a web application framework written in Ruby."</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="p">{</span><span class="w">
-              </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ruby"</span><span class="p">,</span><span class="w">
-              </span><span class="nt">"indices"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-                </span><span class="mi">0</span><span class="p">,</span><span class="w">
-                </span><span class="mi">4</span><span class="w">
-              </span><span class="p">]</span><span class="w">
-            </span><span class="p">},</span><span class="w">
-            </span><span class="p">{</span><span class="w">
-              </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ruby"</span><span class="p">,</span><span class="w">
-              </span><span class="nt">"indices"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-                </span><span class="mi">64</span><span class="p">,</span><span class="w">
-                </span><span class="mi">68</span><span class="w">
-              </span><span class="p">]</span><span class="w">
-            </span><span class="p">}</span><span class="w">
-          </span><span class="p">]</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"object_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/search/repositories?q=topic:rails"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"object_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Topic"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"property"</span><span class="p">:</span><span class="w"> </span><span class="s2">"description"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"fragment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ruby on Rails (Rails) is a web application framework written in Ruby. It is meant to help simplify the building of complex websites."</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="p">{</span><span class="w">
-              </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ruby"</span><span class="p">,</span><span class="w">
-              </span><span class="nt">"indices"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-                </span><span class="mi">0</span><span class="p">,</span><span class="w">
-                </span><span class="mi">4</span><span class="w">
-              </span><span class="p">]</span><span class="w">
-            </span><span class="p">},</span><span class="w">
-            </span><span class="p">{</span><span class="w">
-              </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ruby"</span><span class="p">,</span><span class="w">
-              </span><span class="nt">"indices"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-                </span><span class="mi">64</span><span class="p">,</span><span class="w">
-                </span><span class="mi">68</span><span class="w">
-              </span><span class="p">]</span><span class="w">
-            </span><span class="p">}</span><span class="w">
-          </span><span class="p">]</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">]</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"python"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Python"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"short_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Python is a dynamically typed programming language."</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Python is a dynamically typed programming language designed by Guido Van Rossum. Much like the programming language Ruby, Python was designed to be easily read by programmers. Because of its large following and many libraries, Python can be implemented and used to do anything from webpages to scientific research."</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"created_by"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Guido van Rossum"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"released"</span><span class="p">:</span><span class="w"> </span><span class="s2">"February 20, 1991"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-12-07T00:07:02Z"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-10-27T22:45:43Z"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"featured"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"curated"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"score"</span><span class="p">:</span><span class="w"> </span><span class="mf">112.94006</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"text_matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"object_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/search/repositories?q=topic:python"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"object_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Topic"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"property"</span><span class="p">:</span><span class="w"> </span><span class="s2">"description"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"fragment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Python is a dynamically typed programming language designed by Guido Van Rossum. Much like the programming language Ruby, Python was designed to be easily read by programmers. Because of its large"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="p">{</span><span class="w">
-              </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ruby"</span><span class="p">,</span><span class="w">
-              </span><span class="nt">"indices"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-                </span><span class="mi">116</span><span class="p">,</span><span class="w">
-                </span><span class="mi">120</span><span class="w">
-              </span><span class="p">]</span><span class="w">
-            </span><span class="p">}</span><span class="w">
-          </span><span class="p">]</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">]</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jekyll"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jekyll"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"short_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jekyll is a simple, blog-aware static site generator."</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jekyll is a blog-aware, site generator written in Ruby. It takes raw text files, runs it through a renderer and produces a publishable static website."</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"created_by"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tom Preston-Werner"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"released"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2008"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-12-16T21:53:08Z"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-10-27T19:00:24Z"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"featured"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"curated"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"score"</span><span class="p">:</span><span class="w"> </span><span class="mf">45.475624</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"text_matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"object_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/search/repositories?q=topic:jekyll"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"object_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Topic"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"property"</span><span class="p">:</span><span class="w"> </span><span class="s2">"description"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"fragment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jekyll is a blog-aware, site generator written in Ruby. It takes raw text files, runs it through a renderer and produces a publishable static website."</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="p">{</span><span class="w">
-              </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ruby"</span><span class="p">,</span><span class="w">
-              </span><span class="nt">"indices"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-                </span><span class="mi">50</span><span class="p">,</span><span class="w">
-                </span><span class="mi">54</span><span class="w">
-              </span><span class="p">]</span><span class="w">
-            </span><span class="p">}</span><span class="w">
-          </span><span class="p">]</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">]</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sass"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sass"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"short_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sass is a stable extension to classic CSS."</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sass is a stylesheet language with a main implementation in Ruby. It is an extension of CSS that makes improvements to the old stylesheet format, such as being able to declare variables and using a cleaner nesting syntax."</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"created_by"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Hampton Catlin, Natalie Weizenbaum, Chris Eppstein"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"released"</span><span class="p">:</span><span class="w"> </span><span class="s2">"November 28, 2006"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-12-16T21:53:45Z"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-01-16T16:30:40Z"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"featured"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"curated"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"score"</span><span class="p">:</span><span class="w"> </span><span class="mf">42.83278</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"text_matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"object_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/search/repositories?q=topic:sass"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"object_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Topic"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"property"</span><span class="p">:</span><span class="w"> </span><span class="s2">"description"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"fragment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sass is a stylesheet language with a main implementation in Ruby. It is an extension of CSS that makes improvements to the old stylesheet format, such as being able to declare variables and using a cleaner nesting syntax."</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="p">{</span><span class="w">
-              </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ruby"</span><span class="p">,</span><span class="w">
-              </span><span class="nt">"indices"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-                </span><span class="mi">60</span><span class="p">,</span><span class="w">
-                </span><span class="mi">64</span><span class="w">
-              </span><span class="p">]</span><span class="w">
-            </span><span class="p">}</span><span class="w">
-          </span><span class="p">]</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">]</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"homebrew"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Homebrew"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"short_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Homebrew is a package manager for macOS."</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Homebrew is a package manager for Apple's macOS operating system. It simplifies the installation of software and is popular in the Ruby on Rails community."</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"created_by"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max Howell"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"released"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2009"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-12-17T20:30:44Z"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-02-06T16:14:56Z"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"featured"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"curated"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"score"</span><span class="p">:</span><span class="w"> </span><span class="mf">19.368078</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"text_matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"object_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/search/repositories?q=topic:homebrew"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"object_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Topic"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"property"</span><span class="p">:</span><span class="w"> </span><span class="s2">"description"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"fragment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Homebrew is a package manager for Apple's macOS operating system. It simplifies the installation of software and is popular in the Ruby on Rails community."</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="p">{</span><span class="w">
-              </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ruby"</span><span class="p">,</span><span class="w">
-              </span><span class="nt">"indices"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-                </span><span class="mi">131</span><span class="p">,</span><span class="w">
-                </span><span class="mi">135</span><span class="w">
-              </span><span class="p">]</span><span class="w">
-            </span><span class="p">}</span><span class="w">
-          </span><span class="p">]</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">]</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
 <h2>
 <a id="search-labels" class="anchor" href="#search-labels" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Search labels<a href="/enterprise/2.14/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
@@ -1838,6 +1138,9 @@ included the search term.</p>
 <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
 </div>
 <p>Find labels in a repository with names or descriptions that match search keywords. Returns up to 100 results <a href="/enterprise/2.14/v3/#pagination">per page</a>.</p>
+<p>When searching for labels, you can get text match metadata for the label <strong>name</strong>
+and <strong>description</strong> fields when you pass the <code>text-match</code> media type.
+For more details about how to receive highlighted search results, see <a href="#text-match-metadata">Text match metadata</a>.</p>
 <pre><code>GET /search/labels
 </code></pre>
 <h3>
@@ -1861,17 +1164,18 @@ included the search term.</p>
 <td><code>q</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required</strong>. The search keywords.</td>
+<strong>Required</strong>. The search keywords. This endpoint does not accept qualifiers in the query. To learn more about the format of the query, see <a href="#constructing-a-search-query">Constructing a search query</a>.</td>
 </tr>
 <tr>
 <td><code>sort</code></td>
 <td><code>string</code></td>
-<td>The sort field. Can be one of <code>created</code> or <code>updated</code>. Default: results are sorted by best match.</td>
+<td>Sorts the results of your query by when the label was <code>created</code> or <code>updated</code>. Default: <a href="#ranking-search-results">best match</a>
+</td>
 </tr>
 <tr>
 <td><code>order</code></td>
 <td><code>string</code></td>
-<td>The sort order if the sort parameter is provided. Can be one of <code>asc</code> or <code>desc</code>. Default: <code>desc</code>
+<td>Determines whether the first search result returned is the highest number of matches (<code>desc</code>) or lowest number of matches (<code>asc</code>). This parameter is ignored unless you provide <code>sort</code>. Default: <code>desc</code>
 </td>
 </tr>
 </tbody>
@@ -1913,98 +1217,22 @@ curl -H 'Accept: application/vnd.github.symmetra-preview+json' \
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<h3>
-<a id="highlighting-label-search-results" class="anchor" href="#highlighting-label-search-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Highlighting label search results</h3>
-<p>You might want to highlight the matching search terms when
-displaying search results. The API offers additional metadata to support this
-use case. To get this metadata in your search results, specify the <code>text-match</code>
-media type in your <code>Accept</code> header. For example, via cURL, the above query would
-look like this:</p>
-<pre class="command-line">
-curl -H 'Accept: application/vnd.github.symmetra-preview+json, \
-application/vnd.github.v3.text-match+json' \
-'https://api.github.com/search/labels?repository_id=64778136&amp;q=bug+defect+enhancement'
-</pre>
-<p>This produces the same JSON payload as above, with an extra key called
-<code>text_matches</code>, an array of objects. These objects provide information such as
-the position of your search terms within the text, as well as the <code>property</code> that
-included the search term.</p>
-<p>When searching for labels, you can get text match metadata for the label <strong>name</strong> and <strong>description</strong> fields. For details on the attributes present in the <code>text_matches</code> array, see <a href="#text-match-metadata">text match metadata</a>.</p>
-<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"total_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"incomplete_results"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"items"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">418327088</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDU6TGFiZWw0MTgzMjcwODg="</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/linguist/labels/enhancement"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"enhancement"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"color"</span><span class="p">:</span><span class="w"> </span><span class="s2">"84b6eb"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"New feature or request."</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"score"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.119338505</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"text_matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"object_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/linguist/labels/enhancement"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"object_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Label"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"property"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"fragment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"enhancement"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="p">{</span><span class="w">
-              </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"enhancement"</span><span class="p">,</span><span class="w">
-              </span><span class="nt">"indices"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-                </span><span class="mi">0</span><span class="p">,</span><span class="w">
-                </span><span class="mi">11</span><span class="w">
-              </span><span class="p">]</span><span class="w">
-            </span><span class="p">}</span><span class="w">
-          </span><span class="p">]</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">]</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">418327086</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDU6TGFiZWw0MTgzMjcwODY="</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/linguist/labels/bug"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bug"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"color"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ee0701"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Something isn't working."</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"score"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.119286075</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"text_matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="nt">"object_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/linguist/labels/bug"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"object_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Label"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"property"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"fragment"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bug"</span><span class="p">,</span><span class="w">
-          </span><span class="nt">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="p">{</span><span class="w">
-              </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bug"</span><span class="p">,</span><span class="w">
-              </span><span class="nt">"indices"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-                </span><span class="mi">0</span><span class="p">,</span><span class="w">
-                </span><span class="mi">3</span><span class="w">
-              </span><span class="p">]</span><span class="w">
-            </span><span class="p">}</span><span class="w">
-          </span><span class="p">]</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">]</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
 <h2>
 <a id="text-match-metadata" class="anchor" href="#text-match-metadata" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Text match metadata</h2>
-<p>On github.com, we enjoy the context provided by code snippets and highlights in
-search results.</p>
+<p>On GitHub, you can use the context provided by code snippets and highlights in
+search results. The Search API offers additional metadata that allows you to
+highlight the matching search terms when displaying search results.</p>
 <p><a href="https://f.cloud.github.com/assets/865/819651/959a4826-efb5-11e2-8af8-46c4a3857cdf.png"><img src="https://f.cloud.github.com/assets/865/819651/959a4826-efb5-11e2-8af8-46c4a3857cdf.png" alt="code-snippet-highlighting"></a></p>
-<p>API consumers have access to that information as well. Requests can opt to
-receive those text fragments in the response, and every fragment is accompanied
-by numeric offsets identifying the exact location of each matching search term.</p>
+<p>Requests can opt to receive those text fragments in the response, and every fragment
+is accompanied by numeric offsets identifying the exact location of each matching search term.</p>
 <p>To get this metadata in your search results, specify the <code>text-match</code> media type
 in your <code>Accept</code> header.</p>
 <pre><code>application/vnd.github.v3.text-match+json
 </code></pre>
-<p>The results will provide the same JSON payloads as shown above, with an extra
-key called <code>text_matches</code>. Inside the <code>text_matches</code> array, each object includes
+<p>When you provide the <code>text-match</code> media type, you will receive an extra
+key in the JSON payload called <code>text_matches</code> that provides information about
+the position of your search terms within the text and the <code>property</code> that
+includes the search term. Inside the <code>text_matches</code> array, each object includes
 the following attributes:</p>
 <table>
 <thead>
@@ -2038,7 +1266,7 @@ the following attributes:</p>
 </table>
 <h3>
 <a id="example-7" class="anchor" href="#example-7" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
-<p>Using cURL, and the <a href="#search-issues">example issue search</a> above, our API
+<p>Using cURL, and the <a href="#search-issues-and-pull-requests">example issue search</a> above, our API
 request would look like this:</p>
 <pre class="command-line">
 curl -H 'Accept: application/vnd.github.v3.text-match+json' \
@@ -2239,7 +1467,7 @@ within that fragment.</p>
 <option value="/v3/search/#search-repositories">Repositories</option>
     <option value="/v3/search/#search-code">Code</option>
     <option value="/v3/search/#search-commits">Commits</option>
-    <option value="/v3/search/#search-issues">Issues</option>
+    <option value="/v3/search/#search-issues-and-pull-requests">Issues</option>
     <option value="/v3/search/#search-users">Users</option>
     <option value="/v3/search/#search-topics">Topics</option>
     <option value="/v3/search/#text-match-metadata">Text match metadata</option>
@@ -2452,7 +1680,7 @@ within that fragment.</p>
           <li><a href="/enterprise/2.14/v3/search/#search-repositories">Repositories</a></li>
           <li><a href="/enterprise/2.14/v3/search/#search-code">Code</a></li>
           <li><a href="/enterprise/2.14/v3/search/#search-commits">Commits</a></li>
-          <li><a href="/enterprise/2.14/v3/search/#search-issues">Issues</a></li>
+          <li><a href="/enterprise/2.14/v3/search/#search-issues-and-pull-requests">Issues</a></li>
           <li><a href="/enterprise/2.14/v3/search/#search-users">Users</a></li>
           <li><a href="/enterprise/2.14/v3/search/#search-topics">Topics</a></li>
           <li><a href="/enterprise/2.14/v3/search/#text-match-metadata">Text match metadata</a></li>

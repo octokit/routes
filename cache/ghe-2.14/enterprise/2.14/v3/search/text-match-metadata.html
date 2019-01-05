@@ -1,17 +1,19 @@
 <h2>
 <a id="text-match-metadata" class="anchor" href="#text-match-metadata" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Text match metadata</h2>
-<p>On github.com, we enjoy the context provided by code snippets and highlights in
-search results.</p>
+<p>On GitHub, you can use the context provided by code snippets and highlights in
+search results. The Search API offers additional metadata that allows you to
+highlight the matching search terms when displaying search results.</p>
 <p><a href="https://f.cloud.github.com/assets/865/819651/959a4826-efb5-11e2-8af8-46c4a3857cdf.png"><img src="https://f.cloud.github.com/assets/865/819651/959a4826-efb5-11e2-8af8-46c4a3857cdf.png" alt="code-snippet-highlighting"></a></p>
-<p>API consumers have access to that information as well. Requests can opt to
-receive those text fragments in the response, and every fragment is accompanied
-by numeric offsets identifying the exact location of each matching search term.</p>
+<p>Requests can opt to receive those text fragments in the response, and every fragment
+is accompanied by numeric offsets identifying the exact location of each matching search term.</p>
 <p>To get this metadata in your search results, specify the <code>text-match</code> media type
 in your <code>Accept</code> header.</p>
 <pre><code>application/vnd.github.v3.text-match+json
 </code></pre>
-<p>The results will provide the same JSON payloads as shown above, with an extra
-key called <code>text_matches</code>. Inside the <code>text_matches</code> array, each object includes
+<p>When you provide the <code>text-match</code> media type, you will receive an extra
+key in the JSON payload called <code>text_matches</code> that provides information about
+the position of your search terms within the text and the <code>property</code> that
+includes the search term. Inside the <code>text_matches</code> array, each object includes
 the following attributes:</p>
 <table>
 <thead>
@@ -45,7 +47,7 @@ the following attributes:</p>
 </table>
 <h3>
 <a id="example-7" class="anchor" href="#example-7" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
-<p>Using cURL, and the <a href="#search-issues">example issue search</a> above, our API
+<p>Using cURL, and the <a href="#search-issues-and-pull-requests">example issue search</a> above, our API
 request would look like this:</p>
 <pre class="command-line">curl -H &apos;Accept: application/vnd.github.v3.text-match+json&apos; \
 &apos;http(s)://<em>[hostname]</em>/api/v3/search/issues?q=windows+label:bug+language:python+state:open&amp;sort=created&amp;order=asc&apos;
