@@ -1,15 +1,9 @@
 {
-  "name": "Get a single deployment",
+  "name": "Update a pull request review",
   "enabledForApps": true,
-  "method": "GET",
-  "path": "/repos/:owner/:repo/deployments/:deployment_id",
-  "previews": [
-    {
-      "name": "ant-man",
-      "description": "**Note:** The `transient_environment` and `production_environment` parameters are currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the [blog post](/changes/2016-04-06-deployment-and-deployment-status-enhancements) for full details.\n\nTo access the API during the preview period, you must provide a custom [media type](/enterprise/2.13/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.ant-man-preview+json\n\n```",
-      "required": false
-    }
-  ],
+  "method": "PUT",
+  "path": "/repos/:owner/:repo/pulls/:number/reviews/:review_id",
+  "previews": [],
   "params": [
     {
       "name": "owner",
@@ -26,14 +20,33 @@
       "location": "url"
     },
     {
-      "name": "deployment_id",
+      "name": "number",
       "type": "integer",
       "required": true,
       "description": "",
       "location": "url"
+    },
+    {
+      "name": "review_id",
+      "type": "integer",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "body",
+      "type": "string",
+      "description": "The body text of the pull request review.",
+      "required": true,
+      "location": "body"
     }
   ],
-  "description": "",
+  "requests": [
+    {
+      "body": "This is close to perfect! Please address the suggested inline change. And add more about this."
+    }
+  ],
+  "description": "Update the review summary comment with new text.",
   "responses": [
     {
       "headers": {
@@ -41,18 +54,9 @@
         "content-type": "application/json; charset=utf-8"
       },
       "body": {
-        "url": "https://api.github.com/repos/octocat/example/deployments/1",
-        "id": 1,
-        "node_id": "MDEwOkRlcGxveW1lbnQx",
-        "sha": "a84d88e7554fc1fa21bcbc4efae3c782a70d2b9d",
-        "ref": "topic-branch",
-        "task": "deploy",
-        "payload": {
-          "deploy": "migrate"
-        },
-        "environment": "production",
-        "description": "Deploy request from hubot",
-        "creator": {
+        "id": 80,
+        "node_id": "MDE3OlB1bGxSZXF1ZXN0UmV2aWV3ODA=",
+        "user": {
           "login": "octocat",
           "id": 1,
           "node_id": "MDQ6VXNlcjE=",
@@ -72,15 +76,22 @@
           "type": "User",
           "site_admin": false
         },
-        "created_at": "2012-07-20T01:19:13Z",
-        "updated_at": "2012-07-20T01:19:13Z",
-        "statuses_url": "https://api.github.com/repos/octocat/example/deployments/1/statuses",
-        "repository_url": "https://api.github.com/repos/octocat/example",
-        "transient_environment": false,
-        "production_environment": true
+        "body": "This is close to perfect! Please address the suggested inline change. And add more about this.",
+        "commit_id": "ecdd80bb57125d7ba9641ffaa4d7d2c19d3f3091",
+        "state": "CHANGES_REQUESTED",
+        "html_url": "https://github.com/octocat/Hello-World/pull/12#pullrequestreview-80",
+        "pull_request_url": "https://api.github.com/repos/octocat/Hello-World/pulls/12",
+        "_links": {
+          "html": {
+            "href": "https://github.com/octocat/Hello-World/pull/12#pullrequestreview-80"
+          },
+          "pull_request": {
+            "href": "https://api.github.com/repos/octocat/Hello-World/pulls/12"
+          }
+        }
       }
     }
   ],
-  "idName": "get-deployment",
-  "documentationUrl": "https://developer.github.com/enterprise/2.13/v3/repos/deployments/#get-a-single-deployment"
+  "idName": "update-review",
+  "documentationUrl": "https://developer.github.com/v3/pulls/reviews/#update-a-pull-request-review"
 }
