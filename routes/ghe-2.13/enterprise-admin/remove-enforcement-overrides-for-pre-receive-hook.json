@@ -2,11 +2,18 @@
   "name": "Remove enforcement overrides for a pre-receive hook",
   "enabledForApps": true,
   "method": "DELETE",
-  "path": "/orgs/:org/pre-receive-hooks/:pre_receive_hook_id",
+  "path": "/repos/:owner/:repo/pre-receive-hooks/:pre_receive_hook_id",
   "previews": [],
   "params": [
     {
-      "name": "org",
+      "name": "owner",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "repo",
       "type": "string",
       "required": true,
       "description": "",
@@ -20,7 +27,22 @@
       "location": "url"
     }
   ],
-  "description": "Removes any overrides for this hook at the org level for this org.",
+  "description": "Deletes any overridden enforcement on this repository for the specified hook.\n\nResponds with effective values inherited from owner and/or global level.",
+  "responses": [
+    {
+      "headers": {
+        "status": "200 OK",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "id": 42,
+        "name": "Check Commits",
+        "enforcement": "disabled",
+        "configuration_url": "https://github.example.com/api/v3/orgs/octocat/pre-receive-hooks/42"
+      },
+      "description": "Responds with effective values inherited from owner and/or global level."
+    }
+  ],
   "idName": "remove-enforcement-overrides-for-pre-receive-hook",
-  "documentationUrl": "https://developer.github.com/enterprise/2.13/v3/enterprise-admin/org_pre_receive_hooks/#remove-enforcement-overrides-for-a-pre-receive-hook"
+  "documentationUrl": "https://developer.github.com/enterprise/2.13/v3/enterprise-admin/repo_pre_receive_hooks/#remove-enforcement-overrides-for-a-pre-receive-hook"
 }
