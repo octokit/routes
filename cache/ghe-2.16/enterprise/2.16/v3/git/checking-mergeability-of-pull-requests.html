@@ -1,0 +1,12 @@
+<h2>
+<a id="checking-mergeability-of-pull-requests" class="anchor" href="#checking-mergeability-of-pull-requests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Checking mergeability of pull requests</h2>
+<div class="alert note">
+<p><strong>Warning!</strong> Please do not depend on using Git directly or <a href="/enterprise/2.16/v3/git/refs/#get-a-reference"><code>GET /repos/:owner/:repo/git/refs/:ref</code></a> for updates to <code>merge</code> Git refs, because this content becomes outdated without warning.</p>
+</div>
+<p>A consuming API needs to explicitly request a pull request to create a <em>test</em> merge commit. A <em>test</em> merge commit is created when you view the pull request in the UI and the &quot;Merge&quot; button is displayed, or when you <a href="/enterprise/2.16/v3/pulls/#get-a-single-pull-request">get</a>, <a href="/enterprise/2.16/v3/pulls/#create-a-pull-request">create</a>, or <a href="/enterprise/2.16/v3/pulls/#update-a-pull-request">edit</a> a pull request using the REST API. Without this request, the <code>merge</code> Git refs will fall out of date until the next time someone views the pull request.</p>
+<p>If you are currently using polling methods that produce outdated <code>merge</code> Git refs, then GitHub recommends using the following steps to get the latest changes from the base branch (usually <code>master</code>):</p>
+<ol>
+<li>Receive the pull request webhook.</li>
+<li>Call <a href="/enterprise/2.16/v3/pulls/#get-a-single-pull-request"><code>GET /repos/:owner/:repo/pulls/:number</code></a> to start background job for creating the merge commit candidate.</li>
+<li>Poll your repository using <a href="/enterprise/2.16/v3/pulls/#get-a-single-pull-request"><code>GET /repos/:owner/:repo/pulls/:number</code></a> to see if the <code>mergeable</code> attribute is <code>true</code> or <code>false</code>. You can use Git directly or <a href="/enterprise/2.16/v3/git/refs/#get-a-reference"><code>GET /repos/:owner/:repo/git/refs/:ref</code></a> for updates to <code>merge</code> Git refs only after performing the previous steps.</li>
+</ol>
