@@ -61,6 +61,7 @@
 </div>
           <div id="js-dropdown-menu" class="dropdown-menu">
             <a class="dropdown-menu-item" data-proofer-ignore>GitHub.com</a>
+            <a class="dropdown-menu-item" data-proofer-ignore>GitHub Enterprise Server 2.16</a>
             <a class="dropdown-menu-item" data-proofer-ignore>GitHub Enterprise 2.15</a>
             <a class="dropdown-menu-item" data-proofer-ignore>GitHub Enterprise 2.14</a>
             <a class="dropdown-menu-item" data-proofer-ignore>GitHub Enterprise 2.13</a>
@@ -938,9 +939,10 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <a id="upload-a-release-asset" class="anchor" href="#upload-a-release-asset" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Upload a release asset<a href="/enterprise/2.13/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 <p>This endpoint makes use of <a href="/enterprise/2.13/v3/#hypermedia">a Hypermedia relation</a> to determine which URL to access. The endpoint you call to upload release assets is specific to your release. Use the <code>upload_url</code> returned in the response of the <a href="#create-a-release">Create a release endpoint</a> to upload a release asset.</p>
-<p>The asset data is expected in its raw binary form, rather than JSON.
-Everything else about the endpoint is the same as the rest of the API. For example, you'll still need to pass your authentication to be able to upload an asset.</p>
-<pre><code>POST &lt;upload_url&gt;
+<p>Most libraries will set the required <code>Content-Length</code> header automatically. Use the required <code>Content-Type</code> header to provide the media type of the asset. For a list of media types, see <a href="https://www.iana.org/assignments/media-types/media-types.xhtml">Media Types</a>. For example:</p>
+<p><code>application/zip</code></p>
+<p>GitHub Enterprise expects the asset data in its raw binary form, rather than JSON.  You will send the raw binary content of the asset as the request body. Everything else about the endpoint is the same as the rest of the API. For example, you'll still need to pass your authentication to be able to upload an asset.</p>
+<pre><code>POST :upload_url
 </code></pre>
 <div class="alert note">
 <p><strong>Notes:</strong></p>
@@ -963,12 +965,6 @@ asset's name and label in URI query parameters.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>Content-Type</code></td>
-<td><code>string</code></td>
-<td>
-<strong>Required</strong>. The content type of the asset. This should be set in the Header. Example: <code>"application/zip"</code>. For a list of acceptable types, refer this list of <a href="https://www.iana.org/assignments/media-types/media-types.xhtml">media types</a>.</td>
-</tr>
-<tr>
 <td><code>name</code></td>
 <td><code>string</code></td>
 <td>
@@ -981,7 +977,6 @@ asset's name and label in URI query parameters.</p>
 </tr>
 </tbody>
 </table>
-<p>Send the raw binary content of the asset as the request body.</p>
 <h3>
 <a id="example-2" class="anchor" href="#example-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 <pre><code>POST https://uploads.github.com/repos/octocat/Hello-World/releases/1/assets?name=foo.zip
