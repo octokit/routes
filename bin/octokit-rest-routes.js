@@ -9,9 +9,8 @@ const options = {
     default: false
   },
   'ghe': {
-    describe: 'GitHub Enterprise version, e.g. "2.15"',
-    type: 'string',
-    default: ''
+    describe: 'GitHub Enterprise. To load a specific version set it the version, e.g. "2.16"',
+    type: 'string'
   }
 }
 
