@@ -1,0 +1,53 @@
+{
+  "name": "Render an arbitrary Markdown document",
+  "enabledForApps": true,
+  "method": "POST",
+  "path": "/markdown",
+  "previews": [],
+  "params": [
+    {
+      "name": "text",
+      "type": "string",
+      "description": "The Markdown text to render in HTML. Markdown content must be 400 KB or less.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "mode",
+      "type": "string",
+      "description": "The rendering mode. Can be either:  \n\\* `markdown` to render a document in plain Markdown, just like README.md files are rendered.  \n\\* `gfm` to render a document in [GitHub Flavored Markdown](https://github.github.com/gfm/), which creates links for user mentions as well as references to SHA-1 hashes, issues, and pull requests.",
+      "default": "markdown",
+      "required": false,
+      "enum": [
+        "markdown",
+        "gfm"
+      ],
+      "location": "body"
+    },
+    {
+      "name": "context",
+      "type": "string",
+      "description": "The repository context to use when creating references in `gfm` mode. Omit this parameter when using `markdown` mode.",
+      "required": false,
+      "location": "body"
+    }
+  ],
+  "requests": [
+    {
+      "text": "Hello world github/linguist#1 **cool**, and #1!",
+      "mode": "gfm",
+      "context": "github/gollum"
+    }
+  ],
+  "description": "",
+  "responses": [
+    {
+      "headers": {
+        "status": "200 OK",
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "idName": "render",
+  "documentationUrl": "https://developer.github.com/enterprise/2.16/v3/markdown/#render-an-arbitrary-markdown-document"
+}

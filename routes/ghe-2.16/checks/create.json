@@ -1,0 +1,354 @@
+{
+  "name": "Create a check run",
+  "enabledForApps": true,
+  "method": "POST",
+  "path": "/repos/:owner/:repo/check-runs",
+  "previews": [
+    {
+      "name": "antiope",
+      "description": "The Checks API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the [blog post](/changes/2018-05-07-new-checks-api-public-beta/) for full details. To access the API during the preview period, you must provide a custom [media type](/enterprise/2.16/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.antiope-preview+json\n\n```",
+      "required": true
+    }
+  ],
+  "params": [
+    {
+      "name": "owner",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "repo",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "description": "The name of the check. For example, \"code-coverage\".",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "head_sha",
+      "type": "string",
+      "description": "The SHA of the commit.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "details_url",
+      "type": "string",
+      "description": "The URL of the integrator's site that has the full details of the check.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "external_id",
+      "type": "string",
+      "description": "A reference for the run on the integrator's system.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "status",
+      "type": "string",
+      "description": "The current status. Can be one of `queued`, `in_progress`, or `completed`.",
+      "default": "queued",
+      "required": false,
+      "enum": [
+        "queued",
+        "in_progress",
+        "completed"
+      ],
+      "location": "body"
+    },
+    {
+      "name": "started_at",
+      "type": "string",
+      "description": "The time that the check run began in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "conclusion",
+      "type": "string",
+      "description": "**Required if you provide `completed_at` or a `status` of `completed`**. The final conclusion of the check. Can be one of `success`, `failure`, `neutral`, `cancelled`, `timed_out`, or `action_required`. When the conclusion is `action_required`, additional details should be provided on the site specified by `details_url`.  \n**Note:** Providing `conclusion` will automatically set the `status` parameter to `completed`.",
+      "required": false,
+      "enum": [
+        "success",
+        "failure",
+        "neutral",
+        "cancelled",
+        "timed_out",
+        "action_required"
+      ],
+      "location": "body"
+    },
+    {
+      "name": "completed_at",
+      "type": "string",
+      "description": "**Required if you provide `conclusion`**. The time the check completed in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "output",
+      "type": "object",
+      "description": "Check runs can accept a variety of data in the `output` object, including a `title` and `summary` and can optionally provide descriptive details about the run. See the [`output` object](#output-object) description.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "output.title",
+      "type": "string",
+      "description": "The title of the check run.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "output.summary",
+      "type": "string",
+      "description": "The summary of the check run. This parameter supports Markdown.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "output.text",
+      "type": "string",
+      "description": "The details of the check run. This parameter supports Markdown.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "output.annotations",
+      "type": "object[]",
+      "description": "Adds information from your analysis to specific lines of code. Annotations are visible on GitHub in the **Checks** and **Files changed** tab of the pull request. The Checks API limits the number of annotations to a maximum of 50 per API request. To create more than 50 annotations, you have to make multiple requests to the [Update a check run](/enterprise/2.16/v3/checks/runs/#update-a-check-run) endpoint. Each time you update the check run, annotations are appended to the list of annotations that already exist for the check run. For details about how you can view annotations on GitHub, see \"[About status checks](https://help.github.com/articles/about-status-checks#checks)\". See the [`annotations` object](#annotations-object) description for details about how to use this parameter.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "output.annotations[].path",
+      "type": "string",
+      "description": "The path of the file to add an annotation to. For example, `assets/css/main.css`.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "output.annotations[].start_line",
+      "type": "integer",
+      "description": "The start line of the annotation.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "output.annotations[].end_line",
+      "type": "integer",
+      "description": "The end line of the annotation.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "output.annotations[].start_column",
+      "type": "integer",
+      "description": "The start column of the annotation. Annotations only support `start_column` and `end_column` on the same line. Omit this parameter if `start_line` and `end_line` have different values.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "output.annotations[].end_column",
+      "type": "integer",
+      "description": "The end column of the annotation. Annotations only support `start_column` and `end_column` on the same line. Omit this parameter if `start_line` and `end_line` have different values.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "output.annotations[].annotation_level",
+      "type": "string",
+      "description": "The level of the annotation. Can be one of `notice`, `warning`, or `failure`.",
+      "required": true,
+      "enum": [
+        "notice",
+        "warning",
+        "failure"
+      ],
+      "location": "body"
+    },
+    {
+      "name": "output.annotations[].message",
+      "type": "string",
+      "description": "A short description of the feedback for these lines of code. The maximum size is 64 KB.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "output.annotations[].title",
+      "type": "string",
+      "description": "The title that represents the annotation. The maximum size is 255 characters.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "output.annotations[].raw_details",
+      "type": "string",
+      "description": "Details about this annotation. The maximum size is 64 KB.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "output.images",
+      "type": "object[]",
+      "description": "Adds images to the output displayed in the GitHub pull request UI. See the [`images` object](#images-object) description for details.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "output.images[].alt",
+      "type": "string",
+      "description": "The alternative text for the image.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "output.images[].image_url",
+      "type": "string",
+      "description": "The full URL of the image.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "output.images[].caption",
+      "type": "string",
+      "description": "A short image description.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "actions",
+      "type": "object[]",
+      "description": "Possible further actions the integrator can perform, which a user may trigger. Each action includes a `label`, `identifier` and `description`. A maximum of three actions are accepted. See the [`actions` object](#actions-object) description.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "actions[].label",
+      "type": "string",
+      "description": "The text to be displayed on a button in the web UI. The maximum size is 20 characters.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "actions[].description",
+      "type": "string",
+      "description": "A short explanation of what this action would do. The maximum size is 40 characters.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "actions[].identifier",
+      "type": "string",
+      "description": "A reference for the action on the integrator's system. The maximum size is 20 characters.",
+      "required": true,
+      "location": "body"
+    }
+  ],
+  "requests": [
+    {
+      "name": "mighty_readme",
+      "head_sha": "ce587453ced02b1526dfb4cb910479d431683101",
+      "status": "in_progress",
+      "external_id": "42",
+      "started_at": "2018-05-04T01:14:52Z",
+      "output": {
+        "title": "Mighty Readme report",
+        "summary": "",
+        "text": ""
+      }
+    }
+  ],
+  "description": "Creates a new check run for a specific commit in a repository. Your GitHub App must have the `checks:write` permission to create check runs.",
+  "responses": [
+    {
+      "headers": {
+        "status": "201 Created",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "id": 4,
+        "head_sha": "ce587453ced02b1526dfb4cb910479d431683101",
+        "node_id": "MDg6Q2hlY2tSdW40",
+        "external_id": "42",
+        "url": "https://api.github.com/repos/github/hello-world/check-runs/4",
+        "html_url": "http://github.com/github/hello-world/runs/4",
+        "details_url": "https://example.com",
+        "status": "in_progress",
+        "conclusion": null,
+        "started_at": "2018-05-04T01:14:52Z",
+        "completed_at": null,
+        "output": {
+          "title": "Mighty Readme Report",
+          "summary": "",
+          "text": ""
+        },
+        "name": "mighty_readme",
+        "check_suite": {
+          "id": 5
+        },
+        "app": {
+          "id": 1,
+          "node_id": "MDExOkludGVncmF0aW9uMQ==",
+          "owner": {
+            "login": "github",
+            "id": 1,
+            "node_id": "MDEyOk9yZ2FuaXphdGlvbjE=",
+            "url": "https://api.github.com/orgs/github",
+            "repos_url": "https://api.github.com/orgs/github/repos",
+            "events_url": "https://api.github.com/orgs/github/events",
+            "hooks_url": "https://api.github.com/orgs/github/hooks",
+            "issues_url": "https://api.github.com/orgs/github/issues",
+            "members_url": "https://api.github.com/orgs/github/members{/member}",
+            "public_members_url": "https://api.github.com/orgs/github/public_members{/member}",
+            "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+            "description": "A great organization"
+          },
+          "name": "Super CI",
+          "description": "",
+          "external_url": "https://example.com",
+          "html_url": "https://github.com/apps/super-ci",
+          "created_at": "2017-07-08T16:18:44-04:00",
+          "updated_at": "2017-07-08T16:18:44-04:00"
+        },
+        "pull_requests": [
+          {
+            "url": "https://api.github.com/repos/github/hello-world/pulls/1",
+            "id": 1934,
+            "number": 3956,
+            "head": {
+              "ref": "say-hello",
+              "sha": "3dca65fa3e8d4b3da3f3d056c59aee1c50f41390",
+              "repo": {
+                "id": 526,
+                "url": "https://api.github.com/repos/github/hello-world",
+                "name": "hello-world"
+              }
+            },
+            "base": {
+              "ref": "master",
+              "sha": "e7fdf7640066d71ad16a86fbcbb9c6a10a18af4f",
+              "repo": {
+                "id": 526,
+                "url": "https://api.github.com/repos/github/hello-world",
+                "name": "hello-world"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "idName": "create",
+  "documentationUrl": "https://developer.github.com/enterprise/2.16/v3/checks/runs/#create-a-check-run"
+}
