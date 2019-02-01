@@ -444,12 +444,6 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 <p>Repositories can have multiple webhooks installed. Each webhook should have a unique <code>config</code>. Multiple webhooks can share the same <code>config</code> as long as those webhooks do not have any <code>events</code> that overlap.</p>
 
-<div class="alert note">
-
-<p><strong>Note</strong>: We no longer support GitHub Services as of October 1, 2018, and GitHub Services will stop working on January 31, 2019. Please see the <a href="/changes/2018-10-01-denying-new-github-services">blog post</a> for details. You can use the <a href="/v3/guides/replacing-github-services">Replacing GitHub Services guide</a> to help you update your services to webhooks.</p>
-
-</div>
-
 <pre><code>POST /repos/:owner/:repo/hooks
 </code></pre>
 
@@ -468,8 +462,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <tr>
 <td><code>name</code></td>
 <td><code>string</code></td>
-<td>
-<strong>Required</strong>. Use "web" for a webhook. <strong>Note</strong>: Because we have <a href="/changes/2018-10-01-denying-new-github-services">deprecated GitHub Services</a>, this endpoint now only accepts <code>web</code> as a valid value for the <code>name</code> parameter.</td>
+<td>Use <code>web</code> to create a webhook. Default: <code>web</code>. This parameter only accepts the value <code>web</code>.</td>
 </tr>
 <tr>
 <td><code>config</code></td>
@@ -793,19 +786,10 @@ https://github.com/:owner/:repo/events/push.json
 <h3>
 <a id="callback-urls" class="anchor" href="#callback-urls" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Callback URLs</h3>
 
-<p>Callback URLs can use the <code>http://</code> protocol. Until Github Services are completely <a href="/changes/2018-10-01-denying-new-github-services">deprecated</a> on January 31, 2019, you can also <code>github://</code> callbacks to specify a GitHub service.</p>
-
-<div class="alert note">
-
-<p><strong>Note</strong>: We no longer support GitHub Services as of October 1, 2018, and GitHub Services will stop working on January 31, 2019. Please see the <a href="/changes/2018-10-01-denying-new-github-services">blog post</a> for details. You can use the <a href="/v3/guides/replacing-github-services">Replacing GitHub Services guide</a> to help you update your services to webhooks.</p>
-
-</div>
+<p>Callback URLs can use the <code>http://</code> protocol. </p>
 
 <pre><code># Send updates to postbin.org
 http://postbin.org/123
-
-# Send updates to Campfire
-github://campfire?subdomain=github&amp;room=Commits&amp;token=abc123
 </code></pre>
 
 <h3>
