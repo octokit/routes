@@ -191,10 +191,14 @@
   <optgroup label="GitHub Apps">
     <option value="/v3/apps/">GitHub Apps overview</a></h3>
     <option value="/v3/apps/installations/">Installations</option>
-    
-    <option value="/v3/apps/marketplace/">Marketplace</option>
     <option value="/v3/apps/permissions/">Permissions</option>
     <option value="/v3/apps/available-endpoints/">Available Endpoints</option>
+  </optgroup>
+  
+
+  
+  <optgroup label="Marketplace">
+    <option value="/v3/apps/marketplace/">GitHub Marketplace</option></h3>
   </optgroup>
   
 
@@ -1106,48 +1110,42 @@ through as an array of <code>[url, options]</code> tuples.</p>
 <h2>
 <a id="timezones" class="anchor" href="#timezones" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Timezones</h2>
 
-<p>Some requests allow for specifying timestamps or generate timestamps with time
-zone information. We apply the following rules, in order of priority, to
-determine timezone information for API calls.</p>
+<p>Some requests that create new data, such as creating a new commit, allow you to provide time zone information when specifying or generating timestamps. We apply the following rules, in order of priority, to determine timezone information for API calls.</p>
 
-<h4>
-<a id="explicitly-provide-an-iso-8601-timestamp-with-timezone-information" class="anchor" href="#explicitly-provide-an-iso-8601-timestamp-with-timezone-information" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Explicitly provide an ISO 8601 timestamp with timezone information</h4>
+<ul>
+<li><a href="#explicitly-providing-an-iso-8601-timestamp-with-timezone-information">Explicitly providing an ISO 8601 timestamp with timezone information</a></li>
+<li><a href="#using-the-time-zone-header">Using the <code>Time-Zone</code> header</a></li>
+<li><a href="#using-the-last-known-timezone-for-the-user">Using the last known timezone for the user</a></li>
+<li><a href="#defaulting-to-utc-without-other-timezone-information">Defaulting to UTC without other timezone information</a></li>
+</ul>
 
-<p>For API calls that allow for a timestamp to be specified, we use that exact
-timestamp. An example of this is the <a href="/v3/git/commits">Commits API</a>.</p>
+<h3>
+<a id="explicitly-providing-an-iso-8601-timestamp-with-timezone-information" class="anchor" href="#explicitly-providing-an-iso-8601-timestamp-with-timezone-information" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Explicitly providing an ISO 8601 timestamp with timezone information</h3>
 
-<p>These timestamps look something like <code>2014-02-27T15:05:06+01:00</code>. Also see
-<a href="/v3/git/commits/#example-input">this example</a> for
-how these timestamps can be specified.</p>
+<p>For API calls that allow for a timestamp to be specified, we use that exact timestamp. An example of this is the <a href="/v3/git/commits">Commits API</a>.</p>
 
-<h4>
-<a id="using-the-time-zone-header" class="anchor" href="#using-the-time-zone-header" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using the <code>Time-Zone</code> header</h4>
+<p>These timestamps look something like <code>2014-02-27T15:05:06+01:00</code>. Also see <a href="/v3/git/commits/#example-input">this example</a> for how these timestamps can be specified.</p>
 
-<p>It is possible to supply a <code>Time-Zone</code> header which defines a timezone according
-to the <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">list of names from the Olson database</a>.</p>
+<h3>
+<a id="using-the-time-zone-header" class="anchor" href="#using-the-time-zone-header" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using the <code>Time-Zone</code> header</h3>
+
+<p>It is possible to supply a <code>Time-Zone</code> header which defines a timezone according to the <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">list of names from the Olson database</a>.</p>
 
 <pre class="command-line">
 <span class="command">curl -H "Time-Zone: Europe/Amsterdam" -X POST https://api.github.com/repos/github/linguist/contents/new_file.md</span>
 </pre>
 
-<p>This means that we generate a timestamp for the moment your API call is made in
-the timezone this header defines. For example, the <a href="/v3/repos/contents/">Contents API</a>
-generates a git commit for each addition or change and uses the current time
-as the timestamp. This header will determine the timezone used for generating
-that current timestamp.</p>
+<p>This means that we generate a timestamp for the moment your API call is made in the timezone this header defines. For example, the <a href="/v3/repos/contents/">Contents API</a> generates a git commit for each addition or change and uses the current time as the timestamp. This header will determine the timezone used for generating that current timestamp.</p>
 
-<h4>
-<a id="using-the-last-known-timezone-for-the-user" class="anchor" href="#using-the-last-known-timezone-for-the-user" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using the last known timezone for the user</h4>
+<h3>
+<a id="using-the-last-known-timezone-for-the-user" class="anchor" href="#using-the-last-known-timezone-for-the-user" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using the last known timezone for the user</h3>
 
-<p>If no <code>Time-Zone</code> header is specified and you make an authenticated call to the
-API, we use the last known timezone for the authenticated user. The last known
-timezone is updated whenever you browse the GitHub website.</p>
+<p>If no <code>Time-Zone</code> header is specified and you make an authenticated call to the API, we use the last known timezone for the authenticated user. The last known timezone is updated whenever you browse the GitHub website.</p>
 
-<h4>
-<a id="utc" class="anchor" href="#utc" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>UTC</h4>
+<h3>
+<a id="defaulting-to-utc-without-other-timezone-information" class="anchor" href="#defaulting-to-utc-without-other-timezone-information" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Defaulting to UTC without other timezone information</h3>
 
-<p>If the steps above don't result in any information, we use UTC as the timezone
-to create the git commit.</p>
+<p>If the steps above don't result in any information, we use UTC as the timezone to create the git commit.</p>
       </div>
 
       <div class="nav-select nav-select-bottom hide-lg hide-xl">
@@ -1202,10 +1200,14 @@ to create the git commit.</p>
   <optgroup label="GitHub Apps">
     <option value="/v3/apps/">GitHub Apps overview</a></h3>
     <option value="/v3/apps/installations/">Installations</option>
-    
-    <option value="/v3/apps/marketplace/">Marketplace</option>
     <option value="/v3/apps/permissions/">Permissions</option>
     <option value="/v3/apps/available-endpoints/">Available Endpoints</option>
+  </optgroup>
+  
+
+  
+  <optgroup label="Marketplace">
+    <option value="/v3/apps/marketplace/">GitHub Marketplace</option></h3>
   </optgroup>
   
 
@@ -1408,14 +1410,18 @@ to create the git commit.</p>
         <h3><a href="#" class="js-expand-btn collapsed arrow-btn" data-proofer-ignore></a><a href="/v3/apps/">GitHub Apps</a></h3>
         <ul class="js-guides">
           <li><a href="/v3/apps/installations/">Installations</a></li>
-          
-          <li><a href="/v3/apps/marketplace/">GitHub Marketplace</a></li>
           <li><a href="/v3/apps/permissions/">Permissions</a></li>
           <li><a href="/v3/apps/available-endpoints/">Available Endpoints</a></li>
         </ul>
       </li>
       
-
+      
+      <li class="js-topic">
+        <h3 class="standalone">
+          <a href="/v3/apps/marketplace/">GitHub Marketplace</a>
+        </h3>
+      </li>
+      
       
       <li class="js-topic">
         <h3><a href="#" class="js-expand-btn collapsed arrow-btn" data-proofer-ignore></a><a href="/v3/interactions/">Interactions</a></h3>
