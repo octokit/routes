@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" prefix="og: http://ogp.me/ns#">
 <head>
@@ -6,10 +7,10 @@
   <meta http-equiv="imagetoolbar" content="false" />
   <meta name="MSSmartTagsPreventParsing" content="true" />
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>GitHub Apps: Available Endpoints | GitHub Developer Guide</title>
-  <meta property="og:url" content="https://developer.github.com/v3/apps/available-endpoints/" />
+  <title>GitHub API v3 | GitHub Developer Guide</title>
+  <meta property="og:url" content="https://developer.github.com/v3/" />
 <meta property="og:site_name" content="GitHub Developer" />
-<meta property="og:title" content="GitHub Apps: Available Endpoints" />
+<meta property="og:title" content="GitHub API v3" />
 <meta property="og:description" content="Get started with one of our guides, or jump straight into the API documentation." />
 <meta property="og:type" content="website" />
 <meta property="og:author" content="https://www.facebook.com/GitHub" />
@@ -27,7 +28,7 @@
 <meta property="twitter:site:id" content="13334762" />
 <meta property="twitter:creator" content="@githubapi" />
 <meta property="twitter:creator:id" content="@539153822" />
-<meta property="twitter:title" content="GitHub Apps: Available Endpoints" />
+<meta property="twitter:title" content="GitHub API v3" />
 <meta property="twitter:description" content="Get started with one of our guides, or jump straight into the API documentation." />
 <meta property="twitter:image:src" content="https://og.github.com/logo/github-logo@1200x1200.png" />
 <meta property="twitter:image:width" content="1200" />
@@ -348,324 +349,804 @@
     <section class="main pt-5 clearfix gut-3" role="main">
       <div class="content col-md-8">
         <h1>
-<a id="available-endpoints" class="anchor" href="#available-endpoints" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Available Endpoints</h1>
+<a id="overview" class="anchor" href="#overview" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Overview</h1>
 
+<p>This describes the resources that make up the official GitHub REST API v3. If you have any problems or requests, please contact <a href="https://github.com/contact">GitHub Support</a>.</p>
 
+<ul id="markdown-toc">
+<li><a href="#current-version" id="markdown-toc-current-version">Current version</a></li>
+<li><a href="#schema" id="markdown-toc-schema">Schema</a></li>
+<li><a href="#authentication" id="markdown-toc-authentication">Authentication</a></li>
+<li><a href="#parameters" id="markdown-toc-parameters">Parameters</a></li>
+<li><a href="#root-endpoint" id="markdown-toc-root-endpoint">Root endpoint</a></li>
+<li><a href="#graphql-global-node-ids" id="markdown-toc-graphql-global-node-ids">GraphQL global node IDs</a></li>
+<li><a href="#client-errors" id="markdown-toc-client-errors">Client errors</a></li>
+<li><a href="#http-redirects" id="markdown-toc-http-redirects">HTTP redirects</a></li>
+<li><a href="#http-verbs" id="markdown-toc-http-verbs">HTTP verbs</a></li>
+<li><a href="#hypermedia" id="markdown-toc-hypermedia">Hypermedia</a></li>
+<li><a href="#pagination" id="markdown-toc-pagination">Pagination</a></li>
+<li><a href="#rate-limiting" id="markdown-toc-rate-limiting">Rate limiting</a></li>
+<li><a href="#user-agent-required" id="markdown-toc-user-agent-required">User agent required</a></li>
+<li><a href="#conditional-requests" id="markdown-toc-conditional-requests">Conditional requests</a></li>
+<li><a href="#cross-origin-resource-sharing" id="markdown-toc-cross-origin-resource-sharing">Cross origin resource sharing</a></li>
+<li><a href="#json-p-callbacks" id="markdown-toc-json-p-callbacks">JSON-P callbacks</a></li>
+<li><a href="#timezones" id="markdown-toc-timezones">Timezones</a></li>
+</ul>
+
+<h2>
+<a id="current-version" class="anchor" href="#current-version" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Current version</h2>
+
+<p>By default, all requests to <code>https://api.github.com</code> receive the <strong>v3</strong> <a href="/v3/versions">version</a> of the REST API.
+We encourage you to <a href="/v3/media/#request-specific-version">explicitly request this version via the <code>Accept</code> header</a>.</p>
+
+<pre><code>Accept: application/vnd.github.v3+json
+</code></pre>
+
+<p>For information about GitHub's GraphQL API v4, see the <a href="/v4">v4 documentation</a>. For information about migrating to GraphQL, see "<a href="/v4/guides/migrating-from-rest/">Migrating from REST</a>."</p>
+
+<h2>
+<a id="schema" class="anchor" href="#schema" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Schema</h2>
+
+<p>All API access is over HTTPS, and accessed from <code>https://api.github.com</code>.  All data is
+sent and received as JSON.</p>
+
+<pre class="command-line">
+<span class="command">curl -i https://api.github.com/users/octocat/orgs</span>
+<span class="output">HTTP/1.1 200 OK</span>
+<span class="output">Server: nginx</span>
+<span class="output">Date: Fri, 12 Oct 2012 23:33:14 GMT</span>
+<span class="output">Content-Type: application/json; charset=utf-8</span>
+<span class="output">Connection: keep-alive</span>
+<span class="output">Status: 200 OK</span>
+<span class="output">ETag: "a00049ba79152d03380c34652f2cb612"</span>
+<span class="output">X-GitHub-Media-Type: github.v3</span>
+<span class="output">X-RateLimit-Limit: 5000</span>
+<span class="output">X-RateLimit-Remaining: 4987</span>
+<span class="output">X-RateLimit-Reset: 1350085394</span>
+<span class="output">Content-Length: 5</span>
+<span class="output">Cache-Control: max-age=0, private, must-revalidate</span>
+<span class="output">X-Content-Type-Options: nosniff</span>
+</pre>
+
+<p>Blank fields are included as <code>null</code> instead of being omitted.</p>
+
+<p>All timestamps return in ISO 8601 format:</p>
+
+<pre><code>YYYY-MM-DDTHH:MM:SSZ
+</code></pre>
+
+<p>For more information about time zones in timestamps, see <a href="#timezones">this section</a>.</p>
+
+<h3>
+<a id="summary-representations" class="anchor" href="#summary-representations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Summary representations</h3>
+
+<p>When you fetch a list of resources, the response includes a <em>subset</em> of the
+attributes for that resource. This is the "summary" representation of the
+resource. (Some attributes are computationally expensive for the API to provide.
+For performance reasons, the summary representation excludes those attributes.
+To obtain those attributes, fetch the "detailed" representation.)</p>
+
+<p><strong>Example</strong>: When you get a list of repositories, you get the summary
+representation of each repository. Here, we fetch the list of repositories owned
+by the <a href="https://github.com/octokit">octokit</a> organization:</p>
+
+<pre><code>GET /orgs/octokit/repos
+</code></pre>
+
+<h3>
+<a id="detailed-representations" class="anchor" href="#detailed-representations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Detailed representations</h3>
+
+<p>When you fetch an individual resource, the response typically includes <em>all</em>
+attributes for that resource. This is the "detailed" representation of the
+resource. (Note that authorization sometimes influences the amount of detail
+included in the representation.)</p>
+
+<p><strong>Example</strong>: When you get an individual repository, you get the detailed
+representation of the repository. Here, we fetch the
+<a href="https://github.com/octokit/octokit.rb">octokit/octokit.rb</a> repository:</p>
+
+<pre><code>GET /repos/octokit/octokit.rb
+</code></pre>
+
+<p>The documentation provides an example response for each API method. The example
+response illustrates all attributes that are returned by that method.</p>
+
+<h2>
+<a id="authentication" class="anchor" href="#authentication" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authentication</h2>
+
+<p>There are three ways to authenticate through GitHub API v3.  Requests that
+require authentication will return <code>404 Not Found</code>, instead of
+<code>403 Forbidden</code>, in some places.  This is to prevent the accidental leakage
+of private repositories to unauthorized users.</p>
+
+<h3>
+<a id="basic-authentication" class="anchor" href="#basic-authentication" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Basic authentication</h3>
+
+<pre class="command-line">
+<span class="command">curl -u "username" https://api.github.com</span>
+</pre>
+
+<h3>
+<a id="oauth2-token-sent-in-a-header" class="anchor" href="#oauth2-token-sent-in-a-header" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>OAuth2 token (sent in a header)</h3>
+
+<pre class="command-line">
+<span class="command">curl -H "Authorization: token <em>OAUTH-TOKEN</em>" https://api.github.com</span>
+</pre>
+
+<h3>
+<a id="oauth2-token-sent-as-a-parameter" class="anchor" href="#oauth2-token-sent-as-a-parameter" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>OAuth2 token (sent as a parameter)</h3>
+
+<pre class="command-line">
+<span class="command">curl https://api.github.com/?access_token=<em>OAUTH-TOKEN</em></span>
+</pre>
+
+<p>Read <a href="/apps/building-integrations/setting-up-and-registering-oauth-apps/">more about OAuth2</a>.  Note that OAuth2 tokens can be <a href="/v3/oauth_authorizations/#create-a-new-authorization">acquired
+programmatically</a>, for applications that
+are not websites.</p>
+
+<h3>
+<a id="oauth2-keysecret" class="anchor" href="#oauth2-keysecret" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>OAuth2 key/secret</h3>
+
+<pre class="command-line">
+<span class="command">curl 'https://api.github.com/users/whatever?client_id=xxxx&amp;client_secret=yyyy'</span>
+</pre>
+
+<p>This should only be used in server to server scenarios.  Don't leak your
+OAuth application's client secret to your users.</p>
+
+<p>Read <a href="#increasing-the-unauthenticated-rate-limit-for-oauth-applications">more about unauthenticated rate limiting</a>.</p>
+
+<h3>
+<a id="failed-login-limit" class="anchor" href="#failed-login-limit" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Failed login limit</h3>
+
+<p>Authenticating with invalid credentials will return <code>401 Unauthorized</code>:</p>
+
+<pre class="command-line">
+<span class="command">curl -i https://api.github.com -u foo:bar</span>
+<span class="output">HTTP/1.1 401 Unauthorized</span>
+<span class="output">{</span>
+<span class="output">  "message": "Bad credentials",</span>
+<span class="output">  "documentation_url": "https://developer.github.com/v3"</span>
+<span class="output">}</span>
+</pre>
+
+<p>After detecting several requests with invalid credentials within a short period,
+the API will temporarily reject all authentication attempts for that user
+(including ones with valid credentials) with <code>403 Forbidden</code>:</p>
+
+<pre class="command-line">
+<span class="command">curl -i https://api.github.com -u valid_username:valid_password</span>
+<span class="output">HTTP/1.1 403 Forbidden</span>
+<span class="output">{</span>
+<span class="output">  "message": "Maximum number of login attempts exceeded. Please try again later.",</span>
+<span class="output">  "documentation_url": "https://developer.github.com/v3"</span>
+<span class="output">}</span>
+</pre>
+
+<h2>
+<a id="parameters" class="anchor" href="#parameters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h2>
+
+<p>Many API methods take optional parameters. For <code>GET</code> requests, any parameters not
+specified as a segment in the path can be passed as an HTTP query string
+parameter:</p>
+
+<pre class="command-line">
+<span class="command">curl -i "https://api.github.com/repos/vmg/redcarpet/issues?state=closed"</span>
+</pre>
+
+<p>In this example, the 'vmg' and 'redcarpet' values are provided for the <code>:owner</code>
+and <code>:repo</code> parameters in the path while <code>:state</code> is passed in the query
+string.</p>
+
+<p>For <code>POST</code>, <code>PATCH</code>, <code>PUT</code>, and <code>DELETE</code> requests, parameters not included in the URL should be encoded as JSON
+with a Content-Type of 'application/json':</p>
+
+<pre class="command-line">
+<span class="command">curl -i -u username -d '{"scopes":["public_repo"]}' https://api.github.com/authorizations</span>
+</pre>
+
+<h2>
+<a id="root-endpoint" class="anchor" href="#root-endpoint" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Root endpoint<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+
+<p>You can issue a <code>GET</code> request to the root endpoint to get all the endpoint categories that the REST API v3 supports:</p>
+
+<pre class="command-line">
+<span class="command">curl https://api.github.com</span>
+</pre>
+
+<h2>
+<a id="graphql-global-node-ids" class="anchor" href="#graphql-global-node-ids" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>GraphQL global node IDs</h2>
+
+<p>See the guide on "<a href="/v4/guides/using-global-node-ids">Using Global Node IDs</a>" for detailed information about how to find <code>node_id</code>s via the REST API v3 and use them in GraphQL operations.</p>
+
+<h2>
+<a id="client-errors" class="anchor" href="#client-errors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Client errors</h2>
+
+<p>There are three possible types of client errors on API calls that
+receive request bodies:</p>
+
+<ol>
+<li>
+<p>Sending invalid JSON will result in a <code>400 Bad Request</code> response.</p>
+
+<pre><code>HTTP/1.1 400 Bad Request
+Content-Length: 35
+
+{"message":"Problems parsing JSON"}
+</code></pre>
+</li>
+<li>
+<p>Sending the wrong type of JSON values will result in a <code>400 Bad
+Request</code> response.</p>
+
+<pre><code>HTTP/1.1 400 Bad Request
+Content-Length: 40
+
+{"message":"Body should be a JSON object"}
+</code></pre>
+</li>
+<li>
+<p>Sending invalid fields will result in a <code>422 Unprocessable Entity</code>
+response.</p>
+
+<pre><code>HTTP/1.1 422 Unprocessable Entity
+Content-Length: 149
+
+{
+  "message": "Validation Failed",
+  "errors": [
+    {
+      "resource": "Issue",
+      "field": "title",
+      "code": "missing_field"
+    }
+  ]
+}
+</code></pre>
+</li>
+</ol>
+
+<p>All error objects have resource and field properties so that your client
+can tell what the problem is.  There's also an error code to let you
+know what is wrong with the field.  These are the possible validation error
+codes:</p>
+
+<table>
+<thead>
+<tr>
+<th>Error Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>missing</code></td>
+<td>This means a resource does not exist.</td>
+</tr>
+<tr>
+<td><code>missing_field</code></td>
+<td>This means a required field on a resource has not been set.</td>
+</tr>
+<tr>
+<td><code>invalid</code></td>
+<td>This means the formatting of a field is invalid.  The documentation for that resource should be able to give you more specific information.</td>
+</tr>
+<tr>
+<td><code>already_exists</code></td>
+<td>This means another resource has the same value as this field.  This can happen in resources that must have some unique key (such as Label names).</td>
+</tr>
+</tbody>
+</table>
+
+<p>Resources may also send custom validation errors (where <code>code</code> is <code>custom</code>). Custom errors will always have a <code>message</code> field describing the error, and most errors will also include a <code>documentation_url</code> field pointing to some content that might help you resolve the error.</p>
+
+<h2>
+<a id="http-redirects" class="anchor" href="#http-redirects" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>HTTP redirects</h2>
+
+<p>API v3 uses HTTP redirection where appropriate. Clients should assume that any
+request may result in a redirection. Receiving an HTTP redirection is <em>not</em> an
+error and clients should follow that redirect. Redirect responses will have a
+<code>Location</code> header field which contains the URI of the resource to which the
+client should repeat the requests.</p>
+
+<table>
+<thead>
+<tr>
+<th>Status Code</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>301</code></td>
+<td>Permanent redirection. The URI you used to make the request has been superseded by the one specified in the <code>Location</code> header field. This and all future requests to this resource should be directed to the new URI.</td>
+</tr>
+<tr>
+<td>
+<code>302</code>, <code>307</code>
+</td>
+<td>Temporary redirection. The request should be repeated verbatim to the URI specified in the <code>Location</code> header field but clients should continue to use the original URI for future requests.</td>
+</tr>
+</tbody>
+</table>
+
+<p>Other redirection status codes may be used in accordance with the HTTP 1.1 spec.</p>
+
+<h2>
+<a id="http-verbs" class="anchor" href="#http-verbs" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>HTTP verbs</h2>
+
+<p>Where possible, API v3 strives to use appropriate HTTP verbs for each
+action.</p>
+
+<table>
+<thead>
+<tr>
+<th>Verb</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>HEAD</code></td>
+<td>Can be issued against any resource to get just the HTTP header info.</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td>Used for retrieving resources.</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td>Used for creating resources.</td>
+</tr>
+<tr>
+<td><code>PATCH</code></td>
+<td>Used for updating resources with partial JSON data.  For instance, an Issue resource has <code>title</code> and <code>body</code> attributes.  A PATCH request may accept one or more of the attributes to update the resource.  PATCH is a relatively new and uncommon HTTP verb, so resource endpoints also accept <code>POST</code> requests.</td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td>Used for replacing resources or collections. For <code>PUT</code> requests with no <code>body</code> attribute, be sure to set the <code>Content-Length</code> header to zero.</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td>Used for deleting resources.</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="hypermedia" class="anchor" href="#hypermedia" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Hypermedia</h2>
+
+<p>All resources may have one or more <code>*_url</code> properties linking to other
+resources.  These are meant to provide explicit URLs so that proper API clients
+don't need to construct URLs on their own.  It is highly recommended that API
+clients use these.  Doing so will make future upgrades of the API easier for
+developers.  All URLs are expected to be proper <a href="http://tools.ietf.org/html/rfc6570">RFC 6570</a> URI templates.</p>
+
+<p>You can then expand these templates using something like the <a href="https://github.com/hannesg/uri_template">uri_template</a>
+gem:</p>
+
+<pre><code>&gt;&gt; tmpl = URITemplate.new('/notifications{?since,all,participating}')
+&gt;&gt; tmpl.expand
+=&gt; "/notifications"
+
+&gt;&gt; tmpl.expand :all =&gt; 1
+=&gt; "/notifications?all=1"
+
+&gt;&gt; tmpl.expand :all =&gt; 1, :participating =&gt; 1
+=&gt; "/notifications?all=1&amp;participating=1"
+</code></pre>
+
+<h2>
+<a id="pagination" class="anchor" href="#pagination" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Pagination</h2>
+
+<p>Requests that return multiple items will be paginated to 30 items by
+default.  You can specify further pages with the <code>?page</code> parameter. For some
+resources, you can also set a custom page size up to 100 with the <code>?per_page</code> parameter.
+Note that for technical reasons not all endpoints respect the <code>?per_page</code> parameter,
+see <a href="/v3/activity/events/">events</a> for example.</p>
+
+<pre class="command-line">
+<span class="command">curl 'https://api.github.com/user/repos?page=2&amp;per_page=100'</span>
+</pre>
+
+<p>Note that page numbering is 1-based and that omitting the <code>?page</code>
+parameter will return the first page.</p>
+
+<p>For more information on pagination, check out our guide on <a href="/guides/traversing-with-pagination">Traversing with Pagination</a>.</p>
+
+<h3>
+<a id="link-header" class="anchor" href="#link-header" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Link header</h3>
 
 <div class="alert note">
 
-<p><strong>Note:</strong> To access the API with your GitHub App, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> Header for your requests.</p>
-
-<p><code>application/vnd.github.machine-man-preview+json</code></p>
+<p><strong>Note:</strong> It's important to form calls with Link header values instead of constructing your own URLs.</p>
 
 </div>
 
-<div class="alert warning">
+<p>The <a href="http://tools.ietf.org/html/rfc5988">Link header</a> includes pagination information:</p>
 
-<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub Support</a>.</p>
+<pre><code>Link: &lt;https://api.github.com/user/repos?page=3&amp;per_page=100&gt;; rel="next",
+  &lt;https://api.github.com/user/repos?page=50&amp;per_page=100&gt;; rel="last"
+</code></pre>
+
+<p><em>The example includes a line break for readability.</em></p>
+
+<p>This <code>Link</code> response header contains one or more <a href="/v3/#hypermedia">Hypermedia</a> link relations, some of which may require expansion as <a href="http://tools.ietf.org/html/rfc6570">URI templates</a>.</p>
+
+<p>The possible <code>rel</code> values are:</p>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>next</code></td>
+<td>The link relation for the immediate next page of results.</td>
+</tr>
+<tr>
+<td><code>last</code></td>
+<td>The link relation for the last page of results.</td>
+</tr>
+<tr>
+<td><code>first</code></td>
+<td>The link relation for the first page of results.</td>
+</tr>
+<tr>
+<td><code>prev</code></td>
+<td>The link relation for the immediate previous page of results.</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="rate-limiting" class="anchor" href="#rate-limiting" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Rate limiting</h2>
+
+<p>For API requests using Basic Authentication or OAuth, you can make up to 5000 requests
+per hour. Authenticated requests are associated with the authenticated user, regardless of
+whether <a href="#basic-authentication">Basic Authentication</a> or <a href="#oauth2-token-sent-in-a-header">an OAuth token</a>
+was used. This means that all OAuth applications authorized by a user share the same quota
+of 5000 requests per hour when they authenticate with different tokens owned by the same user.</p>
+
+<p>For unauthenticated requests, the rate limit allows for up to 60 requests per hour.
+Unauthenticated requests are associated with the originating IP address, and not the user making requests.</p>
+
+<p>Note that <a href="/v3/search/#rate-limit">the Search API has custom rate limit rules</a>.</p>
+
+<p>The returned HTTP headers of any API request show your current rate limit status:</p>
+
+<pre class="command-line">
+<span class="command">curl -i https://api.github.com/users/octocat</span>
+<span class="output">HTTP/1.1 200 OK</span>
+<span class="output">Date: Mon, 01 Jul 2013 17:27:06 GMT</span>
+<span class="output">Status: 200 OK</span>
+<span class="output">X-RateLimit-Limit: 60</span>
+<span class="output">X-RateLimit-Remaining: 56</span>
+<span class="output">X-RateLimit-Reset: 1372700873</span>
+</pre>
+
+<table>
+<thead>
+<tr>
+<th>Header Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>X-RateLimit-Limit</code></td>
+<td>The maximum number of requests you're permitted to make per hour.</td>
+</tr>
+<tr>
+<td><code>X-RateLimit-Remaining</code></td>
+<td>The number of requests remaining in the current rate limit window.</td>
+</tr>
+<tr>
+<td><code>X-RateLimit-Reset</code></td>
+<td>The time at which the current rate limit window resets in <a href="http://en.wikipedia.org/wiki/Unix_time">UTC epoch seconds</a>.</td>
+</tr>
+</tbody>
+</table>
+
+<p>If you need the time in a different format, any modern programming language can get the job done. For example, if you open up the console on your web browser, you can easily get the reset time as a JavaScript Date object.</p>
+
+<pre class="highlight highlight-javascript"><code><span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="mi">1372700873</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="c1">// =&gt; Mon Jul 01 2013 13:47:53 GMT-0400 (EDT)</span>
+</code></pre>
+
+
+<p>If you exceed the rate limit, an error response returns:</p>
+
+<pre class="command-line">
+<span class="output">HTTP/1.1 403 Forbidden</span>
+<span class="output">Date: Tue, 20 Aug 2013 14:50:41 GMT</span>
+<span class="output">Status: 403 Forbidden</span>
+<span class="output">X-RateLimit-Limit: 60</span>
+<span class="output">X-RateLimit-Remaining: 0</span>
+<span class="output">X-RateLimit-Reset: 1377013266</span>
+<span class="output">{</span>
+<span class="output">   "message": "API rate limit exceeded for xxx.xxx.xxx.xxx. (But here's the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)",</span>
+<span class="output">   "documentation_url": "https://developer.github.com/v3/#rate-limiting"</span>
+<span class="output">}</span>
+</pre>
+
+<p>You can <a href="/v3/rate_limit">check your rate limit status</a> without incurring an API hit.</p>
+
+<h3>
+<a id="increasing-the-unauthenticated-rate-limit-for-oauth-applications" class="anchor" href="#increasing-the-unauthenticated-rate-limit-for-oauth-applications" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Increasing the unauthenticated rate limit for OAuth applications</h3>
+
+<p>If your OAuth application needs to make unauthenticated calls with a higher rate limit, you can pass your app's client ID and secret as part of the query string.</p>
+
+<pre class="command-line">
+<span class="command">curl -i 'https://api.github.com/users/whatever?client_id=xxxx&amp;client_secret=yyyy'</span>
+<span class="output">HTTP/1.1 200 OK</span>
+<span class="output">Date: Mon, 01 Jul 2013 17:27:06 GMT</span>
+<span class="output">Status: 200 OK</span>
+<span class="output">X-RateLimit-Limit: 5000</span>
+<span class="output">X-RateLimit-Remaining: 4966</span>
+<span class="output">X-RateLimit-Reset: 1372700873</span>
+</pre>
+
+<div class="alert note">
+
+<p><strong>Note:</strong> Never share your client secret with anyone or include it in client-side browser code. Use the method shown here only for server-to-server calls.</p>
 
 </div>
 
-<p>The following endpoints are available for use by GitHub Apps. Your app can make the following requests using <a href="/v4/">GraphQL v4</a> or <a href="/v3/">REST v3</a> endpoints. For more information, see "<a href="/apps/building-github-apps/">GitHub Apps</a>."</p>
+<h3>
+<a id="staying-within-the-rate-limit" class="anchor" href="#staying-within-the-rate-limit" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Staying within the rate limit</h3>
 
-<p>You must use an <a href="/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-an-installation">installation access token</a> to access these endpoints.</p>
+<p>If you exceed your rate limit using Basic Authentication or OAuth, you can likely fix the issue by caching API responses and using <a href="#conditional-requests">conditional requests</a>.</p>
 
-<p><h2>Rate Limit</h2><ul><li><a href="/v3/rate_limit/#get-your-current-rate-limit-status">Get your current rate limit status</a></li></ul><ul></ul><h2>Git Commits</h2><ul><li><a href="/v3/git/commits/#get-a-commit">Get a commit</a></li>
-<li><a href="/v3/git/commits/#create-a-commit">Create a commit</a></li></ul><ul></ul><h2>Git References</h2><ul><li><a href="/v3/git/refs/#get-a-reference">Get a reference</a></li>
-<li><a href="/v3/git/refs/#get-all-references">Get all references</a></li>
-<li><a href="/v3/git/refs/#create-a-reference">Create a reference</a></li>
-<li><a href="/v3/git/refs/#update-a-reference">Update a reference</a></li>
-<li><a href="/v3/git/refs/#delete-a-reference">Delete a reference</a></li></ul><ul></ul><h2>Git Blobs</h2><ul><li><a href="/v3/git/blobs/#get-a-blob">Get a blob</a></li>
-<li><a href="/v3/git/blobs/#create-a-blob">Create a blob</a></li></ul><ul></ul><h2>Git Trees</h2><ul><li><a href="/v3/git/trees/#get-a-tree">Get a tree</a></li>
-<li><a href="/v3/git/trees/#create-a-tree">Create a tree</a></li></ul><ul></ul><h2>Git Tags</h2><ul><li><a href="/v3/git/tags/#get-a-tag">Get a tag</a></li>
-<li><a href="/v3/git/tags/#create-a-tag-object">Create a tag object</a></li></ul><ul></ul><h2>Installations</h2><ul><li><a href="/v3/apps/installations/#list-repositories">List repositories</a></li></ul><ul></ul><h2>Codes of Conduct</h2><ul><li><a href="/v3/codes_of_conduct/#list-all-codes-of-conduct">List all codes of conduct</a></li>
-<li><a href="/v3/codes_of_conduct/#get-an-individual-code-of-conduct">Get an individual code of conduct</a></li>
-<li><a href="/v3/codes_of_conduct/#get-a-repositorys-code-of-conduct">Get a repository's code of conduct</a></li>
-<li><a href="/v3/codes_of_conduct/#get-the-contents-of-a-repositorys-code-of-conduct">Get the contents of a repository's code of conduct</a></li></ul><ul></ul><h2>Source Imports</h2><ul><li><a href="/v3/migrations/source_imports/#start-an-import">Start an import</a></li>
-<li><a href="/v3/migrations/source_imports/#get-import-progress">Get import progress</a></li>
-<li><a href="/v3/migrations/source_imports/#update-existing-import">Update existing import</a></li>
-<li><a href="/v3/migrations/source_imports/#get-commit-authors">Get commit authors</a></li>
-<li><a href="/v3/migrations/source_imports/#map-a-commit-author">Map a commit author</a></li>
-<li><a href="/v3/migrations/source_imports/#set-git-lfs-preference">Set Git LFS preference</a></li>
-<li><a href="/v3/migrations/source_imports/#get-large-files">Get large files</a></li>
-<li><a href="/v3/migrations/source_imports/#cancel-an-import">Cancel an import</a></li></ul><ul></ul><h2>Overview</h2><ul><li><a href="/v3/#root-endpoint">Root endpoint</a></li></ul><ul></ul><h2>Pages</h2><ul><li><a href="/v3/repos/pages/#get-information-about-a-pages-site">Get information about a Pages site</a></li>
-<li><a href="/v3/repos/pages/#update-information-about-a-pages-site">Update information about a Pages site</a></li>
-<li><a href="/v3/repos/pages/#request-a-page-build">Request a page build</a></li>
-<li><a href="/v3/repos/pages/#list-pages-builds">List Pages builds</a></li>
-<li><a href="/v3/repos/pages/#get-latest-pages-build">Get latest Pages build</a></li>
-<li><a href="/v3/repos/pages/#get-a-specific-pages-build">Get a specific Pages build</a></li></ul><ul></ul><h2>Community Profile</h2><ul><li><a href="/v3/repos/community/#retrieve-community-profile-metrics">Retrieve community profile metrics</a></li></ul><ul></ul><h2>Releases</h2><ul><li><a href="/v3/repos/releases/#list-releases-for-a-repository">List releases for a repository</a></li>
-<li><a href="/v3/repos/releases/#get-a-single-release">Get a single release</a></li>
-<li><a href="/v3/repos/releases/#get-the-latest-release">Get the latest release</a></li>
-<li><a href="/v3/repos/releases/#get-a-release-by-tag-name">Get a release by tag name</a></li>
-<li><a href="/v3/repos/releases/#create-a-release">Create a release</a></li>
-<li><a href="/v3/repos/releases/#edit-a-release">Edit a release</a></li>
-<li><a href="/v3/repos/releases/#delete-a-release">Delete a release</a></li>
-<li><a href="/v3/repos/releases/#list-assets-for-a-release">List assets for a release</a></li>
-<li><a href="/v3/repos/releases/#upload-a-release-asset">Upload a release asset</a></li>
-<li><a href="/v3/repos/releases/#get-a-single-release-asset">Get a single release asset</a></li>
-<li><a href="/v3/repos/releases/#edit-a-release-asset">Edit a release asset</a></li>
-<li><a href="/v3/repos/releases/#delete-a-release-asset">Delete a release asset</a></li></ul><ul></ul><h2>Commits</h2><ul><li><a href="/v3/repos/commits/#list-commits-on-a-repository">List commits on a repository</a></li>
-<li><a href="/v3/repos/commits/#get-a-single-commit">Get a single commit</a></li>
-<li><a href="/v3/repos/commits/#get-the-sha-1-of-a-commit-reference">Get the SHA-1 of a commit reference</a></li>
-<li><a href="/v3/repos/commits/#compare-two-commits">Compare two commits</a></li></ul><ul></ul><h2>Collaborators</h2><ul><li><a href="/v3/repos/collaborators/#list-collaborators">List collaborators</a></li>
-<li><a href="/v3/repos/collaborators/#check-if-a-user-is-a-collaborator">Check if a user is a collaborator</a></li>
-<li><a href="/v3/repos/collaborators/#review-a-users-permission-level">Review a user's permission level</a></li>
-<li><a href="/v3/repos/collaborators/#add-user-as-a-collaborator">Add user as a collaborator</a></li>
-<li><a href="/v3/repos/collaborators/#remove-user-as-a-collaborator">Remove user as a collaborator</a></li></ul><ul></ul><h2>Branches</h2><ul><li><a href="/v3/repos/branches/#list-branches">List branches</a></li>
-<li><a href="/v3/repos/branches/#get-branch">Get branch</a></li>
-<li><a href="/v3/repos/branches/#get-branch-protection">Get branch protection</a></li>
-<li><a href="/v3/repos/branches/#update-branch-protection">Update branch protection</a></li>
-<li><a href="/v3/repos/branches/#remove-branch-protection">Remove branch protection</a></li>
-<li><a href="/v3/repos/branches/#get-required-status-checks-of-protected-branch">Get required status checks of protected branch</a></li>
-<li><a href="/v3/repos/branches/#update-required-status-checks-of-protected-branch">Update required status checks of protected branch</a></li>
-<li><a href="/v3/repos/branches/#remove-required-status-checks-of-protected-branch">Remove required status checks of protected branch</a></li>
-<li><a href="/v3/repos/branches/#list-required-status-checks-contexts-of-protected-branch">List required status checks contexts of protected branch</a></li>
-<li><a href="/v3/repos/branches/#replace-required-status-checks-contexts-of-protected-branch">Replace required status checks contexts of protected branch</a></li>
-<li><a href="/v3/repos/branches/#add-required-status-checks-contexts-of-protected-branch">Add required status checks contexts of protected branch</a></li>
-<li><a href="/v3/repos/branches/#remove-required-status-checks-contexts-of-protected-branch">Remove required status checks contexts of protected branch</a></li>
-<li><a href="/v3/repos/branches/#get-pull-request-review-enforcement-of-protected-branch">Get pull request review enforcement of protected branch</a></li>
-<li><a href="/v3/repos/branches/#update-pull-request-review-enforcement-of-protected-branch">Update pull request review enforcement of protected branch</a></li>
-<li><a href="/v3/repos/branches/#remove-pull-request-review-enforcement-of-protected-branch">Remove pull request review enforcement of protected branch</a></li>
-<li><a href="/v3/repos/branches/#get-required-signatures-of-protected-branch">Get required signatures of protected branch</a></li>
-<li><a href="/v3/repos/branches/#add-required-signatures-of-protected-branch">Add required signatures of protected branch</a></li>
-<li><a href="/v3/repos/branches/#remove-required-signatures-of-protected-branch">Remove required signatures of protected branch</a></li>
-<li><a href="/v3/repos/branches/#get-admin-enforcement-of-protected-branch">Get admin enforcement of protected branch</a></li>
-<li><a href="/v3/repos/branches/#add-admin-enforcement-of-protected-branch">Add admin enforcement of protected branch</a></li>
-<li><a href="/v3/repos/branches/#remove-admin-enforcement-of-protected-branch">Remove admin enforcement of protected branch</a></li>
-<li><a href="/v3/repos/branches/#get-restrictions-of-protected-branch">Get restrictions of protected branch</a></li>
-<li><a href="/v3/repos/branches/#remove-restrictions-of-protected-branch">Remove restrictions of protected branch</a></li>
-<li><a href="/v3/repos/branches/#list-team-restrictions-of-protected-branch">List team restrictions of protected branch</a></li>
-<li><a href="/v3/repos/branches/#replace-team-restrictions-of-protected-branch">Replace team restrictions of protected branch</a></li>
-<li><a href="/v3/repos/branches/#add-team-restrictions-of-protected-branch">Add team restrictions of protected branch</a></li>
-<li><a href="/v3/repos/branches/#remove-team-restrictions-of-protected-branch">Remove team restrictions of protected branch</a></li>
-<li><a href="/v3/repos/branches/#list-user-restrictions-of-protected-branch">List user restrictions of protected branch</a></li>
-<li><a href="/v3/repos/branches/#replace-user-restrictions-of-protected-branch">Replace user restrictions of protected branch</a></li>
-<li><a href="/v3/repos/branches/#add-user-restrictions-of-protected-branch">Add user restrictions of protected branch</a></li>
-<li><a href="/v3/repos/branches/#remove-user-restrictions-of-protected-branch">Remove user restrictions of protected branch</a></li></ul><ul></ul><h2>Webhooks</h2><ul><li><a href="/v3/repos/hooks/#list-hooks">List hooks</a></li>
-<li><a href="/v3/repos/hooks/#get-single-hook">Get single hook</a></li>
-<li><a href="/v3/repos/hooks/#create-a-hook">Create a hook</a></li>
-<li><a href="/v3/repos/hooks/#edit-a-hook">Edit a hook</a></li>
-<li><a href="/v3/repos/hooks/#test-a-push-hook">Test a push hook</a></li>
-<li><a href="/v3/repos/hooks/#ping-a-hook">Ping a hook</a></li>
-<li><a href="/v3/repos/hooks/#delete-a-hook">Delete a hook</a></li>
-<li><a href="/v3/orgs/hooks/#list-hooks">List hooks</a></li>
-<li><a href="/v3/orgs/hooks/#get-single-hook">Get single hook</a></li>
-<li><a href="/v3/orgs/hooks/#create-a-hook">Create a hook</a></li>
-<li><a href="/v3/orgs/hooks/#edit-a-hook">Edit a hook</a></li>
-<li><a href="/v3/orgs/hooks/#ping-a-hook">Ping a hook</a></li>
-<li><a href="/v3/orgs/hooks/#delete-a-hook">Delete a hook</a></li></ul><ul></ul><h2>Deployments</h2><ul><li><a href="/v3/repos/deployments/#list-deployments">List deployments</a></li>
-<li><a href="/v3/repos/deployments/#get-a-single-deployment">Get a single deployment</a></li>
-<li><a href="/v3/repos/deployments/#create-a-deployment">Create a deployment</a></li>
-<li><a href="/v3/repos/deployments/#list-deployment-statuses">List deployment statuses</a></li>
-<li><a href="/v3/repos/deployments/#get-a-single-deployment-status">Get a single deployment status</a></li>
-<li><a href="/v3/repos/deployments/#create-a-deployment-status">Create a deployment status</a></li></ul><ul></ul><h2>Downloads</h2><ul><li><a href="/v3/repos/downloads/#list-downloads-for-a-repository">List downloads for a repository</a></li></ul><ul></ul><h2>Traffic</h2><ul><li><a href="/v3/repos/traffic/#list-referrers">List referrers</a></li>
-<li><a href="/v3/repos/traffic/#list-paths">List paths</a></li>
-<li><a href="/v3/repos/traffic/#views">Views</a></li>
-<li><a href="/v3/repos/traffic/#clones">Clones</a></li></ul><ul></ul><h2>Statuses</h2><ul><li><a href="/v3/repos/statuses/#create-a-status">Create a status</a></li>
-<li><a href="/v3/repos/statuses/#list-statuses-for-a-specific-ref">List statuses for a specific ref</a></li>
-<li><a href="/v3/repos/statuses/#get-the-combined-status-for-a-specific-ref">Get the combined status for a specific ref</a></li></ul><ul></ul><h2>Comments</h2><ul><li><a href="/v3/repos/comments/#list-commit-comments-for-a-repository">List commit comments for a repository</a></li>
-<li><a href="/v3/repos/comments/#list-comments-for-a-single-commit">List comments for a single commit</a></li>
-<li><a href="/v3/repos/comments/#create-a-commit-comment">Create a commit comment</a></li>
-<li><a href="/v3/repos/comments/#get-a-single-commit-comment">Get a single commit comment</a></li>
-<li><a href="/v3/repos/comments/#update-a-commit-comment">Update a commit comment</a></li>
-<li><a href="/v3/repos/comments/#delete-a-commit-comment">Delete a commit comment</a></li>
-<li><a href="/v3/issues/comments/#list-comments-on-an-issue">List comments on an issue</a></li>
-<li><a href="/v3/issues/comments/#list-comments-in-a-repository">List comments in a repository</a></li>
-<li><a href="/v3/issues/comments/#get-a-single-comment">Get a single comment</a></li>
-<li><a href="/v3/issues/comments/#create-a-comment">Create a comment</a></li>
-<li><a href="/v3/issues/comments/#edit-a-comment">Edit a comment</a></li>
-<li><a href="/v3/issues/comments/#delete-a-comment">Delete a comment</a></li></ul><ul></ul><h2>Merging</h2><ul><li><a href="/v3/repos/merging/#perform-a-merge">Perform a merge</a></li></ul><ul></ul><h2>Statistics</h2><ul><li><a href="/v3/repos/statistics/#get-contributors-list-with-additions-deletions-and-commit-counts">Get contributors list with additions, deletions, and commit counts</a></li>
-<li><a href="/v3/repos/statistics/#get-the-last-year-of-commit-activity-data">Get the last year of commit activity data</a></li>
-<li><a href="/v3/repos/statistics/#get-the-number-of-additions-and-deletions-per-week">Get the number of additions and deletions per week</a></li>
-<li><a href="/v3/repos/statistics/#get-the-weekly-commit-count-for-the-repository-owner-and-everyone-else">Get the weekly commit count for the repository owner and everyone else</a></li>
-<li><a href="/v3/repos/statistics/#get-the-number-of-commits-per-hour-in-each-day">Get the number of commits per hour in each day</a></li></ul><ul></ul><h2>Contents</h2><ul><li><a href="/v3/repos/contents/#get-the-readme">Get the README</a></li>
-<li><a href="/v3/repos/contents/#get-contents">Get contents</a></li>
-<li><a href="/v3/repos/contents/#create-a-file">Create a file</a></li>
-<li><a href="/v3/repos/contents/#update-a-file">Update a file</a></li>
-<li><a href="/v3/repos/contents/#delete-a-file">Delete a file</a></li>
-<li><a href="/v3/repos/contents/#get-archive-link">Get archive link</a></li></ul><ul></ul><h2>Deploy Keys</h2><ul><li><a href="/v3/repos/keys/#list-deploy-keys">List deploy keys</a></li>
-<li><a href="/v3/repos/keys/#get-a-deploy-key">Get a deploy key</a></li>
-<li><a href="/v3/repos/keys/#add-a-new-deploy-key">Add a new deploy key</a></li>
-<li><a href="/v3/repos/keys/#remove-a-deploy-key">Remove a deploy key</a></li></ul><ul></ul><h2>Forks</h2><ul><li><a href="/v3/repos/forks/#list-forks">List forks</a></li>
-<li><a href="/v3/repos/forks/#create-a-fork">Create a fork</a></li></ul><ul></ul><h2>Repository Invitations</h2><ul><li><a href="/v3/repos/invitations/#list-invitations-for-a-repository">List invitations for a repository</a></li>
-<li><a href="/v3/repos/invitations/#delete-a-repository-invitation">Delete a repository invitation</a></li>
-<li><a href="/v3/repos/invitations/#update-a-repository-invitation">Update a repository invitation</a></li></ul><ul></ul><h2>Projects</h2><ul><li><a href="/v3/projects/#list-repository-projects">List repository projects</a></li>
-<li><a href="/v3/projects/#list-organization-projects">List organization projects</a></li>
-<li><a href="/v3/projects/#list-user-projects">List user projects</a></li>
-<li><a href="/v3/projects/#get-a-project">Get a project</a></li>
-<li><a href="/v3/projects/#create-a-repository-project">Create a repository project</a></li>
-<li><a href="/v3/projects/#create-an-organization-project">Create an organization project</a></li>
-<li><a href="/v3/projects/#create-a-user-project">Create a user project</a></li>
-<li><a href="/v3/projects/#update-a-project">Update a project</a></li>
-<li><a href="/v3/projects/#delete-a-project">Delete a project</a></li></ul><ul></ul><h2>Issues</h2><ul><li><a href="/v3/issues/#list-issues-for-a-repository">List issues for a repository</a></li>
-<li><a href="/v3/issues/#get-a-single-issue">Get a single issue</a></li>
-<li><a href="/v3/issues/#create-an-issue">Create an issue</a></li>
-<li><a href="/v3/issues/#edit-an-issue">Edit an issue</a></li>
-<li><a href="/v3/issues/#lock-an-issue">Lock an issue</a></li>
-<li><a href="/v3/issues/#unlock-an-issue">Unlock an issue</a></li></ul><ul></ul><h2>Meta</h2><ul><li><a href="/v3/meta/#meta">Meta</a></li></ul><ul></ul><h2>Licenses</h2><ul><li><a href="/v3/licenses/#list-all-licenses">List all licenses</a></li>
-<li><a href="/v3/licenses/#get-an-individual-license">Get an individual license</a></li>
-<li><a href="/v3/licenses/#get-the-contents-of-a-repositorys-license">Get the contents of a repository's license</a></li></ul><ul></ul><h2>Followers</h2><ul><li><a href="/v3/users/followers/#list-followers-of-a-user">List followers of a user</a></li>
-<li><a href="/v3/users/followers/#list-users-followed-by-another-user">List users followed by another user</a></li>
-<li><a href="/v3/users/followers/#check-if-one-user-follows-another">Check if one user follows another</a></li></ul><ul></ul><h2>GPG Keys</h2><ul><li><a href="/v3/users/gpg_keys/#list-gpg-keys-for-a-user">List GPG keys for a user</a></li></ul><ul></ul><h2>Public Keys</h2><ul><li><a href="/v3/users/keys/#list-public-keys-for-a-user">List public keys for a user</a></li></ul><ul></ul><h2>Users</h2><ul><li><a href="/v3/users/#get-a-single-user">Get a single user</a></li>
-<li><a href="/v3/users/#get-all-users">Get all users</a></li></ul><ul></ul><h2>Teams</h2><ul><li><a href="/v3/teams/#list-teams">List teams</a></li>
-<li><a href="/v3/teams/#get-team">Get team</a></li>
-<li><a href="/v3/teams/#create-team">Create team</a></li>
-<li><a href="/v3/teams/#edit-team">Edit team</a></li>
-<li><a href="/v3/teams/#delete-team">Delete team</a></li>
-<li><a href="/v3/teams/#list-child-teams">List child teams</a></li>
-<li><a href="/v3/teams/#list-team-repos">List team repos</a></li>
-<li><a href="/v3/teams/#check-if-a-team-manages-a-repository">Check if a team manages a repository</a></li>
-<li><a href="/v3/teams/#add-or-update-team-repository">Add or update team repository</a></li>
-<li><a href="/v3/teams/#remove-team-repository">Remove team repository</a></li>
-<li><a href="/v3/teams/#list-team-projects">List team projects</a></li>
-<li><a href="/v3/teams/#review-a-team-project">Review a team project</a></li>
-<li><a href="/v3/teams/#add-or-update-team-project">Add or update team project</a></li>
-<li><a href="/v3/teams/#remove-team-project">Remove team project</a></li></ul><ul></ul><h2>Gitignore</h2><ul><li><a href="/v3/gitignore/#listing-available-templates">Listing available templates</a></li>
-<li><a href="/v3/gitignore/#get-a-single-template">Get a single template</a></li></ul><ul></ul><h2>Check Runs</h2><ul><li><a href="/v3/checks/runs/#create-a-check-run">Create a check run</a></li>
-<li><a href="/v3/checks/runs/#update-a-check-run">Update a check run</a></li>
-<li><a href="/v3/checks/runs/#list-check-runs-for-a-specific-ref">List check runs for a specific ref</a></li>
-<li><a href="/v3/checks/runs/#list-check-runs-in-a-check-suite">List check runs in a check suite</a></li>
-<li><a href="/v3/checks/runs/#get-a-single-check-run">Get a single check run</a></li>
-<li><a href="/v3/checks/runs/#list-annotations-for-a-check-run">List annotations for a check run</a></li></ul><ul></ul><h2>Check Suites</h2><ul><li><a href="/v3/checks/suites/#get-a-single-check-suite">Get a single check suite</a></li>
-<li><a href="/v3/checks/suites/#list-check-suites-for-a-specific-ref">List check suites for a specific ref</a></li>
-<li><a href="/v3/checks/suites/#set-preferences-for-check-suites-on-a-repository">Set preferences for check suites on a repository</a></li>
-<li><a href="/v3/checks/suites/#create-a-check-suite">Create a check suite</a></li>
-<li><a href="/v3/checks/suites/#rerequest-check-suite">Rerequest check suite</a></li></ul><ul></ul><h2>Repositories</h2><ul><li><a href="/v3/repos/#list-user-repositories">List user repositories</a></li>
-<li><a href="/v3/repos/#list-organization-repositories">List organization repositories</a></li>
-<li><a href="/v3/repos/#list-all-public-repositories">List all public repositories</a></li>
-<li><a href="/v3/repos/#create">Create</a></li>
-<li><a href="/v3/repos/#get">Get</a></li>
-<li><a href="/v3/repos/#edit">Edit</a></li>
-<li><a href="/v3/repos/#list-all-topics-for-a-repository">List all topics for a repository</a></li>
-<li><a href="/v3/repos/#replace-all-topics-for-a-repository">Replace all topics for a repository</a></li>
-<li><a href="/v3/repos/#list-contributors">List contributors</a></li>
-<li><a href="/v3/repos/#list-languages">List languages</a></li>
-<li><a href="/v3/repos/#list-teams">List teams</a></li>
-<li><a href="/v3/repos/#list-tags">List tags</a></li>
-<li><a href="/v3/repos/#delete-a-repository">Delete a repository</a></li>
-<li><a href="/v3/repos/#transfer-a-repository">Transfer a repository</a></li></ul><ul></ul><h2>SCIM</h2><ul><li><a href="/v3/scim/#get-a-list-of-provisioned-identities">Get a list of provisioned identities</a></li>
-<li><a href="/v3/scim/#get-provisioning-details-for-a-single-user">Get provisioning details for a single user</a></li>
-<li><a href="/v3/scim/#provision-and-invite-users">Provision and invite users</a></li>
-<li><a href="/v3/scim/#update-a-provisioned-organization-membership">Update a provisioned organization membership</a></li>
-<li><a href="/v3/scim/#update-a-user-attribute">Update a user attribute</a></li>
-<li><a href="/v3/scim/#remove-a-user-from-the-organization">Remove a user from the organization</a></li></ul><ul></ul><h2>Team Members</h2><ul><li><a href="/v3/teams/members/#list-team-members">List team members</a></li>
-<li><a href="/v3/teams/members/#get-team-member">Get team member</a></li>
-<li><a href="/v3/teams/members/#add-team-member">Add team member</a></li>
-<li><a href="/v3/teams/members/#remove-team-member">Remove team member</a></li>
-<li><a href="/v3/teams/members/#get-team-membership">Get team membership</a></li>
-<li><a href="/v3/teams/members/#add-or-update-team-membership">Add or update team membership</a></li>
-<li><a href="/v3/teams/members/#remove-team-membership">Remove team membership</a></li>
-<li><a href="/v3/teams/members/#list-pending-team-invitations">List pending team invitations</a></li></ul><ul></ul><h2>Team Discussion Comments</h2><ul><li><a href="/v3/teams/discussion_comments/#list-comments">List comments</a></li>
-<li><a href="/v3/teams/discussion_comments/#get-a-single-comment">Get a single comment</a></li>
-<li><a href="/v3/teams/discussion_comments/#create-a-comment">Create a comment</a></li>
-<li><a href="/v3/teams/discussion_comments/#edit-a-comment">Edit a comment</a></li>
-<li><a href="/v3/teams/discussion_comments/#delete-a-comment">Delete a comment</a></li></ul><ul></ul><h2>Team Discussions</h2><ul><li><a href="/v3/teams/discussions/#list-discussions">List discussions</a></li>
-<li><a href="/v3/teams/discussions/#get-a-single-discussion">Get a single discussion</a></li>
-<li><a href="/v3/teams/discussions/#create-a-discussion">Create a discussion</a></li>
-<li><a href="/v3/teams/discussions/#edit-a-discussion">Edit a discussion</a></li>
-<li><a href="/v3/teams/discussions/#delete-a-discussion">Delete a discussion</a></li></ul><ul></ul><h2>Project collaborators</h2><ul><li><a href="/v3/projects/collaborators/#list-collaborators">List collaborators</a></li>
-<li><a href="/v3/projects/collaborators/#review-a-users-permission-level">Review a user's permission level</a></li>
-<li><a href="/v3/projects/collaborators/#add-user-as-a-collaborator">Add user as a collaborator</a></li>
-<li><a href="/v3/projects/collaborators/#remove-user-as-a-collaborator">Remove user as a collaborator</a></li></ul><ul></ul><h2>Project columns</h2><ul><li><a href="/v3/projects/columns/#list-project-columns">List project columns</a></li>
-<li><a href="/v3/projects/columns/#get-a-project-column">Get a project column</a></li>
-<li><a href="/v3/projects/columns/#create-a-project-column">Create a project column</a></li>
-<li><a href="/v3/projects/columns/#update-a-project-column">Update a project column</a></li>
-<li><a href="/v3/projects/columns/#delete-a-project-column">Delete a project column</a></li>
-<li><a href="/v3/projects/columns/#move-a-project-column">Move a project column</a></li></ul><ul></ul><h2>Project cards</h2><ul><li><a href="/v3/projects/cards/#list-project-cards">List project cards</a></li>
-<li><a href="/v3/projects/cards/#get-a-project-card">Get a project card</a></li>
-<li><a href="/v3/projects/cards/#create-a-project-card">Create a project card</a></li>
-<li><a href="/v3/projects/cards/#update-a-project-card">Update a project card</a></li>
-<li><a href="/v3/projects/cards/#delete-a-project-card">Delete a project card</a></li>
-<li><a href="/v3/projects/cards/#move-a-project-card">Move a project card</a></li></ul><ul></ul><h2>Search</h2><ul><li><a href="/v3/search/#search-repositories">Search repositories</a></li>
-<li><a href="/v3/search/#search-commits">Search commits</a></li>
-<li><a href="/v3/search/#search-code">Search code</a></li>
-<li><a href="/v3/search/#search-issues-and-pull-requests">Search issues and pull requests</a></li>
-<li><a href="/v3/search/#search-users">Search users</a></li>
-<li><a href="/v3/search/#search-topics">Search topics</a></li>
-<li><a href="/v3/search/#search-labels">Search labels</a></li></ul><ul></ul><h2>Events</h2><ul><li><a href="/v3/issues/events/#list-events-for-an-issue">List events for an issue</a></li>
-<li><a href="/v3/issues/events/#list-events-for-a-repository">List events for a repository</a></li>
-<li><a href="/v3/issues/events/#get-a-single-event">Get a single event</a></li>
-<li><a href="/v3/activity/events/#list-public-events">List public events</a></li>
-<li><a href="/v3/activity/events/#list-repository-events">List repository events</a></li>
-<li><a href="/v3/activity/events/#list-public-events-for-a-network-of-repositories">List public events for a network of repositories</a></li>
-<li><a href="/v3/activity/events/#list-public-events-for-an-organization">List public events for an organization</a></li>
-<li><a href="/v3/activity/events/#list-events-that-a-user-has-received">List events that a user has received</a></li>
-<li><a href="/v3/activity/events/#list-public-events-that-a-user-has-received">List public events that a user has received</a></li>
-<li><a href="/v3/activity/events/#list-events-performed-by-a-user">List events performed by a user</a></li>
-<li><a href="/v3/activity/events/#list-public-events-performed-by-a-user">List public events performed by a user</a></li></ul><ul></ul><h2>Milestones</h2><ul><li><a href="/v3/issues/milestones/#list-milestones-for-a-repository">List milestones for a repository</a></li>
-<li><a href="/v3/issues/milestones/#get-a-single-milestone">Get a single milestone</a></li>
-<li><a href="/v3/issues/milestones/#create-a-milestone">Create a milestone</a></li>
-<li><a href="/v3/issues/milestones/#update-a-milestone">Update a milestone</a></li>
-<li><a href="/v3/issues/milestones/#delete-a-milestone">Delete a milestone</a></li></ul><ul></ul><h2>Assignees</h2><ul><li><a href="/v3/issues/assignees/#list-assignees">List assignees</a></li>
-<li><a href="/v3/issues/assignees/#check-assignee">Check assignee</a></li>
-<li><a href="/v3/issues/assignees/#add-assignees-to-an-issue">Add assignees to an issue</a></li>
-<li><a href="/v3/issues/assignees/#remove-assignees-from-an-issue">Remove assignees from an issue</a></li></ul><ul></ul><h2>Labels</h2><ul><li><a href="/v3/issues/labels/#list-all-labels-for-this-repository">List all labels for this repository</a></li>
-<li><a href="/v3/issues/labels/#get-a-single-label">Get a single label</a></li>
-<li><a href="/v3/issues/labels/#create-a-label">Create a label</a></li>
-<li><a href="/v3/issues/labels/#update-a-label">Update a label</a></li>
-<li><a href="/v3/issues/labels/#delete-a-label">Delete a label</a></li>
-<li><a href="/v3/issues/labels/#list-labels-on-an-issue">List labels on an issue</a></li>
-<li><a href="/v3/issues/labels/#add-labels-to-an-issue">Add labels to an issue</a></li>
-<li><a href="/v3/issues/labels/#remove-a-label-from-an-issue">Remove a label from an issue</a></li>
-<li><a href="/v3/issues/labels/#replace-all-labels-for-an-issue">Replace all labels for an issue</a></li>
-<li><a href="/v3/issues/labels/#remove-all-labels-from-an-issue">Remove all labels from an issue</a></li>
-<li><a href="/v3/issues/labels/#get-labels-for-every-issue-in-a-milestone">Get labels for every issue in a milestone</a></li></ul><ul></ul><h2>Timeline</h2><ul><li><a href="/v3/issues/timeline/#list-events-for-an-issue">List events for an issue</a></li></ul><ul></ul><h2>Emojis</h2><ul><li><a href="/v3/emojis/#emojis">Emojis</a></li></ul><ul></ul><h2>Organizations</h2><ul><li><a href="/v3/orgs/#list-all-organizations">List all organizations</a></li>
-<li><a href="/v3/orgs/#list-user-organizations">List user organizations</a></li>
-<li><a href="/v3/orgs/#get-an-organization">Get an organization</a></li>
-<li><a href="/v3/orgs/#edit-an-organization">Edit an organization</a></li></ul><ul></ul><h2>Pull Requests</h2><ul><li><a href="/v3/pulls/#list-pull-requests">List pull requests</a></li>
-<li><a href="/v3/pulls/#get-a-single-pull-request">Get a single pull request</a></li>
-<li><a href="/v3/pulls/#create-a-pull-request">Create a pull request</a></li>
-<li><a href="/v3/pulls/#update-a-pull-request">Update a pull request</a></li>
-<li><a href="/v3/pulls/#list-commits-on-a-pull-request">List commits on a pull request</a></li>
-<li><a href="/v3/pulls/#list-pull-requests-files">List pull requests files</a></li>
-<li><a href="/v3/pulls/#get-if-a-pull-request-has-been-merged">Get if a pull request has been merged</a></li>
-<li><a href="/v3/pulls/#merge-a-pull-request-merge-button">Merge a pull request (Merge Button)</a></li></ul><ul></ul><h2>Markdown</h2><ul><li><a href="/v3/markdown/#render-an-arbitrary-markdown-document">Render an arbitrary Markdown document</a></li>
-<li><a href="/v3/markdown/#render-a-markdown-document-in-raw-mode">Render a Markdown document in raw mode</a></li></ul><ul></ul><h2>Members</h2><ul><li><a href="/v3/orgs/members/#members-list">Members list</a></li>
-<li><a href="/v3/orgs/members/#check-membership">Check membership</a></li>
-<li><a href="/v3/orgs/members/#remove-a-member">Remove a member</a></li>
-<li><a href="/v3/orgs/members/#public-members-list">Public members list</a></li>
-<li><a href="/v3/orgs/members/#check-public-membership">Check public membership</a></li>
-<li><a href="/v3/orgs/members/#get-organization-membership">Get organization membership</a></li>
-<li><a href="/v3/orgs/members/#add-or-update-organization-membership">Add or update organization membership</a></li>
-<li><a href="/v3/orgs/members/#remove-organization-membership">Remove organization membership</a></li>
-<li><a href="/v3/orgs/members/#list-organization-invitation-teams">List organization invitation teams</a></li>
-<li><a href="/v3/orgs/members/#list-pending-organization-invitations">List pending organization invitations</a></li>
-<li><a href="/v3/orgs/members/#create-organization-invitation">Create organization invitation</a></li></ul><ul></ul><h2>Outside Collaborators</h2><ul><li><a href="/v3/orgs/outside_collaborators/#list-outside-collaborators">List outside collaborators</a></li>
-<li><a href="/v3/orgs/outside_collaborators/#remove-outside-collaborator">Remove outside collaborator</a></li>
-<li><a href="/v3/orgs/outside_collaborators/#convert-member-to-outside-collaborator">Convert member to outside collaborator</a></li></ul><ul></ul><h2>Blocking Organizations Users</h2><ul><li><a href="/v3/orgs/blocking/#list-blocked-users">List blocked users</a></li>
-<li><a href="/v3/orgs/blocking/#check-whether-a-user-is-blocked-from-an-organization">Check whether a user is blocked from an organization</a></li>
-<li><a href="/v3/orgs/blocking/#block-a-user">Block a user</a></li>
-<li><a href="/v3/orgs/blocking/#unblock-a-user">Unblock a user</a></li></ul><ul></ul><h2>Review Requests</h2><ul><li><a href="/v3/pulls/review_requests/#list-review-requests">List review requests</a></li>
-<li><a href="/v3/pulls/review_requests/#create-a-review-request">Create a review request</a></li>
-<li><a href="/v3/pulls/review_requests/#delete-a-review-request">Delete a review request</a></li></ul><ul></ul><h2>Review Comments</h2><ul><li><a href="/v3/pulls/comments/#list-comments-on-a-pull-request">List comments on a pull request</a></li>
-<li><a href="/v3/pulls/comments/#list-comments-in-a-repository">List comments in a repository</a></li>
-<li><a href="/v3/pulls/comments/#get-a-single-comment">Get a single comment</a></li>
-<li><a href="/v3/pulls/comments/#create-a-comment">Create a comment</a></li>
-<li><a href="/v3/pulls/comments/#edit-a-comment">Edit a comment</a></li>
-<li><a href="/v3/pulls/comments/#delete-a-comment">Delete a comment</a></li></ul><ul></ul><h2>Reviews</h2><ul><li><a href="/v3/pulls/reviews/#list-reviews-on-a-pull-request">List reviews on a pull request</a></li>
-<li><a href="/v3/pulls/reviews/#get-a-single-review">Get a single review</a></li>
-<li><a href="/v3/pulls/reviews/#delete-a-pending-review">Delete a pending review</a></li>
-<li><a href="/v3/pulls/reviews/#get-comments-for-a-single-review">Get comments for a single review</a></li>
-<li><a href="/v3/pulls/reviews/#create-a-pull-request-review">Create a pull request review</a></li>
-<li><a href="/v3/pulls/reviews/#update-a-pull-request-review">Update a pull request review</a></li>
-<li><a href="/v3/pulls/reviews/#submit-a-pull-request-review">Submit a pull request review</a></li>
-<li><a href="/v3/pulls/reviews/#dismiss-a-pull-request-review">Dismiss a pull request review</a></li></ul><ul></ul><h2>GitHub Apps</h2><ul><li><a href="/v3/apps/#get-a-single-github-app">Get a single GitHub App</a></li>
-<li><a href="/v3/apps/#get-the-authenticated-github-app">Get the authenticated GitHub App</a></li>
-<li><a href="/v3/apps/#find-installations">Find installations</a></li>
-<li><a href="/v3/apps/#get-a-single-installation">Get a single installation</a></li>
-<li><a href="/v3/apps/#create-a-new-installation-token">Create a new installation token</a></li></ul><ul></ul><h2>Feeds</h2><ul><li><a href="/v3/activity/feeds/#list-feeds">List feeds</a></li></ul><ul></ul><h2>Starring</h2><ul><li><a href="/v3/activity/starring/#list-stargazers">List Stargazers</a></li>
-<li><a href="/v3/activity/starring/#list-repositories-being-starred">List repositories being starred</a></li></ul><ul></ul><h2>Watching</h2><ul><li><a href="/v3/activity/watching/#list-watchers">List watchers</a></li>
-<li><a href="/v3/activity/watching/#list-repositories-being-watched">List repositories being watched</a></li></ul><ul></ul><h2>Miscellaneous</h2><ul><li><a href="/v3/misc/#emojis">Emojis</a></li></ul><ul></ul><h2>Reactions</h2><ul><li><a href="/v3/reactions/#list-reactions-for-a-commit-comment">List reactions for a commit comment</a></li>
-<li><a href="/v3/reactions/#create-reaction-for-a-commit-comment">Create reaction for a commit comment</a></li>
-<li><a href="/v3/reactions/#list-reactions-for-an-issue">List reactions for an issue</a></li>
-<li><a href="/v3/reactions/#list-reactions-for-an-issue-comment">List reactions for an issue comment</a></li>
-<li><a href="/v3/reactions/#create-reaction-for-an-issue-comment">Create reaction for an issue comment</a></li>
-<li><a href="/v3/reactions/#list-reactions-for-a-pull-request-review-comment">List reactions for a pull request review comment</a></li>
-<li><a href="/v3/reactions/#create-reaction-for-a-pull-request-review-comment">Create reaction for a pull request review comment</a></li>
-<li><a href="/v3/reactions/#list-reactions-for-a-team-discussion">List reactions for a team discussion</a></li>
-<li><a href="/v3/reactions/#list-reactions-for-a-team-discussion-comment">List reactions for a team discussion comment</a></li>
-<li><a href="/v3/reactions/#create-reaction-for-a-team-discussion-comment">Create reaction for a team discussion comment</a></li>
-<li><a href="/v3/reactions/#delete-a-reaction">Delete a reaction</a></li></ul><ul></ul></p>
+<h3>
+<a id="abuse-rate-limits" class="anchor" href="#abuse-rate-limits" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Abuse rate limits</h3>
+
+<p>In order to provide quality service on GitHub, additional rate limits may apply to some actions when using the API. For example, using the API to rapidly create content, poll aggressively instead of using webhooks, make multiple concurrent requests, or repeatedly request data that is computationally expensive may result in abuse rate limiting.</p>
+
+<p>Abuse rate limits are not intended to interfere with legitimate use of the API. Your normal <a href="/v3/#rate-limiting">rate limits</a> should be the only limit you target. To ensure you're acting as a good API citizen, check out our <a href="/guides/best-practices-for-integrators/">Best Practices guidelines</a>.</p>
+
+<p>If your application triggers this rate limit, you'll receive an informative response:</p>
+
+<pre class="command-line">
+<span class="output">HTTP/1.1 403 Forbidden</span>
+<span class="output">Content-Type: application/json; charset=utf-8</span>
+<span class="output">Connection: close</span>
+<span class="output">{</span>
+<span class="output">  "message": "You have triggered an abuse detection mechanism and have been temporarily blocked from content creation. Please retry your request again later.",</span>
+<span class="output">  "documentation_url": "https://developer.github.com/v3/#abuse-rate-limits"</span>
+<span class="output">}</span>
+</pre>
+
+<h2>
+<a id="user-agent-required" class="anchor" href="#user-agent-required" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>User agent required</h2>
+
+<p>All API requests MUST include a valid <code>User-Agent</code> header. Requests with no <code>User-Agent</code>
+header will be rejected. We request that you use your GitHub username, or the name of your
+application, for the <code>User-Agent</code> header value. This allows us to contact you if there are problems.</p>
+
+<p>Here's an example:</p>
+
+<pre class="command-line">
+User-Agent: Awesome-Octocat-App
+</pre>
+
+<p>cURL sends a valid <code>User-Agent</code> header by default. If you provide an invalid <code>User-Agent</code> header via cURL (or via an alternative client), you will receive a <code>403 Forbidden</code> response:</p>
+
+<pre class="command-line">
+<span class="command">curl -iH 'User-Agent: ' https://api.github.com/meta</span>
+<span class="output">HTTP/1.0 403 Forbidden</span>
+<span class="output">Connection: close</span>
+<span class="output">Content-Type: text/html</span>
+<span class="output">Request forbidden by administrative rules.</span>
+<span class="output">Please make sure your request has a User-Agent header.</span>
+<span class="output">Check https://developer.github.com for other possible causes.</span>
+</pre>
+
+<h2>
+<a id="conditional-requests" class="anchor" href="#conditional-requests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Conditional requests</h2>
+
+<p>Most responses return an <code>ETag</code> header. Many responses also return a <code>Last-Modified</code> header. You can use the values
+of these headers to make subsequent requests to those resources using the
+<code>If-None-Match</code> and <code>If-Modified-Since</code> headers, respectively. If the resource
+has not changed, the server will return a <code>304 Not Modified</code>.</p>
+
+<div class="alert tip">
+
+<p><strong>Note</strong>: Making a conditional request and receiving a 304 response does not
+count against your <a href="#rate-limiting">Rate Limit</a>, so we encourage you to use it
+whenever possible.</p>
+
+</div>
+
+<pre class="command-line">
+<span class="command">curl -i https://api.github.com/user</span>
+<span class="output">HTTP/1.1 200 OK</span>
+<span class="output">Cache-Control: private, max-age=60</span>
+<span class="output">ETag: "644b5b0155e6404a9cc4bd9d8b1ae730"</span>
+<span class="output">Last-Modified: Thu, 05 Jul 2012 15:31:30 GMT</span>
+<span class="output">Status: 200 OK</span>
+<span class="output">Vary: Accept, Authorization, Cookie</span>
+<span class="output">X-RateLimit-Limit: 5000</span>
+<span class="output">X-RateLimit-Remaining: 4996</span>
+<span class="output">X-RateLimit-Reset: 1372700873</span>
+<span class="command">curl -i https://api.github.com/user -H 'If-None-Match: "644b5b0155e6404a9cc4bd9d8b1ae730"'</span>
+<span class="output">HTTP/1.1 304 Not Modified</span>
+<span class="output">Cache-Control: private, max-age=60</span>
+<span class="output">ETag: "644b5b0155e6404a9cc4bd9d8b1ae730"</span>
+<span class="output">Last-Modified: Thu, 05 Jul 2012 15:31:30 GMT</span>
+<span class="output">Status: 304 Not Modified</span>
+<span class="output">Vary: Accept, Authorization, Cookie</span>
+<span class="output">X-RateLimit-Limit: 5000</span>
+<span class="output">X-RateLimit-Remaining: 4996</span>
+<span class="output">X-RateLimit-Reset: 1372700873</span>
+<span class="command">curl -i https://api.github.com/user -H "If-Modified-Since: Thu, 05 Jul 2012 15:31:30 GMT"</span>
+<span class="output">HTTP/1.1 304 Not Modified</span>
+<span class="output">Cache-Control: private, max-age=60</span>
+<span class="output">Last-Modified: Thu, 05 Jul 2012 15:31:30 GMT</span>
+<span class="output">Status: 304 Not Modified</span>
+<span class="output">Vary: Accept, Authorization, Cookie</span>
+<span class="output">X-RateLimit-Limit: 5000</span>
+<span class="output">X-RateLimit-Remaining: 4996</span>
+<span class="output">X-RateLimit-Reset: 1372700873</span>
+</pre>
+
+<h2>
+<a id="cross-origin-resource-sharing" class="anchor" href="#cross-origin-resource-sharing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Cross origin resource sharing</h2>
+
+<p>The API supports Cross Origin Resource Sharing (CORS) for AJAX requests from
+any origin.
+You can read the <a href="http://www.w3.org/TR/cors/">CORS W3C Recommendation</a>, or
+<a href="http://code.google.com/p/html5security/wiki/CrossOriginRequestSecurity">this intro</a> from the
+HTML 5 Security Guide.</p>
+
+<p>Here's a sample request sent from a browser hitting
+<code>http://example.com</code>:</p>
+
+<pre class="command-line">
+<span class="command">curl -i https://api.github.com -H "Origin: http://example.com"</span>
+HTTP/1.1 302 Found
+Access-Control-Allow-Origin: *
+Access-Control-Expose-Headers: ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
+</pre>
+
+<p>This is what the CORS preflight request looks like:</p>
+
+<pre class="command-line">
+<span class="command">curl -i https://api.github.com -H "Origin: http://example.com" -X OPTIONS</span>
+HTTP/1.1 204 No Content
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, X-GitHub-OTP, X-Requested-With
+Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE
+Access-Control-Expose-Headers: ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
+Access-Control-Max-Age: 86400
+</pre>
+
+<h2>
+<a id="json-p-callbacks" class="anchor" href="#json-p-callbacks" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>JSON-P callbacks</h2>
+
+<p>You can send a <code>?callback</code> parameter to any GET call to have the results
+wrapped in a JSON function.  This is typically used when browsers want
+to embed GitHub content in web pages by getting around cross domain
+issues.  The response includes the same data output as the regular API,
+plus the relevant HTTP Header information.</p>
+
+<pre class="command-line">
+<span class="command">curl https://api.github.com?callback=foo</span>
+<span class="output">/**/foo({</span>
+<span class="output">  "meta": {</span>
+<span class="output">    "status": 200,</span>
+<span class="output">    "X-RateLimit-Limit": "5000",</span>
+<span class="output">    "X-RateLimit-Remaining": "4966",</span>
+<span class="output">    "X-RateLimit-Reset": "1372700873",</span>
+<span class="output">    "Link": [ // pagination headers and other links</span>
+<span class="output">      ["https://api.github.com?page=2", {"rel": "next"}]</span>
+<span class="output">    ]</span>
+<span class="output">  },</span>
+<span class="output">  "data": {</span>
+<span class="output">    // the data</span>
+<span class="output">  }</span>
+<span class="output">})</span>
+</pre>
+
+<p>You can write a JavaScript handler to process the callback. Here's a minimal example you can try out:</p>
+
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+&lt;script type="text/javascript"&gt;
+function foo(response) {
+  var meta = response.meta;
+  var data = response.data;
+  console.log(meta);
+  console.log(data);
+}
+
+var script = document.createElement('script');
+script.src = 'https://api.github.com?callback=foo';
+
+document.getElementsByTagName('head')[0].appendChild(script);
+&lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;p&gt;Open up your browser's console.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>All of the headers are the same String value as the HTTP Headers with one
+notable exception: Link.  Link headers are pre-parsed for you and come
+through as an array of <code>[url, options]</code> tuples.</p>
+
+<p>A link that looks like this:</p>
+
+<pre><code>Link: &lt;url1&gt;; rel="next", &lt;url2&gt;; rel="foo"; bar="baz"
+</code></pre>
+
+<p>... will look like this in the Callback output:</p>
+
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"Link"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"url1"</span><span class="p">,</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"next"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"url2"</span><span class="p">,</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"rel"</span><span class="p">:</span><span class="w"> </span><span class="s2">"foo"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"bar"</span><span class="p">:</span><span class="w"> </span><span class="s2">"baz"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+
+<h2>
+<a id="timezones" class="anchor" href="#timezones" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Timezones</h2>
+
+<p>Some requests that create new data, such as creating a new commit, allow you to provide time zone information when specifying or generating timestamps. We apply the following rules, in order of priority, to determine timezone information for API calls.</p>
+
+<ul>
+<li><a href="#explicitly-providing-an-iso-8601-timestamp-with-timezone-information">Explicitly providing an ISO 8601 timestamp with timezone information</a></li>
+<li><a href="#using-the-time-zone-header">Using the <code>Time-Zone</code> header</a></li>
+<li><a href="#using-the-last-known-timezone-for-the-user">Using the last known timezone for the user</a></li>
+<li><a href="#defaulting-to-utc-without-other-timezone-information">Defaulting to UTC without other timezone information</a></li>
+</ul>
+
+<h3>
+<a id="explicitly-providing-an-iso-8601-timestamp-with-timezone-information" class="anchor" href="#explicitly-providing-an-iso-8601-timestamp-with-timezone-information" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Explicitly providing an ISO 8601 timestamp with timezone information</h3>
+
+<p>For API calls that allow for a timestamp to be specified, we use that exact timestamp. An example of this is the <a href="/v3/git/commits">Commits API</a>.</p>
+
+<p>These timestamps look something like <code>2014-02-27T15:05:06+01:00</code>. Also see <a href="/v3/git/commits/#example-input">this example</a> for how these timestamps can be specified.</p>
+
+<h3>
+<a id="using-the-time-zone-header" class="anchor" href="#using-the-time-zone-header" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using the <code>Time-Zone</code> header</h3>
+
+<p>It is possible to supply a <code>Time-Zone</code> header which defines a timezone according to the <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">list of names from the Olson database</a>.</p>
+
+<pre class="command-line">
+<span class="command">curl -H "Time-Zone: Europe/Amsterdam" -X POST https://api.github.com/repos/github/linguist/contents/new_file.md</span>
+</pre>
+
+<p>This means that we generate a timestamp for the moment your API call is made in the timezone this header defines. For example, the <a href="/v3/repos/contents/">Contents API</a> generates a git commit for each addition or change and uses the current time as the timestamp. This header will determine the timezone used for generating that current timestamp.</p>
+
+<h3>
+<a id="using-the-last-known-timezone-for-the-user" class="anchor" href="#using-the-last-known-timezone-for-the-user" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using the last known timezone for the user</h3>
+
+<p>If no <code>Time-Zone</code> header is specified and you make an authenticated call to the API, we use the last known timezone for the authenticated user. The last known timezone is updated whenever you browse the GitHub website.</p>
+
+<h3>
+<a id="defaulting-to-utc-without-other-timezone-information" class="anchor" href="#defaulting-to-utc-without-other-timezone-information" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Defaulting to UTC without other timezone information</h3>
+
+<p>If the steps above don't result in any information, we use UTC as the timezone to create the git commit.</p>
       </div>
 
       <div class="nav-select nav-select-bottom hide-lg hide-xl">
