@@ -6,6 +6,11 @@
     "path": "/repos/:owner/:repo/pulls",
     "previews": [
       {
+        "name": "shadow-cat",
+        "description": "**Note:** The Draft Pull Request API is currently available for developers to preview. You can use this API to see whether a pull request is in draft state. See the [blog post](/changes/2019-02-14-draft-pull-requests) preview for more details. To access the API during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.shadow-cat-preview\n\n```",
+        "required": false
+      },
+      {
         "name": "symmetra",
         "description": "**Note:** You can now use emoji in label names, add descriptions to labels, and search for labels in a repository. See the [blog post](/changes/2018-02-22-label-description-search-preview) for full details. To access these features and receive payloads with this data during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.symmetra-preview+json\n\n```",
         "required": false
@@ -101,7 +106,7 @@
         "location": "query"
       }
     ],
-    "description": "",
+    "description": "Draft pull requests are available in public repositories with GitHub Free and GitHub Pro, and in public and private repositories with GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's billing plans](https://help.github.com/articles/github-s-billing-plans) in the GitHub Help documentation.",
     "responses": [
       {
         "headers": {
@@ -586,7 +591,8 @@
                 "href": "https://api.github.com/repos/octocat/Hello-World/statuses/6dcb09b5b57875f334f61aebed695e2e4193db5e"
               }
             },
-            "author_association": "OWNER"
+            "author_association": "OWNER",
+            "draft": false
           }
         ]
       }
@@ -600,6 +606,11 @@
     "method": "GET",
     "path": "/repos/:owner/:repo/pulls/:number",
     "previews": [
+      {
+        "name": "shadow-cat",
+        "description": "**Note:** The Draft Pull Request API is currently available for developers to preview. You can use this API to see whether a pull request is in draft state. See the [blog post](/changes/2019-02-14-draft-pull-requests) preview for more details. To access the API during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.shadow-cat-preview\n\n```",
+        "required": false
+      },
       {
         "name": "symmetra",
         "description": "**Note:** You can now use emoji in label names, add descriptions to labels, and search for labels in a repository. See the [blog post](/changes/2018-02-22-label-description-search-preview) for full details. To access these features and receive payloads with this data during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.symmetra-preview+json\n\n```",
@@ -634,7 +645,7 @@
         "location": "url"
       }
     ],
-    "description": "Lists details of a pull request by providing its number.\n\nWhen you get, [create](https://developer.github.com/v3/pulls/#create-a-pull-request), or [edit](https://developer.github.com/v3/pulls/#update-a-pull-request) a pull request, GitHub creates a merge commit to test whether the pull request can be automatically merged into the base branch. This test commit is not added to the base branch or the head branch. You can review the status of the test commit using the `mergeable` key. For more information, see \"[Checking mergeability of pull requests](https://developer.github.com/v3/git/#checking-mergeability-of-pull-requests)\".\n\nThe value of the `mergeable` attribute can be `true`, `false`, or `null`. If the value is `null`, then GitHub has started a background job to compute the mergeability. After giving the job time to complete, resubmit the request. When the job finishes, you will see a non-`null` value for the `mergeable` attribute in the response. If `mergeable` is `true`, then `merge_commit_sha` will be the SHA of the _test_ merge commit.\n\nThe value of the `merge_commit_sha` attribute changes depending on the state of the pull request. Before merging a pull request, the `merge_commit_sha` attribute holds the SHA of the _test_ merge commit. After merging a pull request, the `merge_commit_sha` attribute changes depending on how you merged the pull request:\n\n*   If merged as a [merge commit](https://help.github.com/articles/about-merge-methods-on-github/), `merge_commit_sha` represents the SHA of the merge commit.\n*   If merged via a [squash](https://help.github.com/articles/about-merge-methods-on-github/#squashing-your-merge-commits), `merge_commit_sha` represents the SHA of the squashed commit on the base branch.\n*   If [rebased](https://help.github.com/articles/about-merge-methods-on-github/#rebasing-and-merging-your-commits), `merge_commit_sha` represents the commit that the base branch was updated to.\n\nPass the appropriate [media type](https://developer.github.com/v3/media/#commits-commit-comparison-and-pull-requests) to fetch diff and patch formats.",
+    "description": "Draft pull requests are available in public repositories with GitHub Free and GitHub Pro, and in public and private repositories with GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's billing plans](https://help.github.com/articles/github-s-billing-plans) in the GitHub Help documentation.\n\nLists details of a pull request by providing its number.\n\nWhen you get, [create](https://developer.github.com/v3/pulls/#create-a-pull-request), or [edit](https://developer.github.com/v3/pulls/#update-a-pull-request) a pull request, GitHub creates a merge commit to test whether the pull request can be automatically merged into the base branch. This test commit is not added to the base branch or the head branch. You can review the status of the test commit using the `mergeable` key. For more information, see \"[Checking mergeability of pull requests](https://developer.github.com/v3/git/#checking-mergeability-of-pull-requests)\".\n\nThe value of the `mergeable` attribute can be `true`, `false`, or `null`. If the value is `null`, then GitHub has started a background job to compute the mergeability. After giving the job time to complete, resubmit the request. When the job finishes, you will see a non-`null` value for the `mergeable` attribute in the response. If `mergeable` is `true`, then `merge_commit_sha` will be the SHA of the _test_ merge commit.\n\nThe value of the `merge_commit_sha` attribute changes depending on the state of the pull request. Before merging a pull request, the `merge_commit_sha` attribute holds the SHA of the _test_ merge commit. After merging a pull request, the `merge_commit_sha` attribute changes depending on how you merged the pull request:\n\n*   If merged as a [merge commit](https://help.github.com/articles/about-merge-methods-on-github/), `merge_commit_sha` represents the SHA of the merge commit.\n*   If merged via a [squash](https://help.github.com/articles/about-merge-methods-on-github/#squashing-your-merge-commits), `merge_commit_sha` represents the SHA of the squashed commit on the base branch.\n*   If [rebased](https://help.github.com/articles/about-merge-methods-on-github/#rebasing-and-merging-your-commits), `merge_commit_sha` represents the commit that the base branch was updated to.\n\nPass the appropriate [media type](https://developer.github.com/v3/media/#commits-commit-comparison-and-pull-requests) to fetch diff and patch formats.",
     "responses": [
       {
         "headers": {
@@ -1119,6 +1130,7 @@
             }
           },
           "author_association": "OWNER",
+          "draft": false,
           "merged": false,
           "mergeable": true,
           "rebaseable": true,
@@ -1163,6 +1175,11 @@
     "method": "POST",
     "path": "/repos/:owner/:repo/pulls",
     "previews": [
+      {
+        "name": "shadow-cat",
+        "description": "**Note:** The Draft Pull Request API is currently available for developers to preview. You can use this API to see whether a pull request is in draft state. See the [blog post](/changes/2019-02-14-draft-pull-requests) preview for more details. To access the API during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.shadow-cat-preview\n\n```",
+        "required": false
+      },
       {
         "name": "symmetra",
         "description": "**Note:** You can now use emoji in label names, add descriptions to labels, and search for labels in a repository. See the [blog post](/changes/2018-02-22-label-description-search-preview) for full details. To access these features and receive payloads with this data during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.symmetra-preview+json\n\n```",
@@ -1233,7 +1250,7 @@
         "base": "master"
       }
     ],
-    "description": "**Note:** To open a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open a pull request.\n\nThis endpoint triggers [notifications](https://help.github.com/articles/about-notifications/). Creating content too quickly using this endpoint may result in abuse rate limiting. See \"[Abuse rate limits](https://developer.github.com/v3/#abuse-rate-limits)\" and \"[Dealing with abuse rate limits](https://developer.github.com/v3/guides/best-practices-for-integrators/#dealing-with-abuse-rate-limits)\" for details.",
+    "description": "Draft pull requests are available in public repositories with GitHub Free and GitHub Pro, and in public and private repositories with GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's billing plans](https://help.github.com/articles/github-s-billing-plans) in the GitHub Help documentation.\n\nTo open or update a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open or update a pull request.\n\nThis endpoint triggers [notifications](https://help.github.com/articles/about-notifications/). Creating content too quickly using this endpoint may result in abuse rate limiting. See \"[Abuse rate limits](https://developer.github.com/v3/#abuse-rate-limits)\" and \"[Dealing with abuse rate limits](https://developer.github.com/v3/guides/best-practices-for-integrators/#dealing-with-abuse-rate-limits)\" for details.",
     "responses": [
       {
         "headers": {
@@ -1718,6 +1735,7 @@
             }
           },
           "author_association": "OWNER",
+          "draft": false,
           "merged": false,
           "mergeable": true,
           "rebaseable": true,
@@ -1762,6 +1780,11 @@
     "method": "POST",
     "path": "/repos/:owner/:repo/pulls",
     "previews": [
+      {
+        "name": "shadow-cat",
+        "description": "**Note:** The Draft Pull Request API is currently available for developers to preview. You can use this API to see whether a pull request is in draft state. See the [blog post](/changes/2019-02-14-draft-pull-requests) preview for more details. To access the API during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.shadow-cat-preview\n\n```",
+        "required": false
+      },
       {
         "name": "symmetra",
         "description": "**Note:** You can now use emoji in label names, add descriptions to labels, and search for labels in a repository. See the [blog post](/changes/2018-02-22-label-description-search-preview) for full details. To access these features and receive payloads with this data during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.symmetra-preview+json\n\n```",
@@ -1824,7 +1847,7 @@
         "base": "master"
       }
     ],
-    "description": "**Note:** To open a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open a pull request.\n\nThis endpoint triggers [notifications](https://help.github.com/articles/about-notifications/). Creating content too quickly using this endpoint may result in abuse rate limiting. See \"[Abuse rate limits](https://developer.github.com/v3/#abuse-rate-limits)\" and \"[Dealing with abuse rate limits](https://developer.github.com/v3/guides/best-practices-for-integrators/#dealing-with-abuse-rate-limits)\" for details.",
+    "description": "Draft pull requests are available in public repositories with GitHub Free and GitHub Pro, and in public and private repositories with GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's billing plans](https://help.github.com/articles/github-s-billing-plans) in the GitHub Help documentation.\n\nTo open or update a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open or update a pull request.\n\nThis endpoint triggers [notifications](https://help.github.com/articles/about-notifications/). Creating content too quickly using this endpoint may result in abuse rate limiting. See \"[Abuse rate limits](https://developer.github.com/v3/#abuse-rate-limits)\" and \"[Dealing with abuse rate limits](https://developer.github.com/v3/guides/best-practices-for-integrators/#dealing-with-abuse-rate-limits)\" for details.",
     "responses": [
       {
         "headers": {
@@ -2309,6 +2332,7 @@
             }
           },
           "author_association": "OWNER",
+          "draft": false,
           "merged": false,
           "mergeable": true,
           "rebaseable": true,
@@ -2353,6 +2377,11 @@
     "method": "PATCH",
     "path": "/repos/:owner/:repo/pulls/:number",
     "previews": [
+      {
+        "name": "shadow-cat",
+        "description": "**Note:** The Draft Pull Request API is currently available for developers to preview. You can use this API to see whether a pull request is in draft state. See the [blog post](/changes/2019-02-14-draft-pull-requests) preview for more details. To access the API during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.shadow-cat-preview\n\n```",
+        "required": false
+      },
       {
         "name": "symmetra",
         "description": "**Note:** You can now use emoji in label names, add descriptions to labels, and search for labels in a repository. See the [blog post](/changes/2018-02-22-label-description-search-preview) for full details. To access these features and receive payloads with this data during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.symmetra-preview+json\n\n```",
@@ -2434,7 +2463,7 @@
         "base": "master"
       }
     ],
-    "description": "**Note:** To open a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open a pull request.",
+    "description": "Draft pull requests are available in public repositories with GitHub Free and GitHub Pro, and in public and private repositories with GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's billing plans](https://help.github.com/articles/github-s-billing-plans) in the GitHub Help documentation.\n\nTo open or update a pull request in a public repository, you must have write access to the head or the source branch. For organization-owned repositories, you must be a member of the organization that owns the repository to open or update a pull request.",
     "responses": [
       {
         "headers": {
@@ -2919,6 +2948,7 @@
             }
           },
           "author_association": "OWNER",
+          "draft": false,
           "merged": false,
           "mergeable": true,
           "rebaseable": true,
@@ -5525,7 +5555,8 @@
               "href": "https://api.github.com/repos/octocat/Hello-World/statuses/6dcb09b5b57875f334f61aebed695e2e4193db5e"
             }
           },
-          "author_association": "OWNER"
+          "author_association": "OWNER",
+          "draft": false
         }
       }
     ],
