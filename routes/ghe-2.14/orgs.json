@@ -401,6 +401,412 @@
     "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/orgs/#edit-an-organization"
   },
   {
+    "name": "List hooks",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/orgs/:org/hooks",
+    "previews": [],
+    "params": [
+      {
+        "name": "org",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "per_page",
+        "type": "integer",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30,
+        "location": "query"
+      },
+      {
+        "name": "page",
+        "type": "integer",
+        "required": false,
+        "description": "Page number of the results to fetch.",
+        "default": 1,
+        "location": "query"
+      }
+    ],
+    "description": "",
+    "responses": [
+      {
+        "headers": {
+          "status": "200 OK",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": [
+          {
+            "id": 1,
+            "url": "https://api.github.com/orgs/octocat/hooks/1",
+            "ping_url": "https://api.github.com/orgs/octocat/hooks/1/pings",
+            "name": "web",
+            "events": [
+              "push",
+              "pull_request"
+            ],
+            "active": true,
+            "config": {
+              "url": "http://example.com",
+              "content_type": "json"
+            },
+            "updated_at": "2011-09-06T20:39:23Z",
+            "created_at": "2011-09-06T17:26:27Z"
+          }
+        ]
+      }
+    ],
+    "idName": "list-hooks",
+    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/orgs/hooks/#list-hooks"
+  },
+  {
+    "name": "Get single hook",
+    "enabledForApps": true,
+    "method": "GET",
+    "path": "/orgs/:org/hooks/:hook_id",
+    "previews": [],
+    "params": [
+      {
+        "name": "org",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "hook_id",
+        "type": "integer",
+        "required": true,
+        "description": "",
+        "location": "url"
+      }
+    ],
+    "description": "",
+    "responses": [
+      {
+        "headers": {
+          "status": "200 OK",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "id": 1,
+          "url": "https://api.github.com/orgs/octocat/hooks/1",
+          "ping_url": "https://api.github.com/orgs/octocat/hooks/1/pings",
+          "name": "web",
+          "events": [
+            "push",
+            "pull_request"
+          ],
+          "active": true,
+          "config": {
+            "url": "http://example.com",
+            "content_type": "json"
+          },
+          "updated_at": "2011-09-06T20:39:23Z",
+          "created_at": "2011-09-06T17:26:27Z"
+        }
+      }
+    ],
+    "idName": "get-hook",
+    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/orgs/hooks/#get-single-hook"
+  },
+  {
+    "name": "Create a hook",
+    "enabledForApps": true,
+    "method": "POST",
+    "path": "/orgs/:org/hooks",
+    "previews": [],
+    "params": [
+      {
+        "name": "org",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "description": "Must be passed as \"web\".",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "config",
+        "type": "object",
+        "description": "Key/value pairs to provide settings for this webhook. [These are defined below](#create-hook-config-params).",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "config.url",
+        "type": "string",
+        "description": "The URL to which the payloads will be delivered.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "config.content_type",
+        "type": "string",
+        "description": "The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "config.secret",
+        "type": "string",
+        "description": "If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value in the [`X-Hub-Signature`](/enterprise/2.14/webhooks/#delivery-headers) header.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "config.insecure_ssl",
+        "type": "string",
+        "description": "Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.**",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "events",
+        "type": "string[]",
+        "description": "Determines what [events](/enterprise/2.14/v3/activity/events/types/) the hook is triggered for.",
+        "default": "[\"push\"]",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "active",
+        "type": "boolean",
+        "description": "Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.",
+        "default": true,
+        "required": false,
+        "location": "body"
+      }
+    ],
+    "requests": [
+      {
+        "name": "web",
+        "active": true,
+        "events": [
+          "push",
+          "pull_request"
+        ],
+        "config": {
+          "url": "http://example.com/webhook",
+          "content_type": "json"
+        }
+      }
+    ],
+    "description": "Here's how you can create a hook that posts payloads in JSON format:",
+    "responses": [
+      {
+        "headers": {
+          "status": "201 Created",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "id": 1,
+          "url": "https://api.github.com/orgs/octocat/hooks/1",
+          "ping_url": "https://api.github.com/orgs/octocat/hooks/1/pings",
+          "name": "web",
+          "events": [
+            "push",
+            "pull_request"
+          ],
+          "active": true,
+          "config": {
+            "url": "http://example.com",
+            "content_type": "json"
+          },
+          "updated_at": "2011-09-06T20:39:23Z",
+          "created_at": "2011-09-06T17:26:27Z"
+        }
+      }
+    ],
+    "idName": "create-hook",
+    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/orgs/hooks/#create-a-hook"
+  },
+  {
+    "name": "Edit a hook",
+    "enabledForApps": true,
+    "method": "PATCH",
+    "path": "/orgs/:org/hooks/:hook_id",
+    "previews": [],
+    "params": [
+      {
+        "name": "org",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "hook_id",
+        "type": "integer",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "config",
+        "type": "object",
+        "description": "Key/value pairs to provide settings for this webhook. [These are defined below](#update-hook-config-params).",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "config.url",
+        "type": "string",
+        "description": "The URL to which the payloads will be delivered.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "config.content_type",
+        "type": "string",
+        "description": "The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "config.secret",
+        "type": "string",
+        "description": "If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value in the [`X-Hub-Signature`](/enterprise/2.14/webhooks/#delivery-headers) header.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "config.insecure_ssl",
+        "type": "string",
+        "description": "Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.**",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "events",
+        "type": "string[]",
+        "description": "Determines what [events](/enterprise/2.14/v3/activity/events/types/) the hook is triggered for.",
+        "default": "[\"push\"]",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "active",
+        "type": "boolean",
+        "description": "Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.",
+        "default": true,
+        "required": false,
+        "location": "body"
+      }
+    ],
+    "requests": [
+      {
+        "active": true,
+        "events": [
+          "pull_request"
+        ]
+      }
+    ],
+    "description": "",
+    "responses": [
+      {
+        "headers": {
+          "status": "200 OK",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "id": 1,
+          "url": "https://api.github.com/orgs/octocat/hooks/1",
+          "ping_url": "https://api.github.com/orgs/octocat/hooks/1/pings",
+          "name": "web",
+          "events": [
+            "pull_request"
+          ],
+          "active": true,
+          "config": {
+            "url": "http://example.com",
+            "content_type": "json"
+          },
+          "updated_at": "2011-09-06T20:39:23Z",
+          "created_at": "2011-09-06T17:26:27Z"
+        }
+      }
+    ],
+    "idName": "edit-hook",
+    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/orgs/hooks/#edit-a-hook"
+  },
+  {
+    "name": "Ping a hook",
+    "enabledForApps": true,
+    "method": "POST",
+    "path": "/orgs/:org/hooks/:hook_id/pings",
+    "previews": [],
+    "params": [
+      {
+        "name": "org",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "hook_id",
+        "type": "integer",
+        "required": true,
+        "description": "",
+        "location": "url"
+      }
+    ],
+    "description": "This will trigger a [ping event](/enterprise/2.14/webhooks/#ping-event) to be sent to the hook.",
+    "responses": [
+      {
+        "headers": {
+          "status": "204 No Content",
+          "content-type": "application/json; charset=utf-8"
+        }
+      }
+    ],
+    "idName": "ping-hook",
+    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/orgs/hooks/#ping-a-hook"
+  },
+  {
+    "name": "Delete a hook",
+    "enabledForApps": true,
+    "method": "DELETE",
+    "path": "/orgs/:org/hooks/:hook_id",
+    "previews": [],
+    "params": [
+      {
+        "name": "org",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "hook_id",
+        "type": "integer",
+        "required": true,
+        "description": "",
+        "location": "url"
+      }
+    ],
+    "description": "",
+    "responses": [
+      {
+        "headers": {
+          "status": "204 No Content",
+          "content-type": "application/json; charset=utf-8"
+        }
+      }
+    ],
+    "idName": "delete-hook",
+    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/orgs/hooks/#delete-a-hook"
+  },
+  {
     "name": "Members list",
     "enabledForApps": true,
     "method": "GET",
@@ -1277,411 +1683,5 @@
     ],
     "idName": "convert-member-to-outside-collaborator",
     "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/orgs/outside_collaborators/#convert-member-to-outside-collaborator"
-  },
-  {
-    "name": "List hooks",
-    "enabledForApps": true,
-    "method": "GET",
-    "path": "/orgs/:org/hooks",
-    "previews": [],
-    "params": [
-      {
-        "name": "org",
-        "type": "string",
-        "required": true,
-        "description": "",
-        "location": "url"
-      },
-      {
-        "name": "per_page",
-        "type": "integer",
-        "required": false,
-        "description": "Results per page (max 100)",
-        "default": 30,
-        "location": "query"
-      },
-      {
-        "name": "page",
-        "type": "integer",
-        "required": false,
-        "description": "Page number of the results to fetch.",
-        "default": 1,
-        "location": "query"
-      }
-    ],
-    "description": "",
-    "responses": [
-      {
-        "headers": {
-          "status": "200 OK",
-          "content-type": "application/json; charset=utf-8"
-        },
-        "body": [
-          {
-            "id": 1,
-            "url": "https://api.github.com/orgs/octocat/hooks/1",
-            "ping_url": "https://api.github.com/orgs/octocat/hooks/1/pings",
-            "name": "web",
-            "events": [
-              "push",
-              "pull_request"
-            ],
-            "active": true,
-            "config": {
-              "url": "http://example.com",
-              "content_type": "json"
-            },
-            "updated_at": "2011-09-06T20:39:23Z",
-            "created_at": "2011-09-06T17:26:27Z"
-          }
-        ]
-      }
-    ],
-    "idName": "list-hooks",
-    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/orgs/hooks/#list-hooks"
-  },
-  {
-    "name": "Get single hook",
-    "enabledForApps": true,
-    "method": "GET",
-    "path": "/orgs/:org/hooks/:hook_id",
-    "previews": [],
-    "params": [
-      {
-        "name": "org",
-        "type": "string",
-        "required": true,
-        "description": "",
-        "location": "url"
-      },
-      {
-        "name": "hook_id",
-        "type": "integer",
-        "required": true,
-        "description": "",
-        "location": "url"
-      }
-    ],
-    "description": "",
-    "responses": [
-      {
-        "headers": {
-          "status": "200 OK",
-          "content-type": "application/json; charset=utf-8"
-        },
-        "body": {
-          "id": 1,
-          "url": "https://api.github.com/orgs/octocat/hooks/1",
-          "ping_url": "https://api.github.com/orgs/octocat/hooks/1/pings",
-          "name": "web",
-          "events": [
-            "push",
-            "pull_request"
-          ],
-          "active": true,
-          "config": {
-            "url": "http://example.com",
-            "content_type": "json"
-          },
-          "updated_at": "2011-09-06T20:39:23Z",
-          "created_at": "2011-09-06T17:26:27Z"
-        }
-      }
-    ],
-    "idName": "get-hook",
-    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/orgs/hooks/#get-single-hook"
-  },
-  {
-    "name": "Create a hook",
-    "enabledForApps": true,
-    "method": "POST",
-    "path": "/orgs/:org/hooks",
-    "previews": [],
-    "params": [
-      {
-        "name": "org",
-        "type": "string",
-        "required": true,
-        "description": "",
-        "location": "url"
-      },
-      {
-        "name": "name",
-        "type": "string",
-        "description": "Must be passed as \"web\".",
-        "required": true,
-        "location": "body"
-      },
-      {
-        "name": "config",
-        "type": "object",
-        "description": "Key/value pairs to provide settings for this webhook. [These are defined below](#create-hook-config-params).",
-        "required": true,
-        "location": "body"
-      },
-      {
-        "name": "config.url",
-        "type": "string",
-        "description": "The URL to which the payloads will be delivered.",
-        "required": true,
-        "location": "body"
-      },
-      {
-        "name": "config.content_type",
-        "type": "string",
-        "description": "The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`.",
-        "required": false,
-        "location": "body"
-      },
-      {
-        "name": "config.secret",
-        "type": "string",
-        "description": "If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value in the [`X-Hub-Signature`](/enterprise/2.14/webhooks/#delivery-headers) header.",
-        "required": false,
-        "location": "body"
-      },
-      {
-        "name": "config.insecure_ssl",
-        "type": "string",
-        "description": "Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.**",
-        "required": false,
-        "location": "body"
-      },
-      {
-        "name": "events",
-        "type": "string[]",
-        "description": "Determines what [events](/enterprise/2.14/v3/activity/events/types/) the hook is triggered for.",
-        "default": "[\"push\"]",
-        "required": false,
-        "location": "body"
-      },
-      {
-        "name": "active",
-        "type": "boolean",
-        "description": "Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.",
-        "default": true,
-        "required": false,
-        "location": "body"
-      }
-    ],
-    "requests": [
-      {
-        "name": "web",
-        "active": true,
-        "events": [
-          "push",
-          "pull_request"
-        ],
-        "config": {
-          "url": "http://example.com/webhook",
-          "content_type": "json"
-        }
-      }
-    ],
-    "description": "Here's how you can create a hook that posts payloads in JSON format:",
-    "responses": [
-      {
-        "headers": {
-          "status": "201 Created",
-          "content-type": "application/json; charset=utf-8"
-        },
-        "body": {
-          "id": 1,
-          "url": "https://api.github.com/orgs/octocat/hooks/1",
-          "ping_url": "https://api.github.com/orgs/octocat/hooks/1/pings",
-          "name": "web",
-          "events": [
-            "push",
-            "pull_request"
-          ],
-          "active": true,
-          "config": {
-            "url": "http://example.com",
-            "content_type": "json"
-          },
-          "updated_at": "2011-09-06T20:39:23Z",
-          "created_at": "2011-09-06T17:26:27Z"
-        }
-      }
-    ],
-    "idName": "create-hook",
-    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/orgs/hooks/#create-a-hook"
-  },
-  {
-    "name": "Edit a hook",
-    "enabledForApps": true,
-    "method": "PATCH",
-    "path": "/orgs/:org/hooks/:hook_id",
-    "previews": [],
-    "params": [
-      {
-        "name": "org",
-        "type": "string",
-        "required": true,
-        "description": "",
-        "location": "url"
-      },
-      {
-        "name": "hook_id",
-        "type": "integer",
-        "required": true,
-        "description": "",
-        "location": "url"
-      },
-      {
-        "name": "config",
-        "type": "object",
-        "description": "Key/value pairs to provide settings for this webhook. [These are defined below](#update-hook-config-params).",
-        "required": false,
-        "location": "body"
-      },
-      {
-        "name": "config.url",
-        "type": "string",
-        "description": "The URL to which the payloads will be delivered.",
-        "required": true,
-        "location": "body"
-      },
-      {
-        "name": "config.content_type",
-        "type": "string",
-        "description": "The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`.",
-        "required": false,
-        "location": "body"
-      },
-      {
-        "name": "config.secret",
-        "type": "string",
-        "description": "If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value in the [`X-Hub-Signature`](/enterprise/2.14/webhooks/#delivery-headers) header.",
-        "required": false,
-        "location": "body"
-      },
-      {
-        "name": "config.insecure_ssl",
-        "type": "string",
-        "description": "Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.**",
-        "required": false,
-        "location": "body"
-      },
-      {
-        "name": "events",
-        "type": "string[]",
-        "description": "Determines what [events](/enterprise/2.14/v3/activity/events/types/) the hook is triggered for.",
-        "default": "[\"push\"]",
-        "required": false,
-        "location": "body"
-      },
-      {
-        "name": "active",
-        "type": "boolean",
-        "description": "Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.",
-        "default": true,
-        "required": false,
-        "location": "body"
-      }
-    ],
-    "requests": [
-      {
-        "active": true,
-        "events": [
-          "pull_request"
-        ]
-      }
-    ],
-    "description": "",
-    "responses": [
-      {
-        "headers": {
-          "status": "200 OK",
-          "content-type": "application/json; charset=utf-8"
-        },
-        "body": {
-          "id": 1,
-          "url": "https://api.github.com/orgs/octocat/hooks/1",
-          "ping_url": "https://api.github.com/orgs/octocat/hooks/1/pings",
-          "name": "web",
-          "events": [
-            "pull_request"
-          ],
-          "active": true,
-          "config": {
-            "url": "http://example.com",
-            "content_type": "json"
-          },
-          "updated_at": "2011-09-06T20:39:23Z",
-          "created_at": "2011-09-06T17:26:27Z"
-        }
-      }
-    ],
-    "idName": "edit-hook",
-    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/orgs/hooks/#edit-a-hook"
-  },
-  {
-    "name": "Ping a hook",
-    "enabledForApps": true,
-    "method": "POST",
-    "path": "/orgs/:org/hooks/:hook_id/pings",
-    "previews": [],
-    "params": [
-      {
-        "name": "org",
-        "type": "string",
-        "required": true,
-        "description": "",
-        "location": "url"
-      },
-      {
-        "name": "hook_id",
-        "type": "integer",
-        "required": true,
-        "description": "",
-        "location": "url"
-      }
-    ],
-    "description": "This will trigger a [ping event](/enterprise/2.14/webhooks/#ping-event) to be sent to the hook.",
-    "responses": [
-      {
-        "headers": {
-          "status": "204 No Content",
-          "content-type": "application/json; charset=utf-8"
-        }
-      }
-    ],
-    "idName": "ping-hook",
-    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/orgs/hooks/#ping-a-hook"
-  },
-  {
-    "name": "Delete a hook",
-    "enabledForApps": true,
-    "method": "DELETE",
-    "path": "/orgs/:org/hooks/:hook_id",
-    "previews": [],
-    "params": [
-      {
-        "name": "org",
-        "type": "string",
-        "required": true,
-        "description": "",
-        "location": "url"
-      },
-      {
-        "name": "hook_id",
-        "type": "integer",
-        "required": true,
-        "description": "",
-        "location": "url"
-      }
-    ],
-    "description": "",
-    "responses": [
-      {
-        "headers": {
-          "status": "204 No Content",
-          "content-type": "application/json; charset=utf-8"
-        }
-      }
-    ],
-    "idName": "delete-hook",
-    "documentationUrl": "https://developer.github.com/enterprise/2.14/v3/orgs/hooks/#delete-a-hook"
   }
 ]
