@@ -372,6 +372,8 @@ See the <a href="/v3/git">Git Database API</a> for more details.</p>
 
 <p>Returns a single reference from your Git database.</p>
 
+<p>The <code>ref</code> in the URL must be formatted as <code>heads/&lt;branch name&gt;</code> for branches and <code>tags/&lt;tag name&gt;</code> for tags. If the <code>ref</code> doesn't exist in the repository, but existing refs start with <code>ref</code> they will be returned as an array. If the <code>ref</code> doesn't match an existing ref or any prefixes, a <code>404</code> is returned.</p>
+
 <div class="alert note">
 
 <p><strong>Note:</strong> You need to explicitly <a href="/v3/pulls/#get-a-single-pull-request">request a pull request</a> to trigger a merge commit creation. For more information, see "<a href="/v3/git/#checking-mergeability-of-pull-requests">Checking mergeability of pull requests</a>".</p>
@@ -381,10 +383,16 @@ See the <a href="/v3/git">Git Database API</a> for more details.</p>
 <pre><code>GET /repos/:owner/:repo/git/refs/:ref
 </code></pre>
 
-<p>The <code>ref</code> in the URL must be formatted as <code>heads/branch</code>, not just <code>branch</code>. For example, the call to get the data for a branch named <code>skunkworkz/featureA</code> would be:</p>
+<h3>
+<a id="example-getting-a-branch" class="anchor" href="#example-getting-a-branch" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example getting a branch</h3>
 
-<pre><code>GET /repos/:owner/:repo/git/refs/heads/skunkworkz/featureA
+<p>To get the reference for a branch named <code>skunkworkz/featureA</code>, the endpoint route would be:</p>
+
+<pre><code>GET /repos/octocat/Hello-World/git/refs/heads/skunkworkz/featureA
 </code></pre>
+
+<h3>
+<a id="response" class="anchor" href="#response" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 200 OK
 </code></pre>
@@ -403,13 +411,16 @@ See the <a href="/v3/git">Git Database API</a> for more details.</p>
 </span></code></pre>
 
 
-<p>If the <code>ref</code> doesn't exist in the repository, but existing refs start with <code>ref</code>
-they will be returned as an array. For example, a call to get the data for a
-branch named <code>feature</code>, which doesn't exist, would return head refs
-including <code>featureA</code> and <code>featureB</code> which do.</p>
+<h3>
+<a id="example-matching-a-partial-branch-name" class="anchor" href="#example-matching-a-partial-branch-name" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example matching a partial branch name</h3>
 
-<pre><code>GET /repos/:owner/:repo/git/refs/heads/feature
+<p>A call to get the data for a branch named <code>feature</code>, which doesn't exist, would return head refs including <code>featureA</code> and <code>featureB</code>.</p>
+
+<pre><code>GET /repos/octocat/Hello-World/git/refs/heads/feature
 </code></pre>
+
+<h3>
+<a id="response-1" class="anchor" href="#response-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 200 OK
 </code></pre>
@@ -440,27 +451,11 @@ including <code>featureA</code> and <code>featureB</code> which do.</p>
 </span></code></pre>
 
 
-<p>If the <code>ref</code> doesn't match an existing ref or any prefixes a 404 will be returned.</p>
-
-<pre><code>GET /repos/:owner/:repo/git/refs/heads/feature-branch-that-no-longer-exists
-</code></pre>
-
-<pre class="highlight highlight-headers"><code>Status: 404 Not Found
-</code></pre>
-
-
-<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Not Found"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"documentation_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://developer.github.com/v3"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-
 <h2>
 <a id="get-all-references" class="anchor" href="#get-all-references" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get all references<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
-<p>Returns an array of all the references from your Git database, including notes and stashes if they exist on the server.  Anything in the namespace, not just <code>heads</code> and <code>tags</code>, though that would be the most common.</p>
+<p>Returns an array of all the references from your Git database, including notes and stashes if they exist on the server.  Anything in the namespace is returned, not just <code>heads</code> and <code>tags</code>. If there are no references to list, a <code>404</code> is returned.</p>
 
 <div class="alert note">
 
@@ -471,13 +466,14 @@ including <code>featureA</code> and <code>featureB</code> which do.</p>
 <pre><code>GET /repos/:owner/:repo/git/refs
 </code></pre>
 
-<p>You can also request a sub-namespace. For example, to get all the tag
-references, you can call:</p>
+<h3>
+<a id="example-getting-all-references-for-a-repository" class="anchor" href="#example-getting-all-references-for-a-repository" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example getting all references for a repository</h3>
 
-<pre><code>GET /repos/:owner/:repo/git/refs/tags
+<pre><code>GET /repos/octocat/Hello-World/git/refs
 </code></pre>
 
-<p>For a full refs listing, you'll get something that looks like:</p>
+<h3>
+<a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 200 OK
 Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
@@ -520,14 +516,47 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </span></code></pre>
 
 
+<h3>
+<a id="example-getting-references-for-a-sub-namespace" class="anchor" href="#example-getting-references-for-a-sub-namespace" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example getting references for a sub-namespace</h3>
+
+<p>You can also request a sub-namespace. For example, to get all the tag
+references, you can call:</p>
+
+<pre><code>GET /repos/octocat/Hello-World/git/refs/tags
+</code></pre>
+
+<h3>
+<a id="response-3" class="anchor" href="#response-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
+      &lt;https://api.github.com/resource?page=5&gt;; rel="last"
+</code></pre>
+
+
+<pre class="highlight highlight-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"ref"</span><span class="p">:</span><span class="w"> </span><span class="s2">"refs/tags/v0.0.1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDM6UmVmcmVmcy90YWdzL3YwLjAuMQ=="</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World/git/refs/tags/v0.0.1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"object"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tag"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"940bd336248efae0f9ee5bc7b2d5c985887b16ac"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World/git/tags/940bd336248efae0f9ee5bc7b2d5c985887b16ac"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+
 <h2>
 <a id="create-a-reference" class="anchor" href="#create-a-reference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a reference<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
+<p>Creates a reference for your repository. You are unable to create new references for empty repositories, even if the commit SHA-1 hash used exists. Empty repositories are repositories without branches.</p>
+
 <pre><code>POST /repos/:owner/:repo/git/refs
 </code></pre>
-
-<p>Creates a reference for your repository. You are unable to create new references for empty repositories, even if the commit SHA-1 hash used exists. Empty repositories are repositories without branches.</p>
 
 <h3>
 <a id="parameters" class="anchor" href="#parameters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
@@ -567,7 +596,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 
 <h3>
-<a id="response" class="anchor" href="#response" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-4" class="anchor" href="#response-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 201 Created
 Location: https://api.github.com/repos/octocat/Hello-World/git/refs/heads/featureA
@@ -632,7 +661,7 @@ Location: https://api.github.com/repos/octocat/Hello-World/git/refs/heads/featur
 
 
 <h3>
-<a id="response-1" class="anchor" href="#response-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-5" class="anchor" href="#response-5" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 200 OK
 </code></pre>
@@ -658,18 +687,27 @@ Location: https://api.github.com/repos/octocat/Hello-World/git/refs/heads/featur
 <pre><code>DELETE /repos/:owner/:repo/git/refs/:ref
 </code></pre>
 
-<p>Example: Deleting a branch:</p>
+<h3>
+<a id="example-deleting-a-branch" class="anchor" href="#example-deleting-a-branch" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example deleting a branch</h3>
 
 <pre><code>DELETE /repos/octocat/Hello-World/git/refs/heads/feature-a
 </code></pre>
 
-<p>Example: Deleting a tag:</p>
+<h3>
+<a id="response-6" class="anchor" href="#response-6" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 204 No Content
+</code></pre>
+
+
+<h3>
+<a id="example-deleting-a-tag" class="anchor" href="#example-deleting-a-tag" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example deleting a tag</h3>
 
 <pre><code>DELETE /repos/octocat/Hello-World/git/refs/tags/v1.0
 </code></pre>
 
 <h3>
-<a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-7" class="anchor" href="#response-7" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 204 No Content
 </code></pre>
