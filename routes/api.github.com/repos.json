@@ -9131,8 +9131,8 @@
     "previews": [
       {
         "name": "mister-fantastic",
-        "description": "**Note:** The GitHub Pages API on GitHub is currently available for developers to preview. To access the API, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.mister-fantastic-preview+json\n\n```",
-        "required": true
+        "description": "**Note:** The GitHub Pages API contains two additional fields in responses, which developers can preview: `html_url` and `source`. To see these two new fields, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.mister-fantastic-preview+json\n\n```",
+        "required": false
       }
     ],
     "params": [
@@ -9151,7 +9151,7 @@
         "location": "url"
       }
     ],
-    "description": "Responses during the preview period contain two additional fields:\n\n*   `html_url`: The absolute URL (with scheme) to the rendered site. For example, `https://username.github.io`.\n*   `source`: Information about the source branch and directory for the rendered site. The source field includes:\n    *   `branch`: The repo branch for [site source files](https://help.github.com/articles/configuring-a-publishing-source-for-github-pages/) For example, _master_ or _gh-pages_.\n    *   `path`: The repo directory from which the site publishes. Can be either `/` or `/docs`.",
+    "description": "",
     "responses": [
       {
         "headers": {
@@ -9175,6 +9175,128 @@
     "documentationUrl": "https://developer.github.com/v3/repos/pages/#get-information-about-a-pages-site"
   },
   {
+    "name": "Enable a Pages site",
+    "enabledForApps": false,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/pages",
+    "previews": [
+      {
+        "name": "switcheroo",
+        "description": "**Note:** Enabling and disabling Pages in the Pages API is currently available for developers to preview. See the [blog post](/changes/2019-03-14-enabling-disabling-pages/) preview for more details. To access the new endpoints during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.switcheroo-preview+json\n\n```",
+        "required": true
+      },
+      {
+        "name": "mister-fantastic",
+        "description": "**Note:** The GitHub Pages API contains two additional fields in responses, which developers can preview: `html_url` and `source`. To see these two new fields, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.mister-fantastic-preview+json\n\n```",
+        "required": false
+      }
+    ],
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "source[branch]",
+        "type": "string",
+        "description": "The repository branch used to publish your [site's source files](https://help.github.com/articles/configuring-a-publishing-source-for-github-pages/). Can be either `master` or `gh-pages`.",
+        "required": false,
+        "enum": [
+          "master",
+          "gh-pages"
+        ],
+        "location": "body"
+      },
+      {
+        "name": "source[path]",
+        "type": "string",
+        "description": "The repository directory that includes the source files for the Pages site. When `branch` is `master`, you can change `path` to `/docs`. When `branch` is `gh-pages`, you are unable to specify a `path` other than `/`.",
+        "required": false,
+        "location": "body"
+      }
+    ],
+    "requests": [
+      {
+        "source": {
+          "branch": "master",
+          "path": "/docs"
+        }
+      }
+    ],
+    "description": "",
+    "responses": [
+      {
+        "headers": {
+          "status": "201 Created",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "url": "https://api.github.com/repos/github/developer.github.com/pages",
+          "status": "built",
+          "cname": "developer.github.com",
+          "custom_404": false,
+          "html_url": "https://developer.github.com",
+          "source": {
+            "branch": "master",
+            "directory": "/"
+          }
+        }
+      }
+    ],
+    "idName": "enable-pages-site",
+    "documentationUrl": "https://developer.github.com/v3/repos/pages/#enable-a-pages-site"
+  },
+  {
+    "name": "Disable a Pages site",
+    "enabledForApps": false,
+    "method": "DELETE",
+    "path": "/repos/:owner/:repo/pages",
+    "previews": [
+      {
+        "name": "switcheroo",
+        "description": "**Note:** Enabling and disabling Pages in the Pages API is currently available for developers to preview. See the [blog post](/changes/2019-03-14-enabling-disabling-pages/) preview for more details. To access the new endpoints during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.switcheroo-preview+json\n\n```",
+        "required": true
+      }
+    ],
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      }
+    ],
+    "description": "",
+    "responses": [
+      {
+        "headers": {
+          "status": "204 No Content",
+          "content-type": "application/json; charset=utf-8"
+        }
+      }
+    ],
+    "idName": "disable-pages-site",
+    "documentationUrl": "https://developer.github.com/v3/repos/pages/#disable-a-pages-site"
+  },
+  {
     "name": "Update information about a Pages site",
     "enabledForApps": true,
     "method": "PUT",
@@ -9182,8 +9304,8 @@
     "previews": [
       {
         "name": "mister-fantastic",
-        "description": "**Note:** The GitHub Pages API on GitHub is currently available for developers to preview. To access the API, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.mister-fantastic-preview+json\n\n```",
-        "required": true
+        "description": "**Note:** The GitHub Pages API contains two additional fields in responses, which developers can preview: `html_url` and `source`. To see these two new fields, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.mister-fantastic-preview+json\n\n```",
+        "required": false
       }
     ],
     "params": [
@@ -9247,7 +9369,7 @@
     "previews": [
       {
         "name": "mister-fantastic",
-        "description": "This endpoint is currently available for developers to preview. During the preview period, the API may change without advance notice.\n\nTo access this endpoint during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.mister-fantastic-preview+json\n\n```",
+        "description": "**Note:** This endpoint is currently available for developers to preview. During the preview period, the API may change without advance notice. To access this endpoint during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.mister-fantastic-preview+json\n\n```",
         "required": true
       }
     ],
@@ -9322,6 +9444,47 @@
       }
     ],
     "description": "",
+    "responses": [
+      {
+        "headers": {
+          "status": "200 OK",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": [
+          {
+            "url": "https://api.github.com/repos/github/developer.github.com/pages/builds/5472601",
+            "status": "built",
+            "error": {
+              "message": null
+            },
+            "pusher": {
+              "login": "octocat",
+              "id": 1,
+              "node_id": "MDQ6VXNlcjE=",
+              "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/octocat",
+              "html_url": "https://github.com/octocat",
+              "followers_url": "https://api.github.com/users/octocat/followers",
+              "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+              "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+              "organizations_url": "https://api.github.com/users/octocat/orgs",
+              "repos_url": "https://api.github.com/users/octocat/repos",
+              "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/octocat/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "commit": "351391cdcb88ffae71ec3028c91f375a8036a26b",
+            "duration": 2104,
+            "created_at": "2014-02-10T19:00:49Z",
+            "updated_at": "2014-02-10T19:00:51Z"
+          }
+        ]
+      }
+    ],
     "idName": "list-pages-builds",
     "documentationUrl": "https://developer.github.com/v3/repos/pages/#list-pages-builds"
   },
@@ -9348,6 +9511,45 @@
       }
     ],
     "description": "",
+    "responses": [
+      {
+        "headers": {
+          "status": "200 OK",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "url": "https://api.github.com/repos/github/developer.github.com/pages/builds/5472601",
+          "status": "built",
+          "error": {
+            "message": null
+          },
+          "pusher": {
+            "login": "octocat",
+            "id": 1,
+            "node_id": "MDQ6VXNlcjE=",
+            "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/octocat",
+            "html_url": "https://github.com/octocat",
+            "followers_url": "https://api.github.com/users/octocat/followers",
+            "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+            "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+            "organizations_url": "https://api.github.com/users/octocat/orgs",
+            "repos_url": "https://api.github.com/users/octocat/repos",
+            "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+            "received_events_url": "https://api.github.com/users/octocat/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "commit": "351391cdcb88ffae71ec3028c91f375a8036a26b",
+          "duration": 2104,
+          "created_at": "2014-02-10T19:00:49Z",
+          "updated_at": "2014-02-10T19:00:51Z"
+        }
+      }
+    ],
     "idName": "get-latest-pages-build",
     "documentationUrl": "https://developer.github.com/v3/repos/pages/#get-latest-pages-build"
   },
@@ -9381,6 +9583,45 @@
       }
     ],
     "description": "",
+    "responses": [
+      {
+        "headers": {
+          "status": "200 OK",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "url": "https://api.github.com/repos/github/developer.github.com/pages/builds/5472601",
+          "status": "built",
+          "error": {
+            "message": null
+          },
+          "pusher": {
+            "login": "octocat",
+            "id": 1,
+            "node_id": "MDQ6VXNlcjE=",
+            "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/octocat",
+            "html_url": "https://github.com/octocat",
+            "followers_url": "https://api.github.com/users/octocat/followers",
+            "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+            "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+            "organizations_url": "https://api.github.com/users/octocat/orgs",
+            "repos_url": "https://api.github.com/users/octocat/repos",
+            "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+            "received_events_url": "https://api.github.com/users/octocat/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "commit": "351391cdcb88ffae71ec3028c91f375a8036a26b",
+          "duration": 2104,
+          "created_at": "2014-02-10T19:00:49Z",
+          "updated_at": "2014-02-10T19:00:51Z"
+        }
+      }
+    ],
     "idName": "get-pages-build",
     "documentationUrl": "https://developer.github.com/v3/repos/pages/#get-a-specific-pages-build"
   },
