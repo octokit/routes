@@ -209,6 +209,21 @@ Location: https://api.github.com/repos/octocat/example/deployments/1
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <h3>
+<a id="merged-branch-response" class="anchor" href="#merged-branch-response" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Merged branch response</h3>
+<p>You will see this response when GitHub automatically merges the base branch into the topic branch instead of creating a deployment. This auto-merge happens when:</p>
+<ul>
+<li>Auto-merge option is enabled in the repository</li>
+<li>Topic branch does not include the latest changes on the base branch, which is <code>master</code>in the response example</li>
+<li>There are no merge conflicts</li>
+</ul>
+<pre class="highlight highlight-headers"><code>Status: 202 Accepted
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Auto-merged master into topic-branch on deployment.&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>If there are no new commits in the base branch, a new request to create a deployment should give a successful response.</p>
+<h3>
 <a id="merge-conflict-response" class="anchor" href="#merge-conflict-response" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Merge conflict response</h3>
 <p>This error happens when the <code>auto_merge</code> option is enabled and when the default branch (in this case <code>master</code>), can&apos;t be merged into the branch that&apos;s being deployed (in this case <code>topic-branch</code>), due to merge conflicts.</p>
 <pre class="highlight highlight-headers"><code>Status: 409 Conflict
