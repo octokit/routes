@@ -33736,7 +33736,7 @@
           "description": "Deploy request from hubot"
         }
       ],
-      "description": "Deployments offer a few configurable parameters with sane defaults.\n\nThe `ref` parameter can be any named branch, tag, or SHA. At GitHub we often deploy branches and verify them before we merge a pull request.\n\nThe `environment` parameter allows deployments to be issued to different runtime environments. Teams often have multiple environments for verifying their applications, such as `production`, `staging`, and `qa`. This parameter makes it easier to track which environments have requested deployments. The default environment is `production`.\n\nThe `auto_merge` parameter is used to ensure that the requested ref is not behind the repository's default branch. If the ref _is_ behind the default branch for the repository, we will attempt to merge it for you. If the merge succeeds, the API will return a successful merge commit. If merge conflicts prevent the merge from succeeding, the API will return a failure response.\n\nBy default, [commit statuses](/enterprise/2.15/v3/repos/statuses) for every submitted context must be in a `success` state. The `required_contexts` parameter allows you to specify a subset of contexts that must be `success`, or to specify contexts that have not yet been submitted. You are not required to use commit statuses to deploy. If you do not require any contexts or create any commit statuses, the deployment will always succeed.\n\nThe `payload` parameter is available for any extra information that a deployment system might need. It is a JSON text field that will be passed on when a deployment event is dispatched.\n\nThe `task` parameter is used by the deployment system to allow different execution paths. In the web world this might be `deploy:migrations` to run schema changes on the system. In the compiled world this could be a flag to compile an application with debugging enabled.\n\nUsers with `repo` or `repo_deployment` scopes can create a deployment for a given ref:\n\nA simple example putting the user and room into the payload to notify back to chat networks.\n\nA more advanced example specifying required commit statuses and bypassing auto-merging.\n\nThis error happens when the `auto_merge` option is enabled and when the default branch (in this case `master`), can't be merged into the branch that's being deployed (in this case `topic-branch`), due to merge conflicts.\n\nThis error happens when the `required_contexts` parameter indicates that one or more contexts need to have a `success` status for the commit to be deployed, but one or more of the required contexts do not have a state of `success`.",
+      "description": "Deployments offer a few configurable parameters with sane defaults.\n\nThe `ref` parameter can be any named branch, tag, or SHA. At GitHub we often deploy branches and verify them before we merge a pull request.\n\nThe `environment` parameter allows deployments to be issued to different runtime environments. Teams often have multiple environments for verifying their applications, such as `production`, `staging`, and `qa`. This parameter makes it easier to track which environments have requested deployments. The default environment is `production`.\n\nThe `auto_merge` parameter is used to ensure that the requested ref is not behind the repository's default branch. If the ref _is_ behind the default branch for the repository, we will attempt to merge it for you. If the merge succeeds, the API will return a successful merge commit. If merge conflicts prevent the merge from succeeding, the API will return a failure response.\n\nBy default, [commit statuses](/enterprise/2.15/v3/repos/statuses) for every submitted context must be in a `success` state. The `required_contexts` parameter allows you to specify a subset of contexts that must be `success`, or to specify contexts that have not yet been submitted. You are not required to use commit statuses to deploy. If you do not require any contexts or create any commit statuses, the deployment will always succeed.\n\nThe `payload` parameter is available for any extra information that a deployment system might need. It is a JSON text field that will be passed on when a deployment event is dispatched.\n\nThe `task` parameter is used by the deployment system to allow different execution paths. In the web world this might be `deploy:migrations` to run schema changes on the system. In the compiled world this could be a flag to compile an application with debugging enabled.\n\nUsers with `repo` or `repo_deployment` scopes can create a deployment for a given ref:\n\nA simple example putting the user and room into the payload to notify back to chat networks.\n\nA more advanced example specifying required commit statuses and bypassing auto-merging.\n\nYou will see this response when GitHub automatically merges the base branch into the topic branch instead of creating a deployment. This auto-merge happens when:\n\n*   Auto-merge option is enabled in the repository\n*   Topic branch does not include the latest changes on the base branch, which is `master`in the response example\n*   There are no merge conflicts\n\nIf there are no new commits in the base branch, a new request to create a deployment should give a successful response.\n\nThis error happens when the `auto_merge` option is enabled and when the default branch (in this case `master`), can't be merged into the branch that's being deployed (in this case `topic-branch`), due to merge conflicts.\n\nThis error happens when the `required_contexts` parameter indicates that one or more contexts need to have a `success` status for the commit to be deployed, but one or more of the required contexts do not have a state of `success`.",
       "idName": "create-deployment",
       "documentationUrl": "https://developer.github.com/enterprise/2.15/v3/repos/deployments/#create-a-deployment"
     },
@@ -35923,8 +35923,8 @@
       "previews": [
         {
           "name": "mister-fantastic",
-          "description": "**Note:** The GitHub Pages API on GitHub Enterprise is currently available for developers to preview. To access the API, you must provide a custom [media type](/enterprise/2.15/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.mister-fantastic-preview+json\n\n```",
-          "required": true
+          "description": "**Note:** The GitHub Pages API contains two additional fields in responses, which developers can preview: `html_url` and `source`. To see these two new fields, you must provide a custom [media type](/enterprise/2.15/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.mister-fantastic-preview+json\n\n```",
+          "required": false
         }
       ],
       "params": [
@@ -35943,7 +35943,7 @@
           "location": "url"
         }
       ],
-      "description": "Responses during the preview period contain two additional fields:\n\n*   `html_url`: The absolute URL (with scheme) to the rendered site. For example, `https://username.github.io`.\n*   `source`: Information about the source branch and directory for the rendered site. The source field includes:\n    *   `branch`: The repo branch for [site source files](https://help.github.com/articles/configuring-a-publishing-source-for-github-pages/) For example, _master_ or _gh-pages_.\n    *   `path`: The repo directory from which the site publishes. Can be either `/` or `/docs`.",
+      "description": "",
       "responses": [
         {
           "headers": {
@@ -35974,8 +35974,8 @@
       "previews": [
         {
           "name": "mister-fantastic",
-          "description": "**Note:** The GitHub Pages API on GitHub Enterprise is currently available for developers to preview. To access the API, you must provide a custom [media type](/enterprise/2.15/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.mister-fantastic-preview+json\n\n```",
-          "required": true
+          "description": "**Note:** The GitHub Pages API contains two additional fields in responses, which developers can preview: `html_url` and `source`. To see these two new fields, you must provide a custom [media type](/enterprise/2.15/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.mister-fantastic-preview+json\n\n```",
+          "required": false
         }
       ],
       "params": [
@@ -36031,7 +36031,7 @@
       "previews": [
         {
           "name": "mister-fantastic",
-          "description": "This endpoint is currently available for developers to preview. During the preview period, the API may change without advance notice.\n\nTo access this endpoint during the preview period, you must provide a custom [media type](/enterprise/2.15/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.mister-fantastic-preview+json\n\n```",
+          "description": "**Note:** This endpoint is currently available for developers to preview. During the preview period, the API may change without advance notice. To access this endpoint during the preview period, you must provide a custom [media type](/enterprise/2.15/v3/media) in the `Accept` header:\n\n```\n  application/vnd.github.mister-fantastic-preview+json\n\n```",
           "required": true
         }
       ],
@@ -36106,6 +36106,47 @@
         }
       ],
       "description": "",
+      "responses": [
+        {
+          "headers": {
+            "status": "200 OK",
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": [
+            {
+              "url": "https://api.github.com/repos/github/developer.github.com/pages/builds/5472601",
+              "status": "built",
+              "error": {
+                "message": null
+              },
+              "pusher": {
+                "login": "octocat",
+                "id": 1,
+                "node_id": "MDQ6VXNlcjE=",
+                "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+                "gravatar_id": "",
+                "url": "https://api.github.com/users/octocat",
+                "html_url": "https://github.com/octocat",
+                "followers_url": "https://api.github.com/users/octocat/followers",
+                "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+                "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+                "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+                "organizations_url": "https://api.github.com/users/octocat/orgs",
+                "repos_url": "https://api.github.com/users/octocat/repos",
+                "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+                "received_events_url": "https://api.github.com/users/octocat/received_events",
+                "type": "User",
+                "site_admin": false
+              },
+              "commit": "351391cdcb88ffae71ec3028c91f375a8036a26b",
+              "duration": 2104,
+              "created_at": "2014-02-10T19:00:49Z",
+              "updated_at": "2014-02-10T19:00:51Z"
+            }
+          ]
+        }
+      ],
       "idName": "list-pages-builds",
       "documentationUrl": "https://developer.github.com/enterprise/2.15/v3/repos/pages/#list-pages-builds"
     },
@@ -36132,6 +36173,45 @@
         }
       ],
       "description": "",
+      "responses": [
+        {
+          "headers": {
+            "status": "200 OK",
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "url": "https://api.github.com/repos/github/developer.github.com/pages/builds/5472601",
+            "status": "built",
+            "error": {
+              "message": null
+            },
+            "pusher": {
+              "login": "octocat",
+              "id": 1,
+              "node_id": "MDQ6VXNlcjE=",
+              "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/octocat",
+              "html_url": "https://github.com/octocat",
+              "followers_url": "https://api.github.com/users/octocat/followers",
+              "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+              "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+              "organizations_url": "https://api.github.com/users/octocat/orgs",
+              "repos_url": "https://api.github.com/users/octocat/repos",
+              "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/octocat/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "commit": "351391cdcb88ffae71ec3028c91f375a8036a26b",
+            "duration": 2104,
+            "created_at": "2014-02-10T19:00:49Z",
+            "updated_at": "2014-02-10T19:00:51Z"
+          }
+        }
+      ],
       "idName": "get-latest-pages-build",
       "documentationUrl": "https://developer.github.com/enterprise/2.15/v3/repos/pages/#get-latest-pages-build"
     },
@@ -36165,6 +36245,45 @@
         }
       ],
       "description": "",
+      "responses": [
+        {
+          "headers": {
+            "status": "200 OK",
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "url": "https://api.github.com/repos/github/developer.github.com/pages/builds/5472601",
+            "status": "built",
+            "error": {
+              "message": null
+            },
+            "pusher": {
+              "login": "octocat",
+              "id": 1,
+              "node_id": "MDQ6VXNlcjE=",
+              "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/octocat",
+              "html_url": "https://github.com/octocat",
+              "followers_url": "https://api.github.com/users/octocat/followers",
+              "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+              "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+              "organizations_url": "https://api.github.com/users/octocat/orgs",
+              "repos_url": "https://api.github.com/users/octocat/repos",
+              "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/octocat/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "commit": "351391cdcb88ffae71ec3028c91f375a8036a26b",
+            "duration": 2104,
+            "created_at": "2014-02-10T19:00:49Z",
+            "updated_at": "2014-02-10T19:00:51Z"
+          }
+        }
+      ],
       "idName": "get-pages-build",
       "documentationUrl": "https://developer.github.com/enterprise/2.15/v3/repos/pages/#get-a-specific-pages-build"
     },
