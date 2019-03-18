@@ -9,7 +9,7 @@
 <div class="alert warning">
 <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
 </div>
-<p>To add a repository to a team or update the team&apos;s permission on a repository, the authenticated user must have admin access to the repository, and must be able to see the team. The repository must be owned by the organization, or a direct fork of a repository owned by the organization.</p>
+<p>To add a repository to a team or update the team&apos;s permission on a repository, the authenticated user must have admin access to the repository, and must be able to see the team. The repository must be owned by the organization, or a direct fork of a repository owned by the organization. You will get a <code>422 Unprocessable Entity</code> status if you attempt to add a repository to a team that is not owned by the organization.</p>
 <p>If you pass the <code>hellcat-preview</code> media type, you can modify repository permissions of child teams.</p>
 <pre><code>PUT /teams/:team_id/repos/:owner/:repo
 </code></pre>
@@ -36,21 +36,3 @@
 <a id="response-6" class="anchor" href="#response-6" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 <pre class="highlight highlight-headers"><code>Status: 204 No Content
 </code></pre>
-<h3>
-<a id="response-if-you-attempt-to-add-a-repository-to-a-team-that-is-not-owned-by-the-organization" class="anchor" href="#response-if-you-attempt-to-add-a-repository-to-a-team-that-is-not-owned-by-the-organization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if you attempt to add a repository to a team that is not owned by the organization</h3>
-<pre class="highlight highlight-headers"><code>Status: 422 Unprocessable Entity
-</code></pre>
-<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Validation Failed&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="nt">&quot;errors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">&quot;resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;TeamRepository&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;unprocessable&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="nt">&quot;field&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;data&quot;</span><span class="p">,</span><span class="w">
-      </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;not_owned&quot;</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">],</span><span class="w">
-  </span><span class="nt">&quot;documentation_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://developer.github.com/enterprise/2.13/v3/teams/#add-team-repo&quot;</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p><a id="remove-team-repo"></a></p>
