@@ -357,7 +357,6 @@ to your Git database on GitHub. See the <a href="/v3/git">Git Database API</a> f
 <ul id="markdown-toc">
 <li><a href="#get-a-commit" id="markdown-toc-get-a-commit">Get a commit</a></li>
 <li><a href="#create-a-commit" id="markdown-toc-create-a-commit">Create a commit</a></li>
-<li><a href="#commit-signature-verification" id="markdown-toc-commit-signature-verification">Commit signature verification</a></li>
 </ul>
 
 <h2>
@@ -410,6 +409,108 @@ to your Git database on GitHub. See the <a href="/v3/git">Git Database API</a> f
 </span></code></pre>
 
 
+<h4>
+<a id="signature-verification-object" class="anchor" href="#signature-verification-object" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Signature verification object</h4>
+
+<p>The response will include a <code>verification</code> object that describes the result of verifying the commit's signature. The following fields are included in the <code>verification</code> object:</p>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>verified</code></td>
+<td><code>boolean</code></td>
+<td>Indicates whether GitHub considers the signature in this commit to be verified.</td>
+</tr>
+<tr>
+<td><code>reason</code></td>
+<td><code>string</code></td>
+<td>The reason for <code>verified</code> value. Possible values and their meanings are enumerated in table below.</td>
+</tr>
+<tr>
+<td><code>signature</code></td>
+<td><code>string</code></td>
+<td>The signature that was extracted from the commit.</td>
+</tr>
+<tr>
+<td><code>payload</code></td>
+<td><code>string</code></td>
+<td>The value that was signed.</td>
+</tr>
+</tbody>
+</table>
+
+<p>These are the possible values for <code>reason</code> in the <code>verification</code> object:</p>
+
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>expired_key</code></td>
+<td>The key that made the signature is expired.</td>
+</tr>
+<tr>
+<td><code>not_signing_key</code></td>
+<td>The "signing" flag is not among the usage flags in the GPG key that made the signature.</td>
+</tr>
+<tr>
+<td><code>gpgverify_error</code></td>
+<td>There was an error communicating with the signature verification service.</td>
+</tr>
+<tr>
+<td><code>gpgverify_unavailable</code></td>
+<td>The signature verification service is currently unavailable.</td>
+</tr>
+<tr>
+<td><code>unsigned</code></td>
+<td>The object does not include a signature.</td>
+</tr>
+<tr>
+<td><code>unknown_signature_type</code></td>
+<td>A non-PGP signature was found in the commit.</td>
+</tr>
+<tr>
+<td><code>no_user</code></td>
+<td>No user was associated with the <code>committer</code> email address in the commit.</td>
+</tr>
+<tr>
+<td><code>unverified_email</code></td>
+<td>The <code>committer</code> email address in the commit was associated with a user, but the email address is not verified on her/his account.</td>
+</tr>
+<tr>
+<td><code>bad_email</code></td>
+<td>The <code>committer</code> email address in the commit is not included in the identities of the PGP key that made the signature.</td>
+</tr>
+<tr>
+<td><code>unknown_key</code></td>
+<td>The key that made the signature has not been registered with any user's account.</td>
+</tr>
+<tr>
+<td><code>malformed_signature</code></td>
+<td>There was an error parsing the signature.</td>
+</tr>
+<tr>
+<td><code>invalid</code></td>
+<td>The signature could not be cryptographically verified using the key whose key-id was found in the signature.</td>
+</tr>
+<tr>
+<td><code>valid</code></td>
+<td>None of the above errors applied, so the signature is considered to be verified.</td>
+</tr>
+</tbody>
+</table>
+
 <h2>
 <a id="create-a-commit" class="anchor" href="#create-a-commit" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a commit<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
@@ -450,21 +551,25 @@ to your Git database on GitHub. See the <a href="/v3/git">Git Database API</a> f
 <td>
 <strong>Required</strong>. The SHAs of the commits that were the parents of this commit.  If omitted or empty, the commit will be written as a root commit.  For a single parent, an array of one SHA should be provided; for a merge commit, an array of more than one should be provided.</td>
 </tr>
+<tr>
+<td><code>author</code></td>
+<td><code>object</code></td>
+<td>Information about the author of the commit. By default, the <code>author</code> will be the authenticated user and the current date. See the <code>author</code> and <code>committer</code> object below for details.</td>
+</tr>
+<tr>
+<td><code>committer</code></td>
+<td><code>object</code></td>
+<td>Information about the person who is making the commit. By default, <code>committer</code> will use the information set in <code>author</code>. See the <code>author</code> and <code>committer</code> object below for details.</td>
+</tr>
+<tr>
+<td><code>signature</code></td>
+<td><code>string</code></td>
+<td>The <a href="https://en.wikipedia.org/wiki/Pretty_Good_Privacy">PGP signature</a> of the commit. GitHub adds the signature to the <code>gpgsig</code> header of the created commit. For a commit signature to be verifiable by Git or GitHub, it must be an ASCII-armored detached PGP signature over the string commit as it would be written to the object database. To pass a <code>signature</code> parameter, you need to first manually create a valid PGP signature, which can be complicated. You may find it easier to <a href="https://git-scm.com/book/id/v2/Git-Tools-Signing-Your-Work">use the command line</a> to create signed commits.</td>
+</tr>
 </tbody>
 </table>
 
-<h3>
-<a id="optional-parameters" class="anchor" href="#optional-parameters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Optional parameters</h3>
-
-<p>You can provide an additional <code>committer</code> parameter, which is an object containing
-information about the committer. Or, you can provide an <code>author</code> parameter, which
-is an object containing information about the author.</p>
-
-<p>The <code>committer</code> section is optional and will be filled with the <code>author</code>
-data if omitted. If the <code>author</code> section is omitted, it will be filled
-in with the authenticated user's information and the current date.</p>
-
-<p>Both the <code>author</code> and <code>committer</code> parameters have the same keys:</p>
+<p>The <code>author</code> and <code>committer</code> objects have the following keys:</p>
 
 <table>
 <thead>
@@ -493,22 +598,14 @@ in with the authenticated user's information and the current date.</p>
 </tbody>
 </table>
 
-<p>You can also provide an optional string <code>signature</code> parameter. This value will be added to the <code>gpgsig</code> header of the created commit. For a commit signature to be verifiable by Git or GitHub, it must be an ASCII-armored detached PGP signature over the string commit as it would be written to the object database.</p>
-
-<div class="alert note">
-
-<p><strong>Note</strong>: To pass a <code>signature</code> parameter, you need to first manually create a valid PGP signature, which can be complicated. You may find it easier to <a href="https://git-scm.com/book/id/v2/Git-Tools-Signing-Your-Work">use the command line</a> to create signed commits.</p>
-
-</div>
-
 <h3>
 <a id="example-input" class="anchor" href="#example-input" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example input</h3>
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my commit message"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Scott Chacon"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"schacon@gmail.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mona Octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat@github.com"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2008-07-09T16:13:30+12:00"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="nt">"parents"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
@@ -520,12 +617,12 @@ in with the authenticated user's information and the current date.</p>
 </span></code></pre>
 
 
-<p>In this example, the payload that the signature is over would have been:</p>
+<p>In this example, the payload of the signature would be:</p>
 
 <pre><code>tree 827efc6d56897b048c772eb4087f854f46256132
 parent 7d1b31e74ee336d15cbd21741bc88a537ed063a0
-author Scott Chacon &lt;schacon@gmail.com&gt; 1215576810 +1200
-committer Scott Chacon &lt;schacon@gmail.com&gt; 1215576810 +1200
+author Mona Octocat &lt;octocat@github.com&gt; 1215576810 +1200
+committer Mona Octocat &lt;octocat@github.com&gt; 1215576810 +1200
 
 my commit message
 </code></pre>
@@ -573,57 +670,10 @@ Location: https://api.github.com/repos/octocat/Hello-World/git/commits/7638417db
 </span></code></pre>
 
 
-<h2>
-<a id="commit-signature-verification" class="anchor" href="#commit-signature-verification" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Commit signature verification</h2>
+<h4>
+<a id="signature-verification-object-1" class="anchor" href="#signature-verification-object-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Signature verification object</h4>
 
-<pre><code>GET /repos/:owner/:repo/git/commits/:commit_sha
-</code></pre>
-
-<h3>
-<a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
-
-<pre class="highlight highlight-headers"><code>Status: 200 OK
-</code></pre>
-
-
-<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7638417db6d59f3c431d3e1f261cc637155684cd"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World/git/commits/7638417db6d59f3c431d3e1f261cc637155684cd"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2014-11-07T22:01:45Z"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Scott Chacon"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"schacon@gmail.com"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="nt">"committer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2014-11-07T22:01:45Z"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Scott Chacon"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"schacon@gmail.com"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"added readme, because im a good github citizen"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"tree"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World/git/trees/691272480426f78a0138979dd3ce63b77f706feb"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"691272480426f78a0138979dd3ce63b77f706feb"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="nt">"parents"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World/git/commits/1acc419d4d6a9ce985db7be48c6349a0475975b5"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1acc419d4d6a9ce985db7be48c6349a0475975b5"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"verification"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"verified"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"reason"</span><span class="p">:</span><span class="w"> </span><span class="s2">"valid"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"signature"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN PGP MESSAGE-----\n...\n-----END PGP MESSAGE-----"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tree 691272480426f78a0138979dd3ce63b77f706feb\n..."</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-
-<h3>
-<a id="the-verification-object" class="anchor" href="#the-verification-object" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>The <code>verification</code> object</h3>
-
-<p>The response will include a <code>verification</code> field whose value is an object describing the result of verifying the commit's signature. The following fields are included in the <code>verification</code> object:</p>
+<p>The response will include a <code>verification</code> object that describes the result of verifying the commit's signature. The following fields are included in the <code>verification</code> object:</p>
 
 <table>
 <thead>
@@ -637,12 +687,12 @@ Location: https://api.github.com/repos/octocat/Hello-World/git/commits/7638417db
 <tr>
 <td><code>verified</code></td>
 <td><code>boolean</code></td>
-<td>Does GitHub consider the signature in this commit to be verified?</td>
+<td>Indicates whether GitHub considers the signature in this commit to be verified.</td>
 </tr>
 <tr>
 <td><code>reason</code></td>
 <td><code>string</code></td>
-<td>The reason for <code>verified</code> value. Possible values and their meanings are enumerated in the table below.</td>
+<td>The reason for <code>verified</code> value. Possible values and their meanings are enumerated in table below.</td>
 </tr>
 <tr>
 <td><code>signature</code></td>
@@ -657,10 +707,7 @@ Location: https://api.github.com/repos/octocat/Hello-World/git/commits/7638417db
 </tbody>
 </table>
 
-<h4>
-<a id="the-reason-field" class="anchor" href="#the-reason-field" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>The <code>reason</code> field</h4>
-
-<p>The following are possible <code>reason</code>s that may be included in the <code>verification</code> object:</p>
+<p>These are the possible values for <code>reason</code> in the <code>verification</code> object:</p>
 
 <table>
 <thead>
@@ -680,11 +727,11 @@ Location: https://api.github.com/repos/octocat/Hello-World/git/commits/7638417db
 </tr>
 <tr>
 <td><code>gpgverify_error</code></td>
-<td>There was an error communicating with the signature-verification service.</td>
+<td>There was an error communicating with the signature verification service.</td>
 </tr>
 <tr>
 <td><code>gpgverify_unavailable</code></td>
-<td>The signature-verification service is currently unavailable.</td>
+<td>The signature verification service is currently unavailable.</td>
 </tr>
 <tr>
 <td><code>unsigned</code></td>
