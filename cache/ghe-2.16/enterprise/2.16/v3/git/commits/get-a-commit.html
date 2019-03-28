@@ -40,3 +40,100 @@
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
+<h4>
+<a id="signature-verification-object" class="anchor" href="#signature-verification-object" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Signature verification object</h4>
+<p>The response will include a <code>verification</code> object that describes the result of verifying the commit&apos;s signature. The following fields are included in the <code>verification</code> object:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>verified</code></td>
+<td><code>boolean</code></td>
+<td>Indicates whether GitHub considers the signature in this commit to be verified.</td>
+</tr>
+<tr>
+<td><code>reason</code></td>
+<td><code>string</code></td>
+<td>The reason for <code>verified</code> value. Possible values and their meanings are enumerated in table below.</td>
+</tr>
+<tr>
+<td><code>signature</code></td>
+<td><code>string</code></td>
+<td>The signature that was extracted from the commit.</td>
+</tr>
+<tr>
+<td><code>payload</code></td>
+<td><code>string</code></td>
+<td>The value that was signed.</td>
+</tr>
+</tbody>
+</table>
+<p>These are the possible values for <code>reason</code> in the <code>verification</code> object:</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>expired_key</code></td>
+<td>The key that made the signature is expired.</td>
+</tr>
+<tr>
+<td><code>not_signing_key</code></td>
+<td>The &quot;signing&quot; flag is not among the usage flags in the GPG key that made the signature.</td>
+</tr>
+<tr>
+<td><code>gpgverify_error</code></td>
+<td>There was an error communicating with the signature verification service.</td>
+</tr>
+<tr>
+<td><code>gpgverify_unavailable</code></td>
+<td>The signature verification service is currently unavailable.</td>
+</tr>
+<tr>
+<td><code>unsigned</code></td>
+<td>The object does not include a signature.</td>
+</tr>
+<tr>
+<td><code>unknown_signature_type</code></td>
+<td>A non-PGP signature was found in the commit.</td>
+</tr>
+<tr>
+<td><code>no_user</code></td>
+<td>No user was associated with the <code>committer</code> email address in the commit.</td>
+</tr>
+<tr>
+<td><code>unverified_email</code></td>
+<td>The <code>committer</code> email address in the commit was associated with a user, but the email address is not verified on her/his account.</td>
+</tr>
+<tr>
+<td><code>bad_email</code></td>
+<td>The <code>committer</code> email address in the commit is not included in the identities of the PGP key that made the signature.</td>
+</tr>
+<tr>
+<td><code>unknown_key</code></td>
+<td>The key that made the signature has not been registered with any user&apos;s account.</td>
+</tr>
+<tr>
+<td><code>malformed_signature</code></td>
+<td>There was an error parsing the signature.</td>
+</tr>
+<tr>
+<td><code>invalid</code></td>
+<td>The signature could not be cryptographically verified using the key whose key-id was found in the signature.</td>
+</tr>
+<tr>
+<td><code>valid</code></td>
+<td>None of the above errors applied, so the signature is considered to be verified.</td>
+</tr>
+</tbody>
+</table>
