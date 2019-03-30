@@ -312,6 +312,9 @@ created for various internal and webhook purposes.</p>
 <p>Triggered when a check run is <code>created</code>, <code>rerequested</code>, <code>completed</code>, or has a <code>requested_action</code>. The <code>checks</code> permission allows you to use the checks API. If you plan to create or modify check runs, your GitHub App will need to have the <code>checks:write</code> permission. If you only plan to consume check runs, your GitHub App only needs the <code>checks:read</code> permission.</p>
 <p>GitHub Apps with the <code>checks:write</code> permission will receive the <code>rerequested</code> action without subscribing to the <code>check_run</code> webhook event. The <code>rerequested</code> action occurs when someone requests to re-run your app's check from the pull request UI. See "<a href="https://help.github.com/articles/about-status-checks#checks">About status checks</a>" for more details about the GitHub UI. When you receive a <code>rerequested</code> action, you'll need to <a href="/enterprise/2.16/v3/checks/runs/#create-a-check-run">create a new check run</a>. Only the GitHub App that someone requests to re-run the check will receive the <code>rerequested</code> payload. Similarly, only the GitHub App someone requests to perform an action specified by the app will receive the <code>requested_action</code> payload.</p>
 <p>GitHub Apps that have the <code>checks:read</code> permission and subscribe to the <code>check_run</code> webhook event receive the <code>created</code> and <code>completed</code> action payloads for all check runs in the app's repository. Repositories and organizations that subscribe to the <code>check_run</code> webhook event only receive <code>created</code> and <code>completed</code> event actions.</p>
+<div class="alert note">
+<p><strong>Note:</strong> The Checks API only looks for pushes in the repository where the check suite or check run were created.  Pushes to a branch in a forked repository are not detected and return an empty <code>pull_requests</code> array and a <code>null</code> value for <code>head_branch</code>.</p>
+</div>
 <h3>
 <a id="checkrunevent-api-payload" class="anchor" href="#checkrunevent-api-payload" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>CheckRunEvent API payload</h3>
 <table>
@@ -326,7 +329,7 @@ created for various internal and webhook purposes.</p>
 <tr>
 <td><code>action</code></td>
 <td><code>string</code></td>
-<td>The action performed. Can be one of: <br>* <code>created</code> - A new check run was created.<br>* <code>rerequested</code> - Someone requested to re-run your check run.<br>* <code>requested_action</code> - Someone requested that an action be taken. For example, this <code>action</code> will be sent if someone clicks a "Fix it" button in the UI. See <a href="/changes/2018-05-23-request-actions-on-checks/">Request further actions from a check run</a> for details.</td>
+<td>The action performed. Can be one of: <br>* <code>created</code> - A new check run was created.<br>* <code>completed</code> - The <code>status</code> of the check run is <code>completed</code>.<br>* <code>rerequested</code> - Someone requested to re-run your check run.<br>* <code>requested_action</code> - Someone requested that an action be taken. For example, this <code>action</code> will be sent if someone clicks a "Fix it" button in the UI. See <a href="/changes/2018-05-23-request-actions-on-checks/">Request further actions from a check run</a> for details.</td>
 </tr>
 <tr>
 <td><code>check_run</code></td>
@@ -590,6 +593,9 @@ created for various internal and webhook purposes.</p>
 <p>Triggered when a check suite is <code>completed</code>, <code>requested</code>, or <code>rerequested</code>. The <code>checks</code> permission allows you to use the Checks API. If you plan to create or modify check runs, your GitHub App will need to have the <code>checks:write</code> permission. If you only plan to consume check runs, your GitHub App only needs the <code>checks:read</code> permission.</p>
 <p>GitHub Apps with the <code>checks:write</code> permission will receive the <code>requested</code> and <code>rerequested</code> action payloads without subscribing to the <code>check_suite</code> webhook event. The <code>requested</code> action triggers when new code is pushed to the app's repository. A <code>rerequested</code> action occurs when someone requests to re-run the entire check suite from the pull request UI. See "<a href="https://help.github.com/articles/about-status-checks#checks">About status checks</a>" for more details about the GitHub UI. When you receive the <code>requested</code> or <code>rerequested</code> action events, you'll need to <a href="/enterprise/2.16/v3/checks/runs/#create-a-check-run">create a new check run</a>. Only the GitHub App that is being asked to run a check will receive the <code>requested</code> and <code>rerequested</code> payloads.</p>
 <p>GitHub Apps that have the <code>checks:read</code> permission and subscribe to the <code>check_suite</code> webhook event receive the <code>completed</code> action payload for all check suites in the app's repository. Repositories and organizations that subscribe to the <code>check_suite</code> webhook event only receive the <code>completed</code> event action.</p>
+<div class="alert note">
+<p><strong>Note:</strong> The Checks API only looks for pushes in the repository where the check suite or check run were created.  Pushes to a branch in a forked repository are not detected and return an empty <code>pull_requests</code> array and a <code>null</code> value for <code>head_branch</code>.</p>
+</div>
 <h3>
 <a id="events-api-payload" class="anchor" href="#events-api-payload" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
 <table>
@@ -639,7 +645,7 @@ created for various internal and webhook purposes.</p>
 <tr>
 <td><code>check_suite[pull_requests]</code></td>
 <td><code>array</code></td>
-<td>An array of pull requests that match this check suite. A pull request matches a check suite if they have the same <code>head_sha</code> and <code>head_branch</code>. When the check suite's <code>head_branch</code> is unknown (<code>null</code>) the <code>pull_requests</code> array will be empty.</td>
+<td>An array of pull requests that match this check suite. A pull request matches a check suite if they have the same <code>head_sha</code> and <code>head_branch</code>. When the check suite's <code>head_branch</code> is in a forked repository it will be <code>null</code> and the <code>pull_requests</code> array will be empty.</td>
 </tr>
 </tbody>
 </table>
@@ -4128,7 +4134,7 @@ You cannot create webhooks that listen to these events.</p>
 </span></code></pre>
 <h2>
 <a id="projectcardevent" class="anchor" href="#projectcardevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ProjectCardEvent</h2>
-<p>Triggered when a <a href="/enterprise/2.16/v3/projects/cards">project card</a> is <code>created</code>, <code>updated</code>, <code>moved</code>, <code>converted</code> to an issue, or <code>deleted</code>.</p>
+<p>Triggered when a <a href="/enterprise/2.16/v3/projects/cards">project card</a> is <code>created</code>, <code>edited</code>, <code>moved</code>, <code>converted</code> to an issue, or <code>deleted</code>.</p>
 <h3>
 <a id="events-api-payload-22" class="anchor" href="#events-api-payload-22" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
 <table>
@@ -4143,7 +4149,7 @@ You cannot create webhooks that listen to these events.</p>
 <tr>
 <td><code>action</code></td>
 <td><code>string</code></td>
-<td>The action performed on the project card. Can be <code>created</code>, <code>updated</code>, <code>moved</code>, <code>converted</code>, or <code>deleted</code>.</td>
+<td>The action performed on the project card. Can be <code>created</code>, <code>edited</code>, <code>moved</code>, <code>converted</code>, or <code>deleted</code>.</td>
 </tr>
 <tr>
 <td><code>changes</code></td>
