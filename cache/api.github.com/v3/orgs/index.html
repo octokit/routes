@@ -350,6 +350,8 @@
 <li><a href="#list-user-organizations" id="markdown-toc-list-user-organizations">List user organizations</a></li>
 <li><a href="#get-an-organization" id="markdown-toc-get-an-organization">Get an organization</a></li>
 <li><a href="#edit-an-organization" id="markdown-toc-edit-an-organization">Edit an organization</a></li>
+<li><a href="#list-credential-authorizations-for-an-organization" id="markdown-toc-list-credential-authorizations-for-an-organization">List credential authorizations for an organization</a></li>
+<li><a href="#remove-a-credential-authorization-for-an-organization" id="markdown-toc-remove-a-credential-authorization-for-an-organization">Remove a credential authorization for an organization</a></li>
 </ul>
 
 <h2>
@@ -756,6 +758,74 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
   </span><span class="nt">"members_allowed_repository_creation_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"all"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
+
+
+<h2>
+<a id="list-credential-authorizations-for-an-organization" class="anchor" href="#list-credential-authorizations-for-an-organization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List credential authorizations for an organization</h2>
+
+<div class="alert product"><p>
+
+Listing and deleting credential authorizations is available to organizations with GitHub Enterprise Cloud. For more information, see <a href="https://help.github.com/articles/github-s-billing-plans">GitHub's billing plans</a> in the GitHub Help documentation.
+
+</p></div>
+
+<p>An authenticated organization owner with the <code>read:org</code> scope can list all credential authorizations for an organization that uses SAML single sign-on (SSO). The credentials are either personal access tokens or SSH keys that organization members have authorized for the organization. For more information, see <a href="https://help.github.com/en/articles/about-authentication-with-saml-single-sign-on">About authentication with SAML single sign-on</a>.</p>
+
+<pre><code>GET /orgs/:org/credential-authorizations
+</code></pre>
+
+<h3>
+<a id="response-5" class="anchor" href="#response-5" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+
+
+<pre class="highlight highlight-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"credential_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"161195"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"credential_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"personal access token"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"token_last_eight"</span><span class="p">:</span><span class="w"> </span><span class="s2">"71c3fc11"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"credential_authorized_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-01-26T19:06:43Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"scopes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"user"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"repo"</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hubot"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"credential_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"161196"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"credential_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"personal access token"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"token_last_eight"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"credential_authorized_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-03-29T19:06:43Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"scopes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"repo"</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+
+<h2>
+<a id="remove-a-credential-authorization-for-an-organization" class="anchor" href="#remove-a-credential-authorization-for-an-organization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove a credential authorization for an organization</h2>
+
+<div class="alert product"><p>
+
+Listing and deleting credential authorizations is available to organizations with GitHub Enterprise Cloud. For more information, see <a href="https://help.github.com/articles/github-s-billing-plans">GitHub's billing plans</a> in the GitHub Help documentation.
+
+</p></div>
+
+<p>An authenticated organization owner with the <code>admin:org</code> scope can remove a credential authorization for an organization that uses SAML SSO. Once you remove someone's credential authorization, they will need to create a new personal access token or SSH key and authorize it for the organization they want to access.</p>
+
+<pre><code>DELETE /orgs/:org/credential-authorizations/:credential_id
+</code></pre>
+
+<h3>
+<a id="response-6" class="anchor" href="#response-6" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 204 No Content
+</code></pre>
 
       </div>
 
