@@ -40961,12 +40961,12 @@
         {
           "name": "filter",
           "type": "string",
-          "description": "Filters results using the equals query parameter operator (`eq`). You can filter results that are equal to `id`, `userName`, `emails`, and `external_id`. For example, to search for an identity with the `userName` Octocat, you would use this query: `?filter=userName%20eq%20\\\"Octocat\\\"`",
+          "description": "Filters results using the equals query parameter operator (`eq`). You can filter results that are equal to `id`, `userName`, `emails`, and `external_id`. For example, to search for an identity with the `userName` Octocat, you would use this query: `?filter=userName%20eq%20\\\"Octocat\\\"`.",
           "required": false,
           "location": "query"
         }
       ],
-      "description": "If you want to filter by a specific email address, you'd use the `email` query parameter and the `eq` operator:\n\n```\nGET /scim/v2/organizations/:org/Users?filter=emails\n```\n\nYour filter might look like this using cURL:\n\nRetrieves users that match the filter. In the example, we searched only for [octocat@github.com](mailto:octocat@github.com).\n\nRetrieves a paginated list of all provisioned organization members, including pending invitations.",
+      "description": "To filter for a specific email address, use the `email` query parameter and the `eq` operator:\n\nYour filter would look like this cURL command:\n\nRetrieves users that match the filter. In the example, we searched only for [octocat@github.com](mailto:octocat@github.com).\n\nRetrieves a paginated list of all provisioned organization members, including pending invitations.",
       "idName": "list-provisioned-identities",
       "documentationUrl": "https://developer.github.com/v3/scim/#get-a-list-of-provisioned-identities"
     },
@@ -40974,7 +40974,7 @@
       "name": "Get provisioning details for a single user",
       "enabledForApps": true,
       "method": "GET",
-      "path": "/scim/v2/organizations/:org/Users/:external_identity_guid",
+      "path": "/scim/v2/organizations/:org/Users/:scim_user_id",
       "previews": [],
       "params": [
         {
@@ -40985,11 +40985,28 @@
           "location": "url"
         },
         {
-          "name": "external_identity_guid",
-          "type": "string",
+          "name": "scim_user_id",
+          "type": "integer",
           "required": true,
           "description": "",
           "location": "url"
+        },
+        {
+          "name": "external_identity_guid",
+          "type": "integer",
+          "required": false,
+          "description": "",
+          "location": "url",
+          "deprecated": {
+            "date": "2019-04-10",
+            "message": "\"external_identity_guid\" parameter renamed to \"scim_user_id\"",
+            "before": {
+              "idName": "external_identity_guid"
+            },
+            "after": {
+              "idName": "scim_user_id"
+            }
+          }
         }
       ],
       "description": "",
@@ -41003,18 +41020,26 @@
             "schemas": [
               "urn:ietf:params:scim:schemas:core:2.0:User"
             ],
-            "id": "77563764-eb6-24-0598234-958243",
-            "externalId": "sdfoiausdofiua",
-            "userName": "hubot@example.com",
+            "id": "edefdfedf-050c-11e7-8d32",
+            "externalId": "a7d0f98382",
+            "userName": "mona.octocat@okta.example.com",
             "name": {
-              "givenName": "hu",
-              "familyName": "bot"
+              "givenName": "Mona",
+              "familyName": "Octocat"
             },
+            "emails": [
+              {
+                "value": "mona.octocat@okta.example.com",
+                "type": "work",
+                "primary": true
+              }
+            ],
             "active": true,
             "meta": {
               "resourceType": "User",
               "created": "2017-03-09T16:11:13-05:00",
-              "lastModified": "2017-03-09T16:11:13-05:00"
+              "lastModified": "2017-03-09T16:11:13-05:00",
+              "location": "https://api.github.com/scim/v2/organizations/octo-org/Users/edefdfedf-050c-11e7-8d32"
             }
           }
         }
@@ -41037,7 +41062,26 @@
           "location": "url"
         }
       ],
-      "description": "Provision organization membership for and send activation emails to a list of email addresses.",
+      "requests": [
+        {
+          "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User"
+          ],
+          "userName": "mona.octocat@okta.example.com",
+          "name": {
+            "familyName": "Octocat",
+            "givenName": "Mona"
+          },
+          "emails": [
+            {
+              "value": "mona.octocat@okta.example.com",
+              "type": "work",
+              "primary": true
+            }
+          ]
+        }
+      ],
+      "description": "Provision organization membership for a user, and send an activation email to the email address.\n\nAs shown in the following example, you must at least provide the required values for the user: `userName`, `name`, and `emails`.",
       "responses": [
         {
           "headers": {
@@ -41055,11 +41099,19 @@
               "givenName": "Mona",
               "familyName": "Octocat"
             },
+            "emails": [
+              {
+                "value": "mona.octocat@okta.example.com",
+                "type": "work",
+                "primary": true
+              }
+            ],
             "active": true,
             "meta": {
               "resourceType": "User",
               "created": "2017-03-09T16:11:13-05:00",
-              "lastModified": "2017-03-09T16:11:13-05:00"
+              "lastModified": "2017-03-09T16:11:13-05:00",
+              "location": "https://api.github.com/scim/v2/organizations/octo-org/Users/edefdfedf-050c-11e7-8d32"
             }
           }
         }
@@ -41082,7 +41134,26 @@
           "location": "url"
         }
       ],
-      "description": "Provision organization membership for and send activation emails to a list of email addresses.",
+      "requests": [
+        {
+          "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:User"
+          ],
+          "userName": "mona.octocat@okta.example.com",
+          "name": {
+            "familyName": "Octocat",
+            "givenName": "Mona"
+          },
+          "emails": [
+            {
+              "value": "mona.octocat@okta.example.com",
+              "type": "work",
+              "primary": true
+            }
+          ]
+        }
+      ],
+      "description": "Provision organization membership for a user, and send an activation email to the email address.\n\nAs shown in the following example, you must at least provide the required values for the user: `userName`, `name`, and `emails`.",
       "responses": [
         {
           "headers": {
@@ -41100,11 +41171,19 @@
               "givenName": "Mona",
               "familyName": "Octocat"
             },
+            "emails": [
+              {
+                "value": "mona.octocat@okta.example.com",
+                "type": "work",
+                "primary": true
+              }
+            ],
             "active": true,
             "meta": {
               "resourceType": "User",
               "created": "2017-03-09T16:11:13-05:00",
-              "lastModified": "2017-03-09T16:11:13-05:00"
+              "lastModified": "2017-03-09T16:11:13-05:00",
+              "location": "https://api.github.com/scim/v2/organizations/octo-org/Users/edefdfedf-050c-11e7-8d32"
             }
           }
         }
@@ -41142,6 +41221,23 @@
           "required": true,
           "description": "",
           "location": "url"
+        },
+        {
+          "name": "external_identity_guid",
+          "type": "integer",
+          "required": false,
+          "description": "",
+          "location": "url",
+          "deprecated": {
+            "date": "2019-04-10",
+            "message": "\"external_identity_guid\" parameter renamed to \"scim_user_id\"",
+            "before": {
+              "idName": "external_identity_guid"
+            },
+            "after": {
+              "idName": "scim_user_id"
+            }
+          }
         }
       ],
       "requests": [
@@ -41221,6 +41317,23 @@
           "required": true,
           "description": "",
           "location": "url"
+        },
+        {
+          "name": "external_identity_guid",
+          "type": "integer",
+          "required": false,
+          "description": "",
+          "location": "url",
+          "deprecated": {
+            "date": "2019-04-10",
+            "message": "\"external_identity_guid\" parameter renamed to \"scim_user_id\"",
+            "before": {
+              "idName": "external_identity_guid"
+            },
+            "after": {
+              "idName": "scim_user_id"
+            }
+          }
         }
       ],
       "requests": [
@@ -41294,7 +41407,7 @@
       "name": "Update a user attribute",
       "enabledForApps": true,
       "method": "PATCH",
-      "path": "/scim/v2/organizations/:org/Users/:external_identity_guid",
+      "path": "/scim/v2/organizations/:org/Users/:scim_user_id",
       "previews": [],
       "params": [
         {
@@ -41305,14 +41418,55 @@
           "location": "url"
         },
         {
-          "name": "external_identity_guid",
-          "type": "string",
+          "name": "scim_user_id",
+          "type": "integer",
           "required": true,
           "description": "",
           "location": "url"
+        },
+        {
+          "name": "external_identity_guid",
+          "type": "integer",
+          "required": false,
+          "description": "",
+          "location": "url",
+          "deprecated": {
+            "date": "2019-04-10",
+            "message": "\"external_identity_guid\" parameter renamed to \"scim_user_id\"",
+            "before": {
+              "idName": "external_identity_guid"
+            },
+            "after": {
+              "idName": "scim_user_id"
+            }
+          }
         }
       ],
-      "description": "**Warning:** If you set `active:false` using the `replace` operation (as shown in the JSON example below), it removes the user from the organization, deletes the external identity, and deletes the associated `:user_id`.\n\n```\n{\n  \"Operations\":[{\n    \"op\":\"replace\",\n    \"value\":{\n      \"active\":false\n    }\n  }]\n}\n\n```",
+      "requests": [
+        {
+          "schemas": [
+            "urn:ietf:params:scim:api:messages:2.0:PatchOp"
+          ],
+          "Operations": [
+            {
+              "op": "add",
+              "path": "emails",
+              "value": [
+                {
+                  "value": "monalisa@octocat.github.com",
+                  "type": "home"
+                }
+              ]
+            },
+            {
+              "op": "replace",
+              "path": "name.givenName",
+              "value": "Monalisa"
+            }
+          ]
+        }
+      ],
+      "description": "Allows you to change a provisioned user's individual attributes. To change a user's values, you must provide a specific `Operations` JSON format that contains at least one of the `add`, `remove`, or `replace` operations.\n\nThe following example shows adding a new email address and updating the user's given name. For other examples and more information on the SCIM operations format, see the [SCIM specification](https://tools.ietf.org/html/rfc7644#section-3.5.2).\n\n**Note:** Complicated SCIM `path` selectors that include filters are not supported. For example, a `path` selector defined as `\"path\": \"emails[type eq \\\"work\\\"]\"` will not work.\n\n**Warning:** If you set `active:false` using the `replace` operation (as shown in the JSON example below), it removes the user from the organization, deletes the external identity, and deletes the associated `:scim_user_id`.\n\n```\n{\n  \"Operations\":[{\n    \"op\":\"replace\",\n    \"value\":{\n      \"active\":false\n    }\n  }]\n}\n\n```",
       "responses": [
         {
           "headers": {
@@ -41327,14 +41481,26 @@
             "externalId": "a7d0f98382",
             "userName": "mona.octocat@okta.example.com",
             "name": {
-              "givenName": "Mona",
+              "givenName": "Monalisa",
               "familyName": "Octocat"
             },
+            "emails": [
+              {
+                "value": "mona.octocat@okta.example.com",
+                "type": "work",
+                "primary": true
+              },
+              {
+                "value": "monalisa@octocat.github.com",
+                "type": "home"
+              }
+            ],
             "active": true,
             "meta": {
               "resourceType": "User",
               "created": "2017-03-09T16:11:13-05:00",
-              "lastModified": "2017-03-09T16:11:13-05:00"
+              "lastModified": "2017-03-09T16:11:13-05:00",
+              "location": "https://api.github.com/scim/v2/organizations/octo-org/Users/edefdfedf-050c-11e7-8d32"
             }
           }
         }
@@ -41346,7 +41512,7 @@
       "name": "Remove a user from the organization",
       "enabledForApps": true,
       "method": "DELETE",
-      "path": "/scim/v2/organizations/:org/Users/:external_identity_guid",
+      "path": "/scim/v2/organizations/:org/Users/:scim_user_id",
       "previews": [],
       "params": [
         {
@@ -41357,11 +41523,28 @@
           "location": "url"
         },
         {
-          "name": "external_identity_guid",
-          "type": "string",
+          "name": "scim_user_id",
+          "type": "integer",
           "required": true,
           "description": "",
           "location": "url"
+        },
+        {
+          "name": "external_identity_guid",
+          "type": "integer",
+          "required": false,
+          "description": "",
+          "location": "url",
+          "deprecated": {
+            "date": "2019-04-10",
+            "message": "\"external_identity_guid\" parameter renamed to \"scim_user_id\"",
+            "before": {
+              "idName": "external_identity_guid"
+            },
+            "after": {
+              "idName": "scim_user_id"
+            }
+          }
         }
       ],
       "description": "",
