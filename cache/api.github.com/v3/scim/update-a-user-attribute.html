@@ -1,11 +1,18 @@
 <h2>
 <a id="update-a-user-attribute" class="anchor" href="#update-a-user-attribute" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Update a user attribute<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
-<pre><code>PATCH /scim/v2/organizations/:org/Users/:external_identity_guid
+<p>Allows you to change a provisioned user&apos;s individual attributes. To change a user&apos;s values, you must provide a specific <code>Operations</code> JSON format that contains at least one of the <code>add</code>, <code>remove</code>, or <code>replace</code> operations.</p>
+<p>The following example shows adding a new email address and updating the user&apos;s given name. For other examples and more information on the SCIM operations format, see the <a href="https://tools.ietf.org/html/rfc7644#section-3.5.2">SCIM specification</a>.</p>
+<pre><code>PATCH /scim/v2/organizations/:org/Users/:scim_user_id
 </code></pre>
+<div class="alert note">
+
+<p><strong>Note:</strong> Complicated SCIM <code>path</code> selectors that include filters are not supported. For example, a <code>path</code> selector defined as <code>&quot;path&quot;: &quot;emails[type eq \&quot;work\&quot;]&quot;</code> will not work.</p>
+
+</div>
 <div class="alert warning">
 
-<p><strong>Warning:</strong> If you set <code>active:false</code> using the <code>replace</code> operation (as shown in the JSON example below), it removes the user from the organization, deletes the external identity, and deletes the associated <code>:user_id</code>.</p>
+<p><strong>Warning:</strong> If you set <code>active:false</code> using the <code>replace</code> operation (as shown in the JSON example below), it removes the user from the organization, deletes the external identity, and deletes the associated <code>:scim_user_id</code>.</p>
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">&quot;Operations&quot;</span><span class="p">:[{</span><span class="w">
@@ -20,6 +27,31 @@
 
 </div>
 <h3>
+<a id="example-3" class="anchor" href="#example-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;schemas&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">&quot;urn:ietf:params:scim:api:messages:2.0:PatchOp&quot;</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nt">&quot;Operations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;op&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;add&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;emails&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;monalisa@octocat.github.com&quot;</span><span class="p">,</span><span class="w">
+          </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;home&quot;</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;op&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;replace&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;name.givenName&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Monalisa&quot;</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
 <a id="response-3" class="anchor" href="#response-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 <pre class="highlight highlight-headers"><code>Status: 200 OK
 </code></pre>
@@ -31,14 +63,26 @@
   </span><span class="nt">&quot;externalId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;a7d0f98382&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;userName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mona.octocat@okta.example.com&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">&quot;givenName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Mona&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;givenName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Monalisa&quot;</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;familyName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Octocat&quot;</span><span class="w">
   </span><span class="p">},</span><span class="w">
+  </span><span class="nt">&quot;emails&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mona.octocat@okta.example.com&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;work&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;primary&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;monalisa@octocat.github.com&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;home&quot;</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
   </span><span class="nt">&quot;active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;meta&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nt">&quot;resourceType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;User&quot;</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;created&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2017-03-09T16:11:13-05:00&quot;</span><span class="p">,</span><span class="w">
-    </span><span class="nt">&quot;lastModified&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2017-03-09T16:11:13-05:00&quot;</span><span class="w">
+    </span><span class="nt">&quot;lastModified&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2017-03-09T16:11:13-05:00&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;location&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/scim/v2/organizations/octo-org/Users/edefdfedf-050c-11e7-8d32&quot;</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>

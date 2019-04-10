@@ -347,11 +347,12 @@
 <ul id="markdown-toc">
 <li><a href="#scim-provisioning-for-organizations" id="markdown-toc-scim-provisioning-for-organizations">SCIM Provisioning for Organizations</a></li>
 <li><a href="#authenticating-calls-to-the-scim-api" id="markdown-toc-authenticating-calls-to-the-scim-api">Authenticating calls to the SCIM API</a></li>
+<li><a href="#mapping-of-saml-and-scim-data" id="markdown-toc-mapping-of-saml-and-scim-data">Mapping of SAML and SCIM data</a></li>
 <li><a href="#supported-scim-user-attributes" id="markdown-toc-supported-scim-user-attributes">Supported SCIM User attributes</a></li>
 <li><a href="#get-a-list-of-provisioned-identities" id="markdown-toc-get-a-list-of-provisioned-identities">Get a list of provisioned identities</a></li>
 <li><a href="#get-provisioning-details-for-a-single-user" id="markdown-toc-get-provisioning-details-for-a-single-user">Get provisioning details for a single user</a></li>
 <li><a href="#provision-and-invite-users" id="markdown-toc-provision-and-invite-users">Provision and invite users</a></li>
-<li><a href="#update-a-provisioned-organization-membership" id="markdown-toc-update-a-provisioned-organization-membership">Update a provisioned organization membership</a></li>
+<li><a href="#replace-a-provisioned-users-information" id="markdown-toc-replace-a-provisioned-users-information">Replace a provisioned user's information</a></li>
 <li><a href="#update-a-user-attribute" id="markdown-toc-update-a-user-attribute">Update a user attribute</a></li>
 <li><a href="#remove-a-user-from-the-organization" id="markdown-toc-remove-a-user-from-the-organization">Remove a user from the organization</a></li>
 </ul>
@@ -359,7 +360,7 @@
 <h2>
 <a id="scim-provisioning-for-organizations" class="anchor" href="#scim-provisioning-for-organizations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>SCIM Provisioning for Organizations</h2>
 
-<p>The SCIM API is used by SCIM-enabled Identity Providers (IdPs) to automate provisioning of GitHub organization membership. The GitHub API is based on version 2.0 of the <a href="http://www.simplecloud.info/">SCIM standard</a>.</p>
+<p>The SCIM API is used by SCIM-enabled Identity Providers (IdPs) to automate provisioning of GitHub organization membership. The GitHub API is based on version 2.0 of the <a href="http://www.simplecloud.info/">SCIM standard</a>. The GitHub SCIM endpoint that an IdP should use is: <code>https://api.github.com/scim/v2/organizations/:org/</code>.</p>
 
 <div class="alert tip">
 
@@ -370,12 +371,12 @@
 <h2>
 <a id="authenticating-calls-to-the-scim-api" class="anchor" href="#authenticating-calls-to-the-scim-api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authenticating calls to the SCIM API</h2>
 
-<p>The API expects an <a href="/apps/building-integrations/setting-up-and-registering-github-apps/about-authentication-options-for-github-apps/">OAuth 2.0 Bearer</a> token to be passed to the <code>Authorization</code> header. You may also use Personal Access Tokens but they must be whitelisted from <a href="https://github.com/settings/tokens">your token settings page</a>.</p>
+<p>You must authenticate as an owner of a GitHub organization to use its SCIM API. The API expects an <a href="/apps/building-github-apps/authenticating-with-github-apps/">OAuth 2.0 Bearer</a> token to be included in the <code>Authorization</code> header. You may also use a personal access token, but you must first <a href="https://help.github.com/en/articles/authorizing-a-personal-access-token-for-use-with-a-saml-single-sign-on-organization">authorize it for use with your SAML SSO organization</a>.</p>
 
-<h3>
-<a id="mapping-of-saml-and-scim-data" class="anchor" href="#mapping-of-saml-and-scim-data" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Mapping of SAML and SCIM data</h3>
+<h2>
+<a id="mapping-of-saml-and-scim-data" class="anchor" href="#mapping-of-saml-and-scim-data" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Mapping of SAML and SCIM data</h2>
 
-<p>Make sure to configure your SAML Identity Provider and your SCIM client to have identical <code>NameID</code> and <code>userName</code> for the same user. This provides the ability for a user authenticating using SAML to be linked to their identity that is already provisioned using SCIM.</p>
+<p>Make sure to configure your SAML Identity Provider and your SCIM client to have identical <code>NameID</code> and <code>userName</code> values for the same user. This provides the ability for a user authenticating using SAML to be linked to their identity that is already provisioned using SCIM.</p>
 
 <h2>
 <a id="supported-scim-user-attributes" class="anchor" href="#supported-scim-user-attributes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Supported SCIM User attributes</h2>
@@ -412,7 +413,7 @@
 <tr>
 <td><code>externalId</code></td>
 <td><code>string</code></td>
-<td>External identifier (generated by the SAML SSO provider).</td>
+<td>This identifier is generated by the SAML provider, and is used as a unique ID by the SAML provider to match against a GitHub user. You can find the <code>externalID</code> for a user either at the SAML provider, or using the <a href="#get-a-list-of-provisioned-identities">Get a list of provisioned identities</a> endpoint and filtering on other known attributes, such as a user's GitHub username or email address.</td>
 </tr>
 <tr>
 <td><code>id</code></td>
@@ -429,9 +430,9 @@
 
 <div class="alert note">
 
-<p>Note: Endpoints for the SCIM API are case sensitive: the first letter in the <code>Users</code> endpoint must be capitalized. For example:</p>
+<p>Note: Endpoint URLs for the SCIM API are case sensitive. For example, the first letter in the <code>Users</code> endpoint must be capitalized:</p>
 
-<pre><code>GET /scim/v2/organizations/:org/Users/:external_identity_guid
+<pre><code>GET /scim/v2/organizations/:org/Users/:scim_user_id
 </code></pre>
 
 </div>
@@ -468,24 +469,23 @@
 <tr>
 <td><code>filter</code></td>
 <td><code>string</code></td>
-<td>Filters results using the equals query parameter operator (<code>eq</code>). You can filter results that are equal to <code>id</code>, <code>userName</code>, <code>emails</code>, and <code>external_id</code>. For example, to search for an identity with the <code>userName</code> Octocat, you would use this query: <code>?filter=userName%20eq%20\"Octocat\"</code>
-</td>
+<td>Filters results using the equals query parameter operator (<code>eq</code>). You can filter results that are equal to <code>id</code>, <code>userName</code>, <code>emails</code>, and <code>external_id</code>. For example, to search for an identity with the <code>userName</code> Octocat, you would use this query: <code>?filter=userName%20eq%20\"Octocat\"</code>.</td>
 </tr>
 </tbody>
 </table>
 
-<h4>
-<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h4>
+<h3>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 
-<p>If you want to filter by a specific email address, you'd use the <code>email</code> query parameter and the <code>eq</code> operator:</p>
+<p>To filter for a specific email address, use the <code>email</code> query parameter and the <code>eq</code> operator:</p>
 
 <pre><code>GET /scim/v2/organizations/:org/Users?filter=emails eq user@example.com
 </code></pre>
 
-<p>Your filter might look like this using cURL:</p>
+<p>Your filter would look like this cURL command:</p>
 
 <pre class="command-line">
-curl -u octocat:$token https://api.github.com/scim/v2/organizations/octo-org/Users?filter=emails%20eq%20\"octocat@github.com\""
+curl -u octocat:$token https://api.github.com/scim/v2/organizations/octo-org/Users?filter=emails%20eq%20\"octocat@github.com\"
 </pre>
 
 <h3>
@@ -528,7 +528,7 @@ curl -u octocat:$token https://api.github.com/scim/v2/organizations/octo-org/Use
         </span><span class="nt">"resourceType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-02-13T15:05:24.000-08:00"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"lastModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-02-13T15:05:55.000-08:00"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/scim/v2/organizations/Octo-org/Users/5fc0c238-1112-11e8-8e45-920c87bdbd75"</span><span class="w">
+        </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/scim/v2/organizations/octo-org/Users/5fc0c238-1112-11e8-8e45-920c87bdbd75"</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">]</span><span class="w">
@@ -557,18 +557,26 @@ curl -u octocat:$token https://api.github.com/scim/v2/organizations/octo-org/Use
       </span><span class="nt">"schemas"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="s2">"urn:ietf:params:scim:schemas:core:2.0:User"</span><span class="w">
       </span><span class="p">],</span><span class="w">
-      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"8773fe-ffff-42837498757"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"externalId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"239482347928374"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"userName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mona@example.com"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"edefdfedf-050c-11e7-8d32"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"externalId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a7d0f98382"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"userName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mona.octocat@okta.example.com"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"givenName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mona"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"familyName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat"</span><span class="w">
+        </span><span class="nt">"givenName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mona"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"familyName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Octocat"</span><span class="w">
       </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"emails"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mona.octocat@okta.example.com"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"work"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"primary"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">],</span><span class="w">
       </span><span class="nt">"active"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
       </span><span class="nt">"meta"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="nt">"resourceType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-09T16:11:13-05:00"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"lastModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-09T16:11:13-05:00"</span><span class="w">
+        </span><span class="nt">"lastModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-09T16:11:13-05:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/scim/v2/organizations/octo-org/Users/edefdfedf-050c-11e7-8d32"</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="p">{</span><span class="w">
@@ -582,11 +590,19 @@ curl -u octocat:$token https://api.github.com/scim/v2/organizations/octo-org/Use
         </span><span class="nt">"givenName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hu"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"familyName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bot"</span><span class="w">
       </span><span class="p">},</span><span class="w">
+      </span><span class="nt">"emails"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hubot@example.com"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"work"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"primary"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">],</span><span class="w">
       </span><span class="nt">"active"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
       </span><span class="nt">"meta"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="nt">"resourceType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w">
         </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-09T16:11:13-05:00"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"lastModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-09T16:11:13-05:00"</span><span class="w">
+        </span><span class="nt">"lastModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-09T16:11:13-05:00"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/scim/v2/organizations/octo-org/Users/77563764-eb6-24-0598234-958243"</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">]</span><span class="w">
@@ -598,7 +614,7 @@ curl -u octocat:$token https://api.github.com/scim/v2/organizations/octo-org/Use
 <a id="get-provisioning-details-for-a-single-user" class="anchor" href="#get-provisioning-details-for-a-single-user" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get provisioning details for a single user<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
-<pre><code>GET /scim/v2/organizations/:org/Users/:external_identity_guid
+<pre><code>GET /scim/v2/organizations/:org/Users/:scim_user_id
 </code></pre>
 
 <h3>
@@ -612,18 +628,26 @@ curl -u octocat:$token https://api.github.com/scim/v2/organizations/octo-org/Use
   </span><span class="nt">"schemas"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="s2">"urn:ietf:params:scim:schemas:core:2.0:User"</span><span class="w">
   </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"77563764-eb6-24-0598234-958243"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"externalId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sdfoiausdofiua"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"userName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hubot@example.com"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"edefdfedf-050c-11e7-8d32"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"externalId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a7d0f98382"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"userName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mona.octocat@okta.example.com"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"givenName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hu"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"familyName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bot"</span><span class="w">
+    </span><span class="nt">"givenName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mona"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"familyName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Octocat"</span><span class="w">
   </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"emails"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mona.octocat@okta.example.com"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"work"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"primary"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
   </span><span class="nt">"active"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
   </span><span class="nt">"meta"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nt">"resourceType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-09T16:11:13-05:00"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"lastModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-09T16:11:13-05:00"</span><span class="w">
+    </span><span class="nt">"lastModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-09T16:11:13-05:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/scim/v2/organizations/octo-org/Users/edefdfedf-050c-11e7-8d32"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
@@ -633,10 +657,35 @@ curl -u octocat:$token https://api.github.com/scim/v2/organizations/octo-org/Use
 <a id="provision-and-invite-users" class="anchor" href="#provision-and-invite-users" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Provision and invite users<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
-<p>Provision organization membership for and send activation emails to a list of email addresses.</p>
+<p>Provision organization membership for a user, and send an activation email to the email address.</p>
 
 <pre><code>POST /scim/v2/organizations/:org/Users
 </code></pre>
+
+<p>As shown in the following example, you must at least provide the required values for the user: <code>userName</code>, <code>name</code>, and <code>emails</code>.</p>
+
+<h3>
+<a id="example-1" class="anchor" href="#example-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"schemas"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"urn:ietf:params:scim:schemas:core:2.0:User"</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"userName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mona.octocat@okta.example.com"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"familyName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"givenName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mona"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"emails"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mona.octocat@okta.example.com"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"work"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"primary"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
 
 <h3>
 <a id="response-1" class="anchor" href="#response-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
@@ -656,28 +705,63 @@ curl -u octocat:$token https://api.github.com/scim/v2/organizations/octo-org/Use
     </span><span class="nt">"givenName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mona"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"familyName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Octocat"</span><span class="w">
   </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"emails"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mona.octocat@okta.example.com"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"work"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"primary"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
   </span><span class="nt">"active"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
   </span><span class="nt">"meta"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nt">"resourceType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-09T16:11:13-05:00"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"lastModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-09T16:11:13-05:00"</span><span class="w">
+    </span><span class="nt">"lastModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-09T16:11:13-05:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/scim/v2/organizations/octo-org/Users/edefdfedf-050c-11e7-8d32"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
 
 <h2>
-<a id="update-a-provisioned-organization-membership" class="anchor" href="#update-a-provisioned-organization-membership" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Update a provisioned organization membership<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+<a id="replace-a-provisioned-users-information" class="anchor" href="#replace-a-provisioned-users-information" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Replace a provisioned user's information<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
-<pre><code>PUT /scim/v2/organizations/:org/Users/:external_identity_guid
+<p>Replaces an existing provisioned user's information. You must provide all the information required for the user as if you were provisioning them for the first time. Any existing user information that you don't provide will be removed. If you want to only update a specific attribute, use the <a href="#update-a-user-attribute">Update a user attribute</a> endpoint instead.</p>
+
+<pre><code>PUT /scim/v2/organizations/:org/Users/:scim_user_id
 </code></pre>
+
+<p>As shown in the following example, you must at least provide the required values for the user: <code>userName</code>, <code>name</code>, and <code>emails</code>.</p>
 
 <div class="alert warning">
 
-<p><strong>Warning:</strong> Setting <code>active: false</code> removes the user from the organization, deletes the external identity, and deletes the associated <code>:user_id</code>.</p>
+<p><strong>Warning:</strong> Setting <code>active: false</code> removes the user from the organization, deletes the external identity, and deletes the associated <code>:scim_user_id</code>.</p>
 
 </div>
+
+<h3>
+<a id="example-2" class="anchor" href="#example-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"schemas"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"urn:ietf:params:scim:schemas:core:2.0:User"</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"userName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mona.octocat@okta.example.com"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"familyName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"givenName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mona"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"emails"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mona.octocat@okta.example.com"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"work"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"primary"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
 
 <h3>
 <a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
@@ -697,11 +781,19 @@ curl -u octocat:$token https://api.github.com/scim/v2/organizations/octo-org/Use
     </span><span class="nt">"givenName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mona"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"familyName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Octocat"</span><span class="w">
   </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"emails"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mona.octocat@okta.example.com"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"work"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"primary"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
   </span><span class="nt">"active"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
   </span><span class="nt">"meta"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nt">"resourceType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-09T16:11:13-05:00"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"lastModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-09T16:11:13-05:00"</span><span class="w">
+    </span><span class="nt">"lastModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-09T16:11:13-05:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/scim/v2/organizations/octo-org/Users/edefdfedf-050c-11e7-8d32"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
@@ -711,12 +803,22 @@ curl -u octocat:$token https://api.github.com/scim/v2/organizations/octo-org/Use
 <a id="update-a-user-attribute" class="anchor" href="#update-a-user-attribute" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Update a user attribute<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
-<pre><code>PATCH /scim/v2/organizations/:org/Users/:external_identity_guid
+<p>Allows you to change a provisioned user's individual attributes. To change a user's values, you must provide a specific <code>Operations</code> JSON format that contains at least one of the <code>add</code>, <code>remove</code>, or <code>replace</code> operations.</p>
+
+<p>The following example shows adding a new email address and updating the user's given name. For other examples and more information on the SCIM operations format, see the <a href="https://tools.ietf.org/html/rfc7644#section-3.5.2">SCIM specification</a>.</p>
+
+<pre><code>PATCH /scim/v2/organizations/:org/Users/:scim_user_id
 </code></pre>
+
+<div class="alert note">
+
+<p><strong>Note:</strong> Complicated SCIM <code>path</code> selectors that include filters are not supported. For example, a <code>path</code> selector defined as <code>"path": "emails[type eq \"work\"]"</code> will not work.</p>
+
+</div>
 
 <div class="alert warning">
 
-<p><strong>Warning:</strong> If you set <code>active:false</code> using the <code>replace</code> operation (as shown in the JSON example below), it removes the user from the organization, deletes the external identity, and deletes the associated <code>:user_id</code>.</p>
+<p><strong>Warning:</strong> If you set <code>active:false</code> using the <code>replace</code> operation (as shown in the JSON example below), it removes the user from the organization, deletes the external identity, and deletes the associated <code>:scim_user_id</code>.</p>
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"Operations"</span><span class="p">:[{</span><span class="w">
@@ -730,6 +832,34 @@ curl -u octocat:$token https://api.github.com/scim/v2/organizations/octo-org/Use
 
 
 </div>
+
+<h3>
+<a id="example-3" class="anchor" href="#example-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"schemas"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"urn:ietf:params:scim:api:messages:2.0:PatchOp"</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"Operations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"op"</span><span class="p">:</span><span class="w"> </span><span class="s2">"add"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"emails"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"monalisa@octocat.github.com"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"home"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"op"</span><span class="p">:</span><span class="w"> </span><span class="s2">"replace"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name.givenName"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Monalisa"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
 
 <h3>
 <a id="response-3" class="anchor" href="#response-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
@@ -746,14 +876,26 @@ curl -u octocat:$token https://api.github.com/scim/v2/organizations/octo-org/Use
   </span><span class="nt">"externalId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a7d0f98382"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"userName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mona.octocat@okta.example.com"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"givenName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mona"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"givenName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Monalisa"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"familyName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Octocat"</span><span class="w">
   </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"emails"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mona.octocat@okta.example.com"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"work"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"primary"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"monalisa@octocat.github.com"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"home"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
   </span><span class="nt">"active"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
   </span><span class="nt">"meta"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nt">"resourceType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-09T16:11:13-05:00"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"lastModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-09T16:11:13-05:00"</span><span class="w">
+    </span><span class="nt">"lastModified"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-03-09T16:11:13-05:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/scim/v2/organizations/octo-org/Users/edefdfedf-050c-11e7-8d32"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
@@ -763,7 +905,7 @@ curl -u octocat:$token https://api.github.com/scim/v2/organizations/octo-org/Use
 <a id="remove-a-user-from-the-organization" class="anchor" href="#remove-a-user-from-the-organization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove a user from the organization<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
-<pre><code>DELETE /scim/v2/organizations/:org/Users/:external_identity_guid
+<pre><code>DELETE /scim/v2/organizations/:org/Users/:scim_user_id
 </code></pre>
 
 <h3>
