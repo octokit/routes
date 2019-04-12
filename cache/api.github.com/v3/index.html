@@ -408,7 +408,7 @@ sent and received as JSON.</p>
 <pre><code>YYYY-MM-DDTHH:MM:SSZ
 </code></pre>
 
-<p>For more information about time zones in timestamps, see <a href="#timezones">this section</a>.</p>
+<p>For more information about timezones in timestamps, see <a href="#timezones">this section</a>.</p>
 
 <h3>
 <a id="summary-representations" class="anchor" href="#summary-representations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Summary representations</h3>
@@ -447,7 +447,7 @@ response illustrates all attributes that are returned by that method.</p>
 <h2>
 <a id="authentication" class="anchor" href="#authentication" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authentication</h2>
 
-<p>There are three ways to authenticate through GitHub API v3.  Requests that
+<p>There are two ways to authenticate through GitHub API v3.  Requests that
 require authentication will return <code>404 Not Found</code>, instead of
 <code>403 Forbidden</code>, in some places.  This is to prevent the accidental leakage
 of private repositories to unauthorized users.</p>
@@ -466,12 +466,11 @@ of private repositories to unauthorized users.</p>
 <span class="command">curl -H "Authorization: token <em>OAUTH-TOKEN</em>" https://api.github.com</span>
 </pre>
 
-<h3>
-<a id="oauth2-token-sent-as-a-parameter" class="anchor" href="#oauth2-token-sent-as-a-parameter" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>OAuth2 token (sent as a parameter)</h3>
+<div class="alert note">
 
-<pre class="command-line">
-<span class="command">curl https://api.github.com/?access_token=<em>OAUTH-TOKEN</em></span>
-</pre>
+<p>Note: GitHub recommends sending OAuth tokens using the Authorization header. GitHub accepts sending OAuth tokens as a query parameter, but it is less secure because URLs can be logged by any system along the request path.</p>
+
+</div>
 
 <p>Read <a href="/apps/building-integrations/setting-up-and-registering-oauth-apps/">more about OAuth2</a>.  Note that OAuth2 tokens can be <a href="/v3/oauth_authorizations/#create-a-new-authorization">acquired
 programmatically</a>, for applications that
@@ -484,8 +483,7 @@ are not websites.</p>
 <span class="command">curl 'https://api.github.com/users/whatever?client_id=xxxx&amp;client_secret=yyyy'</span>
 </pre>
 
-<p>This should only be used in server to server scenarios.  Don't leak your
-OAuth application's client secret to your users.</p>
+<p>Using your <code>client_id</code> and <code>client_secret</code> does <em>not</em> authenticate as a user, it will only identify your OAuth application to increase your rate limit. Permissions are only granted to users, not applications, and you will only get back data that an unauthenticated user would see. For this reason, you should only use the OAuth2 key/secret in server-to-server scenarios. Don't leak your OAuth application's client secret to your users.</p>
 
 <p>Read <a href="#increasing-the-unauthenticated-rate-limit-for-oauth-applications">more about unauthenticated rate limiting</a>.</p>
 

@@ -311,7 +311,7 @@
 <li><a href="#more-information" id="markdown-toc-more-information">More Information</a></li>
 </ul>
 <p>You can use this API to manage the access OAuth applications have to your account. You can only access this API via <a href="/enterprise/2.14/v3/auth#basic-authentication">Basic Authentication</a> using your username and password, not tokens.</p>
-<p>Make sure you understand how to <a href="/enterprise/2.14/v3/auth/#working-with-two-factor-authentication">work with two-factor authentication</a> if you or your users have two-factor authentication enabled.</p>
+<p>If you or your users have two-factor authentication enabled, make sure you understand how to <a href="/enterprise/2.14/v3/auth/#working-with-two-factor-authentication">work with two-factor authentication</a>.</p>
 <h2>
 <a id="list-your-grants" class="anchor" href="#list-your-grants" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List your grants</h2>
 <p>You can use this API to list the set of OAuth applications that have been granted access to your account. Unlike the <a href="/enterprise/2.14/v3/oauth_authorizations/#list-your-authorizations">list your authorizations</a> API, this API does not manage individual tokens. This API will return one entry for each OAuth application that has been granted access to your account, regardless of the number of tokens an application has generated for your user. The list of OAuth applications returned matches what is shown on <a href="https://github.com/settings/applications#authorized">the application authorizations settings screen within GitHub</a>. The <code>scopes</code> returned are the union of scopes authorized for the application. For example, if an application has one token with <code>repo</code> scope and another token with <code>user</code> scope, the grant will return <code>["repo", "user"]</code>.</p>
@@ -436,9 +436,12 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </span></code></pre>
 <h2>
 <a id="create-a-new-authorization" class="anchor" href="#create-a-new-authorization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a new authorization</h2>
-<p>If you need a small number of personal access tokens, implementing the <a href="/enterprise/2.14/apps/building-oauth-apps/authorizing-oauth-apps/">web flow</a> can be cumbersome. Instead, tokens can be created using the OAuth Authorizations API using <a href="/enterprise/2.14/v3/auth#basic-authentication">Basic Authentication</a>. To create personal access tokens for a particular OAuth application, you must provide its client ID and secret, found on the OAuth application settings page, linked from your <a href="https://github.com/settings/developers">OAuth applications listing on GitHub</a>.</p>
-<p>If your OAuth application intends to create multiple tokens for one user, use <code>fingerprint</code> to differentiate between them.</p>
-<p>You can also create OAuth tokens through the web UI via the <a href="https://github.com/settings/tokens">personal access tokens settings</a>. Read more about these tokens on the <a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use">GitHub Help site</a>.</p>
+<p>Creates OAuth tokens using <a href="/enterprise/2.14/v3/auth#basic-authentication">Basic Authentication</a>. If you have two-factor authentication setup, Basic Authentication for this endpoint requires that you use a one-time password (OTP) and your username and password instead of tokens. For more information, see "<a href="/enterprise/2.14/v3/auth/#working-with-two-factor-authentication">Woking with two-factor authentication</a>."</p>
+<div class="alert note">
+<p>You can use this endpoint to create multiple OAuth tokens instead of implementing the <a href="/enterprise/2.14/apps/building-oauth-apps/authorizing-oauth-apps/">web flow</a>.</p>
+</div>
+<p>To create tokens for a particular OAuth application using this endpoint, you must authenticate as the user you want to create an authorization for and provide the app's client ID and secret, found on your OAuth application's settings page. If your OAuth application intends to create multiple tokens for one user, use <code>fingerprint</code> to differentiate between them.</p>
+<p>You can also create tokens on GitHub from the <a href="https://github.com/settings/tokens">personal access tokens settings</a> page. Read more about these tokens in <a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use">the GitHub Help documentation</a>.</p>
 <pre><code>POST /authorizations
 </code></pre>
 <h3>
@@ -520,11 +523,12 @@ Location: https://api.github.com/authorizations/1
 </span></code></pre>
 <h2>
 <a id="get-or-create-an-authorization-for-a-specific-app" class="anchor" href="#get-or-create-an-authorization-for-a-specific-app" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get-or-create an authorization for a specific app</h2>
-<p>This method will create a new authorization for the specified OAuth application,
+<p>Creates a new authorization for the specified OAuth application,
 only if an authorization for that application doesn't already exist for the
 user. The URL includes the 20 character client ID for the OAuth app that is
 requesting the token. It returns the user's existing authorization for the
 application if one is present. Otherwise, it creates and returns a new one.</p>
+<p>If you have two-factor authentication setup, Basic Authentication for this endpoint requires that you use a one-time password (OTP) and your username and password instead of tokens. For more information, see "<a href="/enterprise/2.14/v3/auth/#working-with-two-factor-authentication">Woking with two-factor authentication</a>."</p>
 <pre><code>PUT /authorizations/clients/:client_id
 </code></pre>
 <h3>
@@ -635,6 +639,7 @@ app that is requesting the token. <code>fingerprint</code> is a unique string to
 distinguish an authorization from others created for the same client ID and
 user. It returns the user's existing authorization for the application if one
 is present. Otherwise, it creates and returns a new one.</p>
+<p>If you have two-factor authentication setup, Basic Authentication for this endpoint requires that you use a one-time password (OTP) and your username and password instead of tokens. For more information, see "<a href="/enterprise/2.14/v3/auth/#working-with-two-factor-authentication">Woking with two-factor authentication</a>."</p>
 <pre><code>PUT /authorizations/clients/:client_id/:fingerprint
 </code></pre>
 <h3>
@@ -733,6 +738,7 @@ Location: https://api.github.com/authorizations/1
 </span></code></pre>
 <h2>
 <a id="update-an-existing-authorization" class="anchor" href="#update-an-existing-authorization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Update an existing authorization</h2>
+<p>If you have two-factor authentication setup, Basic Authentication for this endpoint requires that you use a one-time password (OTP) and your username and password instead of tokens. For more information, see "<a href="/enterprise/2.14/v3/auth/#working-with-two-factor-authentication">Woking with two-factor authentication</a>."</p>
 <pre><code>PATCH /authorizations/:authorization_id
 </code></pre>
 <h3>
