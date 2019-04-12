@@ -1343,7 +1343,7 @@
     "name": "Get a single issue",
     "enabledForApps": true,
     "method": "GET",
-    "path": "/repos/:owner/:repo/issues/:number",
+    "path": "/repos/:owner/:repo/issues/:issue_number",
     "previews": [
       {
         "name": "symmetra",
@@ -1367,11 +1367,28 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "issue_number",
         "type": "integer",
         "required": true,
         "description": "",
         "location": "url"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"issue_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "issue_number"
+          }
+        }
       }
     ],
     "description": "The API returns a [`301 Moved Permanently` status](/enterprise/2.16/v3/#http-redirects) if the issue was [transferred](https://help.github.com/articles/transferring-an-issue-to-another-repository/) to another repository. If the issue was transferred to or deleted from a repository where the authenticated user lacks read access, the API returns a `404 Not Found` status. If the issue was deleted from a repository where the authenticated user has read access, the API returns a `410 Gone` status. To receive webhook events for transferred and deleted issues, subscribe to the [`issues`](/enterprise/2.16/v3/activity/events/types/#issuesevent) webhook.\n\n**Note**: GitHub's REST API v3 considers every pull request an issue, but not every issue is a pull request. For this reason, \"Issues\" endpoints may return both issues and pull requests in the response. You can identify pull requests by the `pull_request` key.\n\nBe aware that the `id` of a pull request returned from \"Issues\" endpoints will be an _issue id_. To find out the pull request id, use the \"[List pull requests](/enterprise/2.16/v3/pulls/#list-pull-requests)\" endpoint.",
@@ -1798,7 +1815,7 @@
     "name": "Edit an issue",
     "enabledForApps": true,
     "method": "PATCH",
-    "path": "/repos/:owner/:repo/issues/:number",
+    "path": "/repos/:owner/:repo/issues/:issue_number",
     "previews": [
       {
         "name": "symmetra",
@@ -1822,7 +1839,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "issue_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -1881,6 +1898,23 @@
         "description": "Logins for Users to assign to this issue. Pass one or more user logins to _replace_ the set of assignees on this Issue. Send an empty array (`[]`) to clear all assignees from the Issue. _NOTE: Only users with push access can set assignees for new issues. Assignees are silently dropped otherwise._",
         "required": false,
         "location": "body"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"issue_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "issue_number"
+          }
+        }
       }
     ],
     "requests": [
@@ -2069,7 +2103,7 @@
     "name": "Lock an issue",
     "enabledForApps": true,
     "method": "PUT",
-    "path": "/repos/:owner/:repo/issues/:number/lock",
+    "path": "/repos/:owner/:repo/issues/:issue_number/lock",
     "previews": [
       {
         "name": "sailor-v",
@@ -2093,7 +2127,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "issue_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -2111,6 +2145,23 @@
           "spam"
         ],
         "location": "body"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"issue_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "issue_number"
+          }
+        }
       }
     ],
     "requests": [
@@ -2135,7 +2186,7 @@
     "name": "Unlock an issue",
     "enabledForApps": true,
     "method": "DELETE",
-    "path": "/repos/:owner/:repo/issues/:number/lock",
+    "path": "/repos/:owner/:repo/issues/:issue_number/lock",
     "previews": [],
     "params": [
       {
@@ -2153,11 +2204,28 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "issue_number",
         "type": "integer",
         "required": true,
         "description": "",
         "location": "url"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"issue_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "issue_number"
+          }
+        }
       }
     ],
     "description": "Users with push access can unlock an issue's conversation.",
@@ -2297,7 +2365,7 @@
     "name": "Add assignees to an issue",
     "enabledForApps": true,
     "method": "POST",
-    "path": "/repos/:owner/:repo/issues/:number/assignees",
+    "path": "/repos/:owner/:repo/issues/:issue_number/assignees",
     "previews": [
       {
         "name": "symmetra",
@@ -2321,7 +2389,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "issue_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -2333,6 +2401,23 @@
         "description": "Usernames of people to assign this issue to. _NOTE: Only users with push access can add assignees to an issue. Assignees are silently ignored otherwise._",
         "required": false,
         "location": "body"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"issue_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "issue_number"
+          }
+        }
       }
     ],
     "requests": [
@@ -2535,7 +2620,7 @@
     "name": "Remove assignees from an issue",
     "enabledForApps": true,
     "method": "DELETE",
-    "path": "/repos/:owner/:repo/issues/:number/assignees",
+    "path": "/repos/:owner/:repo/issues/:issue_number/assignees",
     "previews": [
       {
         "name": "symmetra",
@@ -2559,7 +2644,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "issue_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -2571,6 +2656,23 @@
         "description": "Usernames of assignees to remove from an issue. _NOTE: Only users with push access can remove assignees from an issue. Assignees are silently ignored otherwise._",
         "required": false,
         "location": "body"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"issue_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "issue_number"
+          }
+        }
       }
     ],
     "requests": [
@@ -2733,7 +2835,7 @@
     "name": "List comments on an issue",
     "enabledForApps": true,
     "method": "GET",
-    "path": "/repos/:owner/:repo/issues/:number/comments",
+    "path": "/repos/:owner/:repo/issues/:issue_number/comments",
     "previews": [],
     "params": [
       {
@@ -2751,7 +2853,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "issue_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -2779,6 +2881,23 @@
         "description": "Page number of the results to fetch.",
         "default": 1,
         "location": "query"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"issue_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "issue_number"
+          }
+        }
       }
     ],
     "description": "Issue Comments are ordered by ascending ID.",
@@ -3009,7 +3128,7 @@
     "name": "Create a comment",
     "enabledForApps": true,
     "method": "POST",
-    "path": "/repos/:owner/:repo/issues/:number/comments",
+    "path": "/repos/:owner/:repo/issues/:issue_number/comments",
     "previews": [],
     "params": [
       {
@@ -3027,7 +3146,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "issue_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -3039,6 +3158,23 @@
         "description": "The contents of the comment.",
         "required": true,
         "location": "body"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"issue_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "issue_number"
+          }
+        }
       }
     ],
     "requests": [
@@ -3215,7 +3351,7 @@
     "name": "List events for an issue",
     "enabledForApps": true,
     "method": "GET",
-    "path": "/repos/:owner/:repo/issues/:number/events",
+    "path": "/repos/:owner/:repo/issues/:issue_number/events",
     "previews": [
       {
         "name": "starfox",
@@ -3244,7 +3380,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "issue_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -3265,6 +3401,23 @@
         "description": "Page number of the results to fetch.",
         "default": 1,
         "location": "query"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"issue_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "issue_number"
+          }
+        }
       }
     ],
     "description": "",
@@ -4103,7 +4256,7 @@
     "name": "List labels on an issue",
     "enabledForApps": true,
     "method": "GET",
-    "path": "/repos/:owner/:repo/issues/:number/labels",
+    "path": "/repos/:owner/:repo/issues/:issue_number/labels",
     "previews": [
       {
         "name": "symmetra",
@@ -4127,7 +4280,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "issue_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -4148,6 +4301,23 @@
         "description": "Page number of the results to fetch.",
         "default": 1,
         "location": "query"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"issue_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "issue_number"
+          }
+        }
       }
     ],
     "description": "",
@@ -4186,7 +4356,7 @@
     "name": "Add labels to an issue",
     "enabledForApps": true,
     "method": "POST",
-    "path": "/repos/:owner/:repo/issues/:number/labels",
+    "path": "/repos/:owner/:repo/issues/:issue_number/labels",
     "previews": [
       {
         "name": "symmetra",
@@ -4210,7 +4380,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "issue_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -4222,6 +4392,23 @@
         "description": "The name of the label to add to the issue. Must contain at least one label. **Note:** Alternatively, you can pass a single label as a `string` or an `array` of labels directly, but GitHub recommends passing an object with the `labels` key.",
         "required": true,
         "location": "body"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"issue_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "issue_number"
+          }
+        }
       }
     ],
     "requests": [
@@ -4268,7 +4455,7 @@
     "name": "Remove a label from an issue",
     "enabledForApps": true,
     "method": "DELETE",
-    "path": "/repos/:owner/:repo/issues/:number/labels/:name",
+    "path": "/repos/:owner/:repo/issues/:issue_number/labels/:name",
     "previews": [
       {
         "name": "symmetra",
@@ -4292,7 +4479,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "issue_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -4304,6 +4491,23 @@
         "required": true,
         "description": "",
         "location": "url"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"issue_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "issue_number"
+          }
+        }
       }
     ],
     "description": "Removes the specified label from the issue, and returns the remaining labels on the issue. This endpoint returns a `404 Not Found` status if the label does not exist.",
@@ -4333,7 +4537,7 @@
     "name": "Replace all labels for an issue",
     "enabledForApps": true,
     "method": "PUT",
-    "path": "/repos/:owner/:repo/issues/:number/labels",
+    "path": "/repos/:owner/:repo/issues/:issue_number/labels",
     "previews": [
       {
         "name": "symmetra",
@@ -4357,7 +4561,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "issue_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -4369,6 +4573,23 @@
         "description": "The names of the labels to add to the issue. You can pass an empty array to remove all labels. **Note:** Alternatively, you can pass a single label as a `string` or an `array` of labels directly, but GitHub recommends passing an object with the `labels` key.",
         "required": false,
         "location": "body"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"issue_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "issue_number"
+          }
+        }
       }
     ],
     "requests": [
@@ -4415,7 +4636,7 @@
     "name": "Remove all labels from an issue",
     "enabledForApps": true,
     "method": "DELETE",
-    "path": "/repos/:owner/:repo/issues/:number/labels",
+    "path": "/repos/:owner/:repo/issues/:issue_number/labels",
     "previews": [],
     "params": [
       {
@@ -4433,11 +4654,28 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "issue_number",
         "type": "integer",
         "required": true,
         "description": "",
         "location": "url"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"issue_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "issue_number"
+          }
+        }
       }
     ],
     "description": "",
@@ -4456,7 +4694,7 @@
     "name": "Get labels for every issue in a milestone",
     "enabledForApps": true,
     "method": "GET",
-    "path": "/repos/:owner/:repo/milestones/:number/labels",
+    "path": "/repos/:owner/:repo/milestones/:milestone_number/labels",
     "previews": [
       {
         "name": "symmetra",
@@ -4480,7 +4718,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "milestone_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -4501,6 +4739,23 @@
         "description": "Page number of the results to fetch.",
         "default": 1,
         "location": "query"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"milestone_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "milestone_number"
+          }
+        }
       }
     ],
     "description": "",
@@ -4665,7 +4920,7 @@
     "name": "Get a single milestone",
     "enabledForApps": true,
     "method": "GET",
-    "path": "/repos/:owner/:repo/milestones/:number",
+    "path": "/repos/:owner/:repo/milestones/:milestone_number",
     "previews": [],
     "params": [
       {
@@ -4683,11 +4938,28 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "milestone_number",
         "type": "integer",
         "required": true,
         "description": "",
         "location": "url"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"milestone_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "milestone_number"
+          }
+        }
       }
     ],
     "description": "",
@@ -4855,7 +5127,7 @@
     "name": "Update a milestone",
     "enabledForApps": true,
     "method": "PATCH",
-    "path": "/repos/:owner/:repo/milestones/:number",
+    "path": "/repos/:owner/:repo/milestones/:milestone_number",
     "previews": [],
     "params": [
       {
@@ -4873,7 +5145,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "milestone_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -4911,6 +5183,23 @@
         "description": "The milestone due date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.",
         "required": false,
         "location": "body"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"milestone_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "milestone_number"
+          }
+        }
       }
     ],
     "requests": [
@@ -4974,7 +5263,7 @@
     "name": "Delete a milestone",
     "enabledForApps": true,
     "method": "DELETE",
-    "path": "/repos/:owner/:repo/milestones/:number",
+    "path": "/repos/:owner/:repo/milestones/:milestone_number",
     "previews": [],
     "params": [
       {
@@ -4992,11 +5281,28 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "milestone_number",
         "type": "integer",
         "required": true,
         "description": "",
         "location": "url"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"milestone_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "milestone_number"
+          }
+        }
       }
     ],
     "description": "",
@@ -5015,7 +5321,7 @@
     "name": "List events for an issue",
     "enabledForApps": true,
     "method": "GET",
-    "path": "/repos/:owner/:repo/issues/:number/timeline",
+    "path": "/repos/:owner/:repo/issues/:issue_number/timeline",
     "previews": [
       {
         "name": "mockingbird",
@@ -5044,7 +5350,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "issue_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -5065,6 +5371,23 @@
         "description": "Page number of the results to fetch.",
         "default": 1,
         "location": "query"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"issue_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "issue_number"
+          }
+        }
       }
     ],
     "description": "",
