@@ -398,7 +398,7 @@
 
 <p>You can use this API to manage the access OAuth applications have to your account. You can only access this API via <a href="/v3/auth#basic-authentication">Basic Authentication</a> using your username and password, not tokens.</p>
 
-<p>Make sure you understand how to <a href="/v3/auth/#working-with-two-factor-authentication">work with two-factor authentication</a> if you or your users have two-factor authentication enabled.</p>
+<p>If you or your users have two-factor authentication enabled, make sure you understand how to <a href="/v3/auth/#working-with-two-factor-authentication">work with two-factor authentication</a>.</p>
 
 <h2>
 <a id="list-your-grants" class="anchor" href="#list-your-grants" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List your grants</h2>
@@ -560,13 +560,19 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <h2>
 <a id="create-a-new-authorization" class="anchor" href="#create-a-new-authorization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a new authorization</h2>
 
-<p>If you need a small number of personal access tokens, implementing the <a href="/apps/building-oauth-apps/authorizing-oauth-apps/">web flow</a> can be cumbersome. Instead, tokens can be created using the OAuth Authorizations API using <a href="/v3/auth#basic-authentication">Basic Authentication</a>. To create personal access tokens for a particular OAuth application, you must provide its client ID and secret, found on the OAuth application settings page, linked from your <a href="https://github.com/settings/developers">OAuth applications listing on GitHub</a>.</p>
+<p>Creates OAuth tokens using <a href="/v3/auth#basic-authentication">Basic Authentication</a>. If you have two-factor authentication setup, Basic Authentication for this endpoint requires that you use a one-time password (OTP) and your username and password instead of tokens. For more information, see "<a href="/v3/auth/#working-with-two-factor-authentication">Woking with two-factor authentication</a>."</p>
 
-<p>If your OAuth application intends to create multiple tokens for one user, use <code>fingerprint</code> to differentiate between them.</p>
+<div class="alert note">
 
-<p>You can also create OAuth tokens through the web UI via the <a href="https://github.com/settings/tokens">personal access tokens settings</a>. Read more about these tokens on the <a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use">GitHub Help site</a>.</p>
+<p>You can use this endpoint to create multiple OAuth tokens instead of implementing the <a href="/apps/building-oauth-apps/authorizing-oauth-apps/">web flow</a>.</p>
 
-<p>Organizations that enforce SAML SSO require personal access tokens to be whitelisted. Read more about whitelisting tokens on the <a href="https://help.github.com/articles/about-identity-and-access-management-with-saml-single-sign-on">GitHub Help site</a>.</p>
+</div>
+
+<p>To create tokens for a particular OAuth application using this endpoint, you must authenticate as the user you want to create an authorization for and provide the app's client ID and secret, found on your OAuth application's settings page. If your OAuth application intends to create multiple tokens for one user, use <code>fingerprint</code> to differentiate between them.</p>
+
+<p>You can also create tokens on GitHub from the <a href="https://github.com/settings/tokens">personal access tokens settings</a> page. Read more about these tokens in <a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use">the GitHub Help documentation</a>.</p>
+
+<p>Organizations that enforce SAML SSO require personal access tokens to be whitelisted. Read more about whitelisting tokens in <a href="https://help.github.com/articles/about-identity-and-access-management-with-saml-single-sign-on">the GitHub Help documentation</a>.</p>
 
 <pre><code>POST /authorizations
 </code></pre>
@@ -660,11 +666,13 @@ Location: https://api.github.com/authorizations/1
 <h2>
 <a id="get-or-create-an-authorization-for-a-specific-app" class="anchor" href="#get-or-create-an-authorization-for-a-specific-app" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get-or-create an authorization for a specific app</h2>
 
-<p>This method will create a new authorization for the specified OAuth application,
+<p>Creates a new authorization for the specified OAuth application,
 only if an authorization for that application doesn't already exist for the
 user. The URL includes the 20 character client ID for the OAuth app that is
 requesting the token. It returns the user's existing authorization for the
 application if one is present. Otherwise, it creates and returns a new one.</p>
+
+<p>If you have two-factor authentication setup, Basic Authentication for this endpoint requires that you use a one-time password (OTP) and your username and password instead of tokens. For more information, see "<a href="/v3/auth/#working-with-two-factor-authentication">Woking with two-factor authentication</a>."</p>
 
 <pre><code>PUT /authorizations/clients/:client_id
 </code></pre>
@@ -793,6 +801,8 @@ distinguish an authorization from others created for the same client ID and
 user. It returns the user's existing authorization for the application if one
 is present. Otherwise, it creates and returns a new one.</p>
 
+<p>If you have two-factor authentication setup, Basic Authentication for this endpoint requires that you use a one-time password (OTP) and your username and password instead of tokens. For more information, see "<a href="/v3/auth/#working-with-two-factor-authentication">Woking with two-factor authentication</a>."</p>
+
 <pre><code>PUT /authorizations/clients/:client_id/:fingerprint
 </code></pre>
 
@@ -906,6 +916,8 @@ Location: https://api.github.com/authorizations/1
 
 <h2>
 <a id="update-an-existing-authorization" class="anchor" href="#update-an-existing-authorization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Update an existing authorization</h2>
+
+<p>If you have two-factor authentication setup, Basic Authentication for this endpoint requires that you use a one-time password (OTP) and your username and password instead of tokens. For more information, see "<a href="/v3/auth/#working-with-two-factor-authentication">Woking with two-factor authentication</a>."</p>
 
 <pre><code>PATCH /authorizations/:authorization_id
 </code></pre>
