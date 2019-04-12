@@ -600,7 +600,7 @@
     "name": "Get a single pull request",
     "enabledForApps": true,
     "method": "GET",
-    "path": "/repos/:owner/:repo/pulls/:number",
+    "path": "/repos/:owner/:repo/pulls/:pull_number",
     "previews": [
       {
         "name": "symmetra",
@@ -629,11 +629,28 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "pull_number",
         "type": "integer",
         "required": true,
         "description": "",
         "location": "url"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"pull_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "pull_number"
+          }
+        }
       }
     ],
     "description": "Lists details of a pull request by providing its number.\n\nWhen you get, [create](/enterprise/2.15/v3/pulls/#create-a-pull-request), or [edit](/enterprise/2.15/v3/pulls/#update-a-pull-request) a pull request, GitHub creates a merge commit to test whether the pull request can be automatically merged into the base branch. This test commit is not added to the base branch or the head branch. You can review the status of the test commit using the `mergeable` key. For more information, see \"[Checking mergeability of pull requests](/enterprise/2.15/v3/git/#checking-mergeability-of-pull-requests)\".\n\nThe value of the `mergeable` attribute can be `true`, `false`, or `null`. If the value is `null`, then GitHub has started a background job to compute the mergeability. After giving the job time to complete, resubmit the request. When the job finishes, you will see a non-`null` value for the `mergeable` attribute in the response. If `mergeable` is `true`, then `merge_commit_sha` will be the SHA of the _test_ merge commit.\n\nThe value of the `merge_commit_sha` attribute changes depending on the state of the pull request. Before merging a pull request, the `merge_commit_sha` attribute holds the SHA of the _test_ merge commit. After merging a pull request, the `merge_commit_sha` attribute changes depending on how you merged the pull request:\n\n*   If merged as a [merge commit](https://help.github.com/articles/about-merge-methods-on-github/), `merge_commit_sha` represents the SHA of the merge commit.\n*   If merged via a [squash](https://help.github.com/articles/about-merge-methods-on-github/#squashing-your-merge-commits), `merge_commit_sha` represents the SHA of the squashed commit on the base branch.\n*   If [rebased](https://help.github.com/articles/about-merge-methods-on-github/#rebasing-and-merging-your-commits), `merge_commit_sha` represents the commit that the base branch was updated to.\n\nPass the appropriate [media type](/enterprise/2.15/v3/media/#commits-commit-comparison-and-pull-requests) to fetch diff and patch formats.",
@@ -2359,7 +2376,7 @@
     "name": "Update a pull request",
     "enabledForApps": true,
     "method": "PATCH",
-    "path": "/repos/:owner/:repo/pulls/:number",
+    "path": "/repos/:owner/:repo/pulls/:pull_number",
     "previews": [
       {
         "name": "symmetra",
@@ -2388,7 +2405,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "pull_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -2432,6 +2449,23 @@
         "description": "Indicates whether [maintainers can modify](https://help.github.com/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork/) the pull request.",
         "required": false,
         "location": "body"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"pull_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "pull_number"
+          }
+        }
       }
     ],
     "requests": [
@@ -2970,7 +3004,7 @@
     "name": "List commits on a pull request",
     "enabledForApps": true,
     "method": "GET",
-    "path": "/repos/:owner/:repo/pulls/:number/commits",
+    "path": "/repos/:owner/:repo/pulls/:pull_number/commits",
     "previews": [],
     "params": [
       {
@@ -2988,7 +3022,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "pull_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -3009,6 +3043,23 @@
         "description": "Page number of the results to fetch.",
         "default": 1,
         "location": "query"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"pull_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "pull_number"
+          }
+        }
       }
     ],
     "description": "Lists a maximum of 250 commits for a pull request. To receive a complete commit list for pull requests with more than 250 commits, use the [Commit List API](/enterprise/2.15/v3/repos/commits/#list-commits-on-a-repository).",
@@ -3107,7 +3158,7 @@
     "name": "List pull requests files",
     "enabledForApps": true,
     "method": "GET",
-    "path": "/repos/:owner/:repo/pulls/:number/files",
+    "path": "/repos/:owner/:repo/pulls/:pull_number/files",
     "previews": [],
     "params": [
       {
@@ -3125,7 +3176,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "pull_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -3146,6 +3197,23 @@
         "description": "Page number of the results to fetch.",
         "default": 1,
         "location": "query"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"pull_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "pull_number"
+          }
+        }
       }
     ],
     "description": "**Note:** The response includes a maximum of 300 files.",
@@ -3178,7 +3246,7 @@
     "name": "Get if a pull request has been merged",
     "enabledForApps": true,
     "method": "GET",
-    "path": "/repos/:owner/:repo/pulls/:number/merge",
+    "path": "/repos/:owner/:repo/pulls/:pull_number/merge",
     "previews": [],
     "params": [
       {
@@ -3196,11 +3264,28 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "pull_number",
         "type": "integer",
         "required": true,
         "description": "",
         "location": "url"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"pull_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "pull_number"
+          }
+        }
       }
     ],
     "description": "",
@@ -3211,7 +3296,7 @@
     "name": "Merge a pull request (Merge Button)",
     "enabledForApps": true,
     "method": "PUT",
-    "path": "/repos/:owner/:repo/pulls/:number/merge",
+    "path": "/repos/:owner/:repo/pulls/:pull_number/merge",
     "previews": [],
     "params": [
       {
@@ -3229,7 +3314,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "pull_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -3267,6 +3352,23 @@
           "rebase"
         ],
         "location": "body"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"pull_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "pull_number"
+          }
+        }
       }
     ],
     "description": "This endpoint triggers [notifications](https://help.github.com/articles/about-notifications/). Creating content too quickly using this endpoint may result in abuse rate limiting. See \"[Abuse rate limits](/enterprise/2.15/v3/#abuse-rate-limits)\" for details.",
@@ -3278,7 +3380,7 @@
     "name": "List comments on a pull request",
     "enabledForApps": true,
     "method": "GET",
-    "path": "/repos/:owner/:repo/pulls/:number/comments",
+    "path": "/repos/:owner/:repo/pulls/:pull_number/comments",
     "previews": [],
     "params": [
       {
@@ -3296,7 +3398,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "pull_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -3347,6 +3449,23 @@
         "description": "Page number of the results to fetch.",
         "default": 1,
         "location": "query"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"pull_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "pull_number"
+          }
+        }
       }
     ],
     "description": "By default, review comments are ordered by ascending ID.",
@@ -3637,7 +3756,7 @@
     "name": "Create a comment",
     "enabledForApps": true,
     "method": "POST",
-    "path": "/repos/:owner/:repo/pulls/:number/comments",
+    "path": "/repos/:owner/:repo/pulls/:pull_number/comments",
     "previews": [],
     "params": [
       {
@@ -3655,7 +3774,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "pull_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -3688,6 +3807,23 @@
         "description": "The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. For help finding the position value, read the note below.",
         "required": true,
         "location": "body"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"pull_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "pull_number"
+          }
+        }
       }
     ],
     "requests": [
@@ -3764,7 +3900,7 @@
     "name": "Create a comment reply",
     "enabledForApps": true,
     "method": "POST",
-    "path": "/repos/:owner/:repo/pulls/:number/comments",
+    "path": "/repos/:owner/:repo/pulls/:pull_number/comments",
     "previews": [],
     "params": [
       {
@@ -3782,7 +3918,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "pull_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -3801,6 +3937,23 @@
         "description": "The comment ID to reply to. **Note**: This must be the ID of a _top-level comment_, not a reply to that comment. Replies to replies are not supported.",
         "required": true,
         "location": "body"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"pull_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "pull_number"
+          }
+        }
       }
     ],
     "requests": [
@@ -4018,7 +4171,7 @@
     "name": "List review requests",
     "enabledForApps": true,
     "method": "GET",
-    "path": "/repos/:owner/:repo/pulls/:number/requested_reviewers",
+    "path": "/repos/:owner/:repo/pulls/:pull_number/requested_reviewers",
     "previews": [],
     "params": [
       {
@@ -4036,7 +4189,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "pull_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -4057,6 +4210,23 @@
         "description": "Page number of the results to fetch.",
         "default": 1,
         "location": "query"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"pull_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "pull_number"
+          }
+        }
       }
     ],
     "description": "",
@@ -4114,7 +4284,7 @@
     "name": "Create a review request",
     "enabledForApps": true,
     "method": "POST",
-    "path": "/repos/:owner/:repo/pulls/:number/requested_reviewers",
+    "path": "/repos/:owner/:repo/pulls/:pull_number/requested_reviewers",
     "previews": [
       {
         "name": "symmetra",
@@ -4138,7 +4308,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "pull_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -4157,6 +4327,23 @@
         "description": "An array of team `slug`s that will be requested.",
         "required": false,
         "location": "body"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"pull_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "pull_number"
+          }
+        }
       }
     ],
     "requests": [
@@ -4709,7 +4896,7 @@
     "name": "Delete a review request",
     "enabledForApps": true,
     "method": "DELETE",
-    "path": "/repos/:owner/:repo/pulls/:number/requested_reviewers",
+    "path": "/repos/:owner/:repo/pulls/:pull_number/requested_reviewers",
     "previews": [],
     "params": [
       {
@@ -4727,7 +4914,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "pull_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -4746,6 +4933,23 @@
         "description": "An array of team `slug`s that will be removed.",
         "required": false,
         "location": "body"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"pull_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "pull_number"
+          }
+        }
       }
     ],
     "requests": [
@@ -4776,7 +4980,7 @@
     "name": "List reviews on a pull request",
     "enabledForApps": true,
     "method": "GET",
-    "path": "/repos/:owner/:repo/pulls/:number/reviews",
+    "path": "/repos/:owner/:repo/pulls/:pull_number/reviews",
     "previews": [],
     "params": [
       {
@@ -4794,7 +4998,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "pull_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -4815,6 +5019,23 @@
         "description": "Page number of the results to fetch.",
         "default": 1,
         "location": "query"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"pull_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "pull_number"
+          }
+        }
       }
     ],
     "description": "The list of reviews returns in chronological order.",
@@ -4873,7 +5094,7 @@
     "name": "Get a single review",
     "enabledForApps": true,
     "method": "GET",
-    "path": "/repos/:owner/:repo/pulls/:number/reviews/:review_id",
+    "path": "/repos/:owner/:repo/pulls/:pull_number/reviews/:review_id",
     "previews": [],
     "params": [
       {
@@ -4891,7 +5112,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "pull_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -4903,6 +5124,23 @@
         "required": true,
         "description": "",
         "location": "url"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"pull_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "pull_number"
+          }
+        }
       }
     ],
     "description": "",
@@ -4958,7 +5196,7 @@
     "name": "Delete a pending review",
     "enabledForApps": true,
     "method": "DELETE",
-    "path": "/repos/:owner/:repo/pulls/:number/reviews/:review_id",
+    "path": "/repos/:owner/:repo/pulls/:pull_number/reviews/:review_id",
     "previews": [],
     "params": [
       {
@@ -4976,7 +5214,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "pull_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -4988,6 +5226,23 @@
         "required": true,
         "description": "",
         "location": "url"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"pull_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "pull_number"
+          }
+        }
       }
     ],
     "description": "",
@@ -5043,7 +5298,7 @@
     "name": "Get comments for a single review",
     "enabledForApps": true,
     "method": "GET",
-    "path": "/repos/:owner/:repo/pulls/:number/reviews/:review_id/comments",
+    "path": "/repos/:owner/:repo/pulls/:pull_number/reviews/:review_id/comments",
     "previews": [],
     "params": [
       {
@@ -5061,7 +5316,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "pull_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -5089,6 +5344,23 @@
         "description": "Page number of the results to fetch.",
         "default": 1,
         "location": "query"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"pull_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "pull_number"
+          }
+        }
       }
     ],
     "description": "",
@@ -5158,7 +5430,7 @@
     "name": "Create a pull request review",
     "enabledForApps": true,
     "method": "POST",
-    "path": "/repos/:owner/:repo/pulls/:number/reviews",
+    "path": "/repos/:owner/:repo/pulls/:pull_number/reviews",
     "previews": [],
     "params": [
       {
@@ -5176,7 +5448,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "pull_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -5235,6 +5507,23 @@
         "description": "Text of the review comment.",
         "required": true,
         "location": "body"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"pull_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "pull_number"
+          }
+        }
       }
     ],
     "requests": [
@@ -5305,7 +5594,7 @@
     "name": "Submit a pull request review",
     "enabledForApps": true,
     "method": "POST",
-    "path": "/repos/:owner/:repo/pulls/:number/reviews/:review_id/events",
+    "path": "/repos/:owner/:repo/pulls/:pull_number/reviews/:review_id/events",
     "previews": [],
     "params": [
       {
@@ -5323,7 +5612,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "pull_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -5354,6 +5643,23 @@
           "COMMENT"
         ],
         "location": "body"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"pull_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "pull_number"
+          }
+        }
       }
     ],
     "description": "",
@@ -5409,7 +5715,7 @@
     "name": "Dismiss a pull request review",
     "enabledForApps": true,
     "method": "PUT",
-    "path": "/repos/:owner/:repo/pulls/:number/reviews/:review_id/dismissals",
+    "path": "/repos/:owner/:repo/pulls/:pull_number/reviews/:review_id/dismissals",
     "previews": [],
     "params": [
       {
@@ -5427,7 +5733,7 @@
         "location": "url"
       },
       {
-        "name": "number",
+        "name": "pull_number",
         "type": "integer",
         "required": true,
         "description": "",
@@ -5446,6 +5752,23 @@
         "description": "The message for the pull request review dismissal",
         "required": true,
         "location": "body"
+      },
+      {
+        "name": "number",
+        "type": "integer",
+        "required": false,
+        "description": "",
+        "location": "url",
+        "deprecated": {
+          "date": "2019-04-10",
+          "message": "\"number\" parameter renamed to \"pull_number\"",
+          "before": {
+            "name": "number"
+          },
+          "after": {
+            "name": "pull_number"
+          }
+        }
       }
     ],
     "description": "**Note:** To dismiss a pull request review on a [protected branch](/enterprise/2.15/v3/repos/branches/), you must be a repository administrator or be included in the list of people or teams who can dismiss pull request reviews.",
