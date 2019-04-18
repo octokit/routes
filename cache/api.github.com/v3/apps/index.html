@@ -351,18 +351,17 @@
 <ul id="markdown-toc">
 <li><a href="#get-a-single-github-app" id="markdown-toc-get-a-single-github-app">Get a single GitHub App</a></li>
 <li><a href="#get-the-authenticated-github-app" id="markdown-toc-get-the-authenticated-github-app">Get the authenticated GitHub App</a></li>
-<li><a href="#find-installations" id="markdown-toc-find-installations">Find installations</a></li>
-<li><a href="#get-a-single-installation" id="markdown-toc-get-a-single-installation">Get a single installation</a></li>
-<li><a href="#list-installations-for-user" id="markdown-toc-list-installations-for-user">List installations for user</a></li>
+<li><a href="#list-installations" id="markdown-toc-list-installations">List installations</a></li>
+<li><a href="#get-an-installation" id="markdown-toc-get-an-installation">Get an installation</a></li>
+<li><a href="#delete-an-installation" id="markdown-toc-delete-an-installation">Delete an installation</a></li>
 <li><a href="#create-a-new-installation-token" id="markdown-toc-create-a-new-installation-token">Create a new installation token</a></li>
-<li><a href="#find-organization-installation" id="markdown-toc-find-organization-installation">Find organization installation</a></li>
-<li><a href="#find-repository-installation" id="markdown-toc-find-repository-installation">Find repository installation</a></li>
-<li><a href="#find-user-installation" id="markdown-toc-find-user-installation">Find user installation</a></li>
+<li><a href="#get-an-organization-installation" id="markdown-toc-get-an-organization-installation">Get an organization installation</a></li>
+<li><a href="#get-a-repository-installation" id="markdown-toc-get-a-repository-installation">Get a repository installation</a></li>
+<li><a href="#get-a-user-installation" id="markdown-toc-get-a-user-installation">Get a user installation</a></li>
 <li><a href="#create-a-github-app-from-a-manifest" id="markdown-toc-create-a-github-app-from-a-manifest">Create a GitHub App from a manifest</a></li>
-<li><a href="#create-a-content-attachment" id="markdown-toc-create-a-content-attachment">Create a content attachment</a></li>
 </ul>
 
-<p>This page lists endpoints that you can access while authenticated as a GitHub App. See "<a href="/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app">Authenticating as a GitHub App</a>" to learn more. </p>
+<p>This page lists endpoints that you can access while authenticated as a GitHub App. See "<a href="/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app">Authenticating as a GitHub App</a>" to learn more.</p>
 
 <p>When authenticated as a GitHub App, the GitHub Apps API enables you to get high-level information about a GitHub App as well as specific information about installations of an app.</p>
 
@@ -493,7 +492,7 @@
 
 
 <h2>
-<a id="find-installations" class="anchor" href="#find-installations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Find installations<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+<a id="list-installations" class="anchor" href="#list-installations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List installations<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
 <div class="alert note">
@@ -571,7 +570,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 
 <h2>
-<a id="get-a-single-installation" class="anchor" href="#get-a-single-installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get a single installation<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+<a id="get-an-installation" class="anchor" href="#get-an-installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get an installation<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
 <div class="alert note">
@@ -639,7 +638,16 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 
 <h2>
-<a id="list-installations-for-user" class="anchor" href="#list-installations-for-user" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List installations for user</h2>
+<a id="delete-an-installation" class="anchor" href="#delete-an-installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Delete an installation</h2>
+
+<div class="alert note">
+
+<p><strong>Note:</strong> Unintalling GitHub Apps using the REST API is currently available for developers to preview. To access the new endpoint during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+<pre><code>application/vnd.github.gambit-preview+json
+</code></pre>
+
+</div>
 
 <div class="alert note">
 
@@ -655,110 +663,18 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 </div>
 
-<p>Lists installations of your GitHub App that the authenticated user has explicit permission (<code>:read</code>, <code>:write</code>, or <code>:admin</code>) to access.</p>
+<p>Uninstalls a GitHub App on a user, organization, or business account.</p>
 
-<p>You must use a <a href="/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#identifying-users-on-your-site">user-to-server OAuth access token</a>, created for a user who has authorized your GitHub App, to access this endpoint.</p>
+<p>You must use a <a href="/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app">JWT</a> to access this endpoint.</p>
 
-<p>The authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership.</p>
-
-<pre><code>GET /user/installations
+<pre><code>DELETE /app/installations/:installation_id
 </code></pre>
 
 <h3>
 <a id="response-4" class="anchor" href="#response-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
-<div class="alert note">
-
-<p>The permissions the installation has are included under the <code>permissions</code> key.</p>
-
-</div>
-
-<pre class="highlight highlight-headers"><code>Status: 200 OK
-Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
-      &lt;https://api.github.com/resource?page=5&gt;; rel="last"
+<pre class="highlight highlight-headers"><code>Status: 204 No Content
 </code></pre>
-
-
-<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"total_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"installations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"account"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"github"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDEyOk9yZ2FuaXphdGlvbjE="</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"repos_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/repos"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/events"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"hooks_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/hooks"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"issues_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/issues"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"members_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/members{/member}"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"public_members_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/public_members{/member}"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"avatar_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/images/error/octocat_happy.gif"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A great organization"</span><span class="w">
-      </span><span class="p">},</span><span class="w">
-      </span><span class="nt">"access_tokens_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/installations/1/access_tokens"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"repositories_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/installation/repositories"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/organizations/github/settings/installations/1"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"app_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"target_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"target_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Organization"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"permissions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="s2">"read"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"contents"</span><span class="p">:</span><span class="w"> </span><span class="s2">"read"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"issues"</span><span class="p">:</span><span class="w"> </span><span class="s2">"write"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"single_file"</span><span class="p">:</span><span class="w"> </span><span class="s2">"write"</span><span class="w">
-      </span><span class="p">},</span><span class="w">
-      </span><span class="nt">"events"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="s2">"push"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"pull_request"</span><span class="w">
-      </span><span class="p">],</span><span class="w">
-      </span><span class="nt">"single_file_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"config.yml"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"account"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDQ6VXNlcjE="</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"avatar_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/images/error/octocat_happy.gif"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"gravatar_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"followers_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/followers"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"following_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/following{/other_user}"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"gists_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/gists{/gist_id}"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"starred_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/starred{/owner}{/repo}"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"subscriptions_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/subscriptions"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"organizations_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/orgs"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"repos_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/repos"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/events{/privacy}"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"received_events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/received_events"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"site_admin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
-      </span><span class="p">},</span><span class="w">
-      </span><span class="nt">"access_tokens_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/installations/1/access_tokens"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"repositories_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/installation/repositories"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/organizations/github/settings/installations/1"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"app_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"target_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"target_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Organization"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"permissions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="s2">"read"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"contents"</span><span class="p">:</span><span class="w"> </span><span class="s2">"read"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"issues"</span><span class="p">:</span><span class="w"> </span><span class="s2">"write"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"single_file"</span><span class="p">:</span><span class="w"> </span><span class="s2">"write"</span><span class="w">
-      </span><span class="p">},</span><span class="w">
-      </span><span class="nt">"events"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="s2">"push"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"pull_request"</span><span class="w">
-      </span><span class="p">],</span><span class="w">
-      </span><span class="nt">"single_file_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"config.yml"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
 
 
 <h2>
@@ -801,7 +717,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 
 <h2>
-<a id="find-organization-installation" class="anchor" href="#find-organization-installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Find organization installation</h2>
+<a id="get-an-organization-installation" class="anchor" href="#get-an-organization-installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get an organization installation</h2>
 
 <div class="alert note">
 
@@ -876,7 +792,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 
 <h2>
-<a id="find-repository-installation" class="anchor" href="#find-repository-installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Find repository installation</h2>
+<a id="get-a-repository-installation" class="anchor" href="#get-a-repository-installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get a repository installation</h2>
 
 <div class="alert note">
 
@@ -951,7 +867,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 
 <h2>
-<a id="find-user-installation" class="anchor" href="#find-user-installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Find user installation</h2>
+<a id="get-a-user-installation" class="anchor" href="#get-a-user-installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get a user installation</h2>
 
 <div class="alert note">
 
@@ -1086,88 +1002,6 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
   </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-09-13T12:28:37Z"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"webhook_secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"e340154128314309424b7c8e90325147d99fdafa"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"pem"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAuEPzOUE+kiEH1WLiMeBytTEF856j0hOVcSUSUkZxKvqczkWM\n9vo1gDyC7ZXhdH9fKh32aapba3RSsp4ke+giSmYTk2mGR538ShSDxh0OgpJmjiKP\nX0Bj4j5sFqfXuCtl9SkH4iueivv4R53ktqM+n6hk98l6hRwC39GVIblAh2lEM4L/\n6WvYwuQXPMM5OG2Ryh2tDZ1WS5RKfgq+9ksNJ5Q9UtqtqHkO+E63N5OK9sbzpUUm\noNaOl3udTlZD3A8iqwMPVxH4SxgATBPAc+bmjk6BMJ0qIzDcVGTrqrzUiywCTLma\nszdk8GjzXtPDmuBgNn+o6s02qVGpyydgEuqmTQIDAQABAoIBACL6AvkjQVVLn8kJ\ndBYznJJ4M8ECo+YEgaFwgAHODT0zRQCCgzd+Vxl4YwHmKV2Lr+y2s0drZt8GvYva\nKOK8NYYZyi15IlwFyRXmvvykF1UBpSXluYFDH7KaVroWMgRreHcIys5LqVSIb6Bo\ngDmK0yBLPp8qR29s2b7ScZRtLaqGJiX+j55rNzrZwxHkxFHyG9OG+u9IsBElcKCP\nkYCVE8ZdYexfnKOZbgn2kZB9qu0T/Mdvki8yk3I2bI6xYO24oQmhnT36qnqWoCBX\nNuCNsBQgpYZeZET8mEAUmo9d+ABmIHIvSs005agK8xRaP4+6jYgy6WwoejJRF5yd\nNBuF7aECgYEA50nZ4FiZYV0vcJDxFYeY3kYOvVuKn8OyW+2rg7JIQTremIjv8FkE\nZnwuF9ZRxgqLxUIfKKfzp/5l5LrycNoj2YKfHKnRejxRWXqG+ZETfxxlmlRns0QG\nJ4+BYL0CoanDSeA4fuyn4Bv7cy/03TDhfg/Uq0Aeg+hhcPE/vx3ebPsCgYEAy/Pv\neDLssOSdeyIxf0Brtocg6aPXIVaLdus+bXmLg77rJIFytAZmTTW8SkkSczWtucI3\nFI1I6sei/8FdPzAl62/JDdlf7Wd9K7JIotY4TzT7Tm7QU7xpfLLYIP1bOFjN81rk\n77oOD4LsXcosB/U6s1blPJMZ6AlO2EKs10UuR1cCgYBipzuJ2ADEaOz9RLWwi0AH\nPza2Sj+c2epQD9ZivD7Zo/Sid3ZwvGeGF13JyR7kLEdmAkgsHUdu1rI7mAolXMaB\n1pdrsHureeLxGbRM6za3tzMXWv1Il7FQWoPC8ZwXvMOR1VQDv4nzq7vbbA8z8c+c\n57+8tALQHOTDOgQIzwK61QKBgERGVc0EJy4Uag+VY8J4m1ZQKBluqo7TfP6DQ7O8\nM5MX73maB/7yAX8pVO39RjrhJlYACRZNMbK+v/ckEQYdJSSKmGCVe0JrGYDuPtic\nI9+IGfSorf7KHPoMmMN6bPYQ7Gjh7a++tgRFTMEc8956Hnt4xGahy9NcglNtBpVN\n6G8jAoGBAMCh028pdzJa/xeBHLLaVB2sc0Fe7993WlsPmnVE779dAz7qMscOtXJK\nfgtriltLSSD6rTA9hUAsL/X62rY0wdXuNdijjBb/qvrx7CAV6i37NK1CjABNjsfG\nZM372Ac6zc1EqSrid2IjET1YqyIW2KGLI1R2xbQc98UGlt48OdWu\n-----END RSA PRIVATE KEY-----\n"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-
-<h2>
-<a id="create-a-content-attachment" class="anchor" href="#create-a-content-attachment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a content attachment<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
-</h2>
-
-<div class="alert note">
-
-<p><strong>Note:</strong> To access the Content Attachments API during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
-
-<pre><code>application/vnd.github.corsair-preview+json
-</code></pre>
-
-</div>
-
-<div class="alert warning">
-
-<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub Support</a>.</p>
-
-</div>
-
-<p>Creates an attachment under a content reference URL in the body or comment of an issue or pull request. Use the <code>id</code> of the content reference from the <a href="/v3/activity/events/types/#contentreferenceevent"><code>content_reference</code> event</a> to create an attachment.</p>
-
-<p>The app must create a content attachment within six hours of the content reference URL being posted. See "<a href="/apps/using-content-attachments/">Using content attachments</a>" for details about content attachments.</p>
-
-<p>You must use an <a href="/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-an-installation">installation access token</a> to access this endpoint.</p>
-
-<pre><code>POST /content_references/:content_reference_id/attachments
-</code></pre>
-
-<h3>
-<a id="parameters" class="anchor" href="#parameters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
-
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>title</code></td>
-<td><code>string</code></td>
-<td>
-<strong>Required</strong>. The title of the content attachment displayed in the body or comment of an issue or pull request.</td>
-</tr>
-<tr>
-<td><code>body</code></td>
-<td><code>string</code></td>
-<td>
-<strong>Required</strong>. The body text of the content attachment displayed in the body or comment of an issue or pull request. This parameter supports markdown.</td>
-</tr>
-</tbody>
-</table>
-
-<h3>
-<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
-
-<p>This example creates a content attachment for the domain <code>https://errors.ai/</code>.</p>
-
-<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"[A-1234] Error found in core/models.py file"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"You have used an email that already exists for the user_email_uniq field.\n ## DETAILS:\n\nThe (email)=(Octocat@github.com) already exists.\n\n The error was found in core/models.py in get_or_create_user at line 62.\n\nself.save()"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-
-<h3>
-<a id="response-10" class="anchor" href="#response-10" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
-
-<pre class="highlight highlight-headers"><code>Status: 200 OK
-</code></pre>
-
-
-<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">101</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"[A-1234] Error found in core/models.py file'"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"You have used an email that already exists for the user_email_uniq field.\n ## DETAILS:\n\nThe (email)=(Octocat@github.com) already exists.\n\n The error was found in core/models.py in get_or_create_user at line 62.\n\n self.save()"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
