@@ -106,7 +106,7 @@
     "documentationUrl": "https://developer.github.com/enterprise/2.16/v3/apps/#get-the-authenticated-github-app"
   },
   {
-    "name": "Find installations",
+    "name": "List installations",
     "enabledForApps": true,
     "method": "GET",
     "path": "/app/installations",
@@ -183,10 +183,10 @@
       }
     ],
     "idName": "list-installations",
-    "documentationUrl": "https://developer.github.com/enterprise/2.16/v3/apps/#find-installations"
+    "documentationUrl": "https://developer.github.com/enterprise/2.16/v3/apps/#list-installations"
   },
   {
-    "name": "Get a single installation",
+    "name": "Get an installation",
     "enabledForApps": true,
     "method": "GET",
     "path": "/app/installations/:installation_id",
@@ -251,129 +251,7 @@
       }
     ],
     "idName": "get-installation",
-    "documentationUrl": "https://developer.github.com/enterprise/2.16/v3/apps/#get-a-single-installation"
-  },
-  {
-    "name": "List installations for user",
-    "enabledForApps": false,
-    "method": "GET",
-    "path": "/user/installations",
-    "previews": [
-      {
-        "name": "machine-man",
-        "description": "**Note:** To access the API with your GitHub App, you must provide a custom [media type](/enterprise/2.16/v3/media) in the `Accept` Header for your requests.\n\n`application/vnd.github.machine-man-preview+json`",
-        "required": true
-      }
-    ],
-    "params": [
-      {
-        "name": "per_page",
-        "type": "integer",
-        "required": false,
-        "description": "Results per page (max 100)",
-        "default": 30,
-        "location": "query"
-      },
-      {
-        "name": "page",
-        "type": "integer",
-        "required": false,
-        "description": "Page number of the results to fetch.",
-        "default": 1,
-        "location": "query"
-      }
-    ],
-    "description": "Lists installations of your GitHub App that the authenticated user has explicit permission (`:read`, `:write`, or `:admin`) to access.\n\nYou must use a [user-to-server OAuth access token](/enterprise/2.16/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#identifying-users-on-your-site), created for a user who has authorized your GitHub App, to access this endpoint.\n\nThe authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership.\n\nThe permissions the installation has are included under the `permissions` key.",
-    "responses": [
-      {
-        "headers": {
-          "status": "200 OK",
-          "content-type": "application/json; charset=utf-8"
-        },
-        "body": {
-          "total_count": 2,
-          "installations": [
-            {
-              "id": 1,
-              "account": {
-                "login": "github",
-                "id": 1,
-                "node_id": "MDEyOk9yZ2FuaXphdGlvbjE=",
-                "url": "https://api.github.com/orgs/github",
-                "repos_url": "https://api.github.com/orgs/github/repos",
-                "events_url": "https://api.github.com/orgs/github/events",
-                "hooks_url": "https://api.github.com/orgs/github/hooks",
-                "issues_url": "https://api.github.com/orgs/github/issues",
-                "members_url": "https://api.github.com/orgs/github/members{/member}",
-                "public_members_url": "https://api.github.com/orgs/github/public_members{/member}",
-                "avatar_url": "https://github.com/images/error/octocat_happy.gif",
-                "description": "A great organization"
-              },
-              "access_tokens_url": "https://api.github.com/installations/1/access_tokens",
-              "repositories_url": "https://api.github.com/installation/repositories",
-              "html_url": "https://github.com/organizations/github/settings/installations/1",
-              "app_id": 1,
-              "target_id": 1,
-              "target_type": "Organization",
-              "permissions": {
-                "metadata": "read",
-                "contents": "read",
-                "issues": "write",
-                "single_file": "write"
-              },
-              "events": [
-                "push",
-                "pull_request"
-              ],
-              "single_file_name": "config.yml"
-            },
-            {
-              "id": 3,
-              "account": {
-                "login": "octocat",
-                "id": 2,
-                "node_id": "MDQ6VXNlcjE=",
-                "avatar_url": "https://github.com/images/error/octocat_happy.gif",
-                "gravatar_id": "",
-                "url": "https://api.github.com/users/octocat",
-                "html_url": "https://github.com/octocat",
-                "followers_url": "https://api.github.com/users/octocat/followers",
-                "following_url": "https://api.github.com/users/octocat/following{/other_user}",
-                "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
-                "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
-                "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
-                "organizations_url": "https://api.github.com/users/octocat/orgs",
-                "repos_url": "https://api.github.com/users/octocat/repos",
-                "events_url": "https://api.github.com/users/octocat/events{/privacy}",
-                "received_events_url": "https://api.github.com/users/octocat/received_events",
-                "type": "User",
-                "site_admin": false
-              },
-              "access_tokens_url": "https://api.github.com/installations/1/access_tokens",
-              "repositories_url": "https://api.github.com/installation/repositories",
-              "html_url": "https://github.com/organizations/github/settings/installations/1",
-              "app_id": 1,
-              "target_id": 1,
-              "target_type": "Organization",
-              "permissions": {
-                "metadata": "read",
-                "contents": "read",
-                "issues": "write",
-                "single_file": "write"
-              },
-              "events": [
-                "push",
-                "pull_request"
-              ],
-              "single_file_name": "config.yml"
-            }
-          ]
-        },
-        "description": "The permissions the installation has are included under the `permissions` key."
-      }
-    ],
-    "idName": "list-installations-for-authenticated-user",
-    "documentationUrl": "https://developer.github.com/enterprise/2.16/v3/apps/#list-installations-for-user"
+    "documentationUrl": "https://developer.github.com/enterprise/2.16/v3/apps/#get-an-installation"
   },
   {
     "name": "Create a new installation token",
@@ -411,6 +289,80 @@
     ],
     "idName": "create-installation-token",
     "documentationUrl": "https://developer.github.com/enterprise/2.16/v3/apps/#create-a-new-installation-token"
+  },
+  {
+    "name": "Get an organization installation",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/orgs/:org/installation",
+    "previews": [
+      {
+        "name": "machine-man",
+        "description": "**Note:** To access the API with your GitHub App, you must provide a custom [media type](/enterprise/2.16/v3/media) in the `Accept` Header for your requests.\n\n`application/vnd.github.machine-man-preview+json`",
+        "required": true
+      }
+    ],
+    "params": [
+      {
+        "name": "org",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      }
+    ],
+    "description": "Enables an authenticated GitHub App to find the organization's installation information.\n\nYou must use a [JWT](/enterprise/2.16/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.",
+    "responses": [
+      {
+        "headers": {
+          "status": "200 OK",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "id": 1,
+          "account": {
+            "login": "github",
+            "id": 1,
+            "avatar_url": "https://github.com/images/error/hubot_happy.gif",
+            "gravatar_id": "",
+            "url": "https://api.github.com/orgs/github",
+            "html_url": "https://github.com/github",
+            "followers_url": "https://api.github.com/users/github/followers",
+            "following_url": "https://api.github.com/users/github/following{/other_user}",
+            "gists_url": "https://api.github.com/users/github/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/github/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/github/subscriptions",
+            "organizations_url": "https://api.github.com/users/github/orgs",
+            "repos_url": "https://api.github.com/orgs/github/repos",
+            "events_url": "https://api.github.com/orgs/github/events",
+            "received_events_url": "https://api.github.com/users/github/received_events",
+            "type": "Organization",
+            "site_admin": false
+          },
+          "repository_selection": "all",
+          "access_tokens_url": "https://api.github.com/installations/1/access_tokens",
+          "repositories_url": "https://api.github.com/installation/repositories",
+          "html_url": "https://github.com/organizations/github/settings/installations/1",
+          "app_id": 1,
+          "target_id": 1,
+          "target_type": "Organization",
+          "permissions": {
+            "checks": "write",
+            "metadata": "read",
+            "contents": "read"
+          },
+          "events": [
+            "push",
+            "pull_request"
+          ],
+          "created_at": "2018-02-09T20:51:14Z",
+          "updated_at": "2018-02-09T20:51:14Z",
+          "single_file_name": null
+        }
+      }
+    ],
+    "idName": "get-org-installation",
+    "documentationUrl": "https://developer.github.com/enterprise/2.16/v3/apps/#get-an-organization-installation"
   },
   {
     "name": "Find organization installation",
@@ -484,7 +436,98 @@
       }
     ],
     "idName": "find-org-installation",
-    "documentationUrl": "https://developer.github.com/enterprise/2.16/v3/apps/#find-organization-installation"
+    "documentationUrl": "https://developer.github.com/enterprise/2.16/v3/apps/#get-an-organization-installation",
+    "deprecated": {
+      "date": "2019-04-10",
+      "message": "\"Find organization installation\" renamed to \"Get an organization installation\"",
+      "before": {
+        "idName": "find-org-installation"
+      },
+      "after": {
+        "idName": "get-org-installation"
+      }
+    }
+  },
+  {
+    "name": "Get a repository installation",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/repos/:owner/:repo/installation",
+    "previews": [
+      {
+        "name": "machine-man",
+        "description": "**Note:** To access the API with your GitHub App, you must provide a custom [media type](/enterprise/2.16/v3/media) in the `Accept` Header for your requests.\n\n`application/vnd.github.machine-man-preview+json`",
+        "required": true
+      }
+    ],
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      }
+    ],
+    "description": "Enables an authenticated GitHub App to find the repository's installation information. The installation's account type will be either an organization or a user account, depending which account the repository belongs to.\n\nYou must use a [JWT](/enterprise/2.16/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.",
+    "responses": [
+      {
+        "headers": {
+          "status": "200 OK",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "id": 1,
+          "account": {
+            "login": "github",
+            "id": 1,
+            "avatar_url": "https://github.com/images/error/hubot_happy.gif",
+            "gravatar_id": "",
+            "url": "https://api.github.com/orgs/github",
+            "html_url": "https://github.com/github",
+            "followers_url": "https://api.github.com/users/github/followers",
+            "following_url": "https://api.github.com/users/github/following{/other_user}",
+            "gists_url": "https://api.github.com/users/github/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/github/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/github/subscriptions",
+            "organizations_url": "https://api.github.com/users/github/orgs",
+            "repos_url": "https://api.github.com/orgs/github/repos",
+            "events_url": "https://api.github.com/orgs/github/events",
+            "received_events_url": "https://api.github.com/users/github/received_events",
+            "type": "Organization",
+            "site_admin": false
+          },
+          "repository_selection": "all",
+          "access_tokens_url": "https://api.github.com/installations/1/access_tokens",
+          "repositories_url": "https://api.github.com/installation/repositories",
+          "html_url": "https://github.com/organizations/github/settings/installations/1",
+          "app_id": 1,
+          "target_id": 1,
+          "target_type": "Organization",
+          "permissions": {
+            "checks": "write",
+            "metadata": "read",
+            "contents": "read"
+          },
+          "events": [
+            "push",
+            "pull_request"
+          ],
+          "created_at": "2018-02-09T20:51:14Z",
+          "updated_at": "2018-02-09T20:51:14Z",
+          "single_file_name": null
+        }
+      }
+    ],
+    "idName": "get-repo-installation",
+    "documentationUrl": "https://developer.github.com/enterprise/2.16/v3/apps/#get-a-repository-installation"
   },
   {
     "name": "Find repository installation",
@@ -565,10 +608,20 @@
       }
     ],
     "idName": "find-repo-installation",
-    "documentationUrl": "https://developer.github.com/enterprise/2.16/v3/apps/#find-repository-installation"
+    "documentationUrl": "https://developer.github.com/enterprise/2.16/v3/apps/#get-a-repository-installation",
+    "deprecated": {
+      "date": "2019-04-10",
+      "message": "\"Find repository installation\" renamed to \"Get a repository installation\"",
+      "before": {
+        "idName": "find-repo-installation"
+      },
+      "after": {
+        "idName": "get-repo-installation"
+      }
+    }
   },
   {
-    "name": "Find user installation",
+    "name": "Get a user installation",
     "enabledForApps": false,
     "method": "GET",
     "path": "/users/:username/installation",
@@ -638,66 +691,8 @@
         }
       }
     ],
-    "idName": "find-user-installation",
-    "documentationUrl": "https://developer.github.com/enterprise/2.16/v3/apps/#find-user-installation"
-  },
-  {
-    "name": "Create a content attachment",
-    "enabledForApps": true,
-    "method": "POST",
-    "path": "/content_references/:content_reference_id/attachments",
-    "previews": [
-      {
-        "name": "corsair",
-        "description": "**Note:** To access the Content Attachments API during the preview period, you must provide a custom [media type](/enterprise/2.16/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.corsair-preview+json\n\n```",
-        "required": true
-      }
-    ],
-    "params": [
-      {
-        "name": "content_reference_id",
-        "type": "integer",
-        "required": true,
-        "description": "",
-        "location": "url"
-      },
-      {
-        "name": "title",
-        "type": "string",
-        "description": "The title of the content attachment displayed in the body or comment of an issue or pull request.",
-        "required": true,
-        "location": "body"
-      },
-      {
-        "name": "body",
-        "type": "string",
-        "description": "The body text of the content attachment displayed in the body or comment of an issue or pull request. This parameter supports markdown.",
-        "required": true,
-        "location": "body"
-      }
-    ],
-    "requests": [
-      {
-        "title": "[A-1234] Error found in core/models.py file",
-        "body": "You have used an email that already exists for the user_email_uniq field.\n ## DETAILS:\n\nThe (email)=(Octocat@github.com) already exists.\n\n The error was found in core/models.py in get_or_create_user at line 62.\n\nself.save()"
-      }
-    ],
-    "description": "Creates an attachment under a content reference URL in the body or comment of an issue or pull request. Use the `id` of the content reference from the [`content_reference` event](/enterprise/2.16/v3/activity/events/types/#contentreferenceevent) to create an attachment.\n\nThe app must create a content attachment within six hours of the content reference URL being posted. See \"[Using content attachments](/enterprise/2.16/apps/using-content-attachments/)\" for details about content attachments.\n\nYou must use an [installation access token](/enterprise/2.16/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-an-installation) to access this endpoint.\n\nThis example creates a content attachment for the domain `https://errors.ai/`.",
-    "responses": [
-      {
-        "headers": {
-          "status": "200 OK",
-          "content-type": "application/json; charset=utf-8"
-        },
-        "body": {
-          "id": 101,
-          "title": "[A-1234] Error found in core/models.py file'",
-          "body": "You have used an email that already exists for the user_email_uniq field.\n ## DETAILS:\n\nThe (email)=(Octocat@github.com) already exists.\n\n The error was found in core/models.py in get_or_create_user at line 62.\n\n self.save()"
-        }
-      }
-    ],
-    "idName": "create-content-attachment",
-    "documentationUrl": "https://developer.github.com/enterprise/2.16/v3/apps/#create-a-content-attachment"
+    "idName": "get-user-installation",
+    "documentationUrl": "https://developer.github.com/enterprise/2.16/v3/apps/#get-a-user-installation"
   },
   {
     "name": "List repositories",
@@ -827,7 +822,7 @@
                 "octocat",
                 "atom",
                 "electron",
-                "API"
+                "api"
               ],
               "has_issues": true,
               "has_projects": true,
@@ -851,6 +846,128 @@
     ],
     "idName": "list-repos",
     "documentationUrl": "https://developer.github.com/enterprise/2.16/v3/apps/installations/#list-repositories"
+  },
+  {
+    "name": "List installations for a user",
+    "enabledForApps": false,
+    "method": "GET",
+    "path": "/user/installations",
+    "previews": [
+      {
+        "name": "machine-man",
+        "description": "**Note:** To access the API with your GitHub App, you must provide a custom [media type](/enterprise/2.16/v3/media) in the `Accept` Header for your requests.\n\n`application/vnd.github.machine-man-preview+json`",
+        "required": true
+      }
+    ],
+    "params": [
+      {
+        "name": "per_page",
+        "type": "integer",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30,
+        "location": "query"
+      },
+      {
+        "name": "page",
+        "type": "integer",
+        "required": false,
+        "description": "Page number of the results to fetch.",
+        "default": 1,
+        "location": "query"
+      }
+    ],
+    "description": "Lists installations of your GitHub App that the authenticated user has explicit permission (`:read`, `:write`, or `:admin`) to access.\n\nYou must use a [user-to-server OAuth access token](/enterprise/2.16/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#identifying-users-on-your-site), created for a user who has authorized your GitHub App, to access this endpoint.\n\nThe authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership.\n\nYou can find the permissions for the installation under the `permissions` key.",
+    "responses": [
+      {
+        "headers": {
+          "status": "200 OK",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "total_count": 2,
+          "installations": [
+            {
+              "id": 1,
+              "account": {
+                "login": "github",
+                "id": 1,
+                "node_id": "MDEyOk9yZ2FuaXphdGlvbjE=",
+                "url": "https://api.github.com/orgs/github",
+                "repos_url": "https://api.github.com/orgs/github/repos",
+                "events_url": "https://api.github.com/orgs/github/events",
+                "hooks_url": "https://api.github.com/orgs/github/hooks",
+                "issues_url": "https://api.github.com/orgs/github/issues",
+                "members_url": "https://api.github.com/orgs/github/members{/member}",
+                "public_members_url": "https://api.github.com/orgs/github/public_members{/member}",
+                "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+                "description": "A great organization"
+              },
+              "access_tokens_url": "https://api.github.com/installations/1/access_tokens",
+              "repositories_url": "https://api.github.com/installation/repositories",
+              "html_url": "https://github.com/organizations/github/settings/installations/1",
+              "app_id": 1,
+              "target_id": 1,
+              "target_type": "Organization",
+              "permissions": {
+                "metadata": "read",
+                "contents": "read",
+                "issues": "write",
+                "single_file": "write"
+              },
+              "events": [
+                "push",
+                "pull_request"
+              ],
+              "single_file_name": "config.yml"
+            },
+            {
+              "id": 3,
+              "account": {
+                "login": "octocat",
+                "id": 2,
+                "node_id": "MDQ6VXNlcjE=",
+                "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+                "gravatar_id": "",
+                "url": "https://api.github.com/users/octocat",
+                "html_url": "https://github.com/octocat",
+                "followers_url": "https://api.github.com/users/octocat/followers",
+                "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+                "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+                "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+                "organizations_url": "https://api.github.com/users/octocat/orgs",
+                "repos_url": "https://api.github.com/users/octocat/repos",
+                "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+                "received_events_url": "https://api.github.com/users/octocat/received_events",
+                "type": "User",
+                "site_admin": false
+              },
+              "access_tokens_url": "https://api.github.com/installations/1/access_tokens",
+              "repositories_url": "https://api.github.com/installation/repositories",
+              "html_url": "https://github.com/organizations/github/settings/installations/1",
+              "app_id": 1,
+              "target_id": 1,
+              "target_type": "Organization",
+              "permissions": {
+                "metadata": "read",
+                "contents": "read",
+                "issues": "write",
+                "single_file": "write"
+              },
+              "events": [
+                "push",
+                "pull_request"
+              ],
+              "single_file_name": "config.yml"
+            }
+          ]
+        },
+        "description": "You can find the permissions for the installation under the `permissions` key."
+      }
+    ],
+    "idName": "list-installations-for-authenticated-user",
+    "documentationUrl": "https://developer.github.com/enterprise/2.16/v3/apps/installations/#list-installations-for-a-user"
   },
   {
     "name": "List repositories accessible to the user for an installation",
@@ -987,7 +1104,7 @@
                 "octocat",
                 "atom",
                 "electron",
-                "API"
+                "api"
               ],
               "has_issues": true,
               "has_projects": true,
@@ -1097,5 +1214,63 @@
     ],
     "idName": "remove-repo-from-installation",
     "documentationUrl": "https://developer.github.com/enterprise/2.16/v3/apps/installations/#remove-repository-from-installation"
+  },
+  {
+    "name": "Create a content attachment",
+    "enabledForApps": true,
+    "method": "POST",
+    "path": "/content_references/:content_reference_id/attachments",
+    "previews": [
+      {
+        "name": "corsair",
+        "description": "**Note:** To access the Content Attachments API during the preview period, you must provide a custom [media type](/enterprise/2.16/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.corsair-preview+json\n\n```",
+        "required": true
+      }
+    ],
+    "params": [
+      {
+        "name": "content_reference_id",
+        "type": "integer",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "description": "The title of the content attachment displayed in the body or comment of an issue or pull request.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "body",
+        "type": "string",
+        "description": "The body text of the content attachment displayed in the body or comment of an issue or pull request. This parameter supports markdown.",
+        "required": true,
+        "location": "body"
+      }
+    ],
+    "requests": [
+      {
+        "title": "[A-1234] Error found in core/models.py file",
+        "body": "You have used an email that already exists for the user_email_uniq field.\n ## DETAILS:\n\nThe (email)=(Octocat@github.com) already exists.\n\n The error was found in core/models.py in get_or_create_user at line 62.\n\nself.save()"
+      }
+    ],
+    "description": "Creates an attachment under a content reference URL in the body or comment of an issue or pull request. Use the `id` of the content reference from the [`content_reference` event](/enterprise/2.16/v3/activity/events/types/#contentreferenceevent) to create an attachment.\n\nThe app must create a content attachment within six hours of the content reference URL being posted. See \"[Using content attachments](/enterprise/2.16/apps/using-content-attachments/)\" for details about content attachments.\n\nYou must use an [installation access token](/enterprise/2.16/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-an-installation) to access this endpoint.\n\nThis example creates a content attachment for the domain `https://errors.ai/`.",
+    "responses": [
+      {
+        "headers": {
+          "status": "200 OK",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "id": 101,
+          "title": "[A-1234] Error found in core/models.py file'",
+          "body": "You have used an email that already exists for the user_email_uniq field.\n ## DETAILS:\n\nThe (email)=(Octocat@github.com) already exists.\n\n The error was found in core/models.py in get_or_create_user at line 62.\n\n self.save()"
+        }
+      }
+    ],
+    "idName": "create-content-attachment",
+    "documentationUrl": "https://developer.github.com/enterprise/2.16/v3/apps/installations/#create-a-content-attachment"
   }
 ]
