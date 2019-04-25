@@ -1,9 +1,8 @@
 <h2>
-<a id="labelevent" class="anchor" href="#labelevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>LabelEvent</h2>
-<p>Triggered when a repository&apos;s label is <code>created</code>, <code>edited</code>, or <code>deleted</code>.</p>
-<p>Events of this type are not visible in timelines. These events are only used to trigger hooks.</p>
+<a id="metaevent" class="anchor" href="#metaevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>MetaEvent</h2>
+<p>Triggered when the webhook that this event is configured on is deleted. This event will only listen for changes to the particular hook the event is installed on. Therefore, it must be selected for each hook that you&apos;d like to recieve meta events for.</p>
 <h3>
-<a id="events-api-payload-17" class="anchor" href="#events-api-payload-17" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API Payload</h3>
+<a id="events-api-payload-21" class="anchor" href="#events-api-payload-21" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
 <table>
 <thead>
 <tr>
@@ -16,44 +15,43 @@
 <tr>
 <td><code>action</code></td>
 <td><code>string</code></td>
-<td>The action that was performed. Can be <code>created</code>, <code>edited</code>, or <code>deleted</code>.</td>
+<td>The action performed. Can be <code>deleted</code>.</td>
 </tr>
 <tr>
-<td><code>label</code></td>
+<td><code>hook_id</code></td>
+<td><code>integer</code></td>
+<td>The id of the modified webhook.</td>
+</tr>
+<tr>
+<td><code>hook</code></td>
 <td><code>object</code></td>
-<td>The label that was added.</td>
-</tr>
-<tr>
-<td><code>changes</code></td>
-<td><code>object</code></td>
-<td>The changes to the label if the action was <code>edited</code>.</td>
-</tr>
-<tr>
-<td><code>changes[name][from]</code></td>
-<td><code>string</code></td>
-<td>The previous version of the name if the action was <code>edited</code>.</td>
-</tr>
-<tr>
-<td><code>changes[color][from]</code></td>
-<td><code>string</code></td>
-<td>The previous version of the color if the action was <code>edited</code>.</td>
+<td>The modified webhook. This will contain different keys based on the type of webhook it is: repository, organization, business, app, or GitHub Marketplace.</td>
 </tr>
 </tbody>
 </table>
 <h3>
-<a id="webhook-event-name-20" class="anchor" href="#webhook-event-name-20" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook event name</h3>
-<p><code>label</code></p>
+<a id="webhook-event-name-24" class="anchor" href="#webhook-event-name-24" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook event name</h3>
+<p><code>meta</code></p>
 <h3>
-<a id="webhook-payload-example-16" class="anchor" href="#webhook-payload-example-16" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook payload example</h3>
+<a id="webhook-payload-example-19" class="anchor" href="#webhook-payload-example-19" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook payload example</h3>
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">&quot;action&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;deleted&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">949738130</span><span class="p">,</span><span class="w">
-    </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MDU6TGFiZWw5NDk3MzgxMzA=&quot;</span><span class="p">,</span><span class="w">
-    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/Codertocat/Hello-World/labels/:bug:%20Bugfix&quot;</span><span class="p">,</span><span class="w">
-    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;:bug: Bugfix&quot;</span><span class="p">,</span><span class="w">
-    </span><span class="nt">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cb1f00&quot;</span><span class="p">,</span><span class="w">
-    </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="nt">&quot;hook_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">101047067</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;hook&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Repository&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">101047067</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;web&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;events&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">&quot;meta&quot;</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nt">&quot;config&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;content_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;json&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;insecure_ssl&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://example.com/hook&quot;</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-04-10T03:57:12Z&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-04-10T03:57:12Z&quot;</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="nt">&quot;repository&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">135493233</span><span class="p">,</span><span class="w">
