@@ -1,9 +1,8 @@
 <h2>
-<a id="labelevent" class="anchor" href="#labelevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>LabelEvent</h2>
-<p>Triggered when a repository&apos;s label is <code>created</code>, <code>edited</code>, or <code>deleted</code>.</p>
-<p>Events of this type are not visible in timelines. These events are only used to trigger hooks.</p>
+<a id="starevent" class="anchor" href="#starevent" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>StarEvent</h2>
+<p>Triggered when a star is added or removed from a repository.</p>
 <h3>
-<a id="events-api-payload-17" class="anchor" href="#events-api-payload-17" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API Payload</h3>
+<a id="events-api-payload-39" class="anchor" href="#events-api-payload-39" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events API payload</h3>
 <table>
 <thead>
 <tr>
@@ -16,45 +15,23 @@
 <tr>
 <td><code>action</code></td>
 <td><code>string</code></td>
-<td>The action that was performed. Can be <code>created</code>, <code>edited</code>, or <code>deleted</code>.</td>
+<td>The action performed. Can be <code>created</code> or <code>deleted</code>.</td>
 </tr>
 <tr>
-<td><code>label</code></td>
-<td><code>object</code></td>
-<td>The label that was added.</td>
-</tr>
-<tr>
-<td><code>changes</code></td>
-<td><code>object</code></td>
-<td>The changes to the label if the action was <code>edited</code>.</td>
-</tr>
-<tr>
-<td><code>changes[name][from]</code></td>
+<td><code>starred_at</code></td>
 <td><code>string</code></td>
-<td>The previous version of the name if the action was <code>edited</code>.</td>
-</tr>
-<tr>
-<td><code>changes[color][from]</code></td>
-<td><code>string</code></td>
-<td>The previous version of the color if the action was <code>edited</code>.</td>
+<td>The time the star was created. This is a timestamp in <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> format: <code>YYYY-MM-DDTHH:MM:SSZ</code>. Will be <code>null</code> for the <code>deleted</code> action.</td>
 </tr>
 </tbody>
 </table>
 <h3>
-<a id="webhook-event-name-20" class="anchor" href="#webhook-event-name-20" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook event name</h3>
-<p><code>label</code></p>
+<a id="webhook-event-name-42" class="anchor" href="#webhook-event-name-42" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook event name</h3>
+<p><code>star</code></p>
 <h3>
-<a id="webhook-payload-example-16" class="anchor" href="#webhook-payload-example-16" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook payload example</h3>
+<a id="webhook-payload-example-37" class="anchor" href="#webhook-payload-example-37" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook payload example</h3>
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">&quot;action&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;deleted&quot;</span><span class="p">,</span><span class="w">
-  </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">949738130</span><span class="p">,</span><span class="w">
-    </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MDU6TGFiZWw5NDk3MzgxMzA=&quot;</span><span class="p">,</span><span class="w">
-    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/Codertocat/Hello-World/labels/:bug:%20Bugfix&quot;</span><span class="p">,</span><span class="w">
-    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;:bug: Bugfix&quot;</span><span class="p">,</span><span class="w">
-    </span><span class="nt">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cb1f00&quot;</span><span class="p">,</span><span class="w">
-    </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
-  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">&quot;action&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;created&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;starred_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2019-04-17T00:11:35Z&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;repository&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">135493233</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MDEwOlJlcG9zaXRvcnkxMzU0OTMyMzM=&quot;</span><span class="p">,</span><span class="w">
@@ -130,8 +107,8 @@
     </span><span class="nt">&quot;svn_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/Codertocat/Hello-World&quot;</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;homepage&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="nt">&quot;stargazers_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="nt">&quot;watchers_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;stargazers_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;watchers_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;language&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;has_issues&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;has_projects&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
