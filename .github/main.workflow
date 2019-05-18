@@ -23,8 +23,13 @@ action "npm test" {
   args = "test"
 }
 
-workflow "Record" {
+workflow "Record on demand" {
   on = "repository_dispatch"
+  resolves = ["routes update pull request"]
+}
+
+workflow "Cron" {
+  on = "schedule(* 2 * * *)"
   resolves = ["routes update pull request"]
 }
 
@@ -40,26 +45,49 @@ action "clear routes" {
   args = "-rf routes cache"
 }
 
-action "update dotcom routes" {
-  needs = "clear routes"
+action "update .com routes" {
+  needs = [
+    "clear routes",
+    "npm ci"
+  ]
   uses = "docker://node:alpine"
   runs = "bin/octokit-rest-routes.js"
   args = "update"
 }
 
 action "update GHE routes" {
-  needs = "clear routes"
+  needs = [
+    "clear routes",
+    "npm ci"
+  ]
   uses = "docker://node:alpine"
   runs = "bin/octokit-rest-routes.js"
   args = "update --ghe"
 }
 
 action "routes update pull request" {
-  needs = [
-    "update dotcom routes",
-    "clear routes"
-  ]
-  uses = "docker://node:alpine"
+  uses = "docker://timbru31/node-alpine-git"
   runs = "bin/create-pull-request-on-change.js"
   secrets = ["GITHUB_TOKEN"]
+}
+
+workflow "Release" {
+  on = "push"
+  resolves = ["semantic-release"]
+}
+
+action "master branch only" {
+  uses = "actions/bin/filter@master"
+  args = "branch master"
+}
+
+action "semantic-release" {
+  needs = [
+    "master branch only",
+    "npm ci"
+  ]
+  uses = "docker://timbru31/node-alpine-git"
+  runs = "npm"
+  args = "run semantic-release"
+  secrets = ["GITHUB_TOKEN", "NPM_TOKEN"]
 }
