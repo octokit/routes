@@ -3,6 +3,6 @@
 const checkOrUpdateRoutes = require('../lib/notify-about-routes-changes')
 
 checkOrUpdateRoutes({
-  repoSlug: process.env.TRAVIS_REPO_SLUG,
-  token: process.env.GH_TOKEN
+  repoSlug: process.env.GITHUB_REPOSITORY,
+  token: process.env.GITHUB_TOKEN
 })
