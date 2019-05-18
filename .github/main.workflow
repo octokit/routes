@@ -20,7 +20,7 @@ action "npm test" {
   needs = "lint"
   uses = "docker://node:alpine"
   runs = "npm"
-  args = "test --ignore-scripts"
+  args = "test"
 }
 
 workflow "Record" {
