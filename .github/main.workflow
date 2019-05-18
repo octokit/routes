@@ -1,6 +1,6 @@
 workflow "Test on push" {
   on = "push"
-  resolves = ["npm test"]
+  resolves = ["test"]
 }
 
 action "npm ci" {
@@ -16,7 +16,7 @@ action "lint" {
   args = "standard"
 }
 
-action "npm test" {
+action "test" {
   needs = "lint"
   uses = "docker://node:alpine"
   runs = "npm"
