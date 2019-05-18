@@ -9,15 +9,15 @@ action "npm ci" {
   args = "ci"
 }
 
-action "npm run lint" {
+action "lint" {
   needs = "npm ci"
   uses = "docker://node:alpine"
-  runs = "npm"
-  args = "run lint"
+  runs = "npx"
+  args = "standard"
 }
 
 action "npm test" {
-  needs = "npm run lint"
+  needs = "lint"
   uses = "docker://node:alpine"
   runs = "npm"
   args = "test --ignore-scripts"
