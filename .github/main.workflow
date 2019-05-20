@@ -81,10 +81,17 @@ action "master branch only" {
   args = "branch master"
 }
 
+action "npm ci (release)" {
+  needs = "master branch only"
+  uses = "docker://node:alpine"
+  runs = "npm"
+  args = "ci"
+}
+
 action "semantic-release" {
   needs = [
     "master branch only",
-    "npm ci"
+    "npm ci (release)"
   ]
   uses = "docker://timbru31/node-alpine-git"
   runs = "npm"
