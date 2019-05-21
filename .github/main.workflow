@@ -17,10 +17,10 @@ action "lint" {
 }
 
 action "routes:lint" {
-  needs = "npm run routes:lint"
+  needs = "npm ci"
   uses = "docker://node:alpine"
-  runs = "npx"
-  args = "standard"
+  runs = "npm"
+  args = "run routes:lint"
 }
 
 action "test" {
