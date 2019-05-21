@@ -1,13 +1,13 @@
 {
-  "summary": "Get a single issue",
-  "description": "The API returns a [`301 Moved Permanently` status](https://developer.github.com/v3/#http-redirects) if the issue was [transferred](https://help.github.com/articles/transferring-an-issue-to-another-repository/) to another repository. If the issue was transferred to or deleted from a repository where the authenticated user lacks read access, the API returns a `404 Not Found` status. If the issue was deleted from a repository where the authenticated user has read access, the API returns a `410 Gone` status. To receive webhook events for transferred and deleted issues, subscribe to the [`issues`](https://developer.github.com/v3/activity/events/types/#issuesevent) webhook.\n\n**Note**: GitHub's REST API v3 considers every pull request an issue, but not every issue is a pull request. For this reason, \"Issues\" endpoints may return both issues and pull requests in the response. You can identify pull requests by the `pull_request` key.\n\nBe aware that the `id` of a pull request returned from \"Issues\" endpoints will be an _issue id_. To find out the pull request id, use the \"[List pull requests](https://developer.github.com/v3/pulls/#list-pull-requests)\" endpoint.\n\n",
-  "operationId": "get",
+  "summary": "Edit an issue",
+  "description": "Issue owners and users with push access can edit an issue.",
+  "operationId": "update",
   "tags": [
     "issues"
   ],
   "externalDocs": {
     "description": "API method documentation",
-    "url": "https://developer.github.com/v3/issues/#get-a-single-issue"
+    "url": "https://developer.github.com/v3/issues/#edit-an-issue"
   },
   "parameters": [
     {
@@ -38,6 +38,55 @@
       "description": "issue_number parameter"
     }
   ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "description": "The title of the issue."
+            },
+            "body": {
+              "description": "The contents of the issue."
+            },
+            "assignee": {
+              "description": "Login for the user that this issue should be assigned to. **This field is deprecated.**"
+            },
+            "state": {
+              "description": "State of the issue. Either `open` or `closed`."
+            },
+            "milestone": {
+              "description": "The `number` of the milestone to associate this issue with or `null` to remove current. _NOTE: Only users with push access can set the milestone for issues. The milestone is silently dropped otherwise._"
+            },
+            "labels": {
+              "description": "Labels to associate with this issue. Pass one or more Labels to _replace_ the set of Labels on this Issue. Send an empty array (`[]`) to clear all Labels from the Issue. _NOTE: Only users with push access can set labels for issues. Labels are silently dropped otherwise._",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "assignees": {
+              "description": "Logins for Users to assign to this issue. Pass one or more user logins to _replace_ the set of assignees on this Issue. Send an empty array (`[]`) to clear all assignees from the Issue. _NOTE: Only users with push access can set assignees for new issues. Assignees are silently dropped otherwise._",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "title",
+            "body",
+            "assignee",
+            "state",
+            "milestone",
+            "labels",
+            "assignees"
+          ]
+        }
+      }
+    }
+  },
   "x-code-samples": [
     {
       "lang": "Shell",
@@ -45,7 +94,7 @@
     },
     {
       "lang": "JS",
-      "source": "octokit.issues.get({owner: \"octocat\", repo: \"hello-world\", issue_number: 1})"
+      "source": "octokit.issues.get({owner: \"octocat\", repo: \"hello-world\", issue_number: 1, title: undefined, body: undefined, assignee: undefined, state: undefined, milestone: undefined, labels: undefined, assignees: undefined})"
     }
   ],
   "responses": {
