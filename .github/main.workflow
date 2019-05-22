@@ -39,8 +39,8 @@ action "deploy to now" {
     "routes:lint"
   ]
   uses = "docker://timbru31/node-alpine-git"
-  runs = "npx"
-  args = "now deploy --token $NOW_TOKEN"
+  runs = "./node_modules/.bin/now"
+  args = "deploy --token $NOW_TOKEN"
   secrets = ["NOW_TOKEN"]
 }
 
@@ -49,8 +49,8 @@ action "alias deploy domain" {
     "deploy to now"
   ]
   uses = "docker://timbru31/node-alpine-git"
-  runs = "npx"
-  args = "now alias --token $NOW_TOKEN"
+  runs = "./node_modules/.bin/now"
+  args = "alias --token $NOW_TOKEN"
   secrets = ["NOW_TOKEN"]
 }
 
