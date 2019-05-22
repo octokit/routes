@@ -34,43 +34,30 @@ action "test" {
   args = "run test:ci"
 }
 
-action "debug" {
-  uses = "docker://timbru31/node-alpine-git"
-  runs = "node"
-  args = "-p 'process.env.NOW_TOKEN.substr(0, 5)'"
-  secrets = ["NOW_TOKEN"]
-}
-
-
 action "deploy to now" {
   needs = [
-    "debug",
     "routes:lint"
   ]
-  uses = "docker://timbru31/node-alpine-git"
-  runs = "npx"
-  args = "now deploy --token $NOW_TOKEN"
-  secrets = ["NOW_TOKEN"]
+  uses = "actions/zeit-now@master"
+  secrets = ["ZEIT_TOKEN"]
 }
 
 action "alias deploy domain" {
   needs = [
     "deploy to now"
   ]
-  uses = "docker://timbru31/node-alpine-git"
-  runs = "npx"
-  args = "now alias --token $NOW_TOKEN"
-  secrets = ["NOW_TOKEN"]
+  uses = "actions/zeit-now@master"
+  args = "alias"
+  secrets = ["ZEIT_TOKEN"]
 }
 
 action "remove older deployments" {
   needs = [
     "deploy to now"
   ]
-  uses = "docker://timbru31/node-alpine-git"
-  runs = "npx"
-  args = "now rm --safe --yes octokit-routes-openapi --token $NOW_TOKEN"
-  secrets = ["NOW_TOKEN"]
+  uses = "actions/zeit-now@master"
+  args = "rm --safe --yes octokit-routes-openapi"
+  secrets = ["ZEIT_TOKEN"]
 }
 
 workflow "Record on demand" {
