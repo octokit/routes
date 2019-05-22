@@ -4,21 +4,21 @@ workflow "Test on push" {
 }
 
 action "npm ci" {
-  uses = "docker://node:lts-alpine"
+  uses = "docker://timbru31/node-alpine-git"
   runs = "npm"
   args = "ci"
 }
 
 action "lint" {
   needs = "npm ci"
-  uses = "docker://node:lts-alpine"
+  uses = "docker://timbru31/node-alpine-git"
   runs = "npx"
   args = "standard"
 }
 
 action "routes:lint" {
   needs = "npm ci"
-  uses = "docker://node:lts-alpine"
+  uses = "docker://timbru31/node-alpine-git"
   runs = "npm"
   args = "run routes:lint"
 }
@@ -28,7 +28,7 @@ action "test" {
     "lint",
     "routes:lint"
   ]
-  uses = "docker://node:lts-alpine"
+  uses = "docker://timbru31/node-alpine-git"
   runs = "npm"
   args = "run test:ci"
 }
@@ -45,7 +45,7 @@ workflow "Cron" {
 
 action "clear routes" {
   needs = "record action only"
-  uses = "docker://node:alpine"
+  uses = "docker://timbru31/node-alpine-git"
   runs = "rm"
   args = "-rf routes cache"
 }
@@ -55,7 +55,7 @@ action "update .com routes" {
     "clear routes",
     "npm ci"
   ]
-  uses = "docker://node:lts-alpine"
+  uses = "docker://timbru31/node-alpine-git"
   runs = "bin/octokit-rest-routes.js"
   args = "update"
 }
@@ -65,7 +65,7 @@ action "update GHE routes" {
     "clear routes",
     "npm ci"
   ]
-  uses = "docker://node:lts-alpine"
+  uses = "docker://timbru31/node-alpine-git"
   runs = "bin/octokit-rest-routes.js"
   args = "update --ghe"
 }
@@ -105,7 +105,7 @@ action "master branch only" {
 
 action "npm ci (release)" {
   needs = "master branch only"
-  uses = "docker://node:lts-alpine"
+  uses = "docker://timbru31/node-alpine-git"
   runs = "npm"
   args = "ci"
 }
