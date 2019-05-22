@@ -34,13 +34,22 @@ action "test" {
   args = "run test:ci"
 }
 
+action "debug" {
+  uses = "docker://timbru31/node-alpine-git"
+  runs = "node"
+  args = "-p 'process.env.NOW_TOKEN.substr(0, 5)'"
+  secrets = ["NOW_TOKEN"]
+}
+
+
 action "deploy to now" {
   needs = [
+    "debug",
     "routes:lint"
   ]
   uses = "docker://timbru31/node-alpine-git"
-  runs = "./node_modules/.bin/now"
-  args = "deploy --token $NOW_TOKEN"
+  runs = "npx"
+  args = "now deploy --token $NOW_TOKEN"
   secrets = ["NOW_TOKEN"]
 }
 
@@ -49,8 +58,8 @@ action "alias deploy domain" {
     "deploy to now"
   ]
   uses = "docker://timbru31/node-alpine-git"
-  runs = "./node_modules/.bin/now"
-  args = "alias --token $NOW_TOKEN"
+  runs = "npx"
+  args = "now alias --token $NOW_TOKEN"
   secrets = ["NOW_TOKEN"]
 }
 
