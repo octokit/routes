@@ -1,0 +1,182 @@
+{
+  "summary": "Create a commit comment",
+  "description": "This endpoint triggers [notifications](https://help.github.com/articles/about-notifications/). Creating content too quickly using this endpoint may result in abuse rate limiting. See \"[Abuse rate limits](https://developer.github.com/v3/#abuse-rate-limits)\" and \"[Dealing with abuse rate limits](https://developer.github.com/v3/guides/best-practices-for-integrators/#dealing-with-abuse-rate-limits)\" for details.",
+  "operationId": "repos-create-commit-comment",
+  "tags": [
+    "repos"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/repos/comments/#create-a-commit-comment"
+  },
+  "parameters": [
+    {
+      "name": "owner",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "owner parameter"
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "repo parameter"
+    },
+    {
+      "name": "sha",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "sha parameter"
+    }
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "body": {
+              "description": "The contents of the comment."
+            },
+            "path": {
+              "description": "Relative path of the file to comment on."
+            },
+            "position": {
+              "description": "Line index in the diff to comment on."
+            },
+            "line": {
+              "description": "**Deprecated**. Use **position** parameter instead. Line number in the file to comment on."
+            }
+          },
+          "required": [
+            "body"
+          ]
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/commits/:sha/comments \\\n  -d '{}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.issues.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  sha: undefined,\n  body: undefined\n})"
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "properties": {
+              "html_url": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "id": {
+                "type": "number"
+              },
+              "node_id": {
+                "type": "string"
+              },
+              "body": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              },
+              "position": {
+                "type": "number"
+              },
+              "line": {
+                "type": "number"
+              },
+              "commit_id": {
+                "type": "string"
+              },
+              "user": {
+                "type": "object",
+                "properties": {
+                  "login": {
+                    "type": "string"
+                  },
+                  "id": {
+                    "type": "number"
+                  },
+                  "node_id": {
+                    "type": "string"
+                  },
+                  "avatar_url": {
+                    "type": "string"
+                  },
+                  "gravatar_id": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  },
+                  "html_url": {
+                    "type": "string"
+                  },
+                  "followers_url": {
+                    "type": "string"
+                  },
+                  "following_url": {
+                    "type": "string"
+                  },
+                  "gists_url": {
+                    "type": "string"
+                  },
+                  "starred_url": {
+                    "type": "string"
+                  },
+                  "subscriptions_url": {
+                    "type": "string"
+                  },
+                  "organizations_url": {
+                    "type": "string"
+                  },
+                  "repos_url": {
+                    "type": "string"
+                  },
+                  "events_url": {
+                    "type": "string"
+                  },
+                  "received_events_url": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "site_admin": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "created_at": {
+                "type": "string"
+              },
+              "updated_at": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

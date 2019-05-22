@@ -1,0 +1,92 @@
+{
+  "summary": "Views",
+  "description": "Get the total number of views and breakdown per day or week for the last 14 days. Timestamps are aligned to UTC midnight of the beginning of the day or week. Week begins on Monday.",
+  "operationId": "repos-get-views",
+  "tags": [
+    "repos"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/repos/traffic/#views"
+  },
+  "parameters": [
+    {
+      "name": "owner",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "owner parameter"
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "repo parameter"
+    },
+    {
+      "name": "per",
+      "in": "query",
+      "schema": {
+        "type": "string"
+      },
+      "required": false,
+      "description": "Must be one of: `day`, `week`."
+    }
+  ],
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/traffic/views"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "properties": {
+              "count": {
+                "type": "number"
+              },
+              "uniques": {
+                "type": "number"
+              },
+              "views": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "timestamp": {
+                      "type": "string"
+                    },
+                    "count": {
+                      "type": "number"
+                    },
+                    "uniques": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "timestamp",
+                    "count",
+                    "uniques"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

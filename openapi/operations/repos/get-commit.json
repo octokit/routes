@@ -1,0 +1,327 @@
+{
+  "summary": "Get a single commit",
+  "description": "Diffs with binary data will have no `patch` property. Pass the appropriate [media type](https://developer.github.com/v3/media/#commits-commit-comparison-and-pull-requests) to fetch diff and patch formats.\n\n**Signature verification object**\n\nThe response will include a `verification` object that describes the result of verifying the commit's signature. The following fields are included in the `verification` object:\n\nThese are the possible values for `reason` in the `verification` object:\n\n| Value                    | Description                                                                                                                       |\n| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |\n| `expired_key`            | The key that made the signature is expired.                                                                                       |\n| `not_signing_key`        | The \"signing\" flag is not among the usage flags in the GPG key that made the signature.                                           |\n| `gpgverify_error`        | There was an error communicating with the signature verification service.                                                         |\n| `gpgverify_unavailable`  | The signature verification service is currently unavailable.                                                                      |\n| `unsigned`               | The object does not include a signature.                                                                                          |\n| `unknown_signature_type` | A non-PGP signature was found in the commit.                                                                                      |\n| `no_user`                | No user was associated with the `committer` email address in the commit.                                                          |\n| `unverified_email`       | The `committer` email address in the commit was associated with a user, but the email address is not verified on her/his account. |\n| `bad_email`              | The `committer` email address in the commit is not included in the identities of the PGP key that made the signature.             |\n| `unknown_key`            | The key that made the signature has not been registered with any user's account.                                                  |\n| `malformed_signature`    | There was an error parsing the signature.                                                                                         |\n| `invalid`                | The signature could not be cryptographically verified using the key whose key-id was found in the signature.                      |\n| `valid`                  | None of the above errors applied, so the signature is considered to be verified.                                                  |",
+  "operationId": "repos-get-commit",
+  "tags": [
+    "repos"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/repos/commits/#get-a-single-commit"
+  },
+  "parameters": [
+    {
+      "name": "owner",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "owner parameter"
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "repo parameter"
+    },
+    {
+      "name": "commit_sha",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "commit_sha parameter"
+    }
+  ],
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/commits/:commit_sha"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  commit_sha: 'commit_sha'\n})"
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "properties": {
+              "url": {
+                "type": "string"
+              },
+              "sha": {
+                "type": "string"
+              },
+              "node_id": {
+                "type": "string"
+              },
+              "html_url": {
+                "type": "string"
+              },
+              "comments_url": {
+                "type": "string"
+              },
+              "commit": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string"
+                  },
+                  "author": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "date": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "committer": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "date": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "message": {
+                    "type": "string"
+                  },
+                  "tree": {
+                    "type": "object",
+                    "properties": {
+                      "url": {
+                        "type": "string"
+                      },
+                      "sha": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "comment_count": {
+                    "type": "number"
+                  },
+                  "verification": {
+                    "type": "object",
+                    "properties": {
+                      "verified": {
+                        "type": "boolean"
+                      },
+                      "reason": {
+                        "type": "string"
+                      },
+                      "signature": {
+                        "type": "string"
+                      },
+                      "payload": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "author": {
+                "type": "object",
+                "properties": {
+                  "login": {
+                    "type": "string"
+                  },
+                  "id": {
+                    "type": "number"
+                  },
+                  "node_id": {
+                    "type": "string"
+                  },
+                  "avatar_url": {
+                    "type": "string"
+                  },
+                  "gravatar_id": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  },
+                  "html_url": {
+                    "type": "string"
+                  },
+                  "followers_url": {
+                    "type": "string"
+                  },
+                  "following_url": {
+                    "type": "string"
+                  },
+                  "gists_url": {
+                    "type": "string"
+                  },
+                  "starred_url": {
+                    "type": "string"
+                  },
+                  "subscriptions_url": {
+                    "type": "string"
+                  },
+                  "organizations_url": {
+                    "type": "string"
+                  },
+                  "repos_url": {
+                    "type": "string"
+                  },
+                  "events_url": {
+                    "type": "string"
+                  },
+                  "received_events_url": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "site_admin": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "committer": {
+                "type": "object",
+                "properties": {
+                  "login": {
+                    "type": "string"
+                  },
+                  "id": {
+                    "type": "number"
+                  },
+                  "node_id": {
+                    "type": "string"
+                  },
+                  "avatar_url": {
+                    "type": "string"
+                  },
+                  "gravatar_id": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  },
+                  "html_url": {
+                    "type": "string"
+                  },
+                  "followers_url": {
+                    "type": "string"
+                  },
+                  "following_url": {
+                    "type": "string"
+                  },
+                  "gists_url": {
+                    "type": "string"
+                  },
+                  "starred_url": {
+                    "type": "string"
+                  },
+                  "subscriptions_url": {
+                    "type": "string"
+                  },
+                  "organizations_url": {
+                    "type": "string"
+                  },
+                  "repos_url": {
+                    "type": "string"
+                  },
+                  "events_url": {
+                    "type": "string"
+                  },
+                  "received_events_url": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "site_admin": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "parents": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string"
+                    },
+                    "sha": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "stats": {
+                "type": "object",
+                "properties": {
+                  "additions": {
+                    "type": "number"
+                  },
+                  "deletions": {
+                    "type": "number"
+                  },
+                  "total": {
+                    "type": "number"
+                  }
+                }
+              },
+              "files": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "filename": {
+                      "type": "string"
+                    },
+                    "additions": {
+                      "type": "number"
+                    },
+                    "deletions": {
+                      "type": "number"
+                    },
+                    "changes": {
+                      "type": "number"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "raw_url": {
+                      "type": "string"
+                    },
+                    "blob_url": {
+                      "type": "string"
+                    },
+                    "patch": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
