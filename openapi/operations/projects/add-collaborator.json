@@ -1,0 +1,66 @@
+{
+  "summary": "Add user as a collaborator",
+  "description": "Adds a collaborator to a an organization project and sets their permission level. You must be an organization owner or a project `admin` to add a collaborator.",
+  "operationId": "projects-add-collaborator",
+  "tags": [
+    "projects"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/projects/collaborators/#add-user-as-a-collaborator"
+  },
+  "parameters": [
+    {
+      "name": "project_id",
+      "in": "path",
+      "schema": {
+        "type": "integer"
+      },
+      "required": true,
+      "description": "project_id parameter"
+    },
+    {
+      "name": "username",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "username parameter"
+    }
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "permission": {
+              "description": "The permission to grant the collaborator. Note that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](https://developer.github.com/v3/#http-verbs).\" Can be one of:  \n\\* `read` - can read, but not write to or administer this project.  \n\\* `write` - can read and write, but not administer this project.  \n\\* `admin` - can read, write and administer this project."
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/projects//collaborators/:username"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.projects.get({\n  project_id: 'project_id',\n  username: 'username'\n})"
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {}
+        }
+      }
+    }
+  }
+}

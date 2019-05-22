@@ -1,0 +1,109 @@
+{
+  "summary": "Provision and invite users",
+  "description": "Provision organization membership for a user, and send an activation email to the email address.\n\nAs shown in the following example, you must at least provide the required values for the user: `userName`, `name`, and `emails`.",
+  "operationId": "scim-provision-and-invite-users",
+  "tags": [
+    "scim"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/scim/#provision-and-invite-users"
+  },
+  "parameters": [
+    {
+      "name": "org",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "org parameter"
+    }
+  ],
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/scim/v2/organizations//Users"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.scim.get({\n  org: 'org'\n})"
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "properties": {
+              "schemas": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "id": {
+                "type": "string"
+              },
+              "externalId": {
+                "type": "string"
+              },
+              "userName": {
+                "type": "string"
+              },
+              "name": {
+                "type": "object",
+                "properties": {
+                  "givenName": {
+                    "type": "string"
+                  },
+                  "familyName": {
+                    "type": "string"
+                  }
+                }
+              },
+              "emails": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "primary": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              },
+              "active": {
+                "type": "boolean"
+              },
+              "meta": {
+                "type": "object",
+                "properties": {
+                  "resourceType": {
+                    "type": "string"
+                  },
+                  "created": {
+                    "type": "string"
+                  },
+                  "lastModified": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
