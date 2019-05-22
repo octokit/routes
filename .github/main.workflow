@@ -39,7 +39,7 @@ workflow "Record on demand" {
 }
 
 workflow "Cron" {
-  on = "schedule(* 2 * * *)"
+  on = "schedule(0 2 * * *)"
   resolves = ["routes update pull request"]
 }
 
