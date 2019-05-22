@@ -53,7 +53,7 @@ action "alias deploy domain" {
 
 action "remove older deployments" {
   needs = [
-    "deploy to now"
+    "alias deploy domain"
   ]
   uses = "actions/zeit-now@master"
   args = "rm --safe --yes octokit-routes-openapi"
