@@ -1,6 +1,7 @@
-workflow "Test on push" {
+# workflow "Test on push" {
+workflow "Deploy on push" {
   on = "push"
-  resolves = ["test"]
+  resolves = ["remove older deployments"]
 }
 
 action "npm ci" {
@@ -31,6 +32,36 @@ action "test" {
   uses = "docker://timbru31/node-alpine-git"
   runs = "npm"
   args = "test"
+}
+
+action "deploy to now" {
+  needs = [
+    "routes:lint"
+  ]
+  uses = "docker://timbru31/node-alpine-git"
+  runs = "npx"
+  args = "now deploy --token $NOW_TOKEN"
+  secrets = ["NOW_TOKEN"]
+}
+
+action "alias deploy domain" {
+  needs = [
+    "deploy to now"
+  ]
+  uses = "docker://timbru31/node-alpine-git"
+  runs = "npx"
+  args = "now alias --token $NOW_TOKEN"
+  secrets = ["NOW_TOKEN"]
+}
+
+action "remove older deployments" {
+  needs = [
+    "deploy to now"
+  ]
+  uses = "docker://timbru31/node-alpine-git"
+  runs = "npx"
+  args = "now rm --safe --yes octokit-routes-openapi --token $NOW_TOKEN"
+  secrets = ["NOW_TOKEN"]
 }
 
 workflow "Record on demand" {
