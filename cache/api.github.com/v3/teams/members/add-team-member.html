@@ -7,15 +7,20 @@
 
 <p>The &quot;Add team member&quot; API (described below) is deprecated.</p>
 
-<p>We recommend using the
-<a href="/v3/teams/members/#add-or-update-team-membership">Add team membership API</a>
-instead. It allows you to invite new organization members to your teams.</p>
+<p>We recommend using the <a href="/v3/teams/members/#add-or-update-team-membership">Add team membership API</a> instead. It allows you to invite new organization members to your teams.</p>
 
 </div>
-<p>To add a user to a team, the authenticated user must have
-&apos;admin&apos; permissions to the team or be an owner of the organization that the team
-is associated with, and the user being added must already be a member of at
-least one other team on the same organization.</p>
+<div class="alert product"><p>
+
+Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see <a href="https://help.github.com/articles/github-s-products">GitHub&apos;s products</a> in the GitHub Help documentation.
+
+</p></div>
+<p>To add someone to a team, the authenticated user must be a team maintainer in the team they&apos;re changing or be an owner of the organization that the team is associated with. The person being added to the team must be a member of the team&apos;s organization.</p>
+<div class="alert note">
+
+<p><strong>Note:</strong> When you have team synchronization set up for a team with your organization&apos;s identity provider (IdP), you will see an error if you attempt to use the API for making changes to the team&apos;s membership. If you have access to manage group membership in your IdP, you can manage GitHub team membership through your identity provider, which automatically adds and removes team members in an organization. For more information, see &quot;<a href="https://help.github.com/articles/synchronizing-teams-between-your-identity-provider-and-github/">Synchronizing teams between your identity provider and GitHub</a>.&quot;</p>
+
+</div>
 <pre><code>PUT /teams/:team_id/members/:username
 </code></pre>
 <p>Note that you&apos;ll need to set <code>Content-Length</code> to zero when calling out to this endpoint. For more information, see &quot;<a href="/v3/#http-verbs">HTTP verbs</a>.&quot;</p>
@@ -23,7 +28,12 @@ least one other team on the same organization.</p>
 <a id="response-1" class="anchor" href="#response-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 <pre class="highlight highlight-headers"><code>Status: 204 No Content
 </code></pre>
-<p>If you attempt to add an organization to a team, you will get this:</p>
+<h3>
+<a id="response-if-team-synchronization-is-set-up" class="anchor" href="#response-if-team-synchronization-is-set-up" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if team synchronization is set up</h3>
+<pre class="highlight highlight-headers"><code>Status: 404 Not Found
+</code></pre>
+<h3>
+<a id="response-if-you-attempt-to-add-an-organization-to-a-team" class="anchor" href="#response-if-you-attempt-to-add-an-organization-to-a-team" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if you attempt to add an organization to a team</h3>
 <pre class="highlight highlight-headers"><code>Status: 422 Unprocessable Entity
 </code></pre>
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
@@ -37,8 +47,8 @@ least one other team on the same organization.</p>
   </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>If you attempt to add a user to a team and that user is not a member of at least
-one other team on the same organization, you will get this:</p>
+<h3>
+<a id="response-if-you-attempt-to-add-a-user-to-a-team-when-they-are-not-a-member-of-at-least-one-other-team-in-the-same-organization" class="anchor" href="#response-if-you-attempt-to-add-a-user-to-a-team-when-they-are-not-a-member-of-at-least-one-other-team-in-the-same-organization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if you attempt to add a user to a team when they are not a member of at least one other team in the same organization</h3>
 <pre class="highlight highlight-headers"><code>Status: 422 Unprocessable Entity
 </code></pre>
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
