@@ -1,0 +1,122 @@
+{
+  "name": "Create a tree",
+  "enabledForApps": true,
+  "method": "POST",
+  "path": "/repos/:owner/:repo/git/trees",
+  "previews": [],
+  "params": [
+    {
+      "name": "owner",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "repo",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "tree",
+      "type": "object[]",
+      "description": "Objects (of `path`, `mode`, `type`, and `sha`) specifying a tree structure.",
+      "required": true,
+      "location": "body"
+    },
+    {
+      "name": "tree[].path",
+      "type": "string",
+      "description": "The file referenced in the tree.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "tree[].mode",
+      "type": "string",
+      "description": "The file mode; one of `100644` for file (blob), `100755` for executable (blob), `040000` for subdirectory (tree), `160000` for submodule (commit), or `120000` for a blob that specifies the path of a symlink.",
+      "required": false,
+      "enum": [
+        "100644",
+        "100755",
+        "040000",
+        "160000",
+        "120000"
+      ],
+      "location": "body"
+    },
+    {
+      "name": "tree[].type",
+      "type": "string",
+      "description": "Either `blob`, `tree`, or `commit`.",
+      "required": false,
+      "enum": [
+        "blob",
+        "tree",
+        "commit"
+      ],
+      "location": "body"
+    },
+    {
+      "name": "tree[].sha",
+      "type": "string",
+      "description": "The SHA1 checksum ID of the object in the tree. Also called `tree.sha`.  \n  \n**Note:** Use either `tree.sha` or `content` to specify the contents of the entry. Using both `tree.sha` and `content` will return an error.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "tree[].content",
+      "type": "string",
+      "description": "The content you want this file to have. GitHub will write this blob out and use that SHA for this entry. Use either this, or `tree.sha`.  \n  \n**Note:** Use either `tree.sha` or `content` to specify the contents of the entry. Using both `tree.sha` and `content` will return an error.",
+      "required": false,
+      "location": "body"
+    },
+    {
+      "name": "base_tree",
+      "type": "string",
+      "description": "The SHA1 of the tree you want to update with new data. If you don't set this, the commit will be created on top of everything; however, it will only contain your change, the rest of your files will show up as deleted.",
+      "required": false,
+      "location": "body"
+    }
+  ],
+  "requests": [
+    {
+      "base_tree": "9fb037999f264ba9a7fc6274d15fa3ae2ab98312",
+      "tree": [
+        {
+          "path": "file.rb",
+          "mode": "100644",
+          "type": "blob",
+          "sha": "44b4fc6d56897b048c772eb4087f854f46256132"
+        }
+      ]
+    }
+  ],
+  "description": "The tree creation API will take nested entries as well. If both a tree and a nested path modifying that tree are specified, it will overwrite the contents of that tree with the new path contents and write a new tree out.",
+  "responses": [
+    {
+      "headers": {
+        "status": "201 Created",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "sha": "cd8274d15fa3ae2ab983129fb037999f264ba9a7",
+        "url": "https://api.github.com/repos/octocat/Hello-World/trees/cd8274d15fa3ae2ab983129fb037999f264ba9a7",
+        "tree": [
+          {
+            "path": "file.rb",
+            "mode": "100644",
+            "type": "blob",
+            "size": 132,
+            "sha": "7c258a9869f33c1e1e1f74fbb32f07c86cb5a75b",
+            "url": "https://api.github.com/repos/octocat/Hello-World/git/blobs/7c258a9869f33c1e1e1f74fbb32f07c86cb5a75b"
+          }
+        ]
+      }
+    }
+  ],
+  "idName": "create-tree",
+  "documentationUrl": "https://developer.github.com/enterprise/2.17/v3/git/trees/#create-a-tree"
+}

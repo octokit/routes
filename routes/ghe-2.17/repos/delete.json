@@ -1,0 +1,56 @@
+{
+  "name": "Delete a repository",
+  "enabledForApps": true,
+  "method": "DELETE",
+  "path": "/repos/:owner/:repo",
+  "previews": [],
+  "params": [
+    {
+      "name": "owner",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    },
+    {
+      "name": "repo",
+      "type": "string",
+      "required": true,
+      "description": "",
+      "location": "url"
+    }
+  ],
+  "description": "Deleting a repository requires admin access. If OAuth is used, the `delete_repo` scope is required.\n\nIf an organization owner has configured the organization to prevent members from deleting organization-owned repositories, a member will get this response:\n\nIf a site admin has configured the enterprise appliance to prevent users from deleting organization-owned repositories, a user will get this response:",
+  "responses": [
+    {
+      "headers": {
+        "status": "204 No Content",
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "headers": {
+        "status": "403 Forbidden",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "message": "Organization members cannot delete repositories.",
+        "documentation_url": "https://developer.github.com/enterprise/2.17/v3/repos/#delete-a-repository"
+      },
+      "description": "If an organization owner has configured the organization to prevent members from deleting organization-owned repositories, a member will get this response:"
+    },
+    {
+      "headers": {
+        "status": "403 Forbidden",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": {
+        "message": "Users cannot delete repositories on this appliance.",
+        "documentation_url": "https://developer.github.com/enterprise/2.17/v3/repos/#delete-a-repository"
+      },
+      "description": "If a site admin has configured the enterprise appliance to prevent users from deleting organization-owned repositories, a user will get this response:"
+    }
+  ],
+  "idName": "delete",
+  "documentationUrl": "https://developer.github.com/enterprise/2.17/v3/repos/#delete-a-repository"
+}
