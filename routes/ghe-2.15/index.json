@@ -7957,6 +7957,33 @@
       "documentationUrl": "https://developer.github.com/enterprise/2.15/v3/enterprise-admin/users/#rename-an-existing-user"
     },
     {
+      "name": "Delete a user",
+      "enabledForApps": false,
+      "method": "DELETE",
+      "path": "/admin/users/:username",
+      "previews": [],
+      "params": [
+        {
+          "name": "username",
+          "type": "string",
+          "required": true,
+          "description": "",
+          "location": "url"
+        }
+      ],
+      "description": "Deleting a user will delete all their repositories, gists, applications, and personal settings. [Suspending a user](/enterprise/2.15/v3/enterprise-admin/users/#suspend-a-user) is often a better option.\n\nYou can delete any user account except your own.",
+      "responses": [
+        {
+          "headers": {
+            "status": "204 No Content",
+            "content-type": "application/json; charset=utf-8"
+          }
+        }
+      ],
+      "idName": "delete-user",
+      "documentationUrl": "https://developer.github.com/enterprise/2.15/v3/enterprise-admin/users/#delete-a-user"
+    },
+    {
       "name": "Create an impersonation OAuth token",
       "enabledForApps": false,
       "method": "POST",
@@ -8160,21 +8187,21 @@
       "documentationUrl": "https://developer.github.com/enterprise/2.15/v3/enterprise-admin/users/#unsuspend-a-user"
     },
     {
-      "name": "Delete a user",
+      "name": "Delete a public key",
       "enabledForApps": false,
       "method": "DELETE",
-      "path": "/admin/users/:username",
+      "path": "/admin/keys/:key_ids",
       "previews": [],
       "params": [
         {
-          "name": "username",
+          "name": "key_ids",
           "type": "string",
           "required": true,
           "description": "",
           "location": "url"
         }
       ],
-      "description": "Deleting a user will delete all their repositories, gists, applications, and personal settings. [Suspending a user](/enterprise/2.15/v3/enterprise-admin/users/#suspend-a-user) is often a better option.\n\nYou can delete any user account except your own.",
+      "description": "",
       "responses": [
         {
           "headers": {
@@ -8183,8 +8210,8 @@
           }
         }
       ],
-      "idName": "delete-user",
-      "documentationUrl": "https://developer.github.com/enterprise/2.15/v3/enterprise-admin/users/#delete-a-user"
+      "idName": "delete-public-key",
+      "documentationUrl": "https://developer.github.com/enterprise/2.15/v3/enterprise-admin/users/#delete-a-public-key"
     }
   ],
   "gists": [
@@ -42092,47 +42119,13 @@
           "location": "url"
         }
       ],
-      "description": "The \"Add team member\" API (described below) is deprecated.\n\nWe recommend using the [Add team membership API](/enterprise/2.15/v3/teams/members/#add-or-update-team-membership) instead. It allows you to invite new organization members to your teams.\n\nTo add a user to a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with, and the user being added must already be a member of at least one other team on the same organization.\n\nNote that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](/enterprise/2.15/v3/#http-verbs).\"\n\nIf you attempt to add an organization to a team, you will get this:\n\nIf you attempt to add a user to a team and that user is not a member of at least one other team on the same organization, you will get this:",
+      "description": "The \"Add team member\" API (described below) is deprecated.\n\nWe recommend using the [Add team membership API](/enterprise/2.15/v3/teams/members/#add-or-update-team-membership) instead. It allows you to invite new organization members to your teams.\n\nTo add someone to a team, the authenticated user must be a team maintainer in the team they're changing or be an owner of the organization that the team is associated with. The person being added to the team must be a member of the team's organization.\n\nNote that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](/enterprise/2.15/v3/#http-verbs).\"",
       "responses": [
         {
           "headers": {
             "status": "204 No Content",
             "content-type": "application/json; charset=utf-8"
           }
-        },
-        {
-          "headers": {
-            "status": "422 Unprocessable Entity",
-            "content-type": "application/json; charset=utf-8"
-          },
-          "body": {
-            "message": "Cannot add an organization as a member.",
-            "errors": [
-              {
-                "code": "org",
-                "field": "user",
-                "resource": "TeamMember"
-              }
-            ]
-          },
-          "description": "If you attempt to add an organization to a team, you will get this:"
-        },
-        {
-          "headers": {
-            "status": "422 Unprocessable Entity",
-            "content-type": "application/json; charset=utf-8"
-          },
-          "body": {
-            "message": "User isn't a member of this organization. Please invite them first.",
-            "errors": [
-              {
-                "code": "unaffiliated",
-                "field": "user",
-                "resource": "TeamMember"
-              }
-            ]
-          },
-          "description": "If you attempt to add a user to a team and that user is not a member of at least one other team on the same organization, you will get this:"
         }
       ],
       "idName": "add-member",
@@ -42160,7 +42153,7 @@
           "location": "url"
         }
       ],
-      "description": "The \"Remove team member\" API (described below) is deprecated.\n\nWe recommend using the [Remove team membership API](/enterprise/2.15/v3/teams/members/#remove-team-membership) instead. It allows you to remove both active and pending memberships.\n\nTo remove a user from a team, the authenticated user must have 'admin' permissions to the team or be an owner of the org that the team is associated with. NOTE: This does not delete the user, it just removes them from the team.",
+      "description": "The \"Remove team member\" API (described below) is deprecated.\n\nWe recommend using the [Remove team membership endpoint](/enterprise/2.15/v3/teams/members/#remove-team-membership) instead. It allows you to remove both active and pending memberships.\n\nTo remove a team member, the authenticated user must have 'admin' permissions to the team or be an owner of the org that the team is associated with. Removing a team member does not delete the user, it just removes them from the team.",
       "responses": [
         {
           "headers": {
@@ -42238,7 +42231,7 @@
           "location": "body"
         }
       ],
-      "description": "If the user is already a member of the team's organization, this endpoint will add the user to the team. To add a membership between an organization member and a team, the authenticated user must be an organization owner or a maintainer of the team.\n\nIf the user is unaffiliated with the team's organization, this endpoint will send an invitation to the user via email. This newly-created membership will be in the \"pending\" state until the user accepts the invitation, at which point the membership will transition to the \"active\" state and the user will be added as a member of the team. To add a membership between an unaffiliated user and a team, the authenticated user must be an organization owner.\n\nIf the user is already a member of the team, this endpoint will update the role of the team member's role. To update the membership of a team member, the authenticated user must be an organization owner or a maintainer of the team.\n\nIf you attempt to add an organization to a team, you will get this:",
+      "description": "If the user is already a member of the team's organization, this endpoint will add the user to the team. To add a membership between an organization member and a team, the authenticated user must be an organization owner or a maintainer of the team.\n\nIf the user is unaffiliated with the team's organization, this endpoint will send an invitation to the user via email. This newly-created membership will be in the \"pending\" state until the user accepts the invitation, at which point the membership will transition to the \"active\" state and the user will be added as a member of the team. To add a membership between an unaffiliated user and a team, the authenticated user must be an organization owner.\n\nIf the user is already a member of the team, this endpoint will update the role of the team member's role. To update the membership of a team member, the authenticated user must be an organization owner or a maintainer of the team.",
       "idName": "add-or-update-membership",
       "documentationUrl": "https://developer.github.com/enterprise/2.15/v3/teams/members/#add-or-update-team-membership"
     },
@@ -42264,7 +42257,7 @@
           "location": "url"
         }
       ],
-      "description": "To remove a membership between a user and a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with. NOTE: This does not delete the user, it just removes their membership from the team.",
+      "description": "To remove a membership between a user and a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with. Removing team membership does not delete the user, it just removes their membership from the team.",
       "responses": [
         {
           "headers": {
