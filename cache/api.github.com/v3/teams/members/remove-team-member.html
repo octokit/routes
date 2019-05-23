@@ -7,18 +7,30 @@
 
 <p>The &quot;Remove team member&quot; API (described below) is deprecated.</p>
 
-<p>We recommend using the
-<a href="/v3/teams/members/#remove-team-membership">Remove team membership API</a>
+<p>We recommend using the <a href="/v3/teams/members/#remove-team-membership">Remove team membership endpoint</a>
 instead. It allows you to remove both active and pending memberships.</p>
 
 </div>
-<p>To remove a user from a team, the authenticated user must have
+<div class="alert product"><p>
+
+Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see <a href="https://help.github.com/articles/github-s-products">GitHub&apos;s products</a> in the GitHub Help documentation.
+
+</p></div>
+<p>To remove a team member, the authenticated user must have
 &apos;admin&apos; permissions to the team or be an owner of the org that the team
-is associated with.
-NOTE: This does not delete the user, it just removes them from the team.</p>
+is associated with. Removing a team member does not delete the user, it just removes them from the team.</p>
+<div class="alert note">
+
+<p><strong>Note:</strong> When you have team synchronization set up for a team with your organization&apos;s identity provider (IdP), you will see an error if you attempt to use the API for making changes to the team&apos;s membership. If you have access to manage group membership in your IdP, you can manage GitHub team membership through your identity provider, which automatically adds and removes team members in an organization. For more information, see &quot;<a href="https://help.github.com/articles/synchronizing-teams-between-your-identity-provider-and-github/">Synchronizing teams between your identity provider and GitHub</a>.&quot;</p>
+
+</div>
 <pre><code>DELETE /teams/:team_id/members/:username
 </code></pre>
 <h3>
 <a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 <pre class="highlight highlight-headers"><code>Status: 204 No Content
+</code></pre>
+<h3>
+<a id="response-if-team-synchronization-is-setup" class="anchor" href="#response-if-team-synchronization-is-setup" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if team synchronization is setup</h3>
+<pre class="highlight highlight-headers"><code>Status: 404 Not Found
 </code></pre>

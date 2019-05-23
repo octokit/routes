@@ -58,6 +58,7 @@
             <a class="dropdown-menu-item" href="/actions/">GitHub Actions</a>
             <a class="dropdown-menu-item" href="/marketplace/">GitHub Marketplace</a>
             <a class="dropdown-menu-item" href="/webhooks/">Webhooks</a>
+            <a class="dropdown-menu-item" href="/partnerships/">Partnerships</a>
             <a class="dropdown-menu-item" href="/v3/">REST API v3</a>
             <a class="dropdown-menu-item" href="/v4/">GraphQL API v4</a>
           </div>
@@ -68,6 +69,10 @@
           <div class="dropdown-button" tabIndex="0" aria-haspopup="true" aria-expanded="false"><span class="dropdown-button-link" tabIndex="-1">Versions</span> <div class="dropdown-caret"></div></div>
           <div id="js-dropdown-menu" class="dropdown-menu">
             <a class="dropdown-menu-item" data-proofer-ignore>GitHub.com</a>
+            
+            
+            <a class="dropdown-menu-item" data-proofer-ignore>GitHub Enterprise Server 2.17</a>
+            
             
             
             <a class="dropdown-menu-item" data-proofer-ignore>GitHub Enterprise Server 2.16</a>
@@ -357,6 +362,18 @@
 
 <p>This API is only available to authenticated members of the team's organization. OAuth access tokens require the <code>read:org</code> <a href="/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/">scope</a>.</p>
 
+<div class="alert product"><p>
+
+Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see <a href="https://help.github.com/articles/github-s-products">GitHub's products</a> in the GitHub Help documentation.
+
+</p></div>
+
+<div class="alert note">
+
+<p><strong>Note:</strong> When you have team synchronization set up for a team with your organization's identity provider (IdP), you will see an error if you attempt to use the API for making changes to the team's membership. If you have access to manage group membership in your IdP, you can manage GitHub team membership through your identity provider, which automatically adds and removes team members in an organization. For more information, see "<a href="https://help.github.com/articles/synchronizing-teams-between-your-identity-provider-and-github/">Synchronizing teams between your identity provider and GitHub</a>."</p>
+
+</div>
+
 <h2>
 <a id="list-team-members" class="anchor" href="#list-team-members" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List team members<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
@@ -482,16 +499,23 @@ instead. It allows you to get both active and pending memberships.</p>
 
 <p>The "Add team member" API (described below) is deprecated.</p>
 
-<p>We recommend using the
-<a href="/v3/teams/members/#add-or-update-team-membership">Add team membership API</a>
-instead. It allows you to invite new organization members to your teams.</p>
+<p>We recommend using the <a href="/v3/teams/members/#add-or-update-team-membership">Add team membership API</a> instead. It allows you to invite new organization members to your teams.</p>
 
 </div>
 
-<p>To add a user to a team, the authenticated user must have
-'admin' permissions to the team or be an owner of the organization that the team
-is associated with, and the user being added must already be a member of at
-least one other team on the same organization.</p>
+<div class="alert product"><p>
+
+Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see <a href="https://help.github.com/articles/github-s-products">GitHub's products</a> in the GitHub Help documentation.
+
+</p></div>
+
+<p>To add someone to a team, the authenticated user must be a team maintainer in the team they're changing or be an owner of the organization that the team is associated with. The person being added to the team must be a member of the team's organization.</p>
+
+<div class="alert note">
+
+<p><strong>Note:</strong> When you have team synchronization set up for a team with your organization's identity provider (IdP), you will see an error if you attempt to use the API for making changes to the team's membership. If you have access to manage group membership in your IdP, you can manage GitHub team membership through your identity provider, which automatically adds and removes team members in an organization. For more information, see "<a href="https://help.github.com/articles/synchronizing-teams-between-your-identity-provider-and-github/">Synchronizing teams between your identity provider and GitHub</a>."</p>
+
+</div>
 
 <pre><code>PUT /teams/:team_id/members/:username
 </code></pre>
@@ -505,7 +529,15 @@ least one other team on the same organization.</p>
 </code></pre>
 
 
-<p>If you attempt to add an organization to a team, you will get this:</p>
+<h3>
+<a id="response-if-team-synchronization-is-set-up" class="anchor" href="#response-if-team-synchronization-is-set-up" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if team synchronization is set up</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 404 Not Found
+</code></pre>
+
+
+<h3>
+<a id="response-if-you-attempt-to-add-an-organization-to-a-team" class="anchor" href="#response-if-you-attempt-to-add-an-organization-to-a-team" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if you attempt to add an organization to a team</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 422 Unprocessable Entity
 </code></pre>
@@ -524,8 +556,8 @@ least one other team on the same organization.</p>
 </span></code></pre>
 
 
-<p>If you attempt to add a user to a team and that user is not a member of at least
-one other team on the same organization, you will get this:</p>
+<h3>
+<a id="response-if-you-attempt-to-add-a-user-to-a-team-when-they-are-not-a-member-of-at-least-one-other-team-in-the-same-organization" class="anchor" href="#response-if-you-attempt-to-add-a-user-to-a-team-when-they-are-not-a-member-of-at-least-one-other-team-in-the-same-organization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if you attempt to add a user to a team when they are not a member of at least one other team in the same organization</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 422 Unprocessable Entity
 </code></pre>
@@ -555,16 +587,26 @@ one other team on the same organization, you will get this:</p>
 
 <p>The "Remove team member" API (described below) is deprecated.</p>
 
-<p>We recommend using the
-<a href="/v3/teams/members/#remove-team-membership">Remove team membership API</a>
+<p>We recommend using the <a href="/v3/teams/members/#remove-team-membership">Remove team membership endpoint</a>
 instead. It allows you to remove both active and pending memberships.</p>
 
 </div>
 
-<p>To remove a user from a team, the authenticated user must have
+<div class="alert product"><p>
+
+Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see <a href="https://help.github.com/articles/github-s-products">GitHub's products</a> in the GitHub Help documentation.
+
+</p></div>
+
+<p>To remove a team member, the authenticated user must have
 'admin' permissions to the team or be an owner of the org that the team
-is associated with.
-NOTE: This does not delete the user, it just removes them from the team.</p>
+is associated with. Removing a team member does not delete the user, it just removes them from the team.</p>
+
+<div class="alert note">
+
+<p><strong>Note:</strong> When you have team synchronization set up for a team with your organization's identity provider (IdP), you will see an error if you attempt to use the API for making changes to the team's membership. If you have access to manage group membership in your IdP, you can manage GitHub team membership through your identity provider, which automatically adds and removes team members in an organization. For more information, see "<a href="https://help.github.com/articles/synchronizing-teams-between-your-identity-provider-and-github/">Synchronizing teams between your identity provider and GitHub</a>."</p>
+
+</div>
 
 <pre><code>DELETE /teams/:team_id/members/:username
 </code></pre>
@@ -573,6 +615,13 @@ NOTE: This does not delete the user, it just removes them from the team.</p>
 <a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 204 No Content
+</code></pre>
+
+
+<h3>
+<a id="response-if-team-synchronization-is-setup" class="anchor" href="#response-if-team-synchronization-is-setup" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if team synchronization is setup</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 404 Not Found
 </code></pre>
 
 
@@ -664,10 +713,22 @@ NOTE: This does not delete the user, it just removes them from the team.</p>
 <a id="add-or-update-team-membership" class="anchor" href="#add-or-update-team-membership" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Add or update team membership<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
+<div class="alert product"><p>
+
+Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see <a href="https://help.github.com/articles/github-s-products">GitHub's products</a> in the GitHub Help documentation.
+
+</p></div>
+
 <p>If the user is already a member of the team's organization, this endpoint will
 add the user to the team. To add a membership between an organization
 member and a team, the authenticated user must be an organization owner or a
 maintainer of the team.</p>
+
+<div class="alert note">
+
+<p><strong>Note:</strong> When you have team synchronization set up for a team with your organization's identity provider (IdP), you will see an error if you attempt to use the API for making changes to the team's membership. If you have access to manage group membership in your IdP, you can manage GitHub team membership through your identity provider, which automatically adds and removes team members in an organization. For more information, see "<a href="https://help.github.com/articles/synchronizing-teams-between-your-identity-provider-and-github/">Synchronizing teams between your identity provider and GitHub</a>."</p>
+
+</div>
 
 <p>If the user is unaffiliated with the team's organization, this endpoint will
 send an invitation to the user via email. This newly-created membership will be
@@ -734,7 +795,15 @@ the authenticated user must be an organization owner or a maintainer of the team
 </span></code></pre>
 
 
-<p>If you attempt to add an organization to a team, you will get this:</p>
+<h3>
+<a id="response-if-team-synchronization-is-set-up-1" class="anchor" href="#response-if-team-synchronization-is-set-up-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if team synchronization is set up</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 403 Forbidden
+</code></pre>
+
+
+<h3>
+<a id="response-if-you-attempt-to-add-an-organization-to-a-team-1" class="anchor" href="#response-if-you-attempt-to-add-an-organization-to-a-team-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if you attempt to add an organization to a team</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 422 Unprocessable Entity
 </code></pre>
@@ -757,11 +826,19 @@ the authenticated user must be an organization owner or a maintainer of the team
 <a id="remove-team-membership" class="anchor" href="#remove-team-membership" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove team membership<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
-<p>To remove a membership between a user and a team, the authenticated
-user must have 'admin' permissions to the team or be an owner of the
-organization that the team is associated with.
-NOTE: This does not delete the user, it just removes their membership from the
-team.</p>
+<div class="alert product"><p>
+
+Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see <a href="https://help.github.com/articles/github-s-products">GitHub's products</a> in the GitHub Help documentation.
+
+</p></div>
+
+<p>To remove a membership between a user and a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with. Removing team membership does not delete the user, it just removes their membership from the team.</p>
+
+<div class="alert note">
+
+<p><strong>Note:</strong> When you have team synchronization set up for a team with your organization's identity provider (IdP), you will see an error if you attempt to use the API for making changes to the team's membership. If you have access to manage group membership in your IdP, you can manage GitHub team membership through your identity provider, which automatically adds and removes team members in an organization. For more information, see "<a href="https://help.github.com/articles/synchronizing-teams-between-your-identity-provider-and-github/">Synchronizing teams between your identity provider and GitHub</a>."</p>
+
+</div>
 
 <pre><code>DELETE /teams/:team_id/memberships/:username
 </code></pre>
@@ -770,6 +847,13 @@ team.</p>
 <a id="response-3" class="anchor" href="#response-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 204 No Content
+</code></pre>
+
+
+<h3>
+<a id="response-if-team-synchronization-is-set-up-2" class="anchor" href="#response-if-team-synchronization-is-set-up-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if team synchronization is set up</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 403 Forbidden
 </code></pre>
 
 

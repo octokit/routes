@@ -1,0 +1,214 @@
+<h2>
+<a id="search-commits" class="anchor" href="#search-commits" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Search commits<a href="/enterprise/2.17/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+<div class="alert note">
+<p>The Commit Search API is currently available for developers to preview.
+  During the preview period, the APIs may change without advance notice.
+  Please see the <a href="/changes/2017-01-05-commit-search-api/">blog post</a> for full details.</p>
+<p>To access the API you must provide a custom <a href="/enterprise/2.17/v3/media">media type</a> in the <code>Accept</code> header:</p>
+<pre><code>  application/vnd.github.cloak-preview
+</code></pre>
+</div>
+<div class="alert warning">
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
+</div>
+<p>Find commits via various criteria. This method returns up to 100 results <a href="/enterprise/2.17/v3/#pagination">per page</a>.</p>
+<p>When searching for commits, you can get text match metadata for the <strong>message</strong>
+field when you provide the <code>text-match</code> media type.
+For more details about how to receive highlighted search results, see <a href="#text-match-metadata">Text match metadata</a>.</p>
+<pre><code>GET /search/commits
+</code></pre>
+<h3>
+<a id="considerations-for-commit-search" class="anchor" href="#considerations-for-commit-search" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Considerations for commit search</h3>
+<p>Only the <em>default branch</em> is considered. In most cases, this will be the <code>master</code> branch.</p>
+<h3>
+<a id="parameters-1" class="anchor" href="#parameters-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>q</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required</strong>. The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as GitHub.com. To learn more about the format of the query, see <a href="#constructing-a-search-query">Constructing a search query</a>. See &quot;<a href="https://help.github.com/articles/searching-commits/">Searching commits</a>&quot; for a detailed list of qualifiers.</td>
+</tr>
+<tr>
+<td><code>sort</code></td>
+<td><code>string</code></td>
+<td>Sorts the results of your query by <code>author-date</code> or <code>committer-date</code>. Default: <a href="#ranking-search-results">best match</a>
+</td>
+</tr>
+<tr>
+<td><code>order</code></td>
+<td><code>string</code></td>
+<td>Determines whether the first search result returned is the highest number of matches (<code>desc</code>) or lowest number of matches (<code>asc</code>). This parameter is ignored unless you provide <code>sort</code>. Default: <code>desc</code>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>
+<a id="example-1" class="anchor" href="#example-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+<p>Suppose you want to find commits related to CSS in the <a href="https://github.com/octocat/Spoon-Knife">octocat/Spoon-Knife</a>
+repository. Your query would look something like this:</p>
+<pre class="command-line">curl -H &quot;Accept: application/vnd.github.cloak-preview&quot; \
+http(s)://[hostname]/api/v3/search/commits?q=repo:octocat/Spoon-Knife+css
+</pre>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+Link: &lt;https://api.github.com/resource?page=2&gt;; rel=&quot;next&quot;,
+      &lt;https://api.github.com/resource?page=5&gt;; rel=&quot;last&quot;
+X-RateLimit-Limit: 20
+X-RateLimit-Remaining: 19
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;total_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;incomplete_results&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/commits/bb4cc8d3b2e14b3af5df699876dd4ff3acd00b7f&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;sha&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bb4cc8d3b2e14b3af5df699876dd4ff3acd00b7f&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;html_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/octocat/Spoon-Knife/commit/bb4cc8d3b2e14b3af5df699876dd4ff3acd00b7f&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;comments_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/commits/bb4cc8d3b2e14b3af5df699876dd4ff3acd00b7f/comments&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;commit&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/git/commits/bb4cc8d3b2e14b3af5df699876dd4ff3acd00b7f&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;author&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nt">&quot;date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2014-02-04T14:38:36-08:00&quot;</span><span class="p">,</span><span class="w">
+          </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The Octocat&quot;</span><span class="p">,</span><span class="w">
+          </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;octocat@nowhere.com&quot;</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">&quot;committer&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nt">&quot;date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2014-02-12T15:18:55-08:00&quot;</span><span class="p">,</span><span class="w">
+          </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The Octocat&quot;</span><span class="p">,</span><span class="w">
+          </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;octocat@nowhere.com&quot;</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Create styles.css and updated README&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;tree&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/git/trees/a639e96f9038797fba6e0469f94a4b0cc459fa68&quot;</span><span class="p">,</span><span class="w">
+          </span><span class="nt">&quot;sha&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;a639e96f9038797fba6e0469f94a4b0cc459fa68&quot;</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">&quot;comment_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">&quot;author&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">&quot;login&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;octocat&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">583231</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MDQ6VXNlcjU4MzIzMQ==&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;avatar_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://avatars.githubusercontent.com/u/583231?v=3&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;gravatar_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;html_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/octocat&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;followers_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/followers&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;following_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/following{/other_user}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;gists_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/gists{/gist_id}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;starred_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/starred{/owner}{/repo}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;subscriptions_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/subscriptions&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;organizations_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/orgs&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;repos_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/repos&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;events_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/events{/privacy}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;received_events_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/received_events&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;User&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;site_admin&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">&quot;committer&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">&quot;login&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;octocat&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">583231</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MDQ6VXNlcjU4MzIzMQ==&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;avatar_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://avatars.githubusercontent.com/u/583231?v=3&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;gravatar_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;html_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/octocat&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;followers_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/followers&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;following_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/following{/other_user}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;gists_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/gists{/gist_id}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;starred_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/starred{/owner}{/repo}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;subscriptions_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/subscriptions&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;organizations_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/orgs&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;repos_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/repos&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;events_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/events{/privacy}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;received_events_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/received_events&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;User&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;site_admin&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">&quot;parents&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/commits/a30c19e3f13765a3b48829788bc1cb8b4e95cee4&quot;</span><span class="p">,</span><span class="w">
+          </span><span class="nt">&quot;html_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/octocat/Spoon-Knife/commit/a30c19e3f13765a3b48829788bc1cb8b4e95cee4&quot;</span><span class="p">,</span><span class="w">
+          </span><span class="nt">&quot;sha&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;a30c19e3f13765a3b48829788bc1cb8b4e95cee4&quot;</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="nt">&quot;repository&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1300192</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MDEwOlJlcG9zaXRvcnkxMzAwMTky&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Spoon-Knife&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;full_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;octocat/Spoon-Knife&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;owner&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="nt">&quot;login&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;octocat&quot;</span><span class="p">,</span><span class="w">
+          </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">583231</span><span class="p">,</span><span class="w">
+          </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MDQ6VXNlcjU4MzIzMQ==&quot;</span><span class="p">,</span><span class="w">
+          </span><span class="nt">&quot;avatar_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://avatars.githubusercontent.com/u/583231?v=3&quot;</span><span class="p">,</span><span class="w">
+          </span><span class="nt">&quot;gravatar_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w">
+          </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat&quot;</span><span class="p">,</span><span class="w">
+          </span><span class="nt">&quot;html_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/octocat&quot;</span><span class="p">,</span><span class="w">
+          </span><span class="nt">&quot;followers_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/followers&quot;</span><span class="p">,</span><span class="w">
+          </span><span class="nt">&quot;following_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/following{/other_user}&quot;</span><span class="p">,</span><span class="w">
+          </span><span class="nt">&quot;gists_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/gists{/gist_id}&quot;</span><span class="p">,</span><span class="w">
+          </span><span class="nt">&quot;starred_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/starred{/owner}{/repo}&quot;</span><span class="p">,</span><span class="w">
+          </span><span class="nt">&quot;subscriptions_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/subscriptions&quot;</span><span class="p">,</span><span class="w">
+          </span><span class="nt">&quot;organizations_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/orgs&quot;</span><span class="p">,</span><span class="w">
+          </span><span class="nt">&quot;repos_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/repos&quot;</span><span class="p">,</span><span class="w">
+          </span><span class="nt">&quot;events_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/events{/privacy}&quot;</span><span class="p">,</span><span class="w">
+          </span><span class="nt">&quot;received_events_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/received_events&quot;</span><span class="p">,</span><span class="w">
+          </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;User&quot;</span><span class="p">,</span><span class="w">
+          </span><span class="nt">&quot;site_admin&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">&quot;private&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;html_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/octocat/Spoon-Knife&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;This repo is for demonstration purposes only.&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;fork&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;forks_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/forks&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;keys_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/keys{/key_id}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;collaborators_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/collaborators{/collaborator}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;teams_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/teams&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;hooks_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/hooks&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;issue_events_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/issues/events{/number}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;events_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/events&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;assignees_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/assignees{/user}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;branches_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/branches{/branch}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;tags_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/tags&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;blobs_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/git/blobs{/sha}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;git_tags_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/git/tags{/sha}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;git_refs_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/git/refs{/sha}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;trees_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/git/trees{/sha}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;statuses_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/statuses/{sha}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;languages_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/languages&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;stargazers_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/stargazers&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;contributors_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/contributors&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;subscribers_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/subscribers&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;subscription_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/subscription&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;commits_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/commits{/sha}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;git_commits_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/git/commits{/sha}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;comments_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/comments{/number}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;issue_comment_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/issues/comments{/number}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;contents_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/contents/{+path}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;compare_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/compare/{base}...{head}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;merges_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/merges&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;archive_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/{archive_format}{/ref}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;downloads_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/downloads&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;issues_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/issues{/number}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;pulls_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/pulls{/number}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;milestones_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/milestones{/number}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;notifications_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/notifications{?since,all,participating}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;labels_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/labels{/name}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;releases_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/releases{/id}&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;deployments_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Spoon-Knife/deployments&quot;</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nt">&quot;score&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">4.9971514</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
