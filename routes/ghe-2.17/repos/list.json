@@ -1,0 +1,90 @@
+{
+  "name": "List your repositories",
+  "enabledForApps": false,
+  "method": "GET",
+  "path": "/user/repos",
+  "previews": [],
+  "params": [
+    {
+      "name": "visibility",
+      "type": "string",
+      "description": "Can be one of `all`, `public`, or `private`.",
+      "default": "all",
+      "required": false,
+      "enum": [
+        "all",
+        "public",
+        "private"
+      ],
+      "location": "query"
+    },
+    {
+      "name": "affiliation",
+      "type": "string",
+      "description": "Comma-separated list of values. Can include:  \n\\* `owner`: Repositories that are owned by the authenticated user.  \n\\* `collaborator`: Repositories that the user has been added to as a collaborator.  \n\\* `organization_member`: Repositories that the user has access to through being a member of an organization. This includes every repository on every team that the user is on.",
+      "default": "owner,collaborator,organization_member",
+      "required": false,
+      "location": "query"
+    },
+    {
+      "name": "type",
+      "type": "string",
+      "description": "Can be one of `all`, `owner`, `public`, `private`, `member`. Default: `all`  \n  \nWill cause a `422` error if used in the same request as **visibility** or **affiliation**. Will cause a `422` error if used in the same request as **visibility** or **affiliation**.",
+      "default": "all",
+      "required": false,
+      "enum": [
+        "all",
+        "owner",
+        "public",
+        "private",
+        "member"
+      ],
+      "location": "query"
+    },
+    {
+      "name": "sort",
+      "type": "string",
+      "description": "Can be one of `created`, `updated`, `pushed`, `full_name`.",
+      "default": "full_name",
+      "required": false,
+      "enum": [
+        "created",
+        "updated",
+        "pushed",
+        "full_name"
+      ],
+      "location": "query"
+    },
+    {
+      "name": "direction",
+      "type": "string",
+      "description": "Can be one of `asc` or `desc`.",
+      "default": "`asc` when using `full_name`, otherwise `desc`",
+      "required": false,
+      "enum": [
+        "asc",
+        "desc"
+      ],
+      "location": "query"
+    },
+    {
+      "name": "per_page",
+      "type": "integer",
+      "required": false,
+      "description": "Results per page (max 100)",
+      "default": 30,
+      "location": "query"
+    },
+    {
+      "name": "page",
+      "type": "integer",
+      "required": false,
+      "description": "Page number of the results to fetch.",
+      "default": 1,
+      "location": "query"
+    }
+  ],
+  "description": "List repositories that the authenticated user has explicit permission (`:read`, `:write`, or `:admin`) to access.\n\nThe authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership.",
+  "idName": "list",
+  "documentationUrl": "https://developer.github.com/enterprise/2.17/v3/repos/#list-your-repositories"
+}

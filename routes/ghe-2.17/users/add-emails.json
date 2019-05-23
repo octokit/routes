@@ -1,0 +1,55 @@
+{
+  "name": "Add email address(es)",
+  "enabledForApps": false,
+  "method": "POST",
+  "path": "/user/emails",
+  "previews": [],
+  "params": [
+    {
+      "name": "emails",
+      "type": "string[]",
+      "description": "Adds one or more email addresses to your GitHub Enterprise Server account. Must contain at least one email address. **Note:** Alternatively, you can pass a single email address or an `array` of emails addresses directly, but we recommend that you pass an object using the `emails` key.",
+      "required": true,
+      "location": "body"
+    }
+  ],
+  "requests": [
+    {
+      "emails": [
+        "octocat@github.com",
+        "support@github.com"
+      ]
+    }
+  ],
+  "description": "If your GitHub Enterprise Server instance has [LDAP Sync enabled and the option to synchronize emails enabled](https://help.github.com/enterprise/admin/guides/user-management/using-ldap/#enabling-ldap-sync), this API is disabled and will return a `403` response. Users managed in LDAP won't be able to add or delete an email address via the API with these options enabled.\n\nThis endpoint is accessible with the `user` scope.",
+  "responses": [
+    {
+      "headers": {
+        "status": "201 Created",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "body": [
+        {
+          "email": "octocat@octocat.org",
+          "primary": false,
+          "verified": false,
+          "visibility": "public"
+        },
+        {
+          "email": "octocat@github.com",
+          "primary": false,
+          "verified": false,
+          "visibility": null
+        },
+        {
+          "email": "support@github.com",
+          "primary": false,
+          "verified": false,
+          "visibility": null
+        }
+      ]
+    }
+  ],
+  "idName": "add-emails",
+  "documentationUrl": "https://developer.github.com/enterprise/2.17/v3/users/emails/#add-email-addresses"
+}
