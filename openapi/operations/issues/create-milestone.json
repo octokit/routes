@@ -11,6 +11,15 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
       "name": "owner",
       "in": "path",
       "schema": {
@@ -36,16 +45,24 @@
           "type": "object",
           "properties": {
             "title": {
-              "description": "The title of the milestone."
+              "description": "The title of the milestone.",
+              "type": "string"
             },
             "state": {
-              "description": "The state of the milestone. Either `open` or `closed`."
+              "description": "The state of the milestone. Either `open` or `closed`.",
+              "type": "string",
+              "enum": [
+                "open",
+                "closed"
+              ]
             },
             "description": {
-              "description": "A description of the milestone."
+              "description": "A description of the milestone.",
+              "type": "string"
             },
             "due_on": {
-              "description": "The milestone due date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`."
+              "description": "The milestone due date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.",
+              "type": "string"
             }
           },
           "required": [
@@ -55,16 +72,6 @@
       }
     }
   },
-  "x-code-samples": [
-    {
-      "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/milestones \\\n  -d '{\"title\":\"title\"}'"
-    },
-    {
-      "lang": "JS",
-      "source": "octokit.issues.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  title: 'title'\n})"
-    }
-  ],
   "responses": {
     "200": {
       "description": "response",
@@ -181,5 +188,19 @@
         }
       }
     }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/milestones \\\n  -d '{\"title\":\"title\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.issues.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  title: 'title'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

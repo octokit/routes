@@ -11,6 +11,16 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "This API is under preview and subject to change.",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.antiope-preview+json"
+      },
+      "required": true
+    },
+    {
       "name": "owner",
       "in": "path",
       "schema": {
@@ -36,40 +46,65 @@
           "type": "object",
           "properties": {
             "name": {
-              "description": "The name of the check. For example, \"code-coverage\"."
+              "description": "The name of the check. For example, \"code-coverage\".",
+              "type": "string"
             },
             "head_sha": {
-              "description": "The SHA of the commit."
+              "description": "The SHA of the commit.",
+              "type": "string"
             },
             "details_url": {
-              "description": "The URL of the integrator's site that has the full details of the check."
+              "description": "The URL of the integrator's site that has the full details of the check.",
+              "type": "string"
             },
             "external_id": {
-              "description": "A reference for the run on the integrator's system."
+              "description": "A reference for the run on the integrator's system.",
+              "type": "string"
             },
             "status": {
-              "description": "The current status. Can be one of `queued`, `in_progress`, or `completed`."
+              "description": "The current status. Can be one of `queued`, `in_progress`, or `completed`.",
+              "type": "string",
+              "enum": [
+                "queued",
+                "in_progress",
+                "completed"
+              ]
             },
             "started_at": {
-              "description": "The time that the check run began. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`."
+              "description": "The time that the check run began. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.",
+              "type": "string"
             },
             "conclusion": {
-              "description": "**Required if you provide `completed_at` or a `status` of `completed`**. The final conclusion of the check. Can be one of `success`, `failure`, `neutral`, `cancelled`, `timed_out`, or `action_required`. When the conclusion is `action_required`, additional details should be provided on the site specified by `details_url`.  \n**Note:** Providing `conclusion` will automatically set the `status` parameter to `completed`."
+              "description": "**Required if you provide `completed_at` or a `status` of `completed`**. The final conclusion of the check. Can be one of `success`, `failure`, `neutral`, `cancelled`, `timed_out`, or `action_required`. When the conclusion is `action_required`, additional details should be provided on the site specified by `details_url`.  \n**Note:** Providing `conclusion` will automatically set the `status` parameter to `completed`.",
+              "type": "string",
+              "enum": [
+                "success",
+                "failure",
+                "neutral",
+                "cancelled",
+                "timed_out",
+                "action_required"
+              ]
             },
             "completed_at": {
-              "description": "**Required if you provide `conclusion`**. The time the check completed. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`."
+              "description": "**Required if you provide `conclusion`**. The time the check completed. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.",
+              "type": "string"
             },
             "output": {
-              "description": "Check runs can accept a variety of data in the `output` object, including a `title` and `summary` and can optionally provide descriptive details about the run. See the [`output` object](#output-object) description."
+              "description": "Check runs can accept a variety of data in the `output` object, including a `title` and `summary` and can optionally provide descriptive details about the run. See the [`output` object](#output-object) description.",
+              "type": "object"
             },
             "output.title": {
-              "description": "The title of the check run."
+              "description": "The title of the check run.",
+              "type": "string"
             },
             "output.summary": {
-              "description": "The summary of the check run. This parameter supports Markdown."
+              "description": "The summary of the check run. This parameter supports Markdown.",
+              "type": "string"
             },
             "output.text": {
-              "description": "The details of the check run. This parameter supports Markdown."
+              "description": "The details of the check run. This parameter supports Markdown.",
+              "type": "string"
             },
             "output.annotations": {
               "description": "Adds information from your analysis to specific lines of code. Annotations are visible on GitHub in the **Checks** and **Files changed** tab of the pull request. The Checks API limits the number of annotations to a maximum of 50 per API request. To create more than 50 annotations, you have to make multiple requests to the [Update a check run](https://developer.github.com/v3/checks/runs/#update-a-check-run) endpoint. Each time you update the check run, annotations are appended to the list of annotations that already exist for the check run. For details about how you can view annotations on GitHub, see \"[About status checks](https://help.github.com/articles/about-status-checks#checks)\". See the [`annotations` object](#annotations-object) description for details about how to use this parameter.",
@@ -79,31 +114,45 @@
               }
             },
             "output.annotations[].path": {
-              "description": "The path of the file to add an annotation to. For example, `assets/css/main.css`."
+              "description": "The path of the file to add an annotation to. For example, `assets/css/main.css`.",
+              "type": "string"
             },
             "output.annotations[].start_line": {
-              "description": "The start line of the annotation."
+              "description": "The start line of the annotation.",
+              "type": "integer"
             },
             "output.annotations[].end_line": {
-              "description": "The end line of the annotation."
+              "description": "The end line of the annotation.",
+              "type": "integer"
             },
             "output.annotations[].start_column": {
-              "description": "The start column of the annotation. Annotations only support `start_column` and `end_column` on the same line. Omit this parameter if `start_line` and `end_line` have different values."
+              "description": "The start column of the annotation. Annotations only support `start_column` and `end_column` on the same line. Omit this parameter if `start_line` and `end_line` have different values.",
+              "type": "integer"
             },
             "output.annotations[].end_column": {
-              "description": "The end column of the annotation. Annotations only support `start_column` and `end_column` on the same line. Omit this parameter if `start_line` and `end_line` have different values."
+              "description": "The end column of the annotation. Annotations only support `start_column` and `end_column` on the same line. Omit this parameter if `start_line` and `end_line` have different values.",
+              "type": "integer"
             },
             "output.annotations[].annotation_level": {
-              "description": "The level of the annotation. Can be one of `notice`, `warning`, or `failure`."
+              "description": "The level of the annotation. Can be one of `notice`, `warning`, or `failure`.",
+              "type": "string",
+              "enum": [
+                "notice",
+                "warning",
+                "failure"
+              ]
             },
             "output.annotations[].message": {
-              "description": "A short description of the feedback for these lines of code. The maximum size is 64 KB."
+              "description": "A short description of the feedback for these lines of code. The maximum size is 64 KB.",
+              "type": "string"
             },
             "output.annotations[].title": {
-              "description": "The title that represents the annotation. The maximum size is 255 characters."
+              "description": "The title that represents the annotation. The maximum size is 255 characters.",
+              "type": "string"
             },
             "output.annotations[].raw_details": {
-              "description": "Details about this annotation. The maximum size is 64 KB."
+              "description": "Details about this annotation. The maximum size is 64 KB.",
+              "type": "string"
             },
             "output.images": {
               "description": "Adds images to the output displayed in the GitHub pull request UI. See the [`images` object](#images-object) description for details.",
@@ -113,13 +162,16 @@
               }
             },
             "output.images[].alt": {
-              "description": "The alternative text for the image."
+              "description": "The alternative text for the image.",
+              "type": "string"
             },
             "output.images[].image_url": {
-              "description": "The full URL of the image."
+              "description": "The full URL of the image.",
+              "type": "string"
             },
             "output.images[].caption": {
-              "description": "A short image description."
+              "description": "A short image description.",
+              "type": "string"
             },
             "actions": {
               "description": "Possible further actions the integrator can perform, which a user may trigger. Each action includes a `label`, `identifier` and `description`. A maximum of three actions are accepted. See the [`actions` object](#actions-object) description.",
@@ -129,13 +181,16 @@
               }
             },
             "actions[].label": {
-              "description": "The text to be displayed on a button in the web UI. The maximum size is 20 characters."
+              "description": "The text to be displayed on a button in the web UI. The maximum size is 20 characters.",
+              "type": "string"
             },
             "actions[].description": {
-              "description": "A short explanation of what this action would do. The maximum size is 40 characters."
+              "description": "A short explanation of what this action would do. The maximum size is 40 characters.",
+              "type": "string"
             },
             "actions[].identifier": {
-              "description": "A reference for the action on the integrator's system. The maximum size is 20 characters."
+              "description": "A reference for the action on the integrator's system. The maximum size is 20 characters.",
+              "type": "string"
             }
           },
           "required": [
@@ -158,16 +213,6 @@
       }
     }
   },
-  "x-code-samples": [
-    {
-      "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/check-runs \\\n  -d '{\"name\":\"name\",\"head_sha\":\"head_sha\",\"output.title\":\"output.title\",\"output.summary\":\"output.summary\",\"output.annotations[].path\":\"output.annotations[].path\",\"output.annotations[].start_line\":\"output.annotations[].start_line\",\"output.annotations[].end_line\":\"output.annotations[].end_line\",\"output.annotations[].annotation_level\":\"output.annotations[].annotation_level\",\"output.annotations[].message\":\"output.annotations[].message\",\"output.images[].alt\":\"output.images[].alt\",\"output.images[].image_url\":\"output.images[].image_url\",\"actions[].label\":\"actions[].label\",\"actions[].description\":\"actions[].description\",\"actions[].identifier\":\"actions[].identifier\"}'"
-    },
-    {
-      "lang": "JS",
-      "source": "octokit.checks.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  name: 'name',\n  head_sha: 'head_sha',\n  'output.title': 'output.title',\n  'output.summary': 'output.summary',\n  'output.annotations[].path': 'output.annotations[].path',\n  'output.annotations[].start_line': 'output.annotations[].start_line',\n  'output.annotations[].end_line': 'output.annotations[].end_line',\n  'output.annotations[].annotation_level': 'output.annotations[].annotation_level',\n  'output.annotations[].message': 'output.annotations[].message',\n  'output.images[].alt': 'output.images[].alt',\n  'output.images[].image_url': 'output.images[].image_url',\n  'actions[].label': 'actions[].label',\n  'actions[].description': 'actions[].description',\n  'actions[].identifier': 'actions[].identifier'\n})"
-    }
-  ],
   "responses": {
     "200": {
       "description": "response",
@@ -375,5 +420,19 @@
         }
       }
     }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.antiope-preview+json\" \\\n  https://developer.github.com/repos/octocat/:repo/check-runs \\\n  -d '{\"name\":\"name\",\"head_sha\":\"head_sha\",\"output.title\":\"output.title\",\"output.summary\":\"output.summary\",\"output.annotations[].path\":\"output.annotations[].path\",\"output.annotations[].start_line\":\"output.annotations[].start_line\",\"output.annotations[].end_line\":\"output.annotations[].end_line\",\"output.annotations[].annotation_level\":\"output.annotations[].annotation_level\",\"output.annotations[].message\":\"output.annotations[].message\",\"output.images[].alt\":\"output.images[].alt\",\"output.images[].image_url\":\"output.images[].image_url\",\"actions[].label\":\"actions[].label\",\"actions[].description\":\"actions[].description\",\"actions[].identifier\":\"actions[].identifier\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.checks.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  name: 'name',\n  head_sha: 'head_sha',\n  'output.title': 'output.title',\n  'output.summary': 'output.summary',\n  'output.annotations[].path': 'output.annotations[].path',\n  'output.annotations[].start_line': 'output.annotations[].start_line',\n  'output.annotations[].end_line': 'output.annotations[].end_line',\n  'output.annotations[].annotation_level': 'output.annotations[].annotation_level',\n  'output.annotations[].message': 'output.annotations[].message',\n  'output.images[].alt': 'output.images[].alt',\n  'output.images[].image_url': 'output.images[].image_url',\n  'actions[].label': 'actions[].label',\n  'actions[].description': 'actions[].description',\n  'actions[].identifier': 'actions[].identifier'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

@@ -11,10 +11,24 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
       "name": "visibility",
       "in": "query",
       "schema": {
-        "type": "string"
+        "type": "string",
+        "enum": [
+          "all",
+          "public",
+          "private"
+        ]
       },
       "required": false,
       "description": "Can be one of `all`, `public`, or `private`."
@@ -32,7 +46,14 @@
       "name": "type",
       "in": "query",
       "schema": {
-        "type": "string"
+        "type": "string",
+        "enum": [
+          "all",
+          "owner",
+          "public",
+          "private",
+          "member"
+        ]
       },
       "required": false,
       "description": "Can be one of `all`, `owner`, `public`, `private`, `member`. Default: `all`  \n  \nWill cause a `422` error if used in the same request as **visibility** or **affiliation**. Will cause a `422` error if used in the same request as **visibility** or **affiliation**."
@@ -41,7 +62,13 @@
       "name": "sort",
       "in": "query",
       "schema": {
-        "type": "string"
+        "type": "string",
+        "enum": [
+          "created",
+          "updated",
+          "pushed",
+          "full_name"
+        ]
       },
       "required": false,
       "description": "Can be one of `created`, `updated`, `pushed`, `full_name`."
@@ -50,7 +77,11 @@
       "name": "direction",
       "in": "query",
       "schema": {
-        "type": "string"
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ]
       },
       "required": false,
       "description": "Can be one of `asc` or `desc`."
@@ -74,6 +105,16 @@
       "description": "Page number of the results to fetch."
     }
   ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {}
+        }
+      }
+    }
+  },
   "x-code-samples": [
     {
       "lang": "Shell",
@@ -84,14 +125,8 @@
       "source": "octokit.repos.get()"
     }
   ],
-  "responses": {
-    "200": {
-      "description": "response",
-      "content": {
-        "application/json": {
-          "schema": {}
-        }
-      }
-    }
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

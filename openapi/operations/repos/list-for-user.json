@@ -11,6 +11,15 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
       "name": "username",
       "in": "path",
       "schema": {
@@ -23,7 +32,12 @@
       "name": "type",
       "in": "query",
       "schema": {
-        "type": "string"
+        "type": "string",
+        "enum": [
+          "all",
+          "owner",
+          "member"
+        ]
       },
       "required": false,
       "description": "Can be one of `all`, `owner`, `member`."
@@ -32,7 +46,13 @@
       "name": "sort",
       "in": "query",
       "schema": {
-        "type": "string"
+        "type": "string",
+        "enum": [
+          "created",
+          "updated",
+          "pushed",
+          "full_name"
+        ]
       },
       "required": false,
       "description": "Can be one of `created`, `updated`, `pushed`, `full_name`."
@@ -41,7 +61,11 @@
       "name": "direction",
       "in": "query",
       "schema": {
-        "type": "string"
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ]
       },
       "required": false,
       "description": "Can be one of `asc` or `desc`."
@@ -65,6 +89,16 @@
       "description": "Page number of the results to fetch."
     }
   ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {}
+        }
+      }
+    }
+  },
   "x-code-samples": [
     {
       "lang": "Shell",
@@ -75,14 +109,8 @@
       "source": "octokit.repos.get({\n  username: 'username'\n})"
     }
   ],
-  "responses": {
-    "200": {
-      "description": "response",
-      "content": {
-        "application/json": {
-          "schema": {}
-        }
-      }
-    }
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

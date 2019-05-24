@@ -11,10 +11,23 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
       "name": "sort",
       "in": "query",
       "schema": {
-        "type": "string"
+        "type": "string",
+        "enum": [
+          "created",
+          "updated"
+        ]
       },
       "required": false,
       "description": "One of `created` (when the repository was starred) or `updated` (when it was last pushed to)."
@@ -23,7 +36,11 @@
       "name": "direction",
       "in": "query",
       "schema": {
-        "type": "string"
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ]
       },
       "required": false,
       "description": "One of `asc` (ascending) or `desc` (descending)."
@@ -47,6 +64,16 @@
       "description": "Page number of the results to fetch."
     }
   ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {}
+        }
+      }
+    }
+  },
   "x-code-samples": [
     {
       "lang": "Shell",
@@ -57,14 +84,8 @@
       "source": "octokit.activity.get()"
     }
   ],
-  "responses": {
-    "200": {
-      "description": "response",
-      "content": {
-        "application/json": {
-          "schema": {}
-        }
-      }
-    }
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

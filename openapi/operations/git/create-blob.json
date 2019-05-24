@@ -11,6 +11,15 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
       "name": "owner",
       "in": "path",
       "schema": {
@@ -36,10 +45,12 @@
           "type": "object",
           "properties": {
             "content": {
-              "description": "The new blob's content."
+              "description": "The new blob's content.",
+              "type": "string"
             },
             "encoding": {
-              "description": "The encoding used for `content`. Currently, `\"utf-8\"` and `\"base64\"` are supported."
+              "description": "The encoding used for `content`. Currently, `\"utf-8\"` and `\"base64\"` are supported.",
+              "type": "string"
             }
           },
           "required": [
@@ -49,16 +60,6 @@
       }
     }
   },
-  "x-code-samples": [
-    {
-      "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/git/blobs \\\n  -d '{\"content\":\"content\"}'"
-    },
-    {
-      "lang": "JS",
-      "source": "octokit.git.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  content: 'content'\n})"
-    }
-  ],
   "responses": {
     "200": {
       "description": "response",
@@ -77,5 +78,19 @@
         }
       }
     }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/git/blobs \\\n  -d '{\"content\":\"content\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.git.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  content: 'content'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

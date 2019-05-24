@@ -9,7 +9,17 @@
     "description": "API method documentation",
     "url": "https://developer.github.com/v3/repos/#create"
   },
-  "parameters": [],
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    }
+  ],
   "requestBody": {
     "content": {
       "application/json": {
@@ -17,46 +27,60 @@
           "type": "object",
           "properties": {
             "name": {
-              "description": "The name of the repository."
+              "description": "The name of the repository.",
+              "type": "string"
             },
             "description": {
-              "description": "A short description of the repository."
+              "description": "A short description of the repository.",
+              "type": "string"
             },
             "homepage": {
-              "description": "A URL with more information about the repository."
+              "description": "A URL with more information about the repository.",
+              "type": "string"
             },
             "private": {
-              "description": "Either `true` to create a private repository or `false` to create a public one. Creating private repositories requires a paid GitHub account."
+              "description": "Either `true` to create a private repository or `false` to create a public one. Creating private repositories requires a paid GitHub account.",
+              "type": "boolean"
             },
             "has_issues": {
-              "description": "Either `true` to enable issues for this repository or `false` to disable them."
+              "description": "Either `true` to enable issues for this repository or `false` to disable them.",
+              "type": "boolean"
             },
             "has_projects": {
-              "description": "Either `true` to enable projects for this repository or `false` to disable them. **Note:** If you're creating a repository in an organization that has disabled repository projects, the default is `false`, and if you pass `true`, the API returns an error."
+              "description": "Either `true` to enable projects for this repository or `false` to disable them. **Note:** If you're creating a repository in an organization that has disabled repository projects, the default is `false`, and if you pass `true`, the API returns an error.",
+              "type": "boolean"
             },
             "has_wiki": {
-              "description": "Either `true` to enable the wiki for this repository or `false` to disable it."
+              "description": "Either `true` to enable the wiki for this repository or `false` to disable it.",
+              "type": "boolean"
             },
             "team_id": {
-              "description": "The id of the team that will be granted access to this repository. This is only valid when creating a repository in an organization."
+              "description": "The id of the team that will be granted access to this repository. This is only valid when creating a repository in an organization.",
+              "type": "integer"
             },
             "auto_init": {
-              "description": "Pass `true` to create an initial commit with empty README."
+              "description": "Pass `true` to create an initial commit with empty README.",
+              "type": "boolean"
             },
             "gitignore_template": {
-              "description": "Desired language or platform [.gitignore template](https://github.com/github/gitignore) to apply. Use the name of the template without the extension. For example, \"Haskell\"."
+              "description": "Desired language or platform [.gitignore template](https://github.com/github/gitignore) to apply. Use the name of the template without the extension. For example, \"Haskell\".",
+              "type": "string"
             },
             "license_template": {
-              "description": "Choose an [open source license template](https://choosealicense.com/) that best suits your needs, and then use the [license keyword](https://help.github.com/articles/licensing-a-repository/#searching-github-by-license-type) as the `license_template` string. For example, \"mit\" or \"mpl-2.0\"."
+              "description": "Choose an [open source license template](https://choosealicense.com/) that best suits your needs, and then use the [license keyword](https://help.github.com/articles/licensing-a-repository/#searching-github-by-license-type) as the `license_template` string. For example, \"mit\" or \"mpl-2.0\".",
+              "type": "string"
             },
             "allow_squash_merge": {
-              "description": "Either `true` to allow squash-merging pull requests, or `false` to prevent squash-merging."
+              "description": "Either `true` to allow squash-merging pull requests, or `false` to prevent squash-merging.",
+              "type": "boolean"
             },
             "allow_merge_commit": {
-              "description": "Either `true` to allow merging pull requests with a merge commit, or `false` to prevent merging pull requests with merge commits."
+              "description": "Either `true` to allow merging pull requests with a merge commit, or `false` to prevent merging pull requests with merge commits.",
+              "type": "boolean"
             },
             "allow_rebase_merge": {
-              "description": "Either `true` to allow rebase-merging pull requests, or `false` to prevent rebase-merging."
+              "description": "Either `true` to allow rebase-merging pull requests, or `false` to prevent rebase-merging.",
+              "type": "boolean"
             }
           },
           "required": [
@@ -66,16 +90,6 @@
       }
     }
   },
-  "x-code-samples": [
-    {
-      "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/user/repos \\\n  -d '{\"name\":\"name\"}'"
-    },
-    {
-      "lang": "JS",
-      "source": "octokit.repos.get({\n  name: 'name'\n})"
-    }
-  ],
   "responses": {
     "200": {
       "description": "response",
@@ -386,5 +400,19 @@
         }
       }
     }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/user/repos \\\n  -d '{\"name\":\"name\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.repos.get({\n  name: 'name'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

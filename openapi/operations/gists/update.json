@@ -11,6 +11,15 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
       "name": "gist_id",
       "in": "path",
       "schema": {
@@ -27,32 +36,26 @@
           "type": "object",
           "properties": {
             "description": {
-              "description": "A descriptive name for this gist."
+              "description": "A descriptive name for this gist.",
+              "type": "string"
             },
             "files": {
-              "description": "The filenames and content that make up this gist."
+              "description": "The filenames and content that make up this gist.",
+              "type": "object"
             },
             "files.content": {
-              "description": "The updated content of the file."
+              "description": "The updated content of the file.",
+              "type": "string"
             },
             "files.filename": {
-              "description": "The new name for this file. To delete a file, set the value of the filename to `null`."
+              "description": "The new name for this file. To delete a file, set the value of the filename to `null`.",
+              "type": "string"
             }
           }
         }
       }
     }
   },
-  "x-code-samples": [
-    {
-      "lang": "Shell",
-      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/gists/"
-    },
-    {
-      "lang": "JS",
-      "source": "octokit.gists.get({\n  gist_id: 'gist_id'\n})"
-    }
-  ],
   "responses": {
     "200": {
       "description": "response",
@@ -450,5 +453,19 @@
         }
       }
     }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/gists/"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.gists.get({\n  gist_id: 'gist_id'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

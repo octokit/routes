@@ -11,6 +11,15 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
       "name": "owner",
       "in": "path",
       "schema": {
@@ -36,13 +45,16 @@
           "type": "object",
           "properties": {
             "name": {
-              "description": "The name of the label. Emoji can be added to label names, using either native emoji or colon-style markup. For example, typing `:strawberry:` will render the emoji ![:strawberry:](https://github.githubassets.com/images/icons/emoji/unicode/1f353.png \":strawberry:\"). For a full list of available emoji and codes, see [emoji-cheat-sheet.com](http://emoji-cheat-sheet.com/)."
+              "description": "The name of the label. Emoji can be added to label names, using either native emoji or colon-style markup. For example, typing `:strawberry:` will render the emoji ![:strawberry:](https://github.githubassets.com/images/icons/emoji/unicode/1f353.png \":strawberry:\"). For a full list of available emoji and codes, see [emoji-cheat-sheet.com](http://emoji-cheat-sheet.com/).",
+              "type": "string"
             },
             "color": {
-              "description": "The [hexadecimal color code](http://www.color-hex.com/) for the label, without the leading `#`."
+              "description": "The [hexadecimal color code](http://www.color-hex.com/) for the label, without the leading `#`.",
+              "type": "string"
             },
             "description": {
-              "description": "A short description of the label."
+              "description": "A short description of the label.",
+              "type": "string"
             }
           },
           "required": [
@@ -53,16 +65,6 @@
       }
     }
   },
-  "x-code-samples": [
-    {
-      "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/labels \\\n  -d '{\"name\":\"name\",\"color\":\"color\"}'"
-    },
-    {
-      "lang": "JS",
-      "source": "octokit.issues.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  name: 'name',\n  color: 'color'\n})"
-    }
-  ],
   "responses": {
     "200": {
       "description": "response",
@@ -96,5 +98,19 @@
         }
       }
     }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/labels \\\n  -d '{\"name\":\"name\",\"color\":\"color\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.issues.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  name: 'name',\n  color: 'color'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

@@ -11,6 +11,15 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
       "name": "org",
       "in": "path",
       "schema": {
@@ -36,9 +45,24 @@
           "type": "object",
           "properties": {
             "role": {
-              "description": "The role to give the user in the organization. Can be one of:  \n\\* `admin` - The user will become an owner of the organization.  \n\\* `member` - The user will become a non-owner member of the organization."
+              "description": "The role to give the user in the organization. Can be one of:  \n\\* `admin` - The user will become an owner of the organization.  \n\\* `member` - The user will become a non-owner member of the organization.",
+              "type": "string",
+              "enum": [
+                "admin",
+                "member"
+              ]
             }
           }
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {}
         }
       }
     }
@@ -53,14 +77,8 @@
       "source": "octokit.orgs.get({\n  org: 'org',\n  username: 'username'\n})"
     }
   ],
-  "responses": {
-    "200": {
-      "description": "response",
-      "content": {
-        "application/json": {
-          "schema": {}
-        }
-      }
-    }
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

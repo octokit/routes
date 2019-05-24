@@ -9,7 +9,17 @@
     "description": "API method documentation",
     "url": "https://developer.github.com/v3/oauth_authorizations/#create-a-new-authorization"
   },
-  "parameters": [],
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    }
+  ],
   "requestBody": {
     "content": {
       "application/json": {
@@ -24,19 +34,24 @@
               }
             },
             "note": {
-              "description": "A note to remind you what the OAuth token is for. Tokens not associated with a specific OAuth application (i.e. personal access tokens) must have a unique note."
+              "description": "A note to remind you what the OAuth token is for. Tokens not associated with a specific OAuth application (i.e. personal access tokens) must have a unique note.",
+              "type": "string"
             },
             "note_url": {
-              "description": "A URL to remind you what app the OAuth token is for."
+              "description": "A URL to remind you what app the OAuth token is for.",
+              "type": "string"
             },
             "client_id": {
-              "description": "The 20 character OAuth app client key for which to create the token."
+              "description": "The 20 character OAuth app client key for which to create the token.",
+              "type": "string"
             },
             "client_secret": {
-              "description": "The 40 character OAuth app client secret for which to create the token."
+              "description": "The 40 character OAuth app client secret for which to create the token.",
+              "type": "string"
             },
             "fingerprint": {
-              "description": "A unique string to distinguish an authorization from others created for the same client ID and user."
+              "description": "A unique string to distinguish an authorization from others created for the same client ID and user.",
+              "type": "string"
             }
           },
           "required": [
@@ -46,16 +61,6 @@
       }
     }
   },
-  "x-code-samples": [
-    {
-      "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/authorizations \\\n  -d '{\"note\":\"note\"}'"
-    },
-    {
-      "lang": "JS",
-      "source": "octokit.oauth_authorizations.get({\n  note: 'note'\n})"
-    }
-  ],
   "responses": {
     "200": {
       "description": "response",
@@ -118,5 +123,19 @@
         }
       }
     }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/authorizations \\\n  -d '{\"note\":\"note\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.oauth_authorizations.get({\n  note: 'note'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

@@ -9,7 +9,17 @@
     "description": "API method documentation",
     "url": "https://developer.github.com/v3/users/emails/#toggle-primary-email-visibility"
   },
-  "parameters": [],
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    }
+  ],
   "requestBody": {
     "content": {
       "application/json": {
@@ -17,16 +27,28 @@
           "type": "object",
           "properties": {
             "email": {
-              "description": "Specify the _primary_ email address that needs a visibility change."
+              "description": "Specify the _primary_ email address that needs a visibility change.",
+              "type": "string"
             },
             "visibility": {
-              "description": "Use `public` to enable an authenticated user to view the specified email address, or use `private` so this primary email address cannot be seen publicly."
+              "description": "Use `public` to enable an authenticated user to view the specified email address, or use `private` so this primary email address cannot be seen publicly.",
+              "type": "string"
             }
           },
           "required": [
             "email",
             "visibility"
           ]
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {}
         }
       }
     }
@@ -41,14 +63,8 @@
       "source": "octokit.users.get({\n  email: 'email',\n  visibility: 'visibility'\n})"
     }
   ],
-  "responses": {
-    "200": {
-      "description": "response",
-      "content": {
-        "application/json": {
-          "schema": {}
-        }
-      }
-    }
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

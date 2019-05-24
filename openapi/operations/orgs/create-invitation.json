@@ -11,6 +11,15 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
       "name": "org",
       "in": "path",
       "schema": {
@@ -27,13 +36,21 @@
           "type": "object",
           "properties": {
             "invitee_id": {
-              "description": "**Required unless you provide `email`**. GitHub user ID for the person you are inviting."
+              "description": "**Required unless you provide `email`**. GitHub user ID for the person you are inviting.",
+              "type": "integer"
             },
             "email": {
-              "description": "**Required unless you provide `invitee_id`**. Email address of the person you are inviting, which can be an existing GitHub user."
+              "description": "**Required unless you provide `invitee_id`**. Email address of the person you are inviting, which can be an existing GitHub user.",
+              "type": "string"
             },
             "role": {
-              "description": "Specify role for new member. Can be one of:  \n\\* `admin` - Organization owners with full administrative rights to the organization and complete access to all repositories and teams.  \n\\* `direct_member` - Non-owner organization members with ability to see other members and join teams by invitation.  \n\\* `billing_manager` - Non-owner organization members with ability to manage the billing settings of your organization."
+              "description": "Specify role for new member. Can be one of:  \n\\* `admin` - Organization owners with full administrative rights to the organization and complete access to all repositories and teams.  \n\\* `direct_member` - Non-owner organization members with ability to see other members and join teams by invitation.  \n\\* `billing_manager` - Non-owner organization members with ability to manage the billing settings of your organization.",
+              "type": "string",
+              "enum": [
+                "admin",
+                "direct_member",
+                "billing_manager"
+              ]
             },
             "team_ids": {
               "description": "Specify IDs for the teams you want to invite new members to.",
@@ -47,16 +64,6 @@
       }
     }
   },
-  "x-code-samples": [
-    {
-      "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/orgs//invitations"
-    },
-    {
-      "lang": "JS",
-      "source": "octokit.orgs.get({\n  org: 'org'\n})"
-    }
-  ],
   "responses": {
     "200": {
       "description": "response",
@@ -149,5 +156,19 @@
         }
       }
     }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/orgs//invitations"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.orgs.get({\n  org: 'org'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

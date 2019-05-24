@@ -9,7 +9,17 @@
     "description": "API method documentation",
     "url": "https://developer.github.com/v3/gists/#create-a-gist"
   },
-  "parameters": [],
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    }
+  ],
   "requestBody": {
     "content": {
       "application/json": {
@@ -17,16 +27,20 @@
           "type": "object",
           "properties": {
             "files": {
-              "description": "The filenames and content of each file in the gist. The keys in the `files` object represent the filename and have the type `string`."
+              "description": "The filenames and content of each file in the gist. The keys in the `files` object represent the filename and have the type `string`.",
+              "type": "object"
             },
             "files.content": {
-              "description": "The content of the file."
+              "description": "The content of the file.",
+              "type": "string"
             },
             "description": {
-              "description": "A descriptive name for this gist."
+              "description": "A descriptive name for this gist.",
+              "type": "string"
             },
             "public": {
-              "description": "When `true`, the gist will be public and available for anyone to see."
+              "description": "When `true`, the gist will be public and available for anyone to see.",
+              "type": "boolean"
             }
           },
           "required": [
@@ -36,16 +50,6 @@
       }
     }
   },
-  "x-code-samples": [
-    {
-      "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/gists \\\n  -d '{\"files\":\"files\"}'"
-    },
-    {
-      "lang": "JS",
-      "source": "octokit.gists.get({\n  files: 'files'\n})"
-    }
-  ],
   "responses": {
     "200": {
       "description": "response",
@@ -443,5 +447,19 @@
         }
       }
     }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/gists \\\n  -d '{\"files\":\"files\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.gists.get({\n  files: 'files'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

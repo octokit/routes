@@ -11,6 +11,15 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
       "name": "owner",
       "in": "path",
       "schema": {
@@ -45,19 +54,24 @@
           "type": "object",
           "properties": {
             "config": {
-              "description": "Key/value pairs to provide settings for this webhook. [These are defined below](#create-hook-config-params)."
+              "description": "Key/value pairs to provide settings for this webhook. [These are defined below](#create-hook-config-params).",
+              "type": "object"
             },
             "config.url": {
-              "description": "The URL to which the payloads will be delivered."
+              "description": "The URL to which the payloads will be delivered.",
+              "type": "string"
             },
             "config.content_type": {
-              "description": "The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`."
+              "description": "The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`.",
+              "type": "string"
             },
             "config.secret": {
-              "description": "If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value in the [`X-Hub-Signature`](https://developer.github.com/webhooks/#delivery-headers) header."
+              "description": "If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value in the [`X-Hub-Signature`](https://developer.github.com/webhooks/#delivery-headers) header.",
+              "type": "string"
             },
             "config.insecure_ssl": {
-              "description": "Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.**"
+              "description": "Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.**",
+              "type": "string"
             },
             "events": {
               "description": "Determines what [events](https://developer.github.com/v3/activity/events/types/) the hook is triggered for. This replaces the entire array of events.",
@@ -81,7 +95,8 @@
               }
             },
             "active": {
-              "description": "Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications."
+              "description": "Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.",
+              "type": "boolean"
             }
           },
           "required": [
@@ -91,16 +106,6 @@
       }
     }
   },
-  "x-code-samples": [
-    {
-      "lang": "Shell",
-      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/hooks/:hook_id \\\n  -d '{\"config.url\":\"config.url\"}'"
-    },
-    {
-      "lang": "JS",
-      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  hook_id: 'hook_id',\n  'config.url': 'config.url'\n})"
-    }
-  ],
   "responses": {
     "200": {
       "description": "response",
@@ -154,5 +159,19 @@
         }
       }
     }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/hooks/:hook_id \\\n  -d '{\"config.url\":\"config.url\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  hook_id: 'hook_id',\n  'config.url': 'config.url'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }
