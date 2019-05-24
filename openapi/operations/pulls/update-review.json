@@ -11,6 +11,15 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
       "name": "owner",
       "in": "path",
       "schema": {
@@ -54,7 +63,8 @@
           "type": "object",
           "properties": {
             "body": {
-              "description": "The body text of the pull request review."
+              "description": "The body text of the pull request review.",
+              "type": "string"
             }
           },
           "required": [
@@ -64,16 +74,6 @@
       }
     }
   },
-  "x-code-samples": [
-    {
-      "lang": "Shell",
-      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/pulls/:pull_number/reviews/:review_id \\\n  -d '{\"body\":\"body\"}'"
-    },
-    {
-      "lang": "JS",
-      "source": "octokit.pulls.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  pull_number: 'pull_number',\n  review_id: 'review_id',\n  body: 'body'\n})"
-    }
-  ],
   "responses": {
     "200": {
       "description": "response",
@@ -187,5 +187,19 @@
         }
       }
     }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/pulls/:pull_number/reviews/:review_id \\\n  -d '{\"body\":\"body\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.pulls.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  pull_number: 'pull_number',\n  review_id: 'review_id',\n  body: 'body'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

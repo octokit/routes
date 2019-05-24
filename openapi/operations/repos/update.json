@@ -11,6 +11,15 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
       "name": "owner",
       "in": "path",
       "schema": {
@@ -36,40 +45,52 @@
           "type": "object",
           "properties": {
             "name": {
-              "description": "The name of the repository."
+              "description": "The name of the repository.",
+              "type": "string"
             },
             "description": {
-              "description": "A short description of the repository."
+              "description": "A short description of the repository.",
+              "type": "string"
             },
             "homepage": {
-              "description": "A URL with more information about the repository."
+              "description": "A URL with more information about the repository.",
+              "type": "string"
             },
             "private": {
-              "description": "Either `true` to make the repository private or `false` to make it public. Creating private repositories requires a paid GitHub account. Default: `false`.  \n**Note**: You will get a `422` error if the organization restricts [changing repository visibility](https://help.github.com/articles/repository-permission-levels-for-an-organization#changing-the-visibility-of-repositories) to organization owners and a non-owner tries to change the value of private. **Note**: You will get a `422` error if the organization restricts [changing repository visibility](https://help.github.com/articles/repository-permission-levels-for-an-organization#changing-the-visibility-of-repositories) to organization owners and a non-owner tries to change the value of private."
+              "description": "Either `true` to make the repository private or `false` to make it public. Creating private repositories requires a paid GitHub account. Default: `false`.  \n**Note**: You will get a `422` error if the organization restricts [changing repository visibility](https://help.github.com/articles/repository-permission-levels-for-an-organization#changing-the-visibility-of-repositories) to organization owners and a non-owner tries to change the value of private. **Note**: You will get a `422` error if the organization restricts [changing repository visibility](https://help.github.com/articles/repository-permission-levels-for-an-organization#changing-the-visibility-of-repositories) to organization owners and a non-owner tries to change the value of private.",
+              "type": "boolean"
             },
             "has_issues": {
-              "description": "Either `true` to enable issues for this repository or `false` to disable them."
+              "description": "Either `true` to enable issues for this repository or `false` to disable them.",
+              "type": "boolean"
             },
             "has_projects": {
-              "description": "Either `true` to enable projects for this repository or `false` to disable them. **Note:** If you're creating a repository in an organization that has disabled repository projects, the default is `false`, and if you pass `true`, the API returns an error."
+              "description": "Either `true` to enable projects for this repository or `false` to disable them. **Note:** If you're creating a repository in an organization that has disabled repository projects, the default is `false`, and if you pass `true`, the API returns an error.",
+              "type": "boolean"
             },
             "has_wiki": {
-              "description": "Either `true` to enable the wiki for this repository or `false` to disable it."
+              "description": "Either `true` to enable the wiki for this repository or `false` to disable it.",
+              "type": "boolean"
             },
             "default_branch": {
-              "description": "Updates the default branch for this repository."
+              "description": "Updates the default branch for this repository.",
+              "type": "string"
             },
             "allow_squash_merge": {
-              "description": "Either `true` to allow squash-merging pull requests, or `false` to prevent squash-merging."
+              "description": "Either `true` to allow squash-merging pull requests, or `false` to prevent squash-merging.",
+              "type": "boolean"
             },
             "allow_merge_commit": {
-              "description": "Either `true` to allow merging pull requests with a merge commit, or `false` to prevent merging pull requests with merge commits."
+              "description": "Either `true` to allow merging pull requests with a merge commit, or `false` to prevent merging pull requests with merge commits.",
+              "type": "boolean"
             },
             "allow_rebase_merge": {
-              "description": "Either `true` to allow rebase-merging pull requests, or `false` to prevent rebase-merging."
+              "description": "Either `true` to allow rebase-merging pull requests, or `false` to prevent rebase-merging.",
+              "type": "boolean"
             },
             "archived": {
-              "description": "`true` to archive this repository. **Note**: You cannot unarchive repositories through the API."
+              "description": "`true` to archive this repository. **Note**: You cannot unarchive repositories through the API.",
+              "type": "boolean"
             }
           },
           "required": [
@@ -79,16 +100,6 @@
       }
     }
   },
-  "x-code-samples": [
-    {
-      "lang": "Shell",
-      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo \\\n  -d '{\"name\":\"name\"}'"
-    },
-    {
-      "lang": "JS",
-      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  name: 'name'\n})"
-    }
-  ],
   "responses": {
     "200": {
       "description": "response",
@@ -1064,5 +1075,19 @@
         }
       }
     }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo \\\n  -d '{\"name\":\"name\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  name: 'name'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

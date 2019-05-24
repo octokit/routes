@@ -11,6 +11,15 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
       "name": "client_id",
       "in": "path",
       "schema": {
@@ -27,7 +36,8 @@
           "type": "object",
           "properties": {
             "client_secret": {
-              "description": "The 40 character OAuth app client secret associated with the client ID specified in the URL."
+              "description": "The 40 character OAuth app client secret associated with the client ID specified in the URL.",
+              "type": "string"
             },
             "scopes": {
               "description": "A list of scopes that this authorization is in.",
@@ -37,18 +47,31 @@
               }
             },
             "note": {
-              "description": "A note to remind you what the OAuth token is for."
+              "description": "A note to remind you what the OAuth token is for.",
+              "type": "string"
             },
             "note_url": {
-              "description": "A URL to remind you what app the OAuth token is for."
+              "description": "A URL to remind you what app the OAuth token is for.",
+              "type": "string"
             },
             "fingerprint": {
-              "description": "A unique string to distinguish an authorization from others created for the same client and user. If provided, this API is functionally equivalent to [Get-or-create an authorization for a specific app and fingerprint](https://developer.github.com/v3/oauth_authorizations/#get-or-create-an-authorization-for-a-specific-app-and-fingerprint)."
+              "description": "A unique string to distinguish an authorization from others created for the same client and user. If provided, this API is functionally equivalent to [Get-or-create an authorization for a specific app and fingerprint](https://developer.github.com/v3/oauth_authorizations/#get-or-create-an-authorization-for-a-specific-app-and-fingerprint).",
+              "type": "string"
             }
           },
           "required": [
             "client_secret"
           ]
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {}
         }
       }
     }
@@ -63,14 +86,8 @@
       "source": "octokit.oauth_authorizations.get({\n  client_id: 'client_id',\n  client_secret: 'client_secret'\n})"
     }
   ],
-  "responses": {
-    "200": {
-      "description": "response",
-      "content": {
-        "application/json": {
-          "schema": {}
-        }
-      }
-    }
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

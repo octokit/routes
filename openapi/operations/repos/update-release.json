@@ -11,6 +11,15 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
       "name": "owner",
       "in": "path",
       "schema": {
@@ -45,38 +54,34 @@
           "type": "object",
           "properties": {
             "tag_name": {
-              "description": "The name of the tag."
+              "description": "The name of the tag.",
+              "type": "string"
             },
             "target_commitish": {
-              "description": "Specifies the commitish value that determines where the Git tag is created from. Can be any branch or commit SHA. Unused if the Git tag already exists."
+              "description": "Specifies the commitish value that determines where the Git tag is created from. Can be any branch or commit SHA. Unused if the Git tag already exists.",
+              "type": "string"
             },
             "name": {
-              "description": "The name of the release."
+              "description": "The name of the release.",
+              "type": "string"
             },
             "body": {
-              "description": "Text describing the contents of the tag."
+              "description": "Text describing the contents of the tag.",
+              "type": "string"
             },
             "draft": {
-              "description": "`true` makes the release a draft, and `false` publishes the release."
+              "description": "`true` makes the release a draft, and `false` publishes the release.",
+              "type": "boolean"
             },
             "prerelease": {
-              "description": "`true` to identify the release as a prerelease, `false` to identify the release as a full release."
+              "description": "`true` to identify the release as a prerelease, `false` to identify the release as a full release.",
+              "type": "boolean"
             }
           }
         }
       }
     }
   },
-  "x-code-samples": [
-    {
-      "lang": "Shell",
-      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/releases/:release_id"
-    },
-    {
-      "lang": "JS",
-      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  release_id: 'release_id'\n})"
-    }
-  ],
   "responses": {
     "200": {
       "description": "response",
@@ -299,5 +304,19 @@
         }
       }
     }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/releases/:release_id"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  release_id: 'release_id'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

@@ -11,6 +11,15 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
       "name": "owner",
       "in": "path",
       "schema": {
@@ -36,12 +45,29 @@
           "type": "object",
           "properties": {
             "cname": {
-              "description": "Specify a custom domain for the repository. Sending a `null` value will remove the custom domain. For more about custom domains, see \"[Using a custom domain with GitHub Pages](https://help.github.com/articles/using-a-custom-domain-with-github-pages/).\""
+              "description": "Specify a custom domain for the repository. Sending a `null` value will remove the custom domain. For more about custom domains, see \"[Using a custom domain with GitHub Pages](https://help.github.com/articles/using-a-custom-domain-with-github-pages/).\"",
+              "type": "string"
             },
             "source": {
-              "description": "Update the source for the repository. Must include the branch name, and may optionally specify the subdirectory `/docs`. Possible values are `\"gh-pages\"`, `\"master\"`, and `\"master /docs\"`."
+              "description": "Update the source for the repository. Must include the branch name, and may optionally specify the subdirectory `/docs`. Possible values are `\"gh-pages\"`, `\"master\"`, and `\"master /docs\"`.",
+              "type": "string",
+              "enum": [
+                "\"gh-pages\"",
+                "\"master\"",
+                "\"master /docs\""
+              ]
             }
           }
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {}
         }
       }
     }
@@ -56,14 +82,8 @@
       "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
     }
   ],
-  "responses": {
-    "200": {
-      "description": "response",
-      "content": {
-        "application/json": {
-          "schema": {}
-        }
-      }
-    }
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

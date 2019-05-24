@@ -11,6 +11,15 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
       "name": "repository_id",
       "in": "query",
       "schema": {
@@ -32,7 +41,11 @@
       "name": "sort",
       "in": "query",
       "schema": {
-        "type": "string"
+        "type": "string",
+        "enum": [
+          "created",
+          "updated"
+        ]
       },
       "required": false,
       "description": "Sorts the results of your query by when the label was `created` or `updated`."
@@ -41,20 +54,14 @@
       "name": "order",
       "in": "query",
       "schema": {
-        "type": "string"
+        "type": "string",
+        "enum": [
+          "desc",
+          "asc"
+        ]
       },
       "required": false,
       "description": "Determines whether the first search result returned is the highest number of matches (`desc`) or lowest number of matches (`asc`). This parameter is ignored unless you provide `sort`."
-    }
-  ],
-  "x-code-samples": [
-    {
-      "lang": "Shell",
-      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/search/labels"
-    },
-    {
-      "lang": "JS",
-      "source": "octokit.search.get({\n  repository_id: 'repository_id',\n  q: 'q'\n})"
     }
   ],
   "responses": {
@@ -66,5 +73,19 @@
         }
       }
     }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/search/labels"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.search.get({\n  repository_id: 'repository_id',\n  q: 'q'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

@@ -11,6 +11,15 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
       "name": "org",
       "in": "path",
       "schema": {
@@ -34,10 +43,12 @@
               }
             },
             "lock_repositories": {
-              "description": "Indicates whether repositories should be locked (to prevent manipulation) while migrating data."
+              "description": "Indicates whether repositories should be locked (to prevent manipulation) while migrating data.",
+              "type": "boolean"
             },
             "exclude_attachments": {
-              "description": "Indicates whether attachments should be excluded from the migration (to reduce migration archive file size)."
+              "description": "Indicates whether attachments should be excluded from the migration (to reduce migration archive file size).",
+              "type": "boolean"
             }
           },
           "required": [
@@ -47,16 +58,6 @@
       }
     }
   },
-  "x-code-samples": [
-    {
-      "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/orgs//migrations \\\n  -d '{\"repositories\":\"repositories\"}'"
-    },
-    {
-      "lang": "JS",
-      "source": "octokit.migrations.get({\n  org: 'org',\n  repositories: 'repositories'\n})"
-    }
-  ],
   "responses": {
     "200": {
       "description": "response",
@@ -440,5 +441,19 @@
         }
       }
     }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/orgs//migrations \\\n  -d '{\"repositories\":\"repositories\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.migrations.get({\n  org: 'org',\n  repositories: 'repositories'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

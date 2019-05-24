@@ -11,6 +11,15 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
       "name": "owner",
       "in": "path",
       "schema": {
@@ -45,19 +54,29 @@
           "type": "object",
           "properties": {
             "title": {
-              "description": "The title of the issue."
+              "description": "The title of the issue.",
+              "type": "string"
             },
             "body": {
-              "description": "The contents of the issue."
+              "description": "The contents of the issue.",
+              "type": "string"
             },
             "assignee": {
-              "description": "Login for the user that this issue should be assigned to. **This field is deprecated.**"
+              "description": "Login for the user that this issue should be assigned to. **This field is deprecated.**",
+              "type": "string"
             },
             "state": {
-              "description": "State of the issue. Either `open` or `closed`."
+              "description": "State of the issue. Either `open` or `closed`.",
+              "type": "string",
+              "enum": [
+                "open",
+                "closed"
+              ]
             },
             "milestone": {
-              "description": "The `number` of the milestone to associate this issue with or `null` to remove current. _NOTE: Only users with push access can set the milestone for issues. The milestone is silently dropped otherwise._"
+              "description": "The `number` of the milestone to associate this issue with or `null` to remove current. _NOTE: Only users with push access can set the milestone for issues. The milestone is silently dropped otherwise._",
+              "type": "integer",
+              "nullable": true
             },
             "labels": {
               "description": "Labels to associate with this issue. Pass one or more Labels to _replace_ the set of Labels on this Issue. Send an empty array (`[]`) to clear all Labels from the Issue. _NOTE: Only users with push access can set labels for issues. Labels are silently dropped otherwise._",
@@ -78,16 +97,6 @@
       }
     }
   },
-  "x-code-samples": [
-    {
-      "lang": "Shell",
-      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/issues/:issue_number"
-    },
-    {
-      "lang": "JS",
-      "source": "octokit.issues.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  issue_number: 1\n})"
-    }
-  ],
   "responses": {
     "200": {
       "description": "response",
@@ -548,5 +557,19 @@
         }
       }
     }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/issues/:issue_number"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.issues.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  issue_number: 1\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

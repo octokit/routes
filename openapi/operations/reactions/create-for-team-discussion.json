@@ -11,6 +11,16 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "This API is under preview and subject to change.",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.echo-preview+json,application/vnd.github.squirrel-girl-preview+json"
+      },
+      "required": true
+    },
+    {
       "name": "team_id",
       "in": "path",
       "schema": {
@@ -36,7 +46,16 @@
           "type": "object",
           "properties": {
             "content": {
-              "description": "The [reaction type](https://developer.github.com/v3/reactions/#reaction-types) to add to the team discussion."
+              "description": "The [reaction type](https://developer.github.com/v3/reactions/#reaction-types) to add to the team discussion.",
+              "type": "string",
+              "enum": [
+                "+1",
+                "-1",
+                "laugh",
+                "confused",
+                "heart",
+                "hooray"
+              ]
             }
           },
           "required": [
@@ -46,16 +65,6 @@
       }
     }
   },
-  "x-code-samples": [
-    {
-      "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/teams//discussions/:discussion_number/reactions \\\n  -d '{\"content\":\"content\"}'"
-    },
-    {
-      "lang": "JS",
-      "source": "octokit.reactions.get({\n  team_id: 'team_id',\n  discussion_number: 'discussion_number',\n  content: 'content'\n})"
-    }
-  ],
   "responses": {
     "200": {
       "description": "response",
@@ -139,5 +148,19 @@
         }
       }
     }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.echo-preview+json,application/vnd.github.squirrel-girl-preview+json\" \\\n  https://developer.github.com/teams//discussions/:discussion_number/reactions \\\n  -d '{\"content\":\"content\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.reactions.get({\n  team_id: 'team_id',\n  discussion_number: 'discussion_number',\n  content: 'content'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

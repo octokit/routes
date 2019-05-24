@@ -11,6 +11,15 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
       "name": "owner",
       "in": "path",
       "schema": {
@@ -45,10 +54,12 @@
           "type": "object",
           "properties": {
             "body": {
-              "description": "The text of the comment."
+              "description": "The text of the comment.",
+              "type": "string"
             },
             "in_reply_to": {
-              "description": "The comment ID to reply to. **Note**: This must be the ID of a _top-level comment_, not a reply to that comment. Replies to replies are not supported."
+              "description": "The comment ID to reply to. **Note**: This must be the ID of a _top-level comment_, not a reply to that comment. Replies to replies are not supported.",
+              "type": "integer"
             }
           },
           "required": [
@@ -59,16 +70,6 @@
       }
     }
   },
-  "x-code-samples": [
-    {
-      "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/pulls/:pull_number/comments \\\n  -d '{\"body\":\"body\",\"in_reply_to\":\"in_reply_to\"}'"
-    },
-    {
-      "lang": "JS",
-      "source": "octokit.pulls.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  pull_number: 'pull_number',\n  body: 'body',\n  in_reply_to: 'in_reply_to'\n})"
-    }
-  ],
   "responses": {
     "200": {
       "description": "response",
@@ -217,5 +218,19 @@
         }
       }
     }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/pulls/:pull_number/comments \\\n  -d '{\"body\":\"body\",\"in_reply_to\":\"in_reply_to\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.pulls.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  pull_number: 'pull_number',\n  body: 'body',\n  in_reply_to: 'in_reply_to'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

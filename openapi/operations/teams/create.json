@@ -11,6 +11,15 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
       "name": "org",
       "in": "path",
       "schema": {
@@ -27,10 +36,12 @@
           "type": "object",
           "properties": {
             "name": {
-              "description": "The name of the team."
+              "description": "The name of the team.",
+              "type": "string"
             },
             "description": {
-              "description": "The description of the team."
+              "description": "The description of the team.",
+              "type": "string"
             },
             "maintainers": {
               "description": "The logins of organization members to add as maintainers of the team.",
@@ -47,13 +58,25 @@
               }
             },
             "privacy": {
-              "description": "The level of privacy this team should have. The options are:  \n**For a non-nested team:**  \n\\* `secret` - only visible to organization owners and members of this team.  \n\\* `closed` - visible to all members of this organization.  \nDefault: `secret`  \n**For a parent or child team:**  \n\\* `closed` - visible to all members of this organization.  \nDefault for child team: `closed`  \n**Note**: You must pass the `hellcat-preview` media type to set privacy default to `closed` for child teams. **For a parent or child team:**  "
+              "description": "The level of privacy this team should have. The options are:  \n**For a non-nested team:**  \n\\* `secret` - only visible to organization owners and members of this team.  \n\\* `closed` - visible to all members of this organization.  \nDefault: `secret`  \n**For a parent or child team:**  \n\\* `closed` - visible to all members of this organization.  \nDefault for child team: `closed`  \n**Note**: You must pass the `hellcat-preview` media type to set privacy default to `closed` for child teams. **For a parent or child team:**  ",
+              "type": "string",
+              "enum": [
+                "secret",
+                "closed"
+              ]
             },
             "permission": {
-              "description": "**Deprecated**. The permission that new repositories will be added to the team with when none is specified. Can be one of:  \n\\* `pull` - team members can pull, but not push to or administer newly-added repositories.  \n\\* `push` - team members can pull and push, but not administer newly-added repositories.  \n\\* `admin` - team members can pull, push and administer newly-added repositories."
+              "description": "**Deprecated**. The permission that new repositories will be added to the team with when none is specified. Can be one of:  \n\\* `pull` - team members can pull, but not push to or administer newly-added repositories.  \n\\* `push` - team members can pull and push, but not administer newly-added repositories.  \n\\* `admin` - team members can pull, push and administer newly-added repositories.",
+              "type": "string",
+              "enum": [
+                "pull",
+                "push",
+                "admin"
+              ]
             },
             "parent_team_id": {
-              "description": "The ID of a team to set as the parent team. **Note**: You must pass the `hellcat-preview` media type to use this parameter."
+              "description": "The ID of a team to set as the parent team. **Note**: You must pass the `hellcat-preview` media type to use this parameter.",
+              "type": "integer"
             }
           },
           "required": [
@@ -63,16 +86,6 @@
       }
     }
   },
-  "x-code-samples": [
-    {
-      "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/orgs//teams \\\n  -d '{\"name\":\"name\"}'"
-    },
-    {
-      "lang": "JS",
-      "source": "octokit.teams.get({\n  org: 'org',\n  name: 'name'\n})"
-    }
-  ],
   "responses": {
     "200": {
       "description": "response",
@@ -216,5 +229,19 @@
         }
       }
     }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/orgs//teams \\\n  -d '{\"name\":\"name\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.teams.get({\n  org: 'org',\n  name: 'name'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

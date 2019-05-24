@@ -11,6 +11,15 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
       "name": "org",
       "in": "path",
       "schema": {
@@ -23,7 +32,14 @@
       "name": "filter",
       "in": "query",
       "schema": {
-        "type": "string"
+        "type": "string",
+        "enum": [
+          "assigned",
+          "created",
+          "mentioned",
+          "subscribed",
+          "all"
+        ]
       },
       "required": false,
       "description": "Indicates which sorts of issues to return. Can be one of:  \n\\* `assigned`: Issues assigned to you  \n\\* `created`: Issues created by you  \n\\* `mentioned`: Issues mentioning you  \n\\* `subscribed`: Issues you're subscribed to updates for  \n\\* `all`: All issues the authenticated user can see, regardless of participation or creation"
@@ -32,7 +48,12 @@
       "name": "state",
       "in": "query",
       "schema": {
-        "type": "string"
+        "type": "string",
+        "enum": [
+          "open",
+          "closed",
+          "all"
+        ]
       },
       "required": false,
       "description": "Indicates the state of the issues to return. Can be either `open`, `closed`, or `all`."
@@ -50,7 +71,12 @@
       "name": "sort",
       "in": "query",
       "schema": {
-        "type": "string"
+        "type": "string",
+        "enum": [
+          "created",
+          "updated",
+          "comments"
+        ]
       },
       "required": false,
       "description": "What to sort results by. Can be either `created`, `updated`, `comments`."
@@ -59,7 +85,11 @@
       "name": "direction",
       "in": "query",
       "schema": {
-        "type": "string"
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ]
       },
       "required": false,
       "description": "The direction of the sort. Can be either `asc` or `desc`."
@@ -92,6 +122,16 @@
       "description": "Page number of the results to fetch."
     }
   ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {}
+        }
+      }
+    }
+  },
   "x-code-samples": [
     {
       "lang": "Shell",
@@ -102,14 +142,8 @@
       "source": "octokit.issues.get({\n  org: 'org'\n})"
     }
   ],
-  "responses": {
-    "200": {
-      "description": "response",
-      "content": {
-        "application/json": {
-          "schema": {}
-        }
-      }
-    }
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }
