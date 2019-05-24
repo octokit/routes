@@ -11,6 +11,15 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
       "name": "owner",
       "in": "path",
       "schema": {
@@ -45,7 +54,8 @@
           "type": "object",
           "properties": {
             "body": {
-              "description": "The contents of the comment."
+              "description": "The contents of the comment.",
+              "type": "string"
             }
           },
           "required": [
@@ -55,16 +65,6 @@
       }
     }
   },
-  "x-code-samples": [
-    {
-      "lang": "Shell",
-      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/issues/comments/:comment_id \\\n  -d '{\"body\":\"body\"}'"
-    },
-    {
-      "lang": "JS",
-      "source": "octokit.issues.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  comment_id: 'comment_id',\n  body: 'body'\n})"
-    }
-  ],
   "responses": {
     "200": {
       "description": "response",
@@ -157,5 +157,19 @@
         }
       }
     }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/issues/comments/:comment_id \\\n  -d '{\"body\":\"body\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.issues.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  comment_id: 'comment_id',\n  body: 'body'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

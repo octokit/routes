@@ -11,6 +11,16 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "This API is under preview and subject to change.",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.sombra-preview+json"
+      },
+      "required": true
+    },
+    {
       "name": "org",
       "in": "path",
       "schema": {
@@ -27,7 +37,13 @@
           "type": "object",
           "properties": {
             "limit": {
-              "description": "Specifies the group of GitHub users who can comment, open issues, or create pull requests in public repositories for the given organization. Must be one of: `existing_users`, `contributors_only`, or `collaborators_only`."
+              "description": "Specifies the group of GitHub users who can comment, open issues, or create pull requests in public repositories for the given organization. Must be one of: `existing_users`, `contributors_only`, or `collaborators_only`.",
+              "type": "string",
+              "enum": [
+                "existing_users",
+                "contributors_only",
+                "collaborators_only"
+              ]
             }
           },
           "required": [
@@ -37,16 +53,6 @@
       }
     }
   },
-  "x-code-samples": [
-    {
-      "lang": "Shell",
-      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/orgs//interaction-limits \\\n  -d '{\"limit\":\"limit\"}'"
-    },
-    {
-      "lang": "JS",
-      "source": "octokit.interactions.get({\n  org: 'org',\n  limit: 'limit'\n})"
-    }
-  ],
   "responses": {
     "200": {
       "description": "response",
@@ -68,5 +74,19 @@
         }
       }
     }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.sombra-preview+json\" \\\n  https://developer.github.com/orgs//interaction-limits \\\n  -d '{\"limit\":\"limit\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.interactions.get({\n  org: 'org',\n  limit: 'limit'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

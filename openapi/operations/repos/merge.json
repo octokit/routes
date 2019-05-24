@@ -11,6 +11,15 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
       "name": "owner",
       "in": "path",
       "schema": {
@@ -36,19 +45,32 @@
           "type": "object",
           "properties": {
             "base": {
-              "description": "The name of the base branch that the head will be merged into."
+              "description": "The name of the base branch that the head will be merged into.",
+              "type": "string"
             },
             "head": {
-              "description": "The head to merge. This can be a branch name or a commit SHA1."
+              "description": "The head to merge. This can be a branch name or a commit SHA1.",
+              "type": "string"
             },
             "commit_message": {
-              "description": "Commit message to use for the merge commit. If omitted, a default message will be used."
+              "description": "Commit message to use for the merge commit. If omitted, a default message will be used.",
+              "type": "string"
             }
           },
           "required": [
             "base",
             "head"
           ]
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {}
         }
       }
     }
@@ -63,14 +85,8 @@
       "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  base: 'base',\n  head: 'head'\n})"
     }
   ],
-  "responses": {
-    "200": {
-      "description": "response",
-      "content": {
-        "application/json": {
-          "schema": {}
-        }
-      }
-    }
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

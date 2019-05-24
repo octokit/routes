@@ -11,6 +11,15 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
       "name": "owner",
       "in": "path",
       "schema": {
@@ -45,23 +54,19 @@
           "type": "object",
           "properties": {
             "permissions": {
-              "description": "The permissions that the associated user will have on the repository. Valid values are `read`, `write`, and `admin`."
+              "description": "The permissions that the associated user will have on the repository. Valid values are `read`, `write`, and `admin`.",
+              "type": "string",
+              "enum": [
+                "read",
+                "write",
+                "admin"
+              ]
             }
           }
         }
       }
     }
   },
-  "x-code-samples": [
-    {
-      "lang": "Shell",
-      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/invitations/:invitation_id"
-    },
-    {
-      "lang": "JS",
-      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  invitation_id: 'invitation_id'\n})"
-    }
-  ],
   "responses": {
     "200": {
       "description": "response",
@@ -409,5 +414,19 @@
         }
       }
     }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/invitations/:invitation_id"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  invitation_id: 'invitation_id'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

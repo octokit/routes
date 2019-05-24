@@ -11,6 +11,15 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
       "name": "owner",
       "in": "path",
       "schema": {
@@ -36,13 +45,16 @@
           "type": "object",
           "properties": {
             "ref": {
-              "description": "The ref to deploy. This can be a branch, tag, or SHA."
+              "description": "The ref to deploy. This can be a branch, tag, or SHA.",
+              "type": "string"
             },
             "task": {
-              "description": "Specifies a task to execute (e.g., `deploy` or `deploy:migrations`)."
+              "description": "Specifies a task to execute (e.g., `deploy` or `deploy:migrations`).",
+              "type": "string"
             },
             "auto_merge": {
-              "description": "Attempts to automatically merge the default branch into the requested ref, if it's behind the default branch."
+              "description": "Attempts to automatically merge the default branch into the requested ref, if it's behind the default branch.",
+              "type": "boolean"
             },
             "required_contexts": {
               "description": "The [status](https://developer.github.com/v3/repos/statuses/) contexts to verify against commit status checks. If you omit this parameter, GitHub verifies all unique contexts before creating a deployment. To bypass checking entirely, pass an empty array. Defaults to all unique contexts.",
@@ -52,24 +64,39 @@
               }
             },
             "payload": {
-              "description": "JSON payload with extra information about the deployment."
+              "description": "JSON payload with extra information about the deployment.",
+              "type": "string"
             },
             "environment": {
-              "description": "Name for the target deployment environment (e.g., `production`, `staging`, `qa`)."
+              "description": "Name for the target deployment environment (e.g., `production`, `staging`, `qa`).",
+              "type": "string"
             },
             "description": {
-              "description": "Short description of the deployment."
+              "description": "Short description of the deployment.",
+              "type": "string"
             },
             "transient_environment": {
-              "description": "Specifies if the given environment is specific to the deployment and will no longer exist at some point in the future. Default: `false`  \n**Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type. **Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type."
+              "description": "Specifies if the given environment is specific to the deployment and will no longer exist at some point in the future. Default: `false`  \n**Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type. **Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type.",
+              "type": "boolean"
             },
             "production_environment": {
-              "description": "Specifies if the given environment is one that end-users directly interact with. Default: `true` when `environment` is `production` and `false` otherwise.  \n**Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type.  "
+              "description": "Specifies if the given environment is one that end-users directly interact with. Default: `true` when `environment` is `production` and `false` otherwise.  \n**Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type.  ",
+              "type": "boolean"
             }
           },
           "required": [
             "ref"
           ]
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {}
         }
       }
     }
@@ -84,14 +111,8 @@
       "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  ref: 'ref'\n})"
     }
   ],
-  "responses": {
-    "200": {
-      "description": "response",
-      "content": {
-        "application/json": {
-          "schema": {}
-        }
-      }
-    }
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

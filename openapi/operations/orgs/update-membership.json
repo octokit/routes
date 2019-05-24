@@ -11,6 +11,15 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
       "name": "org",
       "in": "path",
       "schema": {
@@ -27,7 +36,11 @@
           "type": "object",
           "properties": {
             "state": {
-              "description": "The state that the membership should be in. Only `\"active\"` will be accepted."
+              "description": "The state that the membership should be in. Only `\"active\"` will be accepted.",
+              "type": "string",
+              "enum": [
+                "active"
+              ]
             }
           },
           "required": [
@@ -37,16 +50,6 @@
       }
     }
   },
-  "x-code-samples": [
-    {
-      "lang": "Shell",
-      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/user/memberships/orgs/ \\\n  -d '{\"state\":\"state\"}'"
-    },
-    {
-      "lang": "JS",
-      "source": "octokit.orgs.get({\n  org: 'org',\n  state: 'state'\n})"
-    }
-  ],
   "responses": {
     "200": {
       "description": "response",
@@ -171,5 +174,19 @@
         }
       }
     }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/user/memberships/orgs/ \\\n  -d '{\"state\":\"state\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.orgs.get({\n  org: 'org',\n  state: 'state'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

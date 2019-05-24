@@ -11,6 +11,15 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
       "name": "owner",
       "in": "path",
       "schema": {
@@ -54,7 +63,8 @@
           "type": "object",
           "properties": {
             "message": {
-              "description": "The message for the pull request review dismissal"
+              "description": "The message for the pull request review dismissal",
+              "type": "string"
             }
           },
           "required": [
@@ -64,16 +74,6 @@
       }
     }
   },
-  "x-code-samples": [
-    {
-      "lang": "Shell",
-      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/pulls/:pull_number/reviews/:review_id/dismissals \\\n  -d '{\"message\":\"message\"}'"
-    },
-    {
-      "lang": "JS",
-      "source": "octokit.pulls.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  pull_number: 'pull_number',\n  review_id: 'review_id',\n  message: 'message'\n})"
-    }
-  ],
   "responses": {
     "200": {
       "description": "response",
@@ -187,5 +187,19 @@
         }
       }
     }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/pulls/:pull_number/reviews/:review_id/dismissals \\\n  -d '{\"message\":\"message\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.pulls.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  pull_number: 'pull_number',\n  review_id: 'review_id',\n  message: 'message'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }

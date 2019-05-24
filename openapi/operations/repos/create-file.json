@@ -11,6 +11,15 @@
   },
   "parameters": [
     {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
       "name": "owner",
       "in": "path",
       "schema": {
@@ -45,31 +54,40 @@
           "type": "object",
           "properties": {
             "message": {
-              "description": "The commit message."
+              "description": "The commit message.",
+              "type": "string"
             },
             "content": {
-              "description": "The new file content, using Base64 encoding."
+              "description": "The new file content, using Base64 encoding.",
+              "type": "string"
             },
             "branch": {
-              "description": "The branch name."
+              "description": "The branch name.",
+              "type": "string"
             },
             "committer": {
-              "description": "The person that committed the file."
+              "description": "The person that committed the file.",
+              "type": "object"
             },
             "committer.name": {
-              "description": "The name of the author or committer of the commit. You'll receive a `422` status code if `name` is omitted."
+              "description": "The name of the author or committer of the commit. You'll receive a `422` status code if `name` is omitted.",
+              "type": "string"
             },
             "committer.email": {
-              "description": "The email of the author or committer of the commit. You'll receive a `422` status code if `name` is omitted."
+              "description": "The email of the author or committer of the commit. You'll receive a `422` status code if `name` is omitted.",
+              "type": "string"
             },
             "author": {
-              "description": "The author of the file."
+              "description": "The author of the file.",
+              "type": "object"
             },
             "author.name": {
-              "description": "The name of the author or committer of the commit. You'll receive a `422` status code if `name` is omitted."
+              "description": "The name of the author or committer of the commit. You'll receive a `422` status code if `name` is omitted.",
+              "type": "string"
             },
             "author.email": {
-              "description": "The email of the author or committer of the commit. You'll receive a `422` status code if `name` is omitted."
+              "description": "The email of the author or committer of the commit. You'll receive a `422` status code if `name` is omitted.",
+              "type": "string"
             }
           },
           "required": [
@@ -84,16 +102,6 @@
       }
     }
   },
-  "x-code-samples": [
-    {
-      "lang": "Shell",
-      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/contents/:path \\\n  -d '{\"message\":\"message\",\"content\":\"content\",\"committer.name\":\"committer.name\",\"committer.email\":\"committer.email\",\"author.name\":\"author.name\",\"author.email\":\"author.email\"}'"
-    },
-    {
-      "lang": "JS",
-      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  path: 'path',\n  message: 'message',\n  content: 'content',\n  'committer.name': 'committer.name',\n  'committer.email': 'committer.email',\n  'author.name': 'author.name',\n  'author.email': 'author.email'\n})"
-    }
-  ],
   "responses": {
     "200": {
       "description": "response",
@@ -245,5 +253,19 @@
         }
       }
     }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/contents/:path \\\n  -d '{\"message\":\"message\",\"content\":\"content\",\"committer.name\":\"committer.name\",\"committer.email\":\"committer.email\",\"author.name\":\"author.name\",\"author.email\":\"author.email\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  path: 'path',\n  message: 'message',\n  content: 'content',\n  'committer.name': 'committer.name',\n  'committer.email': 'committer.email',\n  'author.name': 'author.name',\n  'author.email': 'author.email'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "githubCloudOnly": false
   }
 }
