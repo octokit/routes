@@ -92,122 +92,138 @@
             },
             "output": {
               "description": "Check runs can accept a variety of data in the `output` object, including a `title` and `summary` and can optionally provide descriptive details about the run. See the [`output` object](#output-object) description.",
-              "type": "object"
-            },
-            "output.title": {
-              "description": "The title of the check run.",
-              "type": "string"
-            },
-            "output.summary": {
-              "description": "The summary of the check run. This parameter supports Markdown.",
-              "type": "string"
-            },
-            "output.text": {
-              "description": "The details of the check run. This parameter supports Markdown.",
-              "type": "string"
-            },
-            "output.annotations": {
-              "description": "Adds information from your analysis to specific lines of code. Annotations are visible on GitHub in the **Checks** and **Files changed** tab of the pull request. The Checks API limits the number of annotations to a maximum of 50 per API request. To create more than 50 annotations, you have to make multiple requests to the [Update a check run](https://developer.github.com/v3/checks/runs/#update-a-check-run) endpoint. Each time you update the check run, annotations are appended to the list of annotations that already exist for the check run. For details about how you can view annotations on GitHub, see \"[About status checks](https://help.github.com/articles/about-status-checks#checks)\". See the [`annotations` object](#annotations-object) description for details about how to use this parameter.",
-              "type": "array",
-              "items": {
-                "type": "object"
-              }
-            },
-            "output.annotations[].path": {
-              "description": "The path of the file to add an annotation to. For example, `assets/css/main.css`.",
-              "type": "string"
-            },
-            "output.annotations[].start_line": {
-              "description": "The start line of the annotation.",
-              "type": "integer"
-            },
-            "output.annotations[].end_line": {
-              "description": "The end line of the annotation.",
-              "type": "integer"
-            },
-            "output.annotations[].start_column": {
-              "description": "The start column of the annotation. Annotations only support `start_column` and `end_column` on the same line. Omit this parameter if `start_line` and `end_line` have different values.",
-              "type": "integer"
-            },
-            "output.annotations[].end_column": {
-              "description": "The end column of the annotation. Annotations only support `start_column` and `end_column` on the same line. Omit this parameter if `start_line` and `end_line` have different values.",
-              "type": "integer"
-            },
-            "output.annotations[].annotation_level": {
-              "description": "The level of the annotation. Can be one of `notice`, `warning`, or `failure`.",
-              "type": "string",
-              "enum": [
-                "notice",
-                "warning",
-                "failure"
+              "type": "object",
+              "properties": {
+                "title": {
+                  "description": "The title of the check run.",
+                  "type": "string"
+                },
+                "summary": {
+                  "description": "The summary of the check run. This parameter supports Markdown.",
+                  "type": "string"
+                },
+                "text": {
+                  "description": "The details of the check run. This parameter supports Markdown.",
+                  "type": "string"
+                },
+                "annotations": {
+                  "description": "Adds information from your analysis to specific lines of code. Annotations are visible on GitHub in the **Checks** and **Files changed** tab of the pull request. The Checks API limits the number of annotations to a maximum of 50 per API request. To create more than 50 annotations, you have to make multiple requests to the [Update a check run](https://developer.github.com/v3/checks/runs/#update-a-check-run) endpoint. Each time you update the check run, annotations are appended to the list of annotations that already exist for the check run. For details about how you can view annotations on GitHub, see \"[About status checks](https://help.github.com/articles/about-status-checks#checks)\". See the [`annotations` object](#annotations-object) description for details about how to use this parameter.",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "path": {
+                        "description": "The path of the file to add an annotation to. For example, `assets/css/main.css`.",
+                        "type": "string"
+                      },
+                      "start_line": {
+                        "description": "The start line of the annotation.",
+                        "type": "integer"
+                      },
+                      "end_line": {
+                        "description": "The end line of the annotation.",
+                        "type": "integer"
+                      },
+                      "start_column": {
+                        "description": "The start column of the annotation. Annotations only support `start_column` and `end_column` on the same line. Omit this parameter if `start_line` and `end_line` have different values.",
+                        "type": "integer"
+                      },
+                      "end_column": {
+                        "description": "The end column of the annotation. Annotations only support `start_column` and `end_column` on the same line. Omit this parameter if `start_line` and `end_line` have different values.",
+                        "type": "integer"
+                      },
+                      "annotation_level": {
+                        "description": "The level of the annotation. Can be one of `notice`, `warning`, or `failure`.",
+                        "type": "string",
+                        "enum": [
+                          "notice",
+                          "warning",
+                          "failure"
+                        ]
+                      },
+                      "message": {
+                        "description": "A short description of the feedback for these lines of code. The maximum size is 64 KB.",
+                        "type": "string"
+                      },
+                      "title": {
+                        "description": "The title that represents the annotation. The maximum size is 255 characters.",
+                        "type": "string"
+                      },
+                      "raw_details": {
+                        "description": "Details about this annotation. The maximum size is 64 KB.",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "path",
+                      "start_line",
+                      "end_line",
+                      "annotation_level",
+                      "message"
+                    ]
+                  }
+                },
+                "images": {
+                  "description": "Adds images to the output displayed in the GitHub pull request UI. See the [`images` object](#images-object) description for details.",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "alt": {
+                        "description": "The alternative text for the image.",
+                        "type": "string"
+                      },
+                      "image_url": {
+                        "description": "The full URL of the image.",
+                        "type": "string"
+                      },
+                      "caption": {
+                        "description": "A short image description.",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "alt",
+                      "image_url"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "title",
+                "summary"
               ]
-            },
-            "output.annotations[].message": {
-              "description": "A short description of the feedback for these lines of code. The maximum size is 64 KB.",
-              "type": "string"
-            },
-            "output.annotations[].title": {
-              "description": "The title that represents the annotation. The maximum size is 255 characters.",
-              "type": "string"
-            },
-            "output.annotations[].raw_details": {
-              "description": "Details about this annotation. The maximum size is 64 KB.",
-              "type": "string"
-            },
-            "output.images": {
-              "description": "Adds images to the output displayed in the GitHub pull request UI. See the [`images` object](#images-object) description for details.",
-              "type": "array",
-              "items": {
-                "type": "object"
-              }
-            },
-            "output.images[].alt": {
-              "description": "The alternative text for the image.",
-              "type": "string"
-            },
-            "output.images[].image_url": {
-              "description": "The full URL of the image.",
-              "type": "string"
-            },
-            "output.images[].caption": {
-              "description": "A short image description.",
-              "type": "string"
             },
             "actions": {
               "description": "Possible further actions the integrator can perform, which a user may trigger. Each action includes a `label`, `identifier` and `description`. A maximum of three actions are accepted. See the [`actions` object](#actions-object) description.",
               "type": "array",
               "items": {
-                "type": "object"
+                "type": "object",
+                "properties": {
+                  "label": {
+                    "description": "The text to be displayed on a button in the web UI. The maximum size is 20 characters.",
+                    "type": "string"
+                  },
+                  "description": {
+                    "description": "A short explanation of what this action would do. The maximum size is 40 characters.",
+                    "type": "string"
+                  },
+                  "identifier": {
+                    "description": "A reference for the action on the integrator's system. The maximum size is 20 characters.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "label",
+                  "description",
+                  "identifier"
+                ]
               }
-            },
-            "actions[].label": {
-              "description": "The text to be displayed on a button in the web UI. The maximum size is 20 characters.",
-              "type": "string"
-            },
-            "actions[].description": {
-              "description": "A short explanation of what this action would do. The maximum size is 40 characters.",
-              "type": "string"
-            },
-            "actions[].identifier": {
-              "description": "A reference for the action on the integrator's system. The maximum size is 20 characters.",
-              "type": "string"
             }
           },
           "required": [
             "name",
-            "head_sha",
-            "output.title",
-            "output.summary",
-            "output.annotations[].path",
-            "output.annotations[].start_line",
-            "output.annotations[].end_line",
-            "output.annotations[].annotation_level",
-            "output.annotations[].message",
-            "output.images[].alt",
-            "output.images[].image_url",
-            "actions[].label",
-            "actions[].description",
-            "actions[].identifier"
+            "head_sha"
           ]
         }
       }
