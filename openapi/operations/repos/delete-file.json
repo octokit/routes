@@ -1,6 +1,6 @@
 {
   "summary": "Delete a file",
-  "description": "Deletes a file in a repository.\n\nThe `author` section is optional and is filled in with the `committer` information if omitted. If the `committer` information is omitted, the authenticated user's information is used.\n\nYou must provide values for both `name` and `email`, whether you choose to use `author` or `committer`. Otherwise, you'll receive a `422` status code.\n\nBoth the `author` and `committer` parameters have the same keys:\n\n| name  | type   | description                                          |\n| ----- | ------ | ---------------------------------------------------- |\n| name  | string | The name of the author (or committer) of the commit  |\n| email | string | The email of the author (or committer) of the commit |",
+  "description": "Deletes a file in a repository.\n\nYou can provide an additional `committer` parameter, which is an object containing information about the committer. Or, you can provide an `author` parameter, which is an object containing information about the author.\n\nThe `author` section is optional and is filled in with the `committer` information if omitted. If the `committer` information is omitted, the authenticated user's information is used.\n\nYou must provide values for both `name` and `email`, whether you choose to use `author` or `committer`. Otherwise, you'll receive a `422` status code.",
   "operationId": "repos-delete-file",
   "tags": [
     "repos"
@@ -68,12 +68,30 @@
             "committer": {
               "description": "object containing information about the committer.",
               "type": "object",
-              "properties": {}
+              "properties": {
+                "name": {
+                  "description": "The name of the author (or committer) of the commit",
+                  "type": "string"
+                },
+                "email": {
+                  "description": "The email of the author (or committer) of the commit",
+                  "type": "string"
+                }
+              }
             },
             "author": {
               "description": "object containing information about the author.",
               "type": "object",
-              "properties": {}
+              "properties": {
+                "name": {
+                  "description": "The name of the author (or committer) of the commit",
+                  "type": "string"
+                },
+                "email": {
+                  "description": "The email of the author (or committer) of the commit",
+                  "type": "string"
+                }
+              }
             }
           },
           "required": [
