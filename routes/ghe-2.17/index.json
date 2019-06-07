@@ -30,7 +30,7 @@
     },
     {
       "name": "List repository events",
-      "enabledForApps": true,
+      "enabledForApps": false,
       "method": "GET",
       "path": "/repos/:owner/:repo/events",
       "previews": [],
@@ -2186,7 +2186,7 @@
         }
       ],
       "params": [],
-      "description": "Returns the GitHub App associated with the authentication credentials used.\n\nYou must use a [JWT](/enterprise/2.17/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.",
+      "description": "Returns the GitHub App associated with the authentication credentials used. To see how many app installations are associated with this GitHub App, see the `installations_count` in the response. For more details about your app's installations, see the \"[List installations](#list-installations)\" endpoint.\n\nYou must use a [JWT](/enterprise/2.17/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.",
       "responses": [
         {
           "headers": {
@@ -2215,7 +2215,8 @@
             "external_url": "https://example.com",
             "html_url": "https://github.com/apps/super-ci",
             "created_at": "2017-07-08T16:18:44-04:00",
-            "updated_at": "2017-07-08T16:18:44-04:00"
+            "updated_at": "2017-07-08T16:18:44-04:00",
+            "installations_count": 3
           }
         }
       ],
@@ -2378,7 +2379,7 @@
       "previews": [
         {
           "name": "gambit",
-          "description": "**Note:** Unintalling GitHub Apps using the REST API is currently available for developers to preview. To access the new endpoint during the preview period, you must provide a custom [media type](/enterprise/2.17/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.gambit-preview+json\n\n```",
+          "description": "**Note:** Uninstalling GitHub Apps using the REST API is currently available for developers to preview. To access the new endpoint during the preview period, you must provide a custom [media type](/enterprise/2.17/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.gambit-preview+json\n\n```",
           "required": true
         },
         {
@@ -2427,9 +2428,34 @@
           "required": true,
           "description": "",
           "location": "url"
+        },
+        {
+          "name": "repository_ids",
+          "type": "integer[]",
+          "description": "The `id`s of the repositories that the installation token can access. Providing repository `id`s restricts the access of an installation token to specific repositories. You can use the \"[List repositories](/enterprise/2.17/v3/apps/installations/#list-repositories)\" endpoint to get the `id` of all repositories that an installation can access. For example, you can select specific repositories when creating an installation token to restrict the number of repositories that can be cloned using the token.",
+          "required": false,
+          "location": "body"
+        },
+        {
+          "name": "permissions",
+          "type": "object",
+          "description": "The permissions granted to the access token. The permissions object includes the permission names and their access type. For a complete list of permissions and allowable values, see \"[GitHub App permissions](/enterprise/2.17/apps/building-github-apps/creating-github-apps-using-url-parameters/#github-app-permissions).\"",
+          "required": false,
+          "location": "body"
         }
       ],
-      "description": "Creates an access token that enables a GitHub App to make authenticated API requests for the app's installation on an organization or individual account. Installation tokens expire one hour from the time you create them. Using an expired token produces a status code of `401 - Unauthorized`, and requires creating a new installation token.\n\nYou must use a [JWT](/enterprise/2.17/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.",
+      "requests": [
+        {
+          "repository_ids": [
+            1296269
+          ],
+          "permissions": {
+            "issues": "write",
+            "contents": "read"
+          }
+        }
+      ],
+      "description": "Creates an installation access token that enables a GitHub App to make authenticated API requests for the app's installation on an organization or individual account. Installation tokens expire one hour from the time you create them. Using an expired token produces a status code of `401 - Unauthorized`, and requires creating a new installation token.\n\nBy default the installation token has access to all repositories that the installation can access. To restrict the access to specific repositories, you can provide the `repository_ids` when creating the token. When you omit `repository_ids`, the response does not contain the `repositories` key.\n\nYou must use a [JWT](/enterprise/2.17/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.\n\nThis example grants the token \"Read and write\" permission to `issues` and \"Read\" permission to `contents`, and restricts the token's access to the repository with an `id` of 1296269.",
       "responses": [
         {
           "headers": {
@@ -2438,7 +2464,116 @@
           },
           "body": {
             "token": "v1.1f699f1069f60xxx",
-            "expires_at": "2016-07-11T22:14:10Z"
+            "expires_at": "2016-07-11T22:14:10Z",
+            "repositories": [
+              {
+                "id": 1296269,
+                "node_id": "MDEwOlJlcG9zaXRvcnkxMjk2MjY5",
+                "name": "Hello-World",
+                "full_name": "octocat/Hello-World",
+                "owner": {
+                  "login": "octocat",
+                  "id": 1,
+                  "node_id": "MDQ6VXNlcjE=",
+                  "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+                  "gravatar_id": "",
+                  "url": "https://api.github.com/users/octocat",
+                  "html_url": "https://github.com/octocat",
+                  "followers_url": "https://api.github.com/users/octocat/followers",
+                  "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+                  "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+                  "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+                  "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+                  "organizations_url": "https://api.github.com/users/octocat/orgs",
+                  "repos_url": "https://api.github.com/users/octocat/repos",
+                  "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+                  "received_events_url": "https://api.github.com/users/octocat/received_events",
+                  "type": "User",
+                  "site_admin": false
+                },
+                "private": false,
+                "html_url": "https://github.com/octocat/Hello-World",
+                "description": "This your first repo!",
+                "fork": false,
+                "url": "https://api.github.com/repos/octocat/Hello-World",
+                "archive_url": "http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}",
+                "assignees_url": "http://api.github.com/repos/octocat/Hello-World/assignees{/user}",
+                "blobs_url": "http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}",
+                "branches_url": "http://api.github.com/repos/octocat/Hello-World/branches{/branch}",
+                "collaborators_url": "http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}",
+                "comments_url": "http://api.github.com/repos/octocat/Hello-World/comments{/number}",
+                "commits_url": "http://api.github.com/repos/octocat/Hello-World/commits{/sha}",
+                "compare_url": "http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}",
+                "contents_url": "http://api.github.com/repos/octocat/Hello-World/contents/{+path}",
+                "contributors_url": "http://api.github.com/repos/octocat/Hello-World/contributors",
+                "deployments_url": "http://api.github.com/repos/octocat/Hello-World/deployments",
+                "downloads_url": "http://api.github.com/repos/octocat/Hello-World/downloads",
+                "events_url": "http://api.github.com/repos/octocat/Hello-World/events",
+                "forks_url": "http://api.github.com/repos/octocat/Hello-World/forks",
+                "git_commits_url": "http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}",
+                "git_refs_url": "http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}",
+                "git_tags_url": "http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}",
+                "git_url": "git:github.com/octocat/Hello-World.git",
+                "issue_comment_url": "http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}",
+                "issue_events_url": "http://api.github.com/repos/octocat/Hello-World/issues/events{/number}",
+                "issues_url": "http://api.github.com/repos/octocat/Hello-World/issues{/number}",
+                "keys_url": "http://api.github.com/repos/octocat/Hello-World/keys{/key_id}",
+                "labels_url": "http://api.github.com/repos/octocat/Hello-World/labels{/name}",
+                "languages_url": "http://api.github.com/repos/octocat/Hello-World/languages",
+                "merges_url": "http://api.github.com/repos/octocat/Hello-World/merges",
+                "milestones_url": "http://api.github.com/repos/octocat/Hello-World/milestones{/number}",
+                "notifications_url": "http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}",
+                "pulls_url": "http://api.github.com/repos/octocat/Hello-World/pulls{/number}",
+                "releases_url": "http://api.github.com/repos/octocat/Hello-World/releases{/id}",
+                "ssh_url": "git@github.com:octocat/Hello-World.git",
+                "stargazers_url": "http://api.github.com/repos/octocat/Hello-World/stargazers",
+                "statuses_url": "http://api.github.com/repos/octocat/Hello-World/statuses/{sha}",
+                "subscribers_url": "http://api.github.com/repos/octocat/Hello-World/subscribers",
+                "subscription_url": "http://api.github.com/repos/octocat/Hello-World/subscription",
+                "tags_url": "http://api.github.com/repos/octocat/Hello-World/tags",
+                "teams_url": "http://api.github.com/repos/octocat/Hello-World/teams",
+                "trees_url": "http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}",
+                "clone_url": "https://github.com/octocat/Hello-World.git",
+                "mirror_url": "git:git.example.com/octocat/Hello-World",
+                "hooks_url": "http://api.github.com/repos/octocat/Hello-World/hooks",
+                "svn_url": "https://svn.github.com/octocat/Hello-World",
+                "homepage": "https://github.com",
+                "language": null,
+                "forks_count": 9,
+                "stargazers_count": 80,
+                "watchers_count": 80,
+                "size": 108,
+                "default_branch": "master",
+                "open_issues_count": 0,
+                "topics": [
+                  "octocat",
+                  "atom",
+                  "electron",
+                  "api"
+                ],
+                "has_issues": true,
+                "has_projects": true,
+                "has_wiki": true,
+                "has_pages": false,
+                "has_downloads": true,
+                "archived": false,
+                "disabled": false,
+                "pushed_at": "2011-01-26T19:06:43Z",
+                "created_at": "2011-01-26T19:01:12Z",
+                "updated_at": "2011-01-26T19:14:43Z",
+                "permissions": {
+                  "admin": false,
+                  "push": false,
+                  "pull": true
+                },
+                "allow_rebase_merge": true,
+                "allow_squash_merge": true,
+                "allow_merge_commit": true,
+                "subscribers_count": 42,
+                "network_count": 0,
+                "anonymous_access_enabled": false
+              }
+            ]
           }
         }
       ],
@@ -34554,7 +34689,7 @@
           ]
         }
       ],
-      "description": "Both `:base` and `:head` must be branch names in `:repo`. To compare branches across other repositories in the same network as `:repo`, use the format `<USERNAME>:branch`.\n\nThe response from the API is equivalent to running the `git log base..head` command; however, commits are returned in chronological order. Pass the appropriate [media type](/enterprise/2.17/v3/media/#commits-commit-comparison-and-pull-requests) to fetch diff and patch formats.\n\n**Working with large comparisons**\n\nThe response will include a comparison of up to 250 commits. If you are working with a larger commit range, you can use the [Commit List API](/enterprise/2.17/v3/repos/commits/#list-commits-on-a-repository) to enumerate all commits in the range.\n\nFor comparisons with extremely large diffs, you may receive an error response indicating that the diff took too long to generate. You can typically resolve this error by using a smaller commit range.\n\n**Signature verification object**\n\nThe response will include a `verification` object that describes the result of verifying the commit's signature. The following fields are included in the `verification` object:\n\nThese are the possible values for `reason` in the `verification` object:\n\n| Value                    | Description                                                                                                                       |\n| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |\n| `expired_key`            | The key that made the signature is expired.                                                                                       |\n| `not_signing_key`        | The \"signing\" flag is not among the usage flags in the GPG key that made the signature.                                           |\n| `gpgverify_error`        | There was an error communicating with the signature verification service.                                                         |\n| `gpgverify_unavailable`  | The signature verification service is currently unavailable.                                                                      |\n| `unsigned`               | The object does not include a signature.                                                                                          |\n| `unknown_signature_type` | A non-PGP signature was found in the commit.                                                                                      |\n| `no_user`                | No user was associated with the `committer` email address in the commit.                                                          |\n| `unverified_email`       | The `committer` email address in the commit was associated with a user, but the email address is not verified on her/his account. |\n| `bad_email`              | The `committer` email address in the commit is not included in the identities of the PGP key that made the signature.             |\n| `unknown_key`            | The key that made the signature has not been registered with any user's account.                                                  |\n| `malformed_signature`    | There was an error parsing the signature.                                                                                         |\n| `invalid`                | The signature could not be cryptographically verified using the key whose key-id was found in the signature.                      |\n| `valid`                  | None of the above errors applied, so the signature is considered to be verified.                                                  |",
+      "description": "Both `:base` and `:head` must be branch names in `:repo`. To compare branches across other repositories in the same network as `:repo`, use the format `<USERNAME>:branch`.\n\nThe response from the API is equivalent to running the `git log base..head` command; however, commits are returned in chronological order. Pass the appropriate [media type](/enterprise/2.17/v3/media/#commits-commit-comparison-and-pull-requests) to fetch diff and patch formats.\n\nThe response also includes details on the files that were changed between the two commits. This includes the status of the change (for example, if a file was added, removed, modified, or renamed), and details of the change itself. For example, files with a `renamed` status have a `previous_filename` field showing the previous filename of the file, and files with a `modified` status have a `patch` field showing the changes made to the file.\n\n**Working with large comparisons**\n\nThe response will include a comparison of up to 250 commits. If you are working with a larger commit range, you can use the [Commit List API](/enterprise/2.17/v3/repos/commits/#list-commits-on-a-repository) to enumerate all commits in the range.\n\nFor comparisons with extremely large diffs, you may receive an error response indicating that the diff took too long to generate. You can typically resolve this error by using a smaller commit range.\n\n**Signature verification object**\n\nThe response will include a `verification` object that describes the result of verifying the commit's signature. The following fields are included in the `verification` object:\n\nThese are the possible values for `reason` in the `verification` object:\n\n| Value                    | Description                                                                                                                       |\n| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |\n| `expired_key`            | The key that made the signature is expired.                                                                                       |\n| `not_signing_key`        | The \"signing\" flag is not among the usage flags in the GPG key that made the signature.                                           |\n| `gpgverify_error`        | There was an error communicating with the signature verification service.                                                         |\n| `gpgverify_unavailable`  | The signature verification service is currently unavailable.                                                                      |\n| `unsigned`               | The object does not include a signature.                                                                                          |\n| `unknown_signature_type` | A non-PGP signature was found in the commit.                                                                                      |\n| `no_user`                | No user was associated with the `committer` email address in the commit.                                                          |\n| `unverified_email`       | The `committer` email address in the commit was associated with a user, but the email address is not verified on her/his account. |\n| `bad_email`              | The `committer` email address in the commit is not included in the identities of the PGP key that made the signature.             |\n| `unknown_key`            | The key that made the signature has not been registered with any user's account.                                                  |\n| `malformed_signature`    | There was an error parsing the signature.                                                                                         |\n| `invalid`                | The signature could not be cryptographically verified using the key whose key-id was found in the signature.                      |\n| `valid`                  | None of the above errors applied, so the signature is considered to be verified.                                                  |",
       "responses": [],
       "idName": "compare-commits",
       "documentationUrl": "https://developer.github.com/enterprise/2.17/v3/repos/commits/#compare-two-commits"
@@ -37025,22 +37160,29 @@
           },
           "body": [
             {
-              "id": 1,
-              "url": "https://api.github.com/repos/octocat/Hello-World/hooks/1",
-              "test_url": "https://api.github.com/repos/octocat/Hello-World/hooks/1/test",
-              "ping_url": "https://api.github.com/repos/octocat/Hello-World/hooks/1/pings",
+              "type": "Repository",
+              "id": 12345678,
               "name": "web",
+              "active": true,
               "events": [
                 "push",
                 "pull_request"
               ],
-              "active": true,
               "config": {
-                "url": "http://example.com/webhook",
-                "content_type": "json"
+                "content_type": "json",
+                "insecure_ssl": "0",
+                "url": "https://example.com/webhook"
               },
-              "updated_at": "2011-09-06T20:39:23Z",
-              "created_at": "2011-09-06T17:26:27Z"
+              "updated_at": "2019-06-03T00:57:16Z",
+              "created_at": "2019-06-03T00:57:16Z",
+              "url": "https://api.github.com/repos/octocat/Hello-World/hooks/12345678",
+              "test_url": "https://api.github.com/repos/octocat/Hello-World/hooks/12345678/test",
+              "ping_url": "https://api.github.com/repos/octocat/Hello-World/hooks/12345678/pings",
+              "last_response": {
+                "code": null,
+                "status": "unused",
+                "message": null
+              }
             }
           ]
         }
@@ -37085,22 +37227,29 @@
             "content-type": "application/json; charset=utf-8"
           },
           "body": {
-            "id": 1,
-            "url": "https://api.github.com/repos/octocat/Hello-World/hooks/1",
-            "test_url": "https://api.github.com/repos/octocat/Hello-World/hooks/1/test",
-            "ping_url": "https://api.github.com/repos/octocat/Hello-World/hooks/1/pings",
+            "type": "Repository",
+            "id": 12345678,
             "name": "web",
+            "active": true,
             "events": [
               "push",
               "pull_request"
             ],
-            "active": true,
             "config": {
-              "url": "http://example.com/webhook",
-              "content_type": "json"
+              "content_type": "json",
+              "insecure_ssl": "0",
+              "url": "https://example.com/webhook"
             },
-            "updated_at": "2011-09-06T20:39:23Z",
-            "created_at": "2011-09-06T17:26:27Z"
+            "updated_at": "2019-06-03T00:57:16Z",
+            "created_at": "2019-06-03T00:57:16Z",
+            "url": "https://api.github.com/repos/octocat/Hello-World/hooks/12345678",
+            "test_url": "https://api.github.com/repos/octocat/Hello-World/hooks/12345678/test",
+            "ping_url": "https://api.github.com/repos/octocat/Hello-World/hooks/12345678/pings",
+            "last_response": {
+              "code": null,
+              "status": "unused",
+              "message": null
+            }
           }
         }
       ],
@@ -37197,8 +37346,9 @@
             "pull_request"
           ],
           "config": {
-            "url": "http://example.com/webhook",
-            "content_type": "json"
+            "url": "https://example.com/webhook",
+            "content_type": "json",
+            "insecure_ssl": "0"
           }
         }
       ],
@@ -37210,22 +37360,29 @@
             "content-type": "application/json; charset=utf-8"
           },
           "body": {
-            "id": 1,
-            "url": "https://api.github.com/repos/octocat/Hello-World/hooks/1",
-            "test_url": "https://api.github.com/repos/octocat/Hello-World/hooks/1/test",
-            "ping_url": "https://api.github.com/repos/octocat/Hello-World/hooks/1/pings",
+            "type": "Repository",
+            "id": 12345678,
             "name": "web",
+            "active": true,
             "events": [
               "push",
               "pull_request"
             ],
-            "active": true,
             "config": {
-              "url": "http://example.com/webhook",
-              "content_type": "json"
+              "content_type": "json",
+              "insecure_ssl": "0",
+              "url": "https://example.com/webhook"
             },
-            "updated_at": "2011-09-06T20:39:23Z",
-            "created_at": "2011-09-06T17:26:27Z"
+            "updated_at": "2019-06-03T00:57:16Z",
+            "created_at": "2019-06-03T00:57:16Z",
+            "url": "https://api.github.com/repos/octocat/Hello-World/hooks/12345678",
+            "test_url": "https://api.github.com/repos/octocat/Hello-World/hooks/12345678/test",
+            "ping_url": "https://api.github.com/repos/octocat/Hello-World/hooks/12345678/pings",
+            "last_response": {
+              "code": null,
+              "status": "unused",
+              "message": null
+            }
           }
         }
       ],
@@ -37342,22 +37499,29 @@
             "content-type": "application/json; charset=utf-8"
           },
           "body": {
-            "id": 1,
-            "url": "https://api.github.com/repos/octocat/Hello-World/hooks/1",
-            "test_url": "https://api.github.com/repos/octocat/Hello-World/hooks/1/test",
-            "ping_url": "https://api.github.com/repos/octocat/Hello-World/hooks/1/pings",
+            "type": "Repository",
+            "id": 12345678,
             "name": "web",
+            "active": true,
             "events": [
               "push",
               "pull_request"
             ],
-            "active": true,
             "config": {
-              "url": "http://example.com/webhook",
-              "content_type": "json"
+              "content_type": "json",
+              "insecure_ssl": "0",
+              "url": "https://example.com/webhook"
             },
-            "updated_at": "2011-09-06T20:39:23Z",
-            "created_at": "2011-09-06T17:26:27Z"
+            "updated_at": "2019-06-03T00:57:16Z",
+            "created_at": "2019-06-03T00:57:16Z",
+            "url": "https://api.github.com/repos/octocat/Hello-World/hooks/12345678",
+            "test_url": "https://api.github.com/repos/octocat/Hello-World/hooks/12345678/test",
+            "ping_url": "https://api.github.com/repos/octocat/Hello-World/hooks/12345678/pings",
+            "last_response": {
+              "code": null,
+              "status": "unused",
+              "message": null
+            }
           }
         }
       ],
