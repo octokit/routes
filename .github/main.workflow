@@ -66,6 +66,10 @@ action "update GHE routes" {
 }
 
 action "routes update pull request" {
+  needs = [
+    "update .com routes",
+    "update GHE routes"
+  ]
   uses = "docker://timbru31/node-alpine-git"
   runs = "bin/create-pull-request-on-change.js"
   secrets = ["GITHUB_TOKEN"]
