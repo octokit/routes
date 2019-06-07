@@ -2415,6 +2415,71 @@
     "documentationUrl": "https://developer.github.com/v3/pulls/#create-a-pull-request"
   },
   {
+    "name": "Update a pull request branch",
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "method": "PUT",
+    "path": "/repos/:owner/:repo/pulls/:pull_number/update-branch",
+    "previews": [
+      {
+        "name": "lydian",
+        "description": "**Note:** Updating the pull request branch with latest upstream changes is currently available for developers to preview. To access this new endpoint during the preview period, you must provide a custom [media type](/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.lydian-preview+json\n\n```",
+        "required": false
+      }
+    ],
+    "params": [
+      {
+        "name": "owner",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "pull_number",
+        "type": "integer",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "expected_head_sha",
+        "type": "string",
+        "description": "The expected SHA of the pull request's HEAD ref. This is the most recent commit on the pull request's branch. If the expected SHA does not match the pull request's HEAD, you will receive a `422 Unprocessable Entity` status. You can use the \"[List commits on a repository](https://developer.github.com/v3/repos/commits/#list-commits-on-a-repository)\" endpoint to find the most recent commit SHA.",
+        "default": "SHA of the pull request's current HEAD ref.",
+        "required": false,
+        "location": "body"
+      }
+    ],
+    "requests": [
+      {
+        "expected_head_sha": "6dcb09b5b57875f334f61aebed695e2e4193db5e"
+      }
+    ],
+    "description": "Updates the pull request branch with the latest upstream changes by merging HEAD from the base branch into the pull request branch.",
+    "responses": [
+      {
+        "headers": {
+          "status": "202 Accepted",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "message": "Updating pull request branch.",
+          "url": "https://github.com/repos/octocat/Hello-World/pulls/53"
+        }
+      }
+    ],
+    "idName": "update-branch",
+    "documentationUrl": "https://developer.github.com/v3/pulls/#update-a-pull-request-branch"
+  },
+  {
     "name": "Update a pull request",
     "enabledForApps": true,
     "githubCloudOnly": false,
