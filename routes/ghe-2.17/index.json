@@ -10517,13 +10517,13 @@
             "url": "https://api.github.com/repos/octocat/Hello-World/git/commits/7638417db6d59f3c431d3e1f261cc637155684cd",
             "author": {
               "date": "2014-11-07T22:01:45Z",
-              "name": "Scott Chacon",
-              "email": "schacon@gmail.com"
+              "name": "Monalisa Octocat",
+              "email": "octocat@github.com"
             },
             "committer": {
               "date": "2014-11-07T22:01:45Z",
-              "name": "Scott Chacon",
-              "email": "schacon@gmail.com"
+              "name": "Monalisa Octocat",
+              "email": "octocat@github.com"
             },
             "message": "added readme, because im a good github citizen",
             "tree": {
@@ -10682,13 +10682,13 @@
             "url": "https://api.github.com/repos/octocat/Hello-World/git/commits/7638417db6d59f3c431d3e1f261cc637155684cd",
             "author": {
               "date": "2014-11-07T22:01:45Z",
-              "name": "Scott Chacon",
-              "email": "schacon@gmail.com"
+              "name": "Monalisa Octocat",
+              "email": "octocat@github.com"
             },
             "committer": {
               "date": "2014-11-07T22:01:45Z",
-              "name": "Scott Chacon",
-              "email": "schacon@gmail.com"
+              "name": "Monalisa Octocat",
+              "email": "octocat@github.com"
             },
             "message": "my commit message",
             "tree": {
@@ -11017,8 +11017,8 @@
             "url": "https://api.github.com/repos/octocat/Hello-World/git/tags/940bd336248efae0f9ee5bc7b2d5c985887b16ac",
             "message": "initial version",
             "tagger": {
-              "name": "Scott Chacon",
-              "email": "schacon@gmail.com",
+              "name": "Monalisa Octocat",
+              "email": "octocat@github.com",
               "date": "2014-11-07T22:01:45Z"
             },
             "object": {
@@ -11128,8 +11128,8 @@
           "object": "c3d0be41ecbe669545ee3e94d31ed9a4bc91ee3c",
           "type": "commit",
           "tagger": {
-            "name": "Scott Chacon",
-            "email": "schacon@gmail.com",
+            "name": "Monalisa Octocat",
+            "email": "octocat@github.com",
             "date": "2011-06-17T14:53:35-07:00"
           }
         }
@@ -11148,8 +11148,8 @@
             "url": "https://api.github.com/repos/octocat/Hello-World/git/tags/940bd336248efae0f9ee5bc7b2d5c985887b16ac",
             "message": "initial version",
             "tagger": {
-              "name": "Scott Chacon",
-              "email": "schacon@gmail.com",
+              "name": "Monalisa Octocat",
+              "email": "octocat@github.com",
               "date": "2014-11-07T22:01:45Z"
             },
             "object": {
@@ -33626,7 +33626,7 @@
       "name": "List comments for a single commit",
       "enabledForApps": true,
       "method": "GET",
-      "path": "/repos/:owner/:repo/commits/:ref/comments",
+      "path": "/repos/:owner/:repo/commits/:commit_sha/comments",
       "previews": [],
       "params": [
         {
@@ -33644,7 +33644,7 @@
           "location": "url"
         },
         {
-          "name": "ref",
+          "name": "commit_sha",
           "type": "string",
           "required": true,
           "description": "",
@@ -33665,9 +33665,26 @@
           "description": "Page number of the results to fetch.",
           "default": 1,
           "location": "query"
+        },
+        {
+          "name": "ref",
+          "type": "string",
+          "required": false,
+          "description": "",
+          "location": "url",
+          "deprecated": {
+            "date": "2019-06-07",
+            "message": "\"ref\" parameter renamed to \"commit_sha\"",
+            "before": {
+              "name": "ref"
+            },
+            "after": {
+              "name": "commit_sha"
+            }
+          }
         }
       ],
-      "description": "",
+      "description": "Use the `:commit_sha` to specify the commit that will have its comments listed.",
       "responses": [
         {
           "headers": {
@@ -33718,7 +33735,7 @@
       "name": "Create a commit comment",
       "enabledForApps": true,
       "method": "POST",
-      "path": "/repos/:owner/:repo/commits/:sha/comments",
+      "path": "/repos/:owner/:repo/commits/:commit_sha/comments",
       "previews": [],
       "params": [
         {
@@ -33736,7 +33753,7 @@
           "location": "url"
         },
         {
-          "name": "sha",
+          "name": "commit_sha",
           "type": "string",
           "required": true,
           "description": "",
@@ -33769,6 +33786,23 @@
           "description": "**Deprecated**. Use **position** parameter instead. Line number in the file to comment on.",
           "required": false,
           "location": "body"
+        },
+        {
+          "name": "sha",
+          "type": "string",
+          "required": false,
+          "description": "",
+          "location": "url",
+          "deprecated": {
+            "date": "2019-06-07",
+            "message": "\"sha\" parameter renamed to \"commit_sha\"",
+            "before": {
+              "name": "sha"
+            },
+            "after": {
+              "name": "commit_sha"
+            }
+          }
         }
       ],
       "requests": [
@@ -33779,7 +33813,7 @@
           "line": null
         }
       ],
-      "description": "This endpoint triggers [notifications](https://help.github.com/articles/about-notifications/). Creating content too quickly using this endpoint may result in abuse rate limiting. See \"[Abuse rate limits](/enterprise/2.17/v3/#abuse-rate-limits)\" for details.",
+      "description": "Create a comment for a commit using its `:commit_sha`.\n\nThis endpoint triggers [notifications](https://help.github.com/articles/about-notifications/). Creating content too quickly using this endpoint may result in abuse rate limiting. See \"[Abuse rate limits](/enterprise/2.17/v3/#abuse-rate-limits)\" for details.",
       "responses": [
         {
           "headers": {
@@ -35402,7 +35436,7 @@
       "documentationUrl": "https://developer.github.com/enterprise/2.17/v3/repos/contents/#get-contents"
     },
     {
-      "name": "Create a file",
+      "name": "Create or update a file",
       "enabledForApps": true,
       "method": "PUT",
       "path": "/repos/:owner/:repo/contents/:path",
@@ -35441,6 +35475,13 @@
           "type": "string",
           "description": "The new file content, using Base64 encoding.",
           "required": true,
+          "location": "body"
+        },
+        {
+          "name": "sha",
+          "type": "string",
+          "description": "**Required if you are updating a file**. The blob SHA of the file being replaced.",
+          "required": false,
           "location": "body"
         },
         {
@@ -35500,13 +35541,13 @@
         {
           "message": "my commit message",
           "committer": {
-            "name": "Scott Chacon",
-            "email": "schacon@gmail.com"
+            "name": "Monalisa Octocat",
+            "email": "octocat@github.com"
           },
           "content": "bXkgbmV3IGZpbGUgY29udGVudHM="
         }
       ],
-      "description": "Creates a new file in a repository.",
+      "description": "Creates a new file or updates an existing file in a repository.",
       "responses": [
         {
           "headers": {
@@ -35537,13 +35578,189 @@
               "html_url": "https://github.com/octocat/Hello-World/git/commit/7638417db6d59f3c431d3e1f261cc637155684cd",
               "author": {
                 "date": "2014-11-07T22:01:45Z",
-                "name": "Scott Chacon",
-                "email": "schacon@gmail.com"
+                "name": "Monalisa Octocat",
+                "email": "octocat@github.com"
               },
               "committer": {
                 "date": "2014-11-07T22:01:45Z",
-                "name": "Scott Chacon",
-                "email": "schacon@gmail.com"
+                "name": "Monalisa Octocat",
+                "email": "octocat@github.com"
+              },
+              "message": "my commit message",
+              "tree": {
+                "url": "https://api.github.com/repos/octocat/Hello-World/git/trees/691272480426f78a0138979dd3ce63b77f706feb",
+                "sha": "691272480426f78a0138979dd3ce63b77f706feb"
+              },
+              "parents": [
+                {
+                  "url": "https://api.github.com/repos/octocat/Hello-World/git/commits/1acc419d4d6a9ce985db7be48c6349a0475975b5",
+                  "html_url": "https://github.com/octocat/Hello-World/git/commit/1acc419d4d6a9ce985db7be48c6349a0475975b5",
+                  "sha": "1acc419d4d6a9ce985db7be48c6349a0475975b5"
+                }
+              ],
+              "verification": {
+                "verified": false,
+                "reason": "unsigned",
+                "signature": null,
+                "payload": null
+              }
+            }
+          }
+        }
+      ],
+      "idName": "create-or-update-file",
+      "documentationUrl": "https://developer.github.com/enterprise/2.17/v3/repos/contents/#create-or-update-a-file"
+    },
+    {
+      "name": "Create a file",
+      "enabledForApps": true,
+      "method": "PUT",
+      "path": "/repos/:owner/:repo/contents/:path",
+      "previews": [],
+      "params": [
+        {
+          "name": "owner",
+          "type": "string",
+          "required": true,
+          "description": "",
+          "location": "url"
+        },
+        {
+          "name": "repo",
+          "type": "string",
+          "required": true,
+          "description": "",
+          "location": "url"
+        },
+        {
+          "name": "path",
+          "type": "string",
+          "required": true,
+          "description": "",
+          "location": "url"
+        },
+        {
+          "name": "message",
+          "type": "string",
+          "description": "The commit message.",
+          "required": true,
+          "location": "body"
+        },
+        {
+          "name": "content",
+          "type": "string",
+          "description": "The new file content, using Base64 encoding.",
+          "required": true,
+          "location": "body"
+        },
+        {
+          "name": "sha",
+          "type": "string",
+          "description": "**Required if you are updating a file**. The blob SHA of the file being replaced.",
+          "required": false,
+          "location": "body"
+        },
+        {
+          "name": "branch",
+          "type": "string",
+          "description": "The branch name.",
+          "default": "the repository’s default branch (usually `master`)",
+          "required": false,
+          "location": "body"
+        },
+        {
+          "name": "committer",
+          "type": "object",
+          "description": "The person that committed the file.",
+          "default": "the authenticated user.",
+          "required": false,
+          "location": "body"
+        },
+        {
+          "name": "committer.name",
+          "type": "string",
+          "description": "The name of the author or committer of the commit. You'll receive a `422` status code if `name` is omitted.",
+          "required": true,
+          "location": "body"
+        },
+        {
+          "name": "committer.email",
+          "type": "string",
+          "description": "The email of the author or committer of the commit. You'll receive a `422` status code if `name` is omitted.",
+          "required": true,
+          "location": "body"
+        },
+        {
+          "name": "author",
+          "type": "object",
+          "description": "The author of the file.",
+          "default": "The `committer` or the authenticated user if you omit `committer`.",
+          "required": false,
+          "location": "body"
+        },
+        {
+          "name": "author.name",
+          "type": "string",
+          "description": "The name of the author or committer of the commit. You'll receive a `422` status code if `name` is omitted.",
+          "required": true,
+          "location": "body"
+        },
+        {
+          "name": "author.email",
+          "type": "string",
+          "description": "The email of the author or committer of the commit. You'll receive a `422` status code if `name` is omitted.",
+          "required": true,
+          "location": "body"
+        }
+      ],
+      "requests": [
+        {
+          "message": "my commit message",
+          "committer": {
+            "name": "Monalisa Octocat",
+            "email": "octocat@github.com"
+          },
+          "content": "bXkgbmV3IGZpbGUgY29udGVudHM="
+        }
+      ],
+      "description": "Creates a new file or updates an existing file in a repository.",
+      "responses": [
+        {
+          "headers": {
+            "status": "201 Created",
+            "content-type": "application/json; charset=utf-8"
+          },
+          "body": {
+            "content": {
+              "name": "hello.txt",
+              "path": "notes/hello.txt",
+              "sha": "95b966ae1c166bd92f8ae7d1c313e738c731dfc3",
+              "size": 9,
+              "url": "https://api.github.com/repos/octocat/Hello-World/contents/notes/hello.txt",
+              "html_url": "https://github.com/octocat/Hello-World/blob/master/notes/hello.txt",
+              "git_url": "https://api.github.com/repos/octocat/Hello-World/git/blobs/95b966ae1c166bd92f8ae7d1c313e738c731dfc3",
+              "download_url": "https://raw.githubusercontent.com/octocat/HelloWorld/master/notes/hello.txt",
+              "type": "file",
+              "_links": {
+                "self": "https://api.github.com/repos/octocat/Hello-World/contents/notes/hello.txt",
+                "git": "https://api.github.com/repos/octocat/Hello-World/git/blobs/95b966ae1c166bd92f8ae7d1c313e738c731dfc3",
+                "html": "https://github.com/octocat/Hello-World/blob/master/notes/hello.txt"
+              }
+            },
+            "commit": {
+              "sha": "7638417db6d59f3c431d3e1f261cc637155684cd",
+              "node_id": "MDY6Q29tbWl0NzYzODQxN2RiNmQ1OWYzYzQzMWQzZTFmMjYxY2M2MzcxNTU2ODRjZA==",
+              "url": "https://api.github.com/repos/octocat/Hello-World/git/commits/7638417db6d59f3c431d3e1f261cc637155684cd",
+              "html_url": "https://github.com/octocat/Hello-World/git/commit/7638417db6d59f3c431d3e1f261cc637155684cd",
+              "author": {
+                "date": "2014-11-07T22:01:45Z",
+                "name": "Monalisa Octocat",
+                "email": "octocat@github.com"
+              },
+              "committer": {
+                "date": "2014-11-07T22:01:45Z",
+                "name": "Monalisa Octocat",
+                "email": "octocat@github.com"
               },
               "message": "my commit message",
               "tree": {
@@ -35568,7 +35785,17 @@
         }
       ],
       "idName": "create-file",
-      "documentationUrl": "https://developer.github.com/enterprise/2.17/v3/repos/contents/#create-a-file"
+      "documentationUrl": "https://developer.github.com/enterprise/2.17/v3/repos/contents/#create-or-update-a-file",
+      "deprecated": {
+        "date": "2019-06-07",
+        "message": "\"Create a file\" replaced by \"Create or update a file\"",
+        "before": {
+          "idName": "create-file"
+        },
+        "after": {
+          "idName": "create-or-update-file"
+        }
+      }
     },
     {
       "name": "Update a file",
@@ -35615,8 +35842,8 @@
         {
           "name": "sha",
           "type": "string",
-          "description": "The blob SHA of the file being replaced.",
-          "required": true,
+          "description": "**Required if you are updating a file**. The blob SHA of the file being replaced.",
+          "required": false,
           "location": "body"
         },
         {
@@ -35638,14 +35865,14 @@
         {
           "name": "committer.name",
           "type": "string",
-          "description": "The name of the author or committer of the commit. You'll receive a `422` status code if you omit `name`.",
+          "description": "The name of the author or committer of the commit. You'll receive a `422` status code if `name` is omitted.",
           "required": true,
           "location": "body"
         },
         {
           "name": "committer.email",
           "type": "string",
-          "description": "The email of the author or committer of the commit. You'll receive a `422` status code if you omit `name`.",
+          "description": "The email of the author or committer of the commit. You'll receive a `422` status code if `name` is omitted.",
           "required": true,
           "location": "body"
         },
@@ -35660,14 +35887,14 @@
         {
           "name": "author.name",
           "type": "string",
-          "description": "The name of the author or committer of the commit. You'll receive a `422` status code if you omit `name`.",
+          "description": "The name of the author or committer of the commit. You'll receive a `422` status code if `name` is omitted.",
           "required": true,
           "location": "body"
         },
         {
           "name": "author.email",
           "type": "string",
-          "description": "The email of the author or committer of the commit. You'll receive a `422` status code if you omit `name`.",
+          "description": "The email of the author or committer of the commit. You'll receive a `422` status code if `name` is omitted.",
           "required": true,
           "location": "body"
         }
@@ -35676,18 +35903,17 @@
         {
           "message": "my commit message",
           "committer": {
-            "name": "Scott Chacon",
-            "email": "schacon@gmail.com"
+            "name": "Monalisa Octocat",
+            "email": "octocat@github.com"
           },
-          "content": "bXkgdXBkYXRlZCBmaWxlIGNvbnRlbnRz",
-          "sha": "329688480d39049927147c162b9d2deaf885005f"
+          "content": "bXkgbmV3IGZpbGUgY29udGVudHM="
         }
       ],
-      "description": "Updates a file in a repository.",
+      "description": "Creates a new file or updates an existing file in a repository.",
       "responses": [
         {
           "headers": {
-            "status": "200 OK",
+            "status": "201 Created",
             "content-type": "application/json; charset=utf-8"
           },
           "body": {
@@ -35714,13 +35940,13 @@
               "html_url": "https://github.com/octocat/Hello-World/git/commit/7638417db6d59f3c431d3e1f261cc637155684cd",
               "author": {
                 "date": "2014-11-07T22:01:45Z",
-                "name": "Scott Chacon",
-                "email": "schacon@gmail.com"
+                "name": "Monalisa Octocat",
+                "email": "octocat@github.com"
               },
               "committer": {
                 "date": "2014-11-07T22:01:45Z",
-                "name": "Scott Chacon",
-                "email": "schacon@gmail.com"
+                "name": "Monalisa Octocat",
+                "email": "octocat@github.com"
               },
               "message": "my commit message",
               "tree": {
@@ -35745,7 +35971,17 @@
         }
       ],
       "idName": "update-file",
-      "documentationUrl": "https://developer.github.com/enterprise/2.17/v3/repos/contents/#update-a-file"
+      "documentationUrl": "https://developer.github.com/enterprise/2.17/v3/repos/contents/#create-or-update-a-file",
+      "deprecated": {
+        "date": "2019-06-07",
+        "message": "\"Update a file\" replaced by \"Create or update a file\"",
+        "before": {
+          "idName": "update-file"
+        },
+        "after": {
+          "idName": "create-or-update-file"
+        }
+      }
     },
     {
       "name": "Delete a file",
@@ -35842,8 +36078,8 @@
         {
           "message": "my commit message",
           "committer": {
-            "name": "Scott Chacon",
-            "email": "schacon@gmail.com"
+            "name": "Monalisa Octocat",
+            "email": "octocat@github.com"
           },
           "sha": "329688480d39049927147c162b9d2deaf885005f"
         }
@@ -35864,13 +36100,13 @@
               "html_url": "https://github.com/octocat/Hello-World/git/commit/7638417db6d59f3c431d3e1f261cc637155684cd",
               "author": {
                 "date": "2014-11-07T22:01:45Z",
-                "name": "Scott Chacon",
-                "email": "schacon@gmail.com"
+                "name": "Monalisa Octocat",
+                "email": "octocat@github.com"
               },
               "committer": {
                 "date": "2014-11-07T22:01:45Z",
-                "name": "Scott Chacon",
-                "email": "schacon@gmail.com"
+                "name": "Monalisa Octocat",
+                "email": "octocat@github.com"
               },
               "message": "my commit message",
               "tree": {

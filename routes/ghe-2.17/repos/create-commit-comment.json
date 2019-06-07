@@ -2,7 +2,7 @@
   "name": "Create a commit comment",
   "enabledForApps": true,
   "method": "POST",
-  "path": "/repos/:owner/:repo/commits/:sha/comments",
+  "path": "/repos/:owner/:repo/commits/:commit_sha/comments",
   "previews": [],
   "params": [
     {
@@ -20,7 +20,7 @@
       "location": "url"
     },
     {
-      "name": "sha",
+      "name": "commit_sha",
       "type": "string",
       "required": true,
       "description": "",
@@ -53,6 +53,23 @@
       "description": "**Deprecated**. Use **position** parameter instead. Line number in the file to comment on.",
       "required": false,
       "location": "body"
+    },
+    {
+      "name": "sha",
+      "type": "string",
+      "required": false,
+      "description": "",
+      "location": "url",
+      "deprecated": {
+        "date": "2019-06-07",
+        "message": "\"sha\" parameter renamed to \"commit_sha\"",
+        "before": {
+          "name": "sha"
+        },
+        "after": {
+          "name": "commit_sha"
+        }
+      }
     }
   ],
   "requests": [
@@ -63,7 +80,7 @@
       "line": null
     }
   ],
-  "description": "This endpoint triggers [notifications](https://help.github.com/articles/about-notifications/). Creating content too quickly using this endpoint may result in abuse rate limiting. See \"[Abuse rate limits](/enterprise/2.17/v3/#abuse-rate-limits)\" for details.",
+  "description": "Create a comment for a commit using its `:commit_sha`.\n\nThis endpoint triggers [notifications](https://help.github.com/articles/about-notifications/). Creating content too quickly using this endpoint may result in abuse rate limiting. See \"[Abuse rate limits](/enterprise/2.17/v3/#abuse-rate-limits)\" for details.",
   "responses": [
     {
       "headers": {
