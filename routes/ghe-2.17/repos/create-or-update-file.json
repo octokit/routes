@@ -1,7 +1,7 @@
 {
-  "name": "Delete a file",
+  "name": "Create or update a file",
   "enabledForApps": true,
-  "method": "DELETE",
+  "method": "PUT",
   "path": "/repos/:owner/:repo/contents/:path",
   "previews": [],
   "params": [
@@ -34,10 +34,17 @@
       "location": "body"
     },
     {
+      "name": "content",
+      "type": "string",
+      "description": "The new file content, using Base64 encoding.",
+      "required": true,
+      "location": "body"
+    },
+    {
       "name": "sha",
       "type": "string",
-      "description": "The blob SHA of the file being replaced.",
-      "required": true,
+      "description": "**Required if you are updating a file**. The blob SHA of the file being replaced.",
+      "required": false,
       "location": "body"
     },
     {
@@ -51,41 +58,45 @@
     {
       "name": "committer",
       "type": "object",
-      "description": "object containing information about the committer.",
+      "description": "The person that committed the file.",
+      "default": "the authenticated user.",
+      "required": false,
       "location": "body"
     },
     {
       "name": "committer.name",
       "type": "string",
-      "description": "The name of the author (or committer) of the commit",
-      "required": false,
+      "description": "The name of the author or committer of the commit. You'll receive a `422` status code if `name` is omitted.",
+      "required": true,
       "location": "body"
     },
     {
       "name": "committer.email",
       "type": "string",
-      "description": "The email of the author (or committer) of the commit",
-      "required": false,
+      "description": "The email of the author or committer of the commit. You'll receive a `422` status code if `name` is omitted.",
+      "required": true,
       "location": "body"
     },
     {
       "name": "author",
       "type": "object",
-      "description": "object containing information about the author.",
+      "description": "The author of the file.",
+      "default": "The `committer` or the authenticated user if you omit `committer`.",
+      "required": false,
       "location": "body"
     },
     {
       "name": "author.name",
       "type": "string",
-      "description": "The name of the author (or committer) of the commit",
-      "required": false,
+      "description": "The name of the author or committer of the commit. You'll receive a `422` status code if `name` is omitted.",
+      "required": true,
       "location": "body"
     },
     {
       "name": "author.email",
       "type": "string",
-      "description": "The email of the author (or committer) of the commit",
-      "required": false,
+      "description": "The email of the author or committer of the commit. You'll receive a `422` status code if `name` is omitted.",
+      "required": true,
       "location": "body"
     }
   ],
@@ -96,18 +107,33 @@
         "name": "Monalisa Octocat",
         "email": "octocat@github.com"
       },
-      "sha": "329688480d39049927147c162b9d2deaf885005f"
+      "content": "bXkgbmV3IGZpbGUgY29udGVudHM="
     }
   ],
-  "description": "Deletes a file in a repository.\n\nYou can provide an additional `committer` parameter, which is an object containing information about the committer. Or, you can provide an `author` parameter, which is an object containing information about the author.\n\nThe `author` section is optional and is filled in with the `committer` information if omitted. If the `committer` information is omitted, the authenticated user's information is used.\n\nYou must provide values for both `name` and `email`, whether you choose to use `author` or `committer`. Otherwise, you'll receive a `422` status code.",
+  "description": "Creates a new file or updates an existing file in a repository.",
   "responses": [
     {
       "headers": {
-        "status": "200 OK",
+        "status": "201 Created",
         "content-type": "application/json; charset=utf-8"
       },
       "body": {
-        "content": null,
+        "content": {
+          "name": "hello.txt",
+          "path": "notes/hello.txt",
+          "sha": "95b966ae1c166bd92f8ae7d1c313e738c731dfc3",
+          "size": 9,
+          "url": "https://api.github.com/repos/octocat/Hello-World/contents/notes/hello.txt",
+          "html_url": "https://github.com/octocat/Hello-World/blob/master/notes/hello.txt",
+          "git_url": "https://api.github.com/repos/octocat/Hello-World/git/blobs/95b966ae1c166bd92f8ae7d1c313e738c731dfc3",
+          "download_url": "https://raw.githubusercontent.com/octocat/HelloWorld/master/notes/hello.txt",
+          "type": "file",
+          "_links": {
+            "self": "https://api.github.com/repos/octocat/Hello-World/contents/notes/hello.txt",
+            "git": "https://api.github.com/repos/octocat/Hello-World/git/blobs/95b966ae1c166bd92f8ae7d1c313e738c731dfc3",
+            "html": "https://github.com/octocat/Hello-World/blob/master/notes/hello.txt"
+          }
+        },
         "commit": {
           "sha": "7638417db6d59f3c431d3e1f261cc637155684cd",
           "node_id": "MDY6Q29tbWl0NzYzODQxN2RiNmQ1OWYzYzQzMWQzZTFmMjYxY2M2MzcxNTU2ODRjZA==",
@@ -145,6 +171,6 @@
       }
     }
   ],
-  "idName": "delete-file",
-  "documentationUrl": "https://developer.github.com/enterprise/2.16/v3/repos/contents/#delete-a-file"
+  "idName": "create-or-update-file",
+  "documentationUrl": "https://developer.github.com/enterprise/2.17/v3/repos/contents/#create-or-update-a-file"
 }
