@@ -29,17 +29,11 @@ workflow "Record on demand" {
 }
 
 workflow "Cron" {
-  on = "schedule(* 2 * * *)"
+  on = "schedule(0 2 * * *)"
   resolves = ["routes update pull request"]
 }
 
-action "record action only" {
-  uses = "actions/bin/filter@master"
-  args = "action record"
-}
-
 action "clear routes" {
-  needs = "record action only"
   uses = "docker://node:alpine"
   runs = "rm"
   args = "-rf routes cache"
