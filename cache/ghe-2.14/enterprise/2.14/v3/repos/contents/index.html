@@ -268,8 +268,7 @@
 <ul id="markdown-toc">
 <li><a href="#get-the-readme" id="markdown-toc-get-the-readme">Get the README</a></li>
 <li><a href="#get-contents" id="markdown-toc-get-contents">Get contents</a></li>
-<li><a href="#create-a-file" id="markdown-toc-create-a-file">Create a file</a></li>
-<li><a href="#update-a-file" id="markdown-toc-update-a-file">Update a file</a></li>
+<li><a href="#create-or-update-a-file" id="markdown-toc-create-or-update-a-file">Create or update a file</a></li>
 <li><a href="#delete-a-file" id="markdown-toc-delete-a-file">Delete a file</a></li>
 <li><a href="#get-archive-link" id="markdown-toc-get-archive-link">Get archive link</a></li>
 <li><a href="#custom-media-types" id="markdown-toc-custom-media-types">Custom media types</a></li>
@@ -474,9 +473,9 @@ Git uses the given URL when cloning the submodule repository, and checks out the
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <h2>
-<a id="create-a-file" class="anchor" href="#create-a-file" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a file<a href="/enterprise/2.14/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+<a id="create-or-update-a-file" class="anchor" href="#create-or-update-a-file" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create or update a file<a href="/enterprise/2.14/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
-<p>Creates a new file in a repository.</p>
+<p>Creates a new file or updates an existing file in a repository.</p>
 <pre><code>PUT /repos/:owner/:repo/contents/:path
 </code></pre>
 <h3>
@@ -501,6 +500,12 @@ Git uses the given URL when cloning the submodule repository, and checks out the
 <td><code>string</code></td>
 <td>
 <strong>Required</strong>. The new file content, using Base64 encoding.</td>
+</tr>
+<tr>
+<td><code>sha</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required if you are updating a file</strong>. The blob SHA of the file being replaced.</td>
 </tr>
 <tr>
 <td><code>branch</code></td>
@@ -544,12 +549,12 @@ Git uses the given URL when cloning the submodule repository, and checks out the
 </tbody>
 </table>
 <h3>
-<a id="example-input" class="anchor" href="#example-input" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example Input</h3>
+<a id="example-for-creating-a-file" class="anchor" href="#example-for-creating-a-file" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example for creating a file</h3>
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my commit message"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"committer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Scott Chacon"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"schacon@gmail.com"</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Monalisa Octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat@github.com"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="nt">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bXkgbmV3IGZpbGUgY29udGVudHM="</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -582,13 +587,13 @@ Git uses the given URL when cloning the submodule repository, and checks out the
     </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat/Hello-World/git/commit/7638417db6d59f3c431d3e1f261cc637155684cd"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2014-11-07T22:01:45Z"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Scott Chacon"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"schacon@gmail.com"</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Monalisa Octocat"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat@github.com"</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="nt">"committer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2014-11-07T22:01:45Z"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Scott Chacon"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"schacon@gmail.com"</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Monalisa Octocat"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat@github.com"</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my commit message"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"tree"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -611,92 +616,16 @@ Git uses the given URL when cloning the submodule repository, and checks out the
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<h2>
-<a id="update-a-file" class="anchor" href="#update-a-file" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Update a file<a href="/enterprise/2.14/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
-</h2>
-<p>Updates a file in a repository.</p>
-<pre><code>PUT /repos/:owner/:repo/contents/:path
-</code></pre>
 <h3>
-<a id="parameters-3" class="anchor" href="#parameters-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>message</code></td>
-<td><code>string</code></td>
-<td>
-<strong>Required</strong>. The commit message.</td>
-</tr>
-<tr>
-<td><code>content</code></td>
-<td><code>string</code></td>
-<td>
-<strong>Required</strong>. The new file content, using Base64 encoding.</td>
-</tr>
-<tr>
-<td><code>sha</code></td>
-<td><code>string</code></td>
-<td>
-<strong>Required</strong>. The blob SHA of the file being replaced.</td>
-</tr>
-<tr>
-<td><code>branch</code></td>
-<td><code>string</code></td>
-<td>The branch name. Default: the repository’s default branch (usually <code>master</code>)</td>
-</tr>
-<tr>
-<td><code>committer</code></td>
-<td><code>object</code></td>
-<td>The person that committed the file. Default: the authenticated user.</td>
-</tr>
-<tr>
-<td><code>author</code></td>
-<td><code>object</code></td>
-<td>The author of the file. Default: The <code>committer</code> or the authenticated user if you omit <code>committer</code>.</td>
-</tr>
-</tbody>
-</table>
-<p>Both the <code>author</code> and <code>committer</code> parameters have the same keys:</p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>name</code></td>
-<td><code>string</code></td>
-<td>
-<strong>Required</strong>. The name of the author or committer of the commit. You'll receive a <code>422</code> status code if you omit <code>name</code>.</td>
-</tr>
-<tr>
-<td><code>email</code></td>
-<td><code>string</code></td>
-<td>
-<strong>Required</strong>. The email of the author or committer of the commit. You'll receive a <code>422</code> status code if you omit <code>name</code>.</td>
-</tr>
-</tbody>
-</table>
-<h3>
-<a id="example-input-1" class="anchor" href="#example-input-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example Input</h3>
+<a id="example-for-updating-a-file" class="anchor" href="#example-for-updating-a-file" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example for updating a file</h3>
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my commit message"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a new commit message"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"committer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Scott Chacon"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"schacon@gmail.com"</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Monalisa Octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat@github.com"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="nt">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bXkgdXBkYXRlZCBmaWxlIGNvbnRlbnRz"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"329688480d39049927147c162b9d2deaf885005f"</span><span class="w">
+  </span><span class="nt">"sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b966ae1c166bd92f8ae7d1c313e738c731dfc3"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <h3>
@@ -707,44 +636,44 @@ Git uses the given URL when cloning the submodule repository, and checks out the
   </span><span class="nt">"content"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hello.txt"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"notes/hello.txt"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"95b966ae1c166bd92f8ae7d1c313e738c731dfc3"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"a56507ed892d05a37c6d6128c260937ea4d287bd"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
     </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World/contents/notes/hello.txt"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat/Hello-World/blob/master/notes/hello.txt"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"git_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World/git/blobs/95b966ae1c166bd92f8ae7d1c313e738c731dfc3"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"git_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World/git/blobs/a56507ed892d05a37c6d6128c260937ea4d287bd"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"download_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://raw.githubusercontent.com/octocat/HelloWorld/master/notes/hello.txt"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"file"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"_links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="nt">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World/contents/notes/hello.txt"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"git"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World/git/blobs/95b966ae1c166bd92f8ae7d1c313e738c731dfc3"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"git"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World/git/blobs/a56507ed892d05a37c6d6128c260937ea4d287bd"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat/Hello-World/blob/master/notes/hello.txt"</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="nt">"commit"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"7638417db6d59f3c431d3e1f261cc637155684cd"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDY6Q29tbWl0NzYzODQxN2RiNmQ1OWYzYzQzMWQzZTFmMjYxY2M2MzcxNTU2ODRjZA=="</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World/git/commits/7638417db6d59f3c431d3e1f261cc637155684cd"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat/Hello-World/git/commit/7638417db6d59f3c431d3e1f261cc637155684cd"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"18a43cd8e1e3a79c786e3d808a73d23b6d212b16"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDY6Q29tbWl0MThhNDNjZDhlMWUzYTc5Yzc4NmUzZDgwOGE3M2QyM2I2ZDIxMmIxNg=="</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World/git/commits/18a43cd8e1e3a79c786e3d808a73d23b6d212b16"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat/Hello-World/git/commit/18a43cd8e1e3a79c786e3d808a73d23b6d212b16"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2014-11-07T22:01:45Z"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Scott Chacon"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"schacon@gmail.com"</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Monalisa Octocat"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat@github.com"</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="nt">"committer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2014-11-07T22:01:45Z"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Scott Chacon"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"schacon@gmail.com"</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Monalisa Octocat"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat@github.com"</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my commit message"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"tree"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World/git/trees/691272480426f78a0138979dd3ce63b77f706feb"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"691272480426f78a0138979dd3ce63b77f706feb"</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World/git/trees/9a21f8e2018f42ffcf369b24d2cd20bc25c9e66f"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9a21f8e2018f42ffcf369b24d2cd20bc25c9e66f"</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="nt">"parents"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
       </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World/git/commits/1acc419d4d6a9ce985db7be48c6349a0475975b5"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat/Hello-World/git/commit/1acc419d4d6a9ce985db7be48c6349a0475975b5"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1acc419d4d6a9ce985db7be48c6349a0475975b5"</span><span class="w">
+        </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World/git/commits/da5a433788da5c255edad7979b328b67d79f53f6"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat/Hello-World/git/commit/da5a433788da5c255edad7979b328b67d79f53f6"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"da5a433788da5c255edad7979b328b67d79f53f6"</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">],</span><span class="w">
     </span><span class="nt">"verification"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -763,7 +692,7 @@ Git uses the given URL when cloning the submodule repository, and checks out the
 <pre><code>DELETE /repos/:owner/:repo/contents/:path
 </code></pre>
 <h3>
-<a id="parameters-4" class="anchor" href="#parameters-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+<a id="parameters-3" class="anchor" href="#parameters-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
 <table>
 <thead>
 <tr>
@@ -825,12 +754,12 @@ user's information is used.</p>
 </tbody>
 </table>
 <h3>
-<a id="example-input-2" class="anchor" href="#example-input-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example Input</h3>
+<a id="example-input" class="anchor" href="#example-input" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example Input</h3>
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my commit message"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"committer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Scott Chacon"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"schacon@gmail.com"</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Monalisa Octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat@github.com"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="nt">"sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"329688480d39049927147c162b9d2deaf885005f"</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -848,13 +777,13 @@ user's information is used.</p>
     </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat/Hello-World/git/commit/7638417db6d59f3c431d3e1f261cc637155684cd"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2014-11-07T22:01:45Z"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Scott Chacon"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"schacon@gmail.com"</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Monalisa Octocat"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat@github.com"</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="nt">"committer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2014-11-07T22:01:45Z"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Scott Chacon"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"schacon@gmail.com"</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Monalisa Octocat"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat@github.com"</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my commit message"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"tree"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">

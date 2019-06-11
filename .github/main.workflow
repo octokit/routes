@@ -29,17 +29,11 @@ workflow "Record on demand" {
 }
 
 workflow "Cron" {
-  on = "schedule(* 2 * * *)"
+  on = "schedule(0 2 * * *)"
   resolves = ["routes update pull request"]
 }
 
-action "record action only" {
-  uses = "actions/bin/filter@master"
-  args = "action record"
-}
-
 action "clear routes" {
-  needs = "record action only"
   uses = "docker://node:alpine"
   runs = "rm"
   args = "-rf routes cache"
@@ -66,6 +60,10 @@ action "update GHE routes" {
 }
 
 action "routes update pull request" {
+  needs = [
+    "update .com routes",
+    "update GHE routes"
+  ]
   uses = "docker://timbru31/node-alpine-git"
   runs = "bin/create-pull-request-on-change.js"
   secrets = ["GITHUB_TOKEN"]
