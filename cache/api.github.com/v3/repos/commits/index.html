@@ -322,6 +322,7 @@
     <option value="/v3/teams/discussions/">Discussions</option>
     <option value="/v3/teams/discussion_comments/">Discussion comments</option>
     <option value="/v3/teams/members/">Members</option>
+    <option value="/v3/teams/team_sync/">Team sunchronization</option> 
   </optgroup>
 
   
@@ -352,7 +353,6 @@
 <ul id="markdown-toc">
 <li><a href="#list-commits-on-a-repository" id="markdown-toc-list-commits-on-a-repository">List commits on a repository</a></li>
 <li><a href="#get-a-single-commit" id="markdown-toc-get-a-single-commit">Get a single commit</a></li>
-<li><a href="#get-the-sha-1-of-a-commit-reference" id="markdown-toc-get-the-sha-1-of-a-commit-reference">Get the SHA-1 of a commit reference</a></li>
 <li><a href="#compare-two-commits" id="markdown-toc-compare-two-commits">Compare two commits</a></li>
 <li><a href="#list-branches-for-head-commit" id="markdown-toc-list-branches-for-head-commit">List branches for HEAD commit</a></li>
 <li><a href="#list-pull-requests-associated-with-commit" id="markdown-toc-list-pull-requests-associated-with-commit">List pull requests associated with commit</a></li>
@@ -605,11 +605,13 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <a id="get-a-single-commit" class="anchor" href="#get-a-single-commit" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get a single commit<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
-<p>Diffs with binary data will have no <code>patch</code> property. Pass the
-appropriate <a href="/v3/media/#commits-commit-comparison-and-pull-requests">media type</a> to fetch diff and
-patch formats.</p>
+<p>Returns the contents of a single commit reference. You must have <code>read</code> access for the repository to use this endpoint.</p>
 
-<pre><code>GET /repos/:owner/:repo/commits/:commit_sha
+<p>You can pass the appropriate <a href="/v3/media/#commits-commit-comparison-and-pull-requests">media type</a> to fetch <code>diff</code> and <code>patch</code> formats. Diffs with binary data will have no <code>patch</code> property.</p>
+
+<p>To return only the SHA-1 hash of the commit reference, you can provide the <code>sha</code> custom <a href="/v3/media/#commits-commit-comparison-and-pull-requests">media type</a> in the <code>Accept</code> header. You can use this endpoint to check if a remote reference's SHA-1 hash is the same as your local reference's SHA-1 hash by providing the local SHA-1 reference as the ETag.</p>
+
+<pre><code>GET /repos/:owner/:repo/commits/:ref
 </code></pre>
 
 <h3>
@@ -819,33 +821,15 @@ patch formats.</p>
 </tbody>
 </table>
 
-<h2>
-<a id="get-the-sha-1-of-a-commit-reference" class="anchor" href="#get-the-sha-1-of-a-commit-reference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get the SHA-1 of a commit reference<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
-</h2>
-
-<div class="alert note">
-
-<p><strong>Note:</strong> To access this endpoint, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
-
-<pre><code>application/vnd.github.VERSION.sha
-</code></pre>
-
-</div>
-
-<p>Returns the SHA-1 of the commit reference. You must have <code>read</code> access for the repository to get the SHA-1 of a commit reference. You can use this endpoint to check if a remote reference's SHA-1 is the same as your local reference's SHA-1 by providing the local SHA-1 reference as the ETag.</p>
-
-<pre><code>GET /repos/:owner/:repo/commits/:ref
-</code></pre>
-
 <h3>
-<a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-when-retrieving-the-sha-1-of-a-commit-reference" class="anchor" href="#response-when-retrieving-the-sha-1-of-a-commit-reference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response when retrieving the SHA-1 of a commit reference</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 200 OK
 </code></pre>
 
 
 <pre>
-814412cfbd631109df337e16c807207e78c0d24e
+6dcb09b5b57875f334f61aebed695e2e4193db5e
 </pre>
 
 <h2>
@@ -876,7 +860,7 @@ curl https://api.github.com/repos/:owner/:repo/compare/hubot:branchname...octoca
 </pre>
 
 <h3>
-<a id="response-3" class="anchor" href="#response-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World/compare/master...topic"</span><span class="p">,</span><span class="w">
@@ -1275,7 +1259,7 @@ Protected branches are available in public repositories with GitHub Free, and in
 </code></pre>
 
 <h3>
-<a id="response-4" class="anchor" href="#response-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-3" class="anchor" href="#response-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 200 OK
 </code></pre>
@@ -1319,7 +1303,7 @@ Protected branches are available in public repositories with GitHub Free, and in
 </code></pre>
 
 <h3>
-<a id="response-5" class="anchor" href="#response-5" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-4" class="anchor" href="#response-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 200 OK
 Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
@@ -1993,6 +1977,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
     <option value="/v3/teams/discussions/">Discussions</option>
     <option value="/v3/teams/discussion_comments/">Discussion comments</option>
     <option value="/v3/teams/members/">Members</option>
+    <option value="/v3/teams/team_sync/">Team sunchronization</option> 
   </optgroup>
 
   
@@ -2211,6 +2196,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
           <li><a href="/v3/teams/discussions/">Discussions</a></li>
           <li><a href="/v3/teams/discussion_comments/">Discussion comments</a></li>
           <li><a href="/v3/teams/members/">Members</a></li>
+              <li><a href="/v3/teams/team_sync/">Team synchronization</a></li> 
         </ul>
       </li>
       
