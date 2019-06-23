@@ -1,0 +1,101 @@
+<h2>
+<a id="create-or-update-idp-group-connections" class="anchor" href="#create-or-update-idp-group-connections" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create or update IdP group connections</h2>
+<div class="alert product"><p>
+
+Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see <a href="https://help.github.com/articles/github-s-products">GitHub&apos;s products</a> in the GitHub Help documentation.
+
+</p></div>
+<div class="alert note">
+
+<p><strong>Note:</strong> Configuring connections between GitHub teams and IdP groups in the <a href="/v3/teams/team_sync/">Team Synchronization API</a> is currently available for developers to preview. To access this new API during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+<pre><code>application/vnd.github.team-sync-preview+json
+</code></pre>
+
+</div>
+<div class="alert warning">
+
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub Support</a>.</p>
+
+</div>
+<p>Creates, updates, or removes a connection between a team and an IdP group. When adding groups to a team, you must include all new and existing groups to avoid replacing existing groups with the new ones. Specifying an empty <code>groups</code> array will remove all connections for a team.</p>
+<pre><code>PATCH /teams/:team_id/team-sync/group-mappings
+</code></pre>
+<h3>
+<a id="parameters" class="anchor" href="#parameters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>groups</code></td>
+<td><code>array of objects</code></td>
+<td>
+<strong>Required</strong>. The IdP groups you want to connect to a GitHub team. When updating, the new <code>groups</code> object will replace the original one.  You must include any existing groups that you don&apos;t want to remove.</td>
+</tr>
+</tbody>
+</table>
+<h4>
+<a id="groups-object" class="anchor" href="#groups-object" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><code>groups</code> object</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>group_id</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required</strong>. ID of the IdP group.</td>
+</tr>
+<tr>
+<td><code>group_name</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required</strong>. Name of the IdP group.</td>
+</tr>
+<tr>
+<td><code>group_description</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required</strong>. Description of the IdP group.</td>
+</tr>
+</tbody>
+</table>
+<h3>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;groups&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;group_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;123&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;group_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Octocat admins&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The people who configure your octoworld.&quot;</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;groups&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nt">&quot;group_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;123&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;group_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Octocat admins&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;group_description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The people who configure your octoworld.&quot;</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
