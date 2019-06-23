@@ -2576,5 +2576,201 @@
     ],
     "idName": "list-pending-invitations",
     "documentationUrl": "https://developer.github.com/v3/teams/members/#list-pending-team-invitations"
+  },
+  {
+    "name": "List IdP groups in an organization",
+    "enabledForApps": false,
+    "githubCloudOnly": true,
+    "method": "GET",
+    "path": "/orgs/:org/team-sync/groups",
+    "previews": [
+      {
+        "name": "team-sync",
+        "description": "**Note:** Configuring connections between GitHub teams and IdP groups in the [Team Synchronization API](https://developer.github.com/v3/teams/team_sync/) is currently available for developers to preview. To access this new API during the preview period, you must provide a custom [media type](https://developer.github.com/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.team-sync-preview+json\n\n```",
+        "required": false
+      }
+    ],
+    "params": [
+      {
+        "name": "org",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "per_page",
+        "type": "integer",
+        "required": false,
+        "description": "Results per page (max 100)",
+        "default": 30,
+        "location": "query"
+      },
+      {
+        "name": "page",
+        "type": "integer",
+        "required": false,
+        "description": "Page number of the results to fetch.",
+        "default": 1,
+        "location": "query"
+      }
+    ],
+    "description": "Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see [GitHub's products](https://help.github.com/articles/github-s-products) in the GitHub Help documentation.\n\nList IdP groups available in an organization.",
+    "responses": [
+      {
+        "headers": {
+          "status": "200 OK",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "groups": [
+            {
+              "group_id": "123",
+              "group_name": "Octocat admins",
+              "group_description": "The people who configure your octoworld."
+            },
+            {
+              "group_id": "456",
+              "group_name": "Octocat docs members",
+              "group_description": "The people who make your octoworld come to life."
+            }
+          ]
+        }
+      }
+    ],
+    "idName": "list-id-p-groups-for-org",
+    "documentationUrl": "https://developer.github.com/v3/teams/team_sync/#list-idp-groups-in-an-organization"
+  },
+  {
+    "name": "List IdP groups for a team",
+    "enabledForApps": false,
+    "githubCloudOnly": true,
+    "method": "GET",
+    "path": "/teams/:team_id/team-sync/group-mappings",
+    "previews": [
+      {
+        "name": "team-sync",
+        "description": "**Note:** Configuring connections between GitHub teams and IdP groups in the [Team Synchronization API](https://developer.github.com/v3/teams/team_sync/) is currently available for developers to preview. To access this new API during the preview period, you must provide a custom [media type](https://developer.github.com/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.team-sync-preview+json\n\n```",
+        "required": false
+      }
+    ],
+    "params": [
+      {
+        "name": "team_id",
+        "type": "integer",
+        "required": true,
+        "description": "",
+        "location": "url"
+      }
+    ],
+    "description": "Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see [GitHub's products](https://help.github.com/articles/github-s-products) in the GitHub Help documentation.\n\nList IdP groups connected to a team on GitHub.",
+    "responses": [
+      {
+        "headers": {
+          "status": "200 OK",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "groups": [
+            {
+              "group_id": "123",
+              "group_name": "Octocat admins",
+              "group_description": "The people who configure your octoworld."
+            },
+            {
+              "group_id": "456",
+              "group_name": "Octocat docs members",
+              "group_description": "The people who make your octoworld come to life."
+            }
+          ]
+        }
+      }
+    ],
+    "idName": "list-id-p-groups",
+    "documentationUrl": "https://developer.github.com/v3/teams/team_sync/#list-idp-groups-for-a-team"
+  },
+  {
+    "name": "Create or update IdP group connections",
+    "enabledForApps": false,
+    "githubCloudOnly": true,
+    "method": "PATCH",
+    "path": "/teams/:team_id/team-sync/group-mappings",
+    "previews": [
+      {
+        "name": "team-sync",
+        "description": "**Note:** Configuring connections between GitHub teams and IdP groups in the [Team Synchronization API](https://developer.github.com/v3/teams/team_sync/) is currently available for developers to preview. To access this new API during the preview period, you must provide a custom [media type](https://developer.github.com/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.team-sync-preview+json\n\n```",
+        "required": false
+      }
+    ],
+    "params": [
+      {
+        "name": "team_id",
+        "type": "integer",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "groups",
+        "type": "object[]",
+        "description": "The IdP groups you want to connect to a GitHub team. When updating, the new `groups` object will replace the original one. You must include any existing groups that you don't want to remove.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "groups[].group_id",
+        "type": "string",
+        "description": "ID of the IdP group.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "groups[].group_name",
+        "type": "string",
+        "description": "Name of the IdP group.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "groups[].group_description",
+        "type": "string",
+        "description": "Description of the IdP group.",
+        "required": true,
+        "location": "body"
+      }
+    ],
+    "requests": [
+      {
+        "groups": [
+          {
+            "group_id": "123",
+            "group_name": "Octocat admins",
+            "description": "The people who configure your octoworld."
+          }
+        ]
+      }
+    ],
+    "description": "Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see [GitHub's products](https://help.github.com/articles/github-s-products) in the GitHub Help documentation.\n\nCreates, updates, or removes a connection between a team and an IdP group. When adding groups to a team, you must include all new and existing groups to avoid replacing existing groups with the new ones. Specifying an empty `groups` array will remove all connections for a team.",
+    "responses": [
+      {
+        "headers": {
+          "status": "200 OK",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "groups": [
+            [
+              {
+                "group_id": "123",
+                "group_name": "Octocat admins",
+                "group_description": "The people who configure your octoworld."
+              }
+            ]
+          ]
+        }
+      }
+    ],
+    "idName": "create-or-update-id-p-group-connections",
+    "documentationUrl": "https://developer.github.com/v3/teams/team_sync/#create-or-update-idp-group-connections"
   }
 ]
