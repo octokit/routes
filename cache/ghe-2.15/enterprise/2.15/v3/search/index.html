@@ -269,6 +269,7 @@
 <li><a href="#text-match-metadata" id="markdown-toc-text-match-metadata">Text match metadata</a></li>
 </ul>
 <p>The Search API helps you search for the specific item you want to find. For example, you can find a user or a specific file in a repository. Think of it the way you think of performing a search on Google. It's designed to help you find the one result you're looking for (or maybe the few results you're looking for). Just like searching on Google, you sometimes want to see a few pages of search results so that you can find the item that best meets your needs. To satisfy that need, the GitHub Enterprise Search API provides <strong>up to 1,000 results for each search</strong>.</p>
+<p>You can narrow your search using queries, also known as search qualifiers or query parameters. If only some search queries are successful, then you will see a partially successful response with an empty list for unsuccessful queries.</p>
 <h3>
 <a id="ranking-search-results" class="anchor" href="#ranking-search-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Ranking search results</h3>
 <p>Unless another sort option is provided as a query parameter, results are sorted
@@ -289,8 +290,7 @@ determining your current rate limit status.</p>
 <h3>
 <a id="constructing-a-search-query" class="anchor" href="#constructing-a-search-query" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Constructing a search query</h3>
 <p>Each endpoint in the Search API uses <a href="https://en.wikipedia.org/wiki/Query_string">query parameters</a> to perform searches on GitHub Enterprise. See the individual endpoint in the Search API for an example that includes the endpoint and query parameters.</p>
-<p>A query can contain any combination of search qualifiers supported on GitHub.com.
-The format of the search query is:</p>
+<p>A query can contain any combination of search qualifiers supported on GitHub.com. The format of the search query is:</p>
 <pre><code>q=SEARCH_KEYWORD_1+SEARCH_KEYWORD_N+QUALIFIER_1+QUALIFIER_N
 </code></pre>
 <p>For example, if you wanted to search for all <em>repositories</em> owned by <code>defunkt</code> that
@@ -303,6 +303,36 @@ for a complete list of available qualifiers, their format, and an example of
 how to use them. For information about how to use operators to match specific
 quantities, dates, or to exclude results, see "<a href="https://help.github.com/articles/understanding-the-search-syntax/">Understanding the search syntax</a>."</p>
 <h3>
+<a id="limitations-on-query-length" class="anchor" href="#limitations-on-query-length" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Limitations on query length</h3>
+<p>The Search API does not support queries that are longer than 256 characters (not including operators or qualifiers) and will return an error.</p>
+<pre><code>{
+  "message": "Validation Failed",
+  "errors": [
+    {
+      "message": "The search is longer than 256 characters.",
+      "resource": "Search",
+      "field": "q",
+      "code": "invalid"
+    }
+  ],
+  "documentation_url": "https://developer.github.com/v3/search/"
+}
+</code></pre>
+<p>Also, a query using more than five <code>AND</code>, <code>OR</code>, or <code>NOT</code> operators will return an error.</p>
+<pre><code>{
+  "message": "Validation Failed",
+  "errors": [
+    {
+      "message": "More than five AND / OR / NOT operators were used.",
+      "resource": "Search",
+      "field": "q",
+      "code": "invalid"
+    }
+  ],
+  "documentation_url": "https://developer.github.com/v3/search/"
+}
+</code></pre>
+<h3>
 <a id="timeouts-and-incomplete-results" class="anchor" href="#timeouts-and-incomplete-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Timeouts and incomplete results</h3>
 <p>To keep the Search API fast for everyone, we limit how long any individual query
 can run. For queries that <a href="/changes/2014-04-07-understanding-search-results-and-potential-timeouts/">exceed the time limit</a>,
@@ -310,6 +340,22 @@ the API returns the matches that were already found prior to the timeout, and
 the response has the <code>incomplete_results</code> property set to <code>true</code>.</p>
 <p>Reaching a timeout does not necessarily mean that search results are incomplete.
 More results might have been found, but also might not.</p>
+<h3>
+<a id="permissions-failure-or-an-empty-list" class="anchor" href="#permissions-failure-or-an-empty-list" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Permissions failure or an empty list</h3>
+<p>You need to successfully authenticate and have access to the repositories in your search queries, otherwise, you'll see a <code>422 Unprocessible Entry</code> error. For example, your search will fail if your query includes <code>repo:</code> or <code>user:</code> or <code>org:</code> qualifiers and doesn't match the resources that you have access to when you sign in on GitHub.</p>
+<pre><code>{
+  "message": "Validation Failed",
+  "errors": [
+    {
+      "message": "The listed users and repositories cannot be searched either because the resources do not exist or you do not have permission to view them.",
+      "resource": "Search",
+      "field": "q",
+      "code": "invalid"
+    }
+  ],
+  "documentation_url": "https://developer.github.com/v3/search/"
+}
+</code></pre>
 <h2>
 <a id="search-repositories" class="anchor" href="#search-repositories" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Search repositories<a href="/enterprise/2.15/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
