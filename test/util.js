@@ -79,9 +79,7 @@ function getRoutesForUrl (url) {
   const routes = CACHED_ROUTES_BY_DOCUMENTATION_URL[url]
   const idNames = routes.map(route => route.idName)
 
-  return idNames.map(
-    idName => requireRoutesFile(`${scope}/${idName}.json`)
-  )
+  return idNames.map(idName => requireRoutesFile(`${scope}/${idName}.json`))
 }
 
 function reduceByDocumentationUrl (map, endpoint) {
