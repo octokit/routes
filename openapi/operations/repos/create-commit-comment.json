@@ -1,24 +1,23 @@
 {
-  "summary": "Create reaction for an issue",
-  "description": "Create a reaction to an [issue](https://developer.github.com/v3/issues/). A response with a `Status: 200 OK` means that you already added the reaction type to this issue.",
-  "operationId": "reactions-create-for-issue",
+  "summary": "Create a commit comment",
+  "description": "Create a comment for a commit using its `:commit_sha`.\n\nThis endpoint triggers [notifications](https://help.github.com/articles/about-notifications/). Creating content too quickly using this endpoint may result in abuse rate limiting. See \"[Abuse rate limits](https://developer.github.com/v3/#abuse-rate-limits)\" and \"[Dealing with abuse rate limits](https://developer.github.com/v3/guides/best-practices-for-integrators/#dealing-with-abuse-rate-limits)\" for details.",
+  "operationId": "repos-create-commit-comment",
   "tags": [
-    "reactions"
+    "repos"
   ],
   "externalDocs": {
     "description": "API method documentation",
-    "url": "https://developer.github.com/v3/reactions/#create-reaction-for-an-issue"
+    "url": "https://developer.github.com/v3/repos/comments/#create-a-commit-comment"
   },
   "parameters": [
     {
       "name": "accept",
-      "description": "This API is under preview and subject to change.",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
       "in": "header",
       "schema": {
         "type": "string",
-        "default": "application/vnd.github.squirrel-girl-preview+json"
-      },
-      "required": true
+        "default": "application/vnd.github.v3+json"
+      }
     },
     {
       "name": "owner",
@@ -39,13 +38,13 @@
       "description": "repo parameter"
     },
     {
-      "name": "issue_number",
+      "name": "commit_sha",
       "in": "path",
       "schema": {
-        "type": "integer"
+        "type": "string"
       },
       "required": true,
-      "description": "issue_number parameter"
+      "description": "commit_sha parameter"
     }
   ],
   "requestBody": {
@@ -54,23 +53,25 @@
         "schema": {
           "type": "object",
           "properties": {
-            "content": {
-              "description": "The [reaction type](https://developer.github.com/v3/reactions/#reaction-types) to add to the issue.",
-              "type": "string",
-              "enum": [
-                "+1",
-                "-1",
-                "laugh",
-                "confused",
-                "heart",
-                "hooray",
-                "rocket",
-                "eyes"
-              ]
+            "body": {
+              "description": "The contents of the comment.",
+              "type": "string"
+            },
+            "path": {
+              "description": "Relative path of the file to comment on.",
+              "type": "string"
+            },
+            "position": {
+              "description": "Line index in the diff to comment on.",
+              "type": "integer"
+            },
+            "line": {
+              "description": "**Deprecated**. Use **position** parameter instead. Line number in the file to comment on.",
+              "type": "integer"
             }
           },
           "required": [
-            "content"
+            "body"
           ]
         }
       }
@@ -83,10 +84,31 @@
         "application/json": {
           "schema": {
             "properties": {
+              "html_url": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
               "id": {
                 "type": "number"
               },
               "node_id": {
+                "type": "string"
+              },
+              "body": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              },
+              "position": {
+                "type": "number"
+              },
+              "line": {
+                "type": "number"
+              },
+              "commit_id": {
                 "type": "string"
               },
               "user": {
@@ -148,10 +170,10 @@
                   }
                 }
               },
-              "content": {
+              "created_at": {
                 "type": "string"
               },
-              "created_at": {
+              "updated_at": {
                 "type": "string"
               }
             }
@@ -163,26 +185,26 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.squirrel-girl-preview+json\" \\\n  https://developer.github.com/repos/octocat/:repo/issues/:issue_number/reactions \\\n  -d '{\"content\":\"content\"}'"
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/commits/:commit_sha/comments \\\n  -d '{\"body\":\"body\"}'"
     },
     {
       "lang": "JS",
-      "source": "octokit.reactions.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  issue_number: 1,\n  content: 'content'\n})"
+      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  commit_sha: 'commit_sha',\n  body: 'body'\n})"
     }
   ],
   "x-github": {
     "legacy": false,
-    "enabledForApps": false,
+    "enabledForApps": true,
     "githubCloudOnly": false
   },
   "x-changes": [
     {
       "type": "parameter",
-      "date": "2019-04-10",
-      "note": "\"number\" parameter renamed to \"issue_number\"",
+      "date": "2019-06-07",
+      "note": "\"sha\" parameter renamed to \"commit_sha\"",
       "meta": {
-        "before": "number",
-        "after": "issue_number"
+        "before": "sha",
+        "after": "commit_sha"
       }
     }
   ]
