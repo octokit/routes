@@ -40,14 +40,13 @@ function getRoutesDir () {
   return gheVersion ? `ghe-${gheVersion}` : 'api.github.com'
 }
 
-function getRoutePath () {
-  const routesDir = getRoutesDir()
-  return `../routes/${routesDir}`
+function requireRoutesFile (filePath) {
+  const [ routesRoot, routesDir ] = [ '../routes', getRoutesDir() ]
+  return require(`${routesRoot}/${routesDir}/${filePath}`)
 }
 
 function getAllRoutesByScope () {
-  const routePath = getRoutePath()
-  return require(`${routePath}/index.json`)
+  return requireRoutesFile('index.json')
 }
 
 const CACHED_ROUTES_BY_DOCUMENTATION_URL = flatten(
@@ -66,8 +65,8 @@ function getAllDocumentationUrls () {
 }
 
 function getScopeRoutes (scope) {
-  const routePath = getRoutePath()
-  return require(`${routePath}/${kebabCase(scope)}.json`)
+  const kebabScope = kebabCase(scope)
+  return requireRoutesFile(`${kebabScope}.json`)
 }
 
 function getScopeRoutesByDocumentUrl (scope) {
@@ -75,14 +74,13 @@ function getScopeRoutesByDocumentUrl (scope) {
 }
 
 function getRoutesForUrl (url) {
-  const routePath = getRoutePath()
   const matches = url.match(/\/v3\/([^/#]+)((\/[^/#]+)*)/)
   const scope = kebabCase(matches[1])
   const routes = CACHED_ROUTES_BY_DOCUMENTATION_URL[url]
   const idNames = routes.map(route => route.idName)
 
   return idNames.map(
-    idName => require(`${routePath}/${scope}/${idName}.json`)
+    idName => requireRoutesFile(`${scope}/${idName}.json`)
   )
 }
 
