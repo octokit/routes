@@ -26,6 +26,12 @@ Please follow these steps to report such a problem
    TEST_URL=https://developer.github.com/v3/repos/#get ./node_modules/.bin/tap test/integration/single-endpoint-test.js
    ```
 
+   and for GitHub Enterprise:
+
+   ```
+   GHE_VERSION=2.17 TEST_URL=https://developer.github.com/enterprise/2.17/v3/repos/#get ./node_modules/.bin/tap test/integration/single-endpoint-test.js
+   ```
+
    Once you did, push your changes and wait for us to review. If you have any
    questions at any point, comment on the pull request, we are happy to help you out.
 9. Now you are more than awesome, thank you so much! 💐
