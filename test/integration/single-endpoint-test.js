@@ -2,7 +2,11 @@ const { test } = require('tap')
 
 const {
   getAllDocumentationUrls,
-  getRoutesForUrl
+  getRoutesForUrl,
+  getGheVersion,
+  getBaseUrl,
+  getCacheDir,
+  getRoutesDir
 } = require('../util')
 const getEndpoint = require('../../lib/endpoint/get')
 const Cache = require('../../lib/cache')
@@ -15,9 +19,11 @@ URLS.forEach(url => {
 
     const actual = await getEndpoint({
       cached: true,
-      cache: new Cache('api.github.com'),
-      baseUrl: 'https://developer.github.com/v3/',
-      folderName: 'api.github.com'
+      cache: new Cache(getCacheDir()),
+      baseUrl: getBaseUrl(),
+      folderName: getRoutesDir(),
+      gheVersion: getGheVersion(),
+      memoryCache: {}
     }, url)
 
     t.deepEquals(actual, expected)

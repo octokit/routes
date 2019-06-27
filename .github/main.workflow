@@ -20,7 +20,7 @@ action "test" {
   needs = "lint"
   uses = "docker://node:alpine"
   runs = "npm"
-  args = "test"
+  args = "run test:ci"
 }
 
 workflow "Record on demand" {
