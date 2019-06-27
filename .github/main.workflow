@@ -71,7 +71,6 @@ workflow "Cron" {
 }
 
 action "clear routes" {
-  needs = "record action only"
   uses = "docker://timbru31/node-alpine-git"
   runs = "rm"
   args = "-rf routes cache"
