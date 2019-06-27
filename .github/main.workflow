@@ -59,11 +59,24 @@ action "update GHE routes" {
   args = "update --ghe"
 }
 
-action "routes update pull request" {
+# git email/name must be configured, see https://github.com/octokit/routes/issues/438
+action "config git email" {
   needs = [
     "update .com routes",
     "update GHE routes"
   ]
+  uses = "docker://timbru31/node-alpine-git"
+  runs = "git config --global user.email 'octokitbot@martynus.net'"
+}
+
+action "config git name" {
+  needs = "config git email"
+  uses = "docker://timbru31/node-alpine-git"
+  runs = "git config --global user.name 'OctokitBot'"
+}
+
+action "routes update pull request" {
+  needs = "config git name"
   uses = "docker://timbru31/node-alpine-git"
   runs = "bin/create-pull-request-on-change.js"
   secrets = ["GITHUB_TOKEN"]
