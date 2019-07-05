@@ -1,0 +1,130 @@
+{
+  "summary": "List milestones for a repository",
+  "description": "",
+  "operationId": "issues-list-milestones-for-repo",
+  "tags": [
+    "issues"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.14/v3/issues/milestones/#list-milestones-for-a-repository"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "owner parameter"
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "repo parameter"
+    },
+    {
+      "name": "state",
+      "in": "query",
+      "schema": {
+        "type": "string",
+        "enum": [
+          "open",
+          "closed",
+          "all"
+        ],
+        "default": "open"
+      },
+      "required": false,
+      "description": "The state of the milestone. Either `open`, `closed`, or `all`."
+    },
+    {
+      "name": "sort",
+      "in": "query",
+      "schema": {
+        "type": "string",
+        "enum": [
+          "due_on",
+          "completeness"
+        ],
+        "default": "due_on"
+      },
+      "required": false,
+      "description": "What to sort results by. Either `due_on` or `completeness`."
+    },
+    {
+      "name": "direction",
+      "in": "query",
+      "schema": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "default": "asc"
+      },
+      "required": false,
+      "description": "The direction of the sort. Either `asc` or `desc`."
+    },
+    {
+      "name": "per_page",
+      "in": "query",
+      "schema": {
+        "type": "integer",
+        "default": 30
+      },
+      "required": false,
+      "description": "Results per page (max 100)"
+    },
+    {
+      "name": "page",
+      "in": "query",
+      "schema": {
+        "type": "integer",
+        "default": 1
+      },
+      "required": false,
+      "description": "Page number of the results to fetch."
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {}
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/milestones"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.issues.get({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": []
+}

@@ -1,0 +1,251 @@
+{
+  "summary": "Update pull request review enforcement of protected branch",
+  "description": "Updating pull request review enforcement requires admin or owner permissions to the repository and branch protection to be enabled.\n\n**Note**: Passing new arrays of `users` and `teams` replaces their previous values.",
+  "operationId": "repos-update-protected-branch-pull-request-review-enforcement",
+  "tags": [
+    "repos"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.15/v3/repos/branches/#update-pull-request-review-enforcement-of-protected-branch"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "owner parameter"
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "repo parameter"
+    },
+    {
+      "name": "branch",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "branch parameter"
+    }
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "dismissal_restrictions": {
+              "description": "Specify which users and teams can dismiss pull request reviews. Pass an empty `dismissal_restrictions` object to disable. User and team `dismissal_restrictions` are only available for organization-owned repositories. Omit this parameter for personal repositories.",
+              "type": "object",
+              "properties": {
+                "users": {
+                  "description": "The list of user `login`s with dismissal access",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "teams": {
+                  "description": "The list of team `slug`s with dismissal access",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "dismiss_stale_reviews": {
+              "description": "Set to `true` if you want to automatically dismiss approving reviews when someone pushes a new commit.",
+              "type": "boolean"
+            },
+            "require_code_owner_reviews": {
+              "description": "Blocks merging pull requests until [code owners](https://help.github.com/articles/about-code-owners/) have reviewed.",
+              "type": "boolean"
+            },
+            "required_approving_review_count": {
+              "description": "Specifies the number of reviewers required to approve pull requests. Use a number between 1 and 6.",
+              "type": "integer"
+            }
+          }
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "properties": {
+              "url": {
+                "type": "string"
+              },
+              "dismissal_restrictions": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string"
+                  },
+                  "users_url": {
+                    "type": "string"
+                  },
+                  "teams_url": {
+                    "type": "string"
+                  },
+                  "users": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "login": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "number"
+                        },
+                        "node_id": {
+                          "type": "string"
+                        },
+                        "avatar_url": {
+                          "type": "string"
+                        },
+                        "gravatar_id": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string"
+                        },
+                        "html_url": {
+                          "type": "string"
+                        },
+                        "followers_url": {
+                          "type": "string"
+                        },
+                        "following_url": {
+                          "type": "string"
+                        },
+                        "gists_url": {
+                          "type": "string"
+                        },
+                        "starred_url": {
+                          "type": "string"
+                        },
+                        "subscriptions_url": {
+                          "type": "string"
+                        },
+                        "organizations_url": {
+                          "type": "string"
+                        },
+                        "repos_url": {
+                          "type": "string"
+                        },
+                        "events_url": {
+                          "type": "string"
+                        },
+                        "received_events_url": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "site_admin": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  },
+                  "teams": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "node_id": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "slug": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "privacy": {
+                          "type": "string"
+                        },
+                        "permission": {
+                          "type": "string"
+                        },
+                        "members_url": {
+                          "type": "string"
+                        },
+                        "repositories_url": {
+                          "type": "string"
+                        },
+                        "parent": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "dismiss_stale_reviews": {
+                "type": "boolean"
+              },
+              "require_code_owner_reviews": {
+                "type": "boolean"
+              },
+              "required_approving_review_count": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/branches/:branch/protection/required_pull_request_reviews"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  branch: 'branch'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": []
+}

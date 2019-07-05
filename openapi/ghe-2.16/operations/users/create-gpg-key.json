@@ -1,0 +1,157 @@
+{
+  "summary": "Create a GPG key",
+  "description": "Adds a GPG key to the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth, or OAuth with at least `write:gpg_key` [scope](https://developer.github.com/enterprise/2.16/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).",
+  "operationId": "users-create-gpg-key",
+  "tags": [
+    "users"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.16/v3/users/gpg_keys/#create-a-gpg-key"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    }
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "armored_public_key": {
+              "description": "Your GPG key, generated in ASCII-armored format. See \"[Generating a new GPG key](https://help.github.com/articles/generating-a-new-gpg-key/)\" for help creating a GPG key.",
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "responses": {
+    "201": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "properties": {
+              "id": {
+                "type": "number"
+              },
+              "primary_key_id": {
+                "type": "string"
+              },
+              "key_id": {
+                "type": "string"
+              },
+              "public_key": {
+                "type": "string"
+              },
+              "emails": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string"
+                    },
+                    "verified": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              },
+              "subkeys": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "primary_key_id": {
+                      "type": "number"
+                    },
+                    "key_id": {
+                      "type": "string"
+                    },
+                    "public_key": {
+                      "type": "string"
+                    },
+                    "emails": {
+                      "type": "array",
+                      "items": {}
+                    },
+                    "subkeys": {
+                      "type": "array",
+                      "items": {}
+                    },
+                    "can_sign": {
+                      "type": "boolean"
+                    },
+                    "can_encrypt_comms": {
+                      "type": "boolean"
+                    },
+                    "can_encrypt_storage": {
+                      "type": "boolean"
+                    },
+                    "can_certify": {
+                      "type": "boolean"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "expires_at": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "can_sign": {
+                "type": "boolean"
+              },
+              "can_encrypt_comms": {
+                "type": "boolean"
+              },
+              "can_encrypt_storage": {
+                "type": "boolean"
+              },
+              "can_certify": {
+                "type": "boolean"
+              },
+              "created_at": {
+                "type": "string"
+              },
+              "expires_at": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/user/gpg_keys"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.users.get()"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false
+  },
+  "x-changes": []
+}
