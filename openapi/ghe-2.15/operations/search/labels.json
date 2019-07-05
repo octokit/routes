@@ -1,0 +1,89 @@
+{
+  "summary": "Search labels",
+  "description": "Find labels in a repository with names or descriptions that match search keywords. Returns up to 100 results [per page](https://developer.github.com/enterprise/2.15/v3/#pagination).\n\nWhen searching for labels, you can get text match metadata for the label **name** and **description** fields when you pass the `text-match` media type. For more details about how to receive highlighted search results, see [Text match metadata](https://developer.github.com/enterprise/2.15/v3/search/#text-match-metadata).\n\nSuppose you want to find labels in the `linguist` repository that match `bug`, `defect`, or `enhancement`. Your query might look like this:\n\nThe labels that best match for the query appear first in the search results.",
+  "operationId": "search-labels",
+  "tags": [
+    "search"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.15/v3/search/#search-labels"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "repository_id",
+      "in": "query",
+      "schema": {
+        "type": "integer"
+      },
+      "required": true,
+      "description": "The id of the repository."
+    },
+    {
+      "name": "q",
+      "in": "query",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "The search keywords. This endpoint does not accept qualifiers in the query. To learn more about the format of the query, see [Constructing a search query](https://developer.github.com/enterprise/2.15/v3/search/#constructing-a-search-query)."
+    },
+    {
+      "name": "sort",
+      "in": "query",
+      "schema": {
+        "type": "string",
+        "enum": [
+          "created",
+          "updated"
+        ]
+      },
+      "required": false,
+      "description": "Sorts the results of your query by when the label was `created` or `updated`. Default: [best match](https://developer.github.com/enterprise/2.15/v3/search/#ranking-search-results)"
+    },
+    {
+      "name": "order",
+      "in": "query",
+      "schema": {
+        "type": "string",
+        "enum": [
+          "desc",
+          "asc"
+        ],
+        "default": "desc"
+      },
+      "required": false,
+      "description": "Determines whether the first search result returned is the highest number of matches (`desc`) or lowest number of matches (`asc`). This parameter is ignored unless you provide `sort`."
+    }
+  ],
+  "responses": {
+    "418": {
+      "description": "Response definition missing"
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/search/labels"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.search.get({\n  repository_id: 'repository_id',\n  q: 'q'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": []
+}

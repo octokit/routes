@@ -1,0 +1,156 @@
+{
+  "summary": "Create a global hook",
+  "description": "",
+  "operationId": "enterprise-admin-create-global-hook",
+  "tags": [
+    "enterprise-admin"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.14/v3/enterprise-admin/global_webhooks/#create-a-global-hook"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "This API is under preview and subject to change.",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.superpro-preview+json"
+      },
+      "required": true
+    }
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Must be passed as \"web\".",
+              "type": "string"
+            },
+            "config": {
+              "description": "Key/value pairs to provide settings for this webhook. [These are defined below](https://developer.github.com/enterprise/2.14/v3/enterprise-admin/global_webhooks/#create-hook-config-params).",
+              "type": "object",
+              "properties": {
+                "url": {
+                  "description": "The URL to which the payloads will be delivered.",
+                  "type": "string"
+                },
+                "content_type": {
+                  "description": "The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`.",
+                  "type": "string"
+                },
+                "secret": {
+                  "description": "If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value in the [`X-Hub-Signature`](https://developer.github.com/enterprise/2.14/webhooks/#delivery-headers) header.",
+                  "type": "string"
+                },
+                "insecure_ssl": {
+                  "description": "Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.**",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "url"
+              ]
+            },
+            "events": {
+              "description": "The [events](https://developer.github.com/enterprise/2.14/v3/activity/events/types/) that trigger this webhook. A global webhook can be triggered by `user` and `organization` events. Default: `user` and `organization`.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "active": {
+              "description": "Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.",
+              "type": "boolean",
+              "default": true
+            }
+          },
+          "required": [
+            "name",
+            "config"
+          ]
+        }
+      }
+    }
+  },
+  "responses": {
+    "201": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "id": {
+                "type": "number"
+              },
+              "name": {
+                "type": "string"
+              },
+              "active": {
+                "type": "boolean"
+              },
+              "events": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "config": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string"
+                  },
+                  "content_type": {
+                    "type": "string"
+                  },
+                  "insecure_ssl": {
+                    "type": "string"
+                  },
+                  "secret": {
+                    "type": "string"
+                  }
+                }
+              },
+              "updated_at": {
+                "type": "string"
+              },
+              "created_at": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "ping_url": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.superpro-preview+json\" \\\n  https://developer.github.com/admin/hooks \\\n  -d '{\"name\":\"name\",\"config\":\"config\",\"config.url\":\"config.url\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.enterprise-admin.get({\n  name: 'name',\n  config: 'config',\n  'config.url': 'config.url'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false
+  },
+  "x-changes": []
+}

@@ -1,0 +1,88 @@
+{
+  "summary": "List all public repositories",
+  "description": "This provides a dump of every public repository, in the order that they were created.\n\nNote: Pagination is powered exclusively by the `since` parameter. Use the [Link header](https://developer.github.com/enterprise/2.16/v3/#link-header) to get the URL for the next page of repositories.\n\nIf you are an [authenticated](https://developer.github.com/enterprise/2.16/v3/#authentication) site administrator for your Enterprise appliance, you will be able to list all repositories including private repositories.",
+  "operationId": "repos-list-public",
+  "tags": [
+    "repos"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.16/v3/repos/#list-all-public-repositories"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "since",
+      "in": "query",
+      "schema": {
+        "type": "string"
+      },
+      "required": false,
+      "description": "The integer ID of the last Repository that you've seen."
+    },
+    {
+      "name": "visibility",
+      "in": "query",
+      "schema": {
+        "type": "string",
+        "default": "public"
+      },
+      "required": false,
+      "description": "To include private repositories as well set to `all`."
+    },
+    {
+      "name": "per_page",
+      "in": "query",
+      "schema": {
+        "type": "integer",
+        "default": 30
+      },
+      "required": false,
+      "description": "Results per page (max 100)"
+    },
+    {
+      "name": "page",
+      "in": "query",
+      "schema": {
+        "type": "integer",
+        "default": 1
+      },
+      "required": false,
+      "description": "Page number of the results to fetch."
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {}
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repositories"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.repos.get()"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": []
+}

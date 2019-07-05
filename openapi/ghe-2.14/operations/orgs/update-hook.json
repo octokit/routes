@@ -1,0 +1,159 @@
+{
+  "summary": "Edit a hook",
+  "description": "",
+  "operationId": "orgs-update-hook",
+  "tags": [
+    "orgs"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.14/v3/orgs/hooks/#edit-a-hook"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "org",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "org parameter"
+    },
+    {
+      "name": "hook_id",
+      "in": "path",
+      "schema": {
+        "type": "integer"
+      },
+      "required": true,
+      "description": "hook_id parameter"
+    }
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "config": {
+              "description": "Key/value pairs to provide settings for this webhook. [These are defined below](https://developer.github.com/enterprise/2.14/v3/orgs/hooks/#update-hook-config-params).",
+              "type": "object",
+              "properties": {
+                "url": {
+                  "description": "The URL to which the payloads will be delivered.",
+                  "type": "string"
+                },
+                "content_type": {
+                  "description": "The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`.",
+                  "type": "string"
+                },
+                "secret": {
+                  "description": "If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value in the [`X-Hub-Signature`](https://developer.github.com/enterprise/2.14/webhooks/#delivery-headers) header.",
+                  "type": "string"
+                },
+                "insecure_ssl": {
+                  "description": "Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.**",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "url"
+              ]
+            },
+            "events": {
+              "description": "Determines what [events](https://developer.github.com/enterprise/2.14/v3/activity/events/types/) the hook is triggered for.",
+              "type": "array",
+              "default": [
+                "push"
+              ],
+              "items": {
+                "type": "string"
+              }
+            },
+            "active": {
+              "description": "Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.",
+              "type": "boolean",
+              "default": true
+            }
+          }
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "properties": {
+              "id": {
+                "type": "number"
+              },
+              "url": {
+                "type": "string"
+              },
+              "ping_url": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "events": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "active": {
+                "type": "boolean"
+              },
+              "config": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string"
+                  },
+                  "content_type": {
+                    "type": "string"
+                  }
+                }
+              },
+              "updated_at": {
+                "type": "string"
+              },
+              "created_at": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/orgs//hooks/:hook_id \\\n  -d '{\"config.url\":\"config.url\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.orgs.get({\n  org: 'org',\n  hook_id: 'hook_id',\n  'config.url': 'config.url'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": []
+}
