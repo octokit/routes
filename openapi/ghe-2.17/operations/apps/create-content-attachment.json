@@ -1,0 +1,94 @@
+{
+  "summary": "Create a content attachment",
+  "description": "Creates an attachment under a content reference URL in the body or comment of an issue or pull request. Use the `id` of the content reference from the [`content_reference` event](https://developer.github.com/enterprise/2.17/v3/activity/events/types/#contentreferenceevent) to create an attachment.\n\nThe app must create a content attachment within six hours of the content reference URL being posted. See \"[Using content attachments](https://developer.github.com/enterprise/2.17/apps/using-content-attachments/)\" for details about content attachments.\n\nYou must use an [installation access token](https://developer.github.com/enterprise/2.17/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-an-installation) to access this endpoint.\n\nThis example creates a content attachment for the domain `https://errors.ai/`.",
+  "operationId": "apps-create-content-attachment",
+  "tags": [
+    "apps"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.17/v3/apps/installations/#create-a-content-attachment"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "This API is under preview and subject to change.",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.corsair-preview+json"
+      },
+      "required": true
+    },
+    {
+      "name": "content_reference_id",
+      "in": "path",
+      "schema": {
+        "type": "integer"
+      },
+      "required": true,
+      "description": "content_reference_id parameter"
+    }
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "description": "The title of the content attachment displayed in the body or comment of an issue or pull request.",
+              "type": "string"
+            },
+            "body": {
+              "description": "The body text of the content attachment displayed in the body or comment of an issue or pull request. This parameter supports markdown.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "title",
+            "body"
+          ]
+        }
+      }
+    }
+  },
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "properties": {
+              "id": {
+                "type": "number"
+              },
+              "title": {
+                "type": "string"
+              },
+              "body": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.corsair-preview+json\" \\\n  https://developer.github.com/content_references//attachments \\\n  -d '{\"title\":\"title\",\"body\":\"body\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.apps.get({\n  content_reference_id: 'content_reference_id',\n  title: 'title',\n  body: 'body'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": []
+}

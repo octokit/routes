@@ -1,0 +1,400 @@
+{
+  "summary": "Create a new installation token",
+  "description": "Creates an installation access token that enables a GitHub App to make authenticated API requests for the app's installation on an organization or individual account. Installation tokens expire one hour from the time you create them. Using an expired token produces a status code of `401 - Unauthorized`, and requires creating a new installation token.\n\nBy default the installation token has access to all repositories that the installation can access. To restrict the access to specific repositories, you can provide the `repository_ids` when creating the token. When you omit `repository_ids`, the response does not contain the `repositories` key.\n\nYou must use a [JWT](https://developer.github.com/enterprise/2.17/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.\n\nThis example grants the token \"Read and write\" permission to `issues` and \"Read\" permission to `contents`, and restricts the token's access to the repository with an `id` of 1296269.",
+  "operationId": "apps-create-installation-token",
+  "tags": [
+    "apps"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.17/v3/apps/#create-a-new-installation-token"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "This API is under preview and subject to change.",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.machine-man-preview+json"
+      },
+      "required": true
+    },
+    {
+      "name": "installation_id",
+      "in": "path",
+      "schema": {
+        "type": "integer"
+      },
+      "required": true,
+      "description": "installation_id parameter"
+    }
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "repository_ids": {
+              "description": "The `id`s of the repositories that the installation token can access. Providing repository `id`s restricts the access of an installation token to specific repositories. You can use the \"[List repositories](https://developer.github.com/enterprise/2.17/v3/apps/installations/#list-repositories)\" endpoint to get the `id` of all repositories that an installation can access. For example, you can select specific repositories when creating an installation token to restrict the number of repositories that can be cloned using the token.",
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            },
+            "permissions": {
+              "description": "The permissions granted to the access token. The permissions object includes the permission names and their access type. For a complete list of permissions and allowable values, see \"[GitHub App permissions](https://developer.github.com/enterprise/2.17/apps/building-github-apps/creating-github-apps-using-url-parameters/#github-app-permissions).\"",
+              "type": "object",
+              "properties": {}
+            }
+          }
+        }
+      }
+    }
+  },
+  "responses": {
+    "201": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "properties": {
+              "token": {
+                "type": "string"
+              },
+              "expires_at": {
+                "type": "string"
+              },
+              "repositories": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "node_id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "full_name": {
+                      "type": "string"
+                    },
+                    "owner": {
+                      "type": "object",
+                      "properties": {
+                        "login": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "number"
+                        },
+                        "node_id": {
+                          "type": "string"
+                        },
+                        "avatar_url": {
+                          "type": "string"
+                        },
+                        "gravatar_id": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string"
+                        },
+                        "html_url": {
+                          "type": "string"
+                        },
+                        "followers_url": {
+                          "type": "string"
+                        },
+                        "following_url": {
+                          "type": "string"
+                        },
+                        "gists_url": {
+                          "type": "string"
+                        },
+                        "starred_url": {
+                          "type": "string"
+                        },
+                        "subscriptions_url": {
+                          "type": "string"
+                        },
+                        "organizations_url": {
+                          "type": "string"
+                        },
+                        "repos_url": {
+                          "type": "string"
+                        },
+                        "events_url": {
+                          "type": "string"
+                        },
+                        "received_events_url": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "site_admin": {
+                          "type": "boolean"
+                        }
+                      }
+                    },
+                    "private": {
+                      "type": "boolean"
+                    },
+                    "html_url": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "fork": {
+                      "type": "boolean"
+                    },
+                    "url": {
+                      "type": "string"
+                    },
+                    "archive_url": {
+                      "type": "string"
+                    },
+                    "assignees_url": {
+                      "type": "string"
+                    },
+                    "blobs_url": {
+                      "type": "string"
+                    },
+                    "branches_url": {
+                      "type": "string"
+                    },
+                    "collaborators_url": {
+                      "type": "string"
+                    },
+                    "comments_url": {
+                      "type": "string"
+                    },
+                    "commits_url": {
+                      "type": "string"
+                    },
+                    "compare_url": {
+                      "type": "string"
+                    },
+                    "contents_url": {
+                      "type": "string"
+                    },
+                    "contributors_url": {
+                      "type": "string"
+                    },
+                    "deployments_url": {
+                      "type": "string"
+                    },
+                    "downloads_url": {
+                      "type": "string"
+                    },
+                    "events_url": {
+                      "type": "string"
+                    },
+                    "forks_url": {
+                      "type": "string"
+                    },
+                    "git_commits_url": {
+                      "type": "string"
+                    },
+                    "git_refs_url": {
+                      "type": "string"
+                    },
+                    "git_tags_url": {
+                      "type": "string"
+                    },
+                    "git_url": {
+                      "type": "string"
+                    },
+                    "issue_comment_url": {
+                      "type": "string"
+                    },
+                    "issue_events_url": {
+                      "type": "string"
+                    },
+                    "issues_url": {
+                      "type": "string"
+                    },
+                    "keys_url": {
+                      "type": "string"
+                    },
+                    "labels_url": {
+                      "type": "string"
+                    },
+                    "languages_url": {
+                      "type": "string"
+                    },
+                    "merges_url": {
+                      "type": "string"
+                    },
+                    "milestones_url": {
+                      "type": "string"
+                    },
+                    "notifications_url": {
+                      "type": "string"
+                    },
+                    "pulls_url": {
+                      "type": "string"
+                    },
+                    "releases_url": {
+                      "type": "string"
+                    },
+                    "ssh_url": {
+                      "type": "string"
+                    },
+                    "stargazers_url": {
+                      "type": "string"
+                    },
+                    "statuses_url": {
+                      "type": "string"
+                    },
+                    "subscribers_url": {
+                      "type": "string"
+                    },
+                    "subscription_url": {
+                      "type": "string"
+                    },
+                    "tags_url": {
+                      "type": "string"
+                    },
+                    "teams_url": {
+                      "type": "string"
+                    },
+                    "trees_url": {
+                      "type": "string"
+                    },
+                    "clone_url": {
+                      "type": "string"
+                    },
+                    "mirror_url": {
+                      "type": "string"
+                    },
+                    "hooks_url": {
+                      "type": "string"
+                    },
+                    "svn_url": {
+                      "type": "string"
+                    },
+                    "homepage": {
+                      "type": "string"
+                    },
+                    "language": {
+                      "type": "string"
+                    },
+                    "forks_count": {
+                      "type": "number"
+                    },
+                    "stargazers_count": {
+                      "type": "number"
+                    },
+                    "watchers_count": {
+                      "type": "number"
+                    },
+                    "size": {
+                      "type": "number"
+                    },
+                    "default_branch": {
+                      "type": "string"
+                    },
+                    "open_issues_count": {
+                      "type": "number"
+                    },
+                    "topics": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "has_issues": {
+                      "type": "boolean"
+                    },
+                    "has_projects": {
+                      "type": "boolean"
+                    },
+                    "has_wiki": {
+                      "type": "boolean"
+                    },
+                    "has_pages": {
+                      "type": "boolean"
+                    },
+                    "has_downloads": {
+                      "type": "boolean"
+                    },
+                    "archived": {
+                      "type": "boolean"
+                    },
+                    "disabled": {
+                      "type": "boolean"
+                    },
+                    "pushed_at": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    },
+                    "permissions": {
+                      "type": "object",
+                      "properties": {
+                        "admin": {
+                          "type": "boolean"
+                        },
+                        "push": {
+                          "type": "boolean"
+                        },
+                        "pull": {
+                          "type": "boolean"
+                        }
+                      }
+                    },
+                    "allow_rebase_merge": {
+                      "type": "boolean"
+                    },
+                    "allow_squash_merge": {
+                      "type": "boolean"
+                    },
+                    "allow_merge_commit": {
+                      "type": "boolean"
+                    },
+                    "subscribers_count": {
+                      "type": "number"
+                    },
+                    "network_count": {
+                      "type": "number"
+                    },
+                    "anonymous_access_enabled": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.machine-man-preview+json\" \\\n  https://developer.github.com/app/installations//access_tokens"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.apps.get({\n  installation_id: 'installation_id'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": []
+}
