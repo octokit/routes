@@ -1,0 +1,86 @@
+{
+  "summary": "Request check suites",
+  "description": "Triggers GitHub to create a new check suite, without pushing new code to a repository. To request a check suite, your GitHub App must have the `checks:read` permission on a private repository or pull access to a public repository.",
+  "operationId": "checks-request-suites",
+  "tags": [
+    "checks"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.14/v3/checks/suites/#request-check-suites"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "This API is under preview and subject to change.",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.antiope-preview+json"
+      },
+      "required": true
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "owner parameter"
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "repo parameter"
+    }
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "head_sha": {
+              "description": "The sha of the head commit.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "head_sha"
+          ]
+        }
+      }
+    }
+  },
+  "responses": {
+    "201": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {}
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.antiope-preview+json\" \\\n  https://developer.github.com/repos/octocat/:repo/check-suite-requests \\\n  -d '{\"head_sha\":\"head_sha\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.checks.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  head_sha: 'head_sha'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": []
+}

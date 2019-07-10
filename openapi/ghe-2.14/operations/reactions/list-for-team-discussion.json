@@ -1,0 +1,107 @@
+{
+  "summary": "List reactions for a team discussion",
+  "description": "List the reactions to a [team discussion](https://developer.github.com/enterprise/2.14/v3/teams/discussions/). OAuth access tokens require the `read:discussion` [scope](https://developer.github.com/enterprise/2.14/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).",
+  "operationId": "reactions-list-for-team-discussion",
+  "tags": [
+    "reactions"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.14/v3/reactions/#list-reactions-for-a-team-discussion"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "This API is under preview and subject to change.",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.echo-preview+json,application/vnd.github.squirrel-girl-preview+json"
+      },
+      "required": true
+    },
+    {
+      "name": "team_id",
+      "in": "path",
+      "schema": {
+        "type": "integer"
+      },
+      "required": true,
+      "description": "team_id parameter"
+    },
+    {
+      "name": "discussion_number",
+      "in": "path",
+      "schema": {
+        "type": "integer"
+      },
+      "required": true,
+      "description": "discussion_number parameter"
+    },
+    {
+      "name": "content",
+      "in": "query",
+      "schema": {
+        "type": "string",
+        "enum": [
+          "+1",
+          "-1",
+          "laugh",
+          "confused",
+          "heart",
+          "hooray",
+          "rocket",
+          "eyes"
+        ]
+      },
+      "required": false,
+      "description": "Returns a single [reaction type](https://developer.github.com/enterprise/2.14/v3/reactions/#reaction-types). Omit this parameter to list all reactions to a team discussion."
+    },
+    {
+      "name": "per_page",
+      "in": "query",
+      "schema": {
+        "type": "integer",
+        "default": 30
+      },
+      "required": false,
+      "description": "Results per page (max 100)"
+    },
+    {
+      "name": "page",
+      "in": "query",
+      "schema": {
+        "type": "integer",
+        "default": 1
+      },
+      "required": false,
+      "description": "Page number of the results to fetch."
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {}
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.echo-preview+json,application/vnd.github.squirrel-girl-preview+json\" \\\n  https://developer.github.com/teams//discussions/:discussion_number/reactions"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.reactions.get({\n  team_id: 'team_id',\n  discussion_number: 'discussion_number'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": []
+}
