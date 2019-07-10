@@ -1,0 +1,65 @@
+{
+  "summary": "Delete email address(es)",
+  "description": "If your GitHub Enterprise instance has [LDAP Sync enabled and the option to synchronize emails enabled](https://help.github.com/enterprise/admin/guides/user-management/using-ldap/#enabling-ldap-sync), this API is disabled and will return a `403` response. Users managed in LDAP won't be able to add or delete an email address via the API with these options enabled.\n\nThis endpoint is accessible with the `user` scope.",
+  "operationId": "users-delete-emails",
+  "tags": [
+    "users"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.15/v3/users/emails/#delete-email-addresses"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    }
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "emails": {
+              "description": "Deletes one or more email addresses from your GitHub Enterprise account. Must contain at least one email address. **Note:** Alternatively, you can pass a single email address or an `array` of emails addresses directly, but we recommend that you pass an object using the `emails` key.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "emails"
+          ]
+        }
+      }
+    }
+  },
+  "responses": {
+    "204": {
+      "description": "Empty response"
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XDELETE \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/user/emails \\\n  -d '{\"emails\":\"emails\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.users.get({\n  emails: 'emails'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false
+  },
+  "x-changes": []
+}
