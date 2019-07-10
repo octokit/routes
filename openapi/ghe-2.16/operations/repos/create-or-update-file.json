@@ -1,0 +1,299 @@
+{
+  "summary": "Create or update a file",
+  "description": "Creates a new file or updates an existing file in a repository.",
+  "operationId": "repos-create-or-update-file",
+  "tags": [
+    "repos"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.16/v3/repos/contents/#create-or-update-a-file"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "owner parameter"
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "repo parameter"
+    },
+    {
+      "name": "path",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "path parameter"
+    }
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "description": "The commit message.",
+              "type": "string"
+            },
+            "content": {
+              "description": "The new file content, using Base64 encoding.",
+              "type": "string"
+            },
+            "sha": {
+              "description": "**Required if you are updating a file**. The blob SHA of the file being replaced.",
+              "type": "string"
+            },
+            "branch": {
+              "description": "The branch name. Default: the repository’s default branch (usually `master`)",
+              "type": "string"
+            },
+            "committer": {
+              "description": "The person that committed the file. Default: the authenticated user.",
+              "type": "object",
+              "properties": {
+                "name": {
+                  "description": "The name of the author or committer of the commit. You'll receive a `422` status code if `name` is omitted.",
+                  "type": "string"
+                },
+                "email": {
+                  "description": "The email of the author or committer of the commit. You'll receive a `422` status code if `name` is omitted.",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "email"
+              ]
+            },
+            "author": {
+              "description": "The author of the file. Default: The `committer` or the authenticated user if you omit `committer`.",
+              "type": "object",
+              "properties": {
+                "name": {
+                  "description": "The name of the author or committer of the commit. You'll receive a `422` status code if `name` is omitted.",
+                  "type": "string"
+                },
+                "email": {
+                  "description": "The email of the author or committer of the commit. You'll receive a `422` status code if `name` is omitted.",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "email"
+              ]
+            }
+          },
+          "required": [
+            "message",
+            "content"
+          ]
+        }
+      }
+    }
+  },
+  "responses": {
+    "201": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "properties": {
+              "content": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "path": {
+                    "type": "string"
+                  },
+                  "sha": {
+                    "type": "string"
+                  },
+                  "size": {
+                    "type": "number"
+                  },
+                  "url": {
+                    "type": "string"
+                  },
+                  "html_url": {
+                    "type": "string"
+                  },
+                  "git_url": {
+                    "type": "string"
+                  },
+                  "download_url": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "_links": {
+                    "type": "object",
+                    "properties": {
+                      "self": {
+                        "type": "string"
+                      },
+                      "git": {
+                        "type": "string"
+                      },
+                      "html": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "commit": {
+                "type": "object",
+                "properties": {
+                  "sha": {
+                    "type": "string"
+                  },
+                  "node_id": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  },
+                  "html_url": {
+                    "type": "string"
+                  },
+                  "author": {
+                    "type": "object",
+                    "properties": {
+                      "date": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "committer": {
+                    "type": "object",
+                    "properties": {
+                      "date": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "message": {
+                    "type": "string"
+                  },
+                  "tree": {
+                    "type": "object",
+                    "properties": {
+                      "url": {
+                        "type": "string"
+                      },
+                      "sha": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "parents": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "url": {
+                          "type": "string"
+                        },
+                        "html_url": {
+                          "type": "string"
+                        },
+                        "sha": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "verification": {
+                    "type": "object",
+                    "properties": {
+                      "verified": {
+                        "type": "boolean"
+                      },
+                      "reason": {
+                        "type": "string"
+                      },
+                      "signature": {
+                        "type": "string"
+                      },
+                      "payload": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/contents/:path \\\n  -d '{\"message\":\"message\",\"content\":\"content\",\"committer.name\":\"committer.name\",\"committer.email\":\"committer.email\",\"author.name\":\"author.name\",\"author.email\":\"author.email\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  path: 'path',\n  message: 'message',\n  content: 'content',\n  'committer.name': 'committer.name',\n  'committer.email': 'committer.email',\n  'author.name': 'author.name',\n  'author.email': 'author.email'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": [
+    {
+      "type": "idName",
+      "date": "2019-06-07",
+      "note": "\"Create a file\" replaced by \"Create or update a file\"",
+      "meta": {
+        "before": {
+          "idName": "create-file"
+        },
+        "after": {
+          "idName": "create-or-update-file"
+        }
+      }
+    }
+  ]
+}
