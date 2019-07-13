@@ -6,7 +6,8 @@ const {
   getGheVersion,
   getBaseUrl,
   getCacheDir,
-  getRoutesDir
+  getRoutesDir,
+  wrapOperation
 } = require('../util')
 const getEndpoint = require('../../lib/endpoint/get')
 const Cache = require('../../lib/cache')
@@ -17,7 +18,7 @@ URLS.forEach(url => {
   test(`${url} to JSON separate route files in routes/**/*.json`, async t => {
     const expected = getRoutesForUrl(url)
 
-    const actual = await getEndpoint({
+    let actual = await getEndpoint({
       cached: true,
       cache: new Cache(getCacheDir()),
       baseUrl: getBaseUrl(),
@@ -25,6 +26,7 @@ URLS.forEach(url => {
       gheVersion: getGheVersion(),
       memoryCache: {}
     }, url)
+    actual = actual.map(wrapOperation)
 
     t.deepEquals(actual, expected)
     t.end()
