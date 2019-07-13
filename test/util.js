@@ -1,7 +1,9 @@
-const { flatten, kebabCase } = require('lodash')
+const { entries, kebabCase } = require('lodash')
+
+const { convertEndpointToOperation } = require('../lib/convert-endpoint-to-operation')
 
 module.exports = {
-  getAllRoutesByScope,
+  getAllRoutes,
   getAllRoutesByDocumentUrl,
   getAllDocumentationUrls,
   getScopeRoutes,
@@ -11,11 +13,11 @@ module.exports = {
   getBaseUrl,
   getPathPrefix,
   getCacheDir,
-  getRoutesDir
+  getRoutesDir,
+  wrapOperation
 }
 
 const GHE_VERSION = parseFloat(process.env.GHE_VERSION)
-const SCOPES = Object.keys(getAllRoutesByScope())
 
 function getGheVersion () {
   return GHE_VERSION
@@ -41,17 +43,16 @@ function getRoutesDir () {
 }
 
 function requireRoutesFile (filePath) {
-  const [ routesRoot, routesDir ] = [ '../routes', getRoutesDir() ]
+  const [ routesRoot, routesDir ] = [ '../openapi', getRoutesDir() ]
   return require(`${routesRoot}/${routesDir}/${filePath}`)
 }
 
-function getAllRoutesByScope () {
-  return requireRoutesFile('index.json')
+function getAllRoutes () {
+  return requireRoutesFile('index.json').paths
 }
 
-const CACHED_ROUTES_BY_DOCUMENTATION_URL = flatten(
-  SCOPES.map(scope => getAllRoutesByScope()[scope])
-).reduce(reduceByDocumentationUrl, {})
+const CACHED_ROUTES_BY_DOCUMENTATION_URL = entries(getAllRoutes())
+  .reduce(reduceByDocumentationUrl, {})
 function getAllRoutesByDocumentUrl () {
   return CACHED_ROUTES_BY_DOCUMENTATION_URL
 }
@@ -74,20 +75,58 @@ function getScopeRoutesByDocumentUrl (scope) {
 }
 
 function getRoutesForUrl (url) {
-  const matches = url.match(/\/v3\/([^/#]+)((\/[^/#]+)*)/)
-  const scope = kebabCase(matches[1])
-  const routes = CACHED_ROUTES_BY_DOCUMENTATION_URL[url]
-  const idNames = routes.map(route => route.idName)
-
-  return idNames.map(idName => requireRoutesFile(`${scope}/${idName}.json`))
+  return CACHED_ROUTES_BY_DOCUMENTATION_URL[url]
 }
 
-function reduceByDocumentationUrl (map, endpoint) {
-  const documentationUrl = endpoint.documentationUrl
-  if (!map[documentationUrl]) {
-    map[documentationUrl] = []
+function reduceByDocumentationUrl (map, [ path, methods ]) {
+  for (const method of Object.keys(methods)) {
+    let operation = getOperation(method)
+    const documentationUrl = operation.externalDocs.url
+    if (!map[documentationUrl]) {
+      map[documentationUrl] = []
+    }
+    map[documentationUrl].push({ path, method, operation })
   }
-  map[documentationUrl].push(endpoint)
-
   return map
+
+  // TODO: make openapi operations more straightforward to include,
+  //       probably via json-schema-ref-parser
+  function getOperation (method) {
+    let op = methods[method]
+    // json-schema-ref-parser does not resolve relative to the index.json file.
+    // For now use simple, manual $ref requiring:
+    if (op.$ref) {
+      const [ routesRoot, routesDir ] = [ '../openapi', getRoutesDir() ]
+      op = require(`${routesRoot}/${routesDir}/${op.$ref}`)
+    }
+    return op
+  }
+}
+
+function wrapOperation (endpoint) {
+  let path = endpoint.path.split('/')
+    .map(segment => segment.replace(/^:(.+)$/, '{$1}'))
+    .join('/')
+  const method = endpoint.method.toLowerCase()
+  const [scope] = endpoint.documentationUrl.substr(getBaseUrl().length)
+    .split('/')
+  const operation = convertEndpointToOperation({
+    endpoint,
+    scope,
+    baseUrl: getBaseUrl()
+  })
+  removeUndefinedByReference(operation)
+  return { path, method, operation }
+}
+
+function removeUndefinedByReference (value) {
+  for (const key of Object.keys(value)) {
+    if (value[key] === undefined) {
+      delete value[key]
+    } else if (Array.isArray(value[key])) {
+      value[key].forEach(removeUndefinedByReference)
+    } else if (typeof value[key] === 'object' && value[key] !== null) {
+      removeUndefinedByReference(value[key])
+    }
+  }
 }
