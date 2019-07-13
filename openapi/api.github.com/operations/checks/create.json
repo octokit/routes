@@ -1,13 +1,13 @@
 {
-  "summary": "Update a check run",
-  "description": "**Note:** The Checks API only looks for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array.\n\nUpdates a check run for a specific commit in a repository. Your GitHub App must have the `checks:write` permission to edit check runs.\n\n#### [](https://developer.github.com/v3/checks/runs/#actions-object-1)`actions` object",
-  "operationId": "checks-update",
+  "summary": "Create a check run",
+  "description": "**Note:** The Checks API only looks for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array.\n\nCreates a new check run for a specific commit in a repository. Your GitHub App must have the `checks:write` permission to create check runs.\n\nTo learn more about check runs and requested actions, see \"[Check runs and requested actions](https://developer.github.com/v3/checks/runs/#check-runs-and-requested-actions).\"",
+  "operationId": "checks-create",
   "tags": [
     "checks"
   ],
   "externalDocs": {
     "description": "API method documentation",
-    "url": "https://developer.github.com/v3/checks/runs/#update-a-check-run"
+    "url": "https://developer.github.com/v3/checks/runs/#create-a-check-run"
   },
   "parameters": [
     {
@@ -37,15 +37,6 @@
       },
       "required": true,
       "description": "repo parameter"
-    },
-    {
-      "name": "check_run_id",
-      "in": "path",
-      "schema": {
-        "type": "integer"
-      },
-      "required": true,
-      "description": "check_run_id parameter"
     }
   ],
   "requestBody": {
@@ -58,16 +49,16 @@
               "description": "The name of the check. For example, \"code-coverage\".",
               "type": "string"
             },
+            "head_sha": {
+              "description": "The SHA of the commit.",
+              "type": "string"
+            },
             "details_url": {
               "description": "The URL of the integrator's site that has the full details of the check.",
               "type": "string"
             },
             "external_id": {
               "description": "A reference for the run on the integrator's system.",
-              "type": "string"
-            },
-            "started_at": {
-              "description": "This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.",
               "type": "string"
             },
             "status": {
@@ -77,10 +68,15 @@
                 "queued",
                 "in_progress",
                 "completed"
-              ]
+              ],
+              "default": "queued"
+            },
+            "started_at": {
+              "description": "The time that the check run began. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.",
+              "type": "string"
             },
             "conclusion": {
-              "description": "**Required if you provide `completed_at` or a `status` of `completed`**. The final conclusion of the check. Can be one of `success`, `failure`, `neutral`, `cancelled`, `timed_out`, or `action_required`.  \n**Note:** Providing `conclusion` will automatically set the `status` parameter to `completed`.",
+              "description": "**Required if you provide `completed_at` or a `status` of `completed`**. The final conclusion of the check. Can be one of `success`, `failure`, `neutral`, `cancelled`, `timed_out`, or `action_required`. When the conclusion is `action_required`, additional details should be provided on the site specified by `details_url`.  \n**Note:** Providing `conclusion` will automatically set the `status` parameter to `completed`.",
               "type": "string",
               "enum": [
                 "success",
@@ -92,27 +88,27 @@
               ]
             },
             "completed_at": {
-              "description": "**Required if you provide `conclusion`**. The time the check completed. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.",
+              "description": "The time the check completed. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.",
               "type": "string"
             },
             "output": {
-              "description": "Check runs can accept a variety of data in the `output` object, including a `title` and `summary` and can optionally provide descriptive details about the run. See the [`output` object](https://developer.github.com/v3/checks/runs/#output-object-1) description.",
+              "description": "Check runs can accept a variety of data in the `output` object, including a `title` and `summary` and can optionally provide descriptive details about the run. See the [`output` object](https://developer.github.com/v3/checks/runs/#output-object) description.",
               "type": "object",
               "properties": {
                 "title": {
-                  "description": "**Required**.",
+                  "description": "The title of the check run.",
                   "type": "string"
                 },
                 "summary": {
-                  "description": "Can contain Markdown.",
+                  "description": "The summary of the check run. This parameter supports Markdown.",
                   "type": "string"
                 },
                 "text": {
-                  "description": "Can contain Markdown.",
+                  "description": "The details of the check run. This parameter supports Markdown.",
                   "type": "string"
                 },
                 "annotations": {
-                  "description": "Adds information from your analysis to specific lines of code. Annotations are visible in GitHub's pull request UI. Annotations are visible in GitHub's pull request UI. The Checks API limits the number of annotations to a maximum of 50 per API request. To create more than 50 annotations, you have to make multiple requests to the [Update a check run](https://developer.github.com/v3/checks/runs/#update-a-check-run) endpoint. Each time you update the check run, annotations are appended to the list of annotations that already exist for the check run. For details about annotations in the UI, see \"[About status checks](https://help.github.com/articles/about-status-checks#checks)\". See the [`annotations` object](https://developer.github.com/v3/checks/runs/#annotations-object-1) description for details.",
+                  "description": "Adds information from your analysis to specific lines of code. Annotations are visible on GitHub in the **Checks** and **Files changed** tab of the pull request. The Checks API limits the number of annotations to a maximum of 50 per API request. To create more than 50 annotations, you have to make multiple requests to the [Update a check run](https://developer.github.com/v3/checks/runs/#update-a-check-run) endpoint. Each time you update the check run, annotations are appended to the list of annotations that already exist for the check run. For details about how you can view annotations on GitHub, see \"[About status checks](https://help.github.com/articles/about-status-checks#checks)\". See the [`annotations` object](https://developer.github.com/v3/checks/runs/#annotations-object) description for details about how to use this parameter.",
                   "type": "array",
                   "items": {
                     "type": "object",
@@ -169,7 +165,7 @@
                   }
                 },
                 "images": {
-                  "description": "Adds images to the output displayed in the GitHub pull request UI. See the [`images` object](https://developer.github.com/v3/checks/runs/#annotations-object-1) description for details.",
+                  "description": "Adds images to the output displayed in the GitHub pull request UI. See the [`images` object](https://developer.github.com/v3/checks/runs/#images-object) description for details.",
                   "type": "array",
                   "items": {
                     "type": "object",
@@ -195,11 +191,12 @@
                 }
               },
               "required": [
+                "title",
                 "summary"
               ]
             },
             "actions": {
-              "description": "Possible further actions the integrator can perform, which a user may trigger. Each action includes a `label`, `identifier` and `description`. A maximum of three actions are accepted. See the [`actions` object](https://developer.github.com/v3/checks/runs/#actions-object) description.",
+              "description": "Displays a button on GitHub that can be clicked to alert your app to do additional tasks. For example, a code linting app can display a button that automatically fixes detected errors. The button created in this object is displayed after the check run completes. When a user clicks the button, GitHub sends the [`check_run.requested_action` webhook](https://developer.github.com/v3/activity/events/types/#checkrunevent) to your app. Each action includes a `label`, `identifier` and `description`. A maximum of three actions are accepted. See the [`actions` object](https://developer.github.com/v3/checks/runs/#actions-object) description. To learn more about check runs and requested actions, see \"[Check runs and requested actions](https://developer.github.com/v3/checks/runs/#check-runs-and-requested-actions).\"",
               "type": "array",
               "items": {
                 "type": "object",
@@ -224,13 +221,17 @@
                 ]
               }
             }
-          }
+          },
+          "required": [
+            "name",
+            "head_sha"
+          ]
         }
       }
     }
   },
   "responses": {
-    "200": {
+    "201": {
       "description": "response",
       "content": {
         "application/json": {
@@ -279,12 +280,6 @@
                     "type": "string"
                   },
                   "text": {
-                    "type": "string"
-                  },
-                  "annotations_count": {
-                    "type": "number"
-                  },
-                  "annotations_url": {
                     "type": "string"
                   }
                 }
@@ -446,11 +441,11 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.antiope-preview+json\" \\\n  https://developer.github.com/repos/octocat/:repo/check-runs/:check_run_id \\\n  -d '{\"output.summary\":\"output.summary\",\"output.annotations[].path\":\"output.annotations[].path\",\"output.annotations[].start_line\":\"output.annotations[].start_line\",\"output.annotations[].end_line\":\"output.annotations[].end_line\",\"output.annotations[].annotation_level\":\"output.annotations[].annotation_level\",\"output.annotations[].message\":\"output.annotations[].message\",\"output.images[].alt\":\"output.images[].alt\",\"output.images[].image_url\":\"output.images[].image_url\",\"actions[].label\":\"actions[].label\",\"actions[].description\":\"actions[].description\",\"actions[].identifier\":\"actions[].identifier\"}'"
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.antiope-preview+json\" \\\n  https://developer.github.com/repos/octocat/:repo/check-runs \\\n  -d '{\"name\":\"name\",\"head_sha\":\"head_sha\",\"output.title\":\"output.title\",\"output.summary\":\"output.summary\",\"output.annotations[].path\":\"output.annotations[].path\",\"output.annotations[].start_line\":\"output.annotations[].start_line\",\"output.annotations[].end_line\":\"output.annotations[].end_line\",\"output.annotations[].annotation_level\":\"output.annotations[].annotation_level\",\"output.annotations[].message\":\"output.annotations[].message\",\"output.images[].alt\":\"output.images[].alt\",\"output.images[].image_url\":\"output.images[].image_url\",\"actions[].label\":\"actions[].label\",\"actions[].description\":\"actions[].description\",\"actions[].identifier\":\"actions[].identifier\"}'"
     },
     {
       "lang": "JS",
-      "source": "octokit.checks.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  check_run_id: 'check_run_id',\n  'output.summary': 'output.summary',\n  'output.annotations[].path': 'output.annotations[].path',\n  'output.annotations[].start_line': 'output.annotations[].start_line',\n  'output.annotations[].end_line': 'output.annotations[].end_line',\n  'output.annotations[].annotation_level': 'output.annotations[].annotation_level',\n  'output.annotations[].message': 'output.annotations[].message',\n  'output.images[].alt': 'output.images[].alt',\n  'output.images[].image_url': 'output.images[].image_url',\n  'actions[].label': 'actions[].label',\n  'actions[].description': 'actions[].description',\n  'actions[].identifier': 'actions[].identifier'\n})"
+      "source": "octokit.checks.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  name: 'name',\n  head_sha: 'head_sha',\n  'output.title': 'output.title',\n  'output.summary': 'output.summary',\n  'output.annotations[].path': 'output.annotations[].path',\n  'output.annotations[].start_line': 'output.annotations[].start_line',\n  'output.annotations[].end_line': 'output.annotations[].end_line',\n  'output.annotations[].annotation_level': 'output.annotations[].annotation_level',\n  'output.annotations[].message': 'output.annotations[].message',\n  'output.images[].alt': 'output.images[].alt',\n  'output.images[].image_url': 'output.images[].image_url',\n  'actions[].label': 'actions[].label',\n  'actions[].description': 'actions[].description',\n  'actions[].identifier': 'actions[].identifier'\n})"
     }
   ],
   "x-github": {
