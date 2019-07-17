@@ -3,19 +3,11 @@ const { test } = require('tap')
 const UTIL = require('../util')
 const Cache = require('../../lib/cache')
 
-const [
-  gheVersion,
-  baseUrl,
-  cacheDir,
-  routesRoot,
-  routesDir
-] = [
-  UTIL.getGheVersion(),
-  UTIL.getBaseUrl(),
-  UTIL.getCacheDir(),
-  UTIL.getRoutesRoot(),
-  UTIL.getRoutesDir()
-]
+const gheVersion = UTIL.getGheVersion()
+const baseUrl = UTIL.getBaseUrl()
+const cacheDir = UTIL.getCacheDir()
+const routesRoot = UTIL.getRoutesRoot()
+const routesDir = UTIL.getRoutesDir()
 
 testEndpoints(UTIL.getAllDocumentationUrls())
 
