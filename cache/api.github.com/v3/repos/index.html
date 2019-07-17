@@ -82,10 +82,6 @@
             <a class="dropdown-menu-item" data-proofer-ignore>GitHub Enterprise 2.15</a>
             
             
-            
-            <a class="dropdown-menu-item" data-proofer-ignore>GitHub Enterprise 2.14</a>
-            
-            
           </div>
       </div>
       <form accept-charset="UTF-8" action="#" class="site-header-nav-item site-header-search">
@@ -127,10 +123,12 @@
 
 
 
-  
+
   
 
  
+
+
 
     <div class="sub-nav mt-5 mb-3">
       <h2><a href="/v3/">REST API v3</a></h2>
@@ -190,14 +188,12 @@
     <option value="/v3/git/trees/">Trees</option>
   </optgroup>
 
-  
   <optgroup label="GitHub Apps">
     <option value="/v3/apps/">GitHub Apps overview</a></h3>
     <option value="/v3/apps/installations/">Installations</option>
     <option value="/v3/apps/permissions/">Permissions</option>
     <option value="/v3/apps/available-endpoints/">Available Endpoints</option>
   </optgroup>
-  
 
   
   <optgroup label="Marketplace">
@@ -356,6 +352,7 @@
 <li><a href="#list-organization-repositories" id="markdown-toc-list-organization-repositories">List organization repositories</a></li>
 <li><a href="#list-all-public-repositories" id="markdown-toc-list-all-public-repositories">List all public repositories</a></li>
 <li><a href="#create" id="markdown-toc-create">Create</a></li>
+<li><a href="#create-repository-using-a-repository-template" id="markdown-toc-create-repository-using-a-repository-template">Create repository using a repository template</a></li>
 <li><a href="#get" id="markdown-toc-get">Get</a></li>
 <li><a href="#edit" id="markdown-toc-edit">Edit</a></li>
 <li><a href="#list-all-topics-for-a-repository" id="markdown-toc-list-all-topics-for-a-repository">List all topics for a repository</a></li>
@@ -400,7 +397,7 @@
 <h2>
 <a id="list-your-repositories" class="anchor" href="#list-your-repositories" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List your repositories</h2>
 
-<p>List repositories that the authenticated user has explicit permission (<code>:read</code>, <code>:write</code>, or <code>:admin</code>) to access.</p>
+<p>Lists repositories that the authenticated user has explicit permission (<code>:read</code>, <code>:write</code>, or <code>:admin</code>) to access.</p>
 
 <p>The authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership.</p>
 
@@ -455,7 +452,7 @@
 <a id="list-user-repositories" class="anchor" href="#list-user-repositories" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List user repositories<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
-<p>List public repositories for the specified user.</p>
+<p>Lists public repositories for the specified user.</p>
 
 <pre><code>GET /users/:username/repos
 </code></pre>
@@ -497,7 +494,22 @@
 <a id="list-organization-repositories" class="anchor" href="#list-organization-repositories" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List organization repositories<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
-<p>List repositories for the specified org.</p>
+<div class="alert note">
+
+<p><strong>Note:</strong> The <code>is_template</code> and <code>template_repository</code> keys are currently available for developer to preview. See <a href="/v3/repos/#create-repository-using-a-repository-template">Create repository using a repository template</a> to learn how to create template repositories. To access these new response keys during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+<pre><code>application/vnd.github.baptiste-preview+json
+</code></pre>
+
+</div>
+
+<div class="alert warning">
+
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub Support</a>.</p>
+
+</div>
+
+<p>Lists repositories for the specified organization.</p>
 
 <pre><code>GET /orgs/:org/repos
 </code></pre>
@@ -624,6 +636,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
     </span><span class="nt">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">108</span><span class="p">,</span><span class="w">
     </span><span class="nt">"default_branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"master"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"open_issues_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"is_template"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="nt">"topics"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
       </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
       </span><span class="s2">"atom"</span><span class="p">,</span><span class="w">
@@ -645,6 +658,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
       </span><span class="nt">"push"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
       </span><span class="nt">"pull"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
     </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"template_repository"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
     </span><span class="nt">"subscribers_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w">
     </span><span class="nt">"network_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
     </span><span class="nt">"license"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -663,7 +677,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <a id="list-all-public-repositories" class="anchor" href="#list-all-public-repositories" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List all public repositories<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
-<p>This provides a dump of every public repository, in the order that they were created.</p>
+<p>Lists all public repositories in the order that they were created.</p>
 
 <p>Note: Pagination is powered exclusively by the <code>since</code> parameter.
 Use the <a href="/v3/#link-header">Link header</a> to get the URL for the next page of
@@ -777,7 +791,22 @@ Link: &lt;https://api.github.com/repositories?since=364&gt;; rel="next"
 <a id="create" class="anchor" href="#create" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
-<p>Create a new repository for the authenticated user.</p>
+<div class="alert note">
+
+<p><strong>Note:</strong> The <code>is_template</code> and <code>template_repository</code> keys are currently available for developer to preview. See <a href="/v3/repos/#create-repository-using-a-repository-template">Create repository using a repository template</a> to learn how to create template repositories. To access these new response keys during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+<pre><code>application/vnd.github.baptiste-preview+json
+</code></pre>
+
+</div>
+
+<div class="alert warning">
+
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub Support</a>.</p>
+
+</div>
+
+<p>Creates a new repository for the authenticated user.</p>
 
 <div class="alert note">
 
@@ -788,8 +817,7 @@ Link: &lt;https://api.github.com/repositories?since=364&gt;; rel="next"
 <pre><code>POST /user/repos
 </code></pre>
 
-<p>Create a new repository in this organization. The authenticated user must
-be a member of the specified organization.</p>
+<p>Creates a new repository in the specified organization. The authenticated user must be a member of the organization.</p>
 
 <pre><code>POST /orgs/:org/repos
 </code></pre>
@@ -807,7 +835,7 @@ be a member of the specified organization.</p>
 </ul>
 
 <h3>
-<a id="input" class="anchor" href="#input" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Input</h3>
+<a id="parameters-4" class="anchor" href="#parameters-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
 
 <table>
 <thead>
@@ -837,7 +865,8 @@ be a member of the specified organization.</p>
 <tr>
 <td><code>private</code></td>
 <td><code>boolean</code></td>
-<td>Either <code>true</code> to create a private repository or <code>false</code> to create a public one. Creating private repositories requires a paid GitHub account.  Default: <code>false</code>.</td>
+<td>Either <code>true</code> to create a private repository or <code>false</code> to create a public one. Creating private repositories requires a paid GitHub account.  Default: <code>false</code>
+</td>
 </tr>
 <tr>
 <td><code>has_issues</code></td>
@@ -853,6 +882,11 @@ be a member of the specified organization.</p>
 <td><code>has_wiki</code></td>
 <td><code>boolean</code></td>
 <td>Either <code>true</code> to enable the wiki for this repository or <code>false</code> to disable it. Default: <code>true</code>.</td>
+</tr>
+<tr>
+<td><code>is_template</code></td>
+<td><code>boolean</code></td>
+<td>Either <code>true</code> to make this repo available as a template repository or <code>false</code> to prevent it. Default: <code>false</code>.</td>
 </tr>
 <tr>
 <td><code>team_id</code></td>
@@ -997,6 +1031,7 @@ Location: https://api.github.com/repos/octocat/Hello-World
   </span><span class="nt">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">108</span><span class="p">,</span><span class="w">
   </span><span class="nt">"default_branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"master"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"open_issues_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"is_template"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
   </span><span class="nt">"topics"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"atom"</span><span class="p">,</span><span class="w">
@@ -1019,6 +1054,319 @@ Location: https://api.github.com/repos/octocat/Hello-World
     </span><span class="nt">"pull"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="nt">"allow_rebase_merge"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"template_repository"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"allow_squash_merge"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"allow_merge_commit"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"subscribers_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"network_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+
+<h2>
+<a id="create-repository-using-a-repository-template" class="anchor" href="#create-repository-using-a-repository-template" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create repository using a repository template</h2>
+
+<div class="alert note">
+
+<p><strong>Note:</strong> Creating and using repository templates is currently available for developers to preview. To access this new endpoint during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+<pre><code>application/vnd.github.baptiste-preview+json
+</code></pre>
+
+</div>
+
+<div class="alert warning">
+
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub Support</a>.</p>
+
+</div>
+
+<p>Creates a new repository using a repository template. Use the <code>repo</code> route parameter to specify the repository to use as the template. The authenticated user must own or be a member of an organization that owns the repository. To check if a repository is available to use as a template, get the repository's information using the <a href="/v3/repos/#get"><code>GET /repos/:owner/:repo</code></a> endpoint and check that the <code>is_template</code> key is <code>true</code>.</p>
+
+<pre><code>POST /repos/:owner/:repo/generate
+</code></pre>
+
+<h3>
+<a id="oauth-scope-requirements-1" class="anchor" href="#oauth-scope-requirements-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>OAuth scope requirements</h3>
+
+<p>When using <a href="/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/">OAuth</a>, authorizations must include:</p>
+
+<ul>
+<li>
+<code>public_repo</code> scope or <code>repo</code> scope to create a public repository</li>
+<li>
+<code>repo</code> scope to create a private repository</li>
+</ul>
+
+<h3>
+<a id="parameters-5" class="anchor" href="#parameters-5" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>owner</code></td>
+<td><code>string</code></td>
+<td>The organization or person who will own the new repository. To create a new repository in an organization, the authenticated user must be a member of the specified organization.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required</strong>. The name of the new repository.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td><code>string</code></td>
+<td>A short description of the new repository.</td>
+</tr>
+<tr>
+<td><code>private</code></td>
+<td><code>boolean</code></td>
+<td>Either <code>true</code> to create a new private repository or <code>false</code> to create a new public one. Default: <code>false</code>
+</td>
+</tr>
+</tbody>
+</table>
+
+<p>`</p>
+
+<h4>
+<a id="example-1" class="anchor" href="#example-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h4>
+
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"owner"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Hello-World"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This is your first repository"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"private"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+
+<h3>
+<a id="response-3" class="anchor" href="#response-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 201 Created
+Location: https://api.github.com/repos/octocat/Hello-World
+</code></pre>
+
+
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1296269</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDEwOlJlcG9zaXRvcnkxMjk2MjY5"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Hello-World"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"full_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat/Hello-World"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"owner"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDQ6VXNlcjE="</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"avatar_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/images/error/octocat_happy.gif"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gravatar_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"followers_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/followers"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"following_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/following{/other_user}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gists_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/gists{/gist_id}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"starred_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/starred{/owner}{/repo}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"subscriptions_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/subscriptions"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"organizations_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/orgs"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"repos_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/repos"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/events{/privacy}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"received_events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/received_events"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"site_admin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"private"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat/Hello-World"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This your first repo!"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"fork"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"archive_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"assignees_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/assignees{/user}"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"blobs_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"branches_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/branches{/branch}"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"collaborators_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"comments_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/comments{/number}"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"commits_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/commits{/sha}"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"compare_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"contents_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/contents/{+path}"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"contributors_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/contributors"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"deployments_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/deployments"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"downloads_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/downloads"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/events"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"forks_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/forks"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"git_commits_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"git_refs_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"git_tags_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"git_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"git:github.com/octocat/Hello-World.git"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"issue_comment_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"issue_events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/issues/events{/number}"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"issues_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/issues{/number}"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"keys_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/keys{/key_id}"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"labels_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/labels{/name}"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"languages_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/languages"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"merges_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/merges"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"milestones_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/milestones{/number}"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"notifications_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"pulls_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/pulls{/number}"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"releases_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/releases{/id}"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"ssh_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"git@github.com:octocat/Hello-World.git"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"stargazers_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/stargazers"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"statuses_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/statuses/{sha}"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"subscribers_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/subscribers"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"subscription_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/subscription"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"tags_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/tags"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"teams_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/teams"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"trees_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"clone_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat/Hello-World.git"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"mirror_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"git:git.example.com/octocat/Hello-World"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"hooks_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/hooks"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"svn_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://svn.github.com/octocat/Hello-World"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"homepage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"language"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"forks_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"stargazers_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">80</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"watchers_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">80</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">108</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"default_branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"master"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"open_issues_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"is_template"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"topics"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"atom"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"electron"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"api"</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"has_issues"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"has_projects"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"has_wiki"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"has_pages"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"has_downloads"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"archived"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"disabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"pushed_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-01-26T19:06:43Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-01-26T19:01:12Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-01-26T19:14:43Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"permissions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"admin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"push"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"pull"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"allow_rebase_merge"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"template_repository"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1296269</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDEwOlJlcG9zaXRvcnkxMjk2MjY5"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Hello-World"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"full_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat/Hello-World"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"owner"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDQ6VXNlcjE="</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"avatar_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/images/error/octocat_happy.gif"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"gravatar_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"followers_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/followers"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"following_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/following{/other_user}"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"gists_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/gists{/gist_id}"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"starred_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/starred{/owner}{/repo}"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"subscriptions_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/subscriptions"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"organizations_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/orgs"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"repos_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/repos"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/events{/privacy}"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"received_events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/received_events"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"site_admin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"private"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat/Hello-World"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This your first repo!"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"fork"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"archive_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"assignees_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/assignees{/user}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"blobs_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"branches_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/branches{/branch}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"collaborators_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"comments_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/comments{/number}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"commits_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/commits{/sha}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"compare_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"contents_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/contents/{+path}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"contributors_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/contributors"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"deployments_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/deployments"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"downloads_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/downloads"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/events"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"forks_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/forks"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"git_commits_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"git_refs_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"git_tags_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"git_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"git:github.com/octocat/Hello-World.git"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"issue_comment_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"issue_events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/issues/events{/number}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"issues_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/issues{/number}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"keys_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/keys{/key_id}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"labels_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/labels{/name}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"languages_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/languages"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"merges_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/merges"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"milestones_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/milestones{/number}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"notifications_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"pulls_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/pulls{/number}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"releases_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/releases{/id}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"ssh_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"git@github.com:octocat/Hello-World.git"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"stargazers_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/stargazers"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"statuses_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/statuses/{sha}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"subscribers_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/subscribers"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"subscription_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/subscription"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"tags_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/tags"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"teams_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/teams"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"trees_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"clone_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat/Hello-World.git"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"mirror_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"git:git.example.com/octocat/Hello-World"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"hooks_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://api.github.com/repos/octocat/Hello-World/hooks"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"svn_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://svn.github.com/octocat/Hello-World"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"homepage"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"language"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"forks_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"stargazers_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">80</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"watchers_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">80</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">108</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"default_branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"master"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"open_issues_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"is_template"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"topics"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"atom"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"electron"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"api"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"has_issues"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"has_projects"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"has_wiki"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"has_pages"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"has_downloads"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"archived"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"disabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"pushed_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-01-26T19:06:43Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-01-26T19:01:12Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-01-26T19:14:43Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"permissions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"admin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"push"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"pull"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"allow_rebase_merge"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"template_repository"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"allow_squash_merge"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"allow_merge_commit"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"subscribers_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"network_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+  </span><span class="p">},</span><span class="w">
   </span><span class="nt">"allow_squash_merge"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
   </span><span class="nt">"allow_merge_commit"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
   </span><span class="nt">"subscribers_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w">
@@ -1035,7 +1383,7 @@ Location: https://api.github.com/repos/octocat/Hello-World
 </code></pre>
 
 <h3>
-<a id="response-3" class="anchor" href="#response-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-4" class="anchor" href="#response-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <p>The <code>parent</code> and <code>source</code> objects are present when the repository is a fork.
 <code>parent</code> is the repository this repository was forked from,
@@ -1124,6 +1472,7 @@ Location: https://api.github.com/repos/octocat/Hello-World
   </span><span class="nt">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">108</span><span class="p">,</span><span class="w">
   </span><span class="nt">"default_branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"master"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"open_issues_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"is_template"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
   </span><span class="nt">"topics"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"atom"</span><span class="p">,</span><span class="w">
@@ -1146,6 +1495,7 @@ Location: https://api.github.com/repos/octocat/Hello-World
     </span><span class="nt">"pull"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="nt">"allow_rebase_merge"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"template_repository"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
   </span><span class="nt">"allow_squash_merge"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
   </span><span class="nt">"allow_merge_commit"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
   </span><span class="nt">"subscribers_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w">
@@ -1256,6 +1606,7 @@ Location: https://api.github.com/repos/octocat/Hello-World
     </span><span class="nt">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">108</span><span class="p">,</span><span class="w">
     </span><span class="nt">"default_branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"master"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"open_issues_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"is_template"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="nt">"topics"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
       </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
       </span><span class="s2">"atom"</span><span class="p">,</span><span class="w">
@@ -1278,6 +1629,7 @@ Location: https://api.github.com/repos/octocat/Hello-World
       </span><span class="nt">"pull"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="nt">"allow_rebase_merge"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"template_repository"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
     </span><span class="nt">"allow_squash_merge"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="nt">"allow_merge_commit"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="nt">"subscribers_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w">
@@ -1362,6 +1714,7 @@ Location: https://api.github.com/repos/octocat/Hello-World
     </span><span class="nt">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">108</span><span class="p">,</span><span class="w">
     </span><span class="nt">"default_branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"master"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"open_issues_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"is_template"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="nt">"topics"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
       </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
       </span><span class="s2">"atom"</span><span class="p">,</span><span class="w">
@@ -1384,6 +1737,7 @@ Location: https://api.github.com/repos/octocat/Hello-World
       </span><span class="nt">"pull"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="nt">"allow_rebase_merge"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"template_repository"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
     </span><span class="nt">"allow_squash_merge"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="nt">"allow_merge_commit"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="nt">"subscribers_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w">
@@ -1397,6 +1751,21 @@ Location: https://api.github.com/repos/octocat/Hello-World
 <a id="edit" class="anchor" href="#edit" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Edit<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
+<div class="alert note">
+
+<p><strong>Note:</strong> The <code>is_template</code> and <code>template_repository</code> keys are currently available for developer to preview. See <a href="/v3/repos/#create-repository-using-a-repository-template">Create repository using a repository template</a> to learn how to create template repositories. To access these new response keys during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+<pre><code>application/vnd.github.baptiste-preview+json
+</code></pre>
+
+</div>
+
+<div class="alert warning">
+
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub Support</a>.</p>
+
+</div>
+
 <pre><code>PATCH /repos/:owner/:repo
 </code></pre>
 
@@ -1407,7 +1776,7 @@ Location: https://api.github.com/repos/octocat/Hello-World
 </div>
 
 <h3>
-<a id="input-1" class="anchor" href="#input-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Input</h3>
+<a id="input" class="anchor" href="#input" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Input</h3>
 
 <table>
 <thead>
@@ -1455,6 +1824,11 @@ Location: https://api.github.com/repos/octocat/Hello-World
 <td>Either <code>true</code> to enable the wiki for this repository or <code>false</code> to disable it. Default: <code>true</code>.</td>
 </tr>
 <tr>
+<td><code>is_template</code></td>
+<td><code>boolean</code></td>
+<td>Either <code>true</code> to make this repo available as a template repository or <code>false</code> to prevent it. Default: <code>false</code>.</td>
+</tr>
+<tr>
 <td><code>default_branch</code></td>
 <td><code>string</code></td>
 <td>Updates the default branch for this repository.</td>
@@ -1488,7 +1862,7 @@ Location: https://api.github.com/repos/octocat/Hello-World
 </table>
 
 <h4>
-<a id="example-1" class="anchor" href="#example-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h4>
+<a id="example-2" class="anchor" href="#example-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h4>
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Hello-World"</span><span class="p">,</span><span class="w">
@@ -1503,7 +1877,7 @@ Location: https://api.github.com/repos/octocat/Hello-World
 
 
 <h3>
-<a id="response-4" class="anchor" href="#response-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-5" class="anchor" href="#response-5" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 200 OK
 </code></pre>
@@ -1588,6 +1962,7 @@ Location: https://api.github.com/repos/octocat/Hello-World
   </span><span class="nt">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">108</span><span class="p">,</span><span class="w">
   </span><span class="nt">"default_branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"master"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"open_issues_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"is_template"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
   </span><span class="nt">"topics"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"atom"</span><span class="p">,</span><span class="w">
@@ -1610,6 +1985,7 @@ Location: https://api.github.com/repos/octocat/Hello-World
     </span><span class="nt">"pull"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="nt">"allow_rebase_merge"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"template_repository"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
   </span><span class="nt">"allow_squash_merge"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
   </span><span class="nt">"allow_merge_commit"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
   </span><span class="nt">"subscribers_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w">
@@ -1713,6 +2089,7 @@ Location: https://api.github.com/repos/octocat/Hello-World
     </span><span class="nt">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">108</span><span class="p">,</span><span class="w">
     </span><span class="nt">"default_branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"master"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"open_issues_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"is_template"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="nt">"topics"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
       </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
       </span><span class="s2">"atom"</span><span class="p">,</span><span class="w">
@@ -1735,6 +2112,7 @@ Location: https://api.github.com/repos/octocat/Hello-World
       </span><span class="nt">"pull"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="nt">"allow_rebase_merge"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"template_repository"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
     </span><span class="nt">"allow_squash_merge"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="nt">"allow_merge_commit"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="nt">"subscribers_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w">
@@ -1819,6 +2197,7 @@ Location: https://api.github.com/repos/octocat/Hello-World
     </span><span class="nt">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">108</span><span class="p">,</span><span class="w">
     </span><span class="nt">"default_branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"master"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"open_issues_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"is_template"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="nt">"topics"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
       </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
       </span><span class="s2">"atom"</span><span class="p">,</span><span class="w">
@@ -1841,6 +2220,7 @@ Location: https://api.github.com/repos/octocat/Hello-World
       </span><span class="nt">"pull"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="nt">"allow_rebase_merge"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"template_repository"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
     </span><span class="nt">"allow_squash_merge"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="nt">"allow_merge_commit"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="nt">"subscribers_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w">
@@ -1873,7 +2253,7 @@ Location: https://api.github.com/repos/octocat/Hello-World
 </code></pre>
 
 <h3>
-<a id="response-5" class="anchor" href="#response-5" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-6" class="anchor" href="#response-6" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 200 OK
 </code></pre>
@@ -1913,7 +2293,7 @@ Location: https://api.github.com/repos/octocat/Hello-World
 </code></pre>
 
 <h3>
-<a id="input-2" class="anchor" href="#input-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Input</h3>
+<a id="input-1" class="anchor" href="#input-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Input</h3>
 
 <table>
 <thead>
@@ -1936,7 +2316,7 @@ Location: https://api.github.com/repos/octocat/Hello-World
 </table>
 
 <h3>
-<a id="example-2" class="anchor" href="#example-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+<a id="example-3" class="anchor" href="#example-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"names"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
@@ -1950,7 +2330,7 @@ Location: https://api.github.com/repos/octocat/Hello-World
 
 
 <h3>
-<a id="response-6" class="anchor" href="#response-6" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-7" class="anchor" href="#response-7" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 200 OK
 </code></pre>
@@ -2028,7 +2408,7 @@ Location: https://api.github.com/repos/octocat/Hello-World
 </code></pre>
 
 <h3>
-<a id="response-7" class="anchor" href="#response-7" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-8" class="anchor" href="#response-8" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 204 No Content
 </code></pre>
@@ -2058,7 +2438,7 @@ Location: https://api.github.com/repos/octocat/Hello-World
 </code></pre>
 
 <h3>
-<a id="response-8" class="anchor" href="#response-8" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-9" class="anchor" href="#response-9" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 204 No Content
 </code></pre>
@@ -2088,7 +2468,7 @@ Location: https://api.github.com/repos/octocat/Hello-World
 </code></pre>
 
 <h3>
-<a id="response-9" class="anchor" href="#response-9" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-10" class="anchor" href="#response-10" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 204 No Content
 </code></pre>
@@ -2118,7 +2498,7 @@ Location: https://api.github.com/repos/octocat/Hello-World
 </code></pre>
 
 <h3>
-<a id="response-10" class="anchor" href="#response-10" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-11" class="anchor" href="#response-11" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 204 No Content
 </code></pre>
@@ -2140,7 +2520,7 @@ Location: https://api.github.com/repos/octocat/Hello-World
 </code></pre>
 
 <h3>
-<a id="parameters-4" class="anchor" href="#parameters-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+<a id="parameters-6" class="anchor" href="#parameters-6" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
 
 <table>
 <thead>
@@ -2211,7 +2591,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </code></pre>
 
 <h3>
-<a id="response-11" class="anchor" href="#response-11" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-12" class="anchor" href="#response-12" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 200 OK
 </code></pre>
@@ -2232,7 +2612,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </code></pre>
 
 <h3>
-<a id="response-12" class="anchor" href="#response-12" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-13" class="anchor" href="#response-13" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 200 OK
 Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
@@ -2266,7 +2646,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </code></pre>
 
 <h3>
-<a id="response-13" class="anchor" href="#response-13" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-14" class="anchor" href="#response-14" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 200 OK
 Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
@@ -2299,7 +2679,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </code></pre>
 
 <h3>
-<a id="response-14" class="anchor" href="#response-14" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-15" class="anchor" href="#response-15" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 204 No Content
 </code></pre>
@@ -2343,7 +2723,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </code></pre>
 
 <h3>
-<a id="input-3" class="anchor" href="#input-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Input</h3>
+<a id="input-2" class="anchor" href="#input-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Input</h3>
 
 <table>
 <thead>
@@ -2371,7 +2751,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </table>
 
 <h3>
-<a id="example-3" class="anchor" href="#example-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+<a id="example-4" class="anchor" href="#example-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"new_owner"</span><span class="p">:</span><span class="w"> </span><span class="s2">"github"</span><span class="p">,</span><span class="w">
@@ -2384,7 +2764,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 
 <h3>
-<a id="response-15" class="anchor" href="#response-15" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-16" class="anchor" href="#response-16" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 202 Accepted
 </code></pre>
@@ -2469,6 +2849,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
   </span><span class="nt">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">108</span><span class="p">,</span><span class="w">
   </span><span class="nt">"default_branch"</span><span class="p">:</span><span class="w"> </span><span class="s2">"master"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"open_issues_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"is_template"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
   </span><span class="nt">"topics"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"atom"</span><span class="p">,</span><span class="w">
@@ -2491,6 +2872,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
     </span><span class="nt">"pull"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="nt">"allow_rebase_merge"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"template_repository"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
   </span><span class="nt">"allow_squash_merge"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
   </span><span class="nt">"allow_merge_commit"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
   </span><span class="nt">"subscribers_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span><span class="w">
@@ -2546,14 +2928,12 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
     <option value="/v3/git/trees/">Trees</option>
   </optgroup>
 
-  
   <optgroup label="GitHub Apps">
     <option value="/v3/apps/">GitHub Apps overview</a></h3>
     <option value="/v3/apps/installations/">Installations</option>
     <option value="/v3/apps/permissions/">Permissions</option>
     <option value="/v3/apps/available-endpoints/">Available Endpoints</option>
   </optgroup>
-  
 
   
   <optgroup label="Marketplace">
@@ -2752,7 +3132,6 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
           <li><a href="/v3/git/trees/">Trees</a></li>
         </ul>
       </li>
-      
       <li class="js-topic">
         <h3><a href="#" class="js-expand-btn collapsed arrow-btn" data-proofer-ignore></a><a href="/v3/apps/">GitHub Apps</a></h3>
         <ul class="js-guides">
@@ -2761,7 +3140,6 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
           <li><a href="/v3/apps/available-endpoints/">Available Endpoints</a></li>
         </ul>
       </li>
-      
       
       <li class="js-topic">
         <h3 class="standalone">
