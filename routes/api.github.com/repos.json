@@ -86,7 +86,7 @@
         "location": "query"
       }
     ],
-    "description": "List repositories that the authenticated user has explicit permission (`:read`, `:write`, or `:admin`) to access.\n\nThe authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership.",
+    "description": "Lists repositories that the authenticated user has explicit permission (`:read`, `:write`, or `:admin`) to access.\n\nThe authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership.",
     "idName": "list",
     "documentationUrl": "https://developer.github.com/v3/repos/#list-your-repositories"
   },
@@ -161,7 +161,7 @@
         "location": "query"
       }
     ],
-    "description": "List public repositories for the specified user.",
+    "description": "Lists public repositories for the specified user.",
     "idName": "list-for-user",
     "documentationUrl": "https://developer.github.com/v3/repos/#list-user-repositories"
   },
@@ -171,7 +171,13 @@
     "githubCloudOnly": false,
     "method": "GET",
     "path": "/orgs/:org/repos",
-    "previews": [],
+    "previews": [
+      {
+        "name": "baptiste",
+        "description": "**Note:** The `is_template` and `template_repository` keys are currently available for developer to preview. See [Create repository using a repository template](https://developer.github.com/v3/repos/#create-repository-using-a-repository-template) to learn how to create template repositories. To access these new response keys during the preview period, you must provide a custom [media type](https://developer.github.com/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.baptiste-preview+json\n\n```",
+        "required": false
+      }
+    ],
     "params": [
       {
         "name": "org",
@@ -239,7 +245,7 @@
         "location": "query"
       }
     ],
-    "description": "List repositories for the specified org.",
+    "description": "Lists repositories for the specified organization.",
     "responses": [
       {
         "headers": {
@@ -326,6 +332,7 @@
             "size": 108,
             "default_branch": "master",
             "open_issues_count": 0,
+            "is_template": true,
             "topics": [
               "octocat",
               "atom",
@@ -347,6 +354,7 @@
               "push": false,
               "pull": true
             },
+            "template_repository": null,
             "subscribers_count": 42,
             "network_count": 0,
             "license": {
@@ -395,7 +403,7 @@
         "location": "query"
       }
     ],
-    "description": "This provides a dump of every public repository, in the order that they were created.\n\nNote: Pagination is powered exclusively by the `since` parameter. Use the [Link header](https://developer.github.com/v3/#link-header) to get the URL for the next page of repositories.",
+    "description": "Lists all public repositories in the order that they were created.\n\nNote: Pagination is powered exclusively by the `since` parameter. Use the [Link header](https://developer.github.com/v3/#link-header) to get the URL for the next page of repositories.",
     "responses": [
       {
         "headers": {
@@ -481,9 +489,15 @@
     "method": "POST",
     "path": "/user/repos",
     "enabledForApps": true,
-    "name": "Create a new repository for the authenticated user",
+    "name": "Creates a new repository for the authenticated user",
     "githubCloudOnly": false,
-    "previews": [],
+    "previews": [
+      {
+        "name": "baptiste",
+        "description": "**Note:** The `is_template` and `template_repository` keys are currently available for developer to preview. See [Create repository using a repository template](https://developer.github.com/v3/repos/#create-repository-using-a-repository-template) to learn how to create template repositories. To access these new response keys during the preview period, you must provide a custom [media type](https://developer.github.com/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.baptiste-preview+json\n\n```",
+        "required": false
+      }
+    ],
     "params": [
       {
         "name": "name",
@@ -535,6 +549,14 @@
         "type": "boolean",
         "description": "Either `true` to enable the wiki for this repository or `false` to disable it.",
         "default": true,
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "is_template",
+        "type": "boolean",
+        "description": "Either `true` to make this repo available as a template repository or `false` to prevent it.",
+        "default": false,
         "required": false,
         "location": "body"
       },
@@ -689,6 +711,7 @@
           "size": 108,
           "default_branch": "master",
           "open_issues_count": 0,
+          "is_template": true,
           "topics": [
             "octocat",
             "atom",
@@ -711,6 +734,7 @@
             "pull": true
           },
           "allow_rebase_merge": true,
+          "template_repository": null,
           "allow_squash_merge": true,
           "allow_merge_commit": true,
           "subscribers_count": 42,
@@ -725,9 +749,15 @@
     "method": "POST",
     "path": "/orgs/:org/repos",
     "enabledForApps": true,
-    "name": "Create a new repository in this organization",
+    "name": "Creates a new repository in the specified organization",
     "githubCloudOnly": false,
-    "previews": [],
+    "previews": [
+      {
+        "name": "baptiste",
+        "description": "**Note:** The `is_template` and `template_repository` keys are currently available for developer to preview. See [Create repository using a repository template](https://developer.github.com/v3/repos/#create-repository-using-a-repository-template) to learn how to create template repositories. To access these new response keys during the preview period, you must provide a custom [media type](https://developer.github.com/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.baptiste-preview+json\n\n```",
+        "required": false
+      }
+    ],
     "params": [
       {
         "name": "org",
@@ -790,6 +820,14 @@
         "location": "body"
       },
       {
+        "name": "is_template",
+        "type": "boolean",
+        "description": "Either `true` to make this repo available as a template repository or `false` to prevent it.",
+        "default": false,
+        "required": false,
+        "location": "body"
+      },
+      {
         "name": "team_id",
         "type": "integer",
         "description": "The id of the team that will be granted access to this repository. This is only valid when creating a repository in an organization.",
@@ -940,6 +978,7 @@
           "size": 108,
           "default_branch": "master",
           "open_issues_count": 0,
+          "is_template": true,
           "topics": [
             "octocat",
             "atom",
@@ -962,6 +1001,7 @@
             "pull": true
           },
           "allow_rebase_merge": true,
+          "template_repository": null,
           "allow_squash_merge": true,
           "allow_merge_commit": true,
           "subscribers_count": 42,
@@ -971,6 +1011,292 @@
     ],
     "idName": "create-in-org",
     "documentationUrl": "https://developer.github.com/v3/repos/#create"
+  },
+  {
+    "name": "Create repository using a repository template",
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "method": "POST",
+    "path": "/repos/:owner/:repo/generate",
+    "previews": [
+      {
+        "name": "baptiste",
+        "description": "**Note:** Creating and using repository templates is currently available for developers to preview. To access this new endpoint during the preview period, you must provide a custom [media type](https://developer.github.com/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.baptiste-preview+json\n\n```",
+        "required": true
+      }
+    ],
+    "params": [
+      {
+        "name": "repo",
+        "type": "string",
+        "required": true,
+        "description": "",
+        "location": "url"
+      },
+      {
+        "name": "owner",
+        "type": "string",
+        "description": "The organization or person who will own the new repository. To create a new repository in an organization, the authenticated user must be a member of the specified organization.",
+        "required": true,
+        "location": "url"
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "description": "The name of the new repository.",
+        "required": true,
+        "location": "body"
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "description": "A short description of the new repository.",
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "private",
+        "type": "boolean",
+        "description": "Either `true` to create a new private repository or `false` to create a new public one.",
+        "default": false,
+        "required": false,
+        "location": "body"
+      }
+    ],
+    "requests": [
+      {
+        "owner": "octocat",
+        "name": "Hello-World",
+        "description": "This is your first repository",
+        "private": false
+      }
+    ],
+    "description": "Creates a new repository using a repository template. Use the `repo` route parameter to specify the repository to use as the template. The authenticated user must own or be a member of an organization that owns the repository. To check if a repository is available to use as a template, get the repository's information using the [`GET /repos/:owner/:repo`](https://developer.github.com/v3/repos/#get) endpoint and check that the `is_template` key is `true`.\n\n**OAuth scope requirements**\n\nWhen using [OAuth](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/), authorizations must include:\n\n*   `public_repo` scope or `repo` scope to create a public repository\n*   `repo` scope to create a private repository\n\n\\`",
+    "responses": [
+      {
+        "headers": {
+          "status": "201 Created",
+          "content-type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "id": 1296269,
+          "node_id": "MDEwOlJlcG9zaXRvcnkxMjk2MjY5",
+          "name": "Hello-World",
+          "full_name": "octocat/Hello-World",
+          "owner": {
+            "login": "octocat",
+            "id": 1,
+            "node_id": "MDQ6VXNlcjE=",
+            "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/octocat",
+            "html_url": "https://github.com/octocat",
+            "followers_url": "https://api.github.com/users/octocat/followers",
+            "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+            "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+            "organizations_url": "https://api.github.com/users/octocat/orgs",
+            "repos_url": "https://api.github.com/users/octocat/repos",
+            "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+            "received_events_url": "https://api.github.com/users/octocat/received_events",
+            "type": "User",
+            "site_admin": false
+          },
+          "private": false,
+          "html_url": "https://github.com/octocat/Hello-World",
+          "description": "This your first repo!",
+          "fork": false,
+          "url": "https://api.github.com/repos/octocat/Hello-World",
+          "archive_url": "http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}",
+          "assignees_url": "http://api.github.com/repos/octocat/Hello-World/assignees{/user}",
+          "blobs_url": "http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}",
+          "branches_url": "http://api.github.com/repos/octocat/Hello-World/branches{/branch}",
+          "collaborators_url": "http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}",
+          "comments_url": "http://api.github.com/repos/octocat/Hello-World/comments{/number}",
+          "commits_url": "http://api.github.com/repos/octocat/Hello-World/commits{/sha}",
+          "compare_url": "http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}",
+          "contents_url": "http://api.github.com/repos/octocat/Hello-World/contents/{+path}",
+          "contributors_url": "http://api.github.com/repos/octocat/Hello-World/contributors",
+          "deployments_url": "http://api.github.com/repos/octocat/Hello-World/deployments",
+          "downloads_url": "http://api.github.com/repos/octocat/Hello-World/downloads",
+          "events_url": "http://api.github.com/repos/octocat/Hello-World/events",
+          "forks_url": "http://api.github.com/repos/octocat/Hello-World/forks",
+          "git_commits_url": "http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}",
+          "git_refs_url": "http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}",
+          "git_tags_url": "http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}",
+          "git_url": "git:github.com/octocat/Hello-World.git",
+          "issue_comment_url": "http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}",
+          "issue_events_url": "http://api.github.com/repos/octocat/Hello-World/issues/events{/number}",
+          "issues_url": "http://api.github.com/repos/octocat/Hello-World/issues{/number}",
+          "keys_url": "http://api.github.com/repos/octocat/Hello-World/keys{/key_id}",
+          "labels_url": "http://api.github.com/repos/octocat/Hello-World/labels{/name}",
+          "languages_url": "http://api.github.com/repos/octocat/Hello-World/languages",
+          "merges_url": "http://api.github.com/repos/octocat/Hello-World/merges",
+          "milestones_url": "http://api.github.com/repos/octocat/Hello-World/milestones{/number}",
+          "notifications_url": "http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}",
+          "pulls_url": "http://api.github.com/repos/octocat/Hello-World/pulls{/number}",
+          "releases_url": "http://api.github.com/repos/octocat/Hello-World/releases{/id}",
+          "ssh_url": "git@github.com:octocat/Hello-World.git",
+          "stargazers_url": "http://api.github.com/repos/octocat/Hello-World/stargazers",
+          "statuses_url": "http://api.github.com/repos/octocat/Hello-World/statuses/{sha}",
+          "subscribers_url": "http://api.github.com/repos/octocat/Hello-World/subscribers",
+          "subscription_url": "http://api.github.com/repos/octocat/Hello-World/subscription",
+          "tags_url": "http://api.github.com/repos/octocat/Hello-World/tags",
+          "teams_url": "http://api.github.com/repos/octocat/Hello-World/teams",
+          "trees_url": "http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}",
+          "clone_url": "https://github.com/octocat/Hello-World.git",
+          "mirror_url": "git:git.example.com/octocat/Hello-World",
+          "hooks_url": "http://api.github.com/repos/octocat/Hello-World/hooks",
+          "svn_url": "https://svn.github.com/octocat/Hello-World",
+          "homepage": "https://github.com",
+          "language": null,
+          "forks_count": 9,
+          "stargazers_count": 80,
+          "watchers_count": 80,
+          "size": 108,
+          "default_branch": "master",
+          "open_issues_count": 0,
+          "is_template": false,
+          "topics": [
+            "octocat",
+            "atom",
+            "electron",
+            "api"
+          ],
+          "has_issues": true,
+          "has_projects": true,
+          "has_wiki": true,
+          "has_pages": false,
+          "has_downloads": true,
+          "archived": false,
+          "disabled": false,
+          "pushed_at": "2011-01-26T19:06:43Z",
+          "created_at": "2011-01-26T19:01:12Z",
+          "updated_at": "2011-01-26T19:14:43Z",
+          "permissions": {
+            "admin": false,
+            "push": false,
+            "pull": true
+          },
+          "allow_rebase_merge": true,
+          "template_repository": {
+            "id": 1296269,
+            "node_id": "MDEwOlJlcG9zaXRvcnkxMjk2MjY5",
+            "name": "Hello-World",
+            "full_name": "octocat/Hello-World",
+            "owner": {
+              "login": "octocat",
+              "id": 1,
+              "node_id": "MDQ6VXNlcjE=",
+              "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/octocat",
+              "html_url": "https://github.com/octocat",
+              "followers_url": "https://api.github.com/users/octocat/followers",
+              "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+              "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+              "organizations_url": "https://api.github.com/users/octocat/orgs",
+              "repos_url": "https://api.github.com/users/octocat/repos",
+              "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/octocat/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "private": false,
+            "html_url": "https://github.com/octocat/Hello-World",
+            "description": "This your first repo!",
+            "fork": false,
+            "url": "https://api.github.com/repos/octocat/Hello-World",
+            "archive_url": "http://api.github.com/repos/octocat/Hello-World/{archive_format}{/ref}",
+            "assignees_url": "http://api.github.com/repos/octocat/Hello-World/assignees{/user}",
+            "blobs_url": "http://api.github.com/repos/octocat/Hello-World/git/blobs{/sha}",
+            "branches_url": "http://api.github.com/repos/octocat/Hello-World/branches{/branch}",
+            "collaborators_url": "http://api.github.com/repos/octocat/Hello-World/collaborators{/collaborator}",
+            "comments_url": "http://api.github.com/repos/octocat/Hello-World/comments{/number}",
+            "commits_url": "http://api.github.com/repos/octocat/Hello-World/commits{/sha}",
+            "compare_url": "http://api.github.com/repos/octocat/Hello-World/compare/{base}...{head}",
+            "contents_url": "http://api.github.com/repos/octocat/Hello-World/contents/{+path}",
+            "contributors_url": "http://api.github.com/repos/octocat/Hello-World/contributors",
+            "deployments_url": "http://api.github.com/repos/octocat/Hello-World/deployments",
+            "downloads_url": "http://api.github.com/repos/octocat/Hello-World/downloads",
+            "events_url": "http://api.github.com/repos/octocat/Hello-World/events",
+            "forks_url": "http://api.github.com/repos/octocat/Hello-World/forks",
+            "git_commits_url": "http://api.github.com/repos/octocat/Hello-World/git/commits{/sha}",
+            "git_refs_url": "http://api.github.com/repos/octocat/Hello-World/git/refs{/sha}",
+            "git_tags_url": "http://api.github.com/repos/octocat/Hello-World/git/tags{/sha}",
+            "git_url": "git:github.com/octocat/Hello-World.git",
+            "issue_comment_url": "http://api.github.com/repos/octocat/Hello-World/issues/comments{/number}",
+            "issue_events_url": "http://api.github.com/repos/octocat/Hello-World/issues/events{/number}",
+            "issues_url": "http://api.github.com/repos/octocat/Hello-World/issues{/number}",
+            "keys_url": "http://api.github.com/repos/octocat/Hello-World/keys{/key_id}",
+            "labels_url": "http://api.github.com/repos/octocat/Hello-World/labels{/name}",
+            "languages_url": "http://api.github.com/repos/octocat/Hello-World/languages",
+            "merges_url": "http://api.github.com/repos/octocat/Hello-World/merges",
+            "milestones_url": "http://api.github.com/repos/octocat/Hello-World/milestones{/number}",
+            "notifications_url": "http://api.github.com/repos/octocat/Hello-World/notifications{?since,all,participating}",
+            "pulls_url": "http://api.github.com/repos/octocat/Hello-World/pulls{/number}",
+            "releases_url": "http://api.github.com/repos/octocat/Hello-World/releases{/id}",
+            "ssh_url": "git@github.com:octocat/Hello-World.git",
+            "stargazers_url": "http://api.github.com/repos/octocat/Hello-World/stargazers",
+            "statuses_url": "http://api.github.com/repos/octocat/Hello-World/statuses/{sha}",
+            "subscribers_url": "http://api.github.com/repos/octocat/Hello-World/subscribers",
+            "subscription_url": "http://api.github.com/repos/octocat/Hello-World/subscription",
+            "tags_url": "http://api.github.com/repos/octocat/Hello-World/tags",
+            "teams_url": "http://api.github.com/repos/octocat/Hello-World/teams",
+            "trees_url": "http://api.github.com/repos/octocat/Hello-World/git/trees{/sha}",
+            "clone_url": "https://github.com/octocat/Hello-World.git",
+            "mirror_url": "git:git.example.com/octocat/Hello-World",
+            "hooks_url": "http://api.github.com/repos/octocat/Hello-World/hooks",
+            "svn_url": "https://svn.github.com/octocat/Hello-World",
+            "homepage": "https://github.com",
+            "language": null,
+            "forks_count": 9,
+            "stargazers_count": 80,
+            "watchers_count": 80,
+            "size": 108,
+            "default_branch": "master",
+            "open_issues_count": 0,
+            "is_template": true,
+            "topics": [
+              "octocat",
+              "atom",
+              "electron",
+              "api"
+            ],
+            "has_issues": true,
+            "has_projects": true,
+            "has_wiki": true,
+            "has_pages": false,
+            "has_downloads": true,
+            "archived": false,
+            "disabled": false,
+            "pushed_at": "2011-01-26T19:06:43Z",
+            "created_at": "2011-01-26T19:01:12Z",
+            "updated_at": "2011-01-26T19:14:43Z",
+            "permissions": {
+              "admin": false,
+              "push": false,
+              "pull": true
+            },
+            "allow_rebase_merge": true,
+            "template_repository": null,
+            "allow_squash_merge": true,
+            "allow_merge_commit": true,
+            "subscribers_count": 42,
+            "network_count": 0
+          },
+          "allow_squash_merge": true,
+          "allow_merge_commit": true,
+          "subscribers_count": 42,
+          "network_count": 0
+        }
+      }
+    ],
+    "idName": "create-using-template",
+    "documentationUrl": "https://developer.github.com/v3/repos/#create-repository-using-a-repository-template"
   },
   {
     "name": "Get",
@@ -1081,6 +1407,7 @@
           "size": 108,
           "default_branch": "master",
           "open_issues_count": 0,
+          "is_template": true,
           "topics": [
             "octocat",
             "atom",
@@ -1103,6 +1430,7 @@
             "pull": true
           },
           "allow_rebase_merge": true,
+          "template_repository": null,
           "allow_squash_merge": true,
           "allow_merge_commit": true,
           "subscribers_count": 42,
@@ -1213,6 +1541,7 @@
             "size": 108,
             "default_branch": "master",
             "open_issues_count": 0,
+            "is_template": true,
             "topics": [
               "octocat",
               "atom",
@@ -1235,6 +1564,7 @@
               "pull": true
             },
             "allow_rebase_merge": true,
+            "template_repository": null,
             "allow_squash_merge": true,
             "allow_merge_commit": true,
             "subscribers_count": 42,
@@ -1319,6 +1649,7 @@
             "size": 108,
             "default_branch": "master",
             "open_issues_count": 0,
+            "is_template": true,
             "topics": [
               "octocat",
               "atom",
@@ -1341,6 +1672,7 @@
               "pull": true
             },
             "allow_rebase_merge": true,
+            "template_repository": null,
             "allow_squash_merge": true,
             "allow_merge_commit": true,
             "subscribers_count": 42,
@@ -1359,7 +1691,13 @@
     "githubCloudOnly": false,
     "method": "PATCH",
     "path": "/repos/:owner/:repo",
-    "previews": [],
+    "previews": [
+      {
+        "name": "baptiste",
+        "description": "**Note:** The `is_template` and `template_repository` keys are currently available for developer to preview. See [Create repository using a repository template](https://developer.github.com/v3/repos/#create-repository-using-a-repository-template) to learn how to create template repositories. To access these new response keys during the preview period, you must provide a custom [media type](https://developer.github.com/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.baptiste-preview+json\n\n```",
+        "required": false
+      }
+    ],
     "params": [
       {
         "name": "owner",
@@ -1425,6 +1763,14 @@
         "type": "boolean",
         "description": "Either `true` to enable the wiki for this repository or `false` to disable it.",
         "default": true,
+        "required": false,
+        "location": "body"
+      },
+      {
+        "name": "is_template",
+        "type": "boolean",
+        "description": "Either `true` to make this repo available as a template repository or `false` to prevent it.",
+        "default": false,
         "required": false,
         "location": "body"
       },
@@ -1565,6 +1911,7 @@
           "size": 108,
           "default_branch": "master",
           "open_issues_count": 0,
+          "is_template": true,
           "topics": [
             "octocat",
             "atom",
@@ -1587,6 +1934,7 @@
             "pull": true
           },
           "allow_rebase_merge": true,
+          "template_repository": null,
           "allow_squash_merge": true,
           "allow_merge_commit": true,
           "subscribers_count": 42,
@@ -1690,6 +2038,7 @@
             "size": 108,
             "default_branch": "master",
             "open_issues_count": 0,
+            "is_template": true,
             "topics": [
               "octocat",
               "atom",
@@ -1712,6 +2061,7 @@
               "pull": true
             },
             "allow_rebase_merge": true,
+            "template_repository": null,
             "allow_squash_merge": true,
             "allow_merge_commit": true,
             "subscribers_count": 42,
@@ -1796,6 +2146,7 @@
             "size": 108,
             "default_branch": "master",
             "open_issues_count": 0,
+            "is_template": true,
             "topics": [
               "octocat",
               "atom",
@@ -1818,6 +2169,7 @@
               "pull": true
             },
             "allow_rebase_merge": true,
+            "template_repository": null,
             "allow_squash_merge": true,
             "allow_merge_commit": true,
             "subscribers_count": 42,
@@ -2069,7 +2421,7 @@
       {
         "name": "london",
         "description": "**Note:** Enabling or disabling automated security fixes is currently available for developers to preview. To access this new endpoint during the preview period, you must provide a custom [media type](https://developer.github.com/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.london-preview+json\n\n```",
-        "required": false
+        "required": true
       }
     ],
     "params": [
@@ -2110,7 +2462,7 @@
       {
         "name": "london",
         "description": "**Note:** Enabling or disabling automated security fixes is currently available for developers to preview. To access this new endpoint during the preview period, you must provide a custom [media type](https://developer.github.com/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.london-preview+json\n\n```",
-        "required": false
+        "required": true
       }
     ],
     "params": [
@@ -2542,6 +2894,7 @@
           "size": 108,
           "default_branch": "master",
           "open_issues_count": 0,
+          "is_template": true,
           "topics": [
             "octocat",
             "atom",
@@ -2564,6 +2917,7 @@
             "pull": true
           },
           "allow_rebase_merge": true,
+          "template_repository": null,
           "allow_squash_merge": true,
           "allow_merge_commit": true,
           "subscribers_count": 42,
@@ -6642,6 +6996,7 @@
                 "size": 108,
                 "default_branch": "master",
                 "open_issues_count": 0,
+                "is_template": true,
                 "topics": [
                   "octocat",
                   "atom",
@@ -6664,6 +7019,7 @@
                   "pull": true
                 },
                 "allow_rebase_merge": true,
+                "template_repository": null,
                 "allow_squash_merge": true,
                 "allow_merge_commit": true,
                 "subscribers_count": 42,
@@ -6773,6 +7129,7 @@
                 "size": 108,
                 "default_branch": "master",
                 "open_issues_count": 0,
+                "is_template": true,
                 "topics": [
                   "octocat",
                   "atom",
@@ -6795,6 +7152,7 @@
                   "pull": true
                 },
                 "allow_rebase_merge": true,
+                "template_repository": null,
                 "allow_squash_merge": true,
                 "allow_merge_commit": true,
                 "subscribers_count": 42,
@@ -8764,6 +9122,7 @@
             "size": 108,
             "default_branch": "master",
             "open_issues_count": 0,
+            "is_template": true,
             "topics": [
               "octocat",
               "atom",
@@ -8785,6 +9144,7 @@
               "push": false,
               "pull": true
             },
+            "template_repository": null,
             "subscribers_count": 42,
             "network_count": 0,
             "license": {
@@ -8917,6 +9277,7 @@
           "size": 108,
           "default_branch": "master",
           "open_issues_count": 0,
+          "is_template": true,
           "topics": [
             "octocat",
             "atom",
@@ -8939,6 +9300,7 @@
             "pull": true
           },
           "allow_rebase_merge": true,
+          "template_repository": null,
           "allow_squash_merge": true,
           "allow_merge_commit": true,
           "subscribers_count": 42,
