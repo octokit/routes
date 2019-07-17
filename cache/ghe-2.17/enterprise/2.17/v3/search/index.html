@@ -64,7 +64,6 @@
             <a class="dropdown-menu-item" data-proofer-ignore>GitHub Enterprise Server 2.17</a>
             <a class="dropdown-menu-item" data-proofer-ignore>GitHub Enterprise Server 2.16</a>
             <a class="dropdown-menu-item" data-proofer-ignore>GitHub Enterprise 2.15</a>
-            <a class="dropdown-menu-item" data-proofer-ignore>GitHub Enterprise 2.14</a>
           </div>
       </div>
       <form accept-charset="UTF-8" action="#" class="site-header-nav-item site-header-search">
@@ -269,7 +268,7 @@
 <li><a href="#text-match-metadata" id="markdown-toc-text-match-metadata">Text match metadata</a></li>
 </ul>
 <p>The Search API helps you search for the specific item you want to find. For example, you can find a user or a specific file in a repository. Think of it the way you think of performing a search on Google. It's designed to help you find the one result you're looking for (or maybe the few results you're looking for). Just like searching on Google, you sometimes want to see a few pages of search results so that you can find the item that best meets your needs. To satisfy that need, the GitHub Enterprise Server Search API provides <strong>up to 1,000 results for each search</strong>.</p>
-<p>You can narrow your search using queries, also known as search qualifiers or query parameters. If only some search queries are successful, then you will see a partially successful response with an empty list for unsuccessful queries.</p>
+<p>You can narrow your search using queries. To learn more about the search query syntax, see "<a href="/enterprise/2.17/v3/search/#constructing-a-search-query">Constructing a search query</a>."</p>
 <h3>
 <a id="ranking-search-results" class="anchor" href="#ranking-search-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Ranking search results</h3>
 <p>Unless another sort option is provided as a query parameter, results are sorted
@@ -304,34 +303,12 @@ how to use them. For information about how to use operators to match specific
 quantities, dates, or to exclude results, see "<a href="https://help.github.com/articles/understanding-the-search-syntax/">Understanding the search syntax</a>."</p>
 <h3>
 <a id="limitations-on-query-length" class="anchor" href="#limitations-on-query-length" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Limitations on query length</h3>
-<p>The Search API does not support queries that are longer than 256 characters (not including operators or qualifiers) and will return an error.</p>
-<pre><code>{
-  "message": "Validation Failed",
-  "errors": [
-    {
-      "message": "The search is longer than 256 characters.",
-      "resource": "Search",
-      "field": "q",
-      "code": "invalid"
-    }
-  ],
-  "documentation_url": "https://developer.github.com/v3/search/"
-}
-</code></pre>
-<p>Also, a query using more than five <code>AND</code>, <code>OR</code>, or <code>NOT</code> operators will return an error.</p>
-<pre><code>{
-  "message": "Validation Failed",
-  "errors": [
-    {
-      "message": "More than five AND / OR / NOT operators were used.",
-      "resource": "Search",
-      "field": "q",
-      "code": "invalid"
-    }
-  ],
-  "documentation_url": "https://developer.github.com/v3/search/"
-}
-</code></pre>
+<p>The Search API does not support queries that:</p>
+<ul>
+<li>are longer than 256 characters (not including operators or qualifiers).</li>
+<li>have more than five <code>AND</code>, <code>OR</code>, or <code>NOT</code> operators.</li>
+</ul>
+<p>These search queries will return a "Validation failed" error message.</p>
 <h3>
 <a id="timeouts-and-incomplete-results" class="anchor" href="#timeouts-and-incomplete-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Timeouts and incomplete results</h3>
 <p>To keep the Search API fast for everyone, we limit how long any individual query
@@ -341,21 +318,10 @@ the response has the <code>incomplete_results</code> property set to <code>true<
 <p>Reaching a timeout does not necessarily mean that search results are incomplete.
 More results might have been found, but also might not.</p>
 <h3>
-<a id="permissions-failure-or-an-empty-list" class="anchor" href="#permissions-failure-or-an-empty-list" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Permissions failure or an empty list</h3>
-<p>You need to successfully authenticate and have access to the repositories in your search queries, otherwise, you'll see a <code>422 Unprocessible Entry</code> error. For example, your search will fail if your query includes <code>repo:</code> or <code>user:</code> or <code>org:</code> qualifiers and doesn't match the resources that you have access to when you sign in on GitHub.</p>
-<pre><code>{
-  "message": "Validation Failed",
-  "errors": [
-    {
-      "message": "The listed users and repositories cannot be searched either because the resources do not exist or you do not have permission to view them.",
-      "resource": "Search",
-      "field": "q",
-      "code": "invalid"
-    }
-  ],
-  "documentation_url": "https://developer.github.com/v3/search/"
-}
-</code></pre>
+<a id="access-errors-or-missing-search-results" class="anchor" href="#access-errors-or-missing-search-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Access errors or missing search results</h3>
+<p>You need to successfully authenticate and have access to the repositories in your search queries, otherwise, you'll see a <code>422 Unprocessible Entry</code> error with a "Validation Failed" message. For example, your search will fail if your query includes <code>repo:</code>, <code>user:</code>, or <code>org:</code> qualifiers that request resources that you don't have access to when you sign in on GitHub.</p>
+<p>When your search query requests multiple resources, the response will only contain the resources that you have access to and will <strong>not</strong> provide an error message listing the resources that were not returned. </p>
+<p>For example, if your search query searches for the <code>octocat/test</code> and <code>codertocat/test</code> repositories, but you only have access to <code>octocat/test</code>, your response will show search results for <code>octocat/test</code> and nothing for <code>codertocat/test</code>. This behavior mimics how search works on GitHub.</p>
 <h2>
 <a id="search-repositories" class="anchor" href="#search-repositories" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Search repositories<a href="/enterprise/2.17/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
