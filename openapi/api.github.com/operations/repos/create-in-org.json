@@ -1,6 +1,6 @@
 {
-  "summary": "Create a new repository in this organization",
-  "description": "**Note**: There are two endpoints for creating a repository: one to create a repository on a user account, and one to create a repository in an organization. The organization endpoint is fully enabled for [GitHub Apps](https://developer.github.com/v3/apps/available-endpoints/), whereas the user endpoint is enabled only for [user-to-server requests](https://developer.github.com/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#user-to-server-requests).\n\n**OAuth scope requirements**\n\nWhen using [OAuth](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/), authorizations must include:\n\n*   `public_repo` scope or `repo` scope to create a public repository\n*   `repo` scope to create a private repository",
+  "summary": "Creates a new repository in the specified organization",
+  "description": "Creates a new repository for the authenticated user.\n\n**OAuth scope requirements**\n\nWhen using [OAuth](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/), authorizations must include:\n\n*   `public_repo` scope or `repo` scope to create a public repository\n*   `repo` scope to create a private repository",
   "operationId": "repos-create-in-org",
   "tags": [
     "repos"
@@ -66,6 +66,11 @@
               "description": "Either `true` to enable the wiki for this repository or `false` to disable it.",
               "type": "boolean",
               "default": true
+            },
+            "is_template": {
+              "description": "Either `true` to make this repo available as a template repository or `false` to prevent it.",
+              "type": "boolean",
+              "default": false
             },
             "team_id": {
               "description": "The id of the team that will be granted access to this repository. This is only valid when creating a repository in an organization.",
@@ -347,6 +352,9 @@
               "open_issues_count": {
                 "type": "number"
               },
+              "is_template": {
+                "type": "boolean"
+              },
               "topics": {
                 "type": "array",
                 "items": {
@@ -399,6 +407,9 @@
               },
               "allow_rebase_merge": {
                 "type": "boolean"
+              },
+              "template_repository": {
+                "type": "string"
               },
               "allow_squash_merge": {
                 "type": "boolean"
