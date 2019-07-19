@@ -13,7 +13,7 @@ spawn(
   }
 )
 
-const apis = readdirSync('routes')
+const apis = readdirSync('openapi')
 for (const api of apis) {
   const GHE_VERSION = parseFloat(api.replace(/^ghe-(\d+\.\d+)$/, '$1')) || null
   spawn(
