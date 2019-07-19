@@ -1,7 +1,10 @@
 const { entries, kebabCase } = require('lodash')
 
 const getEndpoint = require('../lib/endpoint/get')
-const { convertEndpointToOperation } = require('../lib/convert-endpoint-to-operation')
+const {
+  convertEndpointToOperation,
+  findEndpointNameDeprecation
+} = require('../lib/openapi')
 
 module.exports = {
   getAllRoutes,
@@ -201,20 +204,6 @@ function formatEndpoint (endpoint, allEndpoints) {
   })
   removeUndefinedByReference(operation)
   return { path, method, operation }
-}
-
-function findEndpointNameDeprecation (allEndpoints, { method, path }) {
-  const deprecatedEndpoint = allEndpoints.find(endpoint => {
-    if (endpoint.method !== method || endpoint.path !== path) {
-      return
-    }
-
-    return endpoint.deprecated && endpoint.deprecated.before
-  })
-
-  if (deprecatedEndpoint) {
-    return deprecatedEndpoint.deprecated
-  }
 }
 
 function removeUndefinedByReference (value) {
