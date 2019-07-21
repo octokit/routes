@@ -186,13 +186,13 @@ For simpler local testing and tracking of changes, all loaded pages are cached i
 To update the enterprise routes for all versions, you have to set the `--ghe` option.
 
 ```bash
-$ node bin/octokit-rest-routes.js update --ghe
+node bin/octokit-rest-routes.js update --ghe
 ```
 
 You can optionally pass a version number
 
 ```bash
-$ node bin/octokit-rest-routes.js update --ghe 2.16
+node bin/octokit-rest-routes.js update --ghe 2.16
 ```
 
 ### 1. Find documentation pages

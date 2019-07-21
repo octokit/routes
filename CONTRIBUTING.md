@@ -21,13 +21,13 @@ Please follow these steps to report such a problem
 8. Figure out how to make your failing test pass. You can run a test for just the operation you edited, based on its documentation URL, by running:
 
    ```bash
-   $ TEST_URL=https://developer.github.com/v3/repos/#get ./node_modules/.bin/tap test/integration/endpoints-test.js
+   TEST_URL=https://developer.github.com/v3/repos/#get ./node_modules/.bin/tap test/integration/endpoints-test.js
    ```
 
    and for GitHub Enterprise:
 
    ```bash
-   $ GHE_VERSION=2.17 TEST_URL=https://developer.github.com/enterprise/2.17/v3/repos/#get ./node_modules/.bin/tap test/integration/endpoints-test.js
+   GHE_VERSION=2.17 TEST_URL=https://developer.github.com/enterprise/2.17/v3/repos/#get ./node_modules/.bin/tap test/integration/endpoints-test.js
    ```
 
    Once it's passing, push your changes and wait for us to review. If you have any questions at any point, comment on the pull request, we are happy to help you out.
