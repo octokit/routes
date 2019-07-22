@@ -6,7 +6,7 @@
 
 ## Downloads
 
-- The Open API document: [octokit.github.io/routes/openapi/api.github.com/index.json](https://octokit.github.io/routes/routes/api.github.com/index.json)
+- The Open API document: [octokit.github.io/routes/openapi/api.github.com/index.json](https://octokit.github.io/routes/openapi/api.github.com/index.json)
 - The Open API operation for a single route, e.g. `GET /repos/:owner/:repo`: [octokit.github.io/routes/openapi/api.github.com/operations/repos/get.json](https://octokit.github.io/routes/openapi/api.github.com/operations/repos/get.json)
 
 Enterprise routes follow the same folder structure, but instead of `openapi/api.github.com` it is `openapi/ghe-2.17`, etc.
