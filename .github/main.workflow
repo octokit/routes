@@ -1,4 +1,3 @@
-# workflow "Test on push" {
 workflow "Deploy on push" {
   on = "push"
   resolves = ["remove older deployments"]
@@ -36,6 +35,7 @@ action "test" {
 
 action "deploy to now" {
   needs = [
+    "master branch only",
     "routes:lint"
   ]
   uses = "actions/zeit-now@master"
@@ -66,7 +66,7 @@ workflow "Record on demand" {
 }
 
 workflow "Cron" {
-  on = "schedule(0 2 * * *)"
+  on = "schedule(0 9 * * *)" # Run at 9am UTC / 2am Pacific Time
   resolves = ["routes update pull request"]
 }
 
