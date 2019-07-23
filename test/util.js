@@ -52,7 +52,7 @@ function getRoutesDir () {
 }
 
 function requireRoutesFile (filePath) {
-  const [ routesRoot, routesDir ] = [ getRoutesRoot(), getRoutesDir() ]
+  const [routesRoot, routesDir] = [getRoutesRoot(), getRoutesDir()]
   return require(`../${routesRoot}/${routesDir}/${filePath}`)
 }
 
@@ -87,9 +87,9 @@ function getRoutesForUrl (url) {
   return CACHED_ROUTES_BY_DOCUMENTATION_URL[url]
 }
 
-function reduceByDocumentationUrl (map, [ path, methods ]) {
+function reduceByDocumentationUrl (map, [path, methods]) {
   for (const method of Object.keys(methods)) {
-    let operation = getOperation(method)
+    const operation = getOperation(method)
     const documentationUrl = operation.externalDocs.url
     if (!map[documentationUrl]) {
       map[documentationUrl] = []
@@ -105,7 +105,7 @@ function reduceByDocumentationUrl (map, [ path, methods ]) {
     // json-schema-ref-parser does not resolve relative to the index.json file.
     // For now use simple, manual $ref requiring:
     if (op.$ref) {
-      const [ routesRoot, routesDir ] = [ getRoutesRoot(), getRoutesDir() ]
+      const [routesRoot, routesDir] = [getRoutesRoot(), getRoutesDir()]
       op = require(`../${routesRoot}/${routesDir}/${op.$ref}`)
     }
     return op
