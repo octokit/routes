@@ -3,12 +3,12 @@
 const checkOrUpdateRoutes = require('../lib/check-or-update-routes')
 
 const options = {
-  'cached': {
+  cached: {
     describe: 'Load HTML from local cache',
     type: 'boolean',
     default: false
   },
-  'ghe': {
+  ghe: {
     describe: 'GitHub Enterprise. To load a specific version set it the version, e.g. "2.16"',
     type: 'string'
   }
