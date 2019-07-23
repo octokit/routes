@@ -21,51 +21,24 @@
       "required": true
     },
     {
-      "name": "repo",
+      "name": "template_owner",
       "in": "path",
       "schema": {
         "type": "string"
       },
       "required": true,
-      "description": "repo parameter"
+      "description": "template_owner parameter"
     },
     {
-      "name": "owner",
+      "name": "template_repo",
       "in": "path",
       "schema": {
         "type": "string"
       },
       "required": true,
-      "description": "The organization or person who will own the new repository. To create a new repository in an organization, the authenticated user must be a member of the specified organization."
+      "description": "template_repo parameter"
     }
   ],
-  "requestBody": {
-    "content": {
-      "application/json": {
-        "schema": {
-          "type": "object",
-          "properties": {
-            "name": {
-              "description": "The name of the new repository.",
-              "type": "string"
-            },
-            "description": {
-              "description": "A short description of the new repository.",
-              "type": "string"
-            },
-            "private": {
-              "description": "Either `true` to create a new private repository or `false` to create a new public one.",
-              "type": "boolean",
-              "default": false
-            }
-          },
-          "required": [
-            "name"
-          ]
-        }
-      }
-    }
-  },
   "responses": {
     "201": {
       "description": "response",
@@ -692,11 +665,11 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.baptiste-preview+json\" \\\n  https://developer.github.com/repos/octocat/:repo/generate \\\n  -d '{\"name\":\"name\"}'"
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.baptiste-preview+json\" \\\n  https://developer.github.com/repos//:template_repo/generate \\\n  -d '{\"name\":\"name\"}'"
     },
     {
       "lang": "JS",
-      "source": "octokit.repos.get({\n  repo: 'hello-world',\n  owner: 'octocat',\n  name: 'name'\n})"
+      "source": "octokit.repos.get({\n  template_owner: 'template_owner',\n  template_repo: 'template_repo',\n  name: 'name'\n})"
     }
   ],
   "x-github": {
@@ -704,5 +677,36 @@
     "enabledForApps": false,
     "githubCloudOnly": false
   },
-  "x-changes": []
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "description": "The organization or person who will own the new repository. To create a new repository in an organization, the authenticated user must be a member of the specified organization.",
+              "type": "string"
+            },
+            "name": {
+              "description": "The name of the new repository.",
+              "type": "string"
+            },
+            "description": {
+              "description": "A short description of the new repository.",
+              "type": "string"
+            },
+            "private": {
+              "description": "Either `true` to create a new private repository or `false` to create a new public one.",
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": [
+            "name"
+          ]
+        }
+      }
+    }
+  }
 }

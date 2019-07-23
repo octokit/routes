@@ -47,60 +47,6 @@
       "description": "pull_number parameter"
     }
   ],
-  "requestBody": {
-    "content": {
-      "application/json": {
-        "schema": {
-          "type": "object",
-          "properties": {
-            "commit_id": {
-              "description": "The SHA of the commit that needs a review. Not using the latest commit SHA may render your review comment outdated if a subsequent commit modifies the line you specify as the `position`. Defaults to the most recent commit in the pull request when you do not specify a value.",
-              "type": "string"
-            },
-            "body": {
-              "description": "**Required** when using `REQUEST_CHANGES` or `COMMENT` for the `event` parameter. The body text of the pull request review.",
-              "type": "string"
-            },
-            "event": {
-              "description": "The review action you want to perform. The review actions include: `APPROVE`, `REQUEST_CHANGES`, or `COMMENT`. By leaving this blank, you set the review action state to `PENDING`, which means you will need to [submit the pull request review](https://developer.github.com/enterprise/2.17/v3/pulls/reviews/#submit-a-pull-request-review) when you are ready.",
-              "type": "string",
-              "enum": [
-                "APPROVE",
-                "REQUEST_CHANGES",
-                "COMMENT"
-              ]
-            },
-            "comments": {
-              "description": "Use the following table to specify the location, destination, and contents of the draft review comment.",
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "path": {
-                    "description": "The relative path to the file that necessitates a review comment.",
-                    "type": "string"
-                  },
-                  "position": {
-                    "description": "The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. For help finding the position value, read the note below.",
-                    "type": "integer"
-                  },
-                  "body": {
-                    "description": "Text of the review comment.",
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "path",
-                  "position",
-                  "body"
-                ]
-              }
-            }
-          }
-        }
-      }
-    }
-  },
   "responses": {
     "200": {
       "description": "response",
@@ -240,5 +186,59 @@
         "after": "pull_number"
       }
     }
-  ]
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "commit_id": {
+              "description": "The SHA of the commit that needs a review. Not using the latest commit SHA may render your review comment outdated if a subsequent commit modifies the line you specify as the `position`. Defaults to the most recent commit in the pull request when you do not specify a value.",
+              "type": "string"
+            },
+            "body": {
+              "description": "**Required** when using `REQUEST_CHANGES` or `COMMENT` for the `event` parameter. The body text of the pull request review.",
+              "type": "string"
+            },
+            "event": {
+              "description": "The review action you want to perform. The review actions include: `APPROVE`, `REQUEST_CHANGES`, or `COMMENT`. By leaving this blank, you set the review action state to `PENDING`, which means you will need to [submit the pull request review](https://developer.github.com/enterprise/2.17/v3/pulls/reviews/#submit-a-pull-request-review) when you are ready.",
+              "type": "string",
+              "enum": [
+                "APPROVE",
+                "REQUEST_CHANGES",
+                "COMMENT"
+              ]
+            },
+            "comments": {
+              "description": "Use the following table to specify the location, destination, and contents of the draft review comment.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "path": {
+                    "description": "The relative path to the file that necessitates a review comment.",
+                    "type": "string"
+                  },
+                  "position": {
+                    "description": "The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. For help finding the position value, read the note below.",
+                    "type": "integer"
+                  },
+                  "body": {
+                    "description": "Text of the review comment.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "path",
+                  "position",
+                  "body"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }

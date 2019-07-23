@@ -38,65 +38,6 @@
       "description": "repo parameter"
     }
   ],
-  "requestBody": {
-    "content": {
-      "application/json": {
-        "schema": {
-          "type": "object",
-          "properties": {
-            "tree": {
-              "description": "Objects (of `path`, `mode`, `type`, and `sha`) specifying a tree structure.",
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "path": {
-                    "description": "The file referenced in the tree.",
-                    "type": "string"
-                  },
-                  "mode": {
-                    "description": "The file mode; one of `100644` for file (blob), `100755` for executable (blob), `040000` for subdirectory (tree), `160000` for submodule (commit), or `120000` for a blob that specifies the path of a symlink.",
-                    "type": "string",
-                    "enum": [
-                      "100644",
-                      "100755",
-                      "040000",
-                      "160000",
-                      "120000"
-                    ]
-                  },
-                  "type": {
-                    "description": "Either `blob`, `tree`, or `commit`.",
-                    "type": "string",
-                    "enum": [
-                      "blob",
-                      "tree",
-                      "commit"
-                    ]
-                  },
-                  "sha": {
-                    "description": "The SHA1 checksum ID of the object in the tree. Also called `tree.sha`.  \n  \n**Note:** Use either `tree.sha` or `content` to specify the contents of the entry. Using both `tree.sha` and `content` will return an error.",
-                    "type": "string"
-                  },
-                  "content": {
-                    "description": "The content you want this file to have. GitHub will write this blob out and use that SHA for this entry. Use either this, or `tree.sha`.  \n  \n**Note:** Use either `tree.sha` or `content` to specify the contents of the entry. Using both `tree.sha` and `content` will return an error.",
-                    "type": "string"
-                  }
-                }
-              }
-            },
-            "base_tree": {
-              "description": "The SHA1 of the tree you want to update with new data. If you don't set this, the commit will be created on top of everything; however, it will only contain your change, the rest of your files will show up as deleted.",
-              "type": "string"
-            }
-          },
-          "required": [
-            "tree"
-          ]
-        }
-      }
-    }
-  },
   "responses": {
     "201": {
       "description": "response",
@@ -157,5 +98,64 @@
     "enabledForApps": true,
     "githubCloudOnly": false
   },
-  "x-changes": []
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "tree": {
+              "description": "Objects (of `path`, `mode`, `type`, and `sha`) specifying a tree structure.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "path": {
+                    "description": "The file referenced in the tree.",
+                    "type": "string"
+                  },
+                  "mode": {
+                    "description": "The file mode; one of `100644` for file (blob), `100755` for executable (blob), `040000` for subdirectory (tree), `160000` for submodule (commit), or `120000` for a blob that specifies the path of a symlink.",
+                    "type": "string",
+                    "enum": [
+                      "100644",
+                      "100755",
+                      "040000",
+                      "160000",
+                      "120000"
+                    ]
+                  },
+                  "type": {
+                    "description": "Either `blob`, `tree`, or `commit`.",
+                    "type": "string",
+                    "enum": [
+                      "blob",
+                      "tree",
+                      "commit"
+                    ]
+                  },
+                  "sha": {
+                    "description": "The SHA1 checksum ID of the object in the tree. Also called `tree.sha`.  \n  \n**Note:** Use either `tree.sha` or `content` to specify the contents of the entry. Using both `tree.sha` and `content` will return an error.",
+                    "type": "string"
+                  },
+                  "content": {
+                    "description": "The content you want this file to have. GitHub will write this blob out and use that SHA for this entry. Use either this, or `tree.sha`.  \n  \n**Note:** Use either `tree.sha` or `content` to specify the contents of the entry. Using both `tree.sha` and `content` will return an error.",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "base_tree": {
+              "description": "The SHA1 of the tree you want to update with new data. If you don't set this, the commit will be created on top of everything; however, it will only contain your change, the rest of your files will show up as deleted.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "tree"
+          ]
+        }
+      }
+    }
+  }
 }
