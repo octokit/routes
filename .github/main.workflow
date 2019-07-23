@@ -73,7 +73,7 @@ workflow "Cron" {
 action "clear routes" {
   uses = "docker://timbru31/node-alpine-git"
   runs = "rm"
-  args = "-rf routes cache"
+  args = "-rf openapi/*/operations/* cache"
 }
 
 action "update .com routes" {
