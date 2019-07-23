@@ -1,3 +1,8 @@
+workflow "Test on push" {
+  on = "push"
+  resolves = ["test"]
+}
+
 workflow "Deploy on push" {
   on = "push"
   resolves = ["remove older deployments"]
