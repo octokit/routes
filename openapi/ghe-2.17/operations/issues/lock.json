@@ -1,0 +1,102 @@
+{
+  "summary": "Lock an issue",
+  "description": "Users with push access can lock an issue or pull request's conversation.\n\nNote that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](https://developer.github.com/enterprise/2.17/v3/#http-verbs).\"",
+  "operationId": "issues-lock",
+  "tags": [
+    "issues"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.17/v3/issues/#lock-an-issue"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "owner parameter"
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "repo parameter"
+    },
+    {
+      "name": "issue_number",
+      "in": "path",
+      "schema": {
+        "type": "integer"
+      },
+      "required": true,
+      "description": "issue_number parameter"
+    }
+  ],
+  "responses": {
+    "204": {
+      "description": "Empty response"
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/issues/:issue_number/lock"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.issues.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  issue_number: 1\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": [
+    {
+      "type": "parameter",
+      "date": "2019-04-10",
+      "note": "\"number\" parameter renamed to \"issue_number\"",
+      "meta": {
+        "before": "number",
+        "after": "issue_number"
+      }
+    }
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "lock_reason": {
+              "description": "The reason for locking the issue or pull request conversation. Lock will fail if you don't use one of these reasons:  \n\\* `off-topic`  \n\\* `too heated`  \n\\* `resolved`  \n\\* `spam`",
+              "type": "string",
+              "enum": [
+                "off-topic",
+                "too heated",
+                "resolved",
+                "spam"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

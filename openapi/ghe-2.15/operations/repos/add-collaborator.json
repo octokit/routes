@@ -1,0 +1,92 @@
+{
+  "summary": "Add user as a collaborator",
+  "description": "This endpoint triggers [notifications](https://help.github.com/articles/about-notifications/). Creating content too quickly using this endpoint may result in abuse rate limiting. See \"[Abuse rate limits](https://developer.github.com/enterprise/2.15/v3/#abuse-rate-limits)\" for details.\n\nNote that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](https://developer.github.com/enterprise/2.15/v3/#http-verbs).\"",
+  "operationId": "repos-add-collaborator",
+  "tags": [
+    "repos"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.15/v3/repos/collaborators/#add-user-as-a-collaborator"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "owner parameter"
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "repo parameter"
+    },
+    {
+      "name": "username",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "username parameter"
+    }
+  ],
+  "responses": {
+    "204": {
+      "description": "Empty response"
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/collaborators/:username"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  username: 'username'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "permission": {
+              "description": "The permission to grant the collaborator. **Only valid on organization-owned repositories.** Can be one of:  \n\\* `pull` - can pull, but not push to or administer this repository.  \n\\* `push` - can pull and push, but not administer this repository.  \n\\* `admin` - can pull, push and administer this repository.",
+              "type": "string",
+              "enum": [
+                "pull",
+                "push",
+                "admin"
+              ],
+              "default": "push"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "summary": "List all GitHub accounts (user or organization) on a specific plan",
+  "description": "Returns any accounts associated with a plan, including free plans. For per-seat pricing, you see the list of accounts that have purchased the plan, including the number of seats purchased. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change.\n\nGitHub Apps must use a [JWT](https://developer.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth Apps must use [basic authentication](https://developer.github.com/v3/auth/#basic-authentication) with their client ID and client secret to access this endpoint.",
+  "operationId": "apps-list-accounts-user-or-org-on-plan",
+  "tags": [
+    "apps"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/apps/marketplace/#list-all-github-accounts-user-or-organization-on-a-specific-plan"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "plan_id",
+      "in": "path",
+      "schema": {
+        "type": "integer"
+      },
+      "required": true,
+      "description": "plan_id parameter"
+    },
+    {
+      "name": "sort",
+      "in": "query",
+      "schema": {
+        "type": "string",
+        "enum": [
+          "created",
+          "updated"
+        ],
+        "default": "created"
+      },
+      "required": false,
+      "description": "Sorts the GitHub accounts by the date they were created or last updated. Can be one of `created` or `updated`."
+    },
+    {
+      "name": "direction",
+      "in": "query",
+      "schema": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ]
+      },
+      "required": false,
+      "description": "To return the oldest accounts first, set to `asc`. Can be one of `asc` or `desc`. Ignored without the `sort` parameter."
+    },
+    {
+      "name": "per_page",
+      "in": "query",
+      "schema": {
+        "type": "integer",
+        "default": 30
+      },
+      "required": false,
+      "description": "Results per page (max 100)"
+    },
+    {
+      "name": "page",
+      "in": "query",
+      "schema": {
+        "type": "integer",
+        "default": 1
+      },
+      "required": false,
+      "description": "Page number of the results to fetch."
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {}
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/marketplace_listing/plans//accounts"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.apps.get({\n  plan_id: 'plan_id'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false
+  },
+  "x-changes": []
+}

@@ -1,0 +1,132 @@
+{
+  "summary": "Set Git LFS preference",
+  "description": "You can import repositories from Subversion, Mercurial, and TFS that include files larger than 100MB. This ability is powered by [Git LFS](https://git-lfs.github.com). You can learn more about our LFS feature and working with large files [on our help site](https://help.github.com/articles/versioning-large-files/).",
+  "operationId": "migrations-set-lfs-preference",
+  "tags": [
+    "migrations"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/migrations/source_imports/#set-git-lfs-preference"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "This API is under preview and subject to change.",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.barred-rock-preview+json"
+      },
+      "required": true
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "owner parameter"
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "repo parameter"
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "properties": {
+              "vcs": {
+                "type": "string"
+              },
+              "use_lfs": {
+                "type": "string"
+              },
+              "vcs_url": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string"
+              },
+              "status_text": {
+                "type": "string"
+              },
+              "has_large_files": {
+                "type": "boolean"
+              },
+              "large_files_size": {
+                "type": "number"
+              },
+              "large_files_count": {
+                "type": "number"
+              },
+              "authors_count": {
+                "type": "number"
+              },
+              "url": {
+                "type": "string"
+              },
+              "html_url": {
+                "type": "string"
+              },
+              "authors_url": {
+                "type": "string"
+              },
+              "repository_url": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.barred-rock-preview+json\" \\\n  https://developer.github.com/repos/octocat/:repo/import/lfs \\\n  -d '{\"use_lfs\":\"use_lfs\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.migrations.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  use_lfs: 'use_lfs'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "use_lfs": {
+              "description": "Can be one of `opt_in` (large files will be stored using Git LFS) or `opt_out` (large files will be removed during the import).",
+              "type": "string",
+              "enum": [
+                "opt_in",
+                "opt_out"
+              ]
+            }
+          },
+          "required": [
+            "use_lfs"
+          ]
+        }
+      }
+    }
+  }
+}

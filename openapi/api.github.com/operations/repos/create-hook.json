@@ -1,0 +1,189 @@
+{
+  "summary": "Create a hook",
+  "description": "Repositories can have multiple webhooks installed. Each webhook should have a unique `config`. Multiple webhooks can share the same `config` as long as those webhooks do not have any `events` that overlap.\n\nHere's how you can create a hook that posts payloads in JSON format:",
+  "operationId": "repos-create-hook",
+  "tags": [
+    "repos"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/repos/hooks/#create-a-hook"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "owner parameter"
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "repo parameter"
+    }
+  ],
+  "responses": {
+    "201": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "id": {
+                "type": "number"
+              },
+              "name": {
+                "type": "string"
+              },
+              "active": {
+                "type": "boolean"
+              },
+              "events": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "config": {
+                "type": "object",
+                "properties": {
+                  "content_type": {
+                    "type": "string"
+                  },
+                  "insecure_ssl": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  }
+                }
+              },
+              "updated_at": {
+                "type": "string"
+              },
+              "created_at": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "test_url": {
+                "type": "string"
+              },
+              "ping_url": {
+                "type": "string"
+              },
+              "last_response": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/hooks \\\n  -d '{\"config\":\"config\",\"config.url\":\"config.url\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  config: 'config',\n  'config.url': 'config.url'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Use `web` to create a webhook. Default: `web`. This parameter only accepts the value `web`.",
+              "type": "string"
+            },
+            "config": {
+              "description": "Key/value pairs to provide settings for this webhook. [These are defined below](https://developer.github.com/v3/repos/hooks/#create-hook-config-params).",
+              "type": "object",
+              "properties": {
+                "url": {
+                  "description": "The URL to which the payloads will be delivered.",
+                  "type": "string"
+                },
+                "content_type": {
+                  "description": "The media type used to serialize the payloads. Supported values include `json` and `form`. The default is `form`.",
+                  "type": "string"
+                },
+                "secret": {
+                  "description": "If provided, the `secret` will be used as the `key` to generate the HMAC hex digest value in the [`X-Hub-Signature`](https://developer.github.com/webhooks/#delivery-headers) header.",
+                  "type": "string"
+                },
+                "insecure_ssl": {
+                  "description": "Determines whether the SSL certificate of the host for `url` will be verified when delivering payloads. Supported values include `0` (verification is performed) and `1` (verification is not performed). The default is `0`. **We strongly recommend not setting this to `1` as you are subject to man-in-the-middle and other attacks.**",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "url"
+              ]
+            },
+            "events": {
+              "description": "Determines what [events](https://developer.github.com/v3/activity/events/types/) the hook is triggered for.",
+              "type": "array",
+              "default": [
+                "push"
+              ],
+              "items": {
+                "type": "string"
+              }
+            },
+            "active": {
+              "description": "Determines if notifications are sent when the webhook is triggered. Set to `true` to send notifications.",
+              "type": "boolean",
+              "default": true
+            }
+          },
+          "required": [
+            "config"
+          ]
+        }
+      }
+    }
+  }
+}

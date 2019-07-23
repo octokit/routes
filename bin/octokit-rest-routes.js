@@ -15,8 +15,11 @@ const options = {
 }
 
 const { cached, urls, ghe, _: [command] } = require('yargs')
-  .command('update', 'Update route files', yargs => {
+  .command('update [urls..]', 'Update route files', yargs => {
     yargs
+      .positional('urls...', {
+        describe: 'Optional selected REST API documentation URLs to check'
+      })
       .options(options)
       .example('$0 update https://developer.github.com/v3/git/commits/#create-a-commit --cached')
   })

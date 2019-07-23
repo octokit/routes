@@ -1,0 +1,82 @@
+{
+  "summary": "Add or update organization membership",
+  "description": "Only authenticated organization owners can add a member to the organization or update the member's role.\n\n*   If the authenticated user is _adding_ a member to the organization, the invited user will receive an email inviting them to the organization. The user's [membership status](https://developer.github.com/v3/orgs/members/#get-organization-membership) will be `pending` until they accept the invitation.\n    \n*   Authenticated users can _update_ a user's membership by passing the `role` parameter. If the authenticated user changes a member's role to `admin`, the affected user will receive an email notifying them that they've been made an organization owner. If the authenticated user changes an owner's role to `member`, no email will be sent.\n\n**Rate limits**\n\nTo prevent abuse, the authenticated user is limited to 50 organization invitations per 24 hour period. If the organization is more than one month old or on a paid plan, the limit is 500 invitations per 24 hour period.",
+  "operationId": "orgs-add-or-update-membership",
+  "tags": [
+    "orgs"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/orgs/members/#add-or-update-organization-membership"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "org",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "org parameter"
+    },
+    {
+      "name": "username",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "username parameter"
+    }
+  ],
+  "responses": {
+    "418": {
+      "description": "Response definition missing"
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/orgs//memberships/:username"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.orgs.get({\n  org: 'org',\n  username: 'username'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "role": {
+              "description": "The role to give the user in the organization. Can be one of:  \n\\* `admin` - The user will become an owner of the organization.  \n\\* `member` - The user will become a non-owner member of the organization.",
+              "type": "string",
+              "enum": [
+                "admin",
+                "member"
+              ],
+              "default": "member"
+            }
+          }
+        }
+      }
+    }
+  }
+}

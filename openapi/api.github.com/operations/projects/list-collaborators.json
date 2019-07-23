@@ -1,0 +1,94 @@
+{
+  "summary": "List collaborators",
+  "description": "Lists the collaborators for an organization project. For a project, the list of collaborators includes outside collaborators, organization members that are direct collaborators, organization members with access through team memberships, organization members with access through default organization permissions, and organization owners. You must be an organization owner or a project `admin` to list collaborators.",
+  "operationId": "projects-list-collaborators",
+  "tags": [
+    "projects"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/projects/collaborators/#list-collaborators"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "This API is under preview and subject to change.",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.inertia-preview+json"
+      },
+      "required": true
+    },
+    {
+      "name": "project_id",
+      "in": "path",
+      "schema": {
+        "type": "integer"
+      },
+      "required": true,
+      "description": "project_id parameter"
+    },
+    {
+      "name": "affiliation",
+      "in": "query",
+      "schema": {
+        "type": "string",
+        "enum": [
+          "outside",
+          "direct",
+          "all"
+        ],
+        "default": "all"
+      },
+      "required": false,
+      "description": "Filters the collaborators by their affiliation. Can be one of:  \n\\* `outside`: Outside collaborators of a project that are not a member of the project's organization.  \n\\* `direct`: Collaborators with permissions to a project, regardless of organization membership status.  \n\\* `all`: All collaborators the authenticated user can see."
+    },
+    {
+      "name": "per_page",
+      "in": "query",
+      "schema": {
+        "type": "integer",
+        "default": 30
+      },
+      "required": false,
+      "description": "Results per page (max 100)"
+    },
+    {
+      "name": "page",
+      "in": "query",
+      "schema": {
+        "type": "integer",
+        "default": 1
+      },
+      "required": false,
+      "description": "Page number of the results to fetch."
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {}
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.inertia-preview+json\" \\\n  https://developer.github.com/projects//collaborators"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.projects.get({\n  project_id: 'project_id'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": []
+}

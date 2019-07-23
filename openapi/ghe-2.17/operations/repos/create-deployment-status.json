@@ -1,0 +1,238 @@
+{
+  "summary": "Create a deployment status",
+  "description": "Users with `push` access can create deployment statuses for a given deployment.\n\nGitHub Apps require `read & write` access to \"Deployments\" and `read-only` access to \"Repo contents\" (for private repos). OAuth Apps require the `repo_deployment` scope.",
+  "operationId": "repos-create-deployment-status",
+  "tags": [
+    "repos"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.17/v3/repos/deployments/#create-a-deployment-status"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "owner parameter"
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "repo parameter"
+    },
+    {
+      "name": "deployment_id",
+      "in": "path",
+      "schema": {
+        "type": "integer"
+      },
+      "required": true,
+      "description": "deployment_id parameter"
+    }
+  ],
+  "responses": {
+    "201": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "properties": {
+              "url": {
+                "type": "string"
+              },
+              "id": {
+                "type": "number"
+              },
+              "node_id": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string"
+              },
+              "creator": {
+                "type": "object",
+                "properties": {
+                  "login": {
+                    "type": "string"
+                  },
+                  "id": {
+                    "type": "number"
+                  },
+                  "node_id": {
+                    "type": "string"
+                  },
+                  "avatar_url": {
+                    "type": "string"
+                  },
+                  "gravatar_id": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  },
+                  "html_url": {
+                    "type": "string"
+                  },
+                  "followers_url": {
+                    "type": "string"
+                  },
+                  "following_url": {
+                    "type": "string"
+                  },
+                  "gists_url": {
+                    "type": "string"
+                  },
+                  "starred_url": {
+                    "type": "string"
+                  },
+                  "subscriptions_url": {
+                    "type": "string"
+                  },
+                  "organizations_url": {
+                    "type": "string"
+                  },
+                  "repos_url": {
+                    "type": "string"
+                  },
+                  "events_url": {
+                    "type": "string"
+                  },
+                  "received_events_url": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "site_admin": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "description": {
+                "type": "string"
+              },
+              "environment": {
+                "type": "string"
+              },
+              "target_url": {
+                "type": "string"
+              },
+              "created_at": {
+                "type": "string"
+              },
+              "updated_at": {
+                "type": "string"
+              },
+              "deployment_url": {
+                "type": "string"
+              },
+              "repository_url": {
+                "type": "string"
+              },
+              "environment_url": {
+                "type": "string"
+              },
+              "log_url": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/deployments/:deployment_id/statuses \\\n  -d '{\"state\":\"state\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  deployment_id: 'deployment_id',\n  state: 'state'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "state": {
+              "description": "The state of the status. Can be one of `error`, `failure`, `inactive`, `in_progress`, `queued` `pending`, or `success`. **Note:** To use the `inactive` state, you must provide the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/enterprise/2.17/v3/previews/#enhanced-deployments) custom media type. To use the `in_progress` and `queued` states, you must provide the [`application/vnd.github.flash-preview+json`](https://developer.github.com/enterprise/2.17/v3/previews/#deployment-statuses) custom media type.",
+              "type": "string",
+              "enum": [
+                "error",
+                "failure",
+                "inactive",
+                "in_progress",
+                "queued",
+                "pending",
+                "success"
+              ]
+            },
+            "target_url": {
+              "description": "The target URL to associate with this status. This URL should contain output to keep the user updated while the task is running or serve as historical information for what happened in the deployment. **Note:** It's recommended to use the `log_url` parameter, which replaces `target_url`.",
+              "type": "string",
+              "default": ""
+            },
+            "log_url": {
+              "description": "The full URL of the deployment's output. This parameter replaces `target_url`. We will continue to accept `target_url` to support legacy uses, but we recommend replacing `target_url` with `log_url`. Setting `log_url` will automatically set `target_url` to the same value.",
+              "type": "string",
+              "default": ""
+            },
+            "description": {
+              "description": "A short description of the status. The maximum description length is 140 characters.",
+              "type": "string",
+              "default": ""
+            },
+            "environment": {
+              "description": "Name for the target deployment environment, which can be changed when setting a deploy status. For example, `production`, `staging`, or `qa`. **Note:** This parameter requires you to use the [`application/vnd.github.flash-preview+json`](https://developer.github.com/enterprise/2.17/v3/previews/#deployment-statuses) custom media type.",
+              "type": "string",
+              "enum": [
+                "production",
+                "staging",
+                "qa"
+              ]
+            },
+            "environment_url": {
+              "description": "Sets the URL for accessing your environment.",
+              "type": "string",
+              "default": ""
+            },
+            "auto_inactive": {
+              "description": "Adds a new `inactive` status to all prior non-transient, non-production environment deployments with the same repository and `environment` name as the created status's deployment. An `inactive` status is only added to deployments that had a `success` state. Default: `true`  \n**Note:** To add an `inactive` status to `production` environments, you must use the [`application/vnd.github.flash-preview+json`](https://developer.github.com/enterprise/2.17/v3/previews/#deployment-statuses) custom media type. **Note:** To add an `inactive` status to `production` environments, you must use the [`application/vnd.github.flash-preview+json`](https://developer.github.com/enterprise/2.17/v3/previews/#deployment-statuses) custom media type.",
+              "type": "boolean",
+              "default": true
+            }
+          },
+          "required": [
+            "state"
+          ]
+        }
+      }
+    }
+  }
+}

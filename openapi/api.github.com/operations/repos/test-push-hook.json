@@ -1,0 +1,71 @@
+{
+  "summary": "Test a push hook",
+  "description": "This will trigger the hook with the latest push to the current repository if the hook is subscribed to `push` events. If the hook is not subscribed to `push` events, the server will respond with 204 but no test POST will be generated.\n\n**Note**: Previously `/repos/:owner/:repo/hooks/:hook_id/test`",
+  "operationId": "repos-test-push-hook",
+  "tags": [
+    "repos"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/repos/hooks/#test-a-push-hook"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "owner parameter"
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "repo parameter"
+    },
+    {
+      "name": "hook_id",
+      "in": "path",
+      "schema": {
+        "type": "integer"
+      },
+      "required": true,
+      "description": "hook_id parameter"
+    }
+  ],
+  "responses": {
+    "204": {
+      "description": "Empty response"
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/hooks/:hook_id/tests"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  hook_id: 'hook_id'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": []
+}

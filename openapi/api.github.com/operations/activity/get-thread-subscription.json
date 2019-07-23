@@ -1,0 +1,79 @@
+{
+  "summary": "Get a thread subscription",
+  "description": "This checks to see if the current user is subscribed to a thread. You can also [get a repository subscription](https://developer.github.com/v3/activity/watching/#get-a-repository-subscription).\n\nNote that subscriptions are only generated if a user is participating in a conversation--for example, they've replied to the thread, were **@mentioned**, or manually subscribe to a thread.",
+  "operationId": "activity-get-thread-subscription",
+  "tags": [
+    "activity"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/activity/notifications/#get-a-thread-subscription"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "thread_id",
+      "in": "path",
+      "schema": {
+        "type": "integer"
+      },
+      "required": true,
+      "description": "thread_id parameter"
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "properties": {
+              "subscribed": {
+                "type": "boolean"
+              },
+              "ignored": {
+                "type": "boolean"
+              },
+              "reason": {
+                "type": "string"
+              },
+              "created_at": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "thread_url": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/notifications/threads//subscription"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.activity.get({\n  thread_id: 'thread_id'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false
+  },
+  "x-changes": []
+}

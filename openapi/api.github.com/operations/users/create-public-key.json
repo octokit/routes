@@ -1,0 +1,92 @@
+{
+  "summary": "Create a public key",
+  "description": "Adds a public SSH key to the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth, or OAuth with at least `write:public_key` [scope](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).",
+  "operationId": "users-create-public-key",
+  "tags": [
+    "users"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/users/keys/#create-a-public-key"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    }
+  ],
+  "responses": {
+    "201": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "properties": {
+              "id": {
+                "type": "number"
+              },
+              "key": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "verified": {
+                "type": "boolean"
+              },
+              "created_at": {
+                "type": "string"
+              },
+              "read_only": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/user/keys"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.users.get()"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false
+  },
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "description": "A descriptive name for the new key. Use a name that will help you recognize this key in your GitHub account. For example, if you're using a personal Mac, you might call this key \"Personal MacBook Air\".",
+              "type": "string"
+            },
+            "key": {
+              "description": "The public SSH key to add to your GitHub account. See \"[Generating a new SSH key](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)\" for guidance on how to create a public SSH key.",
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

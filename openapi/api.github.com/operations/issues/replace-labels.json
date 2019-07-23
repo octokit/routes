@@ -1,0 +1,104 @@
+{
+  "summary": "Replace all labels for an issue",
+  "description": "",
+  "operationId": "issues-replace-labels",
+  "tags": [
+    "issues"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/issues/labels/#replace-all-labels-for-an-issue"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "owner parameter"
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "repo parameter"
+    },
+    {
+      "name": "issue_number",
+      "in": "path",
+      "schema": {
+        "type": "integer"
+      },
+      "required": true,
+      "description": "issue_number parameter"
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {}
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/issues/:issue_number/labels"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.issues.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  issue_number: 1\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": [
+    {
+      "type": "parameter",
+      "date": "2019-04-10",
+      "note": "\"number\" parameter renamed to \"issue_number\"",
+      "meta": {
+        "before": "number",
+        "after": "issue_number"
+      }
+    }
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "labels": {
+              "description": "The names of the labels to add to the issue. You can pass an empty array to remove all labels. **Note:** Alternatively, you can pass a single label as a `string` or an `array` of labels directly, but GitHub recommends passing an object with the `labels` key.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

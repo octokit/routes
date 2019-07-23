@@ -1,0 +1,107 @@
+{
+  "summary": "Add labels to an issue",
+  "description": "",
+  "operationId": "issues-add-labels",
+  "tags": [
+    "issues"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.17/v3/issues/labels/#add-labels-to-an-issue"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "owner parameter"
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "repo parameter"
+    },
+    {
+      "name": "issue_number",
+      "in": "path",
+      "schema": {
+        "type": "integer"
+      },
+      "required": true,
+      "description": "issue_number parameter"
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {}
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/issues/:issue_number/labels \\\n  -d '{\"labels\":\"labels\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.issues.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  issue_number: 1,\n  labels: 'labels'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": [
+    {
+      "type": "parameter",
+      "date": "2019-04-10",
+      "note": "\"number\" parameter renamed to \"issue_number\"",
+      "meta": {
+        "before": "number",
+        "after": "issue_number"
+      }
+    }
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "labels": {
+              "description": "The name of the label to add to the issue. Must contain at least one label. **Note:** Alternatively, you can pass a single label as a `string` or an `array` of labels directly, but GitHub recommends passing an object with the `labels` key.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "labels"
+          ]
+        }
+      }
+    }
+  }
+}

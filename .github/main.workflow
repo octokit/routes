@@ -1,26 +1,63 @@
-workflow "Test on push" {
+# workflow "Test on push" {
+workflow "Deploy on push" {
   on = "push"
-  resolves = ["test"]
+  resolves = ["remove older deployments"]
 }
 
 action "npm ci" {
-  uses = "docker://node:alpine"
+  uses = "docker://timbru31/node-alpine-git"
   runs = "npm"
   args = "ci"
 }
 
 action "lint" {
   needs = "npm ci"
-  uses = "docker://node:alpine"
+  uses = "docker://timbru31/node-alpine-git"
   runs = "npx"
   args = "standard"
 }
 
+action "routes:lint" {
+  needs = "npm ci"
+  uses = "docker://timbru31/node-alpine-git"
+  runs = "npm"
+  args = "run routes:lint"
+}
+
 action "test" {
-  needs = "lint"
-  uses = "docker://node:alpine"
+  needs = [
+    "lint",
+    "routes:lint"
+  ]
+  uses = "docker://timbru31/node-alpine-git"
   runs = "npm"
   args = "run test:ci"
+}
+
+action "deploy to now" {
+  needs = [
+    "routes:lint"
+  ]
+  uses = "actions/zeit-now@master"
+  secrets = ["ZEIT_TOKEN"]
+}
+
+action "alias deploy domain" {
+  needs = [
+    "deploy to now"
+  ]
+  uses = "actions/zeit-now@master"
+  args = "alias"
+  secrets = ["ZEIT_TOKEN"]
+}
+
+action "remove older deployments" {
+  needs = [
+    "alias deploy domain"
+  ]
+  uses = "actions/zeit-now@master"
+  args = "rm --safe --yes octokit-routes-openapi"
+  secrets = ["ZEIT_TOKEN"]
 }
 
 workflow "Record on demand" {
@@ -34,9 +71,9 @@ workflow "Cron" {
 }
 
 action "clear routes" {
-  uses = "docker://node:alpine"
+  uses = "docker://timbru31/node-alpine-git"
   runs = "rm"
-  args = "-rf routes cache"
+  args = "-rf openapi/*/operations/* cache"
 }
 
 action "update .com routes" {
@@ -44,7 +81,7 @@ action "update .com routes" {
     "clear routes",
     "npm ci"
   ]
-  uses = "docker://node:alpine"
+  uses = "docker://timbru31/node-alpine-git"
   runs = "bin/octokit-rest-routes.js"
   args = "update"
 }
@@ -54,7 +91,7 @@ action "update GHE routes" {
     "clear routes",
     "npm ci"
   ]
-  uses = "docker://node:alpine"
+  uses = "docker://timbru31/node-alpine-git"
   runs = "bin/octokit-rest-routes.js"
   args = "update --ghe"
 }
@@ -94,7 +131,7 @@ action "master branch only" {
 
 action "npm ci (release)" {
   needs = "master branch only"
-  uses = "docker://node:alpine"
+  uses = "docker://timbru31/node-alpine-git"
   runs = "npm"
   args = "ci"
 }

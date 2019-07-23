@@ -1,0 +1,254 @@
+{
+  "summary": "Create team",
+  "description": "To create a team, the authenticated user must be a member or owner of `:org`. By default, organization members can create teams. Organization owners can limit team creation to organization owners. For more information, see \"[Setting team creation permissions](https://help.github.com/en/articles/setting-team-creation-permissions-in-your-organization).\"",
+  "operationId": "teams-create",
+  "tags": [
+    "teams"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.17/v3/teams/#create-team"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "org",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "org parameter"
+    }
+  ],
+  "responses": {
+    "201": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "properties": {
+              "id": {
+                "type": "number"
+              },
+              "node_id": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "slug": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "privacy": {
+                "type": "string"
+              },
+              "permission": {
+                "type": "string"
+              },
+              "members_url": {
+                "type": "string"
+              },
+              "repositories_url": {
+                "type": "string"
+              },
+              "parent": {
+                "type": "string"
+              },
+              "members_count": {
+                "type": "number"
+              },
+              "repos_count": {
+                "type": "number"
+              },
+              "created_at": {
+                "type": "string"
+              },
+              "updated_at": {
+                "type": "string"
+              },
+              "organization": {
+                "type": "object",
+                "properties": {
+                  "login": {
+                    "type": "string"
+                  },
+                  "id": {
+                    "type": "number"
+                  },
+                  "node_id": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  },
+                  "repos_url": {
+                    "type": "string"
+                  },
+                  "events_url": {
+                    "type": "string"
+                  },
+                  "hooks_url": {
+                    "type": "string"
+                  },
+                  "issues_url": {
+                    "type": "string"
+                  },
+                  "members_url": {
+                    "type": "string"
+                  },
+                  "public_members_url": {
+                    "type": "string"
+                  },
+                  "avatar_url": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "company": {
+                    "type": "string"
+                  },
+                  "blog": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "has_organization_projects": {
+                    "type": "boolean"
+                  },
+                  "has_repository_projects": {
+                    "type": "boolean"
+                  },
+                  "public_repos": {
+                    "type": "number"
+                  },
+                  "public_gists": {
+                    "type": "number"
+                  },
+                  "followers": {
+                    "type": "number"
+                  },
+                  "following": {
+                    "type": "number"
+                  },
+                  "html_url": {
+                    "type": "string"
+                  },
+                  "created_at": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  }
+                }
+              },
+              "ldap_dn": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/orgs//teams \\\n  -d '{\"name\":\"name\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.teams.get({\n  org: 'org',\n  name: 'name'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "The name of the team.",
+              "type": "string"
+            },
+            "description": {
+              "description": "The description of the team.",
+              "type": "string"
+            },
+            "maintainers": {
+              "description": "The logins of organization members to add as maintainers of the team.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "repo_names": {
+              "description": "The full name (e.g., \"organization-name/repository-name\") of repositories to add the team to.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "privacy": {
+              "description": "The level of privacy this team should have. The options are:  \n**For a non-nested team:**  \n\\* `secret` - only visible to organization owners and members of this team.  \n\\* `closed` - visible to all members of this organization.  \nDefault: `secret`  \n**For a parent or child team:**  \n\\* `closed` - visible to all members of this organization.  \nDefault for child team: `closed`  \n**Note**: You must pass the `hellcat-preview` media type to set privacy default to `closed` for child teams.",
+              "type": "string",
+              "enum": [
+                "secret",
+                "closed"
+              ]
+            },
+            "permission": {
+              "description": "**Deprecated**. The permission that new repositories will be added to the team with when none is specified. Can be one of:  \n\\* `pull` - team members can pull, but not push to or administer newly-added repositories.  \n\\* `push` - team members can pull and push, but not administer newly-added repositories.  \n\\* `admin` - team members can pull, push and administer newly-added repositories.",
+              "type": "string",
+              "enum": [
+                "pull",
+                "push",
+                "admin"
+              ],
+              "default": "pull"
+            },
+            "parent_team_id": {
+              "description": "The ID of a team to set as the parent team. **Note**: You must pass the `hellcat-preview` media type to use this parameter.",
+              "type": "integer"
+            },
+            "ldap_dn": {
+              "description": "The [distinguished name](https://www.ldap.com/ldap-dns-and-rdns) (DN) of the LDAP entry to map to a team. [LDAP synchronization](https://help.github.com/enterprise/admin/guides/user-management/using-ldap/#enabling-ldap-sync) must be enabled to map LDAP entries to a team. Use the [Update LDAP mapping for a team](https://developer.github.com/enterprise/2.17/v3/enterprise-admin/ldap/#update-ldap-mapping-for-a-team) endpoint to change the LDAP DN.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "name"
+          ]
+        }
+      }
+    }
+  }
+}

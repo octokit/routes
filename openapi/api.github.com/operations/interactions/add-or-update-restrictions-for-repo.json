@@ -1,0 +1,103 @@
+{
+  "summary": "Add or update interaction restrictions for a repository",
+  "description": "Temporarily restricts interactions to certain GitHub users within the given repository. You must have owner or admin access to set restrictions.",
+  "operationId": "interactions-add-or-update-restrictions-for-repo",
+  "tags": [
+    "interactions"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/interactions/repos/#add-or-update-interaction-restrictions-for-a-repository"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "This API is under preview and subject to change.",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.sombra-preview+json"
+      },
+      "required": true
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "owner parameter"
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "repo parameter"
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "properties": {
+              "limit": {
+                "type": "string"
+              },
+              "origin": {
+                "type": "string"
+              },
+              "expires_at": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.sombra-preview+json\" \\\n  https://developer.github.com/repos/octocat/:repo/interaction-limits \\\n  -d '{\"limit\":\"limit\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.interactions.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  limit: 'limit'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "description": "Specifies the group of GitHub users who can comment, open issues, or create pull requests for the given repository. Must be one of: `existing_users`, `contributors_only`, or `collaborators_only`.",
+              "type": "string",
+              "enum": [
+                "existing_users",
+                "contributors_only",
+                "collaborators_only"
+              ]
+            }
+          },
+          "required": [
+            "limit"
+          ]
+        }
+      }
+    }
+  }
+}

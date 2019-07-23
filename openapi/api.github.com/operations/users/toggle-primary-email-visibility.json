@@ -1,0 +1,72 @@
+{
+  "summary": "Toggle primary email visibility",
+  "description": "Sets the visibility for your primary email addresses.",
+  "operationId": "users-toggle-primary-email-visibility",
+  "tags": [
+    "users"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/users/emails/#toggle-primary-email-visibility"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {}
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/user/email/visibility \\\n  -d '{\"email\":\"email\",\"visibility\":\"visibility\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.users.get({\n  email: 'email',\n  visibility: 'visibility'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false
+  },
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "description": "Specify the _primary_ email address that needs a visibility change.",
+              "type": "string"
+            },
+            "visibility": {
+              "description": "Use `public` to enable an authenticated user to view the specified email address, or use `private` so this primary email address cannot be seen publicly.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "email",
+            "visibility"
+          ]
+        }
+      }
+    }
+  }
+}

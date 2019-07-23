@@ -1,0 +1,77 @@
+{
+  "summary": "Get commit authors",
+  "description": "Each type of source control system represents authors in a different way. For example, a Git commit author has a display name and an email address, but a Subversion commit author just has a username. The GitHub Importer will make the author information valid, but the author might not be correct. For example, it will change the bare Subversion username `hubot` into something like `hubot <hubot@12341234-abab-fefe-8787-fedcba987654>`.\n\nThis API method and the \"Map a commit author\" method allow you to provide correct Git author information.",
+  "operationId": "migrations-get-commit-authors",
+  "tags": [
+    "migrations"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/migrations/source_imports/#get-commit-authors"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "This API is under preview and subject to change.",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.barred-rock-preview+json"
+      },
+      "required": true
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "owner parameter"
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "repo parameter"
+    },
+    {
+      "name": "since",
+      "in": "query",
+      "schema": {
+        "type": "string"
+      },
+      "required": false,
+      "description": "Only authors found after this id are returned. Provide the highest author ID you've seen so far. New authors may be added to the list at any point while the importer is performing the `raw` step."
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {}
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.barred-rock-preview+json\" \\\n  https://developer.github.com/repos/octocat/:repo/import/authors"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.migrations.get({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": []
+}

@@ -1,0 +1,89 @@
+{
+  "summary": "Perform a merge",
+  "description": "",
+  "operationId": "repos-merge",
+  "tags": [
+    "repos"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.16/v3/repos/merging/#perform-a-merge"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "owner parameter"
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "repo parameter"
+    }
+  ],
+  "responses": {
+    "418": {
+      "description": "Response definition missing"
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/merges \\\n  -d '{\"base\":\"base\",\"head\":\"head\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  base: 'base',\n  head: 'head'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "base": {
+              "description": "The name of the base branch that the head will be merged into.",
+              "type": "string"
+            },
+            "head": {
+              "description": "The head to merge. This can be a branch name or a commit SHA1.",
+              "type": "string"
+            },
+            "commit_message": {
+              "description": "Commit message to use for the merge commit. If omitted, a default message will be used.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "base",
+            "head"
+          ]
+        }
+      }
+    }
+  }
+}

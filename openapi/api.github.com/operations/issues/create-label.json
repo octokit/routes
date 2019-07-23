@@ -1,0 +1,118 @@
+{
+  "summary": "Create a label",
+  "description": "",
+  "operationId": "issues-create-label",
+  "tags": [
+    "issues"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/issues/labels/#create-a-label"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "owner parameter"
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "repo parameter"
+    }
+  ],
+  "responses": {
+    "201": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "properties": {
+              "id": {
+                "type": "number"
+              },
+              "node_id": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "color": {
+                "type": "string"
+              },
+              "default": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/labels \\\n  -d '{\"name\":\"name\",\"color\":\"color\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.issues.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  name: 'name',\n  color: 'color'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "The name of the label. Emoji can be added to label names, using either native emoji or colon-style markup. For example, typing `:strawberry:` will render the emoji ![:strawberry:](https://github.githubassets.com/images/icons/emoji/unicode/1f353.png \":strawberry:\"). For a full list of available emoji and codes, see [emoji-cheat-sheet.com](http://emoji-cheat-sheet.com/).",
+              "type": "string"
+            },
+            "color": {
+              "description": "The [hexadecimal color code](http://www.color-hex.com/) for the label, without the leading `#`.",
+              "type": "string"
+            },
+            "description": {
+              "description": "A short description of the label.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "color"
+          ]
+        }
+      }
+    }
+  }
+}

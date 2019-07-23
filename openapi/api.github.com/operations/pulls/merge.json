@@ -1,0 +1,113 @@
+{
+  "summary": "Merge a pull request (Merge Button)",
+  "description": "This endpoint triggers [notifications](https://help.github.com/articles/about-notifications/). Creating content too quickly using this endpoint may result in abuse rate limiting. See \"[Abuse rate limits](https://developer.github.com/v3/#abuse-rate-limits)\" and \"[Dealing with abuse rate limits](https://developer.github.com/v3/guides/best-practices-for-integrators/#dealing-with-abuse-rate-limits)\" for details.",
+  "operationId": "pulls-merge",
+  "tags": [
+    "pulls"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/pulls/#merge-a-pull-request-merge-button"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "owner parameter"
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "repo parameter"
+    },
+    {
+      "name": "pull_number",
+      "in": "path",
+      "schema": {
+        "type": "integer"
+      },
+      "required": true,
+      "description": "pull_number parameter"
+    }
+  ],
+  "responses": {
+    "418": {
+      "description": "Response definition missing"
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/pulls/:pull_number/merge"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.pulls.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  pull_number: 'pull_number'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": [
+    {
+      "type": "parameter",
+      "date": "2019-04-10",
+      "note": "\"number\" parameter renamed to \"pull_number\"",
+      "meta": {
+        "before": "number",
+        "after": "pull_number"
+      }
+    }
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "commit_title": {
+              "description": "Title for the automatic commit message.",
+              "type": "string"
+            },
+            "commit_message": {
+              "description": "Extra detail to append to automatic commit message.",
+              "type": "string"
+            },
+            "sha": {
+              "description": "SHA that pull request head must match to allow merge.",
+              "type": "string"
+            },
+            "merge_method": {
+              "description": "Merge method to use. Possible values are `merge`, `squash` or `rebase`. Default is `merge`.",
+              "type": "string",
+              "enum": [
+                "merge",
+                "squash",
+                "rebase"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

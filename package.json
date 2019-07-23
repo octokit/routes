@@ -2,18 +2,21 @@
   "name": "@octokit/routes",
   "version": "0.0.0-development",
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "tag": "beta"
   },
   "description": "Machine-readable, always up-to-date GitHub REST API route specifications",
   "author": "Gregor Martynus (https://github.com/gr2m)",
-  "main": "routes/api.github.com/index.json",
+  "main": "lib/index.js",
   "scripts": {
-    "lint": "standard",
     "test": "tap --coverage --timeout 60 'test/**/*-test.js'",
     "test:ci": "node bin/run-tests.js",
     "update": "node bin/octokit-rest-routes.js update",
     "check": "node bin/octokit-rest-routes.js check",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "routes:lint": "speccy lint openapi/api.github.com/index.json --skip openapi-tags",
+    "routes:server": "speccy serve openapi/api.github.com/index.json",
+    "now-start": "npm run -s routes:server"
   },
   "repository": {
     "type": "git",
@@ -27,28 +30,38 @@
     "url": "https://github.com/octokit/routes/issues"
   },
   "homepage": "https://github.com/octokit/routes#readme",
+  "engines": {
+    "node": ">=8.12.0"
+  },
+  "dependencies": {
+    "speccy": "^0.8.5"
+  },
   "devDependencies": {
     "@gr2m/semantic-release-github": "^5.4.0-beta.1-issue-182",
     "cheerio": "^1.0.0-rc.2",
     "execa": "^2.0.0",
     "fs-extra": "^8.0.0",
+    "generate-schema": "^2.6.0",
     "gh-got": "^8.0.0",
-    "got": "^9.0.0",
-    "json-diff": "^0.5.2",
-    "lodash": "^4.17.5",
-    "markdown-table": "^1.1.1",
-    "node-fetch": "^2.1.1",
+    "got": "^9.3.2",
+    "javascript-stringify": "^2.0.0",
+    "json-diff": "^0.5.3",
+    "lodash": "^4.17.11",
+    "markdown-table": "^1.1.2",
+    "node-fetch": "^2.3.0",
     "normalize-url": "^4.0.0",
     "pluralize": "^8.0.0",
-    "proxyquire": "^2.0.0",
-    "semantic-release": "^15.1.2",
+    "now": "^15.3.0",
+    "proxyquire": "^2.1.0",
+    "semantic-release": "^15.11.0",
     "standard": "^12.0.0",
     "tap": "^14.0.0",
     "turndown": "^5.0.0",
+    "url-template": "^2.0.8",
     "yargs": "^13.1.0"
   },
   "files": [
-    "routes"
+    "openapi"
   ],
   "release": {
     "plugins": [

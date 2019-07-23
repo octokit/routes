@@ -1,0 +1,85 @@
+{
+  "summary": "Rename an organization",
+  "description": "",
+  "operationId": "enterprise-admin-rename-org",
+  "tags": [
+    "enterprise-admin"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.16/v3/enterprise-admin/orgs/#rename-an-organization"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "org",
+      "in": "path",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "org parameter"
+    }
+  ],
+  "responses": {
+    "202": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/admin/organizations/ \\\n  -d '{\"login\":\"login\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.enterprise-admin.get({\n  org: 'org',\n  login: 'login'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false
+  },
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "login": {
+              "description": "The organization's new name.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "login"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,174 @@
+{
+  "summary": "Create a project card",
+  "description": "**Note**: GitHub's REST API v3 considers every pull request an issue, but not every issue is a pull request. For this reason, \"Issues\" endpoints may return both issues and pull requests in the response. You can identify pull requests by the `pull_request` key.\n\nBe aware that the `id` of a pull request returned from \"Issues\" endpoints will be an _issue id_. To find out the pull request id, use the \"[List pull requests](https://developer.github.com/v3/pulls/#list-pull-requests)\" endpoint.",
+  "operationId": "projects-create-card",
+  "tags": [
+    "projects"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/projects/cards/#create-a-project-card"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "This API is under preview and subject to change.",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.inertia-preview+json"
+      },
+      "required": true
+    },
+    {
+      "name": "column_id",
+      "in": "path",
+      "schema": {
+        "type": "integer"
+      },
+      "required": true,
+      "description": "column_id parameter"
+    }
+  ],
+  "responses": {
+    "201": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "properties": {
+              "url": {
+                "type": "string"
+              },
+              "id": {
+                "type": "number"
+              },
+              "node_id": {
+                "type": "string"
+              },
+              "note": {
+                "type": "string"
+              },
+              "creator": {
+                "type": "object",
+                "properties": {
+                  "login": {
+                    "type": "string"
+                  },
+                  "id": {
+                    "type": "number"
+                  },
+                  "node_id": {
+                    "type": "string"
+                  },
+                  "avatar_url": {
+                    "type": "string"
+                  },
+                  "gravatar_id": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  },
+                  "html_url": {
+                    "type": "string"
+                  },
+                  "followers_url": {
+                    "type": "string"
+                  },
+                  "following_url": {
+                    "type": "string"
+                  },
+                  "gists_url": {
+                    "type": "string"
+                  },
+                  "starred_url": {
+                    "type": "string"
+                  },
+                  "subscriptions_url": {
+                    "type": "string"
+                  },
+                  "organizations_url": {
+                    "type": "string"
+                  },
+                  "repos_url": {
+                    "type": "string"
+                  },
+                  "events_url": {
+                    "type": "string"
+                  },
+                  "received_events_url": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "site_admin": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "created_at": {
+                "type": "string"
+              },
+              "updated_at": {
+                "type": "string"
+              },
+              "archived": {
+                "type": "boolean"
+              },
+              "column_url": {
+                "type": "string"
+              },
+              "content_url": {
+                "type": "string"
+              },
+              "project_url": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.inertia-preview+json\" \\\n  https://developer.github.com/projects/columns//cards"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.projects.get({\n  column_id: 'column_id'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "note": {
+              "description": "The card's note content. Only valid for cards without another type of content, so you must omit when specifying `content_id` and `content_type`.",
+              "type": "string"
+            },
+            "content_id": {
+              "description": "The issue or pull request id you want to associate with this card. You can use the [List issues for a repository](https://developer.github.com/v3/issues/#list-issues-for-a-repository) and [List pull requests](https://developer.github.com/v3/pulls/#list-pull-requests) endpoints to find this id.  \n**Note:** Depending on whether you use the issue id or pull request id, you will need to specify `Issue` or `PullRequest` as the `content_type`.",
+              "type": "integer"
+            },
+            "content_type": {
+              "description": "**Required if you provide `content_id`**. The type of content you want to associate with this card. Use `Issue` when `content_id` is an issue id and use `PullRequest` when `content_id` is a pull request id.",
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

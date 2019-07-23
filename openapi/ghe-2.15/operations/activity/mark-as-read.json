@@ -1,0 +1,64 @@
+{
+  "summary": "Mark as read",
+  "description": "Marking a notification as \"read\" removes it from the [default view on GitHub Enterprise](https://github.com/notifications).",
+  "operationId": "activity-mark-as-read",
+  "tags": [
+    "activity"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.15/v3/activity/notifications/#mark-as-read"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    }
+  ],
+  "responses": {
+    "205": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {}
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/notifications"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.activity.get()"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false
+  },
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "last_read_at": {
+              "description": "Describes the last point that notifications were checked. Anything updated since this time will not be updated. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. Default: current date/time",
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
