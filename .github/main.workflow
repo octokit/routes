@@ -40,8 +40,7 @@ action "test" {
 
 action "deploy to now" {
   needs = [
-    "master branch only",
-    "routes:lint"
+    "master branch only"
   ]
   uses = "actions/zeit-now@master"
   secrets = ["ZEIT_TOKEN"]
