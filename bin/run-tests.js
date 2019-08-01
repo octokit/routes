@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const { resolve: pathResolve } = require('path')
 const { readdirSync } = require('fs')
 const { spawn } = require('tap')
 
@@ -13,7 +14,7 @@ spawn(
   }
 )
 
-const apis = readdirSync('openapi')
+const apis = readdirSync(pathResolve(__dirname, '..', 'openapi'))
 for (const api of apis) {
   const GHE_VERSION = parseFloat(api.replace(/^ghe-(\d+\.\d+)$/, '$1')) || null
   spawn(
