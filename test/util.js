@@ -1,10 +1,6 @@
 const { entries, kebabCase } = require('lodash')
 
 const getEndpoint = require('../lib/endpoint/get')
-const {
-  convertEndpointToOperation,
-  findEndpointNameDeprecation
-} = require('../lib/openapi')
 
 module.exports = {
   getAllRoutes,
@@ -138,7 +134,7 @@ function formatEndpoints (endpoints, allEndpoints) {
   for (const endpoint of goodEndpoints) {
     formattedEndpoints.push(formatEndpoint(endpoint, allEndpoints))
   }
-  return formattedEndpoints.sort(sortByPathThenMethod)
+  return formattedEndpoints
 }
 
 function discardBadEndpoints (endpoint, i, endpoints) {
@@ -193,41 +189,5 @@ function formatEndpoint (endpoint, allEndpoints) {
     .map(segment => segment.replace(/:(\w+)/g, '{$1}'))
     .join('/')
   const method = endpoint.method.toLowerCase()
-  const [scope] = endpoint.documentationUrl.substr(getBaseUrl().length)
-    .split('/')
-  const nameDeprecation = findEndpointNameDeprecation(allEndpoints, endpoint)
-  const operation = convertEndpointToOperation({
-    endpoint,
-    scope,
-    baseUrl: getBaseUrl(),
-    nameDeprecation
-  })
-  removeUndefinedByReference(operation)
-  return { path, method, operation }
-}
-
-function removeUndefinedByReference (value) {
-  for (const key of Object.keys(value)) {
-    if (value[key] === undefined) {
-      delete value[key]
-    } else if (Array.isArray(value[key])) {
-      value[key].forEach(removeUndefinedByReference)
-    } else if (typeof value[key] === 'object' && value[key] !== null) {
-      removeUndefinedByReference(value[key])
-    }
-  }
-}
-
-function sortByPathThenMethod (a, b) {
-  switch (true) {
-    case a.path < b.path:
-      return -1
-    case a.path > b.path:
-      return 1
-    case a.method < b.method:
-      return -1
-    case a.method > b.method:
-      return 1
-  }
-  return 0
+  return { path, method, operation: endpoint.operation }
 }
