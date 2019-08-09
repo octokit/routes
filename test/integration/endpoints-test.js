@@ -26,9 +26,7 @@ async function testEndpoints (urls) {
     test(`${url} to JSON from ${jsonFile}`, async t => {
       const expected = UTIL.getRoutesForUrl(url).sort(sortByPathThenMethod)
       const actual = routeMap.get(url).sort(sortByPathThenMethod)
-      // TODO: Make x-* work
-      expected.forEach(({ operation }) => delete operation['x-code-samples'])
-      actual.forEach(({ operation }) => delete operation['x-code-samples'])
+      // TODO: Make x-changes work
       expected.forEach(({ operation }) => delete operation['x-changes'])
       actual.forEach(({ operation }) => delete operation['x-changes'])
       t.deepEquals(actual, expected)
