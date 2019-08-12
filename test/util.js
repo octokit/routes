@@ -138,7 +138,7 @@ function formatRoutes (routes, allRoutes) {
 }
 
 function discardBadRoutes (route, i, routes) {
-  // Discard these routes for some reason ¿ @gr2m ?
+  // Avoid "Identical path templates detected" error
   if ([
     '/repos/{owner}/{repo}/labels/{current_name}',
     '/repos/{owner}/{repo}/git/refs/{namespace}',
