@@ -1,0 +1,28 @@
+on: push
+name: Deploy on push
+jobs:
+  masterBranchOnly:
+    name: master branch only
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: master branch only
+      uses: actions/bin/filter@master
+      with:
+        args: branch master
+    - name: deploy to now
+      uses: actions/zeit-now@master
+      env:
+        ZEIT_TOKEN: ${{ secrets.ZEIT_TOKEN }}
+    - name: alias deploy domain
+      uses: actions/zeit-now@master
+      env:
+        ZEIT_TOKEN: ${{ secrets.ZEIT_TOKEN }}
+      with:
+        args: alias
+    - name: remove older deployments
+      uses: actions/zeit-now@master
+      env:
+        ZEIT_TOKEN: ${{ secrets.ZEIT_TOKEN }}
+      with:
+        args: rm --safe --yes octokit-routes-openapi

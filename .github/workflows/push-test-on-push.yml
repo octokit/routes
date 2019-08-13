@@ -1,0 +1,28 @@
+on: push
+name: Test on push
+jobs:
+  npmCi:
+    name: npm ci
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: npm ci
+      uses: docker://timbru31/node-alpine-git
+      with:
+        entrypoint: npm
+        args: ci
+    - name: routes:lint
+      uses: docker://timbru31/node-alpine-git
+      with:
+        entrypoint: npm
+        args: run routes:lint
+    - name: lint
+      uses: docker://timbru31/node-alpine-git
+      with:
+        entrypoint: npx
+        args: standard
+    - name: test
+      uses: docker://timbru31/node-alpine-git
+      with:
+        entrypoint: npm
+        args: run test:ci
