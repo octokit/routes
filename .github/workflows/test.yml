@@ -1,8 +1,9 @@
-on: push
-name: Test on push
+on: pull_request
+name: Test
 jobs:
   npmCi:
-    name: npm ci
+    name: test
+    # if: github.event.action == 'synchronize'
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
@@ -11,17 +12,17 @@ jobs:
       with:
         entrypoint: npm
         args: ci
-    - name: routes:lint
+    - name: npm run routes:lint
       uses: docker://timbru31/node-alpine-git
       with:
         entrypoint: npm
         args: run routes:lint
-    - name: lint
+    - name: npx standard
       uses: docker://timbru31/node-alpine-git
       with:
         entrypoint: npx
         args: standard
-    - name: test
+    - name: npm run test:ci
       uses: docker://timbru31/node-alpine-git
       with:
         entrypoint: npm
