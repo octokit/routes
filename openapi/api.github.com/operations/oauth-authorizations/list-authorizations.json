@@ -1,13 +1,13 @@
 {
-  "summary": "List your grants",
-  "description": "You can use this API to list the set of OAuth applications that have been granted access to your account. Unlike the [list your authorizations](https://developer.github.com/v3/oauth_authorizations/#list-your-authorizations) API, this API does not manage individual tokens. This API will return one entry for each OAuth application that has been granted access to your account, regardless of the number of tokens an application has generated for your user. The list of OAuth applications returned matches what is shown on [the application authorizations settings screen within GitHub](https://github.com/settings/applications#authorized). The `scopes` returned are the union of scopes authorized for the application. For example, if an application has one token with `repo` scope and another token with `user` scope, the grant will return `[\"repo\", \"user\"]`.",
-  "operationId": "oauth_authorizations-list-grants",
+  "summary": "List your authorizations",
+  "description": "",
+  "operationId": "oauth-authorizations/list-authorizations",
   "tags": [
-    "oauth_authorizations"
+    "oauth-authorizations"
   ],
   "externalDocs": {
     "description": "API method documentation",
-    "url": "https://developer.github.com/v3/oauth_authorizations/#list-your-grants"
+    "url": "https://developer.github.com/v3/oauth_authorizations/#list-your-authorizations"
   },
   "parameters": [
     {
@@ -56,6 +56,21 @@
                 "url": {
                   "type": "string"
                 },
+                "scopes": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "token": {
+                  "type": "string"
+                },
+                "token_last_eight": {
+                  "type": "string"
+                },
+                "hashed_token": {
+                  "type": "string"
+                },
                 "app": {
                   "type": "object",
                   "properties": {
@@ -70,17 +85,20 @@
                     }
                   }
                 },
-                "created_at": {
+                "note": {
+                  "type": "string"
+                },
+                "note_url": {
                   "type": "string"
                 },
                 "updated_at": {
                   "type": "string"
                 },
-                "scopes": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
+                "created_at": {
+                  "type": "string"
+                },
+                "fingerprint": {
+                  "type": "string"
                 }
               }
             }
@@ -92,11 +110,11 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/applications/grants"
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/authorizations"
     },
     {
       "lang": "JS",
-      "source": "octokit.oauthAuthorizations.listGrants()"
+      "source": "octokit.oauthAuthorizations.listAuthorizations()"
     }
   ],
   "x-github": {
