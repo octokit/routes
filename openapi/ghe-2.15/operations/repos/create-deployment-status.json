@@ -1,7 +1,7 @@
 {
   "summary": "Create a deployment status",
   "description": "Users with `push` access can create deployment statuses for a given deployment.\n\nGitHub Apps require `read & write` access to \"Deployments\" and `read-only` access to \"Repo contents\" (for private repos). OAuth Apps require the `repo_deployment` scope.",
-  "operationId": "repos-create-deployment-status",
+  "operationId": "repos/create-deployment-status",
   "tags": [
     "repos"
   ],
@@ -53,6 +53,7 @@
       "content": {
         "application/json": {
           "schema": {
+            "type": "object",
             "properties": {
               "url": {
                 "type": "string"
@@ -158,11 +159,11 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/deployments/:deployment_id/statuses \\\n  -d '{\"state\":\"state\"}'"
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/hello-world/deployments/42/statuses \\\n  -d '{\"state\":\"state\"}'"
     },
     {
       "lang": "JS",
-      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  deployment_id: 'deployment_id',\n  state: 'state'\n})"
+      "source": "octokit.repos.createDeploymentStatus({\n  owner: 'octocat',\n  repo: 'hello-world',\n  deployment_id: 42,\n  state: 'state'\n})"
     }
   ],
   "x-github": {

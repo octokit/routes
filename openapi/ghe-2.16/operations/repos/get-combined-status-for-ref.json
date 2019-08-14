@@ -1,7 +1,7 @@
 {
   "summary": "Get the combined status for a specific ref",
   "description": "Users with pull access in a repository can access a combined view of commit statuses for a given ref. The ref can be a SHA, a branch name, or a tag name.\n\nThe most recent status for each context is returned, up to 100. This field [paginates](https://developer.github.com/enterprise/2.16/v3/#pagination) if there are over 100 contexts.\n\nAdditionally, a combined `state` is returned. The `state` is one of:\n\n*   **failure** if any of the contexts report as `error` or `failure`\n*   **pending** if there are no statuses or a context is `pending`\n*   **success** if the latest status for all contexts is `success`",
-  "operationId": "repos-get-combined-status-for-ref",
+  "operationId": "repos/get-combined-status-for-ref",
   "tags": [
     "repos"
   ],
@@ -53,6 +53,7 @@
       "content": {
         "application/json": {
           "schema": {
+            "type": "object",
             "properties": {
               "state": {
                 "type": "string"
@@ -330,11 +331,11 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/commits/:ref/status"
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/hello-world/commits/REF/status"
     },
     {
       "lang": "JS",
-      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  ref: 'ref'\n})"
+      "source": "octokit.repos.getCombinedStatusForRef({\n  owner: 'octocat',\n  repo: 'hello-world',\n  ref: 'ref'\n})"
     }
   ],
   "x-github": {

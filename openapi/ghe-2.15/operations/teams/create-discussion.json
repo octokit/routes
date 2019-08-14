@@ -1,7 +1,7 @@
 {
   "summary": "Create a discussion",
   "description": "Creates a new discussion post on a team's page. OAuth access tokens require the `write:discussion` [scope](https://developer.github.com/enterprise/2.15/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).\n\nThis endpoint triggers [notifications](https://help.github.com/articles/about-notifications/). Creating content too quickly using this endpoint may result in abuse rate limiting. See \"[Abuse rate limits](https://developer.github.com/enterprise/2.15/v3/#abuse-rate-limits)\" for details.",
-  "operationId": "teams-create-discussion",
+  "operationId": "teams/create-discussion",
   "tags": [
     "teams"
   ],
@@ -36,6 +36,7 @@
       "content": {
         "application/json": {
           "schema": {
+            "type": "object",
             "properties": {
               "author": {
                 "type": "object",
@@ -182,17 +183,18 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.echo-preview+json\" \\\n  https://developer.github.com/teams//discussions \\\n  -d '{\"title\":\"title\",\"body\":\"body\"}'"
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.echo-preview+json\" \\\n  https://developer.github.com/teams/42/discussions \\\n  -d '{\"title\":\"title\",\"body\":\"body\"}'"
     },
     {
       "lang": "JS",
-      "source": "octokit.teams.get({\n  team_id: 'team_id',\n  title: 'title',\n  body: 'body'\n})"
+      "source": "octokit.teams.createDiscussion({\n  team_id: 42,\n  title: 'title',\n  body: 'body'\n})"
     }
   ],
   "x-github": {
     "legacy": false,
     "enabledForApps": true,
-    "githubCloudOnly": false
+    "githubCloudOnly": false,
+    "triggersNotification": true
   },
   "x-changes": [],
   "requestBody": {

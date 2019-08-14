@@ -1,7 +1,7 @@
 {
   "summary": "Remove a label from an issue",
   "description": "Removes the specified label from the issue, and returns the remaining labels on the issue. This endpoint returns a `404 Not Found` status if the label does not exist.",
-  "operationId": "issues-remove-label",
+  "operationId": "issues/remove-label",
   "tags": [
     "issues"
   ],
@@ -61,7 +61,35 @@
       "description": "response",
       "content": {
         "application/json": {
-          "schema": {}
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "node_id": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "color": {
+                  "type": "string"
+                },
+                "default": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -69,11 +97,11 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XDELETE \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/issues/:issue_number/labels/:name"
+      "source": "curl \\\n  -XDELETE \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/hello-world/issues/42/labels/NAME"
     },
     {
       "lang": "JS",
-      "source": "octokit.issues.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  issue_number: 1,\n  name: 'name'\n})"
+      "source": "octokit.issues.removeLabel({\n  owner: 'octocat',\n  repo: 'hello-world',\n  issue_number: 42,\n  name: 'name'\n})"
     }
   ],
   "x-github": {

@@ -1,7 +1,7 @@
 {
   "summary": "Add user as a collaborator",
   "description": "This endpoint triggers [notifications](https://help.github.com/articles/about-notifications/). Creating content too quickly using this endpoint may result in abuse rate limiting. See \"[Abuse rate limits](https://developer.github.com/enterprise/2.17/v3/#abuse-rate-limits)\" for details.\n\nNote that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](https://developer.github.com/enterprise/2.17/v3/#http-verbs).\"",
-  "operationId": "repos-add-collaborator",
+  "operationId": "repos/add-collaborator",
   "tags": [
     "repos"
   ],
@@ -55,17 +55,18 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/collaborators/:username"
+      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/hello-world/collaborators/USERNAME \\\n  -d '{\"permission\":\"permission\"}'"
     },
     {
       "lang": "JS",
-      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  username: 'username'\n})"
+      "source": "octokit.repos.addCollaborator({\n  owner: 'octocat',\n  repo: 'hello-world',\n  username: 'username',\n  permission: 'permission'\n})"
     }
   ],
   "x-github": {
     "legacy": false,
     "enabledForApps": true,
-    "githubCloudOnly": false
+    "githubCloudOnly": false,
+    "triggersNotification": true
   },
   "x-changes": [],
   "requestBody": {

@@ -1,7 +1,7 @@
 {
   "summary": "Create a commit comment",
   "description": "Create a comment for a commit using its `:commit_sha`.\n\nThis endpoint triggers [notifications](https://help.github.com/articles/about-notifications/). Creating content too quickly using this endpoint may result in abuse rate limiting. See \"[Abuse rate limits](https://developer.github.com/enterprise/2.15/v3/#abuse-rate-limits)\" for details.",
-  "operationId": "repos-create-commit-comment",
+  "operationId": "repos/create-commit-comment",
   "tags": [
     "repos"
   ],
@@ -53,6 +53,7 @@
       "content": {
         "application/json": {
           "schema": {
+            "type": "object",
             "properties": {
               "html_url": {
                 "type": "string"
@@ -155,17 +156,18 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/commits/:commit_sha/comments \\\n  -d '{\"body\":\"body\"}'"
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/hello-world/commits/COMMIT_SHA/comments \\\n  -d '{\"body\":\"body\"}'"
     },
     {
       "lang": "JS",
-      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  commit_sha: 'commit_sha',\n  body: 'body'\n})"
+      "source": "octokit.repos.createCommitComment({\n  owner: 'octocat',\n  repo: 'hello-world',\n  commit_sha: 'commit_sha',\n  body: 'body'\n})"
     }
   ],
   "x-github": {
     "legacy": false,
     "enabledForApps": true,
-    "githubCloudOnly": false
+    "githubCloudOnly": false,
+    "triggersNotification": true
   },
   "x-changes": [
     {

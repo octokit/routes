@@ -1,7 +1,7 @@
 {
   "summary": "Create an issue",
   "description": "Any user with pull access to a repository can create an issue. If [issues are disabled in the repository](https://help.github.com/articles/disabling-issues/), the API returns a `410 Gone` status.\n\nThis endpoint triggers [notifications](https://help.github.com/articles/about-notifications/). Creating content too quickly using this endpoint may result in abuse rate limiting. See \"[Abuse rate limits](https://developer.github.com/enterprise/2.15/v3/#abuse-rate-limits)\" for details.",
-  "operationId": "issues-create",
+  "operationId": "issues/create",
   "tags": [
     "issues"
   ],
@@ -44,6 +44,7 @@
       "content": {
         "application/json": {
           "schema": {
+            "type": "object",
             "properties": {
               "id": {
                 "type": "number"
@@ -502,17 +503,18 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/issues \\\n  -d '{\"title\":\"title\"}'"
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/hello-world/issues \\\n  -d '{\"title\":\"title\"}'"
     },
     {
       "lang": "JS",
-      "source": "octokit.issues.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  title: 'title'\n})"
+      "source": "octokit.issues.create({\n  owner: 'octocat',\n  repo: 'hello-world',\n  title: 'title'\n})"
     }
   ],
   "x-github": {
     "legacy": false,
     "enabledForApps": true,
-    "githubCloudOnly": false
+    "githubCloudOnly": false,
+    "triggersNotification": true
   },
   "x-changes": [],
   "requestBody": {

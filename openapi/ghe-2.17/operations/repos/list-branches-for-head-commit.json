@@ -1,7 +1,7 @@
 {
   "summary": "List branches for HEAD commit",
   "description": "Returns all branches where the given commit SHA is the HEAD, or latest commit for the branch.",
-  "operationId": "repos-list-branches-for-head-commit",
+  "operationId": "repos/list-branches-for-head-commit",
   "tags": [
     "repos"
   ],
@@ -53,7 +53,31 @@
       "description": "response",
       "content": {
         "application/json": {
-          "schema": {}
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "commit": {
+                  "type": "object",
+                  "properties": {
+                    "sha": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "protected": {
+                  "type": "string"
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -61,11 +85,11 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -H\"Accept: application/vnd.github.groot-preview+json\" \\\n  https://developer.github.com/repos/octocat/:repo/commits/:commit_sha/branches-where-head"
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.groot-preview+json\" \\\n  https://developer.github.com/repos/octocat/hello-world/commits/COMMIT_SHA/branches-where-head"
     },
     {
       "lang": "JS",
-      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  commit_sha: 'commit_sha'\n})"
+      "source": "octokit.repos.listBranchesForHeadCommit({\n  owner: 'octocat',\n  repo: 'hello-world',\n  commit_sha: 'commit_sha'\n})"
     }
   ],
   "x-github": {
