@@ -1,64 +1,106 @@
 [
   {
-    "name": "Upload a release asset",
-    "enabledForApps": true,
-    "method": "POST",
+    "method": "post",
     "path": ":url",
-    "previews": [],
-    "params": [
-      {
-        "name": "url",
-        "type": "string",
-        "required": true,
-        "description": "",
-        "location": "url"
+    "operation": {
+      "summary": "Upload a release asset",
+      "description": "This endpoint makes use of [a Hypermedia relation](https://developer.github.com/v3/#hypermedia) to determine which URL to access. This endpoint is provided by a URI template in [the release's API response](https://developer.github.com/v3/repos/releases/#get-a-single-release). You need to use an HTTP client which supports [SNI](http://en.wikipedia.org/wiki/Server_Name_Indication) to make calls to this endpoint.\n\nThe asset data is expected in its raw binary form, rather than JSON. Everything else about the endpoint is the same as the rest of the API. For example, you'll still need to pass your authentication to be able to upload an asset.\n\nSend the raw binary content of the asset as the request body.\n\nThis may leave an empty asset with a state of `\"new\"`. It can be safely deleted.",
+      "operationId": "repos-upload-release-asset",
+      "tags": [
+        "repos"
+      ],
+      "externalDocs": {
+        "description": "API method documentation",
+        "url": "https://developer.github.com/v3/repos/releases/#upload-a-release-asset"
       },
-      {
-        "name": "headers",
-        "location": "headers",
-        "required": true,
-        "type": "object",
-        "description": "Request headers containing `content-type` and `content-length`"
+      "parameters": [
+        {
+          "name": "accept",
+          "description": "Setting to `application/vnd.github.v3+json` is recommended",
+          "in": "header",
+          "schema": {
+            "type": "string",
+            "default": "application/vnd.github.v3+json"
+          }
+        },
+        {
+          "name": "url",
+          "in": "path",
+          "schema": {
+            "type": "string"
+          },
+          "required": true,
+          "description": "url parameter"
+        },
+        {
+          "name": "content-length",
+          "in": "header",
+          "schema": {
+            "type": "integer"
+          },
+          "required": true,
+          "description": "The content size of the asset in bytes"
+        },
+        {
+          "name": "content-type",
+          "in": "header",
+          "schema": {
+            "type": "string"
+          },
+          "required": true,
+          "description": "The content type of the asset. This should be set in the Header. Example: `\"application/zip\"`. For a list of acceptable types, refer this list of [media types](https://www.iana.org/assignments/media-types/media-types.xhtml)."
+        },
+        {
+          "name": "name",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          },
+          "required": true,
+          "description": "The file name of the asset. This should be set in a URI query parameter."
+        },
+        {
+          "name": "label",
+          "in": "query",
+          "schema": {
+            "type": "string"
+          },
+          "required": false,
+          "description": "An alternate short description of the asset. Used in place of the filename. This should be set in a URI query parameter."
+        }
+      ],
+      "responses": {
+        "418": {
+          "description": "Response definition missing"
+        }
       },
-      {
-        "name": "headers.content-length",
-        "type": "integer",
-        "description": "The content size of the asset in bytes",
-        "required": true,
-        "location": "headers"
+      "x-code-samples": [
+        {
+          "lang": "Shell",
+          "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  :url"
+        },
+        {
+          "lang": "JS",
+          "source": "octokit.repos.get({\n  url: 'url',\n  name: 'name',\n  file: 'file'\n})"
+        }
+      ],
+      "x-github": {
+        "legacy": false,
+        "enabledForApps": true,
+        "githubCloudOnly": false,
+        "requestBodyParameterName": "file"
       },
-      {
-        "name": "headers.content-type",
-        "type": "string",
-        "description": "The content type of the asset. This should be set in the Header. Example: `\"application/zip\"`. For a list of acceptable types, refer this list of [media types](https://www.iana.org/assignments/media-types/media-types.xhtml).",
-        "required": true,
-        "location": "headers"
-      },
-      {
-        "name": "name",
-        "type": "string",
-        "description": "The file name of the asset. This should be set in a URI query parameter.",
-        "required": true,
-        "location": "query"
-      },
-      {
-        "name": "label",
-        "type": "string",
-        "description": "An alternate short description of the asset. Used in place of the filename. This should be set in a URI query parameter.",
-        "required": false,
-        "location": "query"
-      },
-      {
-        "name": "file",
-        "type": "string | object",
-        "description": "",
-        "required": true,
-        "location": "body",
-        "mapTo": "input"
+      "x-changes": [],
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "string",
+              "description": "file parameter"
+            }
+          }
+        }
       }
-    ],
-    "description": "This endpoint makes use of [a Hypermedia relation](https://developer.github.com/v3/#hypermedia) to determine which URL to access. This endpoint is provided by a URI template in [the release's API response](https://developer.github.com/v3/repos/releases/#get-a-single-release). You need to use an HTTP client which supports [SNI](http://en.wikipedia.org/wiki/Server_Name_Indication) to make calls to this endpoint.\n\nThe asset data is expected in its raw binary form, rather than JSON. Everything else about the endpoint is the same as the rest of the API. For example, you'll still need to pass your authentication to be able to upload an asset.\n\nSend the raw binary content of the asset as the request body.\n\nThis may leave an empty asset with a state of `\"new\"`. It can be safely deleted.",
-    "idName": "upload-release-asset"
+    }
   }
-
 ]

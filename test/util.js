@@ -1,10 +1,6 @@
 const { entries, kebabCase } = require('lodash')
 
 const getEndpoint = require('../lib/endpoint/get')
-const {
-  convertEndpointToOperation,
-  findEndpointNameDeprecation
-} = require('../lib/openapi')
 
 module.exports = {
   getAllRoutes,
@@ -113,121 +109,88 @@ function reduceByDocumentationUrl (map, [path, methods]) {
 }
 
 async function getRouteMap (urls, state) {
-  const allEndpoints = []
+  const allRoutes = []
   const routeMap = new Map()
 
   await urls.reduce(async (promise, url) => {
     await promise
-    const endpoints = await getEndpoint(state, url)
-    if (endpoints) {
-      allEndpoints.push(...endpoints)
-      routeMap.set(url, endpoints)
+    const routes = await getEndpoint(state, url)
+    if (routes) {
+      allRoutes.push(...routes)
+      routeMap.set(url, routes)
     }
   }, null)
 
-  for (const [url, endpoints] of routeMap) {
-    const formattedEndpoints = formatEndpoints(endpoints, allEndpoints)
-    routeMap.set(url, formattedEndpoints)
+  for (const [url, routes] of routeMap) {
+    const formattedRoutes = formatRoutes(routes, allRoutes)
+    routeMap.set(url, formattedRoutes)
   }
   return routeMap
 }
 
-function formatEndpoints (endpoints, allEndpoints) {
-  const goodEndpoints = endpoints.filter(discardBadEndpoints)
-  const formattedEndpoints = []
-  for (const endpoint of goodEndpoints) {
-    formattedEndpoints.push(formatEndpoint(endpoint, allEndpoints))
+function formatRoutes (routes, allRoutes) {
+  const goodRoutes = routes.filter(discardBadRoutes)
+  const formattedRoutes = []
+  for (const route of goodRoutes) {
+    formattedRoutes.push(formatRoute(route, allRoutes))
   }
-  return formattedEndpoints.sort(sortByPathThenMethod)
+  return formattedRoutes
 }
 
-function discardBadEndpoints (endpoint, i, endpoints) {
-  // Discard routes that have had a name change because the deprecated name is
-  // captured in the x-changes section of the openapi operation object
-  const isCurrentName = !(endpoint.deprecated && endpoint.deprecated.before)
-
-  // Discard these routes for some reason ¿ @gr2m ?
-  const isNotBanned = ![
+function discardBadRoutes (route, i, routes) {
+  // Avoid "Identical path templates detected" error
+  if ([
     '/repos/{owner}/{repo}/labels/{current_name}',
     '/repos/{owner}/{repo}/git/refs/{namespace}',
     '{url}'
-  ].includes(endpoint.path)
+  ].includes(route.path)) {
+    return false
+  }
 
   // Discard all but the last one of routes that share the same method and path
-  // because openapi only supports one operation per method for each path
-  // Only way to "fix" this is to change the actual github api
-  // As of 15 july 2019, the offenders are:
+  // because OpenAPI only supports one operation per method for each path
+  // Only way to "fix" this is to change the actual GitHub API
+  // As of 15 July 2019, the offenders are:
   //   - post /repos/{owner}/{repo}/pulls
   //     - pulls-create
   //     - pulls-create-from-issue
   //   - post /repos/{owner}/{repo}/pulls/{pull_number}/comments
   //     - pulls-create-comment
   //     - pulls-create-comment-reply
-  const isCanonicalOp = checkIfCanonicalOp()
-
-  return isCurrentName && isNotBanned && isCanonicalOp
+  return checkIfCanonicalOp()
 
   function checkIfCanonicalOp () {
-    if (endpoints.length === 1) {
+    if (routes.length === 1) {
       return true
     }
     let count = 0
     let deprecatedCount = 0
     let lastId
-    for (const _endpoint of endpoints) {
-      if (_endpoint.path === endpoint.path) {
+    for (const _route of routes) {
+      if (_route.path === route.path) {
         count++
-        _endpoint.deprecated && deprecatedCount++
-        lastId = _endpoint.idName
+        _route.deprecated && deprecatedCount++
+        lastId = _route.operation.operationId
       }
     }
     const hasUniquePath = count - deprecatedCount <= 1
-    // Last in wins because there's not a better way
-    const isCanonicalOpForNonUniquePath = endpoint.idName === lastId
+    // Last-in wins because there's not a better way
+    const isCanonicalOpForNonUniquePath = route.operation.operationId === lastId
     return hasUniquePath || isCanonicalOpForNonUniquePath
   }
 }
 
-function formatEndpoint (endpoint, allEndpoints) {
-  const path = endpoint.path.split('/')
+function formatRoute (route, allRoutes) {
+  const path = route.path.split('/')
     .map(segment => segment.replace(/:(\w+)/g, '{$1}'))
     .join('/')
-  const method = endpoint.method.toLowerCase()
-  const [scope] = endpoint.documentationUrl.substr(getBaseUrl().length)
-    .split('/')
-  const nameDeprecation = findEndpointNameDeprecation(allEndpoints, endpoint)
-  const operation = convertEndpointToOperation({
-    endpoint,
-    scope,
-    baseUrl: getBaseUrl(),
-    nameDeprecation
-  })
-  removeUndefinedByReference(operation)
-  return { path, method, operation }
-}
-
-function removeUndefinedByReference (value) {
-  for (const key of Object.keys(value)) {
-    if (value[key] === undefined) {
-      delete value[key]
-    } else if (Array.isArray(value[key])) {
-      value[key].forEach(removeUndefinedByReference)
-    } else if (typeof value[key] === 'object' && value[key] !== null) {
-      removeUndefinedByReference(value[key])
-    }
+  const method = route.method.toLowerCase()
+  delete route.operation.deprecated // Remove this line after PR#482 is merged
+  // Manually overridden routes have the doc URLs for api.github.com
+  const baseUrl = getBaseUrl()
+  if (!route.operation.externalDocs.url.startsWith(baseUrl)) {
+    route.operation.externalDocs.url = route.operation.externalDocs.url
+      .replace('https://developer.github.com/v3/', baseUrl)
   }
-}
-
-function sortByPathThenMethod (a, b) {
-  switch (true) {
-    case a.path < b.path:
-      return -1
-    case a.path > b.path:
-      return 1
-    case a.method < b.method:
-      return -1
-    case a.method > b.method:
-      return 1
-  }
-  return 0
+  return { path, method, operation: route.operation }
 }

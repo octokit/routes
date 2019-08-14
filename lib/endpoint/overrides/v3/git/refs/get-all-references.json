@@ -1,50 +1,106 @@
 [
   {
-    "name": "Get all references",
-    "enabledForApps": true,
-    "method": "GET",
     "path": "/repos/:owner/:repo/git/refs/:namespace",
-    "previews": [],
-    "params": [
-      {
-        "name": "owner",
-        "type": "string",
-        "required": true,
-        "description": "",
-        "location": "url"
+    "method": "get",
+    "operation": {
+      "summary": "Get all references",
+      "description": "This will return an array of all the references on the system, including things like notes and stashes if they exist on the server.",
+      "operationId": "git-list-refs",
+      "tags": [
+        "git"
+      ],
+      "externalDocs": {
+        "description": "API method documentation",
+        "url": "https://developer.github.com/v3/git/refs/#get-all-references"
       },
-      {
-        "name": "repo",
-        "type": "string",
-        "required": true,
-        "description": "",
-        "location": "url"
+      "parameters": [
+        {
+          "name": "accept",
+          "description": "Setting to `application/vnd.github.v3+json` is recommended",
+          "in": "header",
+          "schema": {
+            "type": "string",
+            "default": "application/vnd.github.v3+json"
+          }
+        },
+        {
+          "name": "owner",
+          "in": "path",
+          "schema": {
+            "type": "string"
+          },
+          "required": true,
+          "description": "owner parameter"
+        },
+        {
+          "name": "repo",
+          "in": "path",
+          "schema": {
+            "type": "string"
+          },
+          "required": true,
+          "description": "repo parameter"
+        },
+        {
+          "name": "ref",
+          "in": "path",
+          "schema": {
+            "type": "string"
+          },
+          "required": true,
+          "description": "Must be formatted as `heads/branch`, not just `branch`"
+        },
+        {
+          "name": "namespace",
+          "in": "path",
+          "schema": {
+            "type": "string"
+          },
+          "required": false,
+          "description": "Filter by sub-namespace (reference prefix). Most commen examples would be `'heads/'` and `'tags/'` to retrieve branches or tags"
+        },
+        {
+          "name": "per_page",
+          "in": "query",
+          "schema": {
+            "type": "integer",
+            "default": 30
+          },
+          "required": false,
+          "description": "Results per page (max 100)"
+        },
+        {
+          "name": "page",
+          "in": "query",
+          "schema": {
+            "type": "integer",
+            "default": 1
+          },
+          "required": false,
+          "description": "Page number of the results to fetch."
+        }
+      ],
+      "responses": {
+        "418": {
+          "description": "Response definition missing"
+        }
       },
-      {
-        "name": "namespace",
-        "type": "string",
-        "description": "Filter by sub-namespace (reference prefix). Most commen examples would be `'heads/'` and `'tags/'` to retrieve branches or tags",
-        "required": false,
-        "location": "url"
+      "x-code-samples": [
+        {
+          "lang": "Shell",
+          "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/git/refs/:namespace"
+        },
+        {
+          "lang": "JS",
+          "source": "octokit.git.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  namespace: 'namespace'\n})"
+        }
+      ],
+      "x-github": {
+        "legacy": false,
+        "enabledForApps": true,
+        "githubCloudOnly": false
       },
-      {
-        "name": "per_page",
-        "type": "integer",
-        "required": false,
-        "description": "Results per page (max 100)",
-        "default": 30,
-        "location": "query"
-      },
-      {
-        "name": "page",
-        "type": "integer",
-        "required": false,
-        "description": "Page number of the results to fetch.",
-        "default": 1,
-        "location": "query"
-      }
-    ],
-    "description": "This will return an array of all the references on the system, including things like notes and stashes if they exist on the server",
-    "idName": "list-refs"
+      "x-changes": []
+    }
   }
 ]
