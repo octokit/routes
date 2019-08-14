@@ -185,7 +185,6 @@ function formatRoute (route, allRoutes) {
     .map(segment => segment.replace(/:(\w+)/g, '{$1}'))
     .join('/')
   const method = route.method.toLowerCase()
-  delete route.operation.deprecated // Remove this line after PR#482 is merged
   // Manually overridden routes have the doc URLs for api.github.com
   const baseUrl = getBaseUrl()
   if (!route.operation.externalDocs.url.startsWith(baseUrl)) {

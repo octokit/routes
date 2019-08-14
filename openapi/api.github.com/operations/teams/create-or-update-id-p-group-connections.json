@@ -36,6 +36,7 @@
       "content": {
         "application/json": {
           "schema": {
+            "type": "object",
             "properties": {
               "groups": {
                 "type": "object",
@@ -60,17 +61,17 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.team-sync-preview+json\" \\\n  https://developer.github.com/teams//team-sync/group-mappings \\\n  -d '{\"groups\":\"groups\",\"groups[].group_id\":\"groups[].group_id\",\"groups[].group_name\":\"groups[].group_name\",\"groups[].group_description\":\"groups[].group_description\"}'"
+      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.team-sync-preview+json\" \\\n  https://developer.github.com/teams/42/team-sync/group-mappings \\\n  -d '{\"groups\":[{\"group_id\":\"group_id\",\"group_name\":\"group_name\",\"group_description\":\"group_description\"}]}'"
     },
     {
       "lang": "JS",
-      "source": "octokit.teams.get({\n  team_id: 'team_id',\n  groups: 'groups',\n  'groups[].group_id': 'groups[].group_id',\n  'groups[].group_name': 'groups[].group_name',\n  'groups[].group_description': 'groups[].group_description'\n})"
+      "source": "octokit.teams.createOrUpdateIdPGroupConnections({\n  team_id: 42,\n  groups: [\n    {\n      group_id: 'group_id',\n      group_name: 'group_name',\n      group_description: 'group_description'\n    }\n  ]\n})"
     }
   ],
   "x-github": {
     "legacy": false,
     "enabledForApps": false,
-    "githubCloudOnly": false
+    "githubCloudOnly": true
   },
   "x-changes": [],
   "requestBody": {

@@ -25,7 +25,35 @@
       "description": "response",
       "content": {
         "application/json": {
-          "schema": {}
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "primary": {
+                  "type": "boolean"
+                },
+                "verified": {
+                  "type": "boolean"
+                },
+                "visibility": {
+                  "type": [
+                    "string",
+                    "string"
+                  ]
+                }
+              },
+              "required": [
+                "email",
+                "primary",
+                "verified",
+                "visibility"
+              ]
+            }
+          }
         }
       }
     }
@@ -33,11 +61,11 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/user/emails \\\n  -d '{\"emails\":\"emails\"}'"
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/user/emails \\\n  -d '{\"emails\":[\"info@github.com\"]}'"
     },
     {
       "lang": "JS",
-      "source": "octokit.users.get({\n  emails: 'emails'\n})"
+      "source": "octokit.users.addEmails({\n  emails: [\n    'info@github.com'\n  ]\n})"
     }
   ],
   "x-github": {

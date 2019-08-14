@@ -52,7 +52,12 @@
       "description": "response",
       "content": {
         "application/json": {
-          "schema": {}
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
         }
       }
     }
@@ -60,11 +65,11 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/branches/:branch/protection/required_status_checks/contexts \\\n  -d '{\"contexts\":\"contexts\"}'"
+      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/hello-world/branches/BRANCH/protection/required_status_checks/contexts \\\n  -d '{\"contexts\":[\"contexts\"]}'"
     },
     {
       "lang": "JS",
-      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  branch: 'branch',\n  contexts: 'contexts'\n})"
+      "source": "octokit.repos.replaceProtectedBranchRequiredStatusChecksContexts({\n  owner: 'octocat',\n  repo: 'hello-world',\n  branch: 'branch',\n  contexts: [\n    'contexts'\n  ]\n})"
     }
   ],
   "x-github": {
