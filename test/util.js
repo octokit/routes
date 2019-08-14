@@ -185,11 +185,5 @@ function formatRoute (route, allRoutes) {
     .map(segment => segment.replace(/:(\w+)/g, '{$1}'))
     .join('/')
   const method = route.method.toLowerCase()
-  // Manually overridden routes have the doc URLs for api.github.com
-  const baseUrl = getBaseUrl()
-  if (!route.operation.externalDocs.url.startsWith(baseUrl)) {
-    route.operation.externalDocs.url = route.operation.externalDocs.url
-      .replace('https://developer.github.com/v3/', baseUrl)
-  }
   return { path, method, operation: route.operation }
 }
