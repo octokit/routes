@@ -1,11 +1,11 @@
 [
   {
-    "method": "post",
+    "method": "POST",
     "path": ":url",
     "operation": {
       "summary": "Upload a release asset",
-      "description": "This endpoint makes use of [a Hypermedia relation](https://developer.github.com/v3/#hypermedia) to determine which URL to access. This endpoint is provided by a URI template in [the release's API response](https://developer.github.com/v3/repos/releases/#get-a-single-release). You need to use an HTTP client which supports [SNI](http://en.wikipedia.org/wiki/Server_Name_Indication) to make calls to this endpoint.\n\nThe asset data is expected in its raw binary form, rather than JSON. Everything else about the endpoint is the same as the rest of the API. For example, you'll still need to pass your authentication to be able to upload an asset.\n\nSend the raw binary content of the asset as the request body.\n\nThis may leave an empty asset with a state of `\"new\"`. It can be safely deleted.",
-      "operationId": "repos-upload-release-asset",
+      "description": "This endpoint makes use of [a Hypermedia relation](https://developer.github.com/v3/#hypermedia) to determine which URL to access. The endpoint you call to upload release assets is specific to your release. Use the `upload_url` returned in the response of the [Create a release endpoint](https://developer.github.com/v3/repos/releases/#create-a-release) to upload a release asset.\n\nYou need to use an HTTP client which supports [SNI](http://en.wikipedia.org/wiki/Server_Name_Indication) to make calls to this endpoint.\n\nMost libraries will set the required `Content-Length` header automatically. Use the required `Content-Type` header to provide the media type of the asset. For a list of media types, see [Media Types](https://www.iana.org/assignments/media-types/media-types.xhtml). For example:\n\n`application/zip`\n\nGitHub expects the asset data in its raw binary form, rather than JSON. You will send the raw binary content of the asset as the request body. Everything else about the endpoint is the same as the rest of the API. For example, you'll still need to pass your authentication to be able to upload an asset.\n\n**Notes:**\n\n*   GitHub renames asset filenames that have special characters, non-alphanumeric characters, and leading or trailing periods. The \"[List assets for a release](https://developer.github.com/v3/repos/releases/#list-assets-for-a-release)\" endpoint lists the renamed filenames. For more information and help, contact [GitHub Support](https://github.com/contact).\n*   If you upload an asset with the same filename as another uploaded asset, you'll receive an error and must delete the old file before you can re-upload the new asset.\n\nThis may leave an empty asset with a state of `starter`. It can be safely deleted.",
+      "operationId": "repos/upload-release-asset",
       "tags": [
         "repos"
       ],
@@ -24,49 +24,40 @@
           }
         },
         {
-          "name": "url",
+          "name": "server",
+          "description": "server parameter",
           "in": "path",
+          "required": true,
           "schema": {
             "type": "string"
-          },
-          "required": true,
-          "description": "url parameter"
+          }
         },
         {
-          "name": "content-length",
-          "in": "header",
+          "name": "owner",
+          "description": "owner parameter",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "repo",
+          "description": "repo parameter",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "release_id",
+          "description": "release_id parameter",
+          "in": "path",
+          "required": true,
           "schema": {
             "type": "integer"
-          },
-          "required": true,
-          "description": "The content size of the asset in bytes"
-        },
-        {
-          "name": "content-type",
-          "in": "header",
-          "schema": {
-            "type": "string"
-          },
-          "required": true,
-          "description": "The content type of the asset. This should be set in the Header. Example: `\"application/zip\"`. For a list of acceptable types, refer this list of [media types](https://www.iana.org/assignments/media-types/media-types.xhtml)."
-        },
-        {
-          "name": "name",
-          "in": "query",
-          "schema": {
-            "type": "string"
-          },
-          "required": true,
-          "description": "The file name of the asset. This should be set in a URI query parameter."
-        },
-        {
-          "name": "label",
-          "in": "query",
-          "schema": {
-            "type": "string"
-          },
-          "required": false,
-          "description": "An alternate short description of the asset. Used in place of the filename. This should be set in a URI query parameter."
+          }
         }
       ],
       "responses": {
@@ -77,26 +68,37 @@
       "x-code-samples": [
         {
           "lang": "Shell",
-          "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  :url"
+          "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/v3/SERVER/repos/octocat/hello-world/releases/42/assets \\\n  -d '{\"name\":\"name\"}'"
         },
         {
           "lang": "JS",
-          "source": "octokit.repos.get({\n  url: 'url',\n  name: 'name',\n  file: 'file'\n})"
+          "source": "octokit.repos.uploadReleaseAsset({\n  server: 'server',\n  owner: 'octocat',\n  repo: 'hello-world',\n  release_id: 42,\n  name: 'name'\n})"
         }
       ],
       "x-github": {
         "legacy": false,
         "enabledForApps": true,
-        "githubCloudOnly": false,
-        "requestBodyParameterName": "file"
+        "githubCloudOnly": false
       },
       "x-changes": [],
       "requestBody": {
         "content": {
           "application/json": {
             "schema": {
-              "type": "string",
-              "description": "file parameter"
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "The file name of the asset. This should be set in a URI query parameter."
+                },
+                "label": {
+                  "type": "string",
+                  "description": "An alternate short description of the asset. Used in place of the filename. This should be set in a URI query parameter."
+                }
+              },
+              "required": [
+                "name"
+              ]
             }
           }
         }
