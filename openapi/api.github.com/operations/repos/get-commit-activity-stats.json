@@ -1,7 +1,7 @@
 {
   "summary": "Get the last year of commit activity data",
   "description": "Returns the last year of commit activity grouped by week. The `days` array is a group of commits per day, starting on `Sunday`.\n\n",
-  "operationId": "repos-get-commit-activity-stats",
+  "operationId": "repos/get-commit-activity-stats",
   "tags": [
     "repos"
   ],
@@ -43,7 +43,26 @@
       "description": "response",
       "content": {
         "application/json": {
-          "schema": {}
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "days": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "total": {
+                  "type": "number"
+                },
+                "week": {
+                  "type": "number"
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -51,11 +70,11 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/stats/commit_activity"
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/hello-world/stats/commit_activity"
     },
     {
       "lang": "JS",
-      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
+      "source": "octokit.repos.getCommitActivityStats({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
     }
   ],
   "x-github": {

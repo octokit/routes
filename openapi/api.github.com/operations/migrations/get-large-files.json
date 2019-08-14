@@ -1,7 +1,7 @@
 {
   "summary": "Get large files",
   "description": "List files larger than 100MB found during the import",
-  "operationId": "migrations-get-large-files",
+  "operationId": "migrations/get-large-files",
   "tags": [
     "migrations"
   ],
@@ -44,7 +44,26 @@
       "description": "response",
       "content": {
         "application/json": {
-          "schema": {}
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "ref_name": {
+                  "type": "string"
+                },
+                "path": {
+                  "type": "string"
+                },
+                "oid": {
+                  "type": "string"
+                },
+                "size": {
+                  "type": "number"
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -52,11 +71,11 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -H\"Accept: application/vnd.github.barred-rock-preview+json\" \\\n  https://developer.github.com/repos/octocat/:repo/import/large_files"
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.barred-rock-preview+json\" \\\n  https://developer.github.com/repos/octocat/hello-world/import/large_files"
     },
     {
       "lang": "JS",
-      "source": "octokit.migrations.get({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
+      "source": "octokit.migrations.getLargeFiles({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
     }
   ],
   "x-github": {

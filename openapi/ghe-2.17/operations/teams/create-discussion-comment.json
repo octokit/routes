@@ -1,7 +1,7 @@
 {
   "summary": "Create a comment",
   "description": "Creates a new comment on a team discussion. OAuth access tokens require the `write:discussion` [scope](https://developer.github.com/enterprise/2.17/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).\n\nThis endpoint triggers [notifications](https://help.github.com/articles/about-notifications/). Creating content too quickly using this endpoint may result in abuse rate limiting. See \"[Abuse rate limits](https://developer.github.com/enterprise/2.17/v3/#abuse-rate-limits)\" for details.",
-  "operationId": "teams-create-discussion-comment",
+  "operationId": "teams/create-discussion-comment",
   "tags": [
     "teams"
   ],
@@ -45,6 +45,7 @@
       "content": {
         "application/json": {
           "schema": {
+            "type": "object",
             "properties": {
               "author": {
                 "type": "object",
@@ -176,17 +177,18 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.echo-preview+json\" \\\n  https://developer.github.com/teams//discussions/:discussion_number/comments \\\n  -d '{\"body\":\"body\"}'"
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.echo-preview+json\" \\\n  https://developer.github.com/teams/42/discussions/42/comments \\\n  -d '{\"body\":\"body\"}'"
     },
     {
       "lang": "JS",
-      "source": "octokit.teams.get({\n  team_id: 'team_id',\n  discussion_number: 'discussion_number',\n  body: 'body'\n})"
+      "source": "octokit.teams.createDiscussionComment({\n  team_id: 42,\n  discussion_number: 42,\n  body: 'body'\n})"
     }
   ],
   "x-github": {
     "legacy": false,
     "enabledForApps": true,
-    "githubCloudOnly": false
+    "githubCloudOnly": false,
+    "triggersNotification": true
   },
   "x-changes": [],
   "requestBody": {

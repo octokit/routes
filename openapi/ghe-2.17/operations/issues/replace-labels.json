@@ -1,7 +1,7 @@
 {
   "summary": "Replace all labels for an issue",
   "description": "",
-  "operationId": "issues-replace-labels",
+  "operationId": "issues/replace-labels",
   "tags": [
     "issues"
   ],
@@ -52,7 +52,35 @@
       "description": "response",
       "content": {
         "application/json": {
-          "schema": {}
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "node_id": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "color": {
+                  "type": "string"
+                },
+                "default": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -60,11 +88,11 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/issues/:issue_number/labels"
+      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/hello-world/issues/42/labels \\\n  -d '{\"labels\":[\"labels\"]}'"
     },
     {
       "lang": "JS",
-      "source": "octokit.issues.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  issue_number: 1\n})"
+      "source": "octokit.issues.replaceLabels({\n  owner: 'octocat',\n  repo: 'hello-world',\n  issue_number: 42,\n  labels: [\n    'labels'\n  ]\n})"
     }
   ],
   "x-github": {

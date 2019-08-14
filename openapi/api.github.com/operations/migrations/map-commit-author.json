@@ -1,7 +1,7 @@
 {
   "summary": "Map a commit author",
   "description": "Update an author's identity for the import. Your application can continue updating authors any time before you push new commits to the repository.",
-  "operationId": "migrations-map-commit-author",
+  "operationId": "migrations/map-commit-author",
   "tags": [
     "migrations"
   ],
@@ -54,6 +54,7 @@
       "content": {
         "application/json": {
           "schema": {
+            "type": "object",
             "properties": {
               "id": {
                 "type": "number"
@@ -85,11 +86,11 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.barred-rock-preview+json\" \\\n  https://developer.github.com/repos/octocat/:repo/import/authors/:author_id"
+      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.barred-rock-preview+json\" \\\n  https://developer.github.com/repos/octocat/hello-world/import/authors/42 \\\n  -d '{\"email\":\"octocat@github.com\"}'"
     },
     {
       "lang": "JS",
-      "source": "octokit.migrations.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  author_id: 'author_id'\n})"
+      "source": "octokit.migrations.mapCommitAuthor({\n  owner: 'octocat',\n  repo: 'hello-world',\n  author_id: 42,\n  email: 'octocat@github.com'\n})"
     }
   ],
   "x-github": {

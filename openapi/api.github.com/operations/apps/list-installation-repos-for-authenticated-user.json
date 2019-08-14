@@ -1,7 +1,7 @@
 {
   "summary": "List repositories accessible to the user for an installation",
   "description": "List repositories that the authenticated user has explicit permission (`:read`, `:write`, or `:admin`) to access for an installation.\n\nThe authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership.\n\nYou must use a [user-to-server OAuth access token](https://developer.github.com/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#identifying-users-on-your-site), created for a user who has authorized your GitHub App, to access this endpoint.\n\nThe access the user has to each repository is included in the hash under the `permissions` key.",
-  "operationId": "apps-list-installation-repos-for-authenticated-user",
+  "operationId": "apps/list-installation-repos-for-authenticated-user",
   "tags": [
     "apps"
   ],
@@ -52,10 +52,11 @@
   ],
   "responses": {
     "200": {
-      "description": "response",
+      "description": "The access the user has to each repository is included in the hash under the `permissions` key.",
       "content": {
         "application/json": {
           "schema": {
+            "type": "object",
             "properties": {
               "total_count": {
                 "type": "number"
@@ -381,11 +382,11 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -H\"Accept: application/vnd.github.machine-man-preview+json\" \\\n  https://developer.github.com/user/installations//repositories"
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.machine-man-preview+json\" \\\n  https://developer.github.com/user/installations/42/repositories"
     },
     {
       "lang": "JS",
-      "source": "octokit.apps.get({\n  installation_id: 'installation_id'\n})"
+      "source": "octokit.apps.listInstallationReposForAuthenticatedUser({\n  installation_id: 42\n})"
     }
   ],
   "x-github": {

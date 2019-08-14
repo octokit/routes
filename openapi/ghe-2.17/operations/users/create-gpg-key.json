@@ -1,7 +1,7 @@
 {
   "summary": "Create a GPG key",
   "description": "Adds a GPG key to the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth, or OAuth with at least `write:gpg_key` [scope](https://developer.github.com/enterprise/2.17/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).",
-  "operationId": "users-create-gpg-key",
+  "operationId": "users/create-gpg-key",
   "tags": [
     "users"
   ],
@@ -26,6 +26,7 @@
       "content": {
         "application/json": {
           "schema": {
+            "type": "object",
             "properties": {
               "id": {
                 "type": "number"
@@ -126,11 +127,11 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/user/gpg_keys"
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/user/gpg_keys \\\n  -d '{\"armored_public_key\":\"armored_public_key\"}'"
     },
     {
       "lang": "JS",
-      "source": "octokit.users.get()"
+      "source": "octokit.users.createGpgKey({\n  armored_public_key: 'armored_public_key'\n})"
     }
   ],
   "x-github": {

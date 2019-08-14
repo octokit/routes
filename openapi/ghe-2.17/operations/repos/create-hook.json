@@ -1,7 +1,7 @@
 {
   "summary": "Create a hook",
   "description": "Repositories can have multiple webhooks installed. Each webhook should have a unique `config`. Multiple webhooks can share the same `config` as long as those webhooks do not have any `events` that overlap.\n\n**Note:** GitHub Enterprise release 2.17 and higher no longer allows admins to install new GitHub Services, and existing services will stop working in GitHub Enterprise release 2.20 and higher. You can use the [Replacing GitHub Services guide](https://developer.github.com/enterprise/2.17/v3/guides/replacing-github-services) to help you update your services to webhooks.\n\nHere's how you can create a hook that posts payloads in JSON format:",
-  "operationId": "repos-create-hook",
+  "operationId": "repos/create-hook",
   "tags": [
     "repos"
   ],
@@ -44,6 +44,7 @@
       "content": {
         "application/json": {
           "schema": {
+            "type": "object",
             "properties": {
               "type": {
                 "type": "string"
@@ -115,11 +116,11 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/hooks \\\n  -d '{\"config\":\"config\",\"config.url\":\"config.url\"}'"
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/hello-world/hooks \\\n  -d '{\"config\":{\"url\":\"url\",\"content_type\":\"content_type\",\"secret\":\"secret\",\"insecure_ssl\":\"insecure_ssl\"}}'"
     },
     {
       "lang": "JS",
-      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  config: 'config',\n  'config.url': 'config.url'\n})"
+      "source": "octokit.repos.createHook({\n  owner: 'octocat',\n  repo: 'hello-world',\n  config: {\n    url: 'url',\n    content_type: 'content_type',\n    secret: 'secret',\n    insecure_ssl: 'insecure_ssl'\n  }\n})"
     }
   ],
   "x-github": {

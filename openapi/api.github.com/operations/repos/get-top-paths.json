@@ -1,7 +1,7 @@
 {
   "summary": "List paths",
   "description": "Get the top 10 popular contents over the last 14 days.",
-  "operationId": "repos-get-top-paths",
+  "operationId": "repos/get-top-paths",
   "tags": [
     "repos"
   ],
@@ -43,7 +43,26 @@
       "description": "response",
       "content": {
         "application/json": {
-          "schema": {}
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "count": {
+                  "type": "number"
+                },
+                "uniques": {
+                  "type": "number"
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -51,11 +70,11 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/traffic/popular/paths"
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/hello-world/traffic/popular/paths"
     },
     {
       "lang": "JS",
-      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
+      "source": "octokit.repos.getTopPaths({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
     }
   ],
   "x-github": {

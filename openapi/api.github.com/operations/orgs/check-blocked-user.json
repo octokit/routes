@@ -1,7 +1,7 @@
 {
   "summary": "Check whether a user is blocked from an organization",
   "description": "If the user is blocked:\n\nIf the user is not blocked:",
-  "operationId": "orgs-check-blocked-user",
+  "operationId": "orgs/check-blocked-user",
   "tags": [
     "orgs"
   ],
@@ -40,17 +40,20 @@
   ],
   "responses": {
     "204": {
-      "description": "Empty response"
+      "description": "If the user is blocked:"
+    },
+    "404": {
+      "description": "If the user is not blocked:"
     }
   },
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/orgs//blocks/:username"
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/orgs/ORG/blocks/USERNAME"
     },
     {
       "lang": "JS",
-      "source": "octokit.orgs.get({\n  org: 'org',\n  username: 'username'\n})"
+      "source": "octokit.orgs.checkBlockedUser({\n  org: 'org',\n  username: 'username'\n})"
     }
   ],
   "x-github": {

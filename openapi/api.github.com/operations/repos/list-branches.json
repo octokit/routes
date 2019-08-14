@@ -1,7 +1,7 @@
 {
   "summary": "List branches",
   "description": "",
-  "operationId": "repos-list-branches",
+  "operationId": "repos/list-branches",
   "tags": [
     "repos"
   ],
@@ -72,7 +72,56 @@
       "description": "response",
       "content": {
         "application/json": {
-          "schema": {}
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "commit": {
+                  "type": "object",
+                  "properties": {
+                    "sha": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "protected": {
+                  "type": "boolean"
+                },
+                "protection": {
+                  "type": "object",
+                  "properties": {
+                    "enabled": {
+                      "type": "boolean"
+                    },
+                    "required_status_checks": {
+                      "type": "object",
+                      "properties": {
+                        "enforcement_level": {
+                          "type": "string"
+                        },
+                        "contexts": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "protection_url": {
+                  "type": "string"
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -80,11 +129,11 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/branches"
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/hello-world/branches"
     },
     {
       "lang": "JS",
-      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
+      "source": "octokit.repos.listBranches({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
     }
   ],
   "x-github": {

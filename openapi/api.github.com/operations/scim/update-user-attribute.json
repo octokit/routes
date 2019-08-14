@@ -1,7 +1,7 @@
 {
   "summary": "Update a user attribute",
   "description": "Allows you to change a provisioned user's individual attributes. To change a user's values, you must provide a specific `Operations` JSON format that contains at least one of the `add`, `remove`, or `replace` operations.\n\nThe following example shows adding a new email address and updating the user's given name. For other examples and more information on the SCIM operations format, see the [SCIM specification](https://tools.ietf.org/html/rfc7644#section-3.5.2).\n\n**Note:** Complicated SCIM `path` selectors that include filters are not supported. For example, a `path` selector defined as `\"path\": \"emails[type eq \\\"work\\\"]\"` will not work.\n\n**Warning:** If you set `active:false` using the `replace` operation (as shown in the JSON example below), it removes the user from the organization, deletes the external identity, and deletes the associated `:scim_user_id`.\n\n```\n{\n  \"Operations\":[{\n    \"op\":\"replace\",\n    \"value\":{\n      \"active\":false\n    }\n  }]\n}\n\n```",
-  "operationId": "scim-update-user-attribute",
+  "operationId": "scim/update-user-attribute",
   "tags": [
     "scim"
   ],
@@ -44,6 +44,7 @@
       "content": {
         "application/json": {
           "schema": {
+            "type": "object",
             "properties": {
               "schemas": {
                 "type": "array",
@@ -121,11 +122,11 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/scim/v2/organizations//Users/:scim_user_id"
+      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/scim/v2/organizations/ORG/Users/42"
     },
     {
       "lang": "JS",
-      "source": "octokit.scim.get({\n  org: 'org',\n  scim_user_id: 'scim_user_id'\n})"
+      "source": "octokit.scim.updateUserAttribute({\n  org: 'org',\n  scim_user_id: 42\n})"
     }
   ],
   "x-github": {

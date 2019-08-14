@@ -1,7 +1,7 @@
 {
   "summary": "Get commit authors",
   "description": "Each type of source control system represents authors in a different way. For example, a Git commit author has a display name and an email address, but a Subversion commit author just has a username. The GitHub Importer will make the author information valid, but the author might not be correct. For example, it will change the bare Subversion username `hubot` into something like `hubot <hubot@12341234-abab-fefe-8787-fedcba987654>`.\n\nThis API method and the \"Map a commit author\" method allow you to provide correct Git author information.",
-  "operationId": "migrations-get-commit-authors",
+  "operationId": "migrations/get-commit-authors",
   "tags": [
     "migrations"
   ],
@@ -53,7 +53,35 @@
       "description": "response",
       "content": {
         "application/json": {
-          "schema": {}
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "remote_id": {
+                  "type": "string"
+                },
+                "remote_name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "import_url": {
+                  "type": "string"
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -61,11 +89,11 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -H\"Accept: application/vnd.github.barred-rock-preview+json\" \\\n  https://developer.github.com/repos/octocat/:repo/import/authors"
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.barred-rock-preview+json\" \\\n  https://developer.github.com/repos/octocat/hello-world/import/authors"
     },
     {
       "lang": "JS",
-      "source": "octokit.migrations.get({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
+      "source": "octokit.migrations.getCommitAuthors({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
     }
   ],
   "x-github": {

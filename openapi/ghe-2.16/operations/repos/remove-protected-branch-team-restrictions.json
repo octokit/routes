@@ -1,7 +1,7 @@
 {
   "summary": "Remove team restrictions of protected branch",
   "description": "Removes the ability of a team to push to this branch. If you pass the `hellcat-preview` media type, you can include child teams.\n\n| Type    | Description                                                                                                                                  |\n| ------- | -------------------------------------------------------------------------------------------------------------------------------------------- |\n| `array` | Teams that should no longer have push access. Use the team's `slug`. **Note**: The list of users and teams in total is limited to 100 items. |",
-  "operationId": "repos-remove-protected-branch-team-restrictions",
+  "operationId": "repos/remove-protected-branch-team-restrictions",
   "tags": [
     "repos"
   ],
@@ -52,7 +52,47 @@
       "description": "response",
       "content": {
         "application/json": {
-          "schema": {}
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "node_id": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "slug": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "privacy": {
+                  "type": "string"
+                },
+                "permission": {
+                  "type": "string"
+                },
+                "members_url": {
+                  "type": "string"
+                },
+                "repositories_url": {
+                  "type": "string"
+                },
+                "parent": {
+                  "type": "string"
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -60,11 +100,11 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XDELETE \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/branches/:branch/protection/restrictions/teams \\\n  -d '{\"teams\":\"teams\"}'"
+      "source": "curl \\\n  -XDELETE \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/hello-world/branches/BRANCH/protection/restrictions/teams \\\n  -d '{\"teams\":[\"teams\"]}'"
     },
     {
       "lang": "JS",
-      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  branch: 'branch',\n  teams: 'teams'\n})"
+      "source": "octokit.repos.removeProtectedBranchTeamRestrictions({\n  owner: 'octocat',\n  repo: 'hello-world',\n  branch: 'branch',\n  teams: [\n    'teams'\n  ]\n})"
     }
   ],
   "x-github": {

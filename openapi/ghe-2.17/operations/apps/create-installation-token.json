@@ -1,7 +1,7 @@
 {
   "summary": "Create a new installation token",
   "description": "Creates an installation access token that enables a GitHub App to make authenticated API requests for the app's installation on an organization or individual account. Installation tokens expire one hour from the time you create them. Using an expired token produces a status code of `401 - Unauthorized`, and requires creating a new installation token.\n\nBy default the installation token has access to all repositories that the installation can access. To restrict the access to specific repositories, you can provide the `repository_ids` when creating the token. When you omit `repository_ids`, the response does not contain the `repositories` key.\n\nYou must use a [JWT](https://developer.github.com/enterprise/2.17/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.\n\nThis example grants the token \"Read and write\" permission to `issues` and \"Read\" permission to `contents`, and restricts the token's access to the repository with an `id` of 1296269.",
-  "operationId": "apps-create-installation-token",
+  "operationId": "apps/create-installation-token",
   "tags": [
     "apps"
   ],
@@ -36,6 +36,7 @@
       "content": {
         "application/json": {
           "schema": {
+            "type": "object",
             "properties": {
               "token": {
                 "type": "string"
@@ -361,11 +362,11 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.machine-man-preview+json\" \\\n  https://developer.github.com/app/installations//access_tokens"
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.machine-man-preview+json\" \\\n  https://developer.github.com/app/installations/42/access_tokens \\\n  -d '{\"repository_ids\":[42]}'"
     },
     {
       "lang": "JS",
-      "source": "octokit.apps.get({\n  installation_id: 'installation_id'\n})"
+      "source": "octokit.apps.createInstallationToken({\n  installation_id: 42,\n  repository_ids: [\n    42\n  ]\n})"
     }
   ],
   "x-github": {

@@ -1,7 +1,7 @@
 {
   "summary": "Get the status of an organization migration",
   "description": "Fetches the status of a migration.\n\nThe `state` of a migration can be one of the following values:\n\n*   `pending`, which means the migration hasn't started yet.\n*   `exporting`, which means the migration is in progress.\n*   `exported`, which means the migration finished successfully.\n*   `failed`, which means the migration failed.",
-  "operationId": "migrations-get-status-for-org",
+  "operationId": "migrations/get-status-for-org",
   "tags": [
     "migrations"
   ],
@@ -41,10 +41,11 @@
   ],
   "responses": {
     "200": {
-      "description": "response",
+      "description": "*   `pending`, which means the migration hasn't started yet.\n*   `exporting`, which means the migration is in progress.\n*   `exported`, which means the migration finished successfully.\n*   `failed`, which means the migration failed.",
       "content": {
         "application/json": {
           "schema": {
+            "type": "object",
             "properties": {
               "id": {
                 "type": "number"
@@ -432,11 +433,11 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -H\"Accept: application/vnd.github.wyandotte-preview+json\" \\\n  https://developer.github.com/orgs//migrations/:migration_id"
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.wyandotte-preview+json\" \\\n  https://developer.github.com/orgs/ORG/migrations/42"
     },
     {
       "lang": "JS",
-      "source": "octokit.migrations.get({\n  org: 'org',\n  migration_id: 'migration_id'\n})"
+      "source": "octokit.migrations.getStatusForOrg({\n  org: 'org',\n  migration_id: 42\n})"
     }
   ],
   "x-github": {

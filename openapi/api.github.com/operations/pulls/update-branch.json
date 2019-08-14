@@ -1,7 +1,7 @@
 {
   "summary": "Update a pull request branch",
   "description": "Updates the pull request branch with the latest upstream changes by merging HEAD from the base branch into the pull request branch.",
-  "operationId": "pulls-update-branch",
+  "operationId": "pulls/update-branch",
   "tags": [
     "pulls"
   ],
@@ -54,6 +54,7 @@
       "content": {
         "application/json": {
           "schema": {
+            "type": "object",
             "properties": {
               "message": {
                 "type": "string"
@@ -70,11 +71,11 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.lydian-preview+json\" \\\n  https://developer.github.com/repos/octocat/:repo/pulls/:pull_number/update-branch"
+      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.lydian-preview+json\" \\\n  https://developer.github.com/repos/octocat/hello-world/pulls/42/update-branch \\\n  -d '{\"expected_head_sha\":\"expected_head_sha\"}'"
     },
     {
       "lang": "JS",
-      "source": "octokit.pulls.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  pull_number: 'pull_number'\n})"
+      "source": "octokit.pulls.updateBranch({\n  owner: 'octocat',\n  repo: 'hello-world',\n  pull_number: 42,\n  expected_head_sha: 'expected_head_sha'\n})"
     }
   ],
   "x-github": {

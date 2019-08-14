@@ -1,0 +1,156 @@
+{
+  "summary": "Update an existing authorization",
+  "description": "If you have two-factor authentication setup, Basic Authentication for this endpoint requires that you use a one-time password (OTP) and your username and password instead of tokens. For more information, see \"[Woking with two-factor authentication](https://developer.github.com/enterprise/2.16/v3/auth/#working-with-two-factor-authentication).\"\n\nYou can only send one of these scope keys at a time.",
+  "operationId": "oauth-authorizations/update-authorization",
+  "tags": [
+    "oauth-authorizations"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.16/v3/oauth_authorizations/#update-an-existing-authorization"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "authorization_id",
+      "in": "path",
+      "schema": {
+        "type": "integer"
+      },
+      "required": true,
+      "description": "authorization_id parameter"
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number"
+              },
+              "url": {
+                "type": "string"
+              },
+              "scopes": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "token": {
+                "type": "string"
+              },
+              "token_last_eight": {
+                "type": "string"
+              },
+              "hashed_token": {
+                "type": "string"
+              },
+              "app": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "client_id": {
+                    "type": "string"
+                  }
+                }
+              },
+              "note": {
+                "type": "string"
+              },
+              "note_url": {
+                "type": "string"
+              },
+              "updated_at": {
+                "type": "string"
+              },
+              "created_at": {
+                "type": "string"
+              },
+              "fingerprint": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/authorizations/42 \\\n  -d '{\"scopes\":[\"scopes\"]}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.oauthAuthorizations.updateAuthorization({\n  authorization_id: 42,\n  scopes: [\n    'scopes'\n  ]\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false
+  },
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "scopes": {
+              "description": "Replaces the authorization scopes with these.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "add_scopes": {
+              "description": "A list of scopes to add to this authorization.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "remove_scopes": {
+              "description": "A list of scopes to remove from this authorization.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "note": {
+              "description": "A note to remind you what the OAuth token is for. Tokens not associated with a specific OAuth application (i.e. personal access tokens) must have a unique note.",
+              "type": "string"
+            },
+            "note_url": {
+              "description": "A URL to remind you what app the OAuth token is for.",
+              "type": "string"
+            },
+            "fingerprint": {
+              "description": "A unique string to distinguish an authorization from others created for the same client ID and user.",
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

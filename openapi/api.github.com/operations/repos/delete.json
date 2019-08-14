@@ -1,7 +1,7 @@
 {
   "summary": "Delete a repository",
   "description": "Deleting a repository requires admin access. If OAuth is used, the `delete_repo` scope is required.\n\nIf an organization owner has configured the organization to prevent members from deleting organization-owned repositories, a member will get this response:",
-  "operationId": "repos-delete",
+  "operationId": "repos/delete",
   "tags": [
     "repos"
   ],
@@ -41,16 +41,34 @@
   "responses": {
     "204": {
       "description": "Empty response"
+    },
+    "403": {
+      "description": "If an organization owner has configured the organization to prevent members from deleting organization-owned repositories, a member will get this response:",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "documentation_url": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XDELETE \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo"
+      "source": "curl \\\n  -XDELETE \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/hello-world"
     },
     {
       "lang": "JS",
-      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
+      "source": "octokit.repos.delete({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
     }
   ],
   "x-github": {

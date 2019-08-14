@@ -1,7 +1,7 @@
 {
   "summary": "Edit a hook",
   "description": "**Note:** GitHub Enterprise release 2.17 and higher will discontinue allowing admins to install new GitHub Services, and existing services will stop working in GitHub Enterprise release 2.20 and higher. You can use the [Replacing GitHub Services guide](https://developer.github.com/enterprise/2.15/v3/guides/replacing-github-services) to help you update your services to webhooks.",
-  "operationId": "repos-update-hook",
+  "operationId": "repos/update-hook",
   "tags": [
     "repos"
   ],
@@ -53,6 +53,7 @@
       "content": {
         "application/json": {
           "schema": {
+            "type": "object",
             "properties": {
               "type": {
                 "type": "string"
@@ -124,11 +125,11 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/hooks/:hook_id \\\n  -d '{\"config.url\":\"config.url\"}'"
+      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/hello-world/hooks/42 \\\n  -d '{\"config\":{\"url\":\"url\",\"content_type\":\"content_type\",\"secret\":\"secret\",\"insecure_ssl\":\"insecure_ssl\"}}'"
     },
     {
       "lang": "JS",
-      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  hook_id: 'hook_id',\n  'config.url': 'config.url'\n})"
+      "source": "octokit.repos.updateHook({\n  owner: 'octocat',\n  repo: 'hello-world',\n  hook_id: 42,\n  config: {\n    url: 'url',\n    content_type: 'content_type',\n    secret: 'secret',\n    insecure_ssl: 'insecure_ssl'\n  }\n})"
     }
   ],
   "x-github": {

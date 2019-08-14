@@ -1,7 +1,7 @@
 {
   "summary": "List public keys for a user",
   "description": "Lists the _verified_ public SSH keys for a user. This is accessible by anyone.",
-  "operationId": "users-list-public-keys-for-user",
+  "operationId": "users/list-public-keys-for-user",
   "tags": [
     "users"
   ],
@@ -54,7 +54,20 @@
       "description": "response",
       "content": {
         "application/json": {
-          "schema": {}
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "key": {
+                  "type": "string"
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -62,11 +75,11 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/users//keys"
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/users/USERNAME/keys"
     },
     {
       "lang": "JS",
-      "source": "octokit.users.get({\n  username: 'username'\n})"
+      "source": "octokit.users.listPublicKeysForUser({\n  username: 'username'\n})"
     }
   ],
   "x-github": {

@@ -1,0 +1,144 @@
+{
+  "summary": "Create a new authorization",
+  "description": "Creates OAuth tokens using [Basic Authentication](https://developer.github.com/v3/auth#basic-authentication). If you have two-factor authentication setup, Basic Authentication for this endpoint requires that you use a one-time password (OTP) and your username and password instead of tokens. For more information, see \"[Woking with two-factor authentication](https://developer.github.com/v3/auth/#working-with-two-factor-authentication).\"\n\nYou can use this endpoint to create multiple OAuth tokens instead of implementing the [web flow](https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/).\n\nTo create tokens for a particular OAuth application using this endpoint, you must authenticate as the user you want to create an authorization for and provide the app's client ID and secret, found on your OAuth application's settings page. If your OAuth application intends to create multiple tokens for one user, use `fingerprint` to differentiate between them.\n\nYou can also create tokens on GitHub from the [personal access tokens settings](https://github.com/settings/tokens) page. Read more about these tokens in [the GitHub Help documentation](https://help.github.com/articles/creating-an-access-token-for-command-line-use).\n\nOrganizations that enforce SAML SSO require personal access tokens to be whitelisted. Read more about whitelisting tokens in [the GitHub Help documentation](https://help.github.com/articles/about-identity-and-access-management-with-saml-single-sign-on).",
+  "operationId": "oauth-authorizations/create-authorization",
+  "tags": [
+    "oauth-authorizations"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/oauth_authorizations/#create-a-new-authorization"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    }
+  ],
+  "responses": {
+    "201": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number"
+              },
+              "url": {
+                "type": "string"
+              },
+              "scopes": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "token": {
+                "type": "string"
+              },
+              "token_last_eight": {
+                "type": "string"
+              },
+              "hashed_token": {
+                "type": "string"
+              },
+              "app": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "client_id": {
+                    "type": "string"
+                  }
+                }
+              },
+              "note": {
+                "type": "string"
+              },
+              "note_url": {
+                "type": "string"
+              },
+              "updated_at": {
+                "type": "string"
+              },
+              "created_at": {
+                "type": "string"
+              },
+              "fingerprint": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/authorizations \\\n  -d '{\"note\":\"note\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.oauthAuthorizations.createAuthorization({\n  note: 'note'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false
+  },
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "scopes": {
+              "description": "A list of scopes that this authorization is in.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "note": {
+              "description": "A note to remind you what the OAuth token is for. Tokens not associated with a specific OAuth application (i.e. personal access tokens) must have a unique note.",
+              "type": "string"
+            },
+            "note_url": {
+              "description": "A URL to remind you what app the OAuth token is for.",
+              "type": "string"
+            },
+            "client_id": {
+              "description": "The 20 character OAuth app client key for which to create the token.",
+              "type": "string"
+            },
+            "client_secret": {
+              "description": "The 40 character OAuth app client secret for which to create the token.",
+              "type": "string"
+            },
+            "fingerprint": {
+              "description": "A unique string to distinguish an authorization from others created for the same client ID and user.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "note"
+          ]
+        }
+      }
+    }
+  }
+}

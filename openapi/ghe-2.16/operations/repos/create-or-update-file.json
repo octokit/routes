@@ -1,7 +1,7 @@
 {
   "summary": "Create or update a file",
   "description": "Creates a new file or updates an existing file in a repository.",
-  "operationId": "repos-create-or-update-file",
+  "operationId": "repos/create-or-update-file",
   "tags": [
     "repos"
   ],
@@ -53,6 +53,7 @@
       "content": {
         "application/json": {
           "schema": {
+            "type": "object",
             "properties": {
               "content": {
                 "type": "object",
@@ -202,11 +203,11 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/contents/:path \\\n  -d '{\"message\":\"message\",\"content\":\"content\",\"committer.name\":\"committer.name\",\"committer.email\":\"committer.email\",\"author.name\":\"author.name\",\"author.email\":\"author.email\"}'"
+      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/hello-world/contents/PATH \\\n  -d '{\"message\":\"message\",\"content\":\"content\"}'"
     },
     {
       "lang": "JS",
-      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  path: 'path',\n  message: 'message',\n  content: 'content',\n  'committer.name': 'committer.name',\n  'committer.email': 'committer.email',\n  'author.name': 'author.name',\n  'author.email': 'author.email'\n})"
+      "source": "octokit.repos.createOrUpdateFile({\n  owner: 'octocat',\n  repo: 'hello-world',\n  path: 'path',\n  message: 'message',\n  content: 'content'\n})"
     }
   ],
   "x-github": {
@@ -222,6 +223,19 @@
       "meta": {
         "before": {
           "idName": "create-file"
+        },
+        "after": {
+          "idName": "create-or-update-file"
+        }
+      }
+    },
+    {
+      "type": "idName",
+      "date": "2019-06-07",
+      "note": "\"Update a file\" replaced by \"Create or update a file\"",
+      "meta": {
+        "before": {
+          "idName": "update-file"
         },
         "after": {
           "idName": "create-or-update-file"

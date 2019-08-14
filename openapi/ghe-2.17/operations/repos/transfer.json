@@ -1,7 +1,7 @@
 {
   "summary": "Transfer a repository",
   "description": "A transfer request will need to be accepted by the new owner when transferring a personal repository to another user. The response will contain the original `owner`, and the transfer will continue asynchronously. For more details on the requirements to transfer personal and organization-owned repositories, see [about repository transfers](https://help.github.com/articles/about-repository-transfers/).",
-  "operationId": "repos-transfer",
+  "operationId": "repos/transfer",
   "tags": [
     "repos"
   ],
@@ -45,6 +45,7 @@
       "content": {
         "application/json": {
           "schema": {
+            "type": "object",
             "properties": {
               "id": {
                 "type": "number"
@@ -356,11 +357,11 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.nightshade-preview+json\" \\\n  https://developer.github.com/repos/octocat/:repo/transfer"
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.nightshade-preview+json\" \\\n  https://developer.github.com/repos/octocat/hello-world/transfer \\\n  -d '{\"new_owner\":\"new_owner\"}'"
     },
     {
       "lang": "JS",
-      "source": "octokit.repos.get({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
+      "source": "octokit.repos.transfer({\n  owner: 'octocat',\n  repo: 'hello-world',\n  new_owner: 'new_owner'\n})"
     }
   ],
   "x-github": {

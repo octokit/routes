@@ -1,7 +1,7 @@
 {
   "summary": "Get labels for every issue in a milestone",
   "description": "",
-  "operationId": "issues-list-labels-for-milestone",
+  "operationId": "issues/list-labels-for-milestone",
   "tags": [
     "issues"
   ],
@@ -72,7 +72,35 @@
       "description": "response",
       "content": {
         "application/json": {
-          "schema": {}
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "node_id": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "color": {
+                  "type": "string"
+                },
+                "default": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -80,11 +108,11 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/milestones/:milestone_number/labels"
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/hello-world/milestones/42/labels"
     },
     {
       "lang": "JS",
-      "source": "octokit.issues.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  milestone_number: 'milestone_number'\n})"
+      "source": "octokit.issues.listLabelsForMilestone({\n  owner: 'octocat',\n  repo: 'hello-world',\n  milestone_number: 42\n})"
     }
   ],
   "x-github": {
