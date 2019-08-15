@@ -1,11 +1,11 @@
 [
   {
+    "method": "GET",
     "path": "/repos/:owner/:repo/git/refs/:namespace",
-    "method": "get",
     "operation": {
       "summary": "Get all references",
-      "description": "This will return an array of all the references on the system, including things like notes and stashes if they exist on the server.",
-      "operationId": "git-list-refs",
+      "description": "Returns an array of all the references from your Git database, including notes and stashes if they exist on the server. Anything in the namespace is returned, not just `heads` and `tags`. If there are no references to list, a `404` is returned.\n\n**Note:** You need to explicitly [request a pull request](https://developer.github.com/v3/pulls/#get-a-single-pull-request) to trigger a merge commit creation. For more information, see \"[Checking mergeability of pull requests](https://developer.github.com/v3/git/#checking-mergeability-of-pull-requests)\".\n\n```\nGET /repos/octocat/Hello-World/git/refs\n```\n\nYou can also request a sub-namespace. For example, to get all the tag references, you can call:\n\n```\nGET /repos/octocat/Hello-World/git/refs/tags\n```",
+      "operationId": "git/get-refs",
       "tags": [
         "git"
       ],
@@ -25,74 +25,89 @@
         },
         {
           "name": "owner",
+          "description": "owner parameter",
           "in": "path",
+          "required": true,
           "schema": {
             "type": "string"
-          },
-          "required": true,
-          "description": "owner parameter"
+          }
         },
         {
           "name": "repo",
+          "description": "repo parameter",
           "in": "path",
-          "schema": {
-            "type": "string"
-          },
           "required": true,
-          "description": "repo parameter"
-        },
-        {
-          "name": "ref",
-          "in": "path",
           "schema": {
             "type": "string"
-          },
-          "required": true,
-          "description": "Must be formatted as `heads/branch`, not just `branch`"
-        },
-        {
-          "name": "namespace",
-          "in": "path",
-          "schema": {
-            "type": "string"
-          },
-          "required": false,
-          "description": "Filter by sub-namespace (reference prefix). Most commen examples would be `'heads/'` and `'tags/'` to retrieve branches or tags"
+          }
         },
         {
           "name": "per_page",
+          "description": "Results per page (max 100)",
           "in": "query",
           "schema": {
             "type": "integer",
             "default": 30
-          },
-          "required": false,
-          "description": "Results per page (max 100)"
+          }
         },
         {
           "name": "page",
+          "description": "Page number of the results to fetch.",
           "in": "query",
           "schema": {
             "type": "integer",
             "default": 1
-          },
-          "required": false,
-          "description": "Page number of the results to fetch."
+          }
         }
       ],
       "responses": {
-        "418": {
-          "description": "Response definition missing"
+        "200": {
+          "description": "response",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "ref": {
+                      "type": "string"
+                    },
+                    "node_id": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    },
+                    "object": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string"
+                        },
+                        "sha": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       },
       "x-code-samples": [
         {
           "lang": "Shell",
-          "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/git/refs/:namespace"
+          "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/hello-world/git/refs"
         },
         {
           "lang": "JS",
-          "source": "octokit.git.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  namespace: 'namespace'\n})"
+          "source": "octokit.git.getRefs({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
         }
       ],
       "x-github": {

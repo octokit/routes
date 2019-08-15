@@ -1,7 +1,7 @@
 {
   "summary": "Get a tree",
-  "description": "If `truncated` in the response is `true`, the number of items in the `tree` array exceeded our maximum limit. If you need to fetch more items, omit the `recursive` parameter, and fetch one sub-tree at a time. If you need to fetch even more items, you can clone the repository and iterate over the Git data locally.",
-  "operationId": "git-get-tree",
+  "description": "If `truncated` is `true`, the number of items in the `tree` array exceeded our maximum limit. If you need to fetch more items, you can clone the repository and iterate over the Git data locally.",
+  "operationId": "git/get-tree",
   "tags": [
     "git"
   ],
@@ -21,56 +21,97 @@
     },
     {
       "name": "owner",
+      "description": "owner parameter",
       "in": "path",
+      "required": true,
       "schema": {
         "type": "string"
-      },
-      "required": true,
-      "description": "owner parameter"
+      }
     },
     {
       "name": "repo",
+      "description": "repo parameter",
       "in": "path",
+      "required": true,
       "schema": {
         "type": "string"
-      },
-      "required": true,
-      "description": "repo parameter"
+      }
     },
     {
       "name": "tree_sha",
+      "description": "tree_sha parameter",
       "in": "path",
+      "required": true,
       "schema": {
         "type": "string"
-      },
-      "required": true,
-      "description": "tree_sha parameter"
-    },
-    {
-      "name": "recursive",
-      "in": "query",
-      "schema": {
-        "type": "integer",
-        "enum": [
-          1
-        ]
-      },
-      "description": "recursive parameter"
+      }
     }
   ],
   "responses": {
-    "418": {
-      "description": "Response definition missing"
+    "200": {
+      "description": "If `truncated` is `true`, the number of items in the `tree` array exceeded our maximum limit. If you need to fetch more items, you can clone the repository and iterate over the Git data locally.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "sha": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "tree": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "path": {
+                      "type": "string"
+                    },
+                    "mode": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "size": {
+                      "type": "number"
+                    },
+                    "sha": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "path",
+                    "mode",
+                    "type",
+                    "sha",
+                    "url",
+                    "size"
+                  ]
+                }
+              },
+              "truncated": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/:repo/git/trees/:tree_sha"
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/hello-world/git/trees/TREE_SHA"
     },
     {
       "lang": "JS",
-      "source": "octokit.git.get({\n  owner: 'octocat',\n  repo: 'hello-world',\n  tree_sha: 'tree_sha'\n})"
+      "source": "octokit.git.getTree({\n  owner: 'octocat',\n  repo: 'hello-world',\n  tree_sha: 'tree_sha'\n})"
     }
   ],
   "x-github": {
