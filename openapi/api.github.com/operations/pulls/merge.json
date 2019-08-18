@@ -48,8 +48,87 @@
     }
   ],
   "responses": {
-    "418": {
-      "description": "Response definition missing"
+    "200": {
+      "description": "Response if merge was successful",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "sha": {
+                "type": "string"
+              },
+              "merged": {
+                "type": "boolean"
+              },
+              "message": {
+                "type": "string"
+              }
+            }
+          },
+          "examples": {
+            "response-if-merge-was-successful": {
+              "value": {
+                "sha": "6dcb09b5b57875f334f61aebed695e2e4193db5e",
+                "merged": true,
+                "message": "Pull Request successfully merged"
+              }
+            }
+          }
+        }
+      }
+    },
+    "405": {
+      "description": "Response if merge cannot be performed",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "documentation_url": {
+                "type": "string"
+              }
+            }
+          },
+          "examples": {
+            "response-if-merge-cannot-be-performed": {
+              "value": {
+                "message": "Pull Request is not mergeable",
+                "documentation_url": "https://developer.github.com/v3/pulls/#merge-a-pull-request-merge-button"
+              }
+            }
+          }
+        }
+      }
+    },
+    "409": {
+      "description": "Response if sha was provided and pull request head did not match",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "documentation_url": {
+                "type": "string"
+              }
+            }
+          },
+          "examples": {
+            "response-if-sha-was-provided-and-pull-request-head-did-not-match": {
+              "value": {
+                "message": "Head branch was modified. Review and try the merge again.",
+                "documentation_url": "https://developer.github.com/v3/pulls/#merge-a-pull-request-merge-button"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "x-code-samples": [
