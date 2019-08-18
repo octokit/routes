@@ -32,6 +32,52 @@
   "responses": {
     "204": {
       "description": "Empty response"
+    },
+    "422": {
+      "description": "Client Errors",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "errors": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "resource": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "examples": {
+            "client-errors": {
+              "value": {
+                "message": "Validation Failed",
+                "errors": [
+                  {
+                    "resource": "PreReceiveEnvironment",
+                    "code": "custom",
+                    "message": "Cannot modify or delete the default environment"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
     }
   },
   "x-code-samples": [

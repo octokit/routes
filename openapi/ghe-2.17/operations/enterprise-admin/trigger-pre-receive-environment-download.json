@@ -50,6 +50,62 @@
                 "type": "string"
               }
             }
+          },
+          "examples": {
+            "default-response": {
+              "value": {
+                "url": "https://github.example.com/api/v3/admin/pre-receive-environments/3/downloads/latest",
+                "state": "not_started",
+                "downloaded_at": null,
+                "message": null
+              }
+            }
+          }
+        }
+      }
+    },
+    "422": {
+      "description": "Client Errors",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "errors": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "resource": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "examples": {
+            "client-errors": {
+              "value": {
+                "message": "Validation Failed",
+                "errors": [
+                  {
+                    "resource": "PreReceiveEnvironment",
+                    "code": "custom",
+                    "message": "Can not start a new download when a download is in progress"
+                  }
+                ]
+              }
+            }
           }
         }
       }

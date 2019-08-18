@@ -41,6 +41,66 @@
   "responses": {
     "204": {
       "description": "Empty response"
+    },
+    "422": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "errors": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "field": {
+                      "type": "string"
+                    },
+                    "resource": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "examples": {
+            "response-if-you-attempt-to-add-an-organization-to-a-team": {
+              "summary": "Response if you attempt to add an organization to a team",
+              "value": {
+                "message": "Cannot add an organization as a member.",
+                "errors": [
+                  {
+                    "code": "org",
+                    "field": "user",
+                    "resource": "TeamMember"
+                  }
+                ]
+              }
+            },
+            "response-if-you-attempt-to-add-a-user-to-a-team-when-they-are-not-a-member-of-at-least-one-other-team-in-the-same-organization": {
+              "summary": "Response if you attempt to add a user to a team when they are not a member of at least one other team in the same organization",
+              "value": {
+                "message": "User isn't a member of this organization. Please invite them first.",
+                "errors": [
+                  {
+                    "code": "unaffiliated",
+                    "field": "user",
+                    "resource": "TeamMember"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
     }
   },
   "x-code-samples": [
