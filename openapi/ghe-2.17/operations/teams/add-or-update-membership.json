@@ -39,8 +39,90 @@
     }
   ],
   "responses": {
-    "418": {
-      "description": "Response definition missing"
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string"
+              },
+              "role": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string"
+              }
+            }
+          },
+          "examples": {
+            "response-if-users-membership-with-team-is-now-active": {
+              "summary": "Response if user's membership with team is now active",
+              "value": {
+                "url": "https://api.github.com/teams/1/memberships/octocat",
+                "role": "member",
+                "state": "active"
+              }
+            },
+            "response-if-users-membership-with-team-is-now-pending": {
+              "summary": "Response if user's membership with team is now pending",
+              "value": {
+                "url": "https://api.github.com/teams/1/memberships/octocat",
+                "role": "member",
+                "state": "pending"
+              }
+            }
+          }
+        }
+      }
+    },
+    "422": {
+      "description": "Response if you attempt to add an organization to a team",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "errors": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "field": {
+                      "type": "string"
+                    },
+                    "resource": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "examples": {
+            "response-if-you-attempt-to-add-an-organization-to-a-team": {
+              "value": {
+                "message": "Cannot add an organization as a member.",
+                "errors": [
+                  {
+                    "code": "org",
+                    "field": "user",
+                    "resource": "TeamMember"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
     }
   },
   "x-code-samples": [
