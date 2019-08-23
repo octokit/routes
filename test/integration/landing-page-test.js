@@ -19,7 +19,7 @@ const getDocPages = require('../../lib/landing-page/to-pages-json')
 // 4. run `npm run update`
 // 5. push all changes to your pull request. Review your changes, once you are
 //    happy remove the "WIP" from the pull request and ask for a review
-test(`v3/index.html -> pages.json`, async t => {
+test('v3/index.html -> pages.json', async t => {
   const [cacheRoot, cacheDir] = ['../../cache', getCacheDir()]
   const expectedPages = require(`${cacheRoot}/${cacheDir}/pages.json`)
   const cache = new Cache(cacheDir)
