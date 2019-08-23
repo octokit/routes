@@ -2,7 +2,7 @@
 
 > machine-readable, always up-to-date GitHub REST API route specifications
 
-![badge](https://action-badges.now.sh/octokit/routes?action=test) [![Greenkeeper badge](https://badges.greenkeeper.io/octokit/routes.svg)](https://greenkeeper.io/)
+![Nightly update status](https://github.com/octokit/routes/workflows/Nightly%20update/badge.svg) ![Nightly update status](https://github.com/octokit/routes/workflows/Nightly%20update/badge.svg) [![Greenkeeper badge](https://badges.greenkeeper.io/octokit/routes.svg)](https://greenkeeper.io/)
 
 ## Downloads
 
