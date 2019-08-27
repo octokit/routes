@@ -24,10 +24,22 @@ Please follow these steps to report such a problem
    TEST_URL=https://developer.github.com/v3/repos/#get ./node_modules/.bin/tap test/integration/endpoints-test.js
    ```
 
-   and for GitHub Enterprise:
+   and for a GitHub Enterprise URL, it's the same:
 
    ```bash
-   GHE_VERSION=2.17 TEST_URL=https://developer.github.com/enterprise/2.17/v3/repos/#get ./node_modules/.bin/tap test/integration/endpoints-test.js
+   TEST_URL=https://developer.github.com/enterprise/2.18/v3/repos/#get ./node_modules/.bin/tap test/integration/endpoints-test.js
+   ```
+
+   To test all the URLs of a GitHub Enterprise version, run:
+
+   ```bash
+   GHE_VERSION=2.18 ./node_modules/.bin/tap test/integration/endpoints-test.js
+   ```
+
+   or simply:
+
+   ```bash
+   GHE_VERSION=2.18 npm test
    ```
 
    Once it's passing, push your changes and wait for us to review. If you have any questions at any point, comment on the pull request, we are happy to help you out.

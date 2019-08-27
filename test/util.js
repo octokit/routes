@@ -18,7 +18,29 @@ module.exports = {
   getRouteMap
 }
 
-const GHE_VERSION = parseFloat(process.env.GHE_VERSION)
+const TEST_URLS = process.env.TEST_URL
+  ? process.env.TEST_URL.split(/\s*,\s/)
+  : null
+
+if (TEST_URLS) {
+  if (process.env.GHE_VERSION) {
+    throw new Error('Do not specify TEST_URL and GHE_VERSION')
+  }
+  const firstUrlVersion = getGheVersionFromUrl(TEST_URLS[0])
+  for (const url of TEST_URLS) {
+    if (getGheVersionFromUrl(url) !== firstUrlVersion) {
+      throw new Error('All TEST_URLs must be of the same GitHub Enterprise version')
+    }
+  }
+}
+
+const GHE_VERSION = parseFloat(
+  TEST_URLS ? getGheVersionFromUrl(TEST_URLS[0]) : process.env.GHE_VERSION
+) || null
+
+function getGheVersionFromUrl (url) {
+  return /(?:\/enterprise\/(\d+\.\d+))?\/v3\//i.exec(url)[1] || null
+}
 
 function getGheVersion () {
   return GHE_VERSION
@@ -63,8 +85,8 @@ function getAllRoutesByDocumentUrl () {
 }
 
 function getAllDocumentationUrls () {
-  if (process.env.TEST_URL) {
-    return process.env.TEST_URL.split(/\s*,\s/)
+  if (TEST_URLS) {
+    return TEST_URLS
   }
 
   return Object.keys(getAllRoutesByDocumentUrl())
