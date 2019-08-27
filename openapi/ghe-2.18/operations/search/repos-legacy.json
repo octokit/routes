@@ -1,0 +1,213 @@
+{
+  "summary": "Search repositories",
+  "description": "Find repositories by keyword. Note, this legacy method does not follow the v3 pagination pattern. This method returns up to 100 results per page and pages can be fetched using the `start_page` parameter.",
+  "operationId": "search/repos-legacy",
+  "tags": [
+    "search"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.18/v3/search/legacy/#search-repositories"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "keyword",
+      "description": "The search term.",
+      "in": "path",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "name": "language",
+      "description": "Filter results by language.",
+      "in": "query",
+      "required": false,
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "name": "start_page",
+      "description": "The page number to fetch.",
+      "in": "query",
+      "required": false,
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "name": "sort",
+      "description": "The sort field. One of `stars`, `forks`, or `updated`. Default: results are sorted by best match.",
+      "in": "query",
+      "required": false,
+      "schema": {
+        "type": "string",
+        "enum": [
+          "stars",
+          "forks",
+          "updated"
+        ]
+      }
+    },
+    {
+      "name": "order",
+      "description": "The sort field. if `sort` param is provided. Can be either `asc` or `desc`.",
+      "in": "query",
+      "required": false,
+      "schema": {
+        "type": "string",
+        "enum": [
+          "asc",
+          "desc"
+        ]
+      }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "repositories": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "created": {
+                      "type": "string"
+                    },
+                    "watchers": {
+                      "type": "number"
+                    },
+                    "has_downloads": {
+                      "type": "boolean"
+                    },
+                    "username": {
+                      "type": "string"
+                    },
+                    "homepage": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    },
+                    "fork": {
+                      "type": "boolean"
+                    },
+                    "has_issues": {
+                      "type": "boolean"
+                    },
+                    "has_wiki": {
+                      "type": "boolean"
+                    },
+                    "forks": {
+                      "type": "number"
+                    },
+                    "size": {
+                      "type": "number"
+                    },
+                    "private": {
+                      "type": "boolean"
+                    },
+                    "followers": {
+                      "type": "number"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "owner": {
+                      "type": "string"
+                    },
+                    "open_issues": {
+                      "type": "number"
+                    },
+                    "pushed_at": {
+                      "type": "string"
+                    },
+                    "score": {
+                      "type": "number"
+                    },
+                    "pushed": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "language": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "example": {
+            "repositories": [
+              {
+                "type": "repo",
+                "created": "2011-09-05T11:07:54Z",
+                "watchers": 2913,
+                "has_downloads": true,
+                "username": "mathiasbynens",
+                "homepage": "http://mths.be/dotfiles",
+                "url": "https://github.com/mathiasbynens/dotfiles",
+                "fork": false,
+                "has_issues": true,
+                "has_wiki": false,
+                "forks": 520,
+                "size": 192,
+                "private": false,
+                "followers": 2913,
+                "name": "dotfiles",
+                "owner": "mathiasbynens",
+                "open_issues": 12,
+                "pushed_at": "2012-06-05T03:37:13Z",
+                "score": 3.289718,
+                "pushed": "2012-06-05T03:37:13Z",
+                "description": "sensible hacker defaults for OS X",
+                "language": "VimL",
+                "created_at": "2011-09-05T11:07:54Z"
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/legacy/repos/search/KEYWORD"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.search.reposLegacy({\n  keyword: 'keyword'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": true,
+    "enabledForApps": false,
+    "githubCloudOnly": false
+  },
+  "x-changes": []
+}

@@ -1,0 +1,31 @@
+<h2>
+<a id="suspend-a-user" class="anchor" href="#suspend-a-user" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Suspend a user</h2>
+<div class="alert warning">
+<p>If your GitHub Enterprise Server instance uses <a href="https://help.github.com/enterprise/admin/guides/user-management/using-ldap">LDAP Sync with Active Directory LDAP servers</a>, Active Directory LDAP-authenticated users cannot be suspended through this API. If you attempt to suspend an Active Directory LDAP-authenticated user through this API, it will return a <code>403</code> response.</p>
+</div>
+<pre><code>PUT /users/:username/suspended
+</code></pre>
+<p>You can suspend any user account except your own.</p>
+<h3>
+<a id="parameters-3" class="anchor" href="#parameters-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>reason</code></td>
+<td><code>string</code></td>
+<td>The reason the user is being suspended. This message will be logged in the <a href="https://help.github.com/enterprise/admin/articles/audit-logging/">audit log</a>. If you don&apos;t provide a <code>reason</code>, it will default to &quot;Suspended via API by <em>SITE_ADMINISTRATOR</em>&quot;, where <em>SITE_ADMINISTRATOR</em> is the person who performed the action.</td>
+</tr>
+</tbody>
+</table>
+<p>Note that, if you choose not to pass any parameters, you&apos;ll need to set <code>Content-Length</code> to zero when calling out to this endpoint. For more information, see &quot;<a href="/enterprise/2.18/v3/#http-verbs">HTTP verbs</a>.&quot;</p>
+<h3>
+<a id="response-7" class="anchor" href="#response-7" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 204 No Content
+</code></pre>

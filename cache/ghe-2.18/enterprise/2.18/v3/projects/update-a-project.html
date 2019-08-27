@@ -1,0 +1,104 @@
+<h2>
+<a id="update-a-project" class="anchor" href="#update-a-project" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Update a project<a href="/enterprise/2.18/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+<div class="alert note">
+<p>The Projects API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the <a href="/changes/2016-10-27-changes-to-projects-api">blog post</a> for full details. To access the API during the preview period, you must provide a custom <a href="/enterprise/2.18/v3/media">media type</a> in the <code>Accept</code> header:</p>
+<pre><code>  application/vnd.github.inertia-preview+json
+</code></pre>
+</div>
+<div class="alert warning">
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
+</div>
+<p>Updates a project board&apos;s information. Returns a <code>404 Not Found</code> status if projects are disabled. If you do not have sufficient privileges to perform this action, a <code>401 Unauthorized</code> or <code>410 Gone</code> status is returned.</p>
+<pre><code>PATCH /projects/:project_id
+</code></pre>
+<h3>
+<a id="parameters-3" class="anchor" href="#parameters-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>The name of the project.</td>
+</tr>
+<tr>
+<td><code>body</code></td>
+<td><code>string</code></td>
+<td>The description of the project.</td>
+</tr>
+<tr>
+<td><code>state</code></td>
+<td><code>string</code></td>
+<td>State of the project. Either <code>open</code> or <code>closed</code>.</td>
+</tr>
+<tr>
+<td><code>organization_permission</code></td>
+<td><code>string</code></td>
+<td>The permission level that determines whether all members of the project&apos;s organization can see and/or make changes to the project. Setting <code>organization_permission</code> is only available for organization projects. If an organization member belongs to a team with a higher level of access or is a collaborator with a higher level of access, their permission level is not lowered by <code>organization_permission</code>. For information on changing access for a team or collaborator, see <a href="/enterprise/2.18/v3/teams/#add-or-update-team-project">Add or update team project</a> or <a href="/enterprise/2.18/v3/projects/collaborators/#add-user-as-a-collaborator">Add user as a collaborator</a>.<br><br><strong>Note:</strong> Updating a project&apos;s <code>organization_permission</code> requires <code>admin</code> access to the project. <br><br>Can be one of:<br>* <code>read</code> - Organization members can read, but not write to or administer this project.<br>* <code>write</code> - Organization members can read and write, but not administer this project.<br>* <code>admin</code> - Organization members can read, write and administer this project.<br>* <code>none</code> - Organization members can only see this project if it is public.</td>
+</tr>
+<tr>
+<td><code>private</code></td>
+<td><code>boolean</code></td>
+<td>Sets the visibility of a project board. Setting <code>private</code> is only available for organization and user projects. <strong>Note:</strong> Updating a project&apos;s visibility requires <code>admin</code> access to the project. <br><br>Can be one of:<br>* <code>false</code> - Anyone can see the project. <br>* <code>true</code> - Only the user can view a project board created on a user account. Organization members with the appropriate <code>organization_permission</code> can see project boards in an organization account.</td>
+</tr>
+</tbody>
+</table>
+<h4>
+<a id="example-3" class="anchor" href="#example-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h4>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Outcomes Tracker&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;body&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The board to track work for the Outcomes application.&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="response-7" class="anchor" href="#response-7" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+Link: &lt;https://api.github.com/resource?page=2&gt;; rel=&quot;next&quot;,
+      &lt;https://api.github.com/resource?page=5&gt;; rel=&quot;last&quot;
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;owner_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/api-playground/projects-test&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/projects/1002604&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;html_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/api-playground/projects-test/projects/1&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;columns_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/projects/1002604/columns&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1002604</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MDc6UHJvamVjdDEwMDI2MDQ=&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Projects Documentation&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;body&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Developer documentation project for the developer site.&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;number&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;open&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;creator&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;login&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;octocat&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MDQ6VXNlcjE=&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;avatar_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/images/error/octocat_happy.gif&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;gravatar_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;html_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/octocat&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;followers_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/followers&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;following_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/following{/other_user}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;gists_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/gists{/gist_id}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;starred_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/starred{/owner}{/repo}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;subscriptions_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/subscriptions&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;organizations_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/orgs&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;repos_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/repos&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;events_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/events{/privacy}&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;received_events_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat/received_events&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;User&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;site_admin&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2011-04-10T20:09:31Z&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2014-03-03T18:58:10Z&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="response-if-the-authenticated-user-does-not-have-access-to-the-project" class="anchor" href="#response-if-the-authenticated-user-does-not-have-access-to-the-project" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if the authenticated user does not have access to the project</h3>
+<pre class="highlight highlight-headers"><code>Status: 404 Not Found
+</code></pre>

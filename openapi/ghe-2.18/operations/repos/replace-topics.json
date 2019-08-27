@@ -1,0 +1,114 @@
+{
+  "summary": "Replace all topics for a repository",
+  "description": "",
+  "operationId": "repos/replace-topics",
+  "tags": [
+    "repos"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.18/v3/repos/#replace-all-topics-for-a-repository"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "description": "owner parameter",
+      "in": "path",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "name": "repo",
+      "description": "repo parameter",
+      "in": "path",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "names": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "example": {
+            "names": [
+              "octocat",
+              "atom",
+              "electron",
+              "api"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/hello-world/topics \\\n  -d '{\"names\":[\"names\"]}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.repos.replaceTopics({\n  owner: 'octocat',\n  repo: 'hello-world',\n  names: [\n    'names'\n  ]\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "names": {
+              "type": "array",
+              "description": "An array of topics to add to the repository. Pass one or more topics to _replace_ the set of existing topics. Send an empty array (`[]`) to clear all topics from the repository. **Note:** Topic `names` cannot contain uppercase letters.",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "names"
+          ]
+        },
+        "example": {
+          "names": [
+            "octocat",
+            "atom",
+            "electron",
+            "api"
+          ]
+        }
+      }
+    }
+  }
+}

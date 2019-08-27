@@ -1,0 +1,140 @@
+{
+  "summary": "Update a reference",
+  "description": "",
+  "operationId": "git/update-ref",
+  "tags": [
+    "git"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.18/v3/git/refs/#update-a-reference"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "description": "owner parameter",
+      "in": "path",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "name": "repo",
+      "description": "repo parameter",
+      "in": "path",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "name": "ref",
+      "description": "ref parameter",
+      "in": "path",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "ref": {
+                "type": "string"
+              },
+              "node_id": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "object": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string"
+                  },
+                  "sha": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "example": {
+            "ref": "refs/heads/featureA",
+            "node_id": "MDM6UmVmcmVmcy9oZWFkcy9mZWF0dXJlQQ==",
+            "url": "https://api.github.com/repos/octocat/Hello-World/git/refs/heads/featureA",
+            "object": {
+              "type": "commit",
+              "sha": "aa218f56b14c9653891f9e74264a383fa43fefbd",
+              "url": "https://api.github.com/repos/octocat/Hello-World/git/commits/aa218f56b14c9653891f9e74264a383fa43fefbd"
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/hello-world/git/refs/REF \\\n  -d '{\"sha\":\"sha\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.git.updateRef({\n  owner: 'octocat',\n  repo: 'hello-world',\n  ref: 'ref',\n  sha: 'sha'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "sha": {
+              "type": "string",
+              "description": "The SHA1 value to set this reference to"
+            },
+            "force": {
+              "type": "boolean",
+              "description": "Indicates whether to force the update or to make sure the update is a fast-forward update. Leaving this out or setting it to `false` will make sure you're not overwriting work.",
+              "default": false
+            }
+          },
+          "required": [
+            "sha"
+          ]
+        },
+        "example": {
+          "sha": "aa218f56b14c9653891f9e74264a383fa43fefbd",
+          "force": true
+        }
+      }
+    }
+  }
+}

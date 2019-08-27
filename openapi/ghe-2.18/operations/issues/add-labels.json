@@ -1,0 +1,161 @@
+{
+  "summary": "Add labels to an issue",
+  "description": "",
+  "operationId": "issues/add-labels",
+  "tags": [
+    "issues"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.18/v3/issues/labels/#add-labels-to-an-issue"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "description": "owner parameter",
+      "in": "path",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "name": "repo",
+      "description": "repo parameter",
+      "in": "path",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "name": "issue_number",
+      "description": "issue_number parameter",
+      "in": "path",
+      "required": true,
+      "schema": {
+        "type": "integer"
+      }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "node_id": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "color": {
+                  "type": "string"
+                },
+                "default": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "example": [
+            {
+              "id": 208045946,
+              "node_id": "MDU6TGFiZWwyMDgwNDU5NDY=",
+              "url": "https://api.github.com/repos/octocat/Hello-World/labels/bug",
+              "name": "bug",
+              "description": "Something isn't working",
+              "color": "f29513",
+              "default": true
+            },
+            {
+              "id": 208045947,
+              "node_id": "MDU6TGFiZWwyMDgwNDU5NDc=",
+              "url": "https://api.github.com/repos/octocat/Hello-World/labels/enhancement",
+              "name": "enhancement",
+              "description": "New feature or request",
+              "color": "a2eeef",
+              "default": false
+            }
+          ]
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/repos/octocat/hello-world/issues/42/labels \\\n  -d '{\"labels\":[\"labels\"]}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.issues.addLabels({\n  owner: 'octocat',\n  repo: 'hello-world',\n  issue_number: 42,\n  labels: [\n    'labels'\n  ]\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false
+  },
+  "x-changes": [
+    {
+      "type": "parameter",
+      "date": "2019-04-10",
+      "note": "\"number\" parameter renamed to \"issue_number\"",
+      "meta": {
+        "before": "number",
+        "after": "issue_number"
+      }
+    }
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "labels": {
+              "type": "array",
+              "description": "The name of the label to add to the issue. Must contain at least one label. **Note:** Alternatively, you can pass a single label as a `string` or an `array` of labels directly, but GitHub recommends passing an object with the `labels` key.",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "labels"
+          ]
+        },
+        "example": {
+          "labels": [
+            "bug",
+            "enhancement"
+          ]
+        }
+      }
+    }
+  }
+}

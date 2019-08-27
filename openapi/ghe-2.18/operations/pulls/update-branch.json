@@ -1,0 +1,109 @@
+{
+  "summary": "Update a pull request branch",
+  "description": "Updates the pull request branch with the latest upstream changes by merging HEAD from the base branch into the pull request branch.",
+  "operationId": "pulls/update-branch",
+  "tags": [
+    "pulls"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.18/v3/pulls/#update-a-pull-request-branch"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "This API is under preview and subject to change.",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.lydian-preview+json"
+      },
+      "required": true
+    },
+    {
+      "name": "owner",
+      "description": "owner parameter",
+      "in": "path",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "name": "repo",
+      "description": "repo parameter",
+      "in": "path",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "name": "pull_number",
+      "description": "pull_number parameter",
+      "in": "path",
+      "required": true,
+      "schema": {
+        "type": "integer"
+      }
+    }
+  ],
+  "responses": {
+    "202": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              }
+            }
+          },
+          "example": {
+            "message": "Updating pull request branch.",
+            "url": "https://github.com/repos/octocat/Hello-World/pulls/53"
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.lydian-preview+json\" \\\n  https://developer.github.com/repos/octocat/hello-world/pulls/42/update-branch \\\n  -d '{\"expected_head_sha\":\"expected_head_sha\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.pulls.updateBranch({\n  owner: 'octocat',\n  repo: 'hello-world',\n  pull_number: 42,\n  expected_head_sha: 'expected_head_sha'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false
+  },
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "expected_head_sha": {
+              "type": "string",
+              "description": "The expected SHA of the pull request's HEAD ref. This is the most recent commit on the pull request's branch. If the expected SHA does not match the pull request's HEAD, you will receive a `422 Unprocessable Entity` status. You can use the \"[List commits on a repository](https://developer.github.com/enterprise/2.18/v3/repos/commits/#list-commits-on-a-repository)\" endpoint to find the most recent commit SHA. Default: SHA of the pull request's current HEAD ref."
+            }
+          }
+        },
+        "example": {
+          "expected_head_sha": "6dcb09b5b57875f334f61aebed695e2e4193db5e"
+        }
+      }
+    }
+  }
+}

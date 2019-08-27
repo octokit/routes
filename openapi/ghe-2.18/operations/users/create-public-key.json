@@ -1,0 +1,106 @@
+{
+  "summary": "Create a public key",
+  "description": "Adds a public SSH key to the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth, or OAuth with at least `write:public_key` [scope](https://developer.github.com/enterprise/2.18/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).\n\nIf your GitHub Enterprise Server appliance has [LDAP Sync enabled](https://help.github.com/enterprise/admin/guides/user-management/using-ldap) and the option to synchronize SSH keys enabled, this API is disabled and will return a `403` response. Users managed in LDAP won't be able to add an SSH key address via the API with these options enabled.",
+  "operationId": "users/create-public-key",
+  "tags": [
+    "users"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.18/v3/users/keys/#create-a-public-key"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    }
+  ],
+  "responses": {
+    "201": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number"
+              },
+              "key": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "verified": {
+                "type": "boolean"
+              },
+              "created_at": {
+                "type": "string"
+              },
+              "read_only": {
+                "type": "boolean"
+              }
+            }
+          },
+          "example": {
+            "id": 1,
+            "key": "ssh-rsa AAA...",
+            "url": "https://api.github.com/user/keys/1",
+            "title": "octocat@octomac",
+            "verified": true,
+            "created_at": "2014-12-10T15:53:42Z",
+            "read_only": true
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/user/keys \\\n  -d '{\"title\":\"title\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.users.createPublicKey({\n  title: 'title'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false
+  },
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "A descriptive name for the new key. Use a name that will help you recognize this key in your GitHub account. For example, if you're using a personal Mac, you might call this key \"Personal MacBook Air\"."
+            },
+            "key": {
+              "type": "string",
+              "description": "The public SSH key to add to your GitHub account. See \"[Generating a new SSH key](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)\" for guidance on how to create a public SSH key."
+            }
+          }
+        },
+        "example": {
+          "title": "octocat@octomac",
+          "key": "ssh-rsa AAA..."
+        }
+      }
+    }
+  }
+}

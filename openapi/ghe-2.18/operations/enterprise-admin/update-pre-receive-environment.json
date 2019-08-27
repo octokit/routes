@@ -1,0 +1,188 @@
+{
+  "summary": "Edit a pre-receive environment",
+  "description": "If you attempt to modify the default environment, you will get a response like this:",
+  "operationId": "enterprise-admin/update-pre-receive-environment",
+  "tags": [
+    "enterprise-admin"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.18/v3/enterprise-admin/pre_receive_environments/#edit-a-pre-receive-environment"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "pre_receive_environment_id",
+      "description": "pre_receive_environment_id parameter",
+      "in": "path",
+      "required": true,
+      "schema": {
+        "type": "integer"
+      }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number"
+              },
+              "name": {
+                "type": "string"
+              },
+              "image_url": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "html_url": {
+                "type": "string"
+              },
+              "default_environment": {
+                "type": "boolean"
+              },
+              "created_at": {
+                "type": "string"
+              },
+              "hooks_count": {
+                "type": "number"
+              },
+              "download": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string"
+                  },
+                  "state": {
+                    "type": "string"
+                  },
+                  "downloaded_at": {
+                    "type": "string"
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "examples": {
+            "default-response": {
+              "value": {
+                "id": 2,
+                "name": "DevTools Hook Env",
+                "image_url": "https://my_file_server/path/to/devtools_env.tar.gz",
+                "url": "https://github.example.com/api/v3/admin/pre-receive-environments/2",
+                "html_url": "https://github.example.com/admin/pre-receive-environments/2",
+                "default_environment": false,
+                "created_at": "2016-05-20T11:35:45-05:00",
+                "hooks_count": 1,
+                "download": {
+                  "url": "https://github.example.com/api/v3/admin/pre-receive-environments/2/downloads/latest",
+                  "state": "success",
+                  "downloaded_at": "2016-05-26T07:42:53-05:00",
+                  "message": null
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "422": {
+      "description": "Client Errors",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string"
+              },
+              "errors": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "resource": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "examples": {
+            "client-errors": {
+              "value": {
+                "message": "Validation Failed",
+                "errors": [
+                  {
+                    "resource": "PreReceiveEnvironment",
+                    "code": "custom",
+                    "message": "Cannot modify or delete the default environment"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/admin/pre-receive-environments/42 \\\n  -d '{\"name\":\"name\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.enterpriseAdmin.updatePreReceiveEnvironment({\n  pre_receive_environment_id: 42,\n  name: 'name'\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false
+  },
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "This pre-receive environment's new name."
+            },
+            "image_url": {
+              "type": "string",
+              "description": "URL from which to download a tarball of this environment."
+            }
+          }
+        }
+      }
+    }
+  }
+}

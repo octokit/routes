@@ -1,0 +1,108 @@
+{
+  "summary": "Get a single grant",
+  "description": "",
+  "operationId": "oauth-authorizations/get-grant",
+  "tags": [
+    "oauth-authorizations"
+  ],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.18/v3/oauth_authorizations/#get-a-single-grant"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "grant_id",
+      "description": "grant_id parameter",
+      "in": "path",
+      "required": true,
+      "schema": {
+        "type": "integer"
+      }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number"
+              },
+              "url": {
+                "type": "string"
+              },
+              "app": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "client_id": {
+                    "type": "string"
+                  }
+                }
+              },
+              "created_at": {
+                "type": "string"
+              },
+              "updated_at": {
+                "type": "string"
+              },
+              "scopes": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "example": {
+            "id": 1,
+            "url": "https://api.github.com/applications/grants/1",
+            "app": {
+              "url": "http://my-github-app.com",
+              "name": "my github app",
+              "client_id": "abcde12345fghij67890"
+            },
+            "created_at": "2011-09-06T17:26:27Z",
+            "updated_at": "2011-09-06T20:39:23Z",
+            "scopes": [
+              "public_repo"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://developer.github.com/applications/grants/42"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.oauthAuthorizations.getGrant({\n  grant_id: 42\n})"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false
+  },
+  "x-changes": []
+}
