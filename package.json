@@ -15,7 +15,14 @@
     "check": "node bin/octokit-rest-routes.js check",
     "routes:lint": "speccy lint openapi/api.github.com/index.json --skip openapi-tags",
     "routes:server": "speccy serve openapi/api.github.com/index.json",
-    "now-start": "npm run -s routes:server"
+    "routes:regenerate": "npm run routes:regenerate:gh",
+    "routes:regenerate:gh": "npm run check -- --cached",
+    "routes:regenerate:ghe": "npm run check -- --cached --ghe",
+    "routes:regenerate:all": "npm run routes:regenerate:gh && npm run routes:regenerate:ghe",
+    "now-start": "npm run -s routes:server",
+    "inspect:routes:regenerate": "node --inspect-brk bin/octokit-rest-routes.js check --cached",
+    "inspect:routes:regenerate:ghe": "node --inspect-brk bin/octokit-rest-routes.js check --cached --ghe",
+    "inspect:test:endpoints": "tap --node-arg=--inspect-brk --timeout=0 --no-coverage 'test/integration/endpoints-test.js'"
   },
   "repository": {
     "type": "git",
