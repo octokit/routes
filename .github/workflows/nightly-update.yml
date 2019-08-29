@@ -8,39 +8,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: npm ci
-        uses: docker://timbru31/node-alpine-git
+      - uses: actions/setup-node@master
         with:
-          entrypoint: npm
-          args: ci
+          node-version: 10.x
+      - run: npm ci
       - name: clear routes
-        uses: docker://timbru31/node-alpine-git
-        with:
-          entrypoint: rm
-          args: -rf openapi/*/operations/* cache
+        run: rm -rf openapi/*/operations/* cache
       - name: update GHE routes
-        uses: docker://timbru31/node-alpine-git
-        with:
-          entrypoint: bin/octokit-rest-routes.js
-          args: update --ghe
+        run: node bin/octokit-rest-routes.js update --ghe
       - name: update .com routes
-        uses: docker://timbru31/node-alpine-git
-        with:
-          entrypoint: bin/octokit-rest-routes.js
-          args: update
+        run: node bin/octokit-rest-routes.js update
       - name: config git email
-        uses: docker://timbru31/node-alpine-git
-        with:
-          entrypoint: git
-          args: config --global user.email 'octokitbot@martynus.net'
+        run: git config --global user.email 'octokitbot@martynus.net'
       - name: config git name
-        uses: docker://timbru31/node-alpine-git
-        with:
-          entrypoint: git
-          args: config --global user.name 'OctokitBot'
+        run: git config --global user.name 'OctokitBot'
       - name: routes update pull request
-        uses: docker://timbru31/node-alpine-git
+        run: node bin/create-pull-request-on-change.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          entrypoint: bin/create-pull-request-on-change.js
