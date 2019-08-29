@@ -5,25 +5,12 @@ jobs:
     name: test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-      if: github.event.action == 'synchronize'
-    - name: npm ci
-      uses: docker://timbru31/node-alpine-git
-      with:
-        entrypoint: npm
-        args: ci
-    - name: npm run routes:lint
-      uses: docker://timbru31/node-alpine-git
-      with:
-        entrypoint: npm
-        args: run routes:lint
-    - name: npx standard
-      uses: docker://timbru31/node-alpine-git
-      with:
-        entrypoint: npx
-        args: standard
-    - name: npm run test:ci
-      uses: docker://timbru31/node-alpine-git
-      with:
-        entrypoint: npm
-        args: run test:ci
+      - uses: actions/checkout@master
+        if: github.event.action == 'synchronize'
+      - uses: actions/setup-node@master
+        with:
+          node-version: 10.x
+      - run: npm ci
+      - run: npm run routes:lint
+      - run: npx standard
+      - run: npm run test:ci
