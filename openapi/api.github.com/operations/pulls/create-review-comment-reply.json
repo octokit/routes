@@ -1,13 +1,13 @@
 {
-  "summary": "Create a comment reply",
-  "description": "This endpoint triggers [notifications](https://help.github.com/articles/about-notifications/). Creating content too quickly using this endpoint may result in abuse rate limiting. See \"[Abuse rate limits](https://developer.github.com/v3/#abuse-rate-limits)\" and \"[Dealing with abuse rate limits](https://developer.github.com/v3/guides/best-practices-for-integrators/#dealing-with-abuse-rate-limits)\" for details.\n\n**Note:** To comment on a specific line in a file, you need to first determine the _position_ of that line in the diff. The GitHub REST API v3 offers the `application/vnd.github.v3.diff` [media type](https://developer.github.com/v3/media/#commits-commit-comparison-and-pull-requests). To see a pull request diff, add this media type to the `Accept` header of a call to the [single pull request](https://developer.github.com/v3/pulls/#get-a-single-pull-request) endpoint.\n\nThe `position` value equals the number of lines down from the first \"@@\" hunk header in the file you want to add a comment. The line just below the \"@@\" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.",
-  "operationId": "pulls/create-comment-reply",
+  "summary": "Create a review comment reply",
+  "description": "Creates a reply to a review comment for a pull request. For the `comment_id`, provide the ID of the review comment you are replying to. This must be the ID of a _top-level review comment_, not a reply to that comment. Replies to replies are not supported.\n\nThis endpoint triggers [notifications](https://help.github.com/articles/about-notifications/). Creating content too quickly using this endpoint may result in abuse rate limiting. See \"[Abuse rate limits](https://developer.github.com/v3/#abuse-rate-limits)\" and \"[Dealing with abuse rate limits](https://developer.github.com/v3/guides/best-practices-for-integrators/#dealing-with-abuse-rate-limits)\" for details.",
+  "operationId": "pulls/create-review-comment-reply",
   "tags": [
     "pulls"
   ],
   "externalDocs": {
     "description": "API method documentation",
-    "url": "https://developer.github.com/v3/pulls/comments/#create-a-comment"
+    "url": "https://developer.github.com/v3/pulls/comments/#create-a-review-comment-reply"
   },
   "parameters": [
     {
@@ -45,6 +45,15 @@
       "schema": {
         "type": "integer"
       }
+    },
+    {
+      "name": "comment_id",
+      "description": "comment_id parameter",
+      "in": "path",
+      "required": true,
+      "schema": {
+        "type": "integer"
+      }
     }
   ],
   "responses": {
@@ -58,14 +67,14 @@
               "url": {
                 "type": "string"
               },
+              "pull_request_review_id": {
+                "type": "number"
+              },
               "id": {
                 "type": "number"
               },
               "node_id": {
                 "type": "string"
-              },
-              "pull_request_review_id": {
-                "type": "number"
               },
               "diff_hunk": {
                 "type": "string"
@@ -84,9 +93,6 @@
               },
               "original_commit_id": {
                 "type": "string"
-              },
-              "in_reply_to_id": {
-                "type": "number"
               },
               "user": {
                 "type": "object",
@@ -162,6 +168,9 @@
               "pull_request_url": {
                 "type": "string"
               },
+              "author_association": {
+                "type": "string"
+              },
               "_links": {
                 "type": "object",
                 "properties": {
@@ -194,17 +203,16 @@
             }
           },
           "example": {
-            "url": "https://api.github.com/repos/octocat/Hello-World/pulls/comments/1",
-            "id": 10,
-            "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEw",
-            "pull_request_review_id": 42,
-            "diff_hunk": "@@ -16,33 +16,40 @@ public class Connection : IConnection...",
+            "url": "https://api.github.com/repos/octocat/Hello-World/comments/1",
+            "pull_request_review_id": 1,
+            "id": 2,
+            "node_id": "MDEzOkNvbW1pdENvbW1lbnQx",
+            "diff_hunk": "@@ -18,3 +18,5 @@ This is my amazing work.",
             "path": "file1.txt",
-            "position": 1,
+            "position": 4,
             "original_position": 4,
             "commit_id": "6dcb09b5b57875f334f61aebed695e2e4193db5e",
             "original_commit_id": "9c48853fa3dc5c1c3d6f1f1cd1f2743e72652840",
-            "in_reply_to_id": 8,
             "user": {
               "login": "octocat",
               "id": 1,
@@ -225,11 +233,12 @@
               "type": "User",
               "site_admin": false
             },
-            "body": "Great stuff",
-            "created_at": "2011-04-14T16:00:49Z",
-            "updated_at": "2011-04-14T16:00:49Z",
+            "body": "I like this too!",
+            "created_at": "2019-08-11T16:00:49Z",
+            "updated_at": "2019-08-11T16:00:49Z",
             "html_url": "https://github.com/octocat/Hello-World/pull/1#discussion-diff-1",
             "pull_request_url": "https://api.github.com/repos/octocat/Hello-World/pulls/1",
+            "author_association": "NONE",
             "_links": {
               "self": {
                 "href": "https://api.github.com/repos/octocat/Hello-World/pulls/comments/1"
@@ -249,30 +258,20 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/repos/octocat/hello-world/pulls/42/comments \\\n  -d '{\"body\":\"body\",\"in_reply_to\":42}'"
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/repos/octocat/hello-world/pulls/42/comments/42/replies \\\n  -d '{\"body\":\"body\"}'"
     },
     {
       "lang": "JS",
-      "source": "octokit.pulls.createCommentReply({\n  owner: 'octocat',\n  repo: 'hello-world',\n  pull_number: 42,\n  body: 'body',\n  in_reply_to: 42\n})"
+      "source": "octokit.pulls.createReviewCommentReply({\n  owner: 'octocat',\n  repo: 'hello-world',\n  pull_number: 42,\n  comment_id: 42,\n  body: 'body'\n})"
     }
   ],
   "x-github": {
     "legacy": false,
-    "enabledForApps": true,
+    "enabledForApps": false,
     "githubCloudOnly": false,
     "triggersNotification": true
   },
-  "x-changes": [
-    {
-      "type": "parameter",
-      "date": "2019-04-10",
-      "note": "\"number\" parameter renamed to \"pull_number\"",
-      "meta": {
-        "before": "number",
-        "after": "pull_number"
-      }
-    }
-  ],
+  "x-changes": [],
   "requestBody": {
     "content": {
       "application/json": {
@@ -281,21 +280,15 @@
           "properties": {
             "body": {
               "type": "string",
-              "description": "The text of the comment."
-            },
-            "in_reply_to": {
-              "type": "integer",
-              "description": "The comment ID to reply to. **Note**: This must be the ID of a _top-level comment_, not a reply to that comment. Replies to replies are not supported."
+              "description": "The text of the review comment."
             }
           },
           "required": [
-            "body",
-            "in_reply_to"
+            "body"
           ]
         },
         "example": {
-          "body": "Nice change",
-          "in_reply_to": 4
+          "body": "Great stuff!"
         }
       }
     }
