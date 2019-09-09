@@ -14,12 +14,13 @@ jobs:
       uses: actions/zeit-now@master
       env:
         ZEIT_TOKEN: ${{ secrets.ZEIT_TOKEN }}
+      args: --public --no-clipboard deploy ./site > $HOME/deploy.txt
     - name: alias deploy domain
       uses: actions/zeit-now@master
       env:
         ZEIT_TOKEN: ${{ secrets.ZEIT_TOKEN }}
       with:
-        args: alias
+        args: alias `cat $HOME/deploy.txt`
     - name: remove older deployments
       uses: actions/zeit-now@master
       env:
