@@ -2,13 +2,12 @@
   "name": "@octokit/routes",
   "version": "0.0.0-development",
   "publishConfig": {
-    "access": "public",
-    "tag": "beta"
+    "access": "public"
   },
   "description": "Machine-readable, always up-to-date GitHub REST API route specifications",
   "author": "Gregor Martynus (https://github.com/gr2m)",
-  "main": "lib/index.js",
   "scripts": {
+    "build": "node bin/build-dist-files",
     "test": "tap --coverage --timeout 60 'test/**/*-test.js'",
     "test:ci": "node bin/run-tests.js",
     "update": "node bin/octokit-rest-routes.js update",
@@ -32,20 +31,16 @@
   "engines": {
     "node": ">=8.12.0"
   },
-  "dependencies": {
-    "generate-schema": "^2.6.0",
-    "lodash": "^4.17.15",
-    "speccy": "^0.11.0",
-    "url-template": "^2.0.8"
-  },
   "devDependencies": {
     "cheerio": "^1.0.0-rc.2",
     "execa": "^2.0.0",
     "fs-extra": "^8.0.0",
+    "generate-schema": "^2.6.0",
     "gh-got": "^8.0.0",
     "got": "^9.3.2",
     "javascript-stringify": "^2.0.0",
     "json-diff": "^0.5.3",
+    "lodash": "^4.17.15",
     "markdown-table": "^1.1.2",
     "node-fetch": "^2.3.0",
     "normalize-url": "^4.0.0",
@@ -53,12 +48,27 @@
     "pluralize": "^8.0.0",
     "proxyquire": "^2.1.0",
     "semantic-release": "^15.13.21",
+    "speccy": "^0.11.0",
     "tap": "^14.5.0",
     "turndown": "^5.0.0",
+    "url-template": "^2.0.8",
     "yargs": "^14.0.0"
   },
   "files": [
     "openapi",
     "lib"
-  ]
+  ],
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/github",
+      [
+        "@semantic-release/npm",
+        {
+          "pkgRoot": "./dist"
+        }
+      ]
+    ]
+  }
 }
