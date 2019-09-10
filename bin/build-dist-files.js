@@ -8,7 +8,7 @@ const pkg = require('../package.json')
 
 buildDistFiles()
 
-async function buildDistFiles() {
+async function buildDistFiles () {
   const versions = readdirSync('openapi')
 
   const exports = []
@@ -20,11 +20,11 @@ async function buildDistFiles() {
     exports.push(`'${version}': require("./${version}.json")`)
   }
 
-  writeFile(`dist/index.js`, `module.exports = {\n  ${exports.join(',\n  ')}\n}\n`)
-  writeJson(`dist/package.json`, pick(pkg, [
+  writeFile('dist/index.js', `module.exports = {\n  ${exports.join(',\n  ')}\n}\n`)
+  writeJson('dist/package.json', pick(pkg, [
     'name',
     'version',
-    "publishConfig",
+    'publishConfig',
     'description',
     'author',
     'repository',
