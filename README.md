@@ -162,17 +162,9 @@ Deprecated endpoints have a type of "idName"
 ## Usage as Node module
 
 ```js
-const ROUTES = require('@octokit/routes')() // api.github.com
-const GHE_ROUTES = require('@octokit/routes')(2.17) // GitHub Enterprise v2.17
-```
-
-returns a valid OpenAPI document describing the provided API.
-
-If you don’t need the full document, you can require a specific operation instead
-
-```js
-const GET_REPO_OP = require("@octokit/routes/openapi/api.github.com/operations/repos/get.json");
-const GHE_GET_REPO_OP = require("@octokit/routes/openapi/ghe-2.17/operations/repos/get.json");
+const ROUTES = require('@octokit/routes')
+// ROUTES has "api.github.com" key and one "ghe-*" key for each supported GHE version
+// The value of each key is the full OpenAPI specification for the respective version
 ```
 
 ## How it works
