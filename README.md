@@ -20,14 +20,12 @@ Or install from package managers
 
 Example operation
 
-````json
+```json
 {
   "summary": "Lock an issue",
   "description": "Users with push access can lock an issue or pull request's conversation.\n\nNote that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](https://developer.github.com/v3/#http-verbs).\"",
   "operationId": "issues-lock",
-  "tags": [
-    "issues"
-  ],
+  "tags": ["issues"],
   "externalDocs": {
     "description": "API method documentation",
     "url": "https://developer.github.com/v3/issues/#lock-an-issue"
@@ -79,12 +77,7 @@ Example operation
             "lock_reason": {
               "description": "The reason for locking the issue or pull request conversation. Lock will fail if you don't use one of these reasons:  \n\\* `off-topic`  \n\\* `too heated`  \n\\* `resolved`  \n\\* `spam`",
               "type": "string",
-              "enum": [
-                "off-topic",
-                "too heated",
-                "resolved",
-                "spam"
-              ]
+              "enum": ["off-topic", "too heated", "resolved", "spam"]
             }
           }
         }
@@ -123,7 +116,7 @@ Example operation
     }
   ]
 }
-````
+```
 
 Both endpoints or parameters may be deprecated. The `date` timestamp can be used to determine how long an Octokit library wants to support the endpoint / parameter. Deprecation information is located in the `x-changes` array of an operation.
 
@@ -162,7 +155,7 @@ Deprecated endpoints have a type of "idName"
 ## Usage as Node module
 
 ```js
-const ROUTES = require('@octokit/routes')
+const ROUTES = require("@octokit/routes");
 // ROUTES has "api.github.com" key and one "ghe-*" key for each supported GHE version
 // The value of each key is the full OpenAPI specification for the respective version
 ```
@@ -196,8 +189,6 @@ You can optionally pass a version number
 ```bash
 node bin/octokit-rest-routes.js update --ghe 2.16
 ```
-
-
 
 ### 1. Find documentation pages
 
