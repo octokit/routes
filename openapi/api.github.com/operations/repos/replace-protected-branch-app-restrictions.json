@@ -195,18 +195,32 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/repos/octocat/hello-world/branches/BRANCH/protection/restrictions/apps"
+      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/repos/octocat/hello-world/branches/BRANCH/protection/restrictions/apps \\\n  -d '{\"apps\":[\"apps\"]}'"
     },
     {
       "lang": "JS",
-      "source": "octokit.repos.replaceProtectedBranchAppRestrictions({\n  owner: 'octocat',\n  repo: 'hello-world',\n  branch: 'branch'\n})"
+      "source": "octokit.repos.replaceProtectedBranchAppRestrictions({\n  owner: 'octocat',\n  repo: 'hello-world',\n  branch: 'branch',\n  apps: [\n    'apps'\n  ]\n})"
     }
   ],
   "x-github": {
     "legacy": false,
     "enabledForApps": false,
     "githubCloudOnly": false,
+    "requestBodyParameterName": "apps",
     "previews": []
   },
-  "x-changes": []
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "array",
+          "description": "apps parameter",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
 }
