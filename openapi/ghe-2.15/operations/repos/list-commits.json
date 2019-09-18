@@ -2,9 +2,7 @@
   "summary": "List commits on a repository",
   "description": "**Signature verification object**\n\nThe response will include a `verification` object that describes the result of verifying the commit's signature. The following fields are included in the `verification` object:\n\nThese are the possible values for `reason` in the `verification` object:\n\n| Value                    | Description                                                                                                                       |\n| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |\n| `expired_key`            | The key that made the signature is expired.                                                                                       |\n| `not_signing_key`        | The \"signing\" flag is not among the usage flags in the GPG key that made the signature.                                           |\n| `gpgverify_error`        | There was an error communicating with the signature verification service.                                                         |\n| `gpgverify_unavailable`  | The signature verification service is currently unavailable.                                                                      |\n| `unsigned`               | The object does not include a signature.                                                                                          |\n| `unknown_signature_type` | A non-PGP signature was found in the commit.                                                                                      |\n| `no_user`                | No user was associated with the `committer` email address in the commit.                                                          |\n| `unverified_email`       | The `committer` email address in the commit was associated with a user, but the email address is not verified on her/his account. |\n| `bad_email`              | The `committer` email address in the commit is not included in the identities of the PGP key that made the signature.             |\n| `unknown_key`            | The key that made the signature has not been registered with any user's account.                                                  |\n| `malformed_signature`    | There was an error parsing the signature.                                                                                         |\n| `invalid`                | The signature could not be cryptographically verified using the key whose key-id was found in the signature.                      |\n| `valid`                  | None of the above errors applied, so the signature is considered to be verified.                                                  |",
   "operationId": "repos/list-commits",
-  "tags": [
-    "repos"
-  ],
+  "tags": ["repos"],
   "externalDocs": {
     "description": "API method documentation",
     "url": "https://developer.github.com/enterprise/2.15/v3/repos/commits/#list-commits-on-a-repository"
@@ -24,81 +22,61 @@
       "description": "owner parameter",
       "in": "path",
       "required": true,
-      "schema": {
-        "type": "string"
-      }
+      "schema": { "type": "string" }
     },
     {
       "name": "repo",
       "description": "repo parameter",
       "in": "path",
       "required": true,
-      "schema": {
-        "type": "string"
-      }
+      "schema": { "type": "string" }
     },
     {
       "name": "sha",
       "description": "SHA or branch to start listing commits from. Default: the repository’s default branch (usually `master`).",
       "in": "query",
       "required": false,
-      "schema": {
-        "type": "string"
-      }
+      "schema": { "type": "string" }
     },
     {
       "name": "path",
       "description": "Only commits containing this file path will be returned.",
       "in": "query",
       "required": false,
-      "schema": {
-        "type": "string"
-      }
+      "schema": { "type": "string" }
     },
     {
       "name": "author",
       "description": "GitHub login or email address by which to filter by commit author.",
       "in": "query",
       "required": false,
-      "schema": {
-        "type": "string"
-      }
+      "schema": { "type": "string" }
     },
     {
       "name": "since",
       "description": "Only commits after this date will be returned. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.",
       "in": "query",
       "required": false,
-      "schema": {
-        "type": "string"
-      }
+      "schema": { "type": "string" }
     },
     {
       "name": "until",
       "description": "Only commits before this date will be returned. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.",
       "in": "query",
       "required": false,
-      "schema": {
-        "type": "string"
-      }
+      "schema": { "type": "string" }
     },
     {
       "name": "per_page",
       "description": "Results per page (max 100)",
       "in": "query",
-      "schema": {
-        "type": "integer",
-        "default": 30
-      }
+      "schema": { "type": "integer", "default": 30 }
     },
     {
       "name": "page",
       "description": "Page number of the results to fetch.",
       "in": "query",
-      "schema": {
-        "type": "integer",
-        "default": 1
-      }
+      "schema": { "type": "integer", "default": 1 }
     }
   ],
   "responses": {
@@ -111,87 +89,47 @@
             "items": {
               "type": "object",
               "properties": {
-                "url": {
-                  "type": "string"
-                },
-                "sha": {
-                  "type": "string"
-                },
-                "node_id": {
-                  "type": "string"
-                },
-                "html_url": {
-                  "type": "string"
-                },
-                "comments_url": {
-                  "type": "string"
-                },
+                "url": { "type": "string" },
+                "sha": { "type": "string" },
+                "node_id": { "type": "string" },
+                "html_url": { "type": "string" },
+                "comments_url": { "type": "string" },
                 "commit": {
                   "type": "object",
                   "properties": {
-                    "url": {
-                      "type": "string"
-                    },
+                    "url": { "type": "string" },
                     "author": {
                       "type": "object",
                       "properties": {
-                        "name": {
-                          "type": "string"
-                        },
-                        "email": {
-                          "type": "string"
-                        },
-                        "date": {
-                          "type": "string"
-                        }
+                        "name": { "type": "string" },
+                        "email": { "type": "string" },
+                        "date": { "type": "string" }
                       }
                     },
                     "committer": {
                       "type": "object",
                       "properties": {
-                        "name": {
-                          "type": "string"
-                        },
-                        "email": {
-                          "type": "string"
-                        },
-                        "date": {
-                          "type": "string"
-                        }
+                        "name": { "type": "string" },
+                        "email": { "type": "string" },
+                        "date": { "type": "string" }
                       }
                     },
-                    "message": {
-                      "type": "string"
-                    },
+                    "message": { "type": "string" },
                     "tree": {
                       "type": "object",
                       "properties": {
-                        "url": {
-                          "type": "string"
-                        },
-                        "sha": {
-                          "type": "string"
-                        }
+                        "url": { "type": "string" },
+                        "sha": { "type": "string" }
                       }
                     },
-                    "comment_count": {
-                      "type": "number"
-                    },
+                    "comment_count": { "type": "number" },
                     "verification": {
                       "type": "object",
                       "properties": {
-                        "verified": {
-                          "type": "boolean"
-                        },
-                        "reason": {
-                          "type": "string"
-                        },
-                        "signature": {
-                          "type": "string"
-                        },
-                        "payload": {
-                          "type": "string"
-                        }
+                        "verified": { "type": "boolean" },
+                        "reason": { "type": "string" },
+                        "signature": { "type": "string" },
+                        "payload": { "type": "string" }
                       }
                     }
                   }
@@ -199,119 +137,47 @@
                 "author": {
                   "type": "object",
                   "properties": {
-                    "login": {
-                      "type": "string"
-                    },
-                    "id": {
-                      "type": "number"
-                    },
-                    "node_id": {
-                      "type": "string"
-                    },
-                    "avatar_url": {
-                      "type": "string"
-                    },
-                    "gravatar_id": {
-                      "type": "string"
-                    },
-                    "url": {
-                      "type": "string"
-                    },
-                    "html_url": {
-                      "type": "string"
-                    },
-                    "followers_url": {
-                      "type": "string"
-                    },
-                    "following_url": {
-                      "type": "string"
-                    },
-                    "gists_url": {
-                      "type": "string"
-                    },
-                    "starred_url": {
-                      "type": "string"
-                    },
-                    "subscriptions_url": {
-                      "type": "string"
-                    },
-                    "organizations_url": {
-                      "type": "string"
-                    },
-                    "repos_url": {
-                      "type": "string"
-                    },
-                    "events_url": {
-                      "type": "string"
-                    },
-                    "received_events_url": {
-                      "type": "string"
-                    },
-                    "type": {
-                      "type": "string"
-                    },
-                    "site_admin": {
-                      "type": "boolean"
-                    }
+                    "login": { "type": "string" },
+                    "id": { "type": "number" },
+                    "node_id": { "type": "string" },
+                    "avatar_url": { "type": "string" },
+                    "gravatar_id": { "type": "string" },
+                    "url": { "type": "string" },
+                    "html_url": { "type": "string" },
+                    "followers_url": { "type": "string" },
+                    "following_url": { "type": "string" },
+                    "gists_url": { "type": "string" },
+                    "starred_url": { "type": "string" },
+                    "subscriptions_url": { "type": "string" },
+                    "organizations_url": { "type": "string" },
+                    "repos_url": { "type": "string" },
+                    "events_url": { "type": "string" },
+                    "received_events_url": { "type": "string" },
+                    "type": { "type": "string" },
+                    "site_admin": { "type": "boolean" }
                   }
                 },
                 "committer": {
                   "type": "object",
                   "properties": {
-                    "login": {
-                      "type": "string"
-                    },
-                    "id": {
-                      "type": "number"
-                    },
-                    "node_id": {
-                      "type": "string"
-                    },
-                    "avatar_url": {
-                      "type": "string"
-                    },
-                    "gravatar_id": {
-                      "type": "string"
-                    },
-                    "url": {
-                      "type": "string"
-                    },
-                    "html_url": {
-                      "type": "string"
-                    },
-                    "followers_url": {
-                      "type": "string"
-                    },
-                    "following_url": {
-                      "type": "string"
-                    },
-                    "gists_url": {
-                      "type": "string"
-                    },
-                    "starred_url": {
-                      "type": "string"
-                    },
-                    "subscriptions_url": {
-                      "type": "string"
-                    },
-                    "organizations_url": {
-                      "type": "string"
-                    },
-                    "repos_url": {
-                      "type": "string"
-                    },
-                    "events_url": {
-                      "type": "string"
-                    },
-                    "received_events_url": {
-                      "type": "string"
-                    },
-                    "type": {
-                      "type": "string"
-                    },
-                    "site_admin": {
-                      "type": "boolean"
-                    }
+                    "login": { "type": "string" },
+                    "id": { "type": "number" },
+                    "node_id": { "type": "string" },
+                    "avatar_url": { "type": "string" },
+                    "gravatar_id": { "type": "string" },
+                    "url": { "type": "string" },
+                    "html_url": { "type": "string" },
+                    "followers_url": { "type": "string" },
+                    "following_url": { "type": "string" },
+                    "gists_url": { "type": "string" },
+                    "starred_url": { "type": "string" },
+                    "subscriptions_url": { "type": "string" },
+                    "organizations_url": { "type": "string" },
+                    "repos_url": { "type": "string" },
+                    "events_url": { "type": "string" },
+                    "received_events_url": { "type": "string" },
+                    "type": { "type": "string" },
+                    "site_admin": { "type": "boolean" }
                   }
                 },
                 "parents": {
@@ -319,12 +185,8 @@
                   "items": {
                     "type": "object",
                     "properties": {
-                      "url": {
-                        "type": "string"
-                      },
-                      "sha": {
-                        "type": "string"
-                      }
+                      "url": { "type": "string" },
+                      "sha": { "type": "string" }
                     }
                   }
                 }

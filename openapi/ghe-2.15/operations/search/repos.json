@@ -2,9 +2,7 @@
   "summary": "Search repositories",
   "description": "Find repositories via various criteria. This method returns up to 100 results [per page](https://developer.github.com/enterprise/2.15/v3/#pagination).\n\nWhen searching for repositories, you can get text match metadata for the **name** and **description** fields when you pass the `text-match` media type. For more details about how to receive highlighted search results, see [Text match metadata](https://developer.github.com/enterprise/2.15/v3/search/#text-match-metadata).\n\nSuppose you want to search for popular Tetris repositories written in Assembly. Your query might look like this.\n\nYou can search for multiple topics by adding more `topic:` instances, and including the `mercy-preview` header. For example:\n\nIn this request, we're searching for repositories with the word `tetris` in the name, the description, or the README. We're limiting the results to only find repositories where the primary language is Assembly. We're sorting by stars in descending order, so that the most popular repositories appear first in the search results.",
   "operationId": "search/repos",
-  "tags": [
-    "search"
-  ],
+  "tags": ["search"],
   "externalDocs": {
     "description": "API method documentation",
     "url": "https://developer.github.com/enterprise/2.15/v3/search/#search-repositories"
@@ -24,9 +22,7 @@
       "description": "The query contains one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as GitHub.com. To learn more about the format of the query, see [Constructing a search query](https://developer.github.com/enterprise/2.15/v3/search/#constructing-a-search-query). See \"[Searching for repositories](https://help.github.com/articles/searching-for-repositories/)\" for a detailed list of qualifiers.",
       "in": "query",
       "required": true,
-      "schema": {
-        "type": "string"
-      }
+      "schema": { "type": "string" }
     },
     {
       "name": "sort",
@@ -35,12 +31,7 @@
       "required": false,
       "schema": {
         "type": "string",
-        "enum": [
-          "stars",
-          "forks",
-          "help-wanted-issues",
-          "updated"
-        ]
+        "enum": ["stars", "forks", "help-wanted-issues", "updated"]
       }
     },
     {
@@ -48,32 +39,19 @@
       "description": "Determines whether the first search result returned is the highest number of matches (`desc`) or lowest number of matches (`asc`). This parameter is ignored unless you provide `sort`.",
       "in": "query",
       "required": false,
-      "schema": {
-        "type": "string",
-        "enum": [
-          "desc",
-          "asc"
-        ],
-        "default": "desc"
-      }
+      "schema": { "type": "string", "enum": ["desc", "asc"], "default": "desc" }
     },
     {
       "name": "per_page",
       "description": "Results per page (max 100)",
       "in": "query",
-      "schema": {
-        "type": "integer",
-        "default": 30
-      }
+      "schema": { "type": "integer", "default": 30 }
     },
     {
       "name": "page",
       "description": "Page number of the results to fetch.",
       "in": "query",
-      "schema": {
-        "type": "integer",
-        "default": 1
-      }
+      "schema": { "type": "integer", "default": 1 }
     }
   ],
   "responses": {
@@ -84,112 +62,48 @@
           "schema": {
             "type": "object",
             "properties": {
-              "total_count": {
-                "type": "number"
-              },
-              "incomplete_results": {
-                "type": "boolean"
-              },
+              "total_count": { "type": "number" },
+              "incomplete_results": { "type": "boolean" },
               "items": {
                 "type": "array",
                 "items": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "number"
-                    },
-                    "node_id": {
-                      "type": "string"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "full_name": {
-                      "type": "string"
-                    },
+                    "id": { "type": "number" },
+                    "node_id": { "type": "string" },
+                    "name": { "type": "string" },
+                    "full_name": { "type": "string" },
                     "owner": {
                       "type": "object",
                       "properties": {
-                        "login": {
-                          "type": "string"
-                        },
-                        "id": {
-                          "type": "number"
-                        },
-                        "node_id": {
-                          "type": "string"
-                        },
-                        "avatar_url": {
-                          "type": "string"
-                        },
-                        "gravatar_id": {
-                          "type": "string"
-                        },
-                        "url": {
-                          "type": "string"
-                        },
-                        "received_events_url": {
-                          "type": "string"
-                        },
-                        "type": {
-                          "type": "string"
-                        }
+                        "login": { "type": "string" },
+                        "id": { "type": "number" },
+                        "node_id": { "type": "string" },
+                        "avatar_url": { "type": "string" },
+                        "gravatar_id": { "type": "string" },
+                        "url": { "type": "string" },
+                        "received_events_url": { "type": "string" },
+                        "type": { "type": "string" }
                       }
                     },
-                    "private": {
-                      "type": "boolean"
-                    },
-                    "html_url": {
-                      "type": "string"
-                    },
-                    "description": {
-                      "type": "string"
-                    },
-                    "fork": {
-                      "type": "boolean"
-                    },
-                    "url": {
-                      "type": "string"
-                    },
-                    "created_at": {
-                      "type": "string"
-                    },
-                    "updated_at": {
-                      "type": "string"
-                    },
-                    "pushed_at": {
-                      "type": "string"
-                    },
-                    "homepage": {
-                      "type": "string"
-                    },
-                    "size": {
-                      "type": "number"
-                    },
-                    "stargazers_count": {
-                      "type": "number"
-                    },
-                    "watchers_count": {
-                      "type": "number"
-                    },
-                    "language": {
-                      "type": "string"
-                    },
-                    "forks_count": {
-                      "type": "number"
-                    },
-                    "open_issues_count": {
-                      "type": "number"
-                    },
-                    "master_branch": {
-                      "type": "string"
-                    },
-                    "default_branch": {
-                      "type": "string"
-                    },
-                    "score": {
-                      "type": "number"
-                    }
+                    "private": { "type": "boolean" },
+                    "html_url": { "type": "string" },
+                    "description": { "type": "string" },
+                    "fork": { "type": "boolean" },
+                    "url": { "type": "string" },
+                    "created_at": { "type": "string" },
+                    "updated_at": { "type": "string" },
+                    "pushed_at": { "type": "string" },
+                    "homepage": { "type": "string" },
+                    "size": { "type": "number" },
+                    "stargazers_count": { "type": "number" },
+                    "watchers_count": { "type": "number" },
+                    "language": { "type": "string" },
+                    "forks_count": { "type": "number" },
+                    "open_issues_count": { "type": "number" },
+                    "master_branch": { "type": "string" },
+                    "default_branch": { "type": "string" },
+                    "score": { "type": "number" }
                   }
                 }
               }
@@ -244,10 +158,7 @@
       "lang": "Shell",
       "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/search/repositories"
     },
-    {
-      "lang": "JS",
-      "source": "octokit.search.repos({\n  q: 'q'\n})"
-    }
+    { "lang": "JS", "source": "octokit.search.repos({\n  q: 'q'\n})" }
   ],
   "x-github": {
     "legacy": false,
