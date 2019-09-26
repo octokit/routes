@@ -1,6 +1,6 @@
 {
   "summary": "Create a deployment status",
-  "description": "Users with `push` access can create deployment statuses for a given deployment.\n\nGitHub Apps require `read & write` access to \"Deployments\" and `read-only` access to \"Repo contents\" (for private repos). OAuth Apps require the `repo_deployment` scope.",
+  "description": "Users with `push` access can create deployment statuses for a given deployment.\n\nGitHub Apps require `read & write` access to \"Deployments\" and `read-only` access to \"Repo contents\" (for private repos). OAuth Apps require the `repo_deployment` scope.\n\n**Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type.\n\n`description`|`string` | A short description of the status. The maximum description length is 140 characters. Default: `\"\"` `environment` |`string`| Name for the target deployment environment, which can be changed when setting a deploy status. For example, `production`, `staging`, or `qa`. **Note:** This parameter requires you to use the [`application/vnd.github.flash-preview+json`](https://developer.github.com/v3/previews/#deployment-statuses) custom media type. `environment_url`|`string`| Sets the URL for accessing your environment. Default: `\"\"`  \n**Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type.\n\n`auto_inactive`|`boolean`| Adds a new `inactive` status to all prior non-transient, non-production environment deployments with the same repository and `environment` name as the created status's deployment. An `inactive` status is only added to deployments that had a `success` state. Default: `true`  \n**Note:** To add an `inactive` status to `production` environments, you must use the [`application/vnd.github.flash-preview+json`](https://developer.github.com/v3/previews/#deployment-statuses) custom media type.  \n**Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type.",
   "operationId": "repos/create-deployment-status",
   "tags": ["repos"],
   "externalDocs": {
@@ -178,36 +178,15 @@
             },
             "log_url": {
               "type": "string",
-              "description": "The full URL of the deployment's output. This parameter replaces `target_url`. We will continue to accept `target_url` to support legacy uses, but we recommend replacing `target_url` with `log_url`. Setting `log_url` will automatically set `target_url` to the same value. Default: `\"\"`  \n**Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type. **Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type.",
+              "description": "The full URL of the deployment's output. This parameter replaces `target_url`. We will continue to accept `target_url` to support legacy uses, but we recommend replacing `target_url` with `log_url`. Setting `log_url` will automatically set `target_url` to the same value.",
               "default": ""
-            },
-            "description": {
-              "type": "string",
-              "description": "A short description of the status. The maximum description length is 140 characters.",
-              "default": ""
-            },
-            "environment": {
-              "type": "string",
-              "description": "Name for the target deployment environment, which can be changed when setting a deploy status. For example, `production`, `staging`, or `qa`. **Note:** This parameter requires you to use the [`application/vnd.github.flash-preview+json`](https://developer.github.com/v3/previews/#deployment-statuses) custom media type.",
-              "enum": ["production", "staging", "qa"]
-            },
-            "environment_url": {
-              "type": "string",
-              "description": "Sets the URL for accessing your environment. Default: `\"\"`  \n**Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type. **Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type.",
-              "default": ""
-            },
-            "auto_inactive": {
-              "type": "boolean",
-              "description": "Adds a new `inactive` status to all prior non-transient, non-production environment deployments with the same repository and `environment` name as the created status's deployment. An `inactive` status is only added to deployments that had a `success` state. Default: `true`  \n**Note:** To add an `inactive` status to `production` environments, you must use the [`application/vnd.github.flash-preview+json`](https://developer.github.com/v3/previews/#deployment-statuses) custom media type.  \n**Note:** This parameter requires you to use the [`application/vnd.github.ant-man-preview+json`](https://developer.github.com/v3/previews/#enhanced-deployments) custom media type."
             }
           },
           "required": ["state"]
         },
         "example": {
-          "environment": "production",
           "state": "success",
-          "log_url": "https://example.com/deployment/42/output",
-          "description": "Deployment finished successfully."
+          "log_url": "https://example.com/deployment/42/output"
         }
       }
     }
