@@ -358,8 +358,12 @@
 <p>While the API provides multiple methods for authentication, we strongly
 recommend using <a href="/apps/building-integrations/setting-up-and-registering-oauth-apps/">OAuth</a> for production applications. The other
 methods provided are intended to be used for scripts or testing (i.e., cases
-where full OAuth would be overkill). Third party applications that rely on
-GitHub for authentication should not ask for or collect GitHub credentials.
+where full OAuth would be overkill). Third party applications that rely on</p>
+
+<p>GitHub
+ for authentication should not ask for or collect 
+GitHub
+ credentials.
 Instead, they should use the <a href="/apps/building-oauth-apps/authorizing-oauth-apps/">OAuth web flow</a>.</p>
 
 <h2>
@@ -369,22 +373,30 @@ Instead, they should use the <a href="/apps/building-oauth-apps/authorizing-oaut
 <a href="http://www.ietf.org/rfc/rfc2617.txt">RFC2617</a> with a few slight differences.
 The main difference is that the RFC requires unauthenticated requests to be
 answered with <code>401 Unauthorized</code> responses. In many places, this would disclose
-the existence of user data. Instead, the GitHub API responds with <code>404 Not Found</code>.
+the existence of user data. Instead, the 
+GitHub
+ API responds with <code>404 Not Found</code>.
 This may cause problems for HTTP libraries that assume a <code>401 Unauthorized</code>
 response. The solution is to manually craft the <code>Authorization</code> header.</p>
 
 <h3>
 <a id="via-username-and-password" class="anchor" href="#via-username-and-password" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Via Username and Password</h3>
 
-<p>To use Basic Authentication with the GitHub API, simply send the username and
+<p>To use Basic Authentication with the 
+GitHub
+ API, simply send the username and
 password associated with the account.</p>
 
 <p>For example, if you're accessing the API via <a href="http://curl.haxx.se/">cURL</a>, the following command
-would authenticate you if you replace <code>&lt;username&gt;</code> with your GitHub username.
+would authenticate you if you replace <code>&lt;username&gt;</code> with your 
+GitHub
+ username.
 (cURL will prompt you to enter the password.)</p>
 
 <pre class="command-line">
-<span class="command">curl -u <em>username</em> https://api.github.com/user</span>
+<span class="command">curl -u <em>username</em></span>
+'https://api.github.com'
+/user
 </pre>
 
 <p>If you have two-factor authentication enabled, make sure you understand how to <a href="/v3/auth/#working-with-two-factor-authentication">work with two-factor authentication</a>.</p>
@@ -396,7 +408,9 @@ would authenticate you if you replace <code>&lt;username&gt;</code> with your Gi
 tokens</a> or OAuth tokens instead of your password.</p>
 
 <pre class="command-line">
-<span class="command">curl -u <em>username</em>:<em>token</em> https://api.github.com/user</span>
+<span class="command">curl -u <em>username</em>:<em>token</em></span>
+'https://api.github.com'
+/user
 </pre>
 
 <p>This approach is useful if your tools only support Basic Authentication but you
@@ -414,7 +428,9 @@ want to take advantage of OAuth access token security features.</p>
 <p>If you're using the API to access an organization that enforces <a href="https://help.github.com/articles/about-identity-and-access-management-with-saml-single-sign-on">SAML SSO</a> for authentication, you'll need to create a personal access token (PAT) and <a href="https://help.github.com/articles/authorizing-a-personal-access-token-for-use-with-a-saml-single-sign-on-organization/">whitelist the token</a> for that organization. Visit the URL specified in <code>X-GitHub-SSO</code> to whitelist the token for the organization.</p>
 
 <pre class="command-line">
-<span class="command">curl -v -H "Authorization: token <em>TOKEN</em>" https://api.github.com/repos/octodocs-test/test</span>
+<span class="command">curl -v -H "Authorization: token <em>TOKEN</em>"</span>
+'https://api.github.com'
+/repos/octodocs-test/test
 <span class="output">X-GitHub-SSO: required; url=https://github.com/orgs/octodocs-test/sso?authorization_request=AZSCKtL4U8yX1H3sCQIVnVgmjmon5fWxks5YrqhJgah0b2tlbl9pZM4EuMz4</span>
 {
   "message": "Resource protected by organization SAML enforcement. You must grant your personal token access to this organization.",
@@ -425,7 +441,9 @@ want to take advantage of OAuth access token security features.</p>
 <p>When requesting data that could come from multiple organizations (for example, <a href="/v3/issues/#list-issues">requesting a list of issues created by the user</a>), the <code>X-GitHub-SSO</code> header indicates which organizations require whitelisting:</p>
 
 <pre class="command-line">
-<span class="command">curl -v -H "Authorization: token <em>TOKEN</em>" https://api.github.com/user/issues</span>
+<span class="command">curl -v -H "Authorization: token <em>TOKEN</em>"</span>
+'https://api.github.com'
+/user/issues
 <span class="output">X-GitHub-SSO: partial-results; organizations=21955855,20582480</span>
 </pre>
 
@@ -436,7 +454,9 @@ want to take advantage of OAuth access token security features.</p>
 
 <p>When you have two-factor authentication enabled, <a href="#basic-authentication">Basic Authentication</a> for <em>most</em> endpoints in the REST API v3 requires that you use a personal access token or OAuth token instead of your username and password.</p>
 
-<p>You can use <a href="https://github.com/settings/tokens/new">GitHub developer settings</a> to generate a new personal access token or the <a href="/v3/oauth_authorizations/#create-a-new-authorization">Create a new authorization</a> endpoint in the OAuth Authorizations API to generate a new OAuth token. Then you would use these tokens to <a href="/v3/#authentication">authenticate using OAuth token</a> with the GitHub API. The only time you need to authenticate with your username and password is when you create your OAuth token or use the OAuth Authorizations API.</p>
+<p>You can use <a href="https://github.com/settings/tokens/new">
+GitHub
+ developer settings</a> to generate a new personal access token or the <a href="/v3/oauth_authorizations/#create-a-new-authorization">Create a new authorization</a> endpoint in the OAuth Authorizations API to generate a new OAuth token. Then you would use these tokens to <a href="/v3/#authentication">authenticate using OAuth token</a> with the GitHub API. The only time you need to authenticate with your username and password is when you create your OAuth token or use the OAuth Authorizations API.</p>
 
 <h3>
 <a id="using-the-oauth-authorizations-api-with-two-factor-authentication" class="anchor" href="#using-the-oauth-authorizations-api-with-two-factor-authentication" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using the OAuth Authorizations API with two-factor authentication</h3>
