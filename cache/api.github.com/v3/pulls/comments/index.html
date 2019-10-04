@@ -369,6 +369,27 @@
 <a id="list-comments-on-a-pull-request" class="anchor" href="#list-comments-on-a-pull-request" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List comments on a pull request<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
+<div class="alert note">
+
+<p><strong>Note:</strong>  Multi-line comments on pull requests are currently in public beta and subject to change.</p>
+
+</div>
+
+<div class="alert note">
+
+<p><strong>Note:</strong>  Multi-line comments in a pull request diff is currently available for developers to preview. To access the new response fields during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+<pre><code>application/vnd.github.comfort-fade-preview+json
+</code></pre>
+
+</div>
+
+<div class="alert warning">
+
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub Support</a>.</p>
+
+</div>
+
 <p>Lists review comments for a pull request. By default, review comments are in ascending order by ID.</p>
 
 <pre><code>GET /repos/:owner/:repo/pulls/:pull_number/comments
@@ -470,24 +491,47 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 
 <h4>
+<a id="multi-line-comment-summary" class="anchor" href="#multi-line-comment-summary" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Multi-line comment summary</h4>
+
+<div class="alert note">
+
+<p><strong>Note:</strong> New parameters and response fields are available for developers to preview. During the preview period, these response fields may change without advance notice. Please see the <a href="/changes/2019-10-03-multi-line-comments">blog post</a> for full details.</p>
+
+</div>
+
+<p>Use the <code>comfort-fade</code> preview header and the <code>line</code> parameter to show multi-line comment-supported fields in the response.</p>
+
+<p>If you use the <code>comfort-fade</code> preview header, your response will show:</p>
+
+<ul>
+<li>For multi-line comments, values for <code>line</code>, <code>side</code>, <code>start_line</code>, and <code>start_side</code>.</li>
+<li>For single-line comments, values for <code>line</code> and <code>side</code> and a <code>null</code> value for <code>start_line</code> and <code>start_side</code>.</li>
+</ul>
+
+<p>If you don't use the <code>comfort-fade</code> preview header, multi-line and single-line comments will appear the same way in the response with a single <code>position</code> attribute. Your response will show:</p>
+
+<ul>
+<li>For multi-line comments, the last line of the comment range for the <code>position</code> attribute.</li>
+<li>For single-line comments, the diff-positioned way of referencing comments for the  <code>position</code> attribute. For more information, see <code>position</code> in the <a href="/v3/pulls/comments/#parameters-2">input parameters</a> table.</li>
+</ul>
+
+<h4>
 <a id="reactions-summary" class="anchor" href="#reactions-summary" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Reactions summary</h4>
 
-<div class="alert tip">
+<div class="alert note">
 
-<p><a name="preview-period-pull-comments"></a></p>
-
-<p>An additional <code>reactions</code> object in the review comment payload is currently available for developers to preview.
-  During the preview period, the APIs may change without advance notice.
-  Please see the <a href="/changes/2016-05-12-reactions-api-preview">blog post</a> for full details.</p>
+<p><strong>Note:</strong> An additional <code>reactions</code> object in the review comment payload is currently available for developers to preview.
+During the preview period, the APIs may change without advance notice.
+Please see the <a href="/changes/2016-05-12-reactions-api-preview">blog post</a> for full details.</p>
 
 <p>To access the API you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
 
-<pre><code>  application/vnd.github.squirrel-girl-preview
+<pre><code>application/vnd.github.squirrel-girl-preview
 </code></pre>
 
-<p>The <code>reactions</code> key will have the following payload where <code>url</code> can be used to construct the API location for <a href="/v3/reactions">listing and creating</a> reactions.</p>
-
 </div>
+
+<p>The <code>reactions</code> key will have the following payload where <code>url</code> can be used to construct the API location for <a href="/v3/reactions">listing and creating</a> reactions.</p>
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"total_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
@@ -505,6 +549,27 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <h2>
 <a id="list-comments-in-a-repository" class="anchor" href="#list-comments-in-a-repository" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List comments in a repository<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
+
+<div class="alert note">
+
+<p><strong>Note:</strong>  Multi-line comments on pull requests are currently in public beta and subject to change.</p>
+
+</div>
+
+<div class="alert note">
+
+<p><strong>Note:</strong>  Multi-line comments in a pull request diff is currently available for developers to preview. To access the new response fields during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+<pre><code>application/vnd.github.comfort-fade-preview+json
+</code></pre>
+
+</div>
+
+<div class="alert warning">
+
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub Support</a>.</p>
+
+</div>
 
 <p>Lists review comments for all pull requests in a repository. By default, review comments are in ascending order by ID.</p>
 
@@ -607,24 +672,47 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 
 <h4>
+<a id="multi-line-comment-summary-1" class="anchor" href="#multi-line-comment-summary-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Multi-line comment summary</h4>
+
+<div class="alert note">
+
+<p><strong>Note:</strong> New parameters and response fields are available for developers to preview. During the preview period, these response fields may change without advance notice. Please see the <a href="/changes/2019-10-03-multi-line-comments">blog post</a> for full details.</p>
+
+</div>
+
+<p>Use the <code>comfort-fade</code> preview header and the <code>line</code> parameter to show multi-line comment-supported fields in the response.</p>
+
+<p>If you use the <code>comfort-fade</code> preview header, your response will show:</p>
+
+<ul>
+<li>For multi-line comments, values for <code>line</code>, <code>side</code>, <code>start_line</code>, and <code>start_side</code>.</li>
+<li>For single-line comments, values for <code>line</code> and <code>side</code> and a <code>null</code> value for <code>start_line</code> and <code>start_side</code>.</li>
+</ul>
+
+<p>If you don't use the <code>comfort-fade</code> preview header, multi-line and single-line comments will appear the same way in the response with a single <code>position</code> attribute. Your response will show:</p>
+
+<ul>
+<li>For multi-line comments, the last line of the comment range for the <code>position</code> attribute.</li>
+<li>For single-line comments, the diff-positioned way of referencing comments for the  <code>position</code> attribute. For more information, see <code>position</code> in the <a href="/v3/pulls/comments/#parameters-2">input parameters</a> table.</li>
+</ul>
+
+<h4>
 <a id="reactions-summary-1" class="anchor" href="#reactions-summary-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Reactions summary</h4>
 
-<div class="alert tip">
+<div class="alert note">
 
-<p><a name="preview-period-pulls-comments"></a></p>
-
-<p>An additional <code>reactions</code> object in the review comment payload is currently available for developers to preview.
-  During the preview period, the APIs may change without advance notice.
-  Please see the <a href="/changes/2016-05-12-reactions-api-preview">blog post</a> for full details.</p>
+<p><strong>Note:</strong> An additional <code>reactions</code> object in the review comment payload is currently available for developers to preview.
+During the preview period, the APIs may change without advance notice.
+Please see the <a href="/changes/2016-05-12-reactions-api-preview">blog post</a> for full details.</p>
 
 <p>To access the API you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
 
-<pre><code>  application/vnd.github.squirrel-girl-preview
+<pre><code>application/vnd.github.squirrel-girl-preview
 </code></pre>
 
-<p>The <code>reactions</code> key will have the following payload where <code>url</code> can be used to construct the API location for <a href="/v3/reactions">listing and creating</a> reactions.</p>
-
 </div>
+
+<p>The <code>reactions</code> key will have the following payload where <code>url</code> can be used to construct the API location for <a href="/v3/reactions">listing and creating</a> reactions.</p>
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"total_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
@@ -642,6 +730,27 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <h2>
 <a id="get-a-single-comment" class="anchor" href="#get-a-single-comment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get a single comment<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
+
+<div class="alert note">
+
+<p><strong>Note:</strong>  Multi-line comments on pull requests are currently in public beta and subject to change.</p>
+
+</div>
+
+<div class="alert note">
+
+<p><strong>Note:</strong>  Multi-line comments in a pull request diff is currently available for developers to preview. To access the new response fields during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+<pre><code>application/vnd.github.comfort-fade-preview+json
+</code></pre>
+
+</div>
+
+<div class="alert warning">
+
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub Support</a>.</p>
+
+</div>
 
 <p>Provides details for a review comment.</p>
 
@@ -709,24 +818,47 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 
 <h4>
+<a id="multi-line-comment-summary-2" class="anchor" href="#multi-line-comment-summary-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Multi-line comment summary</h4>
+
+<div class="alert note">
+
+<p><strong>Note:</strong> New parameters and response fields are available for developers to preview. During the preview period, these response fields may change without advance notice. Please see the <a href="/changes/2019-10-03-multi-line-comments">blog post</a> for full details.</p>
+
+</div>
+
+<p>Use the <code>comfort-fade</code> preview header and the <code>line</code> parameter to show multi-line comment-supported fields in the response.</p>
+
+<p>If you use the <code>comfort-fade</code> preview header, your response will show:</p>
+
+<ul>
+<li>For multi-line comments, values for <code>line</code>, <code>side</code>, <code>start_line</code>, and <code>start_side</code>.</li>
+<li>For single-line comments, values for <code>line</code> and <code>side</code> and a <code>null</code> value for <code>start_line</code> and <code>start_side</code>.</li>
+</ul>
+
+<p>If you don't use the <code>comfort-fade</code> preview header, multi-line and single-line comments will appear the same way in the response with a single <code>position</code> attribute. Your response will show:</p>
+
+<ul>
+<li>For multi-line comments, the last line of the comment range for the <code>position</code> attribute.</li>
+<li>For single-line comments, the diff-positioned way of referencing comments for the  <code>position</code> attribute. For more information, see <code>position</code> in the <a href="/v3/pulls/comments/#parameters-2">input parameters</a> table.</li>
+</ul>
+
+<h4>
 <a id="reactions-summary-2" class="anchor" href="#reactions-summary-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Reactions summary</h4>
 
-<div class="alert tip">
+<div class="alert note">
 
-<p><a name="preview-period-pull-comment"></a></p>
-
-<p>An additional <code>reactions</code> object in the review comment payload is currently available for developers to preview.
-  During the preview period, the APIs may change without advance notice.
-  Please see the <a href="/changes/2016-05-12-reactions-api-preview">blog post</a> for full details.</p>
+<p><strong>Note:</strong> An additional <code>reactions</code> object in the review comment payload is currently available for developers to preview.
+During the preview period, the APIs may change without advance notice.
+Please see the <a href="/changes/2016-05-12-reactions-api-preview">blog post</a> for full details.</p>
 
 <p>To access the API you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
 
-<pre><code>  application/vnd.github.squirrel-girl-preview
+<pre><code>application/vnd.github.squirrel-girl-preview
 </code></pre>
 
-<p>The <code>reactions</code> key will have the following payload where <code>url</code> can be used to construct the API location for <a href="/v3/reactions">listing and creating</a> reactions.</p>
-
 </div>
+
+<p>The <code>reactions</code> key will have the following payload where <code>url</code> can be used to construct the API location for <a href="/v3/reactions">listing and creating</a> reactions.</p>
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"total_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
@@ -745,7 +877,36 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <a id="create-a-comment" class="anchor" href="#create-a-comment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a comment<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
-<p>Creates a review comment for a pull request.</p>
+<div class="alert note">
+
+<p><strong>Note:</strong>  Multi-line comments on pull requests are currently in public beta and subject to change.</p>
+
+</div>
+
+<div class="alert note">
+
+<p><strong>Note:</strong>  Multi-line comments in a pull request diff is currently available for developers to preview. To access the new response fields during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+<pre><code>application/vnd.github.comfort-fade-preview+json
+</code></pre>
+
+</div>
+
+<div class="alert warning">
+
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub Support</a>.</p>
+
+</div>
+
+<p>Creates a review comment in the pull request diff. To add a regular comment to a pull request timeline, see "<a href="/v3/issues/comments/#create-a-comment">Comments</a>." We recommend creating a review comment using <code>line</code>, <code>side</code>, and optionally <code>start_line</code> and <code>start_side</code> if your comment applies to more than one line in the pull request diff.</p>
+
+<p>You can still create a review comment using the <code>position</code> parameter. When you use <code>position</code>, the <code>line</code>, <code>side</code>, <code>start_line</code>, and <code>start_side</code> parameters are not required. For more information, see <a href="/v3/pulls/comments/#multi-line-comment-summary-3">Multi-line comment summary</a>.</p>
+
+<div class="alert note">
+
+<p><strong>Note:</strong> The position value equals the number of lines down from the first "@@" hunk header in the file you want to add a comment. The line just below the "@@" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.</p>
+
+</div>
 
 <p>This endpoint triggers <a href="https://help.github.com/articles/about-notifications/">notifications</a>. Creating content too quickly using this endpoint may result in abuse rate limiting. See "<a href="/v3/#abuse-rate-limits">Abuse rate limits</a>" and "<a href="/v3/guides/best-practices-for-integrators/#dealing-with-abuse-rate-limits">Dealing with abuse rate limits</a>" for details.</p>
 
@@ -753,7 +914,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </code></pre>
 
 <h3>
-<a id="input" class="anchor" href="#input" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Input</h3>
+<a id="parameters-2" class="anchor" href="#parameters-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
 
 <table>
 <thead>
@@ -786,29 +947,58 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <td><code>position</code></td>
 <td><code>integer</code></td>
 <td>
-<strong>Required</strong>. The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. For help finding the position value, read the note below.</td>
+<strong>Required without <code>comfort-fade</code> preview</strong>. The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. For help finding the position value, read the note above.</td>
+</tr>
+<tr>
+<td><code>side</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required with <code>comfort-fade</code> preview</strong>. In a split diff view, the side of the diff that the pull request's changes appear on. Can be <code>LEFT</code> or <code>RIGHT</code>. Use <code>LEFT</code> for deletions that appear in red. Use <code>RIGHT</code> for additions that appear in green or unchanged lines that appear in white and are shown for context. For a multi-line comment, side represents whether the last line of the comment range is a deletion or addition. For more information, see "<a href="https://help.github.com/en/articles/about-comparing-branches-in-pull-requests#diff-view-options">Diff view options</a>" in the GitHub Help documentation.</td>
+</tr>
+<tr>
+<td><code>line</code></td>
+<td><code>integer</code></td>
+<td>
+<strong>Required with <code>comfort-fade</code> preview</strong>. The line of the blob in the pull request diff that the comment applies to. For a multi-line comment, the last line of the range that your comment applies to.</td>
+</tr>
+<tr>
+<td><code>start_line</code></td>
+<td><code>integer</code></td>
+<td>
+<strong>Required when using multi-line comments</strong>. To create multi-line comments, you must use the <code>comfort-fade</code> preview header. The <code>start_line</code> is the first line in the pull request diff that your multi-line comment applies to. To learn more about multi-line comments, see "<a href="https://help.github.com/en/articles/commenting-on-a-pull-request#adding-line-comments-to-a-pull-request">Commenting on a pull request</a>" in the GitHub Help documentation.</td>
+</tr>
+<tr>
+<td><code>start_side</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required when using multi-line comments</strong>. To create multi-line comments, you must use the <code>comfort-fade</code> preview header. The <code>start_side</code> is the starting side of the diff that the comment applies to. Can be <code>LEFT</code> or <code>RIGHT</code>. To learn more about multi-line comments, see "<a href="https://help.github.com/en/articles/commenting-on-a-pull-request#adding-line-comments-to-a-pull-request">Commenting on a pull request</a>" in the GitHub Help documentation. See <code>side</code> in this table for additional context.</td>
 </tr>
 </tbody>
 </table>
 
-<div class="alert note">
-
-<p><strong>Note:</strong>
-To comment on a specific line in a file, you need to first determine the <em>position</em> of that line in the diff. The GitHub REST API v3 offers the <code>application/vnd.github.v3.diff</code> <a href="/v3/media/#commits-commit-comparison-and-pull-requests">media type</a>. To see a pull request diff, add this media type to the <code>Accept</code> header of a call to the <a href="/v3/pulls/#get-a-single-pull-request">single pull request</a> endpoint.</p>
-
-<p>The <code>position</code> value equals the number of lines down from the first "@@" hunk header in the file you want to add a comment. The line just below the "@@" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.</p>
-
-</div>
-
 <h4>
-<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h4>
+<a id="example-for-a-multi-line-comment" class="anchor" href="#example-for-a-multi-line-comment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example for a multi-line comment</h4>
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Nice change"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"commit_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6dcb09b5b57875f334f61aebed695e2e4193db5e"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"file1.txt"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"position"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="w">
-</span><span class="p">}</span><span class="w">
+   </span><span class="nt">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test-plan.md"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"start_line"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"start_side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LEFT"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"line"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RIGHT"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Can you expand on this?"</span><span class="w">
+ </span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+
+<h4>
+<a id="example-for-a-single-line-comment" class="anchor" href="#example-for-a-single-line-comment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example for a single-line comment</h4>
+
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+   </span><span class="nt">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test-plan.md"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"line"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LEFT"</span><span class="p">,</span><span class="w">
+   </span><span class="nt">"body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Let's add this deleted line back."</span><span class="w">
+ </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
 
@@ -868,10 +1058,41 @@ Location: https://api.github.com/repos/octocat/Hello-World/pulls/comments/1
     </span><span class="nt">"pull_request"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World/pulls/1"</span><span class="w">
     </span><span class="p">}</span><span class="w">
-  </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"start_line"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"original_start_line"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"start_side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RIGHT"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"line"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"original_line"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"side"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RIGHT"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
+
+<h4>
+<a id="multi-line-comment-summary-3" class="anchor" href="#multi-line-comment-summary-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Multi-line comment summary</h4>
+
+<div class="alert note">
+
+<p><strong>Note:</strong> New parameters and response fields are available for developers to preview. During the preview period, these response fields may change without advance notice. Please see the <a href="/changes/2019-10-03-multi-line-comments">blog post</a> for full details.</p>
+
+</div>
+
+<p>Use the <code>comfort-fade</code> preview header and the <code>line</code> parameter to show multi-line comment-supported fields in the response.</p>
+
+<p>If you use the <code>comfort-fade</code> preview header, your response will show:</p>
+
+<ul>
+<li>For multi-line comments, values for <code>line</code>, <code>side</code>, <code>start_line</code>, and <code>start_side</code>.</li>
+<li>For single-line comments, values for <code>line</code> and <code>side</code> and a <code>null</code> value for <code>start_line</code> and <code>start_side</code>.</li>
+</ul>
+
+<p>If you don't use the <code>comfort-fade</code> preview header, multi-line and single-line comments will appear the same way in the response with a single <code>position</code> attribute. Your response will show:</p>
+
+<ul>
+<li>For multi-line comments, the last line of the comment range for the <code>position</code> attribute.</li>
+<li>For single-line comments, the diff-positioned way of referencing comments for the  <code>position</code> attribute. For more information, see <code>position</code> in the <a href="/v3/pulls/comments/#parameters-2">input parameters</a> table.</li>
+</ul>
 
 <h2>
 <a id="create-a-review-comment-reply" class="anchor" href="#create-a-review-comment-reply" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a review comment reply</h2>
@@ -884,7 +1105,7 @@ Location: https://api.github.com/repos/octocat/Hello-World/pulls/comments/1
 </code></pre>
 
 <h3>
-<a id="input-1" class="anchor" href="#input-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Input</h3>
+<a id="input" class="anchor" href="#input" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Input</h3>
 
 <table>
 <thead>
@@ -905,7 +1126,7 @@ Location: https://api.github.com/repos/octocat/Hello-World/pulls/comments/1
 </table>
 
 <h4>
-<a id="example-1" class="anchor" href="#example-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h4>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h4>
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Great stuff!"</span><span class="w">
@@ -977,13 +1198,34 @@ Location: https://api.github.com/repos/octocat/Hello-World/comments/1
 <a id="edit-a-comment" class="anchor" href="#edit-a-comment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Edit a comment<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
+<div class="alert note">
+
+<p><strong>Note:</strong>  Multi-line comments on pull requests are currently in public beta and subject to change.</p>
+
+</div>
+
+<div class="alert note">
+
+<p><strong>Note:</strong>  Multi-line comments in a pull request diff is currently available for developers to preview. To access the new response fields during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+<pre><code>application/vnd.github.comfort-fade-preview+json
+</code></pre>
+
+</div>
+
+<div class="alert warning">
+
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub Support</a>.</p>
+
+</div>
+
 <p>Enables you to edit a review comment.</p>
 
 <pre><code>PATCH /repos/:owner/:repo/pulls/comments/:comment_id
 </code></pre>
 
 <h3>
-<a id="input-2" class="anchor" href="#input-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Input</h3>
+<a id="input-1" class="anchor" href="#input-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Input</h3>
 
 <table>
 <thead>
@@ -1004,7 +1246,7 @@ Location: https://api.github.com/repos/octocat/Hello-World/comments/1
 </table>
 
 <h4>
-<a id="example-2" class="anchor" href="#example-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h4>
+<a id="example-1" class="anchor" href="#example-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h4>
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"I like this too!"</span><span class="w">
@@ -1071,6 +1313,31 @@ Location: https://api.github.com/repos/octocat/Hello-World/comments/1
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
+
+<h4>
+<a id="multi-line-comment-summary-4" class="anchor" href="#multi-line-comment-summary-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Multi-line comment summary</h4>
+
+<div class="alert note">
+
+<p><strong>Note:</strong> New parameters and response fields are available for developers to preview. During the preview period, these response fields may change without advance notice. Please see the <a href="/changes/2019-10-03-multi-line-comments">blog post</a> for full details.</p>
+
+</div>
+
+<p>Use the <code>comfort-fade</code> preview header and the <code>line</code> parameter to show multi-line comment-supported fields in the response.</p>
+
+<p>If you use the <code>comfort-fade</code> preview header, your response will show:</p>
+
+<ul>
+<li>For multi-line comments, values for <code>line</code>, <code>side</code>, <code>start_line</code>, and <code>start_side</code>.</li>
+<li>For single-line comments, values for <code>line</code> and <code>side</code> and a <code>null</code> value for <code>start_line</code> and <code>start_side</code>.</li>
+</ul>
+
+<p>If you don't use the <code>comfort-fade</code> preview header, multi-line and single-line comments will appear the same way in the response with a single <code>position</code> attribute. Your response will show:</p>
+
+<ul>
+<li>For multi-line comments, the last line of the comment range for the <code>position</code> attribute.</li>
+<li>For single-line comments, the diff-positioned way of referencing comments for the  <code>position</code> attribute. For more information, see <code>position</code> in the <a href="/v3/pulls/comments/#parameters-2">input parameters</a> table.</li>
+</ul>
 
 <h2>
 <a id="delete-a-comment" class="anchor" href="#delete-a-comment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Delete a comment<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
