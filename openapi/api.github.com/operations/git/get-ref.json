@@ -1,11 +1,11 @@
 {
-  "summary": "Get a reference",
-  "description": "Returns a branch or tag reference. Other than the [REST API](https://developer.github.com/v3/git/refs/#get-a-reference) it always returns a single reference. If the REST API returns with an array then the method responds with an error.",
+  "summary": "Get a single reference",
+  "description": "Returns a single reference from your Git database. The `:ref` in the URL must be formatted as `heads/<branch name>` for branches and `tags/<tag name>` for tags. If the `:ref` doesn't match an existing ref, a `404` is returned.\n\n**Note:** You need to explicitly [request a pull request](https://developer.github.com/v3/pulls/#get-a-single-pull-request) to trigger a test merge commit, which checks the mergeability of pull requests. For more information, see \"[Checking mergeability of pull requests](https://developer.github.com/v3/git/#checking-mergeability-of-pull-requests)\".\n\nTo get the reference for a branch named `skunkworkz/featureA`, the endpoint route is:",
   "operationId": "git/get-ref",
   "tags": ["git"],
   "externalDocs": {
     "description": "API method documentation",
-    "url": "https://developer.github.com/v3/git/refs/#get-a-reference"
+    "url": "https://developer.github.com/v3/git/refs/#get-a-single-reference"
   },
   "parameters": [
     {
@@ -33,7 +33,7 @@
     },
     {
       "name": "ref",
-      "description": "Must be formatted as `heads/branch`, not just `branch`",
+      "description": "ref parameter",
       "in": "path",
       "required": true,
       "schema": { "type": "string" }
@@ -59,6 +59,16 @@
                 }
               }
             }
+          },
+          "example": {
+            "ref": "refs/heads/featureA",
+            "node_id": "MDM6UmVmcmVmcy9oZWFkcy9mZWF0dXJlQQ==",
+            "url": "https://api.github.com/repos/octocat/Hello-World/git/refs/heads/featureA",
+            "object": {
+              "type": "commit",
+              "sha": "aa218f56b14c9653891f9e74264a383fa43fefbd",
+              "url": "https://api.github.com/repos/octocat/Hello-World/git/commits/aa218f56b14c9653891f9e74264a383fa43fefbd"
+            }
           }
         }
       }
@@ -67,7 +77,7 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/repos/octocat/hello-world/git/refs/REF"
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/repos/octocat/hello-world/git/ref/REF"
     },
     {
       "lang": "JS",
@@ -78,8 +88,7 @@
     "legacy": false,
     "enabledForApps": true,
     "githubCloudOnly": false,
-    "previews": [],
-    "overridden": true
+    "previews": []
   },
   "x-changes": []
 }
