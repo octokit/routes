@@ -1,6 +1,6 @@
 {
   "summary": "Create a tree",
-  "description": "The tree creation API will take nested entries as well. If both a tree and a nested path modifying that tree are specified, it will overwrite the contents of that tree with the new path contents and write a new tree out.",
+  "description": "The tree creation API accepts nested entries. If you specify both a tree and a nested path modifying that tree, this endpoint will overwrite the contents of the tree with the new path contents, and create a new tree structure.\n\nIf you use this endpoint to add, delete, or modify the file contents in a tree, you will need to commit the tree and then update a branch to point to the commit. For more information see \"[Create a commit](https://developer.github.com/v3/git/commits/#create-a-commit)\" and \"[Update a reference](https://developer.github.com/v3/git/refs/#update-a-reference).\"",
   "operationId": "git/create-tree",
   "tags": ["git"],
   "externalDocs": {
@@ -121,7 +121,8 @@
                   },
                   "sha": {
                     "type": "string",
-                    "description": "The SHA1 checksum ID of the object in the tree. Also called `tree.sha`.  \n  \n**Note:** Use either `tree.sha` or `content` to specify the contents of the entry. Using both `tree.sha` and `content` will return an error."
+                    "description": "The SHA1 checksum ID of the object in the tree. Also called `tree.sha`. If the value is `null` then the file will be deleted.  \n  \n**Note:** Use either `tree.sha` or `content` to specify the contents of the entry. Using both `tree.sha` and `content` will return an error.",
+                    "nullable": true
                   },
                   "content": {
                     "type": "string",

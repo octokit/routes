@@ -350,11 +350,7 @@
         <h1>
 <a id="git-trees" class="anchor" href="#git-trees" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Git Trees</h1>
 
-<p>A Git tree object creates the hierarchy between files in a Git repository. You
-can use the Git tree object to create the relationship between directories and
-the files they contain. These endpoints allow you to read and write <a href="https://git-scm.com/book/en/v1/Git-Internals-Git-Objects#Tree-Objects">tree objects</a>
-to your Git database on GitHub.
-See the <a href="/v3/git">Git Database API</a> for more details.</p>
+<p>A Git tree object creates the hierarchy between files in a Git repository. You can use the Git tree object to create the relationship between directories and the files they contain. These endpoints allow you to read and write <a href="https://git-scm.com/book/en/v1/Git-Internals-Git-Objects#Tree-Objects">tree objects</a> to your Git database on GitHub. See the <a href="/v3/git">Git Database API</a> for more details.</p>
 
 <ul id="markdown-toc">
 <li><a href="#get-a-tree" id="markdown-toc-get-a-tree">Get a tree</a></li>
@@ -366,6 +362,8 @@ See the <a href="/v3/git">Git Database API</a> for more details.</p>
 <a id="get-a-tree" class="anchor" href="#get-a-tree" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get a tree<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
+<p>Returns a single tree using the SHA1 value for that tree.</p>
+
 <pre><code>GET /repos/:owner/:repo/git/trees/:tree_sha
 </code></pre>
 
@@ -374,7 +372,7 @@ See the <a href="/v3/git">Git Database API</a> for more details.</p>
 
 <div class="alert tip">
 
-<p>If <code>truncated</code> is <code>true</code>, the number of items in the <code>tree</code> array exceeded our maximum limit. If you need to fetch more items, you can clone the repository and iterate over the Git data locally.</p>
+<p>If <code>truncated</code> is <code>true</code> in the response then the number of items in the <code>tree</code> array exceeded our maximum limit. If you need to fetch more items, you can clone the repository and iterate over the Git data locally.</p>
 
 </div>
 
@@ -426,7 +424,7 @@ See the <a href="/v3/git">Git Database API</a> for more details.</p>
 
 <div class="alert tip">
 
-<p>If <code>truncated</code> is <code>true</code>, the number of items in the <code>tree</code> array exceeded our maximum limit. If you need to fetch more items, use the non-recursive method of fetching trees, and fetch one sub-tree at a time.</p>
+<p>If <code>truncated</code> is <code>true</code> in the response then the number of items in the <code>tree</code> array exceeded our maximum limit. If you need to fetch more items, use the non-recursive method of fetching trees, and fetch one sub-tree at a time.</p>
 
 </div>
 
@@ -456,10 +454,9 @@ See the <a href="/v3/git">Git Database API</a> for more details.</p>
 <a id="create-a-tree" class="anchor" href="#create-a-tree" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a tree<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
-<p>The tree creation API will take nested entries as well. If both a
-tree and a nested path modifying that tree are specified, it will
-overwrite the contents of that tree with the new path contents and write
-a new tree out.</p>
+<p>The tree creation API accepts nested entries. If you specify both a tree and a nested path modifying that tree, this endpoint will overwrite the contents of the tree with the new path contents, and create a new tree structure.</p>
+
+<p>If you use this endpoint to add, delete, or modify the file contents in a tree, you will need to commit the tree and then update a branch to point to the commit. For more information see "<a href="/v3/git/commits/#create-a-commit">Create a commit</a>" and "<a href="/v3/git/refs/#update-a-reference">Update a reference</a>."</p>
 
 <pre><code>POST /repos/:owner/:repo/git/trees
 </code></pre>
@@ -491,7 +488,8 @@ a new tree out.</p>
 </tbody>
 </table>
 
-<p>The <code>tree</code> parameter takes the following keys:</p>
+<h4>
+<a id="tree-object" class="anchor" href="#tree-object" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><code>tree</code> object</h4>
 
 <table>
 <thead>
@@ -519,8 +517,10 @@ a new tree out.</p>
 </tr>
 <tr>
 <td><code>sha</code></td>
-<td><code>string</code></td>
-<td>The SHA1 checksum ID of the object in the tree. Also called <code>tree.sha</code>. <br> <br> <strong>Note:</strong> Use either <code>tree.sha</code> or <code>content</code> to specify the contents of the entry. Using both <code>tree.sha</code> and <code>content</code> will return an error.</td>
+<td>
+<code>string</code> or <code>null</code>
+</td>
+<td>The SHA1 checksum ID of the object in the tree. Also called <code>tree.sha</code>. If the value is <code>null</code> then the file will be deleted.  <br> <br> <strong>Note:</strong> Use either <code>tree.sha</code> or <code>content</code> to specify the contents of the entry. Using both <code>tree.sha</code> and <code>content</code> will return an error.</td>
 </tr>
 <tr>
 <td><code>content</code></td>
