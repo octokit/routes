@@ -20,7 +20,7 @@ async function main() {
   // TODO: paginate
   const { data: installations } = await octokit.request(
     "GET /app/installations",
-    { per_page: 100 }
+    { mediaType: { previews: ["machine-man"] }, per_page: 100 }
   );
 
   for (const {
@@ -42,6 +42,7 @@ async function main() {
     const {
       data: { repositories }
     } = await installationOctokit.request("GET /installation/repositories", {
+      mediaType: { previews: ["machine-man"] },
       per_page: 100
     });
     console.log(
