@@ -1,6 +1,6 @@
 {
   "summary": "Get a single comment",
-  "description": "**Note:** Multi-line comments on pull requests are currently in public beta and subject to change.\n\nProvides details for a review comment.\n\n**Multi-line comment summary**\n\n**Note:** New parameters and response fields are available for developers to preview. During the preview period, these response fields may change without advance notice. Please see the [blog post](https://developer.github.com/changes/2019-10-03-multi-line-comments) for full details.\n\nUse the `comfort-fade` preview header and the `line` parameter to show multi-line comment-supported fields in the response.\n\nIf you use the `comfort-fade` preview header, your response will show:\n\n*   For multi-line comments, values for `line`, `side`, `start_line`, and `start_side`.\n*   For single-line comments, values for `line` and `side` and a `null` value for `start_line` and `start_side`.\n\nIf you don't use the `comfort-fade` preview header, multi-line and single-line comments will appear the same way in the response with a single `position` attribute. Your response will show:\n\n*   For multi-line comments, the last line of the comment range for the `position` attribute.\n*   For single-line comments, the diff-positioned way of referencing comments for the `position` attribute. For more information, see `position` in the [input parameters](https://developer.github.com/v3/pulls/comments/#parameters-2) table.\n\nThe `reactions` key will have the following payload where `url` can be used to construct the API location for [listing and creating](https://developer.github.com/v3/reactions) reactions.\n\n",
+  "description": "**Note:** Multi-line comments on pull requests are currently in public beta and subject to change.\n\nProvides details for a review comment.\n\n**Multi-line comment summary**\n\n**Note:** New parameters and response fields are available for developers to preview. During the preview period, these response fields may change without advance notice. Please see the [blog post](https://developer.github.com/changes/2019-10-03-multi-line-comments) for full details.\n\nUse the `comfort-fade` preview header and the `line` parameter to show multi-line comment-supported fields in the response.\n\nIf you use the `comfort-fade` preview header, your response will show:\n\n*   For multi-line comments, values for `start_line`, `original_start_line`, `start_side`, `line`, `original_line`, and `side`.\n*   For single-line comments, values for `line`, `original_line`, and `side` and a `null` value for `start_line`, `original_start_line`, and `start_side`.\n\nIf you don't use the `comfort-fade` preview header, multi-line and single-line comments will appear the same way in the response with a single `position` attribute. Your response will show:\n\n*   For multi-line comments, the last line of the comment range for the `position` attribute.\n*   For single-line comments, the diff-positioned way of referencing comments for the `position` attribute. For more information, see `position` in the [input parameters](https://developer.github.com/v3/pulls/comments/#parameters-2) table.\n\nThe `reactions` key will have the following payload where `url` can be used to construct the API location for [listing and creating](https://developer.github.com/v3/reactions) reactions.\n\n",
   "operationId": "pulls/get-comment",
   "tags": ["pulls"],
   "externalDocs": {
@@ -103,7 +103,13 @@
                     "properties": { "href": { "type": "string" } }
                   }
                 }
-              }
+              },
+              "start_line": { "type": "number" },
+              "original_start_line": { "type": "number" },
+              "start_side": { "type": "string" },
+              "line": { "type": "number" },
+              "original_line": { "type": "number" },
+              "side": { "type": "string" }
             }
           },
           "example": {
@@ -154,7 +160,13 @@
               "pull_request": {
                 "href": "https://api.github.com/repos/octocat/Hello-World/pulls/1"
               }
-            }
+            },
+            "start_line": 1,
+            "original_start_line": 1,
+            "start_side": "RIGHT",
+            "line": 2,
+            "original_line": 2,
+            "side": "RIGHT"
           }
         }
       }
