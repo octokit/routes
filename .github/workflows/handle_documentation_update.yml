@@ -1,0 +1,16 @@
+name: Handle documentation update
+on:
+  repository_dispatch:
+    types: [documentation_update]
+    
+jobs:
+  update_routes:
+    runs-on: ubuntu-latest
+    steps:
+      - id: get_docs
+        uses: octokit/request-action@v1.x
+        with:
+          route: https://developer.github.com/v3/
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: "echo latest release: ${{ steps.get_docs.outputs.headers }}"
