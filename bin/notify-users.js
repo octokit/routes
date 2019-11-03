@@ -5,6 +5,9 @@ const VERSION = process.env.INPUT_VERSION;
 
 const { createAppAuth } = require("@octokit/auth-app");
 const { Octokit } = require("@octokit/core");
+const { paginateRest } = require("@octokit/plugin-paginate-rest");
+
+const OctokitWithPagination = Octokit.plugin(paginateRest);
 
 main();
 
@@ -14,15 +17,14 @@ async function main() {
       id: APP_ID,
       privateKey: PRIVATE_KEY
     });
-    const octokit = new Octokit({
+    const octokit = new OctokitWithPagination({
       auth
     });
 
-    // TODO: paginate
-    const { data: installations } = await octokit.request(
-      "GET /app/installations",
-      { mediaType: { previews: ["machine-man"] }, per_page: 100 }
-    );
+    const installations = await octokit.paginate("GET /app/installations", {
+      mediaType: { previews: ["machine-man"] },
+      per_page: 100
+    });
 
     for (const {
       id,
@@ -35,17 +37,19 @@ async function main() {
         installationId: id
       });
 
-      const installationOctokit = new Octokit({
+      const installationOctokit = new OctokitWithPagination({
         auth: token
       });
 
       // TODO: paginate
-      const {
-        data: { repositories }
-      } = await installationOctokit.request("GET /installation/repositories", {
-        mediaType: { previews: ["machine-man"] },
-        per_page: 100
-      });
+      const repositories = await installationOctokit.paginate(
+        "GET /installation/repositories",
+        {
+          mediaType: { previews: ["machine-man"] },
+          per_page: 100
+        }
+      );
+
       console.log(
         "Repositories found on %s: %d. Dispatching events",
         login,
