@@ -1,32 +1,26 @@
 {
-  "summary": "Reset an authorization",
-  "description": "OAuth applications can use this API method to reset a valid OAuth token without end user involvement. Applications must save the \"token\" property in the response, because changes take effect immediately. You must use [Basic Authentication](https://developer.github.com/v3/auth#basic-authentication) when accessing it, where the username is the OAuth application `client_id` and the password is its `client_secret`. Invalid tokens will return `404 NOT FOUND`.",
-  "operationId": "oauth-authorizations/reset-authorization",
-  "tags": ["oauth-authorizations"],
+  "summary": "Reset a token",
+  "description": "OAuth applications can use this API method to reset a valid OAuth token without end-user involvement. Applications must save the \"token\" property in the response because changes take effect immediately. You must use [Basic Authentication](https://developer.github.com/v3/auth#basic-authentication) when accessing this endpoint, using the OAuth application's `client_id` and `client_secret` as the username and password. Invalid tokens will return `404 NOT FOUND`.",
+  "operationId": "apps/reset-token",
+  "tags": ["apps"],
   "externalDocs": {
     "description": "API method documentation",
-    "url": "https://developer.github.com/v3/oauth_authorizations/#reset-an-authorization"
+    "url": "https://developer.github.com/v3/apps/oauth_applications/#reset-a-token"
   },
   "parameters": [
     {
       "name": "accept",
-      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "description": "This API is under preview and subject to change.",
       "in": "header",
       "schema": {
         "type": "string",
-        "default": "application/vnd.github.v3+json"
-      }
+        "default": "application/vnd.github.doctor-strange-preview+json"
+      },
+      "required": true
     },
     {
       "name": "client_id",
       "description": "client_id parameter",
-      "in": "path",
-      "required": true,
-      "schema": { "type": "string" }
-    },
-    {
-      "name": "access_token",
-      "description": "access_token parameter",
       "in": "path",
       "required": true,
       "schema": { "type": "string" }
@@ -129,22 +123,46 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/applications/CLIENT_ID/tokens/ACCESS_TOKEN"
+      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.doctor-strange-preview+json\" \\\n  https://api.github.com/applications/CLIENT_ID/token \\\n  -d '{\"access_token\":\"access_token\"}'"
     },
     {
       "lang": "JS",
-      "source": "octokit.oauthAuthorizations.resetAuthorization({\n  client_id: 'client_id',\n  access_token: 'access_token'\n})"
+      "source": "octokit.apps.resetToken({\n  client_id: 'client_id',\n  access_token: 'access_token'\n})"
     },
     {
       "lang": "Ruby",
-      "source": "octokit.reset_authorization(\n  'client_id',\n  'access_token'\n)"
+      "source": "octokit.reset_token(\n  'client_id',\n  'access_token'\n)"
     }
   ],
   "x-github": {
     "legacy": false,
     "enabledForApps": false,
     "githubCloudOnly": false,
-    "previews": []
+    "previews": [
+      {
+        "name": "doctor-strange",
+        "note": "New endpoints using OAuth tokens as input parameters instead of path parameters are available for developers to preview in the [OAuth Applications API](https://developer.github.com/v3/apps/oauth_applications/). To access these endpoints during the preview period, you must provide a custom [media type](https://developer.github.com/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.doctor-strange-preview+json\n\n```",
+        "required": true
+      }
+    ]
   },
-  "x-changes": []
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "access_token": {
+              "type": "string",
+              "description": "The OAuth access token used to authenticate to the GitHub API."
+            }
+          }
+        },
+        "example": {
+          "access_token": "e72e16c7e42f292c6912e7710c838347ae178b4a"
+        }
+      }
+    }
+  }
 }
