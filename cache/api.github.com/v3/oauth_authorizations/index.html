@@ -186,6 +186,9 @@
 
   <optgroup label="GitHub Apps">
     <option value="/v3/apps/">GitHub Apps overview</a></h3>
+    
+    <option value="/v3/apps/oauth_applications/">OAuth Applications API</option>
+    
     <option value="/v3/apps/installations/">Installations</option>
     <option value="/v3/apps/permissions/">Permissions</option>
     <option value="/v3/apps/available-endpoints/">Available Endpoints</option>
@@ -339,42 +342,14 @@
 
     <section class="main pt-5 clearfix gut-3" role="main">
       <div class="content col-md-8">
-        <p><br></p>
-
-<div class="alert">
-  <h3 id="deprecation-notice">
-<a id="deprecation-notice" class="anchor" href="#deprecation-notice" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Deprecation Notice</h3>
-
-  <p>
-    The <code>token</code> attribute is deprecated in all
-    of the following OAuth Authorizations API responses:
-  </p>
-
-  <ul>
-    <li><a href="#list-your-authorizations">List your authorizations</a></li>
-    <li><a href="#get-a-single-authorization">Get a single authorization</a></li>
-    <li>
-<a href="#get-or-create-an-authorization-for-a-specific-app">Get-or-create an authorization for a specific app</a> - <code>token</code> is still returned for "create" </li>
-    <li>
-<a href="#get-or-create-an-authorization-for-a-specific-app-and-fingerprint">Get-or-create an authorization for a specific app and fingerprint</a> - <code>token</code> is still returned for "create" </li>
-    <li><a href="#update-an-existing-authorization">Update an existing authorization</a></li>
-  </ul>
-
-  <p>
-    To reduce the impact of removing the <code>token</code> value,
-    the OAuth Authorizations API now includes a new request attribute
-    (<code>fingerprint</code>), three new response attributes
-    (<code>token_last_eight</code>, <code>hashed_token</code>, and
-    <code>fingerprint</code>), and
-    <a href="#get-or-create-an-authorization-for-a-specific-app-and-fingerprint">one new endpoint</a>.
-  </p>
-  <p>
-    This functionality became the default for all requests on April 20, 2015. Please see <a href="/changes/2015-04-20-authorizations-api-response-changes-are-now-in-effect/">the blog post</a> for full details.
-  </p>
-</div>
-
-<h1>
+        <h1>
 <a id="oauth-authorizations-api" class="anchor" href="#oauth-authorizations-api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>OAuth Authorizations API</h1>
+
+<div class="alert warning">
+
+<p><strong>Deprecation Notice:</strong> GitHub will discontinue the <a href="/v3/oauth_authorizations/">OAuth Authorizations API</a>, which is used by integrations to create personal access tokens and OAuth tokens, and you must now create these tokens using our <a href="/apps/building-oauth-apps/authorizing-oauth-apps/#web-application-flow">web application flow</a>. For more information, see  the <a href="/changes/2019-11-05-deprecated-passwords-and-authorizations-api">blog post</a>.</p>
+
+</div>
 
 <ul id="markdown-toc">
 <li><a href="#list-your-grants" id="markdown-toc-list-your-grants">List your grants</a></li>
@@ -387,19 +362,27 @@
 <li><a href="#get-or-create-an-authorization-for-a-specific-app-and-fingerprint" id="markdown-toc-get-or-create-an-authorization-for-a-specific-app-and-fingerprint">Get-or-create an authorization for a specific app and fingerprint</a></li>
 <li><a href="#update-an-existing-authorization" id="markdown-toc-update-an-existing-authorization">Update an existing authorization</a></li>
 <li><a href="#delete-an-authorization" id="markdown-toc-delete-an-authorization">Delete an authorization</a></li>
-<li><a href="#check-an-authorization" id="markdown-toc-check-an-authorization">Check an authorization</a></li>
-<li><a href="#reset-an-authorization" id="markdown-toc-reset-an-authorization">Reset an authorization</a></li>
-<li><a href="#revoke-an-authorization-for-an-application" id="markdown-toc-revoke-an-authorization-for-an-application">Revoke an authorization for an application</a></li>
-<li><a href="#revoke-a-grant-for-an-application" id="markdown-toc-revoke-a-grant-for-an-application">Revoke a grant for an application</a></li>
-<li><a href="#more-information" id="markdown-toc-more-information">More Information</a></li>
+<li><a href="#further-reading" id="markdown-toc-further-reading">Further reading</a></li>
 </ul>
 
 <p>You can use this API to manage the access OAuth applications have to your account. You can only access this API via <a href="/v3/auth#basic-authentication">Basic Authentication</a> using your username and password, not tokens.</p>
+
+<div class="alert warning">
+
+<p><strong>Deprecation Notice:</strong> GitHub will discontinue password authentication to the API. You must now authenticate to the GitHub API with an API token, such as an OAuth access token, GitHub App installation access token, or personal access token, depending on what you need to do with the token. For more information, see the <a href="/changes/2019-11-05-deprecated-passwords-and-authorizations-api">blog post</a>.</p>
+
+</div>
 
 <p>If you or your users have two-factor authentication enabled, make sure you understand how to <a href="/v3/auth/#working-with-two-factor-authentication">work with two-factor authentication</a>.</p>
 
 <h2>
 <a id="list-your-grants" class="anchor" href="#list-your-grants" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List your grants</h2>
+
+<div class="alert warning">
+
+<p><strong>Deprecation Notice:</strong> GitHub will discontinue the <a href="/v3/oauth_authorizations/">OAuth Authorizations API</a>, which is used by integrations to create personal access tokens and OAuth tokens, and you must now create these tokens using our <a href="/apps/building-oauth-apps/authorizing-oauth-apps/#web-application-flow">web application flow</a>. For more information, see  the <a href="/changes/2019-11-05-deprecated-passwords-and-authorizations-api">blog post</a>.</p>
+
+</div>
 
 <p>You can use this API to list the set of OAuth applications that have been granted access to your account. Unlike the <a href="/v3/oauth_authorizations/#list-your-authorizations">list your authorizations</a> API, this API does not manage individual tokens. This API will return one entry for each OAuth application that has been granted access to your account, regardless of the number of tokens an application has generated for your user. The list of OAuth applications returned matches what is shown on <a href="https://github.com/settings/applications#authorized">the application authorizations settings screen within GitHub</a>. The <code>scopes</code> returned are the union of scopes authorized for the application. For example, if an application has one token with <code>repo</code> scope and another token with <code>user</code> scope, the grant will return <code>["repo", "user"]</code>.</p>
 
@@ -437,6 +420,12 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <h2>
 <a id="get-a-single-grant" class="anchor" href="#get-a-single-grant" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get a single grant</h2>
 
+<div class="alert warning">
+
+<p><strong>Deprecation Notice:</strong> GitHub will discontinue the <a href="/v3/oauth_authorizations/">OAuth Authorizations API</a>, which is used by integrations to create personal access tokens and OAuth tokens, and you must now create these tokens using our <a href="/apps/building-oauth-apps/authorizing-oauth-apps/#web-application-flow">web application flow</a>. For more information, see  the <a href="/changes/2019-11-05-deprecated-passwords-and-authorizations-api">blog post</a>.</p>
+
+</div>
+
 <pre><code>GET /applications/grants/:grant_id
 </code></pre>
 
@@ -467,6 +456,12 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <h2>
 <a id="delete-a-grant" class="anchor" href="#delete-a-grant" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Delete a grant</h2>
 
+<div class="alert warning">
+
+<p><strong>Deprecation Notice:</strong> GitHub will discontinue the <a href="/v3/oauth_authorizations/">OAuth Authorizations API</a>, which is used by integrations to create personal access tokens and OAuth tokens, and you must now create these tokens using our <a href="/apps/building-oauth-apps/authorizing-oauth-apps/#web-application-flow">web application flow</a>. For more information, see  the <a href="/changes/2019-11-05-deprecated-passwords-and-authorizations-api">blog post</a>.</p>
+
+</div>
+
 <p>Deleting an OAuth application's grant will also delete all OAuth tokens associated with the application for your user. Once deleted, the application has no access to your account and is no longer listed on <a href="https://github.com/settings/applications#authorized">the application authorizations settings screen within GitHub</a>.</p>
 
 <pre><code>DELETE /applications/grants/:grant_id
@@ -481,6 +476,12 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 <h2>
 <a id="list-your-authorizations" class="anchor" href="#list-your-authorizations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List your authorizations</h2>
+
+<div class="alert warning">
+
+<p><strong>Deprecation Notice:</strong> GitHub will discontinue the <a href="/v3/oauth_authorizations/">OAuth Authorizations API</a>, which is used by integrations to create personal access tokens and OAuth tokens, and you must now create these tokens using our <a href="/apps/building-oauth-apps/authorizing-oauth-apps/#web-application-flow">web application flow</a>. For more information, see  the <a href="/changes/2019-11-05-deprecated-passwords-and-authorizations-api">blog post</a>.</p>
+
+</div>
 
 <pre><code>GET /authorizations
 </code></pre>
@@ -522,6 +523,12 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <h2>
 <a id="get-a-single-authorization" class="anchor" href="#get-a-single-authorization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get a single authorization</h2>
 
+<div class="alert warning">
+
+<p><strong>Deprecation Notice:</strong> GitHub will discontinue the <a href="/v3/oauth_authorizations/">OAuth Authorizations API</a>, which is used by integrations to create personal access tokens and OAuth tokens, and you must now create these tokens using our <a href="/apps/building-oauth-apps/authorizing-oauth-apps/#web-application-flow">web application flow</a>. For more information, see  the <a href="/changes/2019-11-05-deprecated-passwords-and-authorizations-api">blog post</a>.</p>
+
+</div>
+
 <pre><code>GET /authorizations/:authorization_id
 </code></pre>
 
@@ -558,13 +565,19 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <h2>
 <a id="create-a-new-authorization" class="anchor" href="#create-a-new-authorization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a new authorization</h2>
 
-<p>Creates OAuth tokens using <a href="/v3/auth#basic-authentication">Basic Authentication</a>. If you have two-factor authentication setup, Basic Authentication for this endpoint requires that you use a one-time password (OTP) and your username and password instead of tokens. For more information, see "<a href="/v3/auth/#working-with-two-factor-authentication">Working with two-factor authentication</a>."</p>
+<div class="alert warning">
 
-<div class="alert note">
-
-<p>You can use this endpoint to create multiple OAuth tokens instead of implementing the <a href="/apps/building-oauth-apps/authorizing-oauth-apps/">web flow</a>.</p>
+<p><strong>Deprecation Notice:</strong> GitHub will discontinue the <a href="/v3/oauth_authorizations/">OAuth Authorizations API</a>, which is used by integrations to create personal access tokens and OAuth tokens, and you must now create these tokens using our <a href="/apps/building-oauth-apps/authorizing-oauth-apps/#web-application-flow">web application flow</a>. For more information, see  the <a href="/changes/2019-11-05-deprecated-passwords-and-authorizations-api">blog post</a>.</p>
 
 </div>
+
+<div class="alert warning">
+
+<p><strong>Warning:</strong> Apps must use the <a href="/apps/building-oauth-apps/authorizing-oauth-apps/#web-application-flow">web application flow</a> to obtain OAuth tokens that work with GitHub SAML organizations. OAuth tokens created using the Authorizations API will be unable to access GitHub SAML organizations. For more information, see the <a href="/changes/2019-11-05-deprecated-passwords-and-authorizations-api">blog post</a>.</p>
+
+</div>
+
+<p>Creates OAuth tokens using <a href="/v3/auth#basic-authentication">Basic Authentication</a>. If you have two-factor authentication setup, Basic Authentication for this endpoint requires that you use a one-time password (OTP) and your username and password instead of tokens. For more information, see "<a href="/v3/auth/#working-with-two-factor-authentication">Working with two-factor authentication</a>."</p>
 
 <p>To create tokens for a particular OAuth application using this endpoint, you must authenticate as the user you want to create an authorization for and provide the app's client ID and secret, found on your OAuth application's settings page. If your OAuth application intends to create multiple tokens for one user, use <code>fingerprint</code> to differentiate between them.</p>
 
@@ -664,6 +677,18 @@ Location: https://api.github.com/authorizations/1
 <h2>
 <a id="get-or-create-an-authorization-for-a-specific-app" class="anchor" href="#get-or-create-an-authorization-for-a-specific-app" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get-or-create an authorization for a specific app</h2>
 
+<div class="alert warning">
+
+<p><strong>Deprecation Notice:</strong> GitHub will discontinue the <a href="/v3/oauth_authorizations/">OAuth Authorizations API</a>, which is used by integrations to create personal access tokens and OAuth tokens, and you must now create these tokens using our <a href="/apps/building-oauth-apps/authorizing-oauth-apps/#web-application-flow">web application flow</a>. For more information, see  the <a href="/changes/2019-11-05-deprecated-passwords-and-authorizations-api">blog post</a>.</p>
+
+</div>
+
+<div class="alert warning">
+
+<p><strong>Warning:</strong> Apps must use the <a href="/apps/building-oauth-apps/authorizing-oauth-apps/#web-application-flow">web application flow</a> to obtain OAuth tokens that work with GitHub SAML organizations. OAuth tokens created using the Authorizations API will be unable to access GitHub SAML organizations. For more information, see the <a href="/changes/2019-11-05-deprecated-passwords-and-authorizations-api">blog post</a>.</p>
+
+</div>
+
 <p>Creates a new authorization for the specified OAuth application,
 only if an authorization for that application doesn't already exist for the
 user. The URL includes the 20 character client ID for the OAuth app that is
@@ -729,6 +754,12 @@ application if one is present. Otherwise, it creates and returns a new one.</p>
 <h3>
 <a id="response-if-returning-a-new-token" class="anchor" href="#response-if-returning-a-new-token" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if returning a new token</h3>
 
+<div class="alert warning">
+
+<p><strong>Deprecation Notice:</strong> GitHub will discontinue the <a href="/v3/oauth_authorizations/">OAuth Authorizations API</a>, which is used by integrations to create personal access tokens and OAuth tokens, and you must now create these tokens using our <a href="/apps/building-oauth-apps/authorizing-oauth-apps/#web-application-flow">web application flow</a>. For more information, see  the <a href="/changes/2019-11-05-deprecated-passwords-and-authorizations-api">blog post</a>.</p>
+
+</div>
+
 <pre class="highlight highlight-headers"><code>Status: 201 Created
 Location: https://api.github.com/authorizations/1
 </code></pre>
@@ -790,6 +821,18 @@ Location: https://api.github.com/authorizations/1
 
 <h2>
 <a id="get-or-create-an-authorization-for-a-specific-app-and-fingerprint" class="anchor" href="#get-or-create-an-authorization-for-a-specific-app-and-fingerprint" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get-or-create an authorization for a specific app and fingerprint</h2>
+
+<div class="alert warning">
+
+<p><strong>Deprecation Notice:</strong> GitHub will discontinue the <a href="/v3/oauth_authorizations/">OAuth Authorizations API</a>, which is used by integrations to create personal access tokens and OAuth tokens, and you must now create these tokens using our <a href="/apps/building-oauth-apps/authorizing-oauth-apps/#web-application-flow">web application flow</a>. For more information, see  the <a href="/changes/2019-11-05-deprecated-passwords-and-authorizations-api">blog post</a>.</p>
+
+</div>
+
+<div class="alert warning">
+
+<p><strong>Warning:</strong> Apps must use the <a href="/apps/building-oauth-apps/authorizing-oauth-apps/#web-application-flow">web application flow</a> to obtain OAuth tokens that work with GitHub SAML organizations. OAuth tokens created using the Authorizations API will be unable to access GitHub SAML organizations. For more information, see the <a href="/changes/2019-11-05-deprecated-passwords-and-authorizations-api">blog post</a>.</p>
+
+</div>
 
 <p>This method will create a new authorization for the specified OAuth application,
 only if an authorization for that application and fingerprint do not already
@@ -915,6 +958,12 @@ Location: https://api.github.com/authorizations/1
 <h2>
 <a id="update-an-existing-authorization" class="anchor" href="#update-an-existing-authorization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Update an existing authorization</h2>
 
+<div class="alert warning">
+
+<p><strong>Deprecation Notice:</strong> GitHub will discontinue the <a href="/v3/oauth_authorizations/">OAuth Authorizations API</a>, which is used by integrations to create personal access tokens and OAuth tokens, and you must now create these tokens using our <a href="/apps/building-oauth-apps/authorizing-oauth-apps/#web-application-flow">web application flow</a>. For more information, see  the <a href="/changes/2019-11-05-deprecated-passwords-and-authorizations-api">blog post</a>.</p>
+
+</div>
+
 <p>If you have two-factor authentication setup, Basic Authentication for this endpoint requires that you use a one-time password (OTP) and your username and password instead of tokens. For more information, see "<a href="/v3/auth/#working-with-two-factor-authentication">Working with two-factor authentication</a>."</p>
 
 <pre><code>PATCH /authorizations/:authorization_id
@@ -1009,6 +1058,12 @@ Location: https://api.github.com/authorizations/1
 <h2>
 <a id="delete-an-authorization" class="anchor" href="#delete-an-authorization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Delete an authorization</h2>
 
+<div class="alert warning">
+
+<p><strong>Deprecation Notice:</strong> GitHub will discontinue the <a href="/v3/oauth_authorizations/">OAuth Authorizations API</a>, which is used by integrations to create personal access tokens and OAuth tokens, and you must now create these tokens using our <a href="/apps/building-oauth-apps/authorizing-oauth-apps/#web-application-flow">web application flow</a>. For more information, see  the <a href="/changes/2019-11-05-deprecated-passwords-and-authorizations-api">blog post</a>.</p>
+
+</div>
+
 <pre><code>DELETE /authorizations/:authorization_id
 </code></pre>
 
@@ -1020,175 +1075,7 @@ Location: https://api.github.com/authorizations/1
 
 
 <h2>
-<a id="check-an-authorization" class="anchor" href="#check-an-authorization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Check an authorization</h2>
-
-<p>OAuth applications can use a special API method for checking OAuth token
-validity without running afoul of normal rate limits for failed login attempts.
-Authentication works differently with this particular endpoint. You must use
-<a href="/v3/auth#basic-authentication">Basic Authentication</a> when accessing it, where the username is the OAuth
-application <code>client_id</code> and the password is its <code>client_secret</code>. Invalid tokens
-will return <code>404 NOT FOUND</code>.</p>
-
-<pre><code>GET /applications/:client_id/tokens/:access_token
-</code></pre>
-
-<h3>
-<a id="response-8" class="anchor" href="#response-8" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
-
-<pre class="highlight highlight-headers"><code>Status: 200 OK
-</code></pre>
-
-
-<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/authorizations/1"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"scopes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="s2">"public_repo"</span><span class="w">
-  </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abcdefgh12345678"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"token_last_eight"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"hashed_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"25f94a2a5c7fbaf499c665bc73d67c1c87e496da8985131633ee0a95819db2e8"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"app"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-github-app.com"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my github app"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"client_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abcde12345fghij67890"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="nt">"note"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional note"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"note_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://optional/note/url"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-09-06T20:39:23Z"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-09-06T17:26:27Z"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"fingerprint"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jklmnop12345678"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDQ6VXNlcjE="</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"avatar_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/images/error/octocat_happy.gif"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"gravatar_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"followers_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/followers"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"following_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/following{/other_user}"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"gists_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/gists{/gist_id}"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"starred_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/starred{/owner}{/repo}"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"subscriptions_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/subscriptions"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"organizations_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/orgs"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"repos_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/repos"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/events{/privacy}"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"received_events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/received_events"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"site_admin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-
-<h2>
-<a id="reset-an-authorization" class="anchor" href="#reset-an-authorization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Reset an authorization</h2>
-
-<p>OAuth applications can use this API method to reset a valid OAuth token without
-end user involvement.  Applications must save the "token" property in the
-response, because changes take effect immediately. You must use
-<a href="/v3/auth#basic-authentication">Basic Authentication</a> when accessing it, where
-the username is the OAuth application <code>client_id</code> and the password is its
-<code>client_secret</code>. Invalid tokens will return <code>404 NOT FOUND</code>.</p>
-
-<pre><code>POST /applications/:client_id/tokens/:access_token
-</code></pre>
-
-<h3>
-<a id="response-9" class="anchor" href="#response-9" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
-
-<pre class="highlight highlight-headers"><code>Status: 200 OK
-</code></pre>
-
-
-<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/authorizations/1"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"scopes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="s2">"public_repo"</span><span class="w">
-  </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abcdefgh12345678"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"token_last_eight"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"hashed_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"25f94a2a5c7fbaf499c665bc73d67c1c87e496da8985131633ee0a95819db2e8"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"app"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://my-github-app.com"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my github app"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"client_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"abcde12345fghij67890"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="nt">"note"</span><span class="p">:</span><span class="w"> </span><span class="s2">"optional note"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"note_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://optional/note/url"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-09-06T20:39:23Z"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-09-06T17:26:27Z"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"fingerprint"</span><span class="p">:</span><span class="w"> </span><span class="s2">"jklmnop12345678"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDQ6VXNlcjE="</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"avatar_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/images/error/octocat_happy.gif"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"gravatar_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"followers_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/followers"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"following_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/following{/other_user}"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"gists_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/gists{/gist_id}"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"starred_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/starred{/owner}{/repo}"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"subscriptions_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/subscriptions"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"organizations_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/orgs"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"repos_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/repos"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/events{/privacy}"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"received_events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/received_events"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"site_admin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-
-<h2>
-<a id="revoke-an-authorization-for-an-application" class="anchor" href="#revoke-an-authorization-for-an-application" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Revoke an authorization for an application</h2>
-
-<p>OAuth application owners can revoke a single token for an OAuth
-application. You must use <a href="/v3/auth#basic-authentication">Basic Authentication</a>
-for this method, where the username is the OAuth application <code>client_id</code> and
-  the password is its <code>client_secret</code>.</p>
-
-<pre><code>DELETE /applications/:client_id/tokens/:access_token
-</code></pre>
-
-<h3>
-<a id="response-10" class="anchor" href="#response-10" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
-
-<pre class="highlight highlight-headers"><code>Status: 204 No Content
-</code></pre>
-
-
-<h2>
-<a id="revoke-a-grant-for-an-application" class="anchor" href="#revoke-a-grant-for-an-application" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Revoke a grant for an application</h2>
-
-<p>OAuth application owners can revoke a grant for their OAuth application and
-a specific user. You must use <a href="/v3/auth#basic-authentication">Basic Authentication</a>
-for this method, where the username is the OAuth application <code>client_id</code> and
-the password is its <code>client_secret</code>. You must also provide a valid token as
-<code>:access_token</code> and the grant for the token's owner will be deleted.</p>
-
-<p>Deleting an OAuth application's grant will also delete all OAuth tokens
-associated with the application for the user. Once deleted, the application
-will have no access to the user's account and will no longer be listed on
-<a href="https://github.com/settings/applications#authorized">the application authorizations settings screen within GitHub</a>.</p>
-
-<pre><code>DELETE /applications/:client_id/grants/:access_token
-</code></pre>
-
-<h3>
-<a id="response-11" class="anchor" href="#response-11" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
-
-<pre class="highlight highlight-headers"><code>Status: 204 No Content
-</code></pre>
-
-
-<h2>
-<a id="more-information" class="anchor" href="#more-information" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>More Information</h2>
+<a id="further-reading" class="anchor" href="#further-reading" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Further reading</h2>
 
 <p>It can be a little tricky to get started with OAuth. Here are a few
 links that might be of help:</p>
@@ -1259,6 +1146,9 @@ links that might be of help:</p>
 
   <optgroup label="GitHub Apps">
     <option value="/v3/apps/">GitHub Apps overview</a></h3>
+    
+    <option value="/v3/apps/oauth_applications/">OAuth Applications API</option>
+    
     <option value="/v3/apps/installations/">Installations</option>
     <option value="/v3/apps/permissions/">Permissions</option>
     <option value="/v3/apps/available-endpoints/">Available Endpoints</option>
@@ -1464,6 +1354,9 @@ links that might be of help:</p>
       <li class="js-topic">
         <h3><a href="#" class="js-expand-btn collapsed arrow-btn" data-proofer-ignore></a><a href="/v3/apps/">GitHub Apps</a></h3>
         <ul class="js-guides">
+          
+          <li><a href="/v3/apps/oauth_applications/">OAuth Applications API</a></li>
+          
           <li><a href="/v3/apps/installations/">Installations</a></li>
           <li><a href="/v3/apps/permissions/">Permissions</a></li>
           <li><a href="/v3/apps/available-endpoints/">Available Endpoints</a></li>

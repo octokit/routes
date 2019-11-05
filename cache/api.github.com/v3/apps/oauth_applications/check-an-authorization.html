@@ -1,15 +1,15 @@
 <h2>
-<a id="reset-an-authorization" class="anchor" href="#reset-an-authorization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Reset an authorization</h2>
-<p>OAuth applications can use this API method to reset a valid OAuth token without
-end user involvement.  Applications must save the &quot;token&quot; property in the
-response, because changes take effect immediately. You must use
-<a href="/v3/auth#basic-authentication">Basic Authentication</a> when accessing it, where
-the username is the OAuth application <code>client_id</code> and the password is its
-<code>client_secret</code>. Invalid tokens will return <code>404 NOT FOUND</code>.</p>
-<pre><code>POST /applications/:client_id/tokens/:access_token
+<a id="check-an-authorization" class="anchor" href="#check-an-authorization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Check an authorization</h2>
+<div class="alert warning">
+
+<p><strong>Deprecation Notice:</strong> GitHub will replace and discontinue OAuth endpoints containing <code>access_token</code> in the path parameter. We are introducing new endpoints that allow you to securely manage tokens for OAuth Apps by using <code>access_token</code> as an input parameter. For more information, see the <a href="/changes/2019-11-05-deprecated-passwords-and-authorizations-api">blog post</a>.</p>
+
+</div>
+<p>OAuth applications can use a special API method for checking OAuth token validity without exceeding the normal rate limits for failed login attempts. Authentication works differently with this particular endpoint.  You must use <a href="/v3/auth#basic-authentication">Basic Authentication</a> when accessing this endpoint, using the OAuth application&apos;s <code>client_id</code> and <code>client_secret</code> as the username and password. Invalid tokens will return <code>404 NOT FOUND</code>.</p>
+<pre><code>GET /applications/:client_id/tokens/:access_token
 </code></pre>
 <h3>
-<a id="response-9" class="anchor" href="#response-9" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-4" class="anchor" href="#response-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 <pre class="highlight highlight-headers"><code>Status: 200 OK
 </code></pre>
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
