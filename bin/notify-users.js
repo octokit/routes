@@ -13,12 +13,12 @@ main();
 
 async function main() {
   try {
-    const auth = createAppAuth({
-      id: APP_ID,
-      privateKey: PRIVATE_KEY
-    });
     const octokit = new OctokitWithPagination({
-      auth
+      auth: {
+        id: APP_ID,
+        privateKey: PRIVATE_KEY
+      },
+      authStrategy: createAppAuth
     });
 
     const installations = await octokit.paginate("GET /app/installations", {
@@ -41,7 +41,6 @@ async function main() {
         auth: token
       });
 
-      // TODO: paginate
       const repositories = await installationOctokit.paginate(
         "GET /installation/repositories",
         {
