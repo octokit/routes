@@ -32,13 +32,13 @@ async function main() {
     } of installations) {
       console.log("Installation found: %s (%d)", login, id);
 
-      const { token } = await auth({
-        type: "installation",
-        installationId: id
-      });
-
       const installationOctokit = new OctokitWithPagination({
-        auth: token
+        auth: {
+          id: APP_ID,
+          privateKey: PRIVATE_KEY,
+          installationId: id
+        },
+        authStrategy: createAppAuth
       });
 
       const repositories = await installationOctokit.paginate(
