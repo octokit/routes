@@ -1,0 +1,127 @@
+{
+  "summary": "Get the authenticated GitHub App",
+  "description": "Returns the GitHub App associated with the authentication credentials used. To see how many app installations are associated with this GitHub App, see the `installations_count` in the response. For more details about your app's installations, see the \"[List installations](https://developer.github.com/enterprise/2.19/v3/apps/#list-installations)\" endpoint.\n\nYou must use a [JWT](https://developer.github.com/enterprise/2.19/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.",
+  "operationId": "apps/get-authenticated",
+  "tags": ["apps"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.19/v3/apps/#get-the-authenticated-github-app"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "This API is under preview and subject to change.",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.machine-man-preview+json"
+      },
+      "required": true
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "number" },
+              "slug": { "type": "string" },
+              "node_id": { "type": "string" },
+              "owner": {
+                "type": "object",
+                "properties": {
+                  "login": { "type": "string" },
+                  "id": { "type": "number" },
+                  "node_id": { "type": "string" },
+                  "url": { "type": "string" },
+                  "repos_url": { "type": "string" },
+                  "events_url": { "type": "string" },
+                  "hooks_url": { "type": "string" },
+                  "issues_url": { "type": "string" },
+                  "members_url": { "type": "string" },
+                  "public_members_url": { "type": "string" },
+                  "avatar_url": { "type": "string" },
+                  "description": { "type": "string" }
+                }
+              },
+              "name": { "type": "string" },
+              "description": { "type": "string" },
+              "external_url": { "type": "string" },
+              "html_url": { "type": "string" },
+              "created_at": { "type": "string" },
+              "updated_at": { "type": "string" },
+              "permissions": {
+                "type": "object",
+                "properties": {
+                  "metadata": { "type": "string" },
+                  "contents": { "type": "string" },
+                  "issues": { "type": "string" },
+                  "single_file": { "type": "string" }
+                }
+              },
+              "events": { "type": "array", "items": { "type": "string" } },
+              "installations_count": { "type": "number" }
+            }
+          },
+          "example": {
+            "id": 1,
+            "slug": "octoapp",
+            "node_id": "MDExOkludGVncmF0aW9uMQ==",
+            "owner": {
+              "login": "github",
+              "id": 1,
+              "node_id": "MDEyOk9yZ2FuaXphdGlvbjE=",
+              "url": "https://api.github.com/orgs/github",
+              "repos_url": "https://api.github.com/orgs/github/repos",
+              "events_url": "https://api.github.com/orgs/github/events",
+              "hooks_url": "https://api.github.com/orgs/github/hooks",
+              "issues_url": "https://api.github.com/orgs/github/issues",
+              "members_url": "https://api.github.com/orgs/github/members{/member}",
+              "public_members_url": "https://api.github.com/orgs/github/public_members{/member}",
+              "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+              "description": "A great organization"
+            },
+            "name": "Octocat App",
+            "description": "",
+            "external_url": "https://example.com",
+            "html_url": "https://github.com/apps/octoapp",
+            "created_at": "2017-07-08T16:18:44-04:00",
+            "updated_at": "2017-07-08T16:18:44-04:00",
+            "permissions": {
+              "metadata": "read",
+              "contents": "read",
+              "issues": "write",
+              "single_file": "write"
+            },
+            "events": ["push", "pull_request"],
+            "installations_count": 3
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.machine-man-preview+json\" \\\n  http://{hostname}/app"
+    },
+    { "lang": "JS", "source": "octokit.apps.getAuthenticated()" },
+    { "lang": "Ruby", "source": "octokit.authenticated()" }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": [
+      {
+        "name": "machine-man",
+        "note": "To access the API with your GitHub App, you must provide a custom [media type](https://developer.github.com/enterprise/2.19/v3/media) in the `Accept` Header for your requests.\n\n`application/vnd.github.machine-man-preview+json`",
+        "required": true
+      }
+    ]
+  },
+  "x-changes": []
+}

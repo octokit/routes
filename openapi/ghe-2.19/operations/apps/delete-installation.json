@@ -1,0 +1,59 @@
+{
+  "summary": "Delete an installation",
+  "description": "Uninstalls a GitHub App on a user, organization, or business account.\n\nYou must use a [JWT](https://developer.github.com/enterprise/2.19/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.",
+  "operationId": "apps/delete-installation",
+  "tags": ["apps"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.19/v3/apps/#delete-an-installation"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "This API is under preview and subject to change.",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.gambit-preview+json,application/vnd.github.machine-man-preview+json"
+      },
+      "required": true
+    },
+    {
+      "name": "installation_id",
+      "description": "installation_id parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    }
+  ],
+  "responses": { "204": { "description": "Empty response" } },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XDELETE \\\n  -H\"Accept: application/vnd.github.gambit-preview+json,application/vnd.github.machine-man-preview+json\" \\\n  http://{hostname}/app/installations/42"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.apps.deleteInstallation({\n  installation_id: 42\n})"
+    },
+    { "lang": "Ruby", "source": "octokit.delete_installation(\n  42\n)" }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": [
+      {
+        "name": "gambit",
+        "note": "Uninstalling GitHub Apps using the REST API is currently available for developers to preview. To access the new endpoint during the preview period, you must provide a custom [media type](https://developer.github.com/enterprise/2.19/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.gambit-preview+json\n\n```",
+        "required": true
+      },
+      {
+        "name": "machine-man",
+        "note": "To access the API with your GitHub App, you must provide a custom [media type](https://developer.github.com/enterprise/2.19/v3/media) in the `Accept` Header for your requests.\n\n`application/vnd.github.machine-man-preview+json`",
+        "required": true
+      }
+    ]
+  },
+  "x-changes": []
+}

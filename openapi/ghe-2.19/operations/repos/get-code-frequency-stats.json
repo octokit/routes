@@ -1,0 +1,70 @@
+{
+  "summary": "Get the number of additions and deletions per week",
+  "description": "Returns a weekly aggregate of the number of additions and deletions pushed to a repository.\n\n",
+  "operationId": "repos/get-code-frequency-stats",
+  "tags": ["repos"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.19/v3/repos/statistics/#get-the-number-of-additions-and-deletions-per-week"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "description": "owner parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "description": "repo parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "Returns a weekly aggregate of the number of additions and deletions pushed to a repository.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "items": { "type": "array", "items": { "type": "number" } }
+          },
+          "example": [[1302998400, 1124, -435]]
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/repos/octocat/hello-world/stats/code_frequency"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.repos.getCodeFrequencyStats({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.code_frequency_stats(\n  'hello-world'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}

@@ -1,0 +1,125 @@
+{
+  "summary": "Edit a pre-receive hook",
+  "description": "",
+  "operationId": "enterprise-admin/update-pre-receive-hook",
+  "tags": ["enterprise-admin"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.19/v3/enterprise-admin/pre_receive_hooks/#edit-a-pre-receive-hook"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "pre_receive_hook_id",
+      "description": "pre_receive_hook_id parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "number" },
+              "name": { "type": "string" },
+              "enforcement": { "type": "string" },
+              "script": { "type": "string" },
+              "script_repository": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "number" },
+                  "full_name": { "type": "string" },
+                  "url": { "type": "string" },
+                  "html_url": { "type": "string" }
+                }
+              },
+              "environment": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "number" },
+                  "name": { "type": "string" },
+                  "image_url": { "type": "string" },
+                  "url": { "type": "string" },
+                  "html_url": { "type": "string" },
+                  "default_environment": { "type": "boolean" },
+                  "created_at": { "type": "string" },
+                  "hooks_count": { "type": "number" },
+                  "download": {
+                    "type": "object",
+                    "properties": {
+                      "url": { "type": "string" },
+                      "state": { "type": "string" },
+                      "downloaded_at": { "type": "string" },
+                      "message": { "type": "string" }
+                    }
+                  }
+                }
+              },
+              "allow_downstream_configuration": { "type": "boolean" }
+            }
+          },
+          "example": {
+            "id": 1,
+            "name": "Check Commits",
+            "enforcement": "disabled",
+            "script": "scripts/commmit_check.sh",
+            "script_repository": {
+              "id": 595,
+              "full_name": "DevIT/hooks",
+              "url": "https://github.example.com/api/v3/repos/DevIT/hooks",
+              "html_url": "https://github.example.com/DevIT/hooks"
+            },
+            "environment": {
+              "id": 1,
+              "name": "Default",
+              "image_url": "githubenterprise://internal",
+              "url": "https://github.example.com/api/v3/admin/pre-receive-environments/1",
+              "html_url": "https://github.example.com/admin/pre-receive-environments/1",
+              "default_environment": true,
+              "created_at": "2016-05-20T11:35:45-05:00",
+              "hooks_count": 1,
+              "download": {
+                "url": "https://github.example.com/api/v3/admin/pre-receive-environments/1/downloads/latest",
+                "state": "success",
+                "downloaded_at": "2016-05-26T07:42:53-05:00",
+                "message": null
+              }
+            },
+            "allow_downstream_configuration": true
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/admin/pre_receive_hooks/42"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.enterpriseAdmin.updatePreReceiveHook({\n  pre_receive_hook_id: 42\n})"
+    },
+    { "lang": "Ruby", "source": "octokit.update_pre_receive_hook(\n  42\n)" }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}

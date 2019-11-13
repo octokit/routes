@@ -1,0 +1,112 @@
+{
+  "summary": "Create a new user",
+  "description": "If an external authentication mechanism is used, the login name should match the login name in the external system. If you are using LDAP authentication, you should also [update the LDAP mapping](https://developer.github.com/enterprise/2.19/v3/enterprise-admin/ldap/#update-ldap-mapping-for-a-user) for the user.\n\nThe login name will be normalized to only contain alphanumeric characters or single hyphens. For example, if you send `\"octo_cat\"` as the login, a user named `\"octo-cat\"` will be created.\n\nIf the login name or email address is already associated with an account, the server will return a `422` response.",
+  "operationId": "enterprise-admin/create-user",
+  "tags": ["enterprise-admin"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.19/v3/enterprise-admin/users/#create-a-new-user"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    }
+  ],
+  "responses": {
+    "201": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "login": { "type": "string" },
+              "id": { "type": "number" },
+              "node_id": { "type": "string" },
+              "avatar_url": { "type": "string" },
+              "gravatar_id": { "type": "string" },
+              "url": { "type": "string" },
+              "html_url": { "type": "string" },
+              "followers_url": { "type": "string" },
+              "following_url": { "type": "string" },
+              "gists_url": { "type": "string" },
+              "starred_url": { "type": "string" },
+              "subscriptions_url": { "type": "string" },
+              "organizations_url": { "type": "string" },
+              "repos_url": { "type": "string" },
+              "events_url": { "type": "string" },
+              "received_events_url": { "type": "string" },
+              "type": { "type": "string" },
+              "site_admin": { "type": "boolean" }
+            }
+          },
+          "example": {
+            "login": "octocat",
+            "id": 1,
+            "node_id": "MDQ6VXNlcjE=",
+            "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/octocat",
+            "html_url": "https://github.com/octocat",
+            "followers_url": "https://api.github.com/users/octocat/followers",
+            "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+            "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+            "organizations_url": "https://api.github.com/users/octocat/orgs",
+            "repos_url": "https://api.github.com/users/octocat/repos",
+            "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+            "received_events_url": "https://api.github.com/users/octocat/received_events",
+            "type": "User",
+            "site_admin": false
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/admin/users \\\n  -d '{\"login\":\"login\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.enterpriseAdmin.createUser({\n  login: 'login'\n})"
+    },
+    { "lang": "Ruby", "source": "octokit.create_user(\n  'login'\n)" }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "login": {
+              "type": "string",
+              "description": "The user's username."
+            },
+            "email": {
+              "type": "string",
+              "description": "**Required for built-in authentication.** The user's email address. This parameter can be omitted when using CAS, LDAP, or SAML. For details on built-in and centrally-managed authentication, see the the [GitHub Enterprise Server authentication guide](https://help.github.com/enterprise/2.19/admin/guides/user-management/authenticating-users-for-your-github-enterprise-server-instance/)."
+            }
+          },
+          "required": ["login"]
+        },
+        "example": { "login": "monalisa", "email": "octocat@github.com" }
+      }
+    }
+  }
+}

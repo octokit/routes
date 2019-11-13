@@ -1,0 +1,91 @@
+{
+  "summary": "Add a new authorized SSH key",
+  "description": "",
+  "operationId": "enterprise-admin/add-authorized-ssh-key",
+  "tags": ["enterprise-admin"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.19/v3/enterprise-admin/management_console/#add-a-new-authorized-ssh-key"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    }
+  ],
+  "responses": {
+    "201": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "key": { "type": "string" },
+                "pretty-print": { "type": "string" }
+              }
+            }
+          },
+          "example": [
+            {
+              "key": "ssh-rsa AAAAB3NzaC1yc2EAAAAB...",
+              "pretty-print": "ssh-rsa 01:14:0f:f2:0f:e2:fe:e8:f4:72:62:af:75:f7:1a:88:3e:04:92:64"
+            },
+            {
+              "key": "ssh-rsa AAAAB3NzaC1yc2EAAAAB...",
+              "pretty-print": "ssh-rsa 01:14:0f:f2:0f:e2:fe:e8:f4:72:62:af:75:f7:1a:88:3e:04:92:64"
+            },
+            {
+              "key": "ssh-rsa AAAAB3NzaC1yc2EAAAAB...",
+              "pretty-print": "ssh-rsa 01:14:0f:f2:0f:e2:fe:e8:f4:72:62:af:75:f7:1a:88:3e:04:92:64"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/setup/api/settings/authorized-keys \\\n  -d '{\"authorized_key\":\"authorized_key\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.enterpriseAdmin.addAuthorizedSshKey({\n  authorized_key: 'authorized_key'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.add_authorized_ssh_key(\n  'authorized_key'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "authorized_key": {
+              "type": "string",
+              "description": "The path to the public SSH key."
+            }
+          },
+          "required": ["authorized_key"]
+        }
+      }
+    }
+  }
+}
