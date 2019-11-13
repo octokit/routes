@@ -1,0 +1,52 @@
+<h2>
+<a id="upload-a-license-for-the-first-time" class="anchor" href="#upload-a-license-for-the-first-time" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Upload a license for the first time</h2>
+<p>When you boot a GitHub Enterprise Server instance for the first time, you can use the following endpoint to upload a license:</p>
+<pre><code>POST /setup/api/start
+</code></pre>
+<p>Note that you need to POST to <a href="#start-a-configuration-process"><code>/setup/api/configure</code></a> to start the actual configuration process.</p>
+<div class="alert warning">
+<p>When using this endpoint, your GitHub Enterprise Server instance must have a password set. This can be accomplished two ways:</p>
+<ol>
+<li>If you&apos;re working directly with the API before accessing the web interface, you must pass in the password parameter to set your password.</li>
+<li>If you set up your instance via the web interface before accessing the API, your calls to this endpoint do not need the password parameter.</li>
+</ol>
+</div>
+<h3>
+<a id="parameters" class="anchor" href="#parameters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>license</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required</strong>. The content of your <em>.ghl</em> license file.</td>
+</tr>
+<tr>
+<td><code>password</code></td>
+<td><code>string</code></td>
+<td>You <strong>must</strong> provide a password <em>only if</em> you are uploading your license for the first time. If you previously set a password through the web interface, you don&apos;t need this parameter.</td>
+</tr>
+<tr>
+<td><code>settings</code></td>
+<td><code>string</code></td>
+<td>An optional JSON string containing the installation settings.</td>
+</tr>
+</tbody>
+</table>
+<p>For a list of the available settings, see the <a href="#retrieve-settings">Retrieve settings endpoint</a>.</p>
+<h3>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+<pre class="command-line"><span class="command">curl -L -X POST &apos;https://<em>hostname</em>:<em>admin_port</em>/setup/api/start&apos; -F &quot;license=@<em>/path/to/github-enterprise.ghl</em>&quot; -F &quot;password=<em>your-amazing-password</em>&quot; -F &quot;settings=&lt;<em>/path/to/settings.json</em>&quot;</span>
+</pre>
+<h3>
+<a id="response" class="anchor" href="#response" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="command-line"><span class="output">HTTP/1.1 202 Created</span>
+<span class="output">Location: http://<em>hostname</em>:<em>admin_port</em>/setup/api/configcheck</span>
+</pre>

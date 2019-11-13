@@ -1,0 +1,46 @@
+<h2>
+<a id="update-a-pull-request-branch" class="anchor" href="#update-a-pull-request-branch" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Update a pull request branch</h2>
+<div class="alert note">
+<p><strong>Note:</strong> Updating the pull request branch with latest upstream changes is currently available for developers to preview. To access this new endpoint during the preview period, you must provide a custom <a href="/enterprise/2.19/v3/media">media type</a> in the <code>Accept</code> header:</p>
+<pre><code>application/vnd.github.lydian-preview+json
+</code></pre>
+</div>
+<div class="alert warning">
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
+</div>
+<p>Updates the pull request branch with the latest upstream changes by merging HEAD from the base branch into the pull request branch.</p>
+<pre><code>PUT /repos/:owner/:repo/pulls/:pull_number/update-branch
+</code></pre>
+<h3>
+<a id="input-1" class="anchor" href="#input-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Input</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>expected_head_sha</code></td>
+<td><code>string</code></td>
+<td>The expected SHA of the pull request&apos;s HEAD ref. This is the most recent commit on the pull request&apos;s branch. If the expected SHA does not match the pull request&apos;s HEAD, you will receive a <code>422 Unprocessable Entity</code> status. You can use the &quot;<a href="/enterprise/2.19/v3/repos/commits/#list-commits-on-a-repository">List commits on a repository</a>&quot; endpoint to find the most recent commit SHA. Default: SHA of the pull request&apos;s current HEAD ref.</td>
+</tr>
+</tbody>
+</table>
+<h4>
+<a id="example-1" class="anchor" href="#example-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h4>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;expected_head_sha&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;6dcb09b5b57875f334f61aebed695e2e4193db5e&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="response-3" class="anchor" href="#response-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 202 Accepted
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Updating pull request branch.&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/repos/octocat/Hello-World/pulls/53&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
