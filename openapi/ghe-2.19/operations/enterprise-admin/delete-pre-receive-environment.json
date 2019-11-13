@@ -1,0 +1,90 @@
+{
+  "summary": "Delete a pre-receive environment",
+  "description": "If you attempt to delete an environment that cannot be deleted, you will get a response like this:\n\nThe possible error messages are:\n\n*   _Cannot modify or delete the default environment_\n*   _Cannot delete environment that has hooks_\n*   _Cannot delete environment when download is in progress_",
+  "operationId": "enterprise-admin/delete-pre-receive-environment",
+  "tags": ["enterprise-admin"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.19/v3/enterprise-admin/pre_receive_environments/#delete-a-pre-receive-environment"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "pre_receive_environment_id",
+      "description": "pre_receive_environment_id parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    }
+  ],
+  "responses": {
+    "204": { "description": "Empty response" },
+    "422": {
+      "description": "Client Errors",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "message": { "type": "string" },
+              "errors": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "resource": { "type": "string" },
+                    "code": { "type": "string" },
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "examples": {
+            "client-errors": {
+              "value": {
+                "message": "Validation Failed",
+                "errors": [
+                  {
+                    "resource": "PreReceiveEnvironment",
+                    "code": "custom",
+                    "message": "Cannot modify or delete the default environment"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XDELETE \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/admin/pre-receive-environments/42"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.enterpriseAdmin.deletePreReceiveEnvironment({\n  pre_receive_environment_id: 42\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.delete_pre_receive_environment(\n  42\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}

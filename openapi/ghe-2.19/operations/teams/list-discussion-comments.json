@@ -1,0 +1,193 @@
+{
+  "summary": "List comments",
+  "description": "List all comments on a team discussion. OAuth access tokens require the `read:discussion` [scope](https://developer.github.com/enterprise/2.19/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).",
+  "operationId": "teams/list-discussion-comments",
+  "tags": ["teams"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.19/v3/teams/discussion_comments/#list-comments"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "This API is under preview and subject to change.",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.echo-preview+json"
+      },
+      "required": true
+    },
+    {
+      "name": "team_id",
+      "description": "team_id parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    },
+    {
+      "name": "discussion_number",
+      "description": "discussion_number parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    },
+    {
+      "name": "direction",
+      "description": "Sorts the discussion comments by the date they were created. To return the oldest comments first, set to `asc`. Can be one of `asc` or `desc`.",
+      "in": "query",
+      "required": false,
+      "schema": { "type": "string", "enum": ["asc", "desc"], "default": "desc" }
+    },
+    {
+      "name": "per_page",
+      "description": "Results per page (max 100)",
+      "in": "query",
+      "schema": { "type": "integer", "default": 30 }
+    },
+    {
+      "name": "page",
+      "description": "Page number of the results to fetch.",
+      "in": "query",
+      "schema": { "type": "integer", "default": 1 }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "author": {
+                  "type": "object",
+                  "properties": {
+                    "login": { "type": "string" },
+                    "id": { "type": "number" },
+                    "node_id": { "type": "string" },
+                    "avatar_url": { "type": "string" },
+                    "gravatar_id": { "type": "string" },
+                    "url": { "type": "string" },
+                    "html_url": { "type": "string" },
+                    "followers_url": { "type": "string" },
+                    "following_url": { "type": "string" },
+                    "gists_url": { "type": "string" },
+                    "starred_url": { "type": "string" },
+                    "subscriptions_url": { "type": "string" },
+                    "organizations_url": { "type": "string" },
+                    "repos_url": { "type": "string" },
+                    "events_url": { "type": "string" },
+                    "received_events_url": { "type": "string" },
+                    "type": { "type": "string" },
+                    "site_admin": { "type": "boolean" }
+                  }
+                },
+                "body": { "type": "string" },
+                "body_html": { "type": "string" },
+                "body_version": { "type": "string" },
+                "created_at": { "type": "string" },
+                "last_edited_at": { "type": "string" },
+                "discussion_url": { "type": "string" },
+                "html_url": { "type": "string" },
+                "node_id": { "type": "string" },
+                "number": { "type": "number" },
+                "updated_at": { "type": "string" },
+                "url": { "type": "string" },
+                "reactions": {
+                  "type": "object",
+                  "properties": {
+                    "url": { "type": "string" },
+                    "total_count": { "type": "number" },
+                    "+1": { "type": "number" },
+                    "-1": { "type": "number" },
+                    "laugh": { "type": "number" },
+                    "confused": { "type": "number" },
+                    "heart": { "type": "number" },
+                    "hooray": { "type": "number" }
+                  }
+                }
+              }
+            }
+          },
+          "example": [
+            {
+              "author": {
+                "login": "octocat",
+                "id": 1,
+                "node_id": "MDQ6VXNlcjE=",
+                "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+                "gravatar_id": "",
+                "url": "https://api.github.com/users/octocat",
+                "html_url": "https://github.com/octocat",
+                "followers_url": "https://api.github.com/users/octocat/followers",
+                "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+                "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+                "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+                "organizations_url": "https://api.github.com/users/octocat/orgs",
+                "repos_url": "https://api.github.com/users/octocat/repos",
+                "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+                "received_events_url": "https://api.github.com/users/octocat/received_events",
+                "type": "User",
+                "site_admin": false
+              },
+              "body": "Do you like apples?",
+              "body_html": "<p>Do you like apples?</p>",
+              "body_version": "5eb32b219cdc6a5a9b29ba5d6caa9c51",
+              "created_at": "2018-01-15T23:53:58Z",
+              "last_edited_at": null,
+              "discussion_url": "https://api.github.com/teams/2403582/discussions/1",
+              "html_url": "https://github.com/orgs/github/teams/justice-league/discussions/1/comments/1",
+              "node_id": "MDIxOlRlYW1EaXNjdXNzaW9uQ29tbWVudDE=",
+              "number": 1,
+              "updated_at": "2018-01-15T23:53:58Z",
+              "url": "https://api.github.com/teams/2403582/discussions/1/comments/1",
+              "reactions": {
+                "url": "https://api.github.com/teams/2403582/discussions/1/reactions",
+                "total_count": 5,
+                "+1": 3,
+                "-1": 1,
+                "laugh": 0,
+                "confused": 0,
+                "heart": 1,
+                "hooray": 0
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.echo-preview+json\" \\\n  http://{hostname}/teams/42/discussions/42/comments"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.teams.listDiscussionComments({\n  team_id: 42,\n  discussion_number: 42\n})"
+    },
+    { "lang": "Ruby", "source": "octokit.discussion_comments(\n  42,\n  42\n)" }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": [
+      {
+        "name": "echo",
+        "note": "The team discussions API is currently available for developers to preview. See the [blog post](https://developer.github.com/changes/2018-02-07-team-discussions-api) for full details. To access the API during the preview period, you must provide a custom [media type](https://developer.github.com/enterprise/2.19/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.echo-preview+json\n\n```",
+        "required": true
+      },
+      {
+        "name": "squirrel-girl",
+        "note": "The [reactions API](https://developer.github.com/enterprise/2.19/v3/reactions/) is available for developers to preview. The `url` can be used to construct the API location for [listing and creating](https://developer.github.com/enterprise/2.19/v3/reactions) reactions. See the [blog post](https://developer.github.com/changes/2016-05-12-reactions-api-preview) for full details. To receive the `reactions` object in the response for this endpoint you must provide a custom [media type](https://developer.github.com/enterprise/2.19/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.squirrel-girl-preview\n\n```",
+        "required": false
+      }
+    ]
+  },
+  "x-changes": []
+}

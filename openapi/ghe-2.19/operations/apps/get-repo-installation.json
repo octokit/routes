@@ -1,0 +1,165 @@
+{
+  "summary": "Get a repository installation",
+  "description": "Enables an authenticated GitHub App to find the repository's installation information. The installation's account type will be either an organization or a user account, depending which account the repository belongs to.\n\nYou must use a [JWT](https://developer.github.com/enterprise/2.19/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.",
+  "operationId": "apps/get-repo-installation",
+  "tags": ["apps"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.19/v3/apps/#get-a-repository-installation"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "This API is under preview and subject to change.",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.machine-man-preview+json"
+      },
+      "required": true
+    },
+    {
+      "name": "owner",
+      "description": "owner parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "description": "repo parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "number" },
+              "account": {
+                "type": "object",
+                "properties": {
+                  "login": { "type": "string" },
+                  "id": { "type": "number" },
+                  "avatar_url": { "type": "string" },
+                  "gravatar_id": { "type": "string" },
+                  "url": { "type": "string" },
+                  "html_url": { "type": "string" },
+                  "followers_url": { "type": "string" },
+                  "following_url": { "type": "string" },
+                  "gists_url": { "type": "string" },
+                  "starred_url": { "type": "string" },
+                  "subscriptions_url": { "type": "string" },
+                  "organizations_url": { "type": "string" },
+                  "repos_url": { "type": "string" },
+                  "events_url": { "type": "string" },
+                  "received_events_url": { "type": "string" },
+                  "type": { "type": "string" },
+                  "site_admin": { "type": "boolean" }
+                }
+              },
+              "repository_selection": { "type": "string" },
+              "access_tokens_url": { "type": "string" },
+              "repositories_url": { "type": "string" },
+              "html_url": { "type": "string" },
+              "app_id": { "type": "number" },
+              "target_id": { "type": "number" },
+              "target_type": { "type": "string" },
+              "permissions": {
+                "type": "object",
+                "properties": {
+                  "checks": { "type": "string" },
+                  "metadata": { "type": "string" },
+                  "contents": { "type": "string" }
+                }
+              },
+              "events": { "type": "array", "items": { "type": "string" } },
+              "created_at": { "type": "string" },
+              "updated_at": { "type": "string" },
+              "single_file_name": { "type": "string" }
+            }
+          },
+          "example": {
+            "id": 1,
+            "account": {
+              "login": "github",
+              "id": 1,
+              "avatar_url": "https://github.com/images/error/hubot_happy.gif",
+              "gravatar_id": "",
+              "url": "https://api.github.com/orgs/github",
+              "html_url": "https://github.com/github",
+              "followers_url": "https://api.github.com/users/github/followers",
+              "following_url": "https://api.github.com/users/github/following{/other_user}",
+              "gists_url": "https://api.github.com/users/github/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/github/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/github/subscriptions",
+              "organizations_url": "https://api.github.com/users/github/orgs",
+              "repos_url": "https://api.github.com/orgs/github/repos",
+              "events_url": "https://api.github.com/orgs/github/events",
+              "received_events_url": "https://api.github.com/users/github/received_events",
+              "type": "Organization",
+              "site_admin": false
+            },
+            "repository_selection": "all",
+            "access_tokens_url": "https://api.github.com/installations/1/access_tokens",
+            "repositories_url": "https://api.github.com/installation/repositories",
+            "html_url": "https://github.com/organizations/github/settings/installations/1",
+            "app_id": 1,
+            "target_id": 1,
+            "target_type": "Organization",
+            "permissions": {
+              "checks": "write",
+              "metadata": "read",
+              "contents": "read"
+            },
+            "events": ["push", "pull_request"],
+            "created_at": "2018-02-09T20:51:14Z",
+            "updated_at": "2018-02-09T20:51:14Z",
+            "single_file_name": null
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.machine-man-preview+json\" \\\n  http://{hostname}/repos/octocat/hello-world/installation"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.apps.getRepoInstallation({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.repo_installation(\n  'hello-world'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": [
+      {
+        "name": "machine-man",
+        "note": "To access the API with your GitHub App, you must provide a custom [media type](https://developer.github.com/enterprise/2.19/v3/media) in the `Accept` Header for your requests.\n\n`application/vnd.github.machine-man-preview+json`",
+        "required": true
+      }
+    ]
+  },
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2019-04-10",
+      "note": "\"Find repository installation\" renamed to \"Get a repository installation\"",
+      "before": { "operationId": "apps/find-repo-installation" },
+      "after": { "operationId": "apps/get-repo-installation" }
+    }
+  ]
+}
