@@ -1,0 +1,44 @@
+<h2>
+<a id="list-matching-references" class="anchor" href="#list-matching-references" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List matching references<a href="/enterprise/2.19/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+<p>Returns an array of references from your Git database that match the supplied name. The <code>:ref</code> in the URL must be formatted as <code>heads/&lt;branch name&gt;</code> for branches and <code>tags/&lt;tag name&gt;</code> for tags. If the <code>:ref</code> doesn&apos;t exist in the repository, but existing refs start with <code>:ref</code>, they will be returned as an array.</p>
+<p>When you use this endpoint without providing a <code>:ref</code>, it will return an array of all the references from your Git database, including notes and stashes if they exist on the server.  Anything in the namespace is returned, not just <code>heads</code> and <code>tags</code>.  If there are no references to list, a 404 is returned.</p>
+<div class="alert note">
+<p><strong>Note:</strong> You need to explicitly <a href="/enterprise/2.19/v3/pulls/#get-a-single-pull-request">request a pull request</a> to trigger a test merge commit, which checks the mergeability of pull requests. For more information, see &quot;<a href="/enterprise/2.19/v3/git/#checking-mergeability-of-pull-requests">Checking mergeability of pull requests</a>&quot;.</p>
+</div>
+<pre><code>GET /repos/:owner/:repo/git/matching-refs/:ref
+</code></pre>
+<h3>
+<a id="example-1" class="anchor" href="#example-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+<p>If you request matching references for a branch named <code>feature</code> but the branch <code>feature</code> doesn&apos;t exist, the response can still include other matching head refs that start with the word <code>feature</code>, such as <code>featureA</code> and <code>featureB</code>. </p>
+<pre><code>GET /repos/octocat/Hello-World/git/matching-refs/heads/feature
+</code></pre>
+<h3>
+<a id="response-1" class="anchor" href="#response-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+Link: &lt;https://api.github.com/resource?page=2&gt;; rel=&quot;next&quot;,
+      &lt;https://api.github.com/resource?page=5&gt;; rel=&quot;last&quot;
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;refs/heads/feature-a&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MDM6UmVmcmVmcy9oZWFkcy9mZWF0dXJlLWE=&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Hello-World/git/refs/heads/feature-a&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;object&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;commit&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;sha&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;aa218f56b14c9653891f9e74264a383fa43fefbd&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Hello-World/git/commits/aa218f56b14c9653891f9e74264a383fa43fefbd&quot;</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;refs/heads/feature-b&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MDM6UmVmcmVmcy9oZWFkcy9mZWF0dXJlLWI=&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Hello-World/git/refs/heads/feature-b&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;object&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;commit&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;sha&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;612077ae6dffb4d2fbd8ce0cccaa58893b07b5ac&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Hello-World/git/commits/612077ae6dffb4d2fbd8ce0cccaa58893b07b5ac&quot;</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
