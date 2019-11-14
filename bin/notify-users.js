@@ -56,7 +56,7 @@ async function main() {
       );
 
       for (const { name, full_name } of repositories) {
-        await installationOctokit.request(
+        const options = installationOctokit.request.endpoint.merge(
           "POST /repos/:owner/:repo/dispatches",
           {
             mediaType: {
@@ -70,6 +70,9 @@ async function main() {
             }
           }
         );
+        console.log(options);
+
+        await installationOctokit.request(options);
         console.log("Event distpatched for %s", full_name);
       }
     }
