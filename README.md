@@ -189,17 +189,17 @@ node bin/octokit-rest-routes.js update --ghe 2.16
 
 ### 1. Find documentation pages
 
-- Index page cached in [`cache/api.github.com/v3/index.html`](cache/v3/index.html)
-- Result cached in [`cache/api.github.com/pages.json`](cache/pages.json)
+- Index page cached in [`cache/api.github.com/v3/index.html`](cache/api.github.com/v3/index.html)
+- Result cached in [`cache/api.github.com/pages.json`](cache/api.github.com/pages.json)
 
 Opens https://developer.github.com/v3/, find all documentation page URLs in the side bar navigation.
 
 ### 2. On each documentation page, finds sections
 
-- Documentation pages cached in `cache/v3/*/index.html`, e.g. [`cache/api.github.com/v3/repos/index.html`](cache/v3/repos/index.html)
-- Documentation sub pages cached in `cache/v3/*/*/index.html`, e.g. [`cache/api.github.com/v3/repos/branches/index.html`](cache/v3/repos/branches/index.html)
-- All sections found on pages are cached next to the `index.html` files, e.g. [`cache/api.github.com/v3/repos/sections.json`](cache/v3/repos/sections.json)
-- HTML of sections are stored next to the `index.html` files, e.g. [`cache/api.github.com/v3/repos/create.html`](cache/v3/repos/create.html)
+- Documentation pages cached in `cache/v3/*/index.html`, e.g. [`cache/api.github.com/v3/repos/index.html`](cache/api.github.com/v3/repos/index.html)
+- Documentation sub pages cached in `cache/v3/*/*/index.html`, e.g. [`cache/api.github.com/v3/repos/branches/index.html`](cache/api.github.com/v3/repos/branches/index.html)
+- All sections found on pages are cached next to the `index.html` files, e.g. [`cache/api.github.com/v3/repos/sections.json`](cache/api.github.com/v3/repos/sections.json)
+- HTML of sections are stored next to the `index.html` files, e.g. [`cache/api.github.com/v3/repos/create.html`](cache/api.github.com/v3/repos/create.html)
 
 Loads HTML of each documentation page, finds sections in page.
 
