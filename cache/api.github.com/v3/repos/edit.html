@@ -3,6 +3,16 @@
 </h2>
 <div class="alert note">
 
+<p><strong>Note:</strong>  You can set the visibility of a repository using the new <code>visibility</code> parameter in the <a href="/v3/repos/">Repositories API</a>, and get a repository&apos;s visibility with a new response key. For more information, see the <a href="/changes/2019-12-03-internal-visibility-changes/">blog post</a>.</p>
+
+<p>To access repository visibility during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+<pre><code>application/vnd.github.nebula-preview+json
+</code></pre>
+
+</div>
+<div class="alert note">
+
 <p><strong>Note:</strong> The <code>is_template</code> and <code>template_repository</code> keys are currently available for developer to preview. See <a href="/v3/repos/#create-repository-using-a-repository-template">Create repository using a repository template</a> to learn how to create template repositories. To access these new response keys during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
 
 <pre><code>application/vnd.github.baptiste-preview+json
@@ -51,6 +61,11 @@
 <td><code>private</code></td>
 <td><code>boolean</code></td>
 <td>Either <code>true</code> to make the repository private or <code>false</code> to make it public. Creating private repositories requires a paid GitHub account.  Default: <code>false</code>.<br><strong>Note</strong>: You will get a <code>422</code> error if the organization restricts <a href="https://help.github.com/articles/repository-permission-levels-for-an-organization#changing-the-visibility-of-repositories">changing repository visibility</a> to organization owners and a non-owner tries to change the value of private.</td>
+</tr>
+<tr>
+<td><code>visibility</code></td>
+<td><code>string</code></td>
+<td>Can be <code>public</code> or <code>private</code>. If your organization is associated with an enterprise account using GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+, <code>visibility</code> can also be <code>internal</code>. The <code>visibility</code> parameter overrides the <code>private</code> parameter when you use both along with the <code>nebula-preview</code> preview header.</td>
 </tr>
 <tr>
 <td><code>has_issues</code></td>
@@ -213,6 +228,7 @@
   </span><span class="nt">&quot;has_downloads&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;archived&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;disabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;visibility&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;public&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;pushed_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2011-01-26T19:06:43Z&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2011-01-26T19:01:12Z&quot;</span><span class="p">,</span><span class="w">
   </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2011-01-26T19:14:43Z&quot;</span><span class="p">,</span><span class="w">
@@ -340,6 +356,7 @@
     </span><span class="nt">&quot;has_downloads&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;archived&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;disabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;visibility&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;public&quot;</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;pushed_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2011-01-26T19:06:43Z&quot;</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2011-01-26T19:01:12Z&quot;</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2011-01-26T19:14:43Z&quot;</span><span class="p">,</span><span class="w">
@@ -448,6 +465,7 @@
     </span><span class="nt">&quot;has_downloads&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;archived&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;disabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;visibility&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;public&quot;</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;pushed_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2011-01-26T19:06:43Z&quot;</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2011-01-26T19:01:12Z&quot;</span><span class="p">,</span><span class="w">
     </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2011-01-26T19:14:43Z&quot;</span><span class="p">,</span><span class="w">
