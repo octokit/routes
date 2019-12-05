@@ -443,7 +443,8 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
   </span><span class="p">},</span><span class="w">
   </span><span class="nt">"default_repository_settings"</span><span class="p">:</span><span class="w"> </span><span class="s2">"read"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"members_can_create_repositories"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"two_factor_requirement_enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+  </span><span class="nt">"two_factor_requirement_enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"members_allowed_repository_creation_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"all"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <h2>
@@ -458,6 +459,17 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <div class="alert warning">
 <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
 </div>
+<div class="alert note">
+<p><a id="members_can_create_repositories"></a>
+<strong>Note:</strong> The new <code>members_allowed_repository_creation_type</code> replaces the functionality of <code>members_can_create_repositories</code>.</p>
+<p>Setting <code>members_allowed_repository_creation_type</code> will override the value of <code>members_can_create_repositories</code> in the following ways:</p>
+<ul>
+<li>Setting <code>members_allowed_repository_creation_type</code> to <code>all</code> or <code>private</code> sets <code>members_can_create_repositories</code> to <code>true</code>.</li>
+<li>Setting <code>members_allowed_repository_creation_type</code> to <code>none</code> sets <code>members_can_create_repositories</code> to <code>false</code>.</li>
+<li>If you omit <code>members_allowed_repository_creation_type</code>, <code>members_can_create_repositories</code> is not modified.</li>
+</ul>
+</div>
+<p>Enables an authenticated organization owner with the <code>admin:org</code> scope to update the organization's profile and member privileges.</p>
 <pre><code>PATCH /orgs/:org
 </code></pre>
 <h3>
@@ -504,12 +516,12 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <tr>
 <td><code>has_organization_projects</code></td>
 <td><code>boolean</code></td>
-<td>Toggles whether organization projects are enabled for the organization.</td>
+<td>Toggles whether an organization can use organization projects.</td>
 </tr>
 <tr>
 <td><code>has_repository_projects</code></td>
 <td><code>boolean</code></td>
-<td>Toggles whether repository projects are enabled for repositories that belong to the organization.</td>
+<td>Toggles whether repositories that belong to the organization can use repository projects.</td>
 </tr>
 <tr>
 <td><code>default_repository_permission</code></td>
@@ -520,25 +532,15 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <tr>
 <td><code>members_can_create_repositories</code></td>
 <td><code>boolean</code></td>
-<td>Toggles the ability of non-admin organization members to create repositories. Can be one of:<br>* <code>true</code> - all organization members can create repositories.<br>* <code>false</code> - only admin members can create repositories.<br>Default: <code>true</code><br><strong>Note:</strong> Another parameter can override the this parameter. See <a href="#members_can_create_repositories">this note</a> for details.</td>
+<td>Toggles the ability of non-admin organization members to create repositories. Can be one of:<br>* <code>true</code> - all organization members can create repositories.<br>* <code>false</code> - only organization owners can create repositories.<br>Default: <code>true</code><br><strong>Note:</strong> A parameter can override this parameter. See <code>members_allowed_repository_creation_type</code> in this table for details.</td>
 </tr>
 <tr>
-<td><code style="font-size:10px !important">members_allowed_repository_creation_type</code></td>
+<td><code>members_allowed_repository_creation_type</code></td>
 <td><code>string</code></td>
-<td>Specifies which types of repositories non-admin organization members can create. Can be one of:<br>* <code>all</code> - all organization members can create public and private repositories.<br>* <code>private</code> - members can create private repositories. This option is only available to repositories that are part of an organization on <a href="https://github.com/pricing/business-cloud">GitHub Business Cloud</a>.<br>* <code>none</code> - only admin members can create repositories. <br> <strong>Note:</strong> Using this parameter will override values set in <code>members_can_create_repositories</code>. See <a href="#members_can_create_repositories">this note</a> for details.</td>
+<td>Specifies which types of repositories non-admin organization members can create. Can be one of:<br>* <code>all</code> - all organization members can create public and private repositories.<br>* <code>private</code> - members can create private repositories. This option is only available to repositories that are part of an organization on GitHub Enterprise Cloud.<br>* <code>none</code> - only admin members can create repositories. <br> <strong>Note:</strong> Using this parameter overrides values set in <code>members_can_create_repositories</code>. See <a href="#members_can_create_repositories">this note</a> for details.</td>
 </tr>
 </tbody>
 </table>
-<div class="alert note">
-<p><a id="members_can_create_repositories"></a>
-<strong>Note:</strong> The new <code>members_allowed_repository_creation_type</code> replaces the functionality of <code>members_can_create_repositories</code>.</p>
-<p>Setting <code>members_allowed_repository_creation_type</code> will override the value of <code>members_can_create_repositories</code> in the following ways:</p>
-<ul>
-<li>Setting <code>members_allowed_repository_creation_type</code> to <code>all</code> or <code>private</code> sets <code>members_can_create_repositories</code> to <code>true</code>.</li>
-<li>Setting <code>members_allowed_repository_creation_type</code> to <code>none</code> sets <code>members_can_create_repositories</code> to <code>false</code>.</li>
-<li>If you omit <code>members_allowed_repository_creation_type</code>, <code>members_can_create_repositories</code> is not modified.</li>
-</ul>
-</div>
 <h3>
 <a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
@@ -598,7 +600,8 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
   </span><span class="p">},</span><span class="w">
   </span><span class="nt">"default_repository_settings"</span><span class="p">:</span><span class="w"> </span><span class="s2">"read"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"members_can_create_repositories"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"two_factor_requirement_enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+  </span><span class="nt">"two_factor_requirement_enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"members_allowed_repository_creation_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"all"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
       </div>

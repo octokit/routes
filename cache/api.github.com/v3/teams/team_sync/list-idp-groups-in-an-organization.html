@@ -5,14 +5,18 @@
 Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see <a href="https://help.github.com/articles/github-s-products">GitHub&apos;s products</a> in the GitHub Help documentation.
 
 </p></div>
-<p>List IdP groups available in an organization.</p>
+<p>List IdP groups available in an organization. You can limit your page results using the <code>per_page</code> parameter. GitHub generates a url-encoded <code>page</code> token using a cursor value for where the next page begins. For more information on cursor pagination, see &quot;<a href="https://dev.to/jackmarchant/offset-and-cursor-pagination-explained-b89">Offset and Cursor Pagination explained</a>.&quot;</p>
 <pre><code>GET /orgs/:org/team-sync/groups
 </code></pre>
 <h3>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+<p>The <code>per_page</code> parameter provides pagination for a list of IdP groups the authenticated user can access in an organization. For example, if the user <code>octocat</code> wants to see two groups per page in <code>octo-org</code> via cURL, it would look like this:</p>
+<pre class="command-line">  curl -u octocat:$token -H &quot;Accept: application/vnd.github.team-sync-preview+json&quot; &quot;https://api.github.com/orgs/octo-org/team-sync/groups?per_page=2&quot;
+</pre>
+<h3>
 <a id="response" class="anchor" href="#response" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 <pre class="highlight highlight-headers"><code>Status: 200 OK
-Link: &lt;https://api.github.com/resource?page=2&gt;; rel=&quot;next&quot;,
-      &lt;https://api.github.com/resource?page=5&gt;; rel=&quot;last&quot;
+Link: &lt;https://api.github.com/resource?per_page=2&amp;page=url-encoded-next-page-token&gt;; rel=&quot;next&quot;
 </code></pre>
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">&quot;groups&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">

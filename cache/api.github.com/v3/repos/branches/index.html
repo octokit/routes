@@ -718,6 +718,15 @@ Protected branches are available in public repositories with GitHub Free, and in
         </span><span class="p">]</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"required_linear_history"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"allow_force_pushes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"allow_deletions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
@@ -767,13 +776,17 @@ Protected branches are available in public repositories with GitHub Free, and in
 <tbody>
 <tr>
 <td><code>required_status_checks</code></td>
-<td><code>object</code></td>
+<td>
+<code>object</code> or <code>null</code>
+</td>
 <td>
 <strong>Required</strong>. Require status checks to pass before merging. Set to <code>null</code> to disable.</td>
 </tr>
 <tr>
 <td><code>enforce_admins</code></td>
-<td><code>boolean</code></td>
+<td>
+<code>boolean</code> or <code>null</code>
+</td>
 <td>
 <strong>Required</strong>. Enforce all configured restrictions for administrators. Set to <code>true</code> to enforce required status checks for repository administrators. Set to <code>null</code> to disable.</td>
 </tr>
@@ -785,9 +798,26 @@ Protected branches are available in public repositories with GitHub Free, and in
 </tr>
 <tr>
 <td><code>restrictions</code></td>
-<td><code>object</code></td>
 <td>
-<strong>Required</strong>. Restrict who can push to this branch. User, app, and team <code>restrictions</code> are only available for organization-owned repositories. Set to <code>null</code> to disable.</td>
+<code>object</code> or <code>null</code>
+</td>
+<td>
+<strong>Required</strong>. Restrict who can push to the protected branch. User, app, and team <code>restrictions</code> are only available for organization-owned repositories. Set to <code>null</code> to disable.</td>
+</tr>
+<tr>
+<td><code>required_linear_history</code></td>
+<td><code>boolean</code></td>
+<td>Enforces a linear commit Git history, which prevents anyone from pushing merge commits to a branch. Set to <code>true</code> to enforce a linear commit history. Set to <code>false</code> to disable a linear commit Git history. Your repository must allow squash merging or rebase merging before you can enable a linear commit history. Default: <code>false</code>. For more information, see "<a href="https://help.github.com/github/administering-a-repository/requiring-a-linear-commit-history">Requiring a linear commit history</a>" in the GitHub Help documentation.</td>
+</tr>
+<tr>
+<td><code>allow_force_pushes</code></td>
+<td><code>boolean</code></td>
+<td>Permits force pushes to the protected branch by anyone with write access to the repository. Set to <code>true</code> to allow force pushes. Set to <code>false</code> or <code>null</code> to block force pushes. Default: <code>false</code>. For more information, see "<a href="https://help.github.com/en/github/administering-a-repository/enabling-force-pushes-to-a-protected-branch">Enabling force pushes to a protected branch</a>" in the GitHub Help documentation."</td>
+</tr>
+<tr>
+<td><code>allow_deletions</code></td>
+<td><code>boolean</code></td>
+<td>Allows deletion of the protected branch by anyone with write access to the repository. Set to <code>false</code> to prevent deletion of the protected branch. Default: <code>false</code>. For more information, see "<a href="https://help.github.com/en/github/administering-a-repository/enabling-force-pushes-to-a-protected-branch">Enabling force pushes to a protected branch</a>" in the GitHub Help documentation.</td>
 </tr>
 </tbody>
 </table>
@@ -953,7 +983,10 @@ Protected branches are available in public repositories with GitHub Free, and in
     </span><span class="nt">"apps"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
       </span><span class="s2">"super-ci"</span><span class="w">
     </span><span class="p">]</span><span class="w">
-  </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"required_linear_history"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"allow_force_pushes"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"allow_deletions"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
@@ -1108,6 +1141,15 @@ Protected branches are available in public repositories with GitHub Free, and in
         </span><span class="p">]</span><span class="w">
       </span><span class="p">}</span><span class="w">
     </span><span class="p">]</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"required_linear_history"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"allow_force_pushes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"allow_deletions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
