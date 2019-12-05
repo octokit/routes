@@ -1,6 +1,6 @@
 {
   "summary": "Edit an organization",
-  "description": "**Note:** The new `members_allowed_repository_creation_type` replaces the functionality of `members_can_create_repositories`.\n\nSetting `members_allowed_repository_creation_type` will override the value of `members_can_create_repositories` in the following ways:\n\n*   Setting `members_allowed_repository_creation_type` to `all` or `private` sets `members_can_create_repositories` to `true`.\n*   Setting `members_allowed_repository_creation_type` to `none` sets `members_can_create_repositories` to `false`.\n*   If you omit `members_allowed_repository_creation_type`, `members_can_create_repositories` is not modified.",
+  "description": "**Note:** The new `members_allowed_repository_creation_type` replaces the functionality of `members_can_create_repositories`.\n\nSetting `members_allowed_repository_creation_type` will override the value of `members_can_create_repositories` in the following ways:\n\n*   Setting `members_allowed_repository_creation_type` to `all` or `private` sets `members_can_create_repositories` to `true`.\n*   Setting `members_allowed_repository_creation_type` to `none` sets `members_can_create_repositories` to `false`.\n*   If you omit `members_allowed_repository_creation_type`, `members_can_create_repositories` is not modified.\n\nEnables an authenticated organization owner with the `admin:org` scope to update the organization's profile and member privileges.",
   "operationId": "orgs/update",
   "tags": ["orgs"],
   "externalDocs": {
@@ -75,7 +75,8 @@
               },
               "default_repository_settings": { "type": "string" },
               "members_can_create_repositories": { "type": "boolean" },
-              "two_factor_requirement_enabled": { "type": "boolean" }
+              "two_factor_requirement_enabled": { "type": "boolean" },
+              "members_allowed_repository_creation_type": { "type": "string" }
             }
           },
           "example": {
@@ -114,7 +115,8 @@
             "plan": { "name": "Medium", "space": 400, "private_repos": 20 },
             "default_repository_settings": "read",
             "members_can_create_repositories": true,
-            "two_factor_requirement_enabled": true
+            "two_factor_requirement_enabled": true,
+            "members_allowed_repository_creation_type": "all"
           }
         }
       }
@@ -173,11 +175,11 @@
             },
             "has_organization_projects": {
               "type": "boolean",
-              "description": "Toggles whether organization projects are enabled for the organization."
+              "description": "Toggles whether an organization can use organization projects."
             },
             "has_repository_projects": {
               "type": "boolean",
-              "description": "Toggles whether repository projects are enabled for repositories that belong to the organization."
+              "description": "Toggles whether repositories that belong to the organization can use repository projects."
             },
             "default_repository_permission": {
               "type": "string",
@@ -187,12 +189,12 @@
             },
             "members_can_create_repositories": {
               "type": "boolean",
-              "description": "Toggles the ability of non-admin organization members to create repositories. Can be one of:  \n\\* `true` - all organization members can create repositories.  \n\\* `false` - only admin members can create repositories.  \nDefault: `true`  \n**Note:** Another parameter can override the this parameter. See [this note](https://developer.github.com/enterprise/2.17/v3/orgs/#members_can_create_repositories) for details. **Note:** Another parameter can override the this parameter. See [this note](https://developer.github.com/enterprise/2.17/v3/orgs/#members_can_create_repositories) for details.",
+              "description": "Toggles the ability of non-admin organization members to create repositories. Can be one of:  \n\\* `true` - all organization members can create repositories.  \n\\* `false` - only organization owners can create repositories.  \nDefault: `true`  \n**Note:** A parameter can override this parameter. See `members_allowed_repository_creation_type` in this table for details. **Note:** A parameter can override this parameter. See `members_allowed_repository_creation_type` in this table for details.",
               "default": true
             },
             "members_allowed_repository_creation_type": {
               "type": "string",
-              "description": "Specifies which types of repositories non-admin organization members can create. Can be one of:  \n\\* `all` - all organization members can create public and private repositories.  \n\\* `private` - members can create private repositories. This option is only available to repositories that are part of an organization on [GitHub Business Cloud](https://github.com/pricing/business-cloud).  \n\\* `none` - only admin members can create repositories.  \n**Note:** Using this parameter will override values set in `members_can_create_repositories`. See [this note](https://developer.github.com/enterprise/2.17/v3/orgs/#members_can_create_repositories) for details.",
+              "description": "Specifies which types of repositories non-admin organization members can create. Can be one of:  \n\\* `all` - all organization members can create public and private repositories.  \n\\* `private` - members can create private repositories. This option is only available to repositories that are part of an organization on GitHub Enterprise Cloud.  \n\\* `none` - only admin members can create repositories.  \n**Note:** Using this parameter overrides values set in `members_can_create_repositories`. See [this note](https://developer.github.com/enterprise/2.17/v3/orgs/#members_can_create_repositories) for details.",
               "enum": ["all", "private", "none"]
             }
           }
