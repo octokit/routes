@@ -366,17 +366,25 @@ Team synchronization is available for organizations using GitHub Enterprise Clou
 
 </p></div>
 
-<p>List IdP groups available in an organization.</p>
+<p>List IdP groups available in an organization. You can limit your page results using the <code>per_page</code> parameter. GitHub generates a url-encoded <code>page</code> token using a cursor value for where the next page begins. For more information on cursor pagination, see "<a href="https://dev.to/jackmarchant/offset-and-cursor-pagination-explained-b89">Offset and Cursor Pagination explained</a>."</p>
 
 <pre><code>GET /orgs/:org/team-sync/groups
 </code></pre>
 
 <h3>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+
+<p>The <code>per_page</code> parameter provides pagination for a list of IdP groups the authenticated user can access in an organization. For example, if the user <code>octocat</code> wants to see two groups per page in <code>octo-org</code> via cURL, it would look like this:</p>
+
+<pre class="command-line">
+  curl -u octocat:$token -H "Accept: application/vnd.github.team-sync-preview+json" "https://api.github.com/orgs/octo-org/team-sync/groups?per_page=2"
+</pre>
+
+<h3>
 <a id="response" class="anchor" href="#response" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 200 OK
-Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
-      &lt;https://api.github.com/resource?page=5&gt;; rel="last"
+Link: &lt;https://api.github.com/resource?per_page=2&amp;page=url-encoded-next-page-token&gt;; rel="next"
 </code></pre>
 
 
@@ -504,7 +512,7 @@ Team synchronization is available for organizations using GitHub Enterprise Clou
 </table>
 
 <h3>
-<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+<a id="example-1" class="anchor" href="#example-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"groups"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
