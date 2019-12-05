@@ -26,13 +26,20 @@
     },
     {
       "name": "type",
-      "description": "Can be one of `all`, `public`, `private`, `forks`, `sources`, `member`.",
+      "description": "Specifies the types of repositories you want returned. Can be one of `all`, `public`, `private`, `forks`, `sources`, `member`, `internal`. Default: `all`. If your organization is associated with an enterprise account using GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+, `type` can also be `internal`.",
       "in": "query",
       "required": false,
       "schema": {
         "type": "string",
-        "enum": ["all", "public", "private", "forks", "sources", "member"],
-        "default": "all"
+        "enum": [
+          "all",
+          "public",
+          "private",
+          "forks",
+          "sources",
+          "member",
+          "internal"
+        ]
       }
     },
     {
@@ -166,6 +173,7 @@
                 "has_downloads": { "type": "boolean" },
                 "archived": { "type": "boolean" },
                 "disabled": { "type": "boolean" },
+                "visibility": { "type": "string" },
                 "pushed_at": { "type": "string" },
                 "created_at": { "type": "string" },
                 "updated_at": { "type": "string" },
@@ -282,6 +290,7 @@
               "has_downloads": true,
               "archived": false,
               "disabled": false,
+              "visibility": "public",
               "pushed_at": "2011-01-26T19:06:43Z",
               "created_at": "2011-01-26T19:01:12Z",
               "updated_at": "2011-01-26T19:14:43Z",
@@ -315,6 +324,11 @@
     "enabledForApps": true,
     "githubCloudOnly": false,
     "previews": [
+      {
+        "name": "nebula",
+        "note": "You can set the visibility of a repository using the new `visibility` parameter in the [Repositories API](https://developer.github.com/v3/repos/), and get a repository's visibility with a new response key. For more information, see the [blog post](https://developer.github.com/changes/2019-12-03-internal-visibility-changes/).\n\nTo access repository visibility during the preview period, you must provide a custom [media type](https://developer.github.com/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.nebula-preview+json\n\n```",
+        "required": false
+      },
       {
         "name": "baptiste",
         "note": "The `is_template` and `template_repository` keys are currently available for developer to preview. See [Create repository using a repository template](https://developer.github.com/v3/repos/#create-repository-using-a-repository-template) to learn how to create template repositories. To access these new response keys during the preview period, you must provide a custom [media type](https://developer.github.com/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.baptiste-preview+json\n\n```",

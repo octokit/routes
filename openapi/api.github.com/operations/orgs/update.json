@@ -1,6 +1,6 @@
 {
   "summary": "Edit an organization",
-  "description": "**Note:** The new `members_allowed_repository_creation_type` replaces the functionality of `members_can_create_repositories`.\n\nSetting `members_allowed_repository_creation_type` will override the value of `members_can_create_repositories` in the following ways:\n\n*   Setting `members_allowed_repository_creation_type` to `all` or `private` sets `members_can_create_repositories` to `true`.\n*   Setting `members_allowed_repository_creation_type` to `none` sets `members_can_create_repositories` to `false`.\n*   If you omit `members_allowed_repository_creation_type`, `members_can_create_repositories` is not modified.",
+  "description": "\n\n**Deprecation Notice:** GitHub will replace and discontinue `members_allowed_repository_creation_type` in favor of more granular permissions. The new input parameters are `members_can_create_public_repositories`, `members_can_create_private_repositories` for all organizations and `members_can_create_internal_repositories` for organizations associated with an enterprise account using GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+. For more information, see the [blog post](https://developer.github.com/changes/2019-12-03-internal-visibility-changes).\n\nEnables an authenticated organization owner with the `admin:org` scope to update the organization's profile and member privileges.",
   "operationId": "orgs/update",
   "tags": ["orgs"],
   "externalDocs": {
@@ -77,7 +77,10 @@
               "default_repository_settings": { "type": "string" },
               "members_can_create_repositories": { "type": "boolean" },
               "two_factor_requirement_enabled": { "type": "boolean" },
-              "members_allowed_repository_creation_type": { "type": "string" }
+              "members_allowed_repository_creation_type": { "type": "string" },
+              "members_can_create_public_repositories": { "type": "boolean" },
+              "members_can_create_private_repositories": { "type": "boolean" },
+              "members_can_create_internal_repositories": { "type": "boolean" }
             }
           },
           "example": {
@@ -118,7 +121,10 @@
             "default_repository_settings": "read",
             "members_can_create_repositories": true,
             "two_factor_requirement_enabled": true,
-            "members_allowed_repository_creation_type": "all"
+            "members_allowed_repository_creation_type": "all",
+            "members_can_create_public_repositories": false,
+            "members_can_create_private_repositories": false,
+            "members_can_create_internal_repositories": false
           }
         }
       }
@@ -145,7 +151,7 @@
     "previews": [
       {
         "name": "surtur",
-        "note": "New repository creation permissions are available to preview. You can now set the `members_allowed_repository_creation_type` parameter to configure whether organization members can create repositories and the type of repositories they can create.\n\nTo access this new parameter during the preview period, you must provide a custom [media type](https://developer.github.com/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.surtur-preview+json\n\n```",
+        "note": "New repository creation permissions are available to preview. You can now use `members_can_create_public_repositories`, `members_can_create_private_repositories`, and `members_can_create_internal_repositories`. These parameters provide more granular permissions to configure the type of repositories organization members can create.\n\nTo access these new parameters during the preview period, you must provide a custom [media type](https://developer.github.com/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.surtur-preview+json\n\n```",
         "required": false
       }
     ]
@@ -177,11 +183,11 @@
             },
             "has_organization_projects": {
               "type": "boolean",
-              "description": "Toggles whether organization projects are enabled for the organization."
+              "description": "Toggles whether an organization can use organization projects."
             },
             "has_repository_projects": {
               "type": "boolean",
-              "description": "Toggles whether repository projects are enabled for repositories that belong to the organization."
+              "description": "Toggles whether repositories that belong to the organization can use repository projects."
             },
             "default_repository_permission": {
               "type": "string",
@@ -191,12 +197,24 @@
             },
             "members_can_create_repositories": {
               "type": "boolean",
-              "description": "Toggles the ability of non-admin organization members to create repositories. Can be one of:  \n\\* `true` - all organization members can create repositories.  \n\\* `false` - only admin members can create repositories.  \nDefault: `true`  \n**Note:** Another parameter can override the this parameter. See [this note](https://developer.github.com/v3/orgs/#members_can_create_repositories) for details. **Note:** Another parameter can override the this parameter. See [this note](https://developer.github.com/v3/orgs/#members_can_create_repositories) for details.",
+              "description": "Toggles the ability of non-admin organization members to create repositories. Can be one of:  \n\\* `true` - all organization members can create repositories.  \n\\* `false` - only organization owners can create repositories.  \nDefault: `true`  \n**Note:** A parameter can override this parameter. See `members_allowed_repository_creation_type` in this table for details. **Note:** A parameter can override this parameter. See `members_allowed_repository_creation_type` in this table for details.",
               "default": true
+            },
+            "members_can_create_internal_repositories": {
+              "type": "boolean",
+              "description": "Toggles whether organization members can create internal repositories, which are visible to all enterprise members. You can only allow members to create internal repositories if your organization is associated with an enterprise account using GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+. Can be one of:  \n\\* `true` - all organization members can create internal repositories.  \n\\* `false` - only organization owners can create internal repositories.  \nDefault: `true`. For more information, see \"[Restricting repository creation in your organization](https://help.github.com/github/setting-up-and-managing-organizations-and-teams/restricting-repository-creation-in-your-organization)\" in the GitHub Help documentation."
+            },
+            "members_can_create_private_repositories": {
+              "type": "boolean",
+              "description": "Toggles whether organization members can create private repositories, which are visible to organization members with permission. Can be one of:  \n\\* `true` - all organization members can create private repositories.  \n\\* `false` - only organization owners can create private repositories.  \nDefault: `true`. For more information, see \"[Restricting repository creation in your organization](https://help.github.com/github/setting-up-and-managing-organizations-and-teams/restricting-repository-creation-in-your-organization)\" in the GitHub Help documentation."
+            },
+            "members_can_create_public_repositories": {
+              "type": "boolean",
+              "description": "Toggles whether organization members can create public repositories, which are visible to anyone. Can be one of:  \n\\* `true` - all organization members can create public repositories.  \n\\* `false` - only organization owners can create public repositories.  \nDefault: `true`. For more information, see \"[Restricting repository creation in your organization](https://help.github.com/github/setting-up-and-managing-organizations-and-teams/restricting-repository-creation-in-your-organization)\" in the GitHub Help documentation."
             },
             "members_allowed_repository_creation_type": {
               "type": "string",
-              "description": "Specifies which types of repositories non-admin organization members can create. Can be one of:  \n\\* `all` - all organization members can create public and private repositories.  \n\\* `private` - members can create private repositories. This option is only available to repositories that are part of an organization on [GitHub Business Cloud](https://github.com/pricing/business-cloud).  \n\\* `none` - only admin members can create repositories.  \n**Note:** Using this parameter will override values set in `members_can_create_repositories`. See [this note](https://developer.github.com/v3/orgs/#members_can_create_repositories) for details.",
+              "description": "Specifies which types of repositories non-admin organization members can create. Can be one of:  \n\\* `all` - all organization members can create public and private repositories.  \n\\* `private` - members can create private repositories. This option is only available to repositories that are part of an organization on GitHub Enterprise Cloud.  \n\\* `none` - only admin members can create repositories.  \n**Note:** This parameter is deprecated and will be removed in the future. Its return value ignores internal repositories. Using this parameter overrides values set in `members_can_create_repositories`. See [this note](https://developer.github.com/v3/orgs/#members_can_create_repositories) for details.",
               "enum": ["all", "private", "none"]
             }
           }
@@ -214,5 +232,6 @@
         }
       }
     }
-  }
+  },
+  "deprecated": true
 }
