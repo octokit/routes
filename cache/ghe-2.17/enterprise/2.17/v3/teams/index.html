@@ -453,7 +453,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
 </div>
 <p>To create a team, the authenticated user must be a member or owner of <code>:org</code>.  By default, organization members can create teams. Organization owners can limit team creation to organization owners. For more information, see "<a href="https://help.github.com/en/articles/setting-team-creation-permissions-in-your-organization">Setting team creation permissions</a>."</p>
-<p>If you do not specify an array of <code>maintainers</code>, then you will automatically become a team maintainer for the new team. For more information, see "<a href="https://help.github.com/en/github/setting-up-and-managing-organizations-and-teams/about-teams">About teams</a>" in the GitHub Help documentation.</p>
+<p>When you create a new team, you automatically become a team maintainer without explicitly adding yourself to the optional array of <code>maintainers</code>. For more information, see "<a href="https://help.github.com/en/github/setting-up-and-managing-organizations-and-teams/about-teams">About teams</a>" in the GitHub Help documentation.</p>
 <pre><code>POST /orgs/:org/teams
 </code></pre>
 <h3>
@@ -483,7 +483,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <td>
 <code>array</code> of <code>strings</code>
 </td>
-<td>The logins of organization members to add as maintainers of the team. If you do not specify any maintainers, then you will automatically become a team maintainer when you create a new team.</td>
+<td>List GitHub Enterprise Server IDs for organization members who will become team maintainers.</td>
 </tr>
 <tr>
 <td><code>repo_names</code></td>
@@ -589,7 +589,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <div class="alert warning">
 <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
 </div>
-<p>To edit a team, the authenticated user must either be an owner of the org that the team is associated with, or a maintainer of the team.</p>
+<p>To edit a team, the authenticated user must either be an organization owner or a team maintainer.</p>
 <pre><code>PATCH /teams/:team_id
 </code></pre>
 <h3>
@@ -708,7 +708,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <div class="alert warning">
 <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
 </div>
-<p>To delete a team, the authenticated user must be a team maintainer or an owner of the org associated with the team.</p>
+<p>To delete a team, the authenticated user must be an organization owner or team maintainer.</p>
 <p>If you are an organization owner and you pass the <code>hellcat-preview</code> media type, deleting a parent team will delete all of its child teams as well.</p>
 <pre><code>DELETE /teams/:team_id
 </code></pre>
@@ -1757,7 +1757,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
   </div>
   <footer class="footer text-muted">
   <div class="container">
-    <span class="footer-legal">© 2019 GitHub Inc. All rights reserved.</span>
+    <span class="footer-legal">© 2020 GitHub Inc. All rights reserved.</span>
     <span class="mega-octicon octicon-mark-github footer-mark"></span>
     <nav class="footer-nav">
       <a class="footer-nav-item" href="https://help.github.com/articles/github-terms-of-service">Terms of service</a>
