@@ -1,0 +1,67 @@
+{
+  "summary": "Remove team membership",
+  "description": "Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see [GitHub's products](https://help.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.\n\nTo remove a membership between a user and a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with. Removing team membership does not delete the user, it just removes their membership from the team.\n\n**Note:** When you have team synchronization set up for a team with your organization's identity provider (IdP), you will see an error if you attempt to use the API for making changes to the team's membership. If you have access to manage group membership in your IdP, you can manage GitHub team membership through your identity provider, which automatically adds and removes team members in an organization. For more information, see \"[Synchronizing teams between your identity provider and GitHub](https://help.github.com/articles/synchronizing-teams-between-your-identity-provider-and-github/).\"\n\n**Note:** You can also specify a team by `org_id` and `team_id` using the route `DELETE /organizations/:org_id/team/:team_id/memberships/:username`.",
+  "operationId": "teams/remove-membership-in-org",
+  "tags": ["teams"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/teams/members/#remove-team-membership"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "org",
+      "description": "org parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "team_slug",
+      "description": "team_slug parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "username",
+      "description": "username parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": {
+    "204": { "description": "Empty response" },
+    "403": { "description": "Response if team synchronization is set up" }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XDELETE \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/orgs/ORG/teams/TEAM_SLUG/memberships/USERNAME"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.teams.removeMembershipInOrg({\n  org: 'org',\n  team_slug: 'team_slug',\n  username: 'username'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.remove_membership_in_org(\n  'org',\n  'team_slug',\n  'username'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}
