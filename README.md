@@ -6,7 +6,7 @@
 
 ## Downloads
 
-- The de-referenced OpenAPI documents are [uploaded as attachements to each release](https://github.com/octokit/routes/releases)
+- The de-referenced OpenAPI documents are [uploaded as attachments to each release](https://github.com/octokit/routes/releases)
 
 Or install from package managers
 
