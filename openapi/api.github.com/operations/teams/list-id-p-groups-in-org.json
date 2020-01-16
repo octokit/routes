@@ -1,0 +1,96 @@
+{
+  "summary": "List IdP groups for a team",
+  "description": "Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see [GitHub's products](https://help.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.\n\nList IdP groups connected to a team on GitHub.\n\n**Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/:org_id/team/:team_id/team-sync/group-mappings`.",
+  "operationId": "teams/list-id-p-groups-in-org",
+  "tags": ["teams"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/teams/team_sync/#list-idp-groups-for-a-team"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "org",
+      "description": "org parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "team_slug",
+      "description": "team_slug parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "groups": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "group_id": { "type": "string" },
+                    "group_name": { "type": "string" },
+                    "group_description": { "type": "string" }
+                  },
+                  "required": ["group_id", "group_name", "group_description"]
+                }
+              }
+            }
+          },
+          "example": {
+            "groups": [
+              {
+                "group_id": "123",
+                "group_name": "Octocat admins",
+                "group_description": "The people who configure your octoworld."
+              },
+              {
+                "group_id": "456",
+                "group_name": "Octocat docs members",
+                "group_description": "The people who make your octoworld come to life."
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/orgs/ORG/teams/TEAM_SLUG/team-sync/group-mappings"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.teams.listIdPGroupsInOrg({\n  org: 'org',\n  team_slug: 'team_slug'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.id_p_groups_in_org(\n  'org',\n  'team_slug'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": true,
+    "previews": []
+  },
+  "x-changes": []
+}
