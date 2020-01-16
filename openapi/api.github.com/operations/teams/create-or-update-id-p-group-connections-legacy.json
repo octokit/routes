@@ -1,0 +1,139 @@
+{
+  "summary": "Create or update IdP group connections (Legacy)",
+  "description": "**Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [`Create or update IdP group connections`](https://developer.github.com/v3/teams/team_sync/#create-or-update-idp-group-connections) endpoint.\n\nTeam synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see [GitHub's products](https://help.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.\n\nCreates, updates, or removes a connection between a team and an IdP group. When adding groups to a team, you must include all new and existing groups to avoid replacing existing groups with the new ones. Specifying an empty `groups` array will remove all connections for a team.",
+  "operationId": "teams/create-or-update-id-p-group-connections-legacy",
+  "tags": ["teams"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/teams/team_sync/#create-or-update-idp-group-connections-legacy"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "team_id",
+      "description": "team_id parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "groups": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "group_id": { "type": "string" },
+                    "group_name": { "type": "string" },
+                    "group_description": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "example": {
+            "groups": [
+              {
+                "group_id": "123",
+                "group_name": "Octocat admins",
+                "group_description": "The people who configure your octoworld."
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/teams/42/team-sync/group-mappings \\\n  -d '{\"groups\":[{\"group_id\":\"group_id\",\"group_name\":\"group_name\",\"group_description\":\"group_description\"}]}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.teams.createOrUpdateIdPGroupConnectionsLegacy({\n  team_id: 42,\n  groups: [\n    {\n      group_id: 'group_id',\n      group_name: 'group_name',\n      group_description: 'group_description'\n    }\n  ]\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.create_or_update_id_p_group_connections_legacy(\n  42,\n  [\n    {\n      group_id: 'group_id',\n      group_name: 'group_name',\n      group_description: 'group_description'\n    }\n  ]\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": true,
+    "enabledForApps": false,
+    "githubCloudOnly": true,
+    "previews": []
+  },
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2020-01-16",
+      "note": "The path for \"Create or update IdP group connections\" changed  from \"/teams/{team_id}*\" to \"/orgs/{org}/teams/{team_slug}*\"). The operation ID for the old path now has a \"-legacy\" suffix. The route with the new path has a \"-for-org\" suffix in the operation ID to avoid breaking changes",
+      "before": {
+        "operationId": "teams/create-or-update-id-p-group-connections-legacy"
+      },
+      "after": {
+        "operationId": "teams/create-or-update-id-p-group-connections-legacy"
+      }
+    }
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "groups": {
+              "type": "array",
+              "description": "The IdP groups you want to connect to a GitHub team. When updating, the new `groups` object will replace the original one. You must include any existing groups that you don't want to remove.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "group_id": {
+                    "type": "string",
+                    "description": "ID of the IdP group."
+                  },
+                  "group_name": {
+                    "type": "string",
+                    "description": "Name of the IdP group."
+                  },
+                  "group_description": {
+                    "type": "string",
+                    "description": "Description of the IdP group."
+                  }
+                },
+                "required": ["group_id", "group_name", "group_description"]
+              }
+            }
+          },
+          "required": ["groups"]
+        },
+        "example": {
+          "groups": [
+            {
+              "group_id": "123",
+              "group_name": "Octocat admins",
+              "description": "The people who configure your octoworld."
+            }
+          ]
+        }
+      }
+    }
+  },
+  "deprecated": true
+}

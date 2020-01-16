@@ -1,0 +1,73 @@
+{
+  "summary": "Delete a comment (Legacy)",
+  "description": "**Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [`Delete a comment`](https://developer.github.com/v3/teams/discussion_comments/#delete-a-comment) endpoint.\n\nDeletes a comment on a team discussion. OAuth access tokens require the `write:discussion` [scope](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).",
+  "operationId": "teams/delete-discussion-comment-legacy",
+  "tags": ["teams"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/teams/discussion_comments/#delete-a-comment-legacy"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "team_id",
+      "description": "team_id parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    },
+    {
+      "name": "discussion_number",
+      "description": "discussion_number parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    },
+    {
+      "name": "comment_number",
+      "description": "comment_number parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    }
+  ],
+  "responses": { "204": { "description": "Empty response" } },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XDELETE \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/teams/42/discussions/42/comments/42"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.teams.deleteDiscussionCommentLegacy({\n  team_id: 42,\n  discussion_number: 42,\n  comment_number: 42\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.delete_discussion_comment_legacy(\n  42,\n  42,\n  42\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": true,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2020-01-16",
+      "note": "The path for \"Delete a comment\" changed  from \"/teams/{team_id}*\" to \"/orgs/{org}/teams/{team_slug}*\"). The operation ID for the old path now has a \"-legacy\" suffix. The route with the new path has a \"-for-org\" suffix in the operation ID to avoid breaking changes",
+      "before": { "operationId": "teams/delete-discussion-comment-legacy" },
+      "after": { "operationId": "teams/delete-discussion-comment-legacy" }
+    }
+  ],
+  "deprecated": true
+}
