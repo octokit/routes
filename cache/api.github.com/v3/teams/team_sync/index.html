@@ -351,6 +351,8 @@
 <li><a href="#list-idp-groups-in-an-organization" id="markdown-toc-list-idp-groups-in-an-organization">List IdP groups in an organization</a></li>
 <li><a href="#list-idp-groups-for-a-team" id="markdown-toc-list-idp-groups-for-a-team">List IdP groups for a team</a></li>
 <li><a href="#create-or-update-idp-group-connections" id="markdown-toc-create-or-update-idp-group-connections">Create or update IdP group connections</a></li>
+<li><a href="#list-idp-groups-for-a-team-legacy" id="markdown-toc-list-idp-groups-for-a-team-legacy">List IdP groups for a team (Legacy)</a></li>
+<li><a href="#create-or-update-idp-group-connections-legacy" id="markdown-toc-create-or-update-idp-group-connections-legacy">Create or update IdP group connections (Legacy)</a></li>
 </ul>
 
 <p>The Team Synchronization API allows you to manage connections between GitHub teams and external identity provider (IdP) groups. To use this API, the authenticated user must be a team maintainer or an owner of the organization associated with the team. The token you use to authenticate will also need to be authorized for use with your IdP (SSO) provider. For more information, see "<a href="https://help.github.com/en/articles/authorizing-a-personal-access-token-for-use-with-a-saml-single-sign-on-organization">Authorizing a personal access token for use with a SAML single sign-on organization</a>" in the GitHub Help documentation.</p>
@@ -416,7 +418,13 @@ Team synchronization is available for organizations using GitHub Enterprise Clou
 
 <p>List IdP groups connected to a team on GitHub.</p>
 
-<pre><code>GET /teams/:team_id/team-sync/group-mappings
+<div class="alert note">
+
+<p><strong>Note:</strong> You can also specify a team by <code>org_id</code> and <code>team_id</code> using the route <code>GET /organizations/:org_id/team/:team_id/team-sync/group-mappings</code>.</p>
+
+</div>
+
+<pre><code>GET /orgs/:org/teams/:team_slug/team-sync/group-mappings
 </code></pre>
 
 <h3>
@@ -454,7 +462,13 @@ Team synchronization is available for organizations using GitHub Enterprise Clou
 
 <p>Creates, updates, or removes a connection between a team and an IdP group. When adding groups to a team, you must include all new and existing groups to avoid replacing existing groups with the new ones. Specifying an empty <code>groups</code> array will remove all connections for a team.</p>
 
-<pre><code>PATCH /teams/:team_id/team-sync/group-mappings
+<div class="alert note">
+
+<p><strong>Note:</strong> You can also specify a team by <code>org_id</code> and <code>team_id</code> using the route <code>PATCH /organizations/:org_id/team/:team_id/team-sync/group-mappings</code>.</p>
+
+</div>
+
+<pre><code>PATCH /orgs/:org/teams/:team_slug/team-sync/group-mappings
 </code></pre>
 
 <h3>
@@ -528,6 +542,158 @@ Team synchronization is available for organizations using GitHub Enterprise Clou
 
 <h3>
 <a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+
+
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"groups"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"group_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"group_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Octocat admins"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"group_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The people who configure your octoworld."</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+
+<h2>
+<a id="list-idp-groups-for-a-team-legacy" class="anchor" href="#list-idp-groups-for-a-team-legacy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List IdP groups for a team (Legacy)</h2>
+
+<div class="alert warning">
+
+<p><strong>Deprecation Notice:</strong> This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new <a href="/v3/teams/team_sync/#list-idp-groups-for-a-team"><code>List IdP groups for a team</code></a> endpoint.</p>
+
+</div>
+
+<div class="alert product"><p>
+
+Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see <a href="https://help.github.com/github/getting-started-with-github/githubs-products">GitHub's products</a> in the GitHub Help documentation.
+
+</p></div>
+
+<p>List IdP groups connected to a team on GitHub.</p>
+
+<pre><code>GET /teams/:team_id/team-sync/group-mappings
+</code></pre>
+
+<h3>
+<a id="response-3" class="anchor" href="#response-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+
+
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"groups"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"group_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"group_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Octocat admins"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"group_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The people who configure your octoworld."</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"group_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"456"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"group_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Octocat docs members"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"group_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The people who make your octoworld come to life."</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+
+<h2>
+<a id="create-or-update-idp-group-connections-legacy" class="anchor" href="#create-or-update-idp-group-connections-legacy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create or update IdP group connections (Legacy)</h2>
+
+<div class="alert warning">
+
+<p><strong>Deprecation Notice:</strong> This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new <a href="/v3/teams/team_sync/#create-or-update-idp-group-connections"><code>Create or update IdP group connections</code></a> endpoint.</p>
+
+</div>
+
+<div class="alert product"><p>
+
+Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see <a href="https://help.github.com/github/getting-started-with-github/githubs-products">GitHub's products</a> in the GitHub Help documentation.
+
+</p></div>
+
+<p>Creates, updates, or removes a connection between a team and an IdP group. When adding groups to a team, you must include all new and existing groups to avoid replacing existing groups with the new ones. Specifying an empty <code>groups</code> array will remove all connections for a team.</p>
+
+<pre><code>PATCH /teams/:team_id/team-sync/group-mappings
+</code></pre>
+
+<h3>
+<a id="parameters-1" class="anchor" href="#parameters-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>groups</code></td>
+<td><code>array of objects</code></td>
+<td>
+<strong>Required</strong>. The IdP groups you want to connect to a GitHub team. When updating, the new <code>groups</code> object will replace the original one.  You must include any existing groups that you don't want to remove.</td>
+</tr>
+</tbody>
+</table>
+
+<h4>
+<a id="groups-object-1" class="anchor" href="#groups-object-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><code>groups</code> object</h4>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>group_id</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required</strong>. ID of the IdP group.</td>
+</tr>
+<tr>
+<td><code>group_name</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required</strong>. Name of the IdP group.</td>
+</tr>
+<tr>
+<td><code>group_description</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required</strong>. Description of the IdP group.</td>
+</tr>
+</tbody>
+</table>
+
+<h3>
+<a id="example-2" class="anchor" href="#example-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"groups"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"group_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"group_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Octocat admins"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The people who configure your octoworld."</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+
+<h3>
+<a id="response-4" class="anchor" href="#response-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 200 OK
 </code></pre>
