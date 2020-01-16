@@ -1,11 +1,11 @@
 {
-  "summary": "Get team by name",
-  "description": "Gets a team using the team's `slug`. GitHub generates the `slug` from the team `name`.\n\n**Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/:org_id/team/:team_id`.",
-  "operationId": "teams/get-by-name",
+  "summary": "Get team (Legacy)",
+  "description": "**Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the [`Get team by name`](https://developer.github.com/v3/teams/#get-team-by-name) endpoint.",
+  "operationId": "teams/get-legacy",
   "tags": ["teams"],
   "externalDocs": {
     "description": "API method documentation",
-    "url": "https://developer.github.com/v3/teams/#get-team-by-name"
+    "url": "https://developer.github.com/v3/teams/#get-team-legacy"
   },
   "parameters": [
     {
@@ -18,18 +18,11 @@
       }
     },
     {
-      "name": "org",
-      "description": "org parameter",
+      "name": "team_id",
+      "description": "team_id parameter",
       "in": "path",
       "required": true,
-      "schema": { "type": "string" }
-    },
-    {
-      "name": "team_slug",
-      "description": "team_slug parameter",
-      "in": "path",
-      "required": true,
-      "schema": { "type": "string" }
+      "schema": { "type": "integer" }
     }
   ],
   "responses": {
@@ -144,19 +137,25 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/orgs/ORG/teams/TEAM_SLUG"
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/teams/42"
     },
-    {
-      "lang": "JS",
-      "source": "octokit.teams.getByName({\n  org: 'org',\n  team_slug: 'team_slug'\n})"
-    },
-    { "lang": "Ruby", "source": "octokit.by_name(\n  'org',\n  'team_slug'\n)" }
+    { "lang": "JS", "source": "octokit.teams.getLegacy({\n  team_id: 42\n})" },
+    { "lang": "Ruby", "source": "octokit.legacy(\n  42\n)" }
   ],
   "x-github": {
-    "legacy": false,
+    "legacy": true,
     "enabledForApps": true,
     "githubCloudOnly": false,
     "previews": []
   },
-  "x-changes": []
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2020-01-16",
+      "note": "The path for \"Get team\" changed  from \"/teams/{team_id}*\" to \"/orgs/{org}/teams/{team_slug}*\"). The operation ID for the old path now has a \"-legacy\" suffix. The route with the new path has a \"-for-org\" suffix in the operation ID to avoid breaking changes",
+      "before": { "operationId": "teams/get-legacy" },
+      "after": { "operationId": "teams/get-legacy" }
+    }
+  ],
+  "deprecated": true
 }

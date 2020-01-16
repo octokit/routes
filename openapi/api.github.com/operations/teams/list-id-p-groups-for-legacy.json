@@ -1,0 +1,95 @@
+{
+  "summary": "List IdP groups for a team (Legacy)",
+  "description": "**Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [`List IdP groups for a team`](https://developer.github.com/v3/teams/team_sync/#list-idp-groups-for-a-team) endpoint.\n\nTeam synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see [GitHub's products](https://help.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.\n\nList IdP groups connected to a team on GitHub.",
+  "operationId": "teams/list-id-p-groups-for-legacy",
+  "tags": ["teams"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/teams/team_sync/#list-idp-groups-for-a-team-legacy"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "team_id",
+      "description": "team_id parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "groups": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "group_id": { "type": "string" },
+                    "group_name": { "type": "string" },
+                    "group_description": { "type": "string" }
+                  },
+                  "required": ["group_id", "group_name", "group_description"]
+                }
+              }
+            }
+          },
+          "example": {
+            "groups": [
+              {
+                "group_id": "123",
+                "group_name": "Octocat admins",
+                "group_description": "The people who configure your octoworld."
+              },
+              {
+                "group_id": "456",
+                "group_name": "Octocat docs members",
+                "group_description": "The people who make your octoworld come to life."
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/teams/42/team-sync/group-mappings"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.teams.listIdPGroupsForLegacy({\n  team_id: 42\n})"
+    },
+    { "lang": "Ruby", "source": "octokit.id_p_groups_for_legacy(\n  42\n)" }
+  ],
+  "x-github": {
+    "legacy": true,
+    "enabledForApps": false,
+    "githubCloudOnly": true,
+    "previews": []
+  },
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2020-01-16",
+      "note": "The path for \"List IdP groups for a team\" changed  from \"/teams/{team_id}*\" to \"/orgs/{org}/teams/{team_slug}*\"). The operation ID for the old path now has a \"-legacy\" suffix. The route with the new path has a \"-for-org\" suffix in the operation ID to avoid breaking changes",
+      "before": { "operationId": "teams/list-id-p-groups-for-legacy" },
+      "after": { "operationId": "teams/list-id-p-groups-for-legacy" }
+    }
+  ],
+  "deprecated": true
+}
