@@ -349,13 +349,18 @@
 
 <ul id="markdown-toc">
 <li><a href="#list-team-members" id="markdown-toc-list-team-members">List team members</a></li>
-<li><a href="#get-team-member" id="markdown-toc-get-team-member">Get team member</a></li>
-<li><a href="#add-team-member" id="markdown-toc-add-team-member">Add team member</a></li>
-<li><a href="#remove-team-member" id="markdown-toc-remove-team-member">Remove team member</a></li>
 <li><a href="#get-team-membership" id="markdown-toc-get-team-membership">Get team membership</a></li>
 <li><a href="#add-or-update-team-membership" id="markdown-toc-add-or-update-team-membership">Add or update team membership</a></li>
 <li><a href="#remove-team-membership" id="markdown-toc-remove-team-membership">Remove team membership</a></li>
 <li><a href="#list-pending-team-invitations" id="markdown-toc-list-pending-team-invitations">List pending team invitations</a></li>
+<li><a href="#list-team-members-legacy" id="markdown-toc-list-team-members-legacy">List team members (Legacy)</a></li>
+<li><a href="#get-team-membership-legacy" id="markdown-toc-get-team-membership-legacy">Get team membership (Legacy)</a></li>
+<li><a href="#add-or-update-team-membership-legacy" id="markdown-toc-add-or-update-team-membership-legacy">Add or update team membership (Legacy)</a></li>
+<li><a href="#remove-team-membership-legacy" id="markdown-toc-remove-team-membership-legacy">Remove team membership (Legacy)</a></li>
+<li><a href="#list-pending-team-invitations-legacy" id="markdown-toc-list-pending-team-invitations-legacy">List pending team invitations (Legacy)</a></li>
+<li><a href="#get-team-member-legacy" id="markdown-toc-get-team-member-legacy">Get team member (Legacy)</a></li>
+<li><a href="#add-team-member-legacy" id="markdown-toc-add-team-member-legacy">Add team member (Legacy)</a></li>
+<li><a href="#remove-team-member-legacy" id="markdown-toc-remove-team-member-legacy">Remove team member (Legacy)</a></li>
 </ul>
 
 <p>This API is only available to authenticated members of the team's organization. OAuth access tokens require the <code>read:org</code> <a href="/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/">scope</a>.</p>
@@ -380,7 +385,13 @@ Team synchronization is available for organizations using GitHub Enterprise Clou
 
 <p>To list members in a team, the team must be visible to the authenticated user.</p>
 
-<pre><code>GET /teams/:team_id/members
+<div class="alert note">
+
+<p><strong>Note:</strong> You can also specify a team by <code>org_id</code> and <code>team_id</code> using the route <code>GET /organizations/:org_id/team/:team_id/members</code>.</p>
+
+</div>
+
+<pre><code>GET /orgs/:org/teams/:team_slug/members
 </code></pre>
 
 <table>
@@ -436,179 +447,6 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 
 <h2>
-<a id="get-team-member" class="anchor" href="#get-team-member" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get team member<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
-</h2>
-
-<h3>
-<a id="deprecation-notice" class="anchor" href="#deprecation-notice" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Deprecation notice</h3>
-
-<div class="alert tip">
-
-<p>The "Get team member" API (described below) is deprecated.</p>
-
-<p>We recommend using the
-<a href="/v3/teams/members/#get-team-membership">Get team membership API</a>
-instead. It allows you to get both active and pending memberships.</p>
-
-</div>
-
-<p>To list members in a team, the team must be visible to the authenticated user.</p>
-
-<pre><code>GET /teams/:team_id/members/:username
-</code></pre>
-
-<h3>
-<a id="response-if-user-is-a-member" class="anchor" href="#response-if-user-is-a-member" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if user is a member</h3>
-
-<pre class="highlight highlight-headers"><code>Status: 204 No Content
-</code></pre>
-
-
-<h3>
-<a id="response-if-user-is-not-a-member" class="anchor" href="#response-if-user-is-not-a-member" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if user is not a member</h3>
-
-<pre class="highlight highlight-headers"><code>Status: 404 Not Found
-</code></pre>
-
-
-<h2>
-<a id="add-team-member" class="anchor" href="#add-team-member" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Add team member<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
-</h2>
-
-<h3>
-<a id="deprecation-notice-1" class="anchor" href="#deprecation-notice-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Deprecation notice</h3>
-
-<div class="alert tip">
-
-<p>The "Add team member" API (described below) is deprecated.</p>
-
-<p>We recommend using the <a href="/v3/teams/members/#add-or-update-team-membership">Add team membership API</a> instead. It allows you to invite new organization members to your teams.</p>
-
-</div>
-
-<div class="alert product"><p>
-
-Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see <a href="https://help.github.com/github/getting-started-with-github/githubs-products">GitHub's products</a> in the GitHub Help documentation.
-
-</p></div>
-
-<p>To add someone to a team, the authenticated user must be an organization owner or a team maintainer in the team they're changing. The person being added to the team must be a member of the team's organization.</p>
-
-<div class="alert note">
-
-<p><strong>Note:</strong> When you have team synchronization set up for a team with your organization's identity provider (IdP), you will see an error if you attempt to use the API for making changes to the team's membership. If you have access to manage group membership in your IdP, you can manage GitHub team membership through your identity provider, which automatically adds and removes team members in an organization. For more information, see "<a href="https://help.github.com/articles/synchronizing-teams-between-your-identity-provider-and-github/">Synchronizing teams between your identity provider and GitHub</a>."</p>
-
-</div>
-
-<pre><code>PUT /teams/:team_id/members/:username
-</code></pre>
-
-<p>Note that you'll need to set <code>Content-Length</code> to zero when calling out to this endpoint. For more information, see "<a href="/v3/#http-verbs">HTTP verbs</a>."</p>
-
-<h3>
-<a id="response-1" class="anchor" href="#response-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
-
-<pre class="highlight highlight-headers"><code>Status: 204 No Content
-</code></pre>
-
-
-<h3>
-<a id="response-if-team-synchronization-is-set-up" class="anchor" href="#response-if-team-synchronization-is-set-up" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if team synchronization is set up</h3>
-
-<pre class="highlight highlight-headers"><code>Status: 404 Not Found
-</code></pre>
-
-
-<h3>
-<a id="response-if-you-attempt-to-add-an-organization-to-a-team" class="anchor" href="#response-if-you-attempt-to-add-an-organization-to-a-team" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if you attempt to add an organization to a team</h3>
-
-<pre class="highlight highlight-headers"><code>Status: 422 Unprocessable Entity
-</code></pre>
-
-
-<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cannot add an organization as a member."</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"org"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TeamMember"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-
-<h3>
-<a id="response-if-you-attempt-to-add-a-user-to-a-team-when-they-are-not-a-member-of-at-least-one-other-team-in-the-same-organization" class="anchor" href="#response-if-you-attempt-to-add-a-user-to-a-team-when-they-are-not-a-member-of-at-least-one-other-team-in-the-same-organization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if you attempt to add a user to a team when they are not a member of at least one other team in the same organization</h3>
-
-<pre class="highlight highlight-headers"><code>Status: 422 Unprocessable Entity
-</code></pre>
-
-
-<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User isn't a member of this organization. Please invite them first."</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unaffiliated"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TeamMember"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-
-<h2>
-<a id="remove-team-member" class="anchor" href="#remove-team-member" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove team member<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
-</h2>
-
-<h3>
-<a id="deprecation-notice-2" class="anchor" href="#deprecation-notice-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Deprecation notice</h3>
-
-<div class="alert tip">
-
-<p>The "Remove team member" API (described below) is deprecated.</p>
-
-<p>We recommend using the <a href="/v3/teams/members/#remove-team-membership">Remove team membership endpoint</a>
-instead. It allows you to remove both active and pending memberships.</p>
-
-</div>
-
-<div class="alert product"><p>
-
-Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see <a href="https://help.github.com/github/getting-started-with-github/githubs-products">GitHub's products</a> in the GitHub Help documentation.
-
-</p></div>
-
-<p>To remove a team member, the authenticated user must have
-'admin' permissions to the team or be an owner of the org that the team
-is associated with. Removing a team member does not delete the user, it just removes them from the team.</p>
-
-<div class="alert note">
-
-<p><strong>Note:</strong> When you have team synchronization set up for a team with your organization's identity provider (IdP), you will see an error if you attempt to use the API for making changes to the team's membership. If you have access to manage group membership in your IdP, you can manage GitHub team membership through your identity provider, which automatically adds and removes team members in an organization. For more information, see "<a href="https://help.github.com/articles/synchronizing-teams-between-your-identity-provider-and-github/">Synchronizing teams between your identity provider and GitHub</a>."</p>
-
-</div>
-
-<pre><code>DELETE /teams/:team_id/members/:username
-</code></pre>
-
-<h3>
-<a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
-
-<pre class="highlight highlight-headers"><code>Status: 204 No Content
-</code></pre>
-
-
-<h3>
-<a id="response-if-team-synchronization-is-setup" class="anchor" href="#response-if-team-synchronization-is-setup" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if team synchronization is setup</h3>
-
-<pre class="highlight highlight-headers"><code>Status: 404 Not Found
-</code></pre>
-
-
-<h2>
 <a id="get-team-membership" class="anchor" href="#get-team-membership" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get team membership<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
@@ -616,7 +454,13 @@ is associated with. Removing a team member does not delete the user, it just rem
 
 <p>To get a user's membership with a team, the team must be visible to the authenticated user.</p>
 
-<pre><code>GET /teams/:team_id/memberships/:username
+<div class="alert note">
+
+<p><strong>Note:</strong> You can also specify a team by <code>org_id</code> and <code>team_id</code> using the route <code>GET /organizations/:org_id/team/:team_id/memberships/:username</code>.</p>
+
+</div>
+
+<pre><code>GET /orgs/:org/teams/:team_slug/memberships/:username
 </code></pre>
 
 <div class="alert tip">
@@ -671,7 +515,7 @@ is associated with. Removing a team member does not delete the user, it just rem
 
 
 <h3>
-<a id="no-membership-response" class="anchor" href="#no-membership-response" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>No membership response</h3>
+<a id="response-if-user-has-no-team-membership" class="anchor" href="#response-if-user-has-no-team-membership" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if user has no team membership</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 404 Not Found
 </code></pre>
@@ -687,10 +531,7 @@ Team synchronization is available for organizations using GitHub Enterprise Clou
 
 </p></div>
 
-<p>If the user is already a member of the team's organization, this endpoint will
-add the user to the team. To add a membership between an organization
-member and a team, the authenticated user must be an organization owner or a
-team maintainer.</p>
+<p>Adds an organization member to a team. An authenticated organization owner or team maintainer can add organization members to a team.</p>
 
 <div class="alert note">
 
@@ -698,18 +539,19 @@ team maintainer.</p>
 
 </div>
 
-<p>If the user is unaffiliated with the team's organization, this endpoint will
-send an invitation to the user via email. This newly-created membership will be
-in the "pending" state until the user accepts the invitation, at which point the
-membership will transition to the "active" state and the user will be added as a
-member of the team. To add a membership between an unaffiliated user
-and a team, the authenticated user must be an organization owner.</p>
+<p>An organization owner can add someone who is not part of the team's organization to a team. When an organization owner adds someone to a team who is not an organization member, this endpoint will send an invitation to the person via email. This newly-created membership will be in the "pending" state until the person accepts the invitation, at which point the membership will transition to the "active" state and the user will be added as a member of the team.</p>
 
 <p>If the user is already a member of the team, this endpoint will update the role
 of the team member's role. To update the membership of a team member,
 the authenticated user must be an organization owner or a team maintainer.</p>
 
-<pre><code>PUT /teams/:team_id/memberships/:username
+<div class="alert note">
+
+<p><strong>Note:</strong> You can also specify a team by <code>org_id</code> and <code>team_id</code> using the route <code>PUT /organizations/:org_id/team/:team_id/memberships/:username</code>.</p>
+
+</div>
+
+<pre><code>PUT /orgs/:org/teams/:team_slug/memberships/:username
 </code></pre>
 
 <h3>
@@ -764,14 +606,14 @@ the authenticated user must be an organization owner or a team maintainer.</p>
 
 
 <h3>
-<a id="response-if-team-synchronization-is-set-up-1" class="anchor" href="#response-if-team-synchronization-is-set-up-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if team synchronization is set up</h3>
+<a id="response-if-team-synchronization-is-set-up" class="anchor" href="#response-if-team-synchronization-is-set-up" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if team synchronization is set up</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 403 Forbidden
 </code></pre>
 
 
 <h3>
-<a id="response-if-you-attempt-to-add-an-organization-to-a-team-1" class="anchor" href="#response-if-you-attempt-to-add-an-organization-to-a-team-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if you attempt to add an organization to a team</h3>
+<a id="response-if-you-attempt-to-add-an-organization-to-a-team" class="anchor" href="#response-if-you-attempt-to-add-an-organization-to-a-team" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if you attempt to add an organization to a team</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 422 Unprocessable Entity
 </code></pre>
@@ -808,18 +650,24 @@ Team synchronization is available for organizations using GitHub Enterprise Clou
 
 </div>
 
-<pre><code>DELETE /teams/:team_id/memberships/:username
+<div class="alert note">
+
+<p><strong>Note:</strong> You can also specify a team by <code>org_id</code> and <code>team_id</code> using the route <code>DELETE /organizations/:org_id/team/:team_id/memberships/:username</code>.</p>
+
+</div>
+
+<pre><code>DELETE /orgs/:org/teams/:team_slug/memberships/:username
 </code></pre>
 
 <h3>
-<a id="response-3" class="anchor" href="#response-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-1" class="anchor" href="#response-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 204 No Content
 </code></pre>
 
 
 <h3>
-<a id="response-if-team-synchronization-is-set-up-2" class="anchor" href="#response-if-team-synchronization-is-set-up-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if team synchronization is set up</h3>
+<a id="response-if-team-synchronization-is-set-up-1" class="anchor" href="#response-if-team-synchronization-is-set-up-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if team synchronization is set up</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 403 Forbidden
 </code></pre>
@@ -831,11 +679,17 @@ Team synchronization is available for organizations using GitHub Enterprise Clou
 
 <p>The return hash contains a <code>role</code> field which refers to the Organization Invitation role and will be one of the following values: <code>direct_member</code>, <code>admin</code>, <code>billing_manager</code>, <code>hiring_manager</code>, or <code>reinstate</code>. If the invitee is not a GitHub member, the <code>login</code> field in the return hash will be <code>null</code>.</p>
 
-<pre><code>GET /teams/:team_id/invitations
+<div class="alert note">
+
+<p><strong>Note:</strong> You can also specify a team by <code>org_id</code> and <code>team_id</code> using the route <code>GET /organizations/:org_id/team/:team_id/invitations</code>.</p>
+
+</div>
+
+<pre><code>GET /orgs/:org/teams/:team_slug/invitations
 </code></pre>
 
 <h3>
-<a id="response-4" class="anchor" href="#response-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 200 OK
 Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
@@ -875,6 +729,538 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
+
+
+<h2>
+<a id="list-team-members-legacy" class="anchor" href="#list-team-members-legacy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List team members (Legacy)<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+
+<div class="alert warning">
+
+<p><strong>Deprecation Notice:</strong> This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new <a href="/v3/teams/members/#list-team-members"><code>List team members</code></a> endpoint.</p>
+
+</div>
+
+<p>Team members will include the members of child teams.</p>
+
+<p>To list members in a team, the team must be visible to the authenticated user.</p>
+
+<pre><code>GET /teams/:team_id/members
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>role</code></td>
+<td><code>string</code></td>
+<td>Filters members returned by their role in the team. Can be one of:<br> * <code>member</code> - normal members of the team.<br> * <code>maintainer</code> - team maintainers.<br> * <code>all</code> - all members of the team.<br>Default: <code>all</code>
+</td>
+</tr>
+</tbody>
+</table>
+
+<h3>
+<a id="response-3" class="anchor" href="#response-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
+      &lt;https://api.github.com/resource?page=5&gt;; rel="last"
+</code></pre>
+
+
+<pre class="highlight highlight-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDQ6VXNlcjE="</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"avatar_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/images/error/octocat_happy.gif"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gravatar_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"followers_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/followers"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"following_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/following{/other_user}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gists_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/gists{/gist_id}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"starred_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/starred{/owner}{/repo}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"subscriptions_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/subscriptions"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"organizations_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/orgs"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"repos_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/repos"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/events{/privacy}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"received_events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/received_events"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"site_admin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+
+<h2>
+<a id="get-team-membership-legacy" class="anchor" href="#get-team-membership-legacy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get team membership (Legacy)<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+
+<div class="alert warning">
+
+<p><strong>Deprecation Notice:</strong> This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new <a href="/v3/teams/members/#get-team-membership"><code>Get team membership</code></a> endpoint.</p>
+
+</div>
+
+<p>Team members will include the members of child teams.</p>
+
+<p>To get a user's membership with a team, the team must be visible to the authenticated user.</p>
+
+<pre><code>GET /teams/:team_id/memberships/:username
+</code></pre>
+
+<div class="alert tip">
+
+<p><strong>Note:</strong> The <code>role</code> for organization owners returns as <code>maintainer</code>. For more information about <code>maintainer</code> roles, see <a href="/v3/teams#create-team">Create team</a>.</p>
+
+</div>
+
+<h3>
+<a id="response-if-user-has-an-active-membership-with-team-1" class="anchor" href="#response-if-user-has-an-active-membership-with-team-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if user has an active membership with team</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+
+
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/1/memberships/octocat"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"role"</span><span class="p">:</span><span class="w"> </span><span class="s2">"member"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+
+<h3>
+<a id="response-if-user-is-a-team-maintainer-1" class="anchor" href="#response-if-user-is-a-team-maintainer-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if user is a team maintainer</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+
+
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/1/memberships/octocat"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"role"</span><span class="p">:</span><span class="w"> </span><span class="s2">"maintainer"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+
+<h3>
+<a id="response-if-user-has-a-pending-membership-with-team-1" class="anchor" href="#response-if-user-has-a-pending-membership-with-team-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if user has a pending membership with team</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+
+
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/1/memberships/octocat"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"role"</span><span class="p">:</span><span class="w"> </span><span class="s2">"member"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pending"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+
+<h3>
+<a id="no-membership-response" class="anchor" href="#no-membership-response" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>No membership response</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 404 Not Found
+</code></pre>
+
+
+<h2>
+<a id="add-or-update-team-membership-legacy" class="anchor" href="#add-or-update-team-membership-legacy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Add or update team membership (Legacy)<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+
+<div class="alert warning">
+
+<p><strong>Deprecation Notice:</strong> This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new <a href="/v3/teams/members/#add-or-update-team-membership"><code>Add or update team membership</code></a> endpoint.</p>
+
+</div>
+
+<div class="alert product"><p>
+
+Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see <a href="https://help.github.com/github/getting-started-with-github/githubs-products">GitHub's products</a> in the GitHub Help documentation.
+
+</p></div>
+
+<p>If the user is already a member of the team's organization, this endpoint will
+add the user to the team. To add a membership between an organization
+member and a team, the authenticated user must be an organization owner or a
+team maintainer.</p>
+
+<div class="alert note">
+
+<p><strong>Note:</strong> When you have team synchronization set up for a team with your organization's identity provider (IdP), you will see an error if you attempt to use the API for making changes to the team's membership. If you have access to manage group membership in your IdP, you can manage GitHub team membership through your identity provider, which automatically adds and removes team members in an organization. For more information, see "<a href="https://help.github.com/articles/synchronizing-teams-between-your-identity-provider-and-github/">Synchronizing teams between your identity provider and GitHub</a>."</p>
+
+</div>
+
+<p>If the user is unaffiliated with the team's organization, this endpoint will
+send an invitation to the user via email. This newly-created membership will be
+in the "pending" state until the user accepts the invitation, at which point the
+membership will transition to the "active" state and the user will be added as a
+member of the team. To add a membership between an unaffiliated user
+and a team, the authenticated user must be an organization owner.</p>
+
+<p>If the user is already a member of the team, this endpoint will update the role
+of the team member's role. To update the membership of a team member,
+the authenticated user must be an organization owner or a team maintainer.</p>
+
+<pre><code>PUT /teams/:team_id/memberships/:username
+</code></pre>
+
+<h3>
+<a id="parameters-1" class="anchor" href="#parameters-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>role</code></td>
+<td><code>string</code></td>
+<td>The role that this user should have in the team. Can be one of:<br> * <code>member</code> - a normal member of the team.<br> * <code>maintainer</code> - a team maintainer. Able to add/remove other team members, promote other team members to team maintainer, and edit the team's name and description.<br>Default: <code>member</code>
+</td>
+</tr>
+</tbody>
+</table>
+
+<h3>
+<a id="response-if-users-membership-with-team-is-now-active-1" class="anchor" href="#response-if-users-membership-with-team-is-now-active-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if user's membership with team is now active</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+
+
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/1/memberships/octocat"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"role"</span><span class="p">:</span><span class="w"> </span><span class="s2">"member"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+
+<h3>
+<a id="response-if-users-membership-with-team-is-now-pending-1" class="anchor" href="#response-if-users-membership-with-team-is-now-pending-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if user's membership with team is now pending</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+
+
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/1/memberships/octocat"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"role"</span><span class="p">:</span><span class="w"> </span><span class="s2">"member"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pending"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+
+<h3>
+<a id="response-if-team-synchronization-is-set-up-2" class="anchor" href="#response-if-team-synchronization-is-set-up-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if team synchronization is set up</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 403 Forbidden
+</code></pre>
+
+
+<h3>
+<a id="response-if-you-attempt-to-add-an-organization-to-a-team-1" class="anchor" href="#response-if-you-attempt-to-add-an-organization-to-a-team-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if you attempt to add an organization to a team</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 422 Unprocessable Entity
+</code></pre>
+
+
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cannot add an organization as a member."</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"org"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TeamMember"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+
+<h2>
+<a id="remove-team-membership-legacy" class="anchor" href="#remove-team-membership-legacy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove team membership (Legacy)<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+
+<div class="alert warning">
+
+<p><strong>Deprecation Notice:</strong> This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new <a href="/v3/teams/members/#remove-team-membership"><code>Remove team membership</code></a> endpoint.</p>
+
+</div>
+
+<div class="alert product"><p>
+
+Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see <a href="https://help.github.com/github/getting-started-with-github/githubs-products">GitHub's products</a> in the GitHub Help documentation.
+
+</p></div>
+
+<p>To remove a membership between a user and a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with. Removing team membership does not delete the user, it just removes their membership from the team.</p>
+
+<div class="alert note">
+
+<p><strong>Note:</strong> When you have team synchronization set up for a team with your organization's identity provider (IdP), you will see an error if you attempt to use the API for making changes to the team's membership. If you have access to manage group membership in your IdP, you can manage GitHub team membership through your identity provider, which automatically adds and removes team members in an organization. For more information, see "<a href="https://help.github.com/articles/synchronizing-teams-between-your-identity-provider-and-github/">Synchronizing teams between your identity provider and GitHub</a>."</p>
+
+</div>
+
+<pre><code>DELETE /teams/:team_id/memberships/:username
+</code></pre>
+
+<h3>
+<a id="response-4" class="anchor" href="#response-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 204 No Content
+</code></pre>
+
+
+<h3>
+<a id="response-if-team-synchronization-is-set-up-3" class="anchor" href="#response-if-team-synchronization-is-set-up-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if team synchronization is set up</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 403 Forbidden
+</code></pre>
+
+
+<h2>
+<a id="list-pending-team-invitations-legacy" class="anchor" href="#list-pending-team-invitations-legacy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List pending team invitations (Legacy)<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+
+<div class="alert warning">
+
+<p><strong>Deprecation Notice:</strong> This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new <a href="/v3/teams/members/#list-pending-team-invitations"><code>List pending team invitations</code></a> endpoint.</p>
+
+</div>
+
+<p>The return hash contains a <code>role</code> field which refers to the Organization Invitation role and will be one of the following values: <code>direct_member</code>, <code>admin</code>, <code>billing_manager</code>, <code>hiring_manager</code>, or <code>reinstate</code>. If the invitee is not a GitHub member, the <code>login</code> field in the return hash will be <code>null</code>.</p>
+
+<pre><code>GET /teams/:team_id/invitations
+</code></pre>
+
+<h3>
+<a id="response-5" class="anchor" href="#response-5" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
+      &lt;https://api.github.com/resource?page=5&gt;; rel="last"
+</code></pre>
+
+
+<pre class="highlight highlight-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"monalisa"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat@github.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"role"</span><span class="p">:</span><span class="w"> </span><span class="s2">"direct_member"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-11-30T06:46:10-08:00"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"inviter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"other_user"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDQ6VXNlcjE="</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"avatar_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/images/error/other_user_happy.gif"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"gravatar_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/other_user"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/other_user"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"followers_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/other_user/followers"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"following_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/other_user/following{/other_user}"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"gists_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/other_user/gists{/gist_id}"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"starred_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/other_user/starred{/owner}{/repo}"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"subscriptions_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/other_user/subscriptions"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"organizations_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/other_user/orgs"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"repos_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/other_user/repos"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/other_user/events{/privacy}"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"received_events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/other_user/received_events"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"site_admin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"team_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"invitation_team_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/organizations/2/invitations/1/teams"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+
+<h2>
+<a id="get-team-member-legacy" class="anchor" href="#get-team-member-legacy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get team member (Legacy)<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+
+<h3>
+<a id="deprecation-notice" class="anchor" href="#deprecation-notice" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Deprecation notice</h3>
+
+<div class="alert warning">
+
+<p>The "Get team member" endpoint (described below) is deprecated.</p>
+
+<p>We recommend using the
+<a href="/v3/teams/members/#get-team-membership">Get team membership</a> endpoint instead. It allows you to get both active and pending memberships.</p>
+
+</div>
+
+<p>To list members in a team, the team must be visible to the authenticated user.</p>
+
+<pre><code>GET /teams/:team_id/members/:username
+</code></pre>
+
+<h3>
+<a id="response-if-user-is-a-member" class="anchor" href="#response-if-user-is-a-member" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if user is a member</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 204 No Content
+</code></pre>
+
+
+<h3>
+<a id="response-if-user-is-not-a-member" class="anchor" href="#response-if-user-is-not-a-member" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if user is not a member</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 404 Not Found
+</code></pre>
+
+
+<h2>
+<a id="add-team-member-legacy" class="anchor" href="#add-team-member-legacy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Add team member (Legacy)<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+
+<h3>
+<a id="deprecation-notice-1" class="anchor" href="#deprecation-notice-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Deprecation notice</h3>
+
+<div class="alert warning">
+
+<p>The "Add team member" endpoint (described below) is deprecated.</p>
+
+<p>We recommend using the <a href="/v3/teams/members/#add-or-update-team-membership">Add team membership</a> endpoint instead. It allows you to invite new organization members to your teams.</p>
+
+</div>
+
+<div class="alert product"><p>
+
+Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see <a href="https://help.github.com/github/getting-started-with-github/githubs-products">GitHub's products</a> in the GitHub Help documentation.
+
+</p></div>
+
+<p>To add someone to a team, the authenticated user must be an organization owner or a team maintainer in the team they're changing. The person being added to the team must be a member of the team's organization.</p>
+
+<div class="alert note">
+
+<p><strong>Note:</strong> When you have team synchronization set up for a team with your organization's identity provider (IdP), you will see an error if you attempt to use the API for making changes to the team's membership. If you have access to manage group membership in your IdP, you can manage GitHub team membership through your identity provider, which automatically adds and removes team members in an organization. For more information, see "<a href="https://help.github.com/articles/synchronizing-teams-between-your-identity-provider-and-github/">Synchronizing teams between your identity provider and GitHub</a>."</p>
+
+</div>
+
+<pre><code>PUT /teams/:team_id/members/:username
+</code></pre>
+
+<p>Note that you'll need to set <code>Content-Length</code> to zero when calling out to this endpoint. For more information, see "<a href="/v3/#http-verbs">HTTP verbs</a>."</p>
+
+<h3>
+<a id="response-6" class="anchor" href="#response-6" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 204 No Content
+</code></pre>
+
+
+<h3>
+<a id="response-if-team-synchronization-is-set-up-4" class="anchor" href="#response-if-team-synchronization-is-set-up-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if team synchronization is set up</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 404 Not Found
+</code></pre>
+
+
+<h3>
+<a id="response-if-you-attempt-to-add-an-organization-to-a-team-2" class="anchor" href="#response-if-you-attempt-to-add-an-organization-to-a-team-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if you attempt to add an organization to a team</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 422 Unprocessable Entity
+</code></pre>
+
+
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cannot add an organization as a member."</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"org"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TeamMember"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+
+<h3>
+<a id="response-if-you-attempt-to-add-a-user-to-a-team-when-they-are-not-a-member-of-at-least-one-other-team-in-the-same-organization" class="anchor" href="#response-if-you-attempt-to-add-a-user-to-a-team-when-they-are-not-a-member-of-at-least-one-other-team-in-the-same-organization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if you attempt to add a user to a team when they are not a member of at least one other team in the same organization</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 422 Unprocessable Entity
+</code></pre>
+
+
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User isn't a member of this organization. Please invite them first."</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unaffiliated"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TeamMember"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+
+<h2>
+<a id="remove-team-member-legacy" class="anchor" href="#remove-team-member-legacy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove team member (Legacy)<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+
+<h3>
+<a id="deprecation-notice-2" class="anchor" href="#deprecation-notice-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Deprecation notice</h3>
+
+<div class="alert warning">
+
+<p>The "Remove team member" endpoint (described below) is deprecated.</p>
+
+<p>We recommend using the <a href="/v3/teams/members/#remove-team-membership">Remove team membership</a> endpoint instead. It allows you to remove both active and pending memberships.</p>
+
+</div>
+
+<div class="alert product"><p>
+
+Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see <a href="https://help.github.com/github/getting-started-with-github/githubs-products">GitHub's products</a> in the GitHub Help documentation.
+
+</p></div>
+
+<p>To remove a team member, the authenticated user must have 'admin' permissions to the team or be an owner of the org that the team
+is associated with. Removing a team member does not delete the user, it just removes them from the team.</p>
+
+<div class="alert note">
+
+<p><strong>Note:</strong> When you have team synchronization set up for a team with your organization's identity provider (IdP), you will see an error if you attempt to use the API for making changes to the team's membership. If you have access to manage group membership in your IdP, you can manage GitHub team membership through your identity provider, which automatically adds and removes team members in an organization. For more information, see "<a href="https://help.github.com/articles/synchronizing-teams-between-your-identity-provider-and-github/">Synchronizing teams between your identity provider and GitHub</a>."</p>
+
+</div>
+
+<pre><code>DELETE /teams/:team_id/members/:username
+</code></pre>
+
+<h3>
+<a id="response-7" class="anchor" href="#response-7" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 204 No Content
+</code></pre>
+
+
+<h3>
+<a id="response-if-team-synchronization-is-setup" class="anchor" href="#response-if-team-synchronization-is-setup" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if team synchronization is setup</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 404 Not Found
+</code></pre>
 
       </div>
 

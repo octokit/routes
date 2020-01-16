@@ -353,6 +353,11 @@
 <li><a href="#create-a-comment" id="markdown-toc-create-a-comment">Create a comment</a></li>
 <li><a href="#edit-a-comment" id="markdown-toc-edit-a-comment">Edit a comment</a></li>
 <li><a href="#delete-a-comment" id="markdown-toc-delete-a-comment">Delete a comment</a></li>
+<li><a href="#list-comments-legacy" id="markdown-toc-list-comments-legacy">List comments (Legacy)</a></li>
+<li><a href="#get-a-single-comment-legacy" id="markdown-toc-get-a-single-comment-legacy">Get a single comment (Legacy)</a></li>
+<li><a href="#create-a-comment-legacy" id="markdown-toc-create-a-comment-legacy">Create a comment (Legacy)</a></li>
+<li><a href="#edit-a-comment-legacy" id="markdown-toc-edit-a-comment-legacy">Edit a comment (Legacy)</a></li>
+<li><a href="#delete-a-comment-legacy" id="markdown-toc-delete-a-comment-legacy">Delete a comment (Legacy)</a></li>
 </ul>
 
 <p>The team discussion comments API allows you to get, create, edit, and delete discussion comments on a <a href="/v3/teams/discussions">team discussion</a> post. Any member of the team's <a href="/v3/orgs">organization</a> can create and read comments on a public discussion. For more details, see "<a href="https://help.github.com/articles/about-team-discussions/">About team discussions</a>." This API is only available to authenticated members of the team's organization.</p>
@@ -378,7 +383,13 @@
 
 <p>List all comments on a team discussion. OAuth access tokens require the <code>read:discussion</code> <a href="/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/">scope</a>.</p>
 
-<pre><code>GET /teams/:team_id/discussions/:discussion_number/comments
+<div class="alert note">
+
+<p><strong>Note:</strong> You can also specify a team by <code>org_id</code> and <code>team_id</code> using the route <code>GET /organizations/:org_id/team/:team_id/discussions/:discussion_number/comments</code>.</p>
+
+</div>
+
+<pre><code>GET /orgs/:org/teams/:team_slug/discussions/:discussion_number/comments
 </code></pre>
 
 <h3>
@@ -480,7 +491,13 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 <p>Get a specific comment on a team discussion. OAuth access tokens require the <code>read:discussion</code> <a href="/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/">scope</a>.</p>
 
-<pre><code>GET /teams/:team_id/discussions/:discussion_number/comments/:comment_number
+<div class="alert note">
+
+<p><strong>Note:</strong> You can also specify a team by <code>org_id</code> and <code>team_id</code> using the route <code>GET /organizations/:org_id/team/:team_id/discussions/:discussion_number/comments/:comment_number</code>.</p>
+
+</div>
+
+<pre><code>GET /orgs/:org/teams/:team_slug/discussions/:discussion_number/comments/:comment_number
 </code></pre>
 
 <h3>
@@ -559,7 +576,13 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 <p>This endpoint triggers <a href="https://help.github.com/articles/about-notifications/">notifications</a>. Creating content too quickly using this endpoint may result in abuse rate limiting. See "<a href="/v3/#abuse-rate-limits">Abuse rate limits</a>" and "<a href="/v3/guides/best-practices-for-integrators/#dealing-with-abuse-rate-limits">Dealing with abuse rate limits</a>" for details.</p>
 
-<pre><code>POST /teams/:team_id/discussions/:discussion_number/comments
+<div class="alert note">
+
+<p><strong>Note:</strong> You can also specify a team by <code>org_id</code> and <code>team_id</code> using the route <code>POST /organizations/:org_id/team/:team_id/discussions/:discussion_number/comments</code>.</p>
+
+</div>
+
+<pre><code>POST /orgs/:org/teams/:team_slug/discussions/:discussion_number/comments
 </code></pre>
 
 <h3>
@@ -666,7 +689,13 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 <p>Edits the body text of a discussion comment. OAuth access tokens require the <code>write:discussion</code> <a href="/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/">scope</a>.</p>
 
-<pre><code>PATCH /teams/:team_id/discussions/:discussion_number/comments/:comment_number
+<div class="alert note">
+
+<p><strong>Note:</strong> You can also specify a team by <code>org_id</code> and <code>team_id</code> using the route <code>PATCH /organizations/:org_id/team/:team_id/discussions/:discussion_number/comments/:comment_number</code>.</p>
+
+</div>
+
+<pre><code>PATCH /orgs/:org/teams/:team_slug/discussions/:discussion_number/comments/:comment_number
 </code></pre>
 
 <h3>
@@ -758,11 +787,458 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 <p>Deletes a comment on a team discussion. OAuth access tokens require the <code>write:discussion</code> <a href="/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/">scope</a>.</p>
 
-<pre><code>DELETE /teams/:team_id/discussions/:discussion_number/comments/:comment_number
+<div class="alert note">
+
+<p><strong>Note:</strong> You can also specify a team by <code>org_id</code> and <code>team_id</code> using the route <code>DELETE /organizations/:org_id/team/:team_id/discussions/:discussion_number/comments/:comment_number</code>.</p>
+
+</div>
+
+<pre><code>DELETE /orgs/:org/teams/:team_slug/discussions/:discussion_number/comments/:comment_number
 </code></pre>
 
 <h3>
 <a id="response-4" class="anchor" href="#response-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 204 No Content
+</code></pre>
+
+
+<h2>
+<a id="list-comments-legacy" class="anchor" href="#list-comments-legacy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List comments (Legacy)<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+
+<div class="alert warning">
+
+<p><strong>Deprecation Notice:</strong> This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new <a href="/v3/teams/discussion_comments/#list-comments"><code>List comments</code></a> endpoint.</p>
+
+</div>
+
+<div class="alert note">
+
+<p><strong>Note:</strong> The <a href="/v3/reactions/">reactions API</a> is available for developers to preview. The <code>url</code> can be used to construct the API location for <a href="/v3/reactions">listing and creating</a> reactions. See the <a href="/changes/2016-05-12-reactions-api-preview">blog post</a> for full details. To receive the <code>reactions</code> object in the response for this endpoint you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+<pre><code>application/vnd.github.squirrel-girl-preview
+</code></pre>
+
+</div>
+
+<div class="alert warning">
+
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub Support</a>.</p>
+
+</div>
+
+<p>List all comments on a team discussion. OAuth access tokens require the <code>read:discussion</code> <a href="/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/">scope</a>.</p>
+
+<pre><code>GET /teams/:team_id/discussions/:discussion_number/comments
+</code></pre>
+
+<h3>
+<a id="parameters-3" class="anchor" href="#parameters-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>direction</code></td>
+<td><code>string</code></td>
+<td>Sorts the discussion comments by the date they were created. To return the oldest comments first, set to <code>asc</code>. Can be one of <code>asc</code> or <code>desc</code>. <br> Default: <code>desc</code>
+</td>
+</tr>
+</tbody>
+</table>
+
+<h3>
+<a id="response-5" class="anchor" href="#response-5" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
+      &lt;https://api.github.com/resource?page=5&gt;; rel="last"
+</code></pre>
+
+
+<pre class="highlight highlight-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDQ6VXNlcjE="</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"avatar_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/images/error/octocat_happy.gif"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"gravatar_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"followers_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/followers"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"following_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/following{/other_user}"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"gists_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/gists{/gist_id}"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"starred_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/starred{/owner}{/repo}"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"subscriptions_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/subscriptions"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"organizations_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/orgs"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"repos_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/repos"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/events{/privacy}"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"received_events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/received_events"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"site_admin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Do you like apples?"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"body_html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;p&gt;Do you like apples?&lt;/p&gt;"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"body_version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5eb32b219cdc6a5a9b29ba5d6caa9c51"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-01-15T23:53:58Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"last_edited_at"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"discussion_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/2403582/discussions/1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/orgs/github/teams/justice-league/discussions/1/comments/1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDIxOlRlYW1EaXNjdXNzaW9uQ29tbWVudDE="</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"number"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-01-15T23:53:58Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/2403582/discussions/1/comments/1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"reactions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/2403582/discussions/1/reactions"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"total_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"+1"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"-1"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"laugh"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"confused"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"heart"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"hooray"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+
+<h2>
+<a id="get-a-single-comment-legacy" class="anchor" href="#get-a-single-comment-legacy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get a single comment (Legacy)<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+
+<div class="alert warning">
+
+<p><strong>Deprecation Notice:</strong> This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new <a href="/v3/teams/discussion_comments/#get-a-single-comment"><code>Get a single comment</code></a> endpoint.</p>
+
+</div>
+
+<div class="alert note">
+
+<p><strong>Note:</strong> The <a href="/v3/reactions/">reactions API</a> is available for developers to preview. The <code>url</code> can be used to construct the API location for <a href="/v3/reactions">listing and creating</a> reactions. See the <a href="/changes/2016-05-12-reactions-api-preview">blog post</a> for full details. To receive the <code>reactions</code> object in the response for this endpoint you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+<pre><code>application/vnd.github.squirrel-girl-preview
+</code></pre>
+
+</div>
+
+<div class="alert warning">
+
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub Support</a>.</p>
+
+</div>
+
+<p>Get a specific comment on a team discussion. OAuth access tokens require the <code>read:discussion</code> <a href="/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/">scope</a>.</p>
+
+<pre><code>GET /teams/:team_id/discussions/:discussion_number/comments/:comment_number
+</code></pre>
+
+<h3>
+<a id="response-6" class="anchor" href="#response-6" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+
+
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDQ6VXNlcjE="</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"avatar_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/images/error/octocat_happy.gif"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gravatar_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"followers_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/followers"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"following_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/following{/other_user}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gists_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/gists{/gist_id}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"starred_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/starred{/owner}{/repo}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"subscriptions_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/subscriptions"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"organizations_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/orgs"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"repos_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/repos"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/events{/privacy}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"received_events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/received_events"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"site_admin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Do you like apples?"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"body_html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;p&gt;Do you like apples?&lt;/p&gt;"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"body_version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5eb32b219cdc6a5a9b29ba5d6caa9c51"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-01-15T23:53:58Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"last_edited_at"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"discussion_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/2403582/discussions/1"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/orgs/github/teams/justice-league/discussions/1/comments/1"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDIxOlRlYW1EaXNjdXNzaW9uQ29tbWVudDE="</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"number"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-01-15T23:53:58Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/2403582/discussions/1/comments/1"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"reactions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/2403582/discussions/1/reactions"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"total_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"+1"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"-1"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"laugh"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"confused"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"heart"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"hooray"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+
+<h2>
+<a id="create-a-comment-legacy" class="anchor" href="#create-a-comment-legacy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a comment (Legacy)<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+
+<div class="alert warning">
+
+<p><strong>Deprecation Notice:</strong> This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new <a href="/v3/teams/discussion_comments/#create-a-comment"><code>Create a comment</code></a> endpoint.</p>
+
+</div>
+
+<div class="alert note">
+
+<p><strong>Note:</strong> The <a href="/v3/reactions/">reactions API</a> is available for developers to preview. The <code>url</code> can be used to construct the API location for <a href="/v3/reactions">listing and creating</a> reactions. See the <a href="/changes/2016-05-12-reactions-api-preview">blog post</a> for full details. To receive the <code>reactions</code> object in the response for this endpoint you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+<pre><code>application/vnd.github.squirrel-girl-preview
+</code></pre>
+
+</div>
+
+<div class="alert warning">
+
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub Support</a>.</p>
+
+</div>
+
+<p>Creates a new comment on a team discussion. OAuth access tokens require the <code>write:discussion</code> <a href="/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/">scope</a>.</p>
+
+<p>This endpoint triggers <a href="https://help.github.com/articles/about-notifications/">notifications</a>. Creating content too quickly using this endpoint may result in abuse rate limiting. See "<a href="/v3/#abuse-rate-limits">Abuse rate limits</a>" and "<a href="/v3/guides/best-practices-for-integrators/#dealing-with-abuse-rate-limits">Dealing with abuse rate limits</a>" for details.</p>
+
+<pre><code>POST /teams/:team_id/discussions/:discussion_number/comments
+</code></pre>
+
+<h3>
+<a id="parameters-4" class="anchor" href="#parameters-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>body</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required</strong>. The discussion comment's body text.</td>
+</tr>
+</tbody>
+</table>
+
+<h3>
+<a id="example-2" class="anchor" href="#example-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Do you like apples?"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+
+<h3>
+<a id="response-7" class="anchor" href="#response-7" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 201 Created
+</code></pre>
+
+
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDQ6VXNlcjE="</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"avatar_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/images/error/octocat_happy.gif"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gravatar_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"followers_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/followers"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"following_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/following{/other_user}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gists_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/gists{/gist_id}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"starred_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/starred{/owner}{/repo}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"subscriptions_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/subscriptions"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"organizations_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/orgs"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"repos_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/repos"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/events{/privacy}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"received_events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/received_events"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"site_admin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Do you like apples?"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"body_html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;p&gt;Do you like apples?&lt;/p&gt;"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"body_version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5eb32b219cdc6a5a9b29ba5d6caa9c51"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-01-15T23:53:58Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"last_edited_at"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"discussion_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/2403582/discussions/1"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/orgs/github/teams/justice-league/discussions/1/comments/1"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDIxOlRlYW1EaXNjdXNzaW9uQ29tbWVudDE="</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"number"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-01-15T23:53:58Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/2403582/discussions/1/comments/1"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"reactions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/2403582/discussions/1/reactions"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"total_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"+1"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"-1"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"laugh"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"confused"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"heart"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"hooray"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+
+<h2>
+<a id="edit-a-comment-legacy" class="anchor" href="#edit-a-comment-legacy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Edit a comment (Legacy)<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+
+<div class="alert warning">
+
+<p><strong>Deprecation Notice:</strong> This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new <a href="/v3/teams/discussion_comments/#edit-a-comment"><code>Edit a comment</code></a> endpoint.</p>
+
+</div>
+
+<div class="alert note">
+
+<p><strong>Note:</strong> The <a href="/v3/reactions/">reactions API</a> is available for developers to preview. The <code>url</code> can be used to construct the API location for <a href="/v3/reactions">listing and creating</a> reactions. See the <a href="/changes/2016-05-12-reactions-api-preview">blog post</a> for full details. To receive the <code>reactions</code> object in the response for this endpoint you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+<pre><code>application/vnd.github.squirrel-girl-preview
+</code></pre>
+
+</div>
+
+<div class="alert warning">
+
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub Support</a>.</p>
+
+</div>
+
+<p>Edits the body text of a discussion comment. OAuth access tokens require the <code>write:discussion</code> <a href="/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/">scope</a>.</p>
+
+<pre><code>PATCH /teams/:team_id/discussions/:discussion_number/comments/:comment_number
+</code></pre>
+
+<h3>
+<a id="parameters-5" class="anchor" href="#parameters-5" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>body</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required</strong>. The discussion comment's body text.</td>
+</tr>
+</tbody>
+</table>
+
+<h3>
+<a id="example-3" class="anchor" href="#example-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Do you like pineapples?"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+
+<h3>
+<a id="response-8" class="anchor" href="#response-8" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+
+
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"author"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDQ6VXNlcjE="</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"avatar_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/images/error/octocat_happy.gif"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gravatar_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"followers_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/followers"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"following_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/following{/other_user}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"gists_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/gists{/gist_id}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"starred_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/starred{/owner}{/repo}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"subscriptions_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/subscriptions"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"organizations_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/orgs"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"repos_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/repos"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/events{/privacy}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"received_events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat/received_events"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"site_admin"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Do you like pineapples?"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"body_html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;p&gt;Do you like pineapples?&lt;/p&gt;"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"body_version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"e6907b24d9c93cc0c5024a7af5888116"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-01-15T23:53:58Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"last_edited_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-01-26T18:22:20Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"discussion_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/2403582/discussions/1"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/orgs/github/teams/justice-league/discussions/1/comments/1"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDIxOlRlYW1EaXNjdXNzaW9uQ29tbWVudDE="</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"number"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-01-26T18:22:20Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/2403582/discussions/1/comments/1"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"reactions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/2403582/discussions/1/reactions"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"total_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"+1"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"-1"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"laugh"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"confused"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"heart"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"hooray"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+
+<h2>
+<a id="delete-a-comment-legacy" class="anchor" href="#delete-a-comment-legacy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Delete a comment (Legacy)<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+
+<div class="alert warning">
+
+<p><strong>Deprecation Notice:</strong> This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new <a href="/v3/teams/discussion_comments/#delete-a-comment"><code>Delete a comment</code></a> endpoint.</p>
+
+</div>
+
+<p>Deletes a comment on a team discussion. OAuth access tokens require the <code>write:discussion</code> <a href="/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/">scope</a>.</p>
+
+<pre><code>DELETE /teams/:team_id/discussions/:discussion_number/comments/:comment_number
+</code></pre>
+
+<h3>
+<a id="response-9" class="anchor" href="#response-9" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 204 No Content
 </code></pre>
