@@ -1,11 +1,17 @@
-const APP_ID = 37848;
-const PRIVATE_KEY = process.env.PRIVATE_KEY;
-const EVENT_TYPE = process.env.INPUT_EVENT_TYPE;
-const VERSION = process.env.INPUT_VERSION;
-
 const { createAppAuth } = require("@octokit/auth-app");
 const { Octokit } = require("@octokit/core");
 const { paginateRest } = require("@octokit/plugin-paginate-rest");
+
+const APP_ID = 37848;
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
+const EVENT_TYPE = process.env.INPUT_EVENT_TYPE;
+const VERSION = require("../package.json").version;
+
+if (!VERSION === "0.0.0-development") {
+  throw new Error(
+    'Set correct version to be dispatched in package.json. Will not dispatch "0.0.0-development"'
+  );
+}
 
 const OctokitWithPagination = Octokit.plugin(paginateRest);
 
@@ -66,7 +72,7 @@ async function main() {
             repo: name,
             event_type: EVENT_TYPE,
             client_payload: {
-              version: VERSION.substr(1) // v24.1.2 -> 24.1.2
+              version: VERSION
             }
           }
         );

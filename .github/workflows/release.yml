@@ -15,8 +15,7 @@ jobs:
           node-version: "12.x"
       - run: npm ci
       - run: npm run build
-      - uses: codfish/semantic-release-action@master
-        id: semantic-release
+      - run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -27,5 +26,3 @@ jobs:
         env:
           PRIVATE_KEY: ${{ secrets.OCTOKIT_ROUTES_APP_PRIVATE_KEY }}
           INPUT_EVENT_TYPE: octokit-routes-release
-          # simulating the v1.2.3 tag_name, hoping we get to work the `notify-users.yml` to work again
-          INPUT_VERSION: ${{ join('v', steps.semantic-release.outputs.release-version) }}
