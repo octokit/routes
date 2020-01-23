@@ -1,0 +1,66 @@
+{
+  "summary": "Remove team member (Legacy)",
+  "description": "The \"Remove team member\" endpoint (described below) is deprecated.\n\nWe recommend using the [Remove team membership](https://developer.github.com/enterprise/2.16/v3/teams/members/#remove-team-membership) endpoint instead. It allows you to remove both active and pending memberships.\n\nTo remove a team member, the authenticated user must have 'admin' permissions to the team or be an owner of the org that the team is associated with. Removing a team member does not delete the user, it just removes them from the team.",
+  "operationId": "teams/remove-member-legacy",
+  "tags": ["teams"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.16/v3/teams/members/#remove-team-member-legacy"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "team_id",
+      "description": "team_id parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    },
+    {
+      "name": "username",
+      "description": "username parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": { "204": { "description": "Empty response" } },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XDELETE \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/teams/42/members/USERNAME"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.teams.removeMemberLegacy({\n  team_id: 42,\n  username: 'username'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.remove_member_legacy(\n  42,\n  'username'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": true,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2020-01-16",
+      "note": "\"Remove team member\" is now \"Remove team member (Legacy)\"",
+      "before": { "operationId": "teams/remove-member" },
+      "after": { "operationId": "teams/remove-member-legacy" }
+    }
+  ],
+  "deprecated": true
+}
