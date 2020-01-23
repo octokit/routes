@@ -65,9 +65,6 @@ async function main() {
         const options = installationOctokit.request.endpoint.merge(
           "POST /repos/:owner/:repo/dispatches",
           {
-            mediaType: {
-              previews: ["everest"]
-            },
             owner: login,
             repo: name,
             event_type: EVENT_TYPE,
