@@ -1,11 +1,11 @@
 {
-  "summary": "Add team member",
-  "description": "The \"Add team member\" API (described below) is deprecated.\n\nWe recommend using the [Add team membership API](https://developer.github.com/enterprise/2.17/v3/teams/members/#add-or-update-team-membership) instead. It allows you to invite new organization members to your teams.\n\nTo add someone to a team, the authenticated user must be an organization owner or a team maintainer in the team they're changing. The person being added to the team must be a member of the team's organization.\n\nNote that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](https://developer.github.com/enterprise/2.17/v3/#http-verbs).\"",
-  "operationId": "teams/add-member",
+  "summary": "Add team member (Legacy)",
+  "description": "The \"Add team member\" endpoint (described below) is deprecated.\n\nWe recommend using the [Add team membership](https://developer.github.com/enterprise/2.18/v3/teams/members/#add-or-update-team-membership) endpoint instead. It allows you to invite new organization members to your teams.\n\nTo add someone to a team, the authenticated user must be an organization owner or a team maintainer in the team they're changing. The person being added to the team must be a member of the team's organization.\n\nNote that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](https://developer.github.com/enterprise/2.18/v3/#http-verbs).\"",
+  "operationId": "teams/add-member-legacy",
   "tags": ["teams"],
   "externalDocs": {
     "description": "API method documentation",
-    "url": "https://developer.github.com/enterprise/2.17/v3/teams/members/#add-team-member"
+    "url": "https://developer.github.com/enterprise/2.18/v3/teams/members/#add-team-member-legacy"
   },
   "parameters": [
     {
@@ -90,16 +90,27 @@
     },
     {
       "lang": "JS",
-      "source": "octokit.teams.addMember({\n  team_id: 42,\n  username: 'username'\n})"
+      "source": "octokit.teams.addMemberLegacy({\n  team_id: 42,\n  username: 'username'\n})"
     },
-    { "lang": "Ruby", "source": "octokit.add_member(\n  42,\n  'username'\n)" }
+    {
+      "lang": "Ruby",
+      "source": "octokit.add_member_legacy(\n  42,\n  'username'\n)"
+    }
   ],
   "x-github": {
-    "legacy": false,
+    "legacy": true,
     "enabledForApps": true,
     "githubCloudOnly": false,
     "previews": []
   },
-  "x-changes": [],
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2020-01-16",
+      "note": "\"Add team member\" is now \"Add team member (Legacy)\"",
+      "before": { "operationId": "teams/add-member" },
+      "after": { "operationId": "teams/add-member-legacy" }
+    }
+  ],
   "deprecated": true
 }
