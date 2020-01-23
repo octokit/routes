@@ -260,12 +260,12 @@
 <a id="team-members" class="anchor" href="#team-members" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Team Members</h1>
 <ul id="markdown-toc">
 <li><a href="#list-team-members" id="markdown-toc-list-team-members">List team members</a></li>
-<li><a href="#get-team-member" id="markdown-toc-get-team-member">Get team member</a></li>
-<li><a href="#add-team-member" id="markdown-toc-add-team-member">Add team member</a></li>
-<li><a href="#remove-team-member" id="markdown-toc-remove-team-member">Remove team member</a></li>
 <li><a href="#get-team-membership" id="markdown-toc-get-team-membership">Get team membership</a></li>
 <li><a href="#add-or-update-team-membership" id="markdown-toc-add-or-update-team-membership">Add or update team membership</a></li>
 <li><a href="#remove-team-membership" id="markdown-toc-remove-team-membership">Remove team membership</a></li>
+<li><a href="#get-team-member-legacy" id="markdown-toc-get-team-member-legacy">Get team member (Legacy)</a></li>
+<li><a href="#add-team-member-legacy" id="markdown-toc-add-team-member-legacy">Add team member (Legacy)</a></li>
+<li><a href="#remove-team-member-legacy" id="markdown-toc-remove-team-member-legacy">Remove team member (Legacy)</a></li>
 </ul>
 <p>This API is only available to authenticated members of the team's organization. OAuth access tokens require the <code>read:org</code> <a href="/enterprise/2.18/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/">scope</a>.</p>
 <h2>
@@ -277,7 +277,7 @@
 </code></pre>
 </div>
 <div class="alert warning">
-<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact your GitHub Enterprise site administrator.</p>
 </div>
 <p>If you pass the <code>hellcat-preview</code> media type, team members will include the members of child teams.</p>
 <p>To list members in a team, the team must be visible to the authenticated user.</p>
@@ -332,94 +332,6 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <h2>
-<a id="get-team-member" class="anchor" href="#get-team-member" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get team member<a href="/enterprise/2.18/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
-</h2>
-<h3>
-<a id="deprecation-notice" class="anchor" href="#deprecation-notice" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Deprecation notice</h3>
-<div class="alert tip">
-<p>The "Get team member" API (described below) is deprecated.</p>
-<p>We recommend using the
-<a href="/enterprise/2.18/v3/teams/members/#get-team-membership">Get team membership API</a>
-instead. It allows you to get both active and pending memberships.</p>
-</div>
-<p>To list members in a team, the team must be visible to the authenticated user.</p>
-<pre><code>GET /teams/:team_id/members/:username
-</code></pre>
-<h3>
-<a id="response-if-user-is-a-member" class="anchor" href="#response-if-user-is-a-member" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if user is a member</h3>
-<pre class="highlight highlight-headers"><code>Status: 204 No Content
-</code></pre>
-<h3>
-<a id="response-if-user-is-not-a-member" class="anchor" href="#response-if-user-is-not-a-member" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if user is not a member</h3>
-<pre class="highlight highlight-headers"><code>Status: 404 Not Found
-</code></pre>
-<h2>
-<a id="add-team-member" class="anchor" href="#add-team-member" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Add team member<a href="/enterprise/2.18/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
-</h2>
-<h3>
-<a id="deprecation-notice-1" class="anchor" href="#deprecation-notice-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Deprecation notice</h3>
-<div class="alert tip">
-<p>The "Add team member" API (described below) is deprecated.</p>
-<p>We recommend using the <a href="/enterprise/2.18/v3/teams/members/#add-or-update-team-membership">Add team membership API</a> instead. It allows you to invite new organization members to your teams.</p>
-</div>
-<p>To add someone to a team, the authenticated user must be an organization owner or a team maintainer in the team they're changing. The person being added to the team must be a member of the team's organization.</p>
-<pre><code>PUT /teams/:team_id/members/:username
-</code></pre>
-<p>Note that you'll need to set <code>Content-Length</code> to zero when calling out to this endpoint. For more information, see "<a href="/enterprise/2.18/v3/#http-verbs">HTTP verbs</a>."</p>
-<h3>
-<a id="response-1" class="anchor" href="#response-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
-<pre class="highlight highlight-headers"><code>Status: 204 No Content
-</code></pre>
-<h3>
-<a id="response-if-you-attempt-to-add-an-organization-to-a-team" class="anchor" href="#response-if-you-attempt-to-add-an-organization-to-a-team" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if you attempt to add an organization to a team</h3>
-<pre class="highlight highlight-headers"><code>Status: 422 Unprocessable Entity
-</code></pre>
-<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cannot add an organization as a member."</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"org"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TeamMember"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<h3>
-<a id="response-if-you-attempt-to-add-a-user-to-a-team-when-they-are-not-a-member-of-at-least-one-other-team-in-the-same-organization" class="anchor" href="#response-if-you-attempt-to-add-a-user-to-a-team-when-they-are-not-a-member-of-at-least-one-other-team-in-the-same-organization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if you attempt to add a user to a team when they are not a member of at least one other team in the same organization</h3>
-<pre class="highlight highlight-headers"><code>Status: 422 Unprocessable Entity
-</code></pre>
-<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User isn't a member of this organization. Please invite them first."</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unaffiliated"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TeamMember"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<h2>
-<a id="remove-team-member" class="anchor" href="#remove-team-member" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove team member<a href="/enterprise/2.18/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
-</h2>
-<h3>
-<a id="deprecation-notice-2" class="anchor" href="#deprecation-notice-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Deprecation notice</h3>
-<div class="alert tip">
-<p>The "Remove team member" API (described below) is deprecated.</p>
-<p>We recommend using the <a href="/enterprise/2.18/v3/teams/members/#remove-team-membership">Remove team membership endpoint</a>
-instead. It allows you to remove both active and pending memberships.</p>
-</div>
-<p>To remove a team member, the authenticated user must have
-'admin' permissions to the team or be an owner of the org that the team
-is associated with. Removing a team member does not delete the user, it just removes them from the team.</p>
-<pre><code>DELETE /teams/:team_id/members/:username
-</code></pre>
-<h3>
-<a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
-<pre class="highlight highlight-headers"><code>Status: 204 No Content
-</code></pre>
-<h2>
 <a id="get-team-membership" class="anchor" href="#get-team-membership" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get team membership<a href="/enterprise/2.18/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 <div class="alert note">
@@ -428,7 +340,7 @@ is associated with. Removing a team member does not delete the user, it just rem
 </code></pre>
 </div>
 <div class="alert warning">
-<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact your GitHub Enterprise site administrator.</p>
 </div>
 <p>If you pass the <code>hellcat-preview</code> media type, team members will include the members of child teams.</p>
 <p>To get a user's membership with a team, the team must be visible to the authenticated user.</p>
@@ -529,7 +441,7 @@ the authenticated user must be an organization owner or a team maintainer.</p>
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <h3>
-<a id="response-if-you-attempt-to-add-an-organization-to-a-team-1" class="anchor" href="#response-if-you-attempt-to-add-an-organization-to-a-team-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if you attempt to add an organization to a team</h3>
+<a id="response-if-you-attempt-to-add-an-organization-to-a-team" class="anchor" href="#response-if-you-attempt-to-add-an-organization-to-a-team" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if you attempt to add an organization to a team</h3>
 <pre class="highlight highlight-headers"><code>Status: 422 Unprocessable Entity
 </code></pre>
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
@@ -548,6 +460,91 @@ the authenticated user must be an organization owner or a team maintainer.</p>
 </h2>
 <p>To remove a membership between a user and a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with. Removing team membership does not delete the user, it just removes their membership from the team.</p>
 <pre><code>DELETE /teams/:team_id/memberships/:username
+</code></pre>
+<h3>
+<a id="response-1" class="anchor" href="#response-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 204 No Content
+</code></pre>
+<h2>
+<a id="get-team-member-legacy" class="anchor" href="#get-team-member-legacy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get team member (Legacy)<a href="/enterprise/2.18/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+<h3>
+<a id="deprecation-notice" class="anchor" href="#deprecation-notice" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Deprecation notice</h3>
+<div class="alert warning">
+<p>The "Get team member" endpoint (described below) is deprecated.</p>
+<p>We recommend using the
+<a href="/enterprise/2.18/v3/teams/members/#get-team-membership">Get team membership</a> endpoint instead. It allows you to get both active and pending memberships.</p>
+</div>
+<p>To list members in a team, the team must be visible to the authenticated user.</p>
+<pre><code>GET /teams/:team_id/members/:username
+</code></pre>
+<h3>
+<a id="response-if-user-is-a-member" class="anchor" href="#response-if-user-is-a-member" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if user is a member</h3>
+<pre class="highlight highlight-headers"><code>Status: 204 No Content
+</code></pre>
+<h3>
+<a id="response-if-user-is-not-a-member" class="anchor" href="#response-if-user-is-not-a-member" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if user is not a member</h3>
+<pre class="highlight highlight-headers"><code>Status: 404 Not Found
+</code></pre>
+<h2>
+<a id="add-team-member-legacy" class="anchor" href="#add-team-member-legacy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Add team member (Legacy)<a href="/enterprise/2.18/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+<h3>
+<a id="deprecation-notice-1" class="anchor" href="#deprecation-notice-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Deprecation notice</h3>
+<div class="alert warning">
+<p>The "Add team member" endpoint (described below) is deprecated.</p>
+<p>We recommend using the <a href="/enterprise/2.18/v3/teams/members/#add-or-update-team-membership">Add team membership</a> endpoint instead. It allows you to invite new organization members to your teams.</p>
+</div>
+<p>To add someone to a team, the authenticated user must be an organization owner or a team maintainer in the team they're changing. The person being added to the team must be a member of the team's organization.</p>
+<pre><code>PUT /teams/:team_id/members/:username
+</code></pre>
+<p>Note that you'll need to set <code>Content-Length</code> to zero when calling out to this endpoint. For more information, see "<a href="/enterprise/2.18/v3/#http-verbs">HTTP verbs</a>."</p>
+<h3>
+<a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 204 No Content
+</code></pre>
+<h3>
+<a id="response-if-you-attempt-to-add-an-organization-to-a-team-1" class="anchor" href="#response-if-you-attempt-to-add-an-organization-to-a-team-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if you attempt to add an organization to a team</h3>
+<pre class="highlight highlight-headers"><code>Status: 422 Unprocessable Entity
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cannot add an organization as a member."</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"org"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TeamMember"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="response-if-you-attempt-to-add-a-user-to-a-team-when-they-are-not-a-member-of-at-least-one-other-team-in-the-same-organization" class="anchor" href="#response-if-you-attempt-to-add-a-user-to-a-team-when-they-are-not-a-member-of-at-least-one-other-team-in-the-same-organization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if you attempt to add a user to a team when they are not a member of at least one other team in the same organization</h3>
+<pre class="highlight highlight-headers"><code>Status: 422 Unprocessable Entity
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"User isn't a member of this organization. Please invite them first."</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"errors"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unaffiliated"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"field"</span><span class="p">:</span><span class="w"> </span><span class="s2">"user"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TeamMember"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h2>
+<a id="remove-team-member-legacy" class="anchor" href="#remove-team-member-legacy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remove team member (Legacy)<a href="/enterprise/2.18/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+<h3>
+<a id="deprecation-notice-2" class="anchor" href="#deprecation-notice-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Deprecation notice</h3>
+<div class="alert warning">
+<p>The "Remove team member" endpoint (described below) is deprecated.</p>
+<p>We recommend using the <a href="/enterprise/2.18/v3/teams/members/#remove-team-membership">Remove team membership</a> endpoint instead. It allows you to remove both active and pending memberships.</p>
+</div>
+<p>To remove a team member, the authenticated user must have 'admin' permissions to the team or be an owner of the org that the team
+is associated with. Removing a team member does not delete the user, it just removes them from the team.</p>
+<pre><code>DELETE /teams/:team_id/members/:username
 </code></pre>
 <h3>
 <a id="response-3" class="anchor" href="#response-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>

@@ -268,7 +268,7 @@
 <li><a href="#search-labels" id="markdown-toc-search-labels">Search labels</a></li>
 <li><a href="#text-match-metadata" id="markdown-toc-text-match-metadata">Text match metadata</a></li>
 </ul>
-<p>The Search API helps you search for the specific item you want to find. For example, you can find a user or a specific file in a repository. Think of it the way you think of performing a search on Google. It's designed to help you find the one result you're looking for (or maybe the few results you're looking for). Just like searching on Google, you sometimes want to see a few pages of search results so that you can find the item that best meets your needs. To satisfy that need, the GitHub Enterprise Server Search API provides <strong>up to 1,000 results for each search</strong>.</p>
+<p>The Search API helps you search for the specific item you want to find. For example, you can find a user or a specific file in a repository. Think of it the way you think of performing a search on Google. It's designed to help you find the one result you're looking for (or maybe the few results you're looking for). Just like searching on Google, you sometimes want to see a few pages of search results so that you can find the item that best meets your needs. To satisfy that need, the GitHub Enterprise Search API provides <strong>up to 1,000 results for each search</strong>.</p>
 <p>You can narrow your search using queries. To learn more about the search query syntax, see "<a href="/enterprise/2.18/v3/search/#constructing-a-search-query">Constructing a search query</a>."</p>
 <h3>
 <a id="ranking-search-results" class="anchor" href="#ranking-search-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Ranking search results</h3>
@@ -289,7 +289,7 @@ to make up to 10 requests per minute.</p>
 determining your current rate limit status.</p>
 <h3>
 <a id="constructing-a-search-query" class="anchor" href="#constructing-a-search-query" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Constructing a search query</h3>
-<p>Each endpoint in the Search API uses <a href="https://en.wikipedia.org/wiki/Query_string">query parameters</a> to perform searches on GitHub Enterprise Server. See the individual endpoint in the Search API for an example that includes the endpoint and query parameters.</p>
+<p>Each endpoint in the Search API uses <a href="https://en.wikipedia.org/wiki/Query_string">query parameters</a> to perform searches on GitHub Enterprise. See the individual endpoint in the Search API for an example that includes the endpoint and query parameters.</p>
 <p>A query can contain any combination of search qualifiers supported on GitHub.com. The format of the search query is:</p>
 <pre><code>q=SEARCH_KEYWORD_1+SEARCH_KEYWORD_N+QUALIFIER_1+QUALIFIER_N
 </code></pre>
@@ -321,18 +321,18 @@ More results might have been found, but also might not.</p>
 <h3>
 <a id="access-errors-or-missing-search-results" class="anchor" href="#access-errors-or-missing-search-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Access errors or missing search results</h3>
 <p>You need to successfully authenticate and have access to the repositories in your search queries, otherwise, you'll see a <code>422 Unprocessible Entry</code> error with a "Validation Failed" message. For example, your search will fail if your query includes <code>repo:</code>, <code>user:</code>, or <code>org:</code> qualifiers that request resources that you don't have access to when you sign in on GitHub.</p>
-<p>When your search query requests multiple resources, the response will only contain the resources that you have access to and will <strong>not</strong> provide an error message listing the resources that were not returned. </p>
+<p>When your search query requests multiple resources, the response will only contain the resources that you have access to and will <strong>not</strong> provide an error message listing the resources that were not returned.</p>
 <p>For example, if your search query searches for the <code>octocat/test</code> and <code>codertocat/test</code> repositories, but you only have access to <code>octocat/test</code>, your response will show search results for <code>octocat/test</code> and nothing for <code>codertocat/test</code>. This behavior mimics how search works on GitHub.</p>
 <h2>
 <a id="search-repositories" class="anchor" href="#search-repositories" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Search repositories<a href="/enterprise/2.18/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 <div class="alert note">
-<p><strong>Note:</strong> The <code>topics</code> property for repositories on GitHub Enterprise Server is currently available for developers to preview. To view the <code>topics</code> property in calls that return repository results, you must provide a custom <a href="/enterprise/2.18/v3/media">media type</a> in the <code>Accept</code> header:</p>
+<p><strong>Note:</strong> The <code>topics</code> property for repositories on GitHub Enterprise is currently available for developers to preview. To view the <code>topics</code> property in calls that return repository results, you must provide a custom <a href="/enterprise/2.18/v3/media">media type</a> in the <code>Accept</code> header:</p>
 <pre><code>application/vnd.github.mercy-preview+json
 </code></pre>
 </div>
 <div class="alert warning">
-<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact your GitHub Enterprise site administrator.</p>
 </div>
 <p>Find repositories via various criteria. This method returns up to 100 results <a href="/enterprise/2.18/v3/#pagination">per page</a>.</p>
 <p>When searching for repositories, you can get text match metadata for the
@@ -447,7 +447,7 @@ Please see the <a href="/changes/2017-01-05-commit-search-api/">blog post</a> fo
 </code></pre>
 </div>
 <div class="alert warning">
-<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact your GitHub Enterprise site administrator.</p>
 </div>
 <p>Find commits via various criteria. This method returns up to 100 results <a href="/enterprise/2.18/v3/#pagination">per page</a>.</p>
 <p>When searching for commits, you can get text match metadata for the <strong>message</strong>
@@ -659,9 +659,6 @@ and file <strong>path</strong> fields when you pass the <code>text-match</code> 
 For more details about how to receive highlighted search results, see <a href="#text-match-metadata">Text match metadata</a>.</p>
 <pre><code>GET /search/code
 </code></pre>
-<div class="alert note">
-<p><strong>Note:</strong> You must <a href="/enterprise/2.18/v3/#authentication">authenticate</a> to search for code across all public repositories.</p>
-</div>
 <h3>
 <a id="considerations-for-code-search" class="anchor" href="#considerations-for-code-search" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Considerations for code search</h3>
 <p>Due to the complexity of searching code, there are a few restrictions on how searches are performed:</p>
@@ -689,7 +686,7 @@ For more details about how to receive highlighted search results, see <a href="#
 <tr>
 <td><code>sort</code></td>
 <td><code>string</code></td>
-<td>Sorts the results of your query. Can only be <code>indexed</code>, which indicates how recently a file has been indexed by the GitHub Enterprise Server search infrastructure. Default: <a href="#ranking-search-results">best match</a>
+<td>Sorts the results of your query. Can only be <code>indexed</code>, which indicates how recently a file has been indexed by the GitHub Enterprise search infrastructure. Default: <a href="#ranking-search-results">best match</a>
 </td>
 </tr>
 <tr>
@@ -946,7 +943,7 @@ For more details about how to receive highlighted search results, see <a href="#
 <tr>
 <td><code>sort</code></td>
 <td><code>string</code></td>
-<td>Sorts the results of your query by number of <code>followers</code> or <code>repositories</code>, or when the person <code>joined</code> GitHub Enterprise Server.  Default: <a href="#ranking-search-results">best match</a>
+<td>Sorts the results of your query by number of <code>followers</code> or <code>repositories</code>, or when the person <code>joined</code> GitHub Enterprise.  Default: <a href="#ranking-search-results">best match</a>
 </td>
 </tr>
 <tr>
@@ -998,12 +995,12 @@ X-RateLimit-Remaining: 19
 <a id="search-topics" class="anchor" href="#search-topics" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Search topics<a href="/enterprise/2.18/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 <div class="alert note">
-<p><strong>Note:</strong> The <code>topics</code> property for repositories on GitHub Enterprise Server is currently available for developers to preview. To view the <code>topics</code> property in calls that return repository results, you must provide a custom <a href="/enterprise/2.18/v3/media">media type</a> in the <code>Accept</code> header:</p>
+<p><strong>Note:</strong> The <code>topics</code> property for repositories on GitHub Enterprise is currently available for developers to preview. To view the <code>topics</code> property in calls that return repository results, you must provide a custom <a href="/enterprise/2.18/v3/media">media type</a> in the <code>Accept</code> header:</p>
 <pre><code>application/vnd.github.mercy-preview+json
 </code></pre>
 </div>
 <div class="alert warning">
-<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact your GitHub Enterprise site administrator.</p>
 </div>
 <p>Find topics via various criteria. Results are sorted by best match.
 This method returns up to 100 results <a href="/enterprise/2.18/v3/#pagination">per page</a>.</p>
