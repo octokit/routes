@@ -1,0 +1,120 @@
+[
+  {
+    "method": "GET",
+    "path": "/repos/:owner/:repo/git/refs/:namespace",
+    "operation": {
+      "summary": "Get all references",
+      "description": "Returns an array of all the references from your Git database, including notes and stashes if they exist on the server. Anything in the namespace is returned, not just `heads` and `tags`. If there are no references to list, a `404` is returned.\n\n**Note:** You need to explicitly [request a pull request](https://developer.github.com/v3/pulls/#get-a-single-pull-request) to trigger a merge commit creation. For more information, see \"[Checking mergeability of pull requests](https://developer.github.com/v3/git/#checking-mergeability-of-pull-requests)\".\n\n```\nGET /repos/octocat/Hello-World/git/refs\n```\n\nYou can also request a sub-namespace. For example, to get all the tag references, you can call:\n\n```\nGET /repos/octocat/Hello-World/git/refs/tags\n```",
+      "operationId": "git/get-refs",
+      "tags": ["git"],
+      "externalDocs": {
+        "description": "API method documentation",
+        "url": "https://developer.github.com/v3/git/refs/#get-all-references"
+      },
+      "parameters": [
+        {
+          "name": "accept",
+          "description": "Setting to `application/vnd.github.v3+json` is recommended",
+          "in": "header",
+          "schema": {
+            "type": "string",
+            "default": "application/vnd.github.v3+json"
+          }
+        },
+        {
+          "name": "owner",
+          "description": "owner parameter",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "repo",
+          "description": "repo parameter",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "per_page",
+          "description": "Results per page (max 100)",
+          "in": "query",
+          "schema": {
+            "type": "integer",
+            "default": 30
+          }
+        },
+        {
+          "name": "page",
+          "description": "Page number of the results to fetch.",
+          "in": "query",
+          "schema": {
+            "type": "integer",
+            "default": 1
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "response",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "ref": {
+                      "type": "string"
+                    },
+                    "node_id": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    },
+                    "object": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string"
+                        },
+                        "sha": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "x-code-samples": [
+        {
+          "lang": "Shell",
+          "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/repos/octocat/hello-world/git/refs"
+        },
+        {
+          "lang": "JS",
+          "source": "octokit.git.getRefs({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
+        }
+      ],
+      "x-github": {
+        "legacy": false,
+        "enabledForApps": true,
+        "githubCloudOnly": false,
+        "previews": []
+      },
+      "x-changes": []
+    }
+  }
+]
