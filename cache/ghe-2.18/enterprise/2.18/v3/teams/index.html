@@ -260,9 +260,10 @@
 <a id="teams" class="anchor" href="#teams" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Teams</h1>
 <ul id="markdown-toc">
 <li><a href="#list-teams" id="markdown-toc-list-teams">List teams</a></li>
-<li><a href="#get-team" id="markdown-toc-get-team">Get team</a></li>
 <li><a href="#get-team-by-name" id="markdown-toc-get-team-by-name">Get team by name</a></li>
 <li><a href="#create-team" id="markdown-toc-create-team">Create team</a></li>
+<li><a href="#list-user-teams" id="markdown-toc-list-user-teams">List user teams</a></li>
+<li><a href="#get-team" id="markdown-toc-get-team">Get team</a></li>
 <li><a href="#edit-team" id="markdown-toc-edit-team">Edit team</a></li>
 <li><a href="#delete-team" id="markdown-toc-delete-team">Delete team</a></li>
 <li><a href="#list-child-teams" id="markdown-toc-list-child-teams">List child teams</a></li>
@@ -270,13 +271,12 @@
 <li><a href="#check-if-a-team-manages-a-repository" id="markdown-toc-check-if-a-team-manages-a-repository">Check if a team manages a repository</a></li>
 <li><a href="#add-or-update-team-repository" id="markdown-toc-add-or-update-team-repository">Add or update team repository</a></li>
 <li><a href="#remove-team-repository" id="markdown-toc-remove-team-repository">Remove team repository</a></li>
-<li><a href="#list-user-teams" id="markdown-toc-list-user-teams">List user teams</a></li>
 <li><a href="#list-team-projects" id="markdown-toc-list-team-projects">List team projects</a></li>
 <li><a href="#review-a-team-project" id="markdown-toc-review-a-team-project">Review a team project</a></li>
 <li><a href="#add-or-update-team-project" id="markdown-toc-add-or-update-team-project">Add or update team project</a></li>
 <li><a href="#remove-team-project" id="markdown-toc-remove-team-project">Remove team project</a></li>
 </ul>
-<p>This API is only available to authenticated members of the team's <a href="/enterprise/2.18/v3/orgs">organization</a>. OAuth access tokens require the <code>read:org</code> <a href="/enterprise/2.18/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/">scope</a>.</p>
+<p>This API is only available to authenticated members of the team's <a href="/enterprise/2.18/v3/orgs">organization</a>. OAuth access tokens require the <code>read:org</code> <a href="/enterprise/2.18/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/">scope</a>. GitHub  generates the team's <code>slug</code> from the team <code>name</code>.</p>
 <div class="alert note">
 <p><strong>Note:</strong> The Projects API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the <a href="/changes/2016-10-27-changes-to-projects-api">blog post</a> for full details. To access the API during the preview period, you must provide a custom <a href="/enterprise/2.18/v3/media">media type</a> in the <code>Accept</code> header:</p>
 <pre><code>application/vnd.github.inertia-preview+json
@@ -291,8 +291,9 @@
 </code></pre>
 </div>
 <div class="alert warning">
-<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact your GitHub Enterprise site administrator.</p>
 </div>
+<p>Lists all teams in an organization that are visible to the authenticated user.</p>
 <pre><code>GET /orgs/:org/teams
 </code></pre>
 <h3>
@@ -319,78 +320,13 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <h2>
-<a id="get-team" class="anchor" href="#get-team" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get team<a href="/enterprise/2.18/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
-</h2>
-<div class="alert note">
-<p><strong>Note:</strong> The Nested Teams API is currently available for developers to preview. See the <a href="/changes/2017-08-30-preview-nested-teams">blog post</a> for full details. To access the API, you must provide a custom <a href="/enterprise/2.18/v3/media">media type</a> in the <code>Accept</code> header:</p>
-<pre><code>application/vnd.github.hellcat-preview+json
-</code></pre>
-</div>
-<div class="alert warning">
-<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
-</div>
-<pre><code>GET /teams/:team_id
-</code></pre>
-<h3>
-<a id="response-1" class="anchor" href="#response-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
-<pre class="highlight highlight-headers"><code>Status: 200 OK
-</code></pre>
-<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDQ6VGVhbTE="</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/1"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/justice-league"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Justice League"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"justice-league"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A great team."</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"privacy"</span><span class="p">:</span><span class="w"> </span><span class="s2">"closed"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"permission"</span><span class="p">:</span><span class="w"> </span><span class="s2">"admin"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"members_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/1/members{/member}"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"repositories_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/1/repos"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"parent"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"members_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"repos_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-07-14T16:53:42Z"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-17T12:37:15Z"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"organization"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"github"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDEyOk9yZ2FuaXphdGlvbjE="</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"repos_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/repos"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/events"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"hooks_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/hooks"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"issues_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/issues"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"members_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/members{/member}"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"public_members_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/public_members{/member}"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"avatar_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/images/error/octocat_happy.gif"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A great organization"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"github"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GitHub"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"blog"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/blog"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"San Francisco"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat@github.com"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"has_organization_projects"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"has_repository_projects"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"public_repos"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"public_gists"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"followers"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"following"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2008-01-14T04:33:35Z"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Organization"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="nt">"ldap_dn"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uid=asdf,ou=users,dc=github,dc=com"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<h2>
 <a id="get-team-by-name" class="anchor" href="#get-team-by-name" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get team by name<a href="/enterprise/2.18/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 <p>Gets a team using the team's <code>slug</code>. GitHub generates the <code>slug</code> from the team <code>name</code>.</p>
 <pre><code>GET /orgs/:org/teams/:team_slug
 </code></pre>
 <h3>
-<a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-1" class="anchor" href="#response-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 <pre class="highlight highlight-headers"><code>Status: 200 OK
 </code></pre>
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
@@ -450,7 +386,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </code></pre>
 </div>
 <div class="alert warning">
-<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact your GitHub Enterprise site administrator.</p>
 </div>
 <p>To create a team, the authenticated user must be a member or owner of <code>:org</code>.  By default, organization members can create teams. Organization owners can limit team creation to organization owners. For more information, see "<a href="https://help.github.com/en/articles/setting-team-creation-permissions-in-your-organization">Setting team creation permissions</a>."</p>
 <p>When you create a new team, you automatically become a team maintainer without explicitly adding yourself to the optional array of <code>maintainers</code>. For more information, see "<a href="https://help.github.com/en/github/setting-up-and-managing-organizations-and-teams/about-teams">About teams</a>" in the GitHub Help documentation.</p>
@@ -483,7 +419,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <td>
 <code>array</code> of <code>strings</code>
 </td>
-<td>List GitHub Enterprise Server IDs for organization members who will become team maintainers.</td>
+<td>List GitHub Enterprise IDs for organization members who will become team maintainers.</td>
 </tr>
 <tr>
 <td><code>repo_names</code></td>
@@ -527,8 +463,144 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <h3>
-<a id="response-3" class="anchor" href="#response-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 <pre class="highlight highlight-headers"><code>Status: 201 Created
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDQ6VGVhbTE="</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/1"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/justice-league"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Justice League"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"justice-league"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A great team."</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"privacy"</span><span class="p">:</span><span class="w"> </span><span class="s2">"closed"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"permission"</span><span class="p">:</span><span class="w"> </span><span class="s2">"admin"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"members_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/1/members{/member}"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"repositories_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/1/repos"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"parent"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"members_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"repos_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-07-14T16:53:42Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-17T12:37:15Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"organization"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"github"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDEyOk9yZ2FuaXphdGlvbjE="</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"repos_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/repos"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/events"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"hooks_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/hooks"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"issues_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/issues"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"members_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/members{/member}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"public_members_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/public_members{/member}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"avatar_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/images/error/octocat_happy.gif"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A great organization"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"github"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GitHub"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"blog"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/blog"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"San Francisco"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat@github.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"has_organization_projects"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"has_repository_projects"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"public_repos"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"public_gists"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"followers"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"following"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2008-01-14T04:33:35Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Organization"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"ldap_dn"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uid=asdf,ou=users,dc=github,dc=com"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h2>
+<a id="list-user-teams" class="anchor" href="#list-user-teams" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List user teams</h2>
+<div class="alert note">
+<p><strong>Note:</strong> The Nested Teams API is currently available for developers to preview. See the <a href="/changes/2017-08-30-preview-nested-teams">blog post</a> for full details. To access the API, you must provide a custom <a href="/enterprise/2.18/v3/media">media type</a> in the <code>Accept</code> header:</p>
+<pre><code>application/vnd.github.hellcat-preview+json
+</code></pre>
+</div>
+<div class="alert warning">
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact your GitHub Enterprise site administrator.</p>
+</div>
+<p>List all of the teams across all of the organizations to which the
+authenticated user belongs. This method requires <code>user</code>, <code>repo</code>, or
+<code>read:org</code> <a href="/enterprise/2.18/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/">scope</a> when authenticating via <a href="/enterprise/2.18/apps/building-oauth-apps/">OAuth</a>.</p>
+<pre><code>GET /user/teams
+</code></pre>
+<h3>
+<a id="response-3" class="anchor" href="#response-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
+      &lt;https://api.github.com/resource?page=5&gt;; rel="last"
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDQ6VGVhbTE="</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/1"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/justice-league"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Justice League"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"justice-league"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A great team."</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"privacy"</span><span class="p">:</span><span class="w"> </span><span class="s2">"closed"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"permission"</span><span class="p">:</span><span class="w"> </span><span class="s2">"admin"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"members_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/1/members{/member}"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"repositories_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/1/repos"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"parent"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"members_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"repos_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-07-14T16:53:42Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-17T12:37:15Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"organization"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"github"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDEyOk9yZ2FuaXphdGlvbjE="</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"repos_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/repos"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/events"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"hooks_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/hooks"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"issues_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/issues"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"members_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/members{/member}"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"public_members_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/public_members{/member}"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"avatar_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/images/error/octocat_happy.gif"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A great organization"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"github"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GitHub"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"blog"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/blog"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"San Francisco"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat@github.com"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"has_organization_projects"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"has_repository_projects"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"public_repos"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"public_gists"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"followers"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"following"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2008-01-14T04:33:35Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Organization"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"ldap_dn"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uid=asdf,ou=users,dc=github,dc=com"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<h2>
+<a id="get-team" class="anchor" href="#get-team" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get team<a href="/enterprise/2.18/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+<div class="alert note">
+<p><strong>Note:</strong> The Nested Teams API is currently available for developers to preview. See the <a href="/changes/2017-08-30-preview-nested-teams">blog post</a> for full details. To access the API, you must provide a custom <a href="/enterprise/2.18/v3/media">media type</a> in the <code>Accept</code> header:</p>
+<pre><code>application/vnd.github.hellcat-preview+json
+</code></pre>
+</div>
+<div class="alert warning">
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact your GitHub Enterprise site administrator.</p>
+</div>
+<pre><code>GET /teams/:team_id
+</code></pre>
+<h3>
+<a id="response-4" class="anchor" href="#response-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
 </code></pre>
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
   </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
@@ -587,7 +659,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </code></pre>
 </div>
 <div class="alert warning">
-<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact your GitHub Enterprise site administrator.</p>
 </div>
 <p>To edit a team, the authenticated user must either be an organization owner or a team maintainer.</p>
 <pre><code>PATCH /teams/:team_id
@@ -646,7 +718,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <h3>
-<a id="response-4" class="anchor" href="#response-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-5" class="anchor" href="#response-5" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 <pre class="highlight highlight-headers"><code>Status: 201 Created
 </code></pre>
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
@@ -706,14 +778,14 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </code></pre>
 </div>
 <div class="alert warning">
-<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact your GitHub Enterprise site administrator.</p>
 </div>
 <p>To delete a team, the authenticated user must be an organization owner or team maintainer.</p>
 <p>If you are an organization owner and you pass the <code>hellcat-preview</code> media type, deleting a parent team will delete all of its child teams as well.</p>
 <pre><code>DELETE /teams/:team_id
 </code></pre>
 <h3>
-<a id="response-5" class="anchor" href="#response-5" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-6" class="anchor" href="#response-6" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 <pre class="highlight highlight-headers"><code>Status: 204 No Content
 </code></pre>
 <h2>
@@ -725,9 +797,9 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </code></pre>
 </div>
 <div class="alert warning">
-<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact your GitHub Enterprise site administrator.</p>
 </div>
-<p>At this time, the <code>hellcat-preview</code> media type is required to use this endpoint. </p>
+<p>You must use the <code>hellcat-preview</code> media type to use this endpoint. </p>
 <pre><code>GET /teams/:team_id/teams
 </code></pre>
 <h3>
@@ -780,7 +852,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </code></pre>
 </div>
 <div class="alert warning">
-<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact your GitHub Enterprise site administrator.</p>
 </div>
 <p><strong>Note</strong>: If you pass the <code>hellcat-preview</code> media type, the response will include any repositories inherited through a parent team. </p>
 <pre><code>GET /teams/:team_id/repos
@@ -788,7 +860,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <p>If you are an <a href="/enterprise/2.18/v3/#authentication">authenticated</a> site administrator for your Enterprise instance,
 you will be able to list all repositories for the team.</p>
 <h3>
-<a id="response-6" class="anchor" href="#response-6" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-7" class="anchor" href="#response-7" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 <pre class="highlight highlight-headers"><code>Status: 200 OK
 Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
       &lt;https://api.github.com/resource?page=5&gt;; rel="last"
@@ -918,7 +990,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </code></pre>
 </div>
 <div class="alert warning">
-<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact your GitHub Enterprise site administrator.</p>
 </div>
 <p><strong>Note</strong>: If you pass the <code>hellcat-preview</code> media type, repositories inherited through a parent team will be checked.</p>
 <pre><code>GET /teams/:team_id/repos/:owner/:repo
@@ -1059,7 +1131,7 @@ permissions the team grants on it, by passing the following custom
 </code></pre>
 </div>
 <div class="alert warning">
-<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact your GitHub Enterprise site administrator.</p>
 </div>
 <p>To add a repository to a team or update the team's permission on a repository, the authenticated user must have admin access to the repository, and must be able to see the team. The repository must be owned by the organization, or a direct fork of a repository owned by the organization. You will get a <code>422 Unprocessable Entity</code> status if you attempt to add a repository to a team that is not owned by the organization.</p>
 <pre><code>PUT /teams/:team_id/repos/:owner/:repo
@@ -1084,7 +1156,7 @@ permissions the team grants on it, by passing the following custom
 </table>
 <p>Note that, if you choose not to pass any parameters, you'll need to set <code>Content-Length</code> to zero when calling out to this endpoint. For more information, see "<a href="/enterprise/2.18/v3/#http-verbs">HTTP verbs</a>."</p>
 <h3>
-<a id="response-7" class="anchor" href="#response-7" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-8" class="anchor" href="#response-8" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 <pre class="highlight highlight-headers"><code>Status: 204 No Content
 </code></pre>
 <h2>
@@ -1094,80 +1166,9 @@ permissions the team grants on it, by passing the following custom
 <pre><code>DELETE /teams/:team_id/repos/:owner/:repo
 </code></pre>
 <h3>
-<a id="response-8" class="anchor" href="#response-8" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-9" class="anchor" href="#response-9" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 <pre class="highlight highlight-headers"><code>Status: 204 No Content
 </code></pre>
-<h2>
-<a id="list-user-teams" class="anchor" href="#list-user-teams" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List user teams</h2>
-<div class="alert note">
-<p><strong>Note:</strong> The Nested Teams API is currently available for developers to preview. See the <a href="/changes/2017-08-30-preview-nested-teams">blog post</a> for full details. To access the API, you must provide a custom <a href="/enterprise/2.18/v3/media">media type</a> in the <code>Accept</code> header:</p>
-<pre><code>application/vnd.github.hellcat-preview+json
-</code></pre>
-</div>
-<div class="alert warning">
-<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
-</div>
-<p>List all of the teams across all of the organizations to which the
-authenticated user belongs. This method requires <code>user</code>, <code>repo</code>, or
-<code>read:org</code> <a href="/enterprise/2.18/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/">scope</a> when authenticating via <a href="/enterprise/2.18/apps/building-oauth-apps/">OAuth</a>.</p>
-<pre><code>GET /user/teams
-</code></pre>
-<h3>
-<a id="response-9" class="anchor" href="#response-9" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
-<pre class="highlight highlight-headers"><code>Status: 200 OK
-Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
-      &lt;https://api.github.com/resource?page=5&gt;; rel="last"
-</code></pre>
-<pre class="highlight highlight-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDQ6VGVhbTE="</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/1"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/justice-league"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Justice League"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"justice-league"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A great team."</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"privacy"</span><span class="p">:</span><span class="w"> </span><span class="s2">"closed"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"permission"</span><span class="p">:</span><span class="w"> </span><span class="s2">"admin"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"members_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/1/members{/member}"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"repositories_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/teams/1/repos"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"parent"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"members_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"repos_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-07-14T16:53:42Z"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-17T12:37:15Z"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"organization"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"github"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDEyOk9yZ2FuaXphdGlvbjE="</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"repos_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/repos"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"events_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/events"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"hooks_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/hooks"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"issues_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/issues"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"members_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/members{/member}"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"public_members_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github/public_members{/member}"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"avatar_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/images/error/octocat_happy.gif"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A great organization"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"github"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"company"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GitHub"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"blog"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/blog"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"San Francisco"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat@github.com"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"has_organization_projects"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"has_repository_projects"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"public_repos"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"public_gists"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"followers"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"following"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/octocat"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2008-01-14T04:33:35Z"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Organization"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"ldap_dn"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uid=asdf,ou=users,dc=github,dc=com"</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre>
 <h2>
 <a id="list-team-projects" class="anchor" href="#list-team-projects" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List team projects<a href="/enterprise/2.18/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
@@ -1182,7 +1183,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </code></pre>
 </div>
 <div class="alert warning">
-<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact your GitHub Enterprise site administrator.</p>
 </div>
 <p>Lists the organization projects for a team.
 If you are an <a href="/enterprise/2.18/v3/#authentication">authenticated</a> site administrator for your Enterprise instance,
@@ -1253,7 +1254,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </code></pre>
 </div>
 <div class="alert warning">
-<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact your GitHub Enterprise site administrator.</p>
 </div>
 <p>Checks whether a team has <code>read</code>, <code>write</code>, or <code>admin</code> permissions for an organization project.  If you pass the <code>hellcat-preview</code> media type, the response will include  projects inherited from a parent team.</p>
 <pre><code>GET /teams/:team_id/projects/:project_id
@@ -1322,7 +1323,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </code></pre>
 </div>
 <div class="alert warning">
-<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://enterprise.github.com/support">GitHub Enterprise Support</a>.</p>
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact your GitHub Enterprise site administrator.</p>
 </div>
 <p>Adds an organization project to a team. To add a project to a team or update the team's permission on a project, the authenticated user must have <code>admin</code> permissions for the project. The project and team must be part of the same organization.</p>
 <pre><code>PUT /teams/:team_id/projects/:project_id
