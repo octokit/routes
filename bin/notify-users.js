@@ -5,13 +5,7 @@ const { paginateRest } = require("@octokit/plugin-paginate-rest");
 const APP_ID = 37848;
 const PRIVATE_KEY = process.env.OCTOKIT_ROUTES_APP_PRIVATE_KEY;
 const EVENT_TYPE = "octokit-routes-release";
-const VERSION = require("../package.json").version;
-
-if (VERSION === "0.0.0-development") {
-  throw new Error(
-    'Set correct version to be dispatched in package.json. Will not dispatch "0.0.0-development"'
-  );
-}
+const VERSION = process.env.VERSION.substr(1);
 
 const OctokitWithPagination = Octokit.plugin(paginateRest);
 

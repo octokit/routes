@@ -17,11 +17,7 @@ jobs:
       - run: npm run build
       - run: npx semantic-release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # we use a Personal Access Token instead of the provided
+          # GITHUB_TOKEN in order to get the release.yml workflow triggered
+          GITHUB_TOKEN: ${{ secrets.OCTOKITBOT_PAT_FOR_SEMANTIC_RELEASE }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      # The `notify-users.yml` action is not executed because the release
-      # is created by an action.
-      - run: node bin/notify-users
-        if: steps.semantic-release.outputs.new-release-published == 'true'
-        env:
-          PRIVATE_KEY: ${{ secrets.OCTOKIT_ROUTES_APP_PRIVATE_KEY }}
