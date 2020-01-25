@@ -1,6 +1,6 @@
 {
   "summary": "Get a tree",
-  "description": "If `truncated` is `true`, the number of items in the `tree` array exceeded our maximum limit. If you need to fetch more items, you can clone the repository and iterate over the Git data locally.",
+  "description": "Returns a single tree using the SHA1 value for that tree.\n\nIf `truncated` is `true` in the response then the number of items in the `tree` array exceeded our maximum limit. If you need to fetch more items, you can clone the repository and iterate over the Git data locally.",
   "operationId": "git/get-tree",
   "tags": ["git"],
   "externalDocs": {
@@ -47,7 +47,7 @@
   ],
   "responses": {
     "200": {
-      "description": "If `truncated` is `true`, the number of items in the `tree` array exceeded our maximum limit. If you need to fetch more items, you can clone the repository and iterate over the Git data locally.",
+      "description": "If `truncated` is `true` in the response then the number of items in the `tree` array exceeded our maximum limit. If you need to fetch more items, you can clone the repository and iterate over the Git data locally.",
       "content": {
         "application/json": {
           "schema": {
@@ -72,6 +72,36 @@
               },
               "truncated": { "type": "boolean" }
             }
+          },
+          "example": {
+            "sha": "9fb037999f264ba9a7fc6274d15fa3ae2ab98312",
+            "url": "https://api.github.com/repos/octocat/Hello-World/trees/9fb037999f264ba9a7fc6274d15fa3ae2ab98312",
+            "tree": [
+              {
+                "path": "file.rb",
+                "mode": "100644",
+                "type": "blob",
+                "size": 30,
+                "sha": "44b4fc6d56897b048c772eb4087f854f46256132",
+                "url": "https://api.github.com/repos/octocat/Hello-World/git/blobs/44b4fc6d56897b048c772eb4087f854f46256132"
+              },
+              {
+                "path": "subdir",
+                "mode": "040000",
+                "type": "tree",
+                "sha": "f484d249c660418515fb01c2b9662073663c242e",
+                "url": "https://api.github.com/repos/octocat/Hello-World/git/blobs/f484d249c660418515fb01c2b9662073663c242e"
+              },
+              {
+                "path": "exec_file",
+                "mode": "100755",
+                "type": "blob",
+                "size": 75,
+                "sha": "45b983be36b73c0788dc9cbcb76cbb80fc7bb057",
+                "url": "https://api.github.com/repos/octocat/Hello-World/git/blobs/45b983be36b73c0788dc9cbcb76cbb80fc7bb057"
+              }
+            ],
+            "truncated": false
           }
         }
       }
@@ -85,6 +115,10 @@
     {
       "lang": "JS",
       "source": "octokit.git.getTree({\n  owner: 'octocat',\n  repo: 'hello-world',\n  tree_sha: 'tree_sha'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.tree(\n  'hello-world',\n  'tree_sha'\n)"
     }
   ],
   "x-github": {
