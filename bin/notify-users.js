@@ -3,7 +3,7 @@ const { Octokit } = require("@octokit/core");
 const { paginateRest } = require("@octokit/plugin-paginate-rest");
 
 const APP_ID = 37848;
-const PRIVATE_KEY = process.env.OCTOKIT_ROUTES_APP_PRIVATE_KEY;
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
 const EVENT_TYPE = "octokit-routes-release";
 const VERSION = process.env.VERSION.substr(1);
 
