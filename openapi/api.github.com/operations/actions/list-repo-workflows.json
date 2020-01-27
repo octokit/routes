@@ -1,0 +1,139 @@
+{
+  "summary": "List repository workflows",
+  "description": "Lists the workflows in a repository. Anyone with read access to the repository can use this endpoint. GitHub Apps must have the `actions` permission to use this endpoint.",
+  "operationId": "actions/list-repo-workflows",
+  "tags": ["actions"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/actions/workflows/#list-repository-workflows"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "description": "owner parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "description": "repo parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "per_page",
+      "description": "Results per page (max 100)",
+      "in": "query",
+      "schema": { "type": "integer", "default": 30 }
+    },
+    {
+      "name": "page",
+      "description": "Page number of the results to fetch.",
+      "in": "query",
+      "schema": { "type": "integer", "default": 1 }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "total_count": { "type": "number" },
+              "workflows": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "number" },
+                    "node_id": { "type": "string" },
+                    "name": { "type": "string" },
+                    "path": { "type": "string" },
+                    "state": { "type": "string" },
+                    "created_at": { "type": "string" },
+                    "updated_at": { "type": "string" },
+                    "url": { "type": "string" },
+                    "html_url": { "type": "string" },
+                    "badge_url": { "type": "string" }
+                  },
+                  "required": [
+                    "id",
+                    "node_id",
+                    "name",
+                    "path",
+                    "state",
+                    "created_at",
+                    "updated_at",
+                    "url",
+                    "html_url",
+                    "badge_url"
+                  ]
+                }
+              }
+            }
+          },
+          "example": {
+            "total_count": 2,
+            "workflows": [
+              {
+                "id": 161335,
+                "node_id": "MDg6V29ya2Zsb3cxNjEzMzU=",
+                "name": "CI",
+                "path": ".github/workflows/blank.yml",
+                "state": "active",
+                "created_at": "2020-01-08T23:48:37.000-08:00",
+                "updated_at": "2020-01-08T23:50:21.000-08:00",
+                "url": "https://api.github.com/repos/octo-org/octo-repo/actions/workflows/161335",
+                "html_url": "https://github.com/octo-org/octo-repo/blob/master/.github/workflows/161335",
+                "badge_url": "https://github.com/octo-org/octo-repo/workflows/CI/badge.svg"
+              },
+              {
+                "id": 269289,
+                "node_id": "MDE4OldvcmtmbG93IFNlY29uZGFyeTI2OTI4OQ==",
+                "name": "Linter",
+                "path": ".github/workflows/linter.yml",
+                "state": "active",
+                "created_at": "2020-01-08T23:48:37.000-08:00",
+                "updated_at": "2020-01-08T23:50:21.000-08:00",
+                "url": "https://api.github.com/repos/octo-org/octo-repo/actions/workflows/269289",
+                "html_url": "https://github.com/octo-org/octo-repo/blob/master/.github/workflows/269289",
+                "badge_url": "https://github.com/octo-org/octo-repo/workflows/Linter/badge.svg"
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/repos/octocat/hello-world/actions/workflows"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.actions.listRepoWorkflows({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
+    },
+    { "lang": "Ruby", "source": "octokit.repo_workflows(\n  'hello-world'\n)" }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}

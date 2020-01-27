@@ -1,0 +1,146 @@
+{
+  "summary": "List workflow run artifacts",
+  "description": "Lists artifacts for a workflow run. Anyone with read access to the repository can use this endpoint. GitHub Apps must have the `actions` permission to use this endpoint.",
+  "operationId": "actions/list-workflow-run-artifacts",
+  "tags": ["actions"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/actions/artifacts/#list-workflow-run-artifacts"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "description": "owner parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "description": "repo parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "run_id",
+      "description": "run_id parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    },
+    {
+      "name": "per_page",
+      "description": "Results per page (max 100)",
+      "in": "query",
+      "schema": { "type": "integer", "default": 30 }
+    },
+    {
+      "name": "page",
+      "description": "Page number of the results to fetch.",
+      "in": "query",
+      "schema": { "type": "integer", "default": 1 }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "total_count": { "type": "number" },
+                "artifacts": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "number" },
+                      "node_id": { "type": "string" },
+                      "name": { "type": "string" },
+                      "size_in_bytes": { "type": "number" },
+                      "archive_download_url": { "type": "string" },
+                      "expired": { "type": "string" },
+                      "created_at": { "type": "string" },
+                      "expires_at": { "type": "string" }
+                    },
+                    "required": [
+                      "id",
+                      "node_id",
+                      "name",
+                      "size_in_bytes",
+                      "archive_download_url",
+                      "expired",
+                      "created_at",
+                      "expires_at"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "example": [
+            {
+              "total_count": 2,
+              "artifacts": [
+                {
+                  "id": 11,
+                  "node_id": "MDg6QXJ0aWZhY3QxMQ==",
+                  "name": "Rails",
+                  "size_in_bytes": 556,
+                  "archive_download_url": "https://api.github.com/repos/octo-org/octo-docs/actions/artifacts/5/zip",
+                  "expired": "false",
+                  "created_at": "2020-01-10T14:59:22Z",
+                  "expires_at": "2020-01-21T14:59:22Z"
+                },
+                {
+                  "id": 13,
+                  "node_id": "MDg6QXJ0aWZhY3QxMw==",
+                  "name": "",
+                  "size_in_bytes": 453,
+                  "archive_download_url": "https://api.github.com/repos/octo-org/octo-docs/actions/artifacts/5/zip",
+                  "expired": "false",
+                  "created_at": "2020-01-10T14:59:22Z",
+                  "expires_at": "2020-01-21T14:59:22Z"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/repos/octocat/hello-world/actions/runs/42/artifacts"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.actions.listWorkflowRunArtifacts({\n  owner: 'octocat',\n  repo: 'hello-world',\n  run_id: 42\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.workflow_run_artifacts(\n  'hello-world',\n  42\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}
