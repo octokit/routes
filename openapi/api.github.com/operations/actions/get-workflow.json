@@ -1,0 +1,96 @@
+{
+  "summary": "Get a workflow",
+  "description": "Gets a specific workflow. You can also replace `:workflow_id` with `:workflow_file_name`. For example, you could use `main.yml`. Anyone with read access to the repository can use this endpoint. GitHub Apps must have the `actions` permission to use this endpoint.",
+  "operationId": "actions/get-workflow",
+  "tags": ["actions"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/actions/workflows/#get-a-workflow"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "description": "owner parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "description": "repo parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "workflow_id",
+      "description": "workflow_id parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "number" },
+              "node_id": { "type": "string" },
+              "name": { "type": "string" },
+              "path": { "type": "string" },
+              "state": { "type": "string" },
+              "created_at": { "type": "string" },
+              "updated_at": { "type": "string" },
+              "url": { "type": "string" },
+              "html_url": { "type": "string" },
+              "badge_url": { "type": "string" }
+            }
+          },
+          "example": {
+            "id": 161335,
+            "node_id": "MDg6V29ya2Zsb3cxNjEzMzU=",
+            "name": "CI",
+            "path": ".github/workflows/blank.yml",
+            "state": "active",
+            "created_at": "2020-01-08T23:48:37.000-08:00",
+            "updated_at": "2020-01-08T23:50:21.000-08:00",
+            "url": "https://api.github.com/repos/octo-org/octo-repo/actions/workflows/161335",
+            "html_url": "https://github.com/octo-org/octo-repo/blob/master/.github/workflows/161335",
+            "badge_url": "https://github.com/octo-org/octo-repo/workflows/CI/badge.svg"
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/repos/octocat/hello-world/actions/workflows/42"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.actions.getWorkflow({\n  owner: 'octocat',\n  repo: 'hello-world',\n  workflow_id: 42\n})"
+    },
+    { "lang": "Ruby", "source": "octokit.workflow(\n  'hello-world',\n  42\n)" }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}
