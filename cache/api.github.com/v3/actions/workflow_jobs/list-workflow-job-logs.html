@@ -1,0 +1,16 @@
+<h2>
+<a id="list-workflow-job-logs" class="anchor" href="#list-workflow-job-logs" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List workflow job logs</h2>
+<p>Gets a redirect URL to download a plain text file of logs for a workflow job. This link expires after 1 minute. Look for <code>Location:</code> in the response header to find the URL for the download. Anyone with read access to the repository can use this endpoint. GitHub Apps must have the <code>actions</code> permission to use this endpoint.</p>
+<pre><code>GET /repos/:owner/:repo/actions/jobs/:job_id/logs
+</code></pre>
+<h3>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+<p>Call this endpoint using the <code>-v</code> flag, which enables verbose output and allows you to see the download URL in the header. To download the file into the current working directory, specify the filename using the <code>-o</code> flag.</p>
+<pre class="highlight highlight-command-line"><code>curl -v -L -u octocat:$token -o logs.zip /
+&quot;https://api.github.com/repos/octo-org/octo-repo/jobs/4511116/logs&quot;
+</code></pre>
+<h3>
+<a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 302 Found
+Location: https://pipelines.actions.githubusercontent.com/ab1f3cCFPB34Nd6imvFxpGZH5hNlDp2wijMwl2gDoO0bcrrlJj/_apis/pipelines/1/jobs/19/signedlogcontent?urlExpires=2020-01-22T22%3A44%3A54.1389777Z&amp;urlSigningMethod=HMACV1&amp;urlSignature=2TUDfIg4fm36OJmfPy6km5QD5DLCOkBVzvhWZM8B%2BUY%3D
+</code></pre>
