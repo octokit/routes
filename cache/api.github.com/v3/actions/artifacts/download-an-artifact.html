@@ -1,0 +1,16 @@
+<h2>
+<a id="download-an-artifact" class="anchor" href="#download-an-artifact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Download an artifact</h2>
+<p>Gets a redirect URL to download an archive for a repository. This URL expires after 1 minute. Look for <code>Location:</code> in the response header to find the URL for the download. The <code>:archive_format</code> must be <code>zip</code>. Anyone with read access to the repository can use this endpoint. GitHub Apps must have the <code>actions</code> permission to use this endpoint.</p>
+<pre><code>GET /repos/:owner/:repo/actions/artifacts/:artifact_id/:archive_format
+</code></pre>
+<h3>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+<p>Call this endpoint using the <code>-v</code> flag, which enables verbose output and allows you to see the download URL in the header. To download the file into the current working directory, specify the filename using the <code>-o</code> flag.</p>
+<pre class="highlight highlight-command-line"><code>curl -v -L -u octocat:$token -o Rails.zip /
+&quot;https://api.github.com/repos/octo-org/octo-repo/actions/artifacts/30209828/zip&quot;
+</code></pre>
+<h3>
+<a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 302 Found
+Location: https://pipelines.actions.githubusercontent.com/OhgS4QRKqmgx7bKC27GKU83jnQjyeqG8oIMTge8eqtheppcmw8/_apis/pipelines/1/runs/176/signedlogcontent?urlExpires=2020-01-24T18%3A10%3A31.5729946Z&amp;urlSigningMethod=HMACV1&amp;urlSignature=agG73JakPYkHrh06seAkvmH7rBR4Ji4c2%2B6a2ejYh3E%3D
+</code></pre>
