@@ -184,7 +184,7 @@ node bin/octokit-rest-routes.js update --ghe
 You can optionally pass a version number
 
 ```bash
-node bin/octokit-rest-routes.js update --ghe 2.16
+node bin/octokit-rest-routes.js update --ghe 2.20
 ```
 
 ### 1. Find documentation pages

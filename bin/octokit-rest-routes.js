@@ -10,7 +10,7 @@ const options = {
   },
   ghe: {
     describe:
-      'GitHub Enterprise. To load a specific version set it the version, e.g. "2.16"',
+      'GitHub Enterprise. To load a specific version set it the version, e.g. "2.20"',
     type: "string"
   }
 };
