@@ -1,0 +1,109 @@
+{
+  "summary": "List downloads for the self-hosted runner application",
+  "description": "Lists binaries for the self-hosted runner application that you can download and run. Anyone with admin access to the repository can use this endpoint. GitHub Apps must have the `administration` permission to use this endpoint.",
+  "operationId": "actions/list-downloads-for-self-hosted-runner-application",
+  "tags": ["actions"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/actions/self_hosted_runners/#list-downloads-for-the-self-hosted-runner-application"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "description": "owner parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "description": "repo parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "os": { "type": "string" },
+                "architecture": { "type": "string" },
+                "download_url": { "type": "string" },
+                "filename": { "type": "string" }
+              }
+            }
+          },
+          "example": [
+            {
+              "os": "osx",
+              "architecture": "x64",
+              "download_url": "https://github.com/actions/runner/releases/download/v2.164.0/actions-runner-osx-x64-2.164.0.tar.gz",
+              "filename": "actions-runner-osx-x64-2.164.0.tar.gz"
+            },
+            {
+              "os": "linux",
+              "architecture": "x64",
+              "download_url": "https://github.com/actions/runner/releases/download/v2.164.0/actions-runner-linux-x64-2.164.0.tar.gz",
+              "filename": "actions-runner-linux-x64-2.164.0.tar.gz"
+            },
+            {
+              "os": "linux",
+              "architecture": "arm",
+              "download_url": "https://github.com/actions/runner/releases/download/v2.164.0/actions-runner-linux-arm-2.164.0.tar.gz",
+              "filename": "actions-runner-linux-arm-2.164.0.tar.gz"
+            },
+            {
+              "os": "win",
+              "architecture": "x64",
+              "download_url": "https://github.com/actions/runner/releases/download/v2.164.0/actions-runner-win-x64-2.164.0.zip",
+              "filename": "actions-runner-win-x64-2.164.0.zip"
+            },
+            {
+              "os": "linux",
+              "architecture": "arm64",
+              "download_url": "https://github.com/actions/runner/releases/download/v2.164.0/actions-runner-linux-arm64-2.164.0.tar.gz",
+              "filename": "actions-runner-linux-arm64-2.164.0.tar.gz"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/repos/octocat/hello-world/actions/runners/downloads"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.actions.listDownloadsForSelfHostedRunnerApplication({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.downloads_for_self_hosted_runner_application(\n  'hello-world'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}

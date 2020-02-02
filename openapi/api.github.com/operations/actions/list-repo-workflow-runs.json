@@ -1,6 +1,6 @@
 {
   "summary": "List repository workflow runs",
-  "description": "Lists all workflow runs for a repository. Anyone with read access to the repository can use this endpoint. GitHub Apps must have the `actions` permission to use this endpoint.",
+  "description": "Lists all workflow runs for a repository. You can use parameters to narrow the list of results. For more information about using parameters, see [Parameters](https://developer.github.com/v3/#parameters).\n\nAnyone with read access to the repository can use this endpoint. GitHub Apps must have the `actions` permission to use this endpoint.",
   "operationId": "actions/list-repo-workflow-runs",
   "tags": ["actions"],
   "externalDocs": {
@@ -30,6 +30,37 @@
       "in": "path",
       "required": true,
       "schema": { "type": "string" }
+    },
+    {
+      "name": "actor",
+      "description": "Returns someone's workflow runs. Use the login for the user who created the `push` associated with the check suite or workflow run.",
+      "in": "query",
+      "required": false,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "branch",
+      "description": "Returns workflow runs associated with a branch. Use the name of the branch of the `push`.",
+      "in": "query",
+      "required": false,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "event",
+      "description": "Returns workflow run triggered by the event you specify. For example, `push`, `pull_request` or `issue`. For more information, see \"[Events that trigger workflows](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/events-that-trigger-workflows)\" in the GitHub Help documentation.",
+      "in": "query",
+      "required": false,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "status",
+      "description": "Returns workflow runs associated with the check run `status` or `conclusion` you specify. For example, a conclusion can be `success` or a status can be `completed`. For more information, see the `status` and `conclusion` options available in \"[Create a check run](https://developer.github.com/v3/checks/runs/#create-a-check-run).\"",
+      "in": "query",
+      "required": false,
+      "schema": {
+        "type": "string",
+        "enum": ["completed", "status", "conclusion"]
+      }
     },
     {
       "name": "per_page",
