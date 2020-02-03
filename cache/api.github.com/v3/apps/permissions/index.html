@@ -361,6 +361,7 @@
 
 <ul id="markdown-toc">
 <li><a href="#metadata-permissions" id="markdown-toc-metadata-permissions">Metadata permissions</a></li>
+<li><a href="#permission-on-actions" id="markdown-toc-permission-on-actions">Permission on "actions"</a></li>
 <li><a href="#permission-on-administration" id="markdown-toc-permission-on-administration">Permission on "administration"</a></li>
 <li><a href="#permission-on-blocking" id="markdown-toc-permission-on-blocking">Permission on "blocking"</a></li>
 <li><a href="#permission-on-checks" id="markdown-toc-permission-on-checks">Permission on "checks"</a></li>
@@ -380,6 +381,7 @@
 <li><a href="#permission-on-pull-requests" id="markdown-toc-permission-on-pull-requests">Permission on "pull requests"</a></li>
 <li><a href="#permission-on-repository-hooks" id="markdown-toc-permission-on-repository-hooks">Permission on "repository hooks"</a></li>
 <li><a href="#permission-on-repository-projects" id="markdown-toc-permission-on-repository-projects">Permission on "repository projects"</a></li>
+<li><a href="#permission-on-secrets" id="markdown-toc-permission-on-secrets">Permission on "secrets"</a></li>
 <li><a href="#permission-on-single-file" id="markdown-toc-permission-on-single-file">Permission on "single file"</a></li>
 <li><a href="#permission-on-starring" id="markdown-toc-permission-on-starring">Permission on "starring"</a></li>
 <li><a href="#permission-on-statuses" id="markdown-toc-permission-on-statuses">Permission on "statuses"</a></li>
@@ -520,6 +522,42 @@
 </ul>
 
 <h2>
+<a id="permission-on-actions" class="anchor" href="#permission-on-actions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Permission on "actions"</h2>
+
+<ul>
+<li>
+<a href="/v3/actions/artifacts/#get-an-artifact"><code>GET /repos/:owner/:repo/actions/artifacts/:artifact_id</code></a> (:read)</li>
+<li>
+<a href="/v3/actions/artifacts/#delete-an-artifact"><code>DELETE /repos/:owner/:repo/actions/artifacts/:artifact_id</code></a> (:write)</li>
+<li>
+<a href="/v3/actions/artifacts/#download-an-artifact"><code>GET /repos/:owner/:repo/actions/artifacts/:artifact_id/zip</code></a> (:read)</li>
+<li>
+<a href="/v3/actions/workflow_jobs/#get-a-workflow-job"><code>GET /repos/:owner/:repo/actions/jobs/:job_id</code></a> (:read)</li>
+<li>
+<a href="/v3/actions/workflow_jobs/#list-workflow-job-logs"><code>GET /repos/:owner/:repo/actions/jobs/:job_id/logs</code></a> (:read)</li>
+<li>
+<a href="/v3/actions/workflow_runs/#list-repository-workflow-runs"><code>GET /repos/:owner/:repo/actions/runs</code></a> (:read)</li>
+<li>
+<a href="/v3/actions/workflow_runs/#get-a-workflow-run"><code>GET /repos/:owner/:repo/actions/runs/:run_id</code></a> (:read)</li>
+<li>
+<a href="/v3/actions/artifacts/#list-workflow-run-artifacts"><code>GET /repos/:owner/:repo/actions/runs/:run_id/artifacts</code></a> (:read)</li>
+<li>
+<a href="/v3/actions/workflow_runs/#cancel-a-workflow-run"><code>POST /repos/:owner/:repo/actions/runs/:run_id/cancel</code></a> (:write)</li>
+<li>
+<a href="/v3/actions/workflow_jobs/#list-jobs-for-a-workflow-run"><code>GET /repos/:owner/:repo/actions/runs/:run_id/jobs</code></a> (:read)</li>
+<li>
+<a href="/v3/actions/workflow_runs/#list-workflow-run-logs"><code>GET /repos/:owner/:repo/actions/runs/:run_id/logs</code></a> (:read)</li>
+<li>
+<a href="/v3/actions/workflow_runs/#re-run-a-workflow"><code>POST /repos/:owner/:repo/actions/runs/:run_id/rerun</code></a> (:write)</li>
+<li>
+<a href="/v3/actions/workflows/#list-repository-workflows"><code>GET /repos/:owner/:repo/actions/workflows</code></a> (:read)</li>
+<li>
+<a href="/v3/actions/workflows/#get-a-workflow"><code>GET /repos/:owner/:repo/actions/workflows/:workflow_id</code></a> (:read)</li>
+<li>
+<a href="/v3/actions/workflow_runs/#list-workflow-runs"><code>GET /repos/:owner/:repo/actions/workflows/:workflow_id/runs</code></a> (:read)</li>
+</ul>
+
+<h2>
 <a id="permission-on-administration" class="anchor" href="#permission-on-administration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Permission on "administration"</h2>
 
 <ul>
@@ -527,17 +565,24 @@
 <a href="/v3/repos/#create"><code>POST /orgs/:org/repos</code></a> (:write)</li>
 <li>
 <a href="/v3/repos/#edit"><code>PATCH /repos/:owner/:repo</code></a> (:write)</li>
-<li>
-<a href="/v3/repos/#delete-a-repository"><code>DELETE /repos/:owner/:repo</code></a> (:write)</li>
+<li><p><a href="/v3/repos/#delete-a-repository"><code>DELETE /repos/:owner/:repo</code></a> (:write)</p></li>
+<li><p><a href="/v3/actions/self_hosted_runners/#list-self-hosted-runners-for-a-repository"><code>GET /repos/:owner/:repo/actions/runners</code></a> (:read)</p></li>
+<li><p><a href="/v3/actions/self_hosted_runners/#get-a-self-hosted-runner"><code>GET /repos/:owner/:repo/actions/runners/:runner_id</code></a> (:read)</p></li>
+<li><p><a href="/v3/actions/self_hosted_runners/#remove-a-self-hosted-runner"><code>DELETE /repos/:owner/:repo/actions/runners/:runner_id</code></a> (:write)</p></li>
+<li><p><a href="/v3/actions/self_hosted_runners/#create-a-registration-token"><code>POST /repos/:owner/:repo/actions/runners/registration-token</code></a> (:write)</p></li>
+<li><p><a href="/v3/actions/self_hosted_runners/#create-a-remove-token"><code>POST /repos/:owner/:repo/actions/runners/remove-token</code></a> (:write)</p></li>
+<li><p><a href="/v3/repos/#enable-automated-security-fixes"><code>PUT /repos/:owner/:repo/automated-security-fixes</code></a> (:write)</p></li>
+<li><p><a href="/v3/repos/#disable-automated-security-fixes"><code>DELETE /repos/:owner/:repo/automated-security-fixes</code></a> (:write)</p></li>
 <li><p><a href="/v3/repos/forks/#create-a-fork"><code>POST /repos/:owner/:repo/forks</code></a> (:write)</p></li>
 <li><p><a href="/v3/interactions/repos/#get-interaction-restrictions-for-a-repository"><code>GET /repos/:owner/:repo/interaction-limits</code></a> (:read)</p></li>
 <li><p><a href="/v3/interactions/repos/#add-or-update-interaction-restrictions-for-a-repository"><code>PUT /repos/:owner/:repo/interaction-limits</code></a> (:write)</p></li>
 <li><p><a href="/v3/interactions/repos/#remove-interaction-restrictions-for-a-repository"><code>DELETE /repos/:owner/:repo/interaction-limits</code></a> (:write)</p></li>
 <li><p><a href="/v3/repos#replace-all-topics-for-a-repository"><code>PUT /repos/:owner/:repo/topics</code></a> (:write)</p></li>
-<li>
-<a href="/v3/repos/#transfer-a-repository"><code>POST /repos/:owner/:repo/transfer</code></a> (:write)</li>
-<li>
-<a href="/v3/repos/#create"><code>POST /user/repos</code></a> (:write)</li>
+<li><p><a href="/v3/repos/#transfer-a-repository"><code>POST /repos/:owner/:repo/transfer</code></a> (:write)</p></li>
+<li><p><a href="/v3/repos/#enable-vulnerability-alerts"><code>GET /repos/:owner/:repo/vulnerability-alerts</code></a> (:write)</p></li>
+<li><p><a href="/v3/repos/#enable-vulnerability-alerts"><code>PUT /repos/:owner/:repo/vulnerability-alerts</code></a> (:write)</p></li>
+<li><p><a href="/v3/repos/#disable-vulnerability-alerts"><code>DELETE /repos/:owner/:repo/vulnerability-alerts</code></a> (:write)</p></li>
+<li><p><a href="/v3/repos/#create"><code>POST /user/repos</code></a> (:write)</p></li>
 <li>
 <a href="/v3/repos/invitations/#accept-a-repository-invitation"><code>PATCH /user/repository_invitations/:invitation_id</code></a> (:write)</li>
 <li>
@@ -712,10 +757,28 @@
 <ul>
 <li>
 <a href="/v3/reactions/#delete-a-reaction"><code>DELETE /reactions/:reaction_id</code></a> (:read)</li>
-<li>
-<a href="/v3/repos/contents/#get-archive-link"><code>GET /repos/:owner/:repo/:archive_format/:ref</code></a> (:read)</li>
-<li>
-<a href="/v3/checks/runs/#get-a-single-check-run"><code>GET /repos/:owner/:repo/check-runs/:check_run_id</code></a> (:read)</li>
+<li><p><a href="/v3/repos/contents/#get-archive-link"><code>GET /repos/:owner/:repo/:archive_format/:ref</code></a> (:read)</p></li>
+<li><p><a href="/v3/actions/artifacts/#get-an-artifact"><code>GET /repos/:owner/:repo/actions/artifacts/:artifact_id</code></a> (:read)</p></li>
+<li><p><a href="/v3/actions/artifacts/#delete-an-artifact"><code>DELETE /repos/:owner/:repo/actions/artifacts/:artifact_id</code></a> (:write)</p></li>
+<li><p><a href="/v3/actions/artifacts/#download-an-artifact"><code>GET /repos/:owner/:repo/actions/artifacts/:artifact_id/zip</code></a> (:read)</p></li>
+<li><p><a href="/v3/actions/workflow_jobs/#get-a-workflow-job"><code>GET /repos/:owner/:repo/actions/jobs/:job_id</code></a> (:read)</p></li>
+<li><p><a href="/v3/actions/workflow_jobs/#list-workflow-job-logs"><code>GET /repos/:owner/:repo/actions/jobs/:job_id/logs</code></a> (:read)</p></li>
+<li><p><a href="/v3/actions/workflow_runs/#list-repository-workflow-runs"><code>GET /repos/:owner/:repo/actions/runs</code></a> (:read)</p></li>
+<li><p><a href="/v3/actions/workflow_runs/#get-a-workflow-run"><code>GET /repos/:owner/:repo/actions/runs/:run_id</code></a> (:read)</p></li>
+<li><p><a href="/v3/actions/artifacts/#list-workflow-run-artifacts"><code>GET /repos/:owner/:repo/actions/runs/:run_id/artifacts</code></a> (:read)</p></li>
+<li><p><a href="/v3/actions/workflow_runs/#cancel-a-workflow-run"><code>POST /repos/:owner/:repo/actions/runs/:run_id/cancel</code></a> (:write)</p></li>
+<li><p><a href="/v3/actions/workflow_jobs/#list-jobs-for-a-workflow-run"><code>GET /repos/:owner/:repo/actions/runs/:run_id/jobs</code></a> (:read)</p></li>
+<li><p><a href="/v3/actions/workflow_runs/#list-workflow-run-logs"><code>GET /repos/:owner/:repo/actions/runs/:run_id/logs</code></a> (:read)</p></li>
+<li><p><a href="/v3/actions/workflow_runs/#re-run-a-workflow"><code>POST /repos/:owner/:repo/actions/runs/:run_id/rerun</code></a> (:write)</p></li>
+<li><p><a href="/v3/actions/secrets/#list-secrets-for-a-repository"><code>GET /repos/:owner/:repo/actions/secrets</code></a> (:write)</p></li>
+<li><p><a href="/v3/actions/secrets/#get-a-secret"><code>GET /repos/:owner/:repo/actions/secrets/:name</code></a> (:write)</p></li>
+<li><p><a href="/v3/actions/secrets/#create-or-update-a-secret-for-a-repository"><code>PUT /repos/:owner/:repo/actions/secrets/:name</code></a> (:write)</p></li>
+<li><p><a href="/v3/actions/secrets/#delete-a-secret-from-a-repository"><code>DELETE /repos/:owner/:repo/actions/secrets/:name</code></a> (:write)</p></li>
+<li><p><a href="/v3/actions/secrets/#get-your-public-key"><code>GET /repos/:owner/:repo/actions/secrets/public-key</code></a> (:write)</p></li>
+<li><p><a href="/v3/actions/workflows/#list-repository-workflows"><code>GET /repos/:owner/:repo/actions/workflows</code></a> (:read)</p></li>
+<li><p><a href="/v3/actions/workflows/#get-a-workflow"><code>GET /repos/:owner/:repo/actions/workflows/:workflow_id</code></a> (:read)</p></li>
+<li><p><a href="/v3/actions/workflow_runs/#list-workflow-runs"><code>GET /repos/:owner/:repo/actions/workflows/:workflow_id/runs</code></a> (:read)</p></li>
+<li><p><a href="/v3/checks/runs/#get-a-single-check-run"><code>GET /repos/:owner/:repo/check-runs/:check_run_id</code></a> (:read)</p></li>
 <li>
 <a href="/v3/checks/runs/#list-annotations-for-a-check-run"><code>GET /repos/:owner/:repo/check-runs/:check_run_id/annotations</code></a> (:read)</li>
 <li>
@@ -1041,18 +1104,20 @@
 <a id="permission-on-members" class="anchor" href="#permission-on-members" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Permission on "members"</h2>
 
 <ul>
-<li>
-<a href="/v3/orgs/outside_collaborators/#list-outside-collaborators"><code>GET /orgs/:org/outside_collaborators</code></a> (:read)</li>
+<li><p><a href="/v3/teams/team_sync/#list-idp-groups-for-a-team"><code>GET /organizations/:org_id/team/:team_id/team-sync/group-mappings</code></a> (:write)</p></li>
+<li><p><a href="/v3/teams/team_sync/#create-or-update-idp-group-connections"><code>PATCH /organizations/:org_id/team/:team_id/team-sync/group-mappings</code></a> (:write)</p></li>
+<li><p><a href="/v3/orgs/outside_collaborators/#list-outside-collaborators"><code>GET /orgs/:org/outside_collaborators</code></a> (:read)</p></li>
 <li>
 <a href="/v3/orgs/outside_collaborators/#convert-member-to-outside-collaborator"><code>PUT /orgs/:org/outside_collaborators/:username</code></a> (:write)</li>
 <li><p><a href="/v3/orgs/outside_collaborators/#remove-outside-collaborator"><code>DELETE /orgs/:org/outside_collaborators/:username</code></a> (:write)</p></li>
+<li><p><a href="/v3/teams/team_sync/#list-idp-groups-in-an-organization"><code>GET /orgs/:org/team-sync/groups</code></a> (:write)</p></li>
+<li><p><a href="/v3/teams/#get-team-by-name"><code>GET /orgs/:org/team/:team_id</code></a> (:read)</p></li>
 <li><p><a href="/v3/scim/#get-a-list-of-provisioned-identities"><code>GET /scim/v2/orgs/:org/Users</code></a> (:read)</p></li>
 <li><p><a href="/v3/scim/#provision-and-invite-users"><code>POST /scim/v2/orgs/:org/Users</code></a> (:write)</p></li>
-<li><p><a href="/v3/scim/#get-provisioning-details-for-a-single-user"><code>GET /scim/v2/orgs/:org/Users/:scim_user_id</code></a> (:read)</p></li>
-<li><p><a href="/v3/scim/#replace-a-provisioned-users-information"><code>PUT /scim/v2/orgs/:org/Users/:scim_user_id</code></a> (:write)</p></li>
-<li><p><a href="/v3/scim/#update-a-user-attribute"><code>PATCH /scim/v2/orgs/:org/Users/:scim_user_id</code></a> (:write)</p></li>
-<li><p><a href="/v3/scim/#remove-a-user-from-the-organization"><code>DELETE /scim/v2/orgs/:org/Users/:scim_user_id</code></a> (:write)</p></li>
-<li><p><a href="/v3/teams/discussions/#list-discussions"><code>GET /teams/:team_id/discussions</code></a> (:read)</p></li>
+<li><p><a href="/v3/scim/#get-provisioning-details-for-a-single-user"><code>GET /scim/v2/orgs/:org/Users/:external_identity_guid</code></a> (:read)</p></li>
+<li><p><a href="/v3/scim/#replace-a-provisioned-users-information"><code>PUT /scim/v2/orgs/:org/Users/:external_identity_guid</code></a> (:write)</p></li>
+<li><p><a href="/v3/scim/#update-a-user-attribute"><code>PATCH /scim/v2/orgs/:org/Users/:external_identity_guid</code></a> (:write)</p></li>
+<li><p><a href="/v3/scim/#remove-a-user-from-the-organization"><code>DELETE /scim/v2/orgs/:org/Users/:external_identity_guid</code></a> (:write)</p></li>
 </ul>
 
 <p><em>Invitations</em></p>
@@ -1162,6 +1227,13 @@
 <a href="/v3/orgs/hooks/#ping-a-hook"><code>POST /orgs/:org/hooks/:hook_id/pings</code></a> (:write)</li>
 </ul>
 
+<p><em>Teams</em></p>
+
+<ul>
+<li>
+<a href="/v3/teams/#remove-team-project"><code>DELETE /teams/:team_id/projects/:project_id</code></a> (:read)</li>
+</ul>
+
 <h2>
 <a id="permission-on-organization-projects" class="anchor" href="#permission-on-organization-projects" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Permission on "organization projects"</h2>
 
@@ -1200,13 +1272,6 @@
 <a href="/v3/projects/cards/#delete-a-project-card"><code>DELETE /projects/columns/cards/:card_id</code></a> (:write)</li>
 <li>
 <a href="/v3/projects/cards/#move-a-project-card"><code>POST /projects/columns/cards/:card_id/moves</code></a> (:write)</li>
-</ul>
-
-<p><em>Teams</em></p>
-
-<ul>
-<li>
-<a href="/v3/teams/#remove-team-project"><code>DELETE /teams/:team_id/projects/:project_id</code></a> (:read)</li>
 </ul>
 
 <h2>
@@ -1466,6 +1531,22 @@
 <ul>
 <li>
 <a href="/v3/teams/#remove-team-project"><code>DELETE /teams/:team_id/projects/:project_id</code></a> (:read)</li>
+</ul>
+
+<h2>
+<a id="permission-on-secrets" class="anchor" href="#permission-on-secrets" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Permission on "secrets"</h2>
+
+<ul>
+<li>
+<a href="/v3/actions/secrets/#list-secrets-for-a-repository"><code>GET /repos/:owner/:repo/actions/secrets</code></a> (:read)</li>
+<li>
+<a href="/v3/actions/secrets/#get-a-secret"><code>GET /repos/:owner/:repo/actions/secrets/:name</code></a> (:read)</li>
+<li>
+<a href="/v3/actions/secrets/#create-or-update-a-secret-for-a-repository"><code>PUT /repos/:owner/:repo/actions/secrets/:name</code></a> (:write)</li>
+<li>
+<a href="/v3/actions/secrets/#delete-a-secret-from-a-repository"><code>DELETE /repos/:owner/:repo/actions/secrets/:name</code></a> (:write)</li>
+<li>
+<a href="/v3/actions/secrets/#get-your-public-key"><code>GET /repos/:owner/:repo/actions/secrets/public-key</code></a> (:read)</li>
 </ul>
 
 <h2>
