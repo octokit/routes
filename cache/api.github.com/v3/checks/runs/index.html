@@ -374,6 +374,8 @@
 
 <p>When someone pushes code to a repository, GitHub creates a check suite for the last commit. GitHub Apps with the <code>checks:write</code> permission receive a <a href="/v3/activity/events/types/#checksuiteevent"><code>check_suite</code></a> webhook with the <code>requested</code> action. When your GitHub App receives the <code>check_suite</code> event, it can create new check runs for the latest commit. GitHub automatically adds new check runs to the correct <a href="/v3/checks/suites/">check suite</a> based on the check run's repository and SHA. Check suites contain one or more check runs and report a summary conclusion for all the check runs in the suite.</p>
 
+<p>If a check run is in a incomplete state for more than 14 days, then the check run's <code>conclusion</code> becomes <code>stale</code> and appears on GitHub as stale with <span class="octicon octicon-issue-reopened" aria-label="The issue-reopened icon " title="The issue-reopened icon "></span>. Only GitHub can mark check runs as <code>stale</code>. For more information about possible conclusions of a check run, see the <a href="/v3/checks/runs/#parameters"><code>conclusion</code> parameter</a>.</p>
+
 <p>As soon as you receive the <a href="/v3/activity/events/types/#checksuiteevent"><code>check_suite</code></a> webhook, you can create the check run, even if the check is not complete. You can update the <code>status</code> of the check run as it completes with the values <code>queued</code>, <code>in_progress</code>, or <code>completed</code>, and you can update the <code>output</code> as more details become available. A check run can contain timestamps, a link to more details on your external site, detailed annotations for specific lines of code, and information about the analysis performed.</p>
 
 <p><img src="/assets/images/check_run_annotations.png" alt="Check run annotation"></p>
@@ -486,7 +488,7 @@
 <td><code>conclusion</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required if you provide <code>completed_at</code> or a <code>status</code> of <code>completed</code></strong>. The final conclusion of the check. Can be one of <code>success</code>, <code>failure</code>, <code>neutral</code>, <code>cancelled</code>, <code>timed_out</code>, or <code>action_required</code>. When the conclusion is <code>action_required</code>, additional details should be provided on the site specified by <code>details_url</code>. <br><strong>Note:</strong> Providing <code>conclusion</code> will automatically set the <code>status</code> parameter to <code>completed</code>.</td>
+<strong>Required if you provide <code>completed_at</code> or a <code>status</code> of <code>completed</code></strong>. The final conclusion of the check. Can be one of <code>success</code>, <code>failure</code>, <code>neutral</code>, <code>cancelled</code>, <code>timed_out</code>, or <code>action_required</code>. When the conclusion is <code>action_required</code>, additional details should be provided on the site specified by <code>details_url</code>. <br><strong>Note:</strong> Providing <code>conclusion</code> will automatically set the <code>status</code> parameter to <code>completed</code>.   Only GitHub can change a check run conclusion to <code>stale</code>.</td>
 </tr>
 <tr>
 <td><code>completed_at</code></td>
@@ -1007,7 +1009,7 @@
 <td><code>conclusion</code></td>
 <td><code>string</code></td>
 <td>
-<strong>Required if you provide <code>completed_at</code> or a <code>status</code> of <code>completed</code></strong>. The final conclusion of the check. Can be one of <code>success</code>, <code>failure</code>, <code>neutral</code>, <code>cancelled</code>, <code>timed_out</code>, or <code>action_required</code>. <br><strong>Note:</strong> Providing <code>conclusion</code> will automatically set the <code>status</code> parameter to <code>completed</code>.</td>
+<strong>Required if you provide <code>completed_at</code> or a <code>status</code> of <code>completed</code></strong>. The final conclusion of the check. Can be one of <code>success</code>, <code>failure</code>, <code>neutral</code>, <code>cancelled</code>, <code>timed_out</code>, or <code>action_required</code>. <br><strong>Note:</strong> Providing <code>conclusion</code> will automatically set the <code>status</code> parameter to <code>completed</code>.   Only GitHub can change a check run conclusion to <code>stale</code>.</td>
 </tr>
 <tr>
 <td><code>completed_at</code></td>
