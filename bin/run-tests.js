@@ -13,12 +13,11 @@ spawn("tap", ["--no-coverage", "--timeout=60", "test/unit/*-test.js"], {
 
 const apis = readdirSync(pathResolve(__dirname, "..", "openapi"));
 for (const api of apis) {
-  const GHE_VERSION = api.replace(/^ghe-(\d+\.\d+)$/, "$1") || null;
-  console.log(
-    `${
-      GHE_VERSION ? `GHE_VERSION=${GHE_VERSION} ` : ""
-    }tap --no-coverage --timeout=60 test/unit/*-test.js`
-  );
+  let GHE_VERSION = api.replace(/^ghe-(\d+\.\d+)$/, "$1") || null;
+  if (GHE_VERSION === "api.github.com") {
+    GHE_VERSION = "";
+  }
+
   spawn(
     "tap",
     ["--no-coverage", "--timeout=60", "test/integration/*-test.js"],
