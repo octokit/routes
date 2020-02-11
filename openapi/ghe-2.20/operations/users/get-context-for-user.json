@@ -1,0 +1,92 @@
+{
+  "summary": "Get contextual information about a user",
+  "description": "Provides hovercard information when authenticated through basic auth or OAuth with the `repo` scope. You can find out more about someone in relation to their pull requests, issues, repositories, and organizations.\n\nThe `subject_type` and `subject_id` parameters provide context for the person's hovercard, which returns more information than without the parameters. For example, if you wanted to find out more about `octocat` who owns the `Spoon-Knife` repository via cURL, it would look like this:",
+  "operationId": "users/get-context-for-user",
+  "tags": ["users"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.20/v3/users/#get-contextual-information-about-a-user"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "username",
+      "description": "username parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "subject_type",
+      "description": "Identifies which additional information you'd like to receive about the person's hovercard. Can be `organization`, `repository`, `issue`, `pull_request`. **Required** when using `subject_id`.",
+      "in": "query",
+      "required": false,
+      "schema": {
+        "type": "string",
+        "enum": ["organization", "repository", "issue", "pull_request"]
+      }
+    },
+    {
+      "name": "subject_id",
+      "description": "Uses the ID for the `subject_type` you specified. **Required** when using `subject_type`.",
+      "in": "query",
+      "required": false,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "contexts": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" },
+                    "octicon": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "example": {
+            "contexts": [
+              { "message": "Owns this repository", "octicon": "repo" }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/users/USERNAME/hovercard"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.users.getContextForUser({\n  username: 'username'\n})"
+    },
+    { "lang": "Ruby", "source": "octokit.context_for_user(\n  'username'\n)" }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}

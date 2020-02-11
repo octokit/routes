@@ -1,0 +1,89 @@
+{
+  "summary": "Get a blob",
+  "description": "The `content` in the response will always be Base64 encoded.\n\n_Note_: This API supports blobs up to 100 megabytes in size.",
+  "operationId": "git/get-blob",
+  "tags": ["git"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.20/v3/git/blobs/#get-a-blob"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "description": "owner parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "description": "repo parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "file_sha",
+      "description": "file_sha parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "content": { "type": "string" },
+              "encoding": { "type": "string" },
+              "url": { "type": "string" },
+              "sha": { "type": "string" },
+              "size": { "type": "number" }
+            }
+          },
+          "example": {
+            "content": "Q29udGVudCBvZiB0aGUgYmxvYg==\n",
+            "encoding": "base64",
+            "url": "https://api.github.com/repos/octocat/example/git/blobs/3a0f86fb8db8eea7ccbb9a95f325ddbedfb25e15",
+            "sha": "3a0f86fb8db8eea7ccbb9a95f325ddbedfb25e15",
+            "size": 19
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/repos/octocat/hello-world/git/blobs/FILE_SHA"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.git.getBlob({\n  owner: 'octocat',\n  repo: 'hello-world',\n  file_sha: 'file_sha'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.blob(\n  'hello-world',\n  'file_sha'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}

@@ -1,0 +1,119 @@
+{
+  "summary": "List pre-receive environments",
+  "description": "",
+  "operationId": "enterprise-admin/list-pre-receive-environments",
+  "tags": ["enterprise-admin"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.20/v3/enterprise-admin/pre_receive_environments/#list-pre-receive-environments"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "per_page",
+      "description": "Results per page (max 100)",
+      "in": "query",
+      "schema": { "type": "integer", "default": 30 }
+    },
+    {
+      "name": "page",
+      "description": "Page number of the results to fetch.",
+      "in": "query",
+      "schema": { "type": "integer", "default": 1 }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "number" },
+                "name": { "type": "string" },
+                "image_url": { "type": "string" },
+                "url": { "type": "string" },
+                "html_url": { "type": "string" },
+                "default_environment": { "type": "boolean" },
+                "created_at": { "type": "string" },
+                "hooks_count": { "type": "number" },
+                "download": {
+                  "type": "object",
+                  "properties": {
+                    "url": { "type": "string" },
+                    "state": { "type": "string" },
+                    "downloaded_at": { "type": "string" },
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "example": [
+            {
+              "id": 1,
+              "name": "Default",
+              "image_url": "githubenterprise://internal",
+              "url": "https://github.example.com/api/v3/admin/pre-receive-environments/1",
+              "html_url": "https://github.example.com/admin/pre-receive-environments/1",
+              "default_environment": true,
+              "created_at": "2016-05-20T11:35:45-05:00",
+              "hooks_count": 14,
+              "download": {
+                "url": "https://github.example.com/api/v3/admin/pre-receive-environments/1/downloads/latest",
+                "state": "not_started",
+                "downloaded_at": "2016-05-26T07:42:53-05:00",
+                "message": null
+              }
+            },
+            {
+              "id": 2,
+              "name": "DevTools Hook Env",
+              "image_url": "https://my_file_server/path/to/devtools_env.tar.gz",
+              "url": "https://github.example.com/api/v3/admin/pre-receive-environments/2",
+              "html_url": "https://github.example.com/admin/pre-receive-environments/2",
+              "default_environment": false,
+              "created_at": "2016-05-20T11:35:45-05:00",
+              "hooks_count": 1,
+              "download": {
+                "url": "https://github.example.com/api/v3/admin/pre-receive-environments/2/downloads/latest",
+                "state": "success",
+                "downloaded_at": "2016-05-26T07:42:53-05:00",
+                "message": null
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/admin/pre-receive-environments"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.enterpriseAdmin.listPreReceiveEnvironments()"
+    },
+    { "lang": "Ruby", "source": "octokit.pre_receive_environments()" }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}

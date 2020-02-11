@@ -1,0 +1,63 @@
+{
+  "summary": "Sync LDAP mapping for a user",
+  "description": "Note that this API call does not automatically initiate an LDAP sync. Rather, if a `201` is returned, the sync job is queued successfully, and is performed when the instance is ready.",
+  "operationId": "enterprise-admin/sync-ldap-mapping-for-user",
+  "tags": ["enterprise-admin"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.20/v3/enterprise-admin/ldap/#sync-ldap-mapping-for-a-user"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "username",
+      "description": "username parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": {
+    "201": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": { "status": { "type": "string" } }
+          },
+          "example": { "status": "queued" }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/admin/ldap/users/USERNAME/sync"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.enterpriseAdmin.syncLdapMappingForUser({\n  username: 'username'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.sync_ldap_mapping_for_user(\n  'username'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}

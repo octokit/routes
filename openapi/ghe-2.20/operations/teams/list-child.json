@@ -1,0 +1,137 @@
+{
+  "summary": "List child teams",
+  "description": "",
+  "operationId": "teams/list-child",
+  "tags": ["teams"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.20/v3/teams/#list-child-teams"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "team_id",
+      "description": "team_id parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    },
+    {
+      "name": "per_page",
+      "description": "Results per page (max 100)",
+      "in": "query",
+      "schema": { "type": "integer", "default": 30 }
+    },
+    {
+      "name": "page",
+      "description": "Page number of the results to fetch.",
+      "in": "query",
+      "schema": { "type": "integer", "default": 1 }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "Response if child teams exist",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "number" },
+                "node_id": { "type": "string" },
+                "url": { "type": "string" },
+                "name": { "type": "string" },
+                "slug": { "type": "string" },
+                "description": { "type": "string" },
+                "privacy": { "type": "string" },
+                "permission": { "type": "string" },
+                "members_url": { "type": "string" },
+                "repositories_url": { "type": "string" },
+                "parent": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "number" },
+                    "node_id": { "type": "string" },
+                    "url": { "type": "string" },
+                    "html_url": { "type": "string" },
+                    "name": { "type": "string" },
+                    "slug": { "type": "string" },
+                    "description": { "type": "string" },
+                    "privacy": { "type": "string" },
+                    "permission": { "type": "string" },
+                    "members_url": { "type": "string" },
+                    "repositories_url": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "examples": {
+            "response-if-child-teams-exist": {
+              "value": [
+                {
+                  "id": 2,
+                  "node_id": "MDQ6VGVhbTI=",
+                  "url": "https://api.github.com/teams/2",
+                  "name": "Original Roster",
+                  "slug": "original-roster",
+                  "description": "Started it all.",
+                  "privacy": "closed",
+                  "permission": "admin",
+                  "members_url": "https://api.github.com/teams/2/members{/member}",
+                  "repositories_url": "https://api.github.com/teams/2/repos",
+                  "parent": {
+                    "id": 1,
+                    "node_id": "MDQ6VGVhbTE=",
+                    "url": "https://api.github.com/teams/1",
+                    "html_url": "https://api.github.com/teams/justice-league",
+                    "name": "Justice League",
+                    "slug": "justice-league",
+                    "description": "A great team.",
+                    "privacy": "closed",
+                    "permission": "admin",
+                    "members_url": "https://api.github.com/teams/1/members{/member}",
+                    "repositories_url": "https://api.github.com/teams/1/repos"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/teams/42/teams"
+    },
+    { "lang": "JS", "source": "octokit.teams.listChild({\n  team_id: 42\n})" },
+    { "lang": "Ruby", "source": "octokit.child(\n  42\n)" }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2020-01-16",
+      "note": "The path for \"List child teams\" changed  from \"/teams/{team_id}*\" to \"/orgs/{org}/teams/{team_slug}*\"). The operation ID for the old path now has a \"-legacy\" suffix. The route with the new path has a \"-for-org\" suffix in the operation ID to avoid breaking changes",
+      "before": { "operationId": "teams/list-child" },
+      "after": { "operationId": "teams/list-child" }
+    }
+  ]
+}

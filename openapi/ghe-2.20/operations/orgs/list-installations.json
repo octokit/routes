@@ -1,0 +1,180 @@
+{
+  "summary": "List installations for an organization",
+  "description": "Lists all GitHub Apps in an organization. The installation count includes all GitHub Apps installed on repositories in the organization. You must be an organization owner with `admin:read` scope to use this endpoint.",
+  "operationId": "orgs/list-installations",
+  "tags": ["orgs"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.20/v3/orgs/#list-installations-for-an-organization"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "This API is under preview and subject to change.",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.machine-man-preview+json"
+      },
+      "required": true
+    },
+    {
+      "name": "org",
+      "description": "org parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "per_page",
+      "description": "Results per page (max 100)",
+      "in": "query",
+      "schema": { "type": "integer", "default": 30 }
+    },
+    {
+      "name": "page",
+      "description": "Page number of the results to fetch.",
+      "in": "query",
+      "schema": { "type": "integer", "default": 1 }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "total_count": { "type": "number" },
+              "installations": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "number" },
+                    "account": {
+                      "type": "object",
+                      "properties": {
+                        "login": { "type": "string" },
+                        "id": { "type": "number" },
+                        "node_id": { "type": "string" },
+                        "avatar_url": { "type": "string" },
+                        "gravatar_id": { "type": "string" },
+                        "url": { "type": "string" },
+                        "html_url": { "type": "string" },
+                        "followers_url": { "type": "string" },
+                        "following_url": { "type": "string" },
+                        "gists_url": { "type": "string" },
+                        "starred_url": { "type": "string" },
+                        "subscriptions_url": { "type": "string" },
+                        "organizations_url": { "type": "string" },
+                        "repos_url": { "type": "string" },
+                        "events_url": { "type": "string" },
+                        "received_events_url": { "type": "string" },
+                        "type": { "type": "string" },
+                        "site_admin": { "type": "boolean" }
+                      }
+                    },
+                    "repository_selection": { "type": "string" },
+                    "access_tokens_url": { "type": "string" },
+                    "repositories_url": { "type": "string" },
+                    "html_url": { "type": "string" },
+                    "app_id": { "type": "number" },
+                    "target_id": { "type": "number" },
+                    "target_type": { "type": "string" },
+                    "permissions": {
+                      "type": "object",
+                      "properties": {
+                        "deployments": { "type": "string" },
+                        "metadata": { "type": "string" },
+                        "pull_requests": { "type": "string" },
+                        "statuses": { "type": "string" }
+                      }
+                    },
+                    "events": {
+                      "type": "array",
+                      "items": { "type": "string" }
+                    },
+                    "created_at": { "type": "string" },
+                    "updated_at": { "type": "string" },
+                    "single_file_name": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "example": {
+            "total_count": 2,
+            "installations": [
+              {
+                "id": 25381,
+                "account": {
+                  "login": "octo-org",
+                  "id": 6811672,
+                  "node_id": "MDEyOk9yZ2FuaXphdGlvbjY4MTE2NzI=",
+                  "avatar_url": "https://avatars3.githubusercontent.com/u/6811672?v=4",
+                  "gravatar_id": "",
+                  "url": "https://api.github.com/users/octo-org",
+                  "html_url": "https://github.com/octo-org",
+                  "followers_url": "https://api.github.com/users/octo-org/followers",
+                  "following_url": "https://api.github.com/users/octo-org/following{/other_user}",
+                  "gists_url": "https://api.github.com/users/octo-org/gists{/gist_id}",
+                  "starred_url": "https://api.github.com/users/octo-org/starred{/owner}{/repo}",
+                  "subscriptions_url": "https://api.github.com/users/octo-org/subscriptions",
+                  "organizations_url": "https://api.github.com/users/octo-org/orgs",
+                  "repos_url": "https://api.github.com/users/octo-org/repos",
+                  "events_url": "https://api.github.com/users/octo-org/events{/privacy}",
+                  "received_events_url": "https://api.github.com/users/octo-org/received_events",
+                  "type": "Organization",
+                  "site_admin": false
+                },
+                "repository_selection": "selected",
+                "access_tokens_url": "https://api.github.com/app/installations/25381/access_tokens",
+                "repositories_url": "https://api.github.com/installation/repositories",
+                "html_url": "https://github.com/organizations/octo-org/settings/installations/25381",
+                "app_id": 2218,
+                "target_id": 6811672,
+                "target_type": "Organization",
+                "permissions": {
+                  "deployments": "write",
+                  "metadata": "read",
+                  "pull_requests": "read",
+                  "statuses": "read"
+                },
+                "events": ["deployment", "deployment_status"],
+                "created_at": "2017-05-16T08:47:09.000-07:00",
+                "updated_at": "2017-06-06T11:23:23.000-07:00",
+                "single_file_name": null
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.machine-man-preview+json\" \\\n  http://{hostname}/orgs/ORG/installations"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.orgs.listInstallations({\n  org: 'org'\n})"
+    },
+    { "lang": "Ruby", "source": "octokit.installations(\n  'org'\n)" }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": [
+      {
+        "name": "machine-man",
+        "note": "To access the API with your GitHub App, you must provide a custom [media type](https://developer.github.com/enterprise/2.20/v3/media) in the `Accept` Header for your requests.\n\n`application/vnd.github.machine-man-preview+json`",
+        "required": true
+      }
+    ]
+  },
+  "x-changes": []
+}
