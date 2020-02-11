@@ -1,0 +1,60 @@
+<h2>
+<a id="add-email-addresses" class="anchor" href="#add-email-addresses" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Add email address(es)</h2>
+<div class="alert warning">
+<p>If your GitHub Enterprise Server instance has <a href="https://help.github.com/enterprise/admin/guides/user-management/using-ldap/#enabling-ldap-sync">LDAP Sync enabled and the option to synchronize emails enabled</a>, this API is disabled and will return a <code>403</code> response. Users managed in LDAP won&apos;t be able to add or delete an email address via the API with these options enabled.</p>
+</div>
+<p>This endpoint is accessible with the <code>user</code> scope.</p>
+<pre><code>POST /user/emails
+</code></pre>
+<h3>
+<a id="parameters" class="anchor" href="#parameters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>emails</code></td>
+<td>
+<code>array</code> of <code>strings</code>
+</td>
+<td>
+<strong>Required</strong>. Adds one or more email addresses to your GitHub Enterprise account. Must contain at least one email address. <strong>Note:</strong> Alternatively, you can pass a single email address or an <code>array</code> of emails addresses directly, but we recommend that you pass an object using the <code>emails</code> key.</td>
+</tr>
+</tbody>
+</table>
+<h3>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;emails&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;octocat@github.com&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;support@github.com&quot;</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 201 Created
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;octocat@octocat.org&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;primary&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;verified&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;visibility&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;public&quot;</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;octocat@github.com&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;primary&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;verified&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;visibility&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;support@github.com&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;primary&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;verified&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;visibility&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>

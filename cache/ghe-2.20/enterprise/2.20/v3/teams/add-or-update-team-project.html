@@ -1,0 +1,45 @@
+<h2>
+<a id="add-or-update-team-project" class="anchor" href="#add-or-update-team-project" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Add or update team project<a href="/enterprise/2.20/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+<div class="alert note">
+<p><strong>Note:</strong> The Projects API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the <a href="/changes/2016-10-27-changes-to-projects-api">blog post</a> for full details. To access the API during the preview period, you must provide a custom <a href="/enterprise/2.20/v3/media">media type</a> in the <code>Accept</code> header:</p>
+<pre><code>application/vnd.github.inertia-preview+json
+</code></pre>
+</div>
+<div class="alert warning">
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact your GitHub Enterprise site administrator.</p>
+</div>
+<p>Adds an organization project to a team. To add a project to a team or update the team&apos;s permission on a project, the authenticated user must have <code>admin</code> permissions for the project. The project and team must be part of the same organization.</p>
+<pre><code>PUT /teams/:team_id/projects/:project_id
+</code></pre>
+<h3>
+<a id="parameters-3" class="anchor" href="#parameters-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>permission</code></td>
+<td><code>string</code></td>
+<td>The permission to grant to the team for this project. Can be one of:<br> * <code>read</code> - team members can read, but not write to or administer this project.<br> * <code>write</code> - team members can read and write, but not administer this project.<br> * <code>admin</code> - team members can read, write and administer this project.<br>Default: the team&apos;s <code>permission</code> attribute will be used to determine what permission to grant the team on this project. Note that, if you choose not to pass any parameters, you&apos;ll need to set <code>Content-Length</code> to zero when calling out to this endpoint. For more information, see &quot;<a href="/enterprise/2.20/v3/#http-verbs">HTTP verbs</a>.&quot;</td>
+</tr>
+</tbody>
+</table>
+<h3>
+<a id="response-12" class="anchor" href="#response-12" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 204 No Content
+</code></pre>
+<h3>
+<a id="response-if-the-project-is-not-owned-by-the-organization" class="anchor" href="#response-if-the-project-is-not-owned-by-the-organization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if the project is not owned by the organization</h3>
+<pre class="highlight highlight-headers"><code>Status: 403 Forbidden
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Must have admin rights to Repository.&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;documentation_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://developer.github.com/enterprise/2.20/v3/teams/#add-or-update-team-project&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
