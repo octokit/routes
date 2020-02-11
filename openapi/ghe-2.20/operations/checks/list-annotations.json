@@ -1,0 +1,121 @@
+{
+  "summary": "List annotations for a check run",
+  "description": "Lists annotations for a check run using the annotation `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get annotations for a check run. OAuth Apps and authenticated users must have the `repo` scope to get annotations for a check run in a private repository.",
+  "operationId": "checks/list-annotations",
+  "tags": ["checks"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.20/v3/checks/runs/#list-annotations-for-a-check-run"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "This API is under preview and subject to change.",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.antiope-preview+json"
+      },
+      "required": true
+    },
+    {
+      "name": "owner",
+      "description": "owner parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "description": "repo parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "check_run_id",
+      "description": "check_run_id parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    },
+    {
+      "name": "per_page",
+      "description": "Results per page (max 100)",
+      "in": "query",
+      "schema": { "type": "integer", "default": 30 }
+    },
+    {
+      "name": "page",
+      "description": "Page number of the results to fetch.",
+      "in": "query",
+      "schema": { "type": "integer", "default": 1 }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": { "type": "string" },
+                "start_line": { "type": "number" },
+                "end_line": { "type": "number" },
+                "start_column": { "type": "number" },
+                "end_column": { "type": "number" },
+                "annotation_level": { "type": "string" },
+                "title": { "type": "string" },
+                "message": { "type": "string" },
+                "raw_details": { "type": "string" }
+              }
+            }
+          },
+          "example": [
+            {
+              "path": "README.md",
+              "start_line": 2,
+              "end_line": 2,
+              "start_column": 5,
+              "end_column": 10,
+              "annotation_level": "warning",
+              "title": "Spell Checker",
+              "message": "Check your spelling for 'banaas'.",
+              "raw_details": "Do you mean 'bananas' or 'banana'?"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.antiope-preview+json\" \\\n  http://{hostname}/repos/octocat/hello-world/check-runs/42/annotations"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.checks.listAnnotations({\n  owner: 'octocat',\n  repo: 'hello-world',\n  check_run_id: 42\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.annotations(\n  'hello-world',\n  42\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": [
+      {
+        "name": "antiope",
+        "note": "The Checks API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the [blog post](https://developer.github.com/changes/2018-05-07-new-checks-api-public-beta/) for full details. To access the API during the preview period, you must provide a custom [media type](https://developer.github.com/enterprise/2.20/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.antiope-preview+json\n\n```",
+        "required": true
+      }
+    ]
+  },
+  "x-changes": []
+}

@@ -1,0 +1,93 @@
+{
+  "summary": "List your grants",
+  "description": "**Deprecation Notice:** GitHub will discontinue the [OAuth Authorizations API](https://developer.github.com/enterprise/2.20/v3/oauth_authorizations/), which is used by integrations to create personal access tokens and OAuth tokens, and you must now create these tokens using our [web application flow](https://developer.github.com/enterprise/2.20/apps/building-oauth-apps/authorizing-oauth-apps/#web-application-flow). For more information, see the [blog post](https://developer.github.com/changes/2019-11-05-deprecated-passwords-and-authorizations-api).\n\nYou can use this API to list the set of OAuth applications that have been granted access to your account. Unlike the [list your authorizations](https://developer.github.com/enterprise/2.20/v3/oauth_authorizations/#list-your-authorizations) API, this API does not manage individual tokens. This API will return one entry for each OAuth application that has been granted access to your account, regardless of the number of tokens an application has generated for your user. The list of OAuth applications returned matches what is shown on [the application authorizations settings screen within GitHub](https://github.com/settings/applications#authorized). The `scopes` returned are the union of scopes authorized for the application. For example, if an application has one token with `repo` scope and another token with `user` scope, the grant will return `[\"repo\", \"user\"]`.",
+  "operationId": "oauth-authorizations/list-grants",
+  "tags": ["oauth-authorizations"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.20/v3/oauth_authorizations/#list-your-grants"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "per_page",
+      "description": "Results per page (max 100)",
+      "in": "query",
+      "schema": { "type": "integer", "default": 30 }
+    },
+    {
+      "name": "page",
+      "description": "Page number of the results to fetch.",
+      "in": "query",
+      "schema": { "type": "integer", "default": 1 }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "number" },
+                "url": { "type": "string" },
+                "app": {
+                  "type": "object",
+                  "properties": {
+                    "url": { "type": "string" },
+                    "name": { "type": "string" },
+                    "client_id": { "type": "string" }
+                  }
+                },
+                "created_at": { "type": "string" },
+                "updated_at": { "type": "string" },
+                "scopes": { "type": "array", "items": { "type": "string" } }
+              }
+            }
+          },
+          "example": [
+            {
+              "id": 1,
+              "url": "https://api.github.com/applications/grants/1",
+              "app": {
+                "url": "http://my-github-app.com",
+                "name": "my github app",
+                "client_id": "abcde12345fghij67890"
+              },
+              "created_at": "2011-09-06T17:26:27Z",
+              "updated_at": "2011-09-06T20:39:23Z",
+              "scopes": ["public_repo"]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/applications/grants"
+    },
+    { "lang": "JS", "source": "octokit.oauthAuthorizations.listGrants()" },
+    { "lang": "Ruby", "source": "octokit.grants()" }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": [],
+  "deprecated": true
+}

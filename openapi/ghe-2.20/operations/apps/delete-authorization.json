@@ -1,0 +1,75 @@
+{
+  "summary": "Delete an app authorization",
+  "description": "OAuth application owners can revoke a grant for their OAuth application and a specific user. You must use [Basic Authentication](https://developer.github.com/enterprise/2.20/v3/auth#basic-authentication) when accessing this endpoint, using the OAuth application's `client_id` and `client_secret` as the username and password. You must also provide a valid OAuth `access_token` as an input parameter and the grant for the token's owner will be deleted.\n\nDeleting an OAuth application's grant will also delete all OAuth tokens associated with the application for the user. Once deleted, the application will have no access to the user's account and will no longer be listed on [the application authorizations settings screen within GitHub](https://github.com/settings/applications#authorized).",
+  "operationId": "apps/delete-authorization",
+  "tags": ["apps"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.20/v3/apps/oauth_applications/#delete-an-app-authorization"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "This API is under preview and subject to change.",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.doctor-strange-preview+json"
+      },
+      "required": true
+    },
+    {
+      "name": "client_id",
+      "description": "client_id parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": { "204": { "description": "Empty response" } },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XDELETE \\\n  -H\"Accept: application/vnd.github.doctor-strange-preview+json\" \\\n  http://{hostname}/applications/CLIENT_ID/grant \\\n  -d '{\"access_token\":\"access_token\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.apps.deleteAuthorization({\n  client_id: 'client_id',\n  access_token: 'access_token'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.delete_authorization(\n  'client_id',\n  'access_token'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": [
+      {
+        "name": "doctor-strange",
+        "note": "New endpoints using OAuth tokens as input parameters instead of path parameters are available for developers to preview in the [OAuth Applications API](https://developer.github.com/enterprise/2.20/v3/apps/oauth_applications/). To access these endpoints during the preview period, you must provide a custom [media type](https://developer.github.com/enterprise/2.20/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.doctor-strange-preview+json\n\n```",
+        "required": true
+      }
+    ]
+  },
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "access_token": {
+              "type": "string",
+              "description": "The OAuth access token used to authenticate to the GitHub API."
+            }
+          }
+        },
+        "example": {
+          "access_token": "e72e16c7e42f292c6912e7710c838347ae178b4a"
+        }
+      }
+    }
+  }
+}

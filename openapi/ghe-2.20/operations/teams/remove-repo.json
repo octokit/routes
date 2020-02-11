@@ -1,0 +1,72 @@
+{
+  "summary": "Remove team repository",
+  "description": "If the authenticated user is an organization owner or a team maintainer, they can remove any repositories from the team. To remove a repository from a team as an organization member, the authenticated user must have admin access to the repository and must be able to see the team. NOTE: This does not delete the repository, it just removes it from the team.",
+  "operationId": "teams/remove-repo",
+  "tags": ["teams"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.20/v3/teams/#remove-team-repository"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "team_id",
+      "description": "team_id parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    },
+    {
+      "name": "owner",
+      "description": "owner parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "description": "repo parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": { "204": { "description": "Empty response" } },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XDELETE \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/teams/42/repos/octocat/hello-world"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.teams.removeRepo({\n  team_id: 42,\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.remove_repo(\n  42,\n  'hello-world'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2020-01-16",
+      "note": "The path for \"Remove team repository\" changed  from \"/teams/{team_id}*\" to \"/orgs/{org}/teams/{team_slug}*\"). The operation ID for the old path now has a \"-legacy\" suffix. The route with the new path has a \"-for-org\" suffix in the operation ID to avoid breaking changes",
+      "before": { "operationId": "teams/remove-repo" },
+      "after": { "operationId": "teams/remove-repo" }
+    }
+  ]
+}

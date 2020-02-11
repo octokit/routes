@@ -1,0 +1,198 @@
+{
+  "summary": "List discussions",
+  "description": "List all discussions on a team's page. OAuth access tokens require the `read:discussion` [scope](https://developer.github.com/enterprise/2.20/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).",
+  "operationId": "teams/list-discussions",
+  "tags": ["teams"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.20/v3/teams/discussions/#list-discussions"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "team_id",
+      "description": "team_id parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    },
+    {
+      "name": "direction",
+      "description": "Sorts the discussion comments by the date they were created. To return the oldest comments first, set to `asc`. Can be one of `asc` or `desc`.",
+      "in": "query",
+      "required": false,
+      "schema": { "type": "string", "enum": ["asc", "desc"], "default": "desc" }
+    },
+    {
+      "name": "per_page",
+      "description": "Results per page (max 100)",
+      "in": "query",
+      "schema": { "type": "integer", "default": 30 }
+    },
+    {
+      "name": "page",
+      "description": "Page number of the results to fetch.",
+      "in": "query",
+      "schema": { "type": "integer", "default": 1 }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "author": {
+                  "type": "object",
+                  "properties": {
+                    "login": { "type": "string" },
+                    "id": { "type": "number" },
+                    "node_id": { "type": "string" },
+                    "avatar_url": { "type": "string" },
+                    "gravatar_id": { "type": "string" },
+                    "url": { "type": "string" },
+                    "html_url": { "type": "string" },
+                    "followers_url": { "type": "string" },
+                    "following_url": { "type": "string" },
+                    "gists_url": { "type": "string" },
+                    "starred_url": { "type": "string" },
+                    "subscriptions_url": { "type": "string" },
+                    "organizations_url": { "type": "string" },
+                    "repos_url": { "type": "string" },
+                    "events_url": { "type": "string" },
+                    "received_events_url": { "type": "string" },
+                    "type": { "type": "string" },
+                    "site_admin": { "type": "boolean" }
+                  }
+                },
+                "body": { "type": "string" },
+                "body_html": { "type": "string" },
+                "body_version": { "type": "string" },
+                "comments_count": { "type": "number" },
+                "comments_url": { "type": "string" },
+                "created_at": { "type": "string" },
+                "last_edited_at": { "type": "string" },
+                "html_url": { "type": "string" },
+                "node_id": { "type": "string" },
+                "number": { "type": "number" },
+                "pinned": { "type": "boolean" },
+                "private": { "type": "boolean" },
+                "team_url": { "type": "string" },
+                "title": { "type": "string" },
+                "updated_at": { "type": "string" },
+                "url": { "type": "string" },
+                "reactions": {
+                  "type": "object",
+                  "properties": {
+                    "url": { "type": "string" },
+                    "total_count": { "type": "number" },
+                    "+1": { "type": "number" },
+                    "-1": { "type": "number" },
+                    "laugh": { "type": "number" },
+                    "confused": { "type": "number" },
+                    "heart": { "type": "number" },
+                    "hooray": { "type": "number" }
+                  }
+                }
+              }
+            }
+          },
+          "example": [
+            {
+              "author": {
+                "login": "octocat",
+                "id": 1,
+                "node_id": "MDQ6VXNlcjE=",
+                "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+                "gravatar_id": "",
+                "url": "https://api.github.com/users/octocat",
+                "html_url": "https://github.com/octocat",
+                "followers_url": "https://api.github.com/users/octocat/followers",
+                "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+                "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+                "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+                "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+                "organizations_url": "https://api.github.com/users/octocat/orgs",
+                "repos_url": "https://api.github.com/users/octocat/repos",
+                "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+                "received_events_url": "https://api.github.com/users/octocat/received_events",
+                "type": "User",
+                "site_admin": false
+              },
+              "body": "Hi! This is an area for us to collaborate as a team.",
+              "body_html": "<p>Hi! This is an area for us to collaborate as a team</p>",
+              "body_version": "0d495416a700fb06133c612575d92bfb",
+              "comments_count": 0,
+              "comments_url": "https://api.github.com/teams/2343027/discussions/1/comments",
+              "created_at": "2018-01-25T18:56:31Z",
+              "last_edited_at": null,
+              "html_url": "https://github.com/orgs/github/teams/justice-league/discussions/1",
+              "node_id": "MDE0OlRlYW1EaXNjdXNzaW9uMQ==",
+              "number": 1,
+              "pinned": false,
+              "private": false,
+              "team_url": "https://api.github.com/teams/2343027",
+              "title": "Our first team post",
+              "updated_at": "2018-01-25T18:56:31Z",
+              "url": "https://api.github.com/teams/2343027/discussions/1",
+              "reactions": {
+                "url": "https://api.github.com/teams/2343027/discussions/1/reactions",
+                "total_count": 5,
+                "+1": 3,
+                "-1": 1,
+                "laugh": 0,
+                "confused": 0,
+                "heart": 1,
+                "hooray": 0
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/teams/42/discussions"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.teams.listDiscussions({\n  team_id: 42\n})"
+    },
+    { "lang": "Ruby", "source": "octokit.discussions(\n  42\n)" }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": [
+      {
+        "name": "squirrel-girl",
+        "note": "The [reactions API](https://developer.github.com/enterprise/2.20/v3/reactions/) is available for developers to preview. The `url` can be used to construct the API location for [listing and creating](https://developer.github.com/enterprise/2.20/v3/reactions) reactions. See the [blog post](https://developer.github.com/changes/2016-05-12-reactions-api-preview) for full details. To receive the `reactions` object in the response for this endpoint you must provide a custom [media type](https://developer.github.com/enterprise/2.20/v3/media) in the `Accept` header:\n\n```\napplication/vnd.github.squirrel-girl-preview\n\n```",
+        "required": false
+      }
+    ]
+  },
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2020-01-16",
+      "note": "The path for \"List discussions\" changed  from \"/teams/{team_id}*\" to \"/orgs/{org}/teams/{team_slug}*\"). The operation ID for the old path now has a \"-legacy\" suffix. The route with the new path has a \"-for-org\" suffix in the operation ID to avoid breaking changes",
+      "before": { "operationId": "teams/list-discussions" },
+      "after": { "operationId": "teams/list-discussions" }
+    }
+  ]
+}
