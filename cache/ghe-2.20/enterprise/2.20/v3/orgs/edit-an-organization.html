@@ -1,0 +1,169 @@
+<h2>
+<a id="edit-an-organization" class="anchor" href="#edit-an-organization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Edit an organization<a href="/enterprise/2.20/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+<div class="alert note">
+<p><strong>Note:</strong> New repository creation permissions are available to preview. You can now use <code>members_can_create_public_repositories</code>, <code>members_can_create_private_repositories</code>, and <code>members_can_create_internal_repositories</code>. You can only allow members to create internal repositories if your organization is associated with an enterprise account using GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+. These parameters provide more granular permissions to configure the type of repositories organization members can create.</p>
+<p>To access these new parameters during the preview period, you must provide a custom <a href="/enterprise/2.20/v3/media">media type</a> in the <code>Accept</code> header:</p>
+<pre><code>application/vnd.github.surtur-preview+json
+</code></pre>
+</div>
+<div class="alert warning">
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact your GitHub Enterprise site administrator.</p>
+</div>
+<p><a id="members_can_create_repositories"></a></p>
+<div class="alert warning">
+<p><strong>Parameter Deprecation Notice:</strong> GitHub will replace and discontinue <code>members_allowed_repository_creation_type</code> in favor of more granular permissions. The new input parameters are <code>members_can_create_public_repositories</code>, <code>members_can_create_private_repositories</code> for all organizations and <code>members_can_create_internal_repositories</code> for organizations associated with an enterprise account using GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+. For more information, see the <a href="/changes/2019-12-03-internal-visibility-changes">blog post</a>.</p>
+</div>
+<p>Enables an authenticated organization owner with the <code>admin:org</code> scope to update the organization&apos;s profile and member privileges.</p>
+<pre><code>PATCH /orgs/:org
+</code></pre>
+<h3>
+<a id="input" class="anchor" href="#input" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Input</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Name</th>
+<th align="center">Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>billing_email</code></td>
+<td align="center"><code>string</code></td>
+<td align="left">Billing email address. This address is not publicized.</td>
+</tr>
+<tr>
+<td align="left"><code>company</code></td>
+<td align="center"><code>string</code></td>
+<td align="left">The company name.</td>
+</tr>
+<tr>
+<td align="left"><code>email</code></td>
+<td align="center"><code>string</code></td>
+<td align="left">The publicly visible email address.</td>
+</tr>
+<tr>
+<td align="left"><code>location</code></td>
+<td align="center"><code>string</code></td>
+<td align="left">The location.</td>
+</tr>
+<tr>
+<td align="left"><code>name</code></td>
+<td align="center"><code>string</code></td>
+<td align="left">The shorthand name of the company.</td>
+</tr>
+<tr>
+<td align="left"><code>description</code></td>
+<td align="center"><code>string</code></td>
+<td align="left">The description of the company.</td>
+</tr>
+<tr>
+<td align="left"><code>has_organization_projects</code></td>
+<td align="center"><code>boolean</code></td>
+<td align="left">Toggles whether an organization can use organization projects.</td>
+</tr>
+<tr>
+<td align="left"><code>has_repository_projects</code></td>
+<td align="center"><code>boolean</code></td>
+<td align="left">Toggles whether repositories that belong to the organization can use repository projects.</td>
+</tr>
+<tr>
+<td align="left"><code>default_repository_permission</code></td>
+<td align="center"><code>string</code></td>
+<td align="left">Default permission level members have for organization repositories:<br> * <code>read</code> - can pull, but not push to or administer this repository.<br> * <code>write</code> - can pull and push, but not administer this repository.<br> * <code>admin</code> - can pull, push, and administer this repository.<br> * <code>none</code> - no permissions granted by default.<br> Default: <code>read</code><br>
+</td>
+</tr>
+<tr>
+<td align="left"><code>members_can_create_repositories</code></td>
+<td align="center"><code>boolean</code></td>
+<td align="left">Toggles the ability of non-admin organization members to create repositories. Can be one of:<br>* <code>true</code> - all organization members can create repositories.<br>* <code>false</code> - only organization owners can create repositories.<br>Default: <code>true</code><br><strong>Note:</strong> A parameter can override this parameter. See <code>members_allowed_repository_creation_type</code> in this table for details.</td>
+</tr>
+<tr>
+<td align="left"><code style="font-size:10px !important">members_can_create_internal_repositories</code></td>
+<td align="center"><code>boolean</code></td>
+<td align="left">Toggles whether organization members can create internal repositories, which are visible to all enterprise members. You can only allow members to create internal repositories if your organization is associated with an enterprise account using GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+.  Can be one of:<br>* <code>true</code> - all organization members can create internal repositories.<br>* <code>false</code> - only organization owners can create internal repositories.<br>Default: <code>true</code>. For more information, see &quot;<a href="https://help.github.com/github/setting-up-and-managing-organizations-and-teams/restricting-repository-creation-in-your-organization">Restricting repository creation in your organization</a>&quot; in the GitHub Help documentation.</td>
+</tr>
+<tr>
+<td align="left"><code style="font-size:10px !important">members_can_create_private_repositories</code></td>
+<td align="center"><code>boolean</code></td>
+<td align="left">Toggles whether organization members can create private repositories, which are visible to organization members with permission. Can be one of:<br>* <code>true</code> - all organization members can create private repositories.<br>* <code>false</code> - only organization owners can create private repositories.<br>Default: <code>true</code>. For more information, see &quot;<a href="https://help.github.com/github/setting-up-and-managing-organizations-and-teams/restricting-repository-creation-in-your-organization">Restricting repository creation in your organization</a>&quot; in the GitHub Help documentation.</td>
+</tr>
+<tr>
+<td align="left"><code style="font-size:10px !important">members_can_create_public_repositories</code></td>
+<td align="center"><code>boolean</code></td>
+<td align="left">Toggles whether organization members can create public repositories, which are visible to anyone. Can be one of:<br>* <code>true</code> - all organization members can create public repositories.<br>* <code>false</code> - only organization owners can create public repositories.<br>Default: <code>true</code>. For more information, see &quot;<a href="https://help.github.com/github/setting-up-and-managing-organizations-and-teams/restricting-repository-creation-in-your-organization">Restricting repository creation in your organization</a>&quot; in the GitHub Help documentation.</td>
+</tr>
+<tr>
+<td align="left"><code style="font-size:10px !important">members_allowed_repository_creation_type</code></td>
+<td align="center"><code>string</code></td>
+<td align="left">Specifies which types of repositories non-admin organization members can create. Can be one of:<br>* <code>all</code> - all organization members can create public and private repositories.<br>* <code>private</code> - members can create private repositories. This option is only available to repositories that are part of an organization on GitHub Enterprise Cloud.<br>* <code>none</code> - only admin members can create repositories. <br> <strong>Note:</strong> This parameter is deprecated and will be removed in the future. Its return value ignores internal repositories. Using this parameter overrides values set in <code>members_can_create_repositories</code>. See <a href="#members_can_create_repositories">this note</a> for details.</td>
+</tr>
+</tbody>
+</table>
+<h3>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;billing_email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;support@github.com&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;blog&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/blog&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;company&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;GitHub&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;support@github.com&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;location&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;San Francisco&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;github&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;GitHub, the company.&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;default_repository_permission&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;read&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;members_can_create_repositories&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;members_allowed_repository_creation_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;all&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="response-5" class="anchor" href="#response-5" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;login&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;github&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MDEyOk9yZ2FuaXphdGlvbjE=&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/orgs/github&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;repos_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/orgs/github/repos&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;events_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/orgs/github/events&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;hooks_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/orgs/github/hooks&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;issues_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/orgs/github/issues&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;members_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/orgs/github/members{/member}&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;public_members_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/orgs/github/public_members{/member}&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;avatar_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/images/error/octocat_happy.gif&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;A great organization&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;github&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;company&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;GitHub&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;blog&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/blog&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;location&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;San Francisco&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;octocat@github.com&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;has_organization_projects&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;has_repository_projects&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;public_repos&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;public_gists&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;followers&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;following&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;html_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/octocat&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2008-01-14T04:33:35Z&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Organization&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;total_private_repos&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;owned_private_repos&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;private_gists&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">81</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;disk_usage&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10000</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;collaborators&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;billing_email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;support@github.com&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;plan&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Medium&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;space&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">400</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;private_repos&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">&quot;default_repository_permission&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;read&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;members_can_create_repositories&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;two_factor_requirement_enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;members_allowed_repository_creation_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;all&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;members_can_create_public_repositories&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;members_can_create_private_repositories&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;members_can_create_internal_repositories&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
