@@ -37,9 +37,8 @@ if (TEST_URLS) {
 }
 
 const GHE_VERSION =
-  parseFloat(
-    TEST_URLS ? getGheVersionFromUrl(TEST_URLS[0]) : process.env.GHE_VERSION
-  ) || null;
+  (TEST_URLS ? getGheVersionFromUrl(TEST_URLS[0]) : process.env.GHE_VERSION) ||
+  null;
 
 function getGheVersionFromUrl(url) {
   return /(?:\/enterprise\/(\d+\.\d+))?\/v3\//i.exec(url)[1] || null;
