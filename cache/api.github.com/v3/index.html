@@ -496,13 +496,13 @@ of private repositories to unauthorized users.</p>
 
 <div class="alert warning">
 
-<p><strong>Deprecation Notice:</strong> GitHub will discontinue authentication to the API using query parameters. Authenticating to the API should be done with <a href="/v3/auth/#via-oauth-and-personal-access-tokens">HTTP basic authentication</a>.</p>
+<p><strong>Deprecation Notice:</strong> GitHub will discontinue authentication to the API using query parameters. Authenticating to the API should be done with <a href="/v3/auth/#via-oauth-and-personal-access-tokens">HTTP basic authentication</a>. Using query parameters to authenticate to the API will no longer work on November 13, 2020. For more information, including scheduled brownouts, see the <a href="/changes/2020-02-10-deprecating-auth-through-query-param/">blog post</a>.</p>
 
 </div>
 
-<pre class="command-line">
-<span class="command">curl 'https://api.github.com/users/whatever?client_id=xxxx&amp;client_secret=yyyy'</span>
-</pre>
+<pre class="highlight highlight-command-line"><code>curl -u my_client_id:my_client_secret 'https://api.github.com/user/repos'
+</code></pre>
+
 
 <p>Using your <code>client_id</code> and <code>client_secret</code> does <em>not</em> authenticate as a user, it will only identify your OAuth application to increase your rate limit. Permissions are only granted to users, not applications, and you will only get back data that an unauthenticated user would see. For this reason, you should only use the OAuth2 key/secret in server-to-server scenarios. Don't leak your OAuth application's client secret to your users.</p>
 
@@ -891,10 +891,10 @@ Unauthenticated requests are associated with the originating IP address, and not
 <h3>
 <a id="increasing-the-unauthenticated-rate-limit-for-oauth-applications" class="anchor" href="#increasing-the-unauthenticated-rate-limit-for-oauth-applications" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Increasing the unauthenticated rate limit for OAuth applications</h3>
 
-<p>If your OAuth application needs to make unauthenticated calls with a higher rate limit, you can pass your app's client ID and secret as part of the query string.</p>
+<p>If your OAuth application needs to make unauthenticated calls with a higher rate limit, you can pass your app's client ID and secret before the endpoint route.</p>
 
 <pre class="command-line">
-<span class="command">curl -i 'https://api.github.com/users/whatever?client_id=xxxx&amp;client_secret=yyyy'</span>
+<span class="command">curl -u my_client_id:my_client_secret https://api.github.com/user/repos</span>
 <span class="output">HTTP/1.1 200 OK</span>
 <span class="output">Date: Mon, 01 Jul 2013 17:27:06 GMT</span>
 <span class="output">Status: 200 OK</span>
