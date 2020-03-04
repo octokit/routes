@@ -1,11 +1,11 @@
 {
-  "summary": "Check if a GitHub account is associated with any Marketplace listing",
+  "summary": "Check if an account subscribes to a plan",
   "description": "Shows whether the user or organization account actively subscribes to a plan listed by the authenticated GitHub App. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change.\n\nGitHub Apps must use a [JWT](https://developer.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth Apps must use [basic authentication](https://developer.github.com/v3/auth/#basic-authentication) with their client ID and client secret to access this endpoint.",
-  "operationId": "apps/check-account-is-associated-with-any",
+  "operationId": "apps/check-account-subscribes-to-plan",
   "tags": ["apps"],
   "externalDocs": {
     "description": "API method documentation",
-    "url": "https://developer.github.com/v3/apps/marketplace/#check-if-a-github-account-is-associated-with-any-marketplace-listing"
+    "url": "https://developer.github.com/v3/apps/marketplace/#check-if-an-account-subscribes-to-a-plan"
   },
   "parameters": [
     {
@@ -23,6 +23,18 @@
       "in": "path",
       "required": true,
       "schema": { "type": "integer" }
+    },
+    {
+      "name": "per_page",
+      "description": "Results per page (max 100)",
+      "in": "query",
+      "schema": { "type": "integer", "default": 30 }
+    },
+    {
+      "name": "page",
+      "description": "Page number of the results to fetch.",
+      "in": "query",
+      "schema": { "type": "integer", "default": 1 }
     }
   ],
   "responses": {
@@ -170,11 +182,11 @@
     },
     {
       "lang": "JS",
-      "source": "octokit.apps.checkAccountIsAssociatedWithAny({\n  account_id: 42\n})"
+      "source": "octokit.apps.checkAccountSubscribesToPlan({\n  account_id: 42\n})"
     },
     {
       "lang": "Ruby",
-      "source": "octokit.check_account_is_associated_with_any(\n  42\n)"
+      "source": "octokit.check_account_subscribes_to_plan(\n  42\n)"
     }
   ],
   "x-github": {
@@ -183,5 +195,15 @@
     "githubCloudOnly": false,
     "previews": []
   },
-  "x-changes": []
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2020-03-04",
+      "note": "\"apps/check-account-is-associated-with-any\" operation ID is now \"operations/apps/check-account-subscribes-to-plan\"",
+      "before": { "operationId": "apps/check-account-is-associated-with-any" },
+      "after": {
+        "operationId": "operations/apps/check-account-subscribes-to-plan"
+      }
+    }
+  ]
 }
