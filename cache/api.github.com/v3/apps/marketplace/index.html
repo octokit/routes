@@ -363,10 +363,14 @@
 
 <ul id="markdown-toc">
 <li><a href="#testing-with-stubbed-endpoints" id="markdown-toc-testing-with-stubbed-endpoints">Testing with stubbed endpoints</a></li>
-<li><a href="#list-all-plans-for-your-marketplace-listing" id="markdown-toc-list-all-plans-for-your-marketplace-listing">List all plans for your Marketplace listing</a></li>
-<li><a href="#list-all-github-accounts-user-or-organization-on-a-specific-plan" id="markdown-toc-list-all-github-accounts-user-or-organization-on-a-specific-plan">List all GitHub accounts (user or organization) on a specific plan</a></li>
-<li><a href="#check-if-a-github-account-is-associated-with-any-marketplace-listing" id="markdown-toc-check-if-a-github-account-is-associated-with-any-marketplace-listing">Check if a GitHub account is associated with any Marketplace listing</a></li>
-<li><a href="#get-a-users-marketplace-purchases" id="markdown-toc-get-a-users-marketplace-purchases">Get a user's Marketplace purchases</a></li>
+<li><a href="#list-plans" id="markdown-toc-list-plans">List plans</a></li>
+<li><a href="#list-plans-stubbed" id="markdown-toc-list-plans-stubbed">List plans (stubbed)</a></li>
+<li><a href="#list-accounts-for-a-plan" id="markdown-toc-list-accounts-for-a-plan">List accounts for a plan</a></li>
+<li><a href="#list-accounts-for-a-plan-stubbed" id="markdown-toc-list-accounts-for-a-plan-stubbed">List accounts for a plan (stubbed)</a></li>
+<li><a href="#check-if-an-account-subscribes-to-a-plan" id="markdown-toc-check-if-an-account-subscribes-to-a-plan">Check if an account subscribes to a plan</a></li>
+<li><a href="#check-if-an-account-subscribes-to-a-plan-stubbed" id="markdown-toc-check-if-an-account-subscribes-to-a-plan-stubbed">Check if an account subscribes to a plan (stubbed)</a></li>
+<li><a href="#list-subscriptions-for-the-authenticated-user" id="markdown-toc-list-subscriptions-for-the-authenticated-user">List subscriptions for the authenticated user</a></li>
+<li><a href="#list-subscriptions-for-the-authenticated-user-stubbed" id="markdown-toc-list-subscriptions-for-the-authenticated-user-stubbed">List subscriptions for the authenticated user (stubbed)</a></li>
 </ul>
 
 <p>For more information about GitHub Marketplace, see "<a href="/marketplace/">GitHub Marketplace</a>."</p>
@@ -383,17 +387,13 @@
 <p>Be sure to replace stubbed endpoints with production endpoints before deploying your GitHub App.</p>
 
 <h2>
-<a id="list-all-plans-for-your-marketplace-listing" class="anchor" href="#list-all-plans-for-your-marketplace-listing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List all plans for your Marketplace listing</h2>
+<a id="list-plans" class="anchor" href="#list-plans" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List plans</h2>
+
+<p>Lists all plans that are part of your GitHub Marketplace listing.</p>
 
 <p>GitHub Apps must use a <a href="/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app">JWT</a> to access this endpoint. OAuth Apps must use <a href="/v3/auth/#basic-authentication">basic authentication</a> with their client ID and client secret to access this endpoint.</p>
 
 <pre><code>GET /marketplace_listing/plans
-</code></pre>
-
-<h3>
-<a id="stubbed-endpoint" class="anchor" href="#stubbed-endpoint" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Stubbed endpoint</h3>
-
-<pre><code>GET /marketplace_listing/stubbed/plans
 </code></pre>
 
 <h3>
@@ -429,19 +429,55 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 
 <h2>
-<a id="list-all-github-accounts-user-or-organization-on-a-specific-plan" class="anchor" href="#list-all-github-accounts-user-or-organization-on-a-specific-plan" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List all GitHub accounts (user or organization) on a specific plan</h2>
+<a id="list-plans-stubbed" class="anchor" href="#list-plans-stubbed" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List plans (stubbed)</h2>
 
-<p>Returns any accounts associated with a plan, including free plans. For per-seat pricing, you see the list of accounts that have purchased the plan, including the number of seats purchased. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change.</p>
+<p>Lists all plans that are part of your GitHub Marketplace listing.</p>
+
+<p>GitHub Apps must use a <a href="/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app">JWT</a> to access this endpoint. OAuth Apps must use <a href="/v3/auth/#basic-authentication">basic authentication</a> with their client ID and client secret to access this endpoint.</p>
+
+<pre><code>GET /marketplace_listing/stubbed/plans
+</code></pre>
+
+<h3>
+<a id="response-1" class="anchor" href="#response-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
+      &lt;https://api.github.com/resource?page=5&gt;; rel="last"
+</code></pre>
+
+
+<pre class="highlight highlight-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/marketplace_listing/plans/1313"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"accounts_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/marketplace_listing/plans/1313/accounts"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1313</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"number"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Pro"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A professional-grade CI solution"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"monthly_price_in_cents"</span><span class="p">:</span><span class="w"> </span><span class="mi">1099</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"yearly_price_in_cents"</span><span class="p">:</span><span class="w"> </span><span class="mi">11870</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"price_model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"flat-rate"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"has_free_trial"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"unit_name"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"published"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"bullets"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"Up to 25 private repositories"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"11 concurrent builds"</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+
+<h2>
+<a id="list-accounts-for-a-plan" class="anchor" href="#list-accounts-for-a-plan" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List accounts for a plan</h2>
+
+<p>Returns user and organization accounts associated with the specified plan, including free plans. For per-seat pricing, you see the list of accounts that have purchased the plan, including the number of seats purchased. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change.</p>
 
 <p>GitHub Apps must use a <a href="/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app">JWT</a> to access this endpoint. OAuth Apps must use <a href="/v3/auth/#basic-authentication">basic authentication</a> with their client ID and client secret to access this endpoint.</p>
 
 <pre><code>GET /marketplace_listing/plans/:plan_id/accounts
-</code></pre>
-
-<h3>
-<a id="stubbed-endpoint-1" class="anchor" href="#stubbed-endpoint-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Stubbed endpoint</h3>
-
-<pre><code>GET /marketplace_listing/stubbed/plans/:plan_id/accounts
 </code></pre>
 
 <h3>
@@ -471,7 +507,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </table>
 
 <h3>
-<a id="response-1" class="anchor" href="#response-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 200 OK
 Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
@@ -542,7 +578,114 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 
 <h2>
-<a id="check-if-a-github-account-is-associated-with-any-marketplace-listing" class="anchor" href="#check-if-a-github-account-is-associated-with-any-marketplace-listing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Check if a GitHub account is associated with any Marketplace listing</h2>
+<a id="list-accounts-for-a-plan-stubbed" class="anchor" href="#list-accounts-for-a-plan-stubbed" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List accounts for a plan (stubbed)</h2>
+
+<p>Returns repository and organization accounts associated with the specified plan, including free plans. For per-seat pricing, you see the list of accounts that have purchased the plan, including the number of seats purchased. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change.</p>
+
+<p>GitHub Apps must use a <a href="/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app">JWT</a> to access this endpoint. OAuth Apps must use <a href="/v3/auth/#basic-authentication">basic authentication</a> with their client ID and client secret to access this endpoint.</p>
+
+<pre><code>GET /marketplace_listing/stubbed/plans/:plan_id/accounts
+</code></pre>
+
+<h3>
+<a id="parameters-1" class="anchor" href="#parameters-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sort</code></td>
+<td><code>string</code></td>
+<td>Sorts the GitHub accounts by the date they were created or last updated. Can be one of <code>created</code> or <code>updated</code>. Default: <code>created</code>
+</td>
+</tr>
+<tr>
+<td><code>direction</code></td>
+<td><code>string</code></td>
+<td>To return the oldest accounts first, set to <code>asc</code>. Can be one of <code>asc</code> or <code>desc</code>. Ignored without the <code>sort</code> parameter.</td>
+</tr>
+</tbody>
+</table>
+
+<h3>
+<a id="response-3" class="anchor" href="#response-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
+      &lt;https://api.github.com/resource?page=5&gt;; rel="last"
+</code></pre>
+
+
+<pre class="highlight highlight-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Organization"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"github"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"organization_billing_email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"billing@github.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"marketplace_pending_change"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"effective_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-11-11T00:00:00Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"unit_count"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">77</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"plan"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/marketplace_listing/plans/1111"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"accounts_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/marketplace_listing/plans/1111/accounts"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1111</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"number"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Startup"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A professional-grade CI solution"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"monthly_price_in_cents"</span><span class="p">:</span><span class="w"> </span><span class="mi">699</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"yearly_price_in_cents"</span><span class="p">:</span><span class="w"> </span><span class="mi">7870</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"price_model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"flat-rate"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"has_free_trial"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"published"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"unit_name"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"bullets"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="s2">"Up to 10 private repositories"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"3 concurrent builds"</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"marketplace_purchase"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"billing_cycle"</span><span class="p">:</span><span class="w"> </span><span class="s2">"monthly"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"next_billing_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-11-11T00:00:00Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"unit_count"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"on_free_trial"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"free_trial_ends_on"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-11-11T00:00:00Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-11-02T01:12:12Z"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"plan"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/marketplace_listing/plans/1313"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"accounts_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/marketplace_listing/plans/1313/accounts"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1313</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"number"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Pro"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A professional-grade CI solution"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"monthly_price_in_cents"</span><span class="p">:</span><span class="w"> </span><span class="mi">1099</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"yearly_price_in_cents"</span><span class="p">:</span><span class="w"> </span><span class="mi">11870</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"price_model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"flat-rate"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"has_free_trial"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"unit_name"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"published"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"bullets"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="s2">"Up to 25 private repositories"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"11 concurrent builds"</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+
+<h2>
+<a id="check-if-an-account-subscribes-to-a-plan" class="anchor" href="#check-if-an-account-subscribes-to-a-plan" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Check if an account subscribes to a plan</h2>
 
 <p>Shows whether the user or organization account actively subscribes to a plan listed by the authenticated GitHub App. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change.</p>
 
@@ -552,15 +695,11 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </code></pre>
 
 <h3>
-<a id="stubbed-endpoint-2" class="anchor" href="#stubbed-endpoint-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Stubbed endpoint</h3>
-
-<pre><code>GET /marketplace_listing/stubbed/accounts/:account_id
-</code></pre>
-
-<h3>
-<a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-4" class="anchor" href="#response-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 200 OK
+Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
+      &lt;https://api.github.com/resource?page=5&gt;; rel="last"
 </code></pre>
 
 
@@ -632,22 +771,157 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 
 <h2>
-<a id="get-a-users-marketplace-purchases" class="anchor" href="#get-a-users-marketplace-purchases" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get a user's Marketplace purchases</h2>
+<a id="check-if-an-account-subscribes-to-a-plan-stubbed" class="anchor" href="#check-if-an-account-subscribes-to-a-plan-stubbed" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Check if an account subscribes to a plan (stubbed)</h2>
 
-<p>Returns only active subscriptions. You must use a <a href="/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#identifying-users-on-your-site">user-to-server OAuth access token</a>, created for a user who has authorized your GitHub App, to access this endpoint.
+<p>Shows whether the user or organization account actively subscribes to a plan listed by the authenticated GitHub App. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change.</p>
+
+<p>GitHub Apps must use a <a href="/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app">JWT</a> to access this endpoint. OAuth Apps must use <a href="/v3/auth/#basic-authentication">basic authentication</a> with their client ID and client secret to access this endpoint.</p>
+
+<pre><code>GET /marketplace_listing/stubbed/accounts/:account_id
+</code></pre>
+
+<h3>
+<a id="response-5" class="anchor" href="#response-5" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+
+
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Organization"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"github"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"organization_billing_email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"billing@github.com"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"marketplace_pending_change"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"effective_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-11-11T00:00:00Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"unit_count"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">77</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"plan"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/marketplace_listing/plans/1111"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"accounts_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/marketplace_listing/plans/1111/accounts"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1111</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"number"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Startup"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A professional-grade CI solution"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"monthly_price_in_cents"</span><span class="p">:</span><span class="w"> </span><span class="mi">699</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"yearly_price_in_cents"</span><span class="p">:</span><span class="w"> </span><span class="mi">7870</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"price_model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"flat-rate"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"has_free_trial"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"published"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"unit_name"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"bullets"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"Up to 10 private repositories"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"3 concurrent builds"</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">"marketplace_purchase"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"billing_cycle"</span><span class="p">:</span><span class="w"> </span><span class="s2">"monthly"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"next_billing_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-11-11T00:00:00Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"unit_count"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"on_free_trial"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"free_trial_ends_on"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-11-11T00:00:00Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-11-02T01:12:12Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"plan"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/marketplace_listing/plans/1313"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"accounts_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/marketplace_listing/plans/1313/accounts"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1313</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"number"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Pro"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A professional-grade CI solution"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"monthly_price_in_cents"</span><span class="p">:</span><span class="w"> </span><span class="mi">1099</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"yearly_price_in_cents"</span><span class="p">:</span><span class="w"> </span><span class="mi">11870</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"price_model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"flat-rate"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"has_free_trial"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"unit_name"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"published"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"bullets"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"Up to 25 private repositories"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"11 concurrent builds"</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
+
+<h3>
+<a id="response-when-the-account-has-not-purchased-the-listing-1" class="anchor" href="#response-when-the-account-has-not-purchased-the-listing-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response when the account has not purchased the listing</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 404 Not Found
+</code></pre>
+
+
+<h2>
+<a id="list-subscriptions-for-the-authenticated-user" class="anchor" href="#list-subscriptions-for-the-authenticated-user" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List subscriptions for the authenticated user</h2>
+
+<p>Lists the active subscriptions for the authenticated user. You must use a <a href="/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#identifying-users-on-your-site">user-to-server OAuth access token</a>, created for a user who has authorized your GitHub App, to access this endpoint.
 . OAuth Apps must authenticate using an <a href="/apps/building-github-apps/authenticating-with-github-apps/">OAuth token</a>.</p>
 
 <pre><code>GET /user/marketplace_purchases
 </code></pre>
 
 <h3>
-<a id="stubbed-endpoint-3" class="anchor" href="#stubbed-endpoint-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Stubbed endpoint</h3>
+<a id="response-6" class="anchor" href="#response-6" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
+      &lt;https://api.github.com/resource?page=5&gt;; rel="last"
+</code></pre>
+
+
+<pre class="highlight highlight-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"billing_cycle"</span><span class="p">:</span><span class="w"> </span><span class="s2">"monthly"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"next_billing_date"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-11-11T00:00:00Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"unit_count"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"on_free_trial"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"free_trial_ends_on"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-11-11T00:00:00Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-11-02T01:12:12Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"account"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"github"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"email"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"organization_billing_email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"billing@github.com"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Organization"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"plan"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/marketplace_listing/plans/1313"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"accounts_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/marketplace_listing/plans/1313/accounts"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1313</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"number"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Pro"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A professional-grade CI solution"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"monthly_price_in_cents"</span><span class="p">:</span><span class="w"> </span><span class="mi">1099</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"yearly_price_in_cents"</span><span class="p">:</span><span class="w"> </span><span class="mi">11870</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"price_model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"flat-rate"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"has_free_trial"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"unit_name"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"published"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"bullets"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"Up to 25 private repositories"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"11 concurrent builds"</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+
+
+<h2>
+<a id="list-subscriptions-for-the-authenticated-user-stubbed" class="anchor" href="#list-subscriptions-for-the-authenticated-user-stubbed" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List subscriptions for the authenticated user (stubbed)</h2>
+
+<p>Lists the active subscriptions for the authenticated user. You must use a <a href="/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/#identifying-users-on-your-site">user-to-server OAuth access token</a>, created for a user who has authorized your GitHub App, to access this endpoint.
+. OAuth Apps must authenticate using an <a href="/apps/building-github-apps/authenticating-with-github-apps/">OAuth token</a>.</p>
 
 <pre><code>GET /user/marketplace_purchases/stubbed
 </code></pre>
 
 <h3>
-<a id="response-3" class="anchor" href="#response-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-7" class="anchor" href="#response-7" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 200 OK
 Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
