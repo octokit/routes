@@ -358,9 +358,8 @@ of private repositories to unauthorized users.</p>
 <p>Read <a href="/enterprise/2.18/apps/building-oauth-apps/">more about OAuth2</a>.  Note that OAuth2 tokens can be acquired using the <a href="/enterprise/2.18/apps/building-oauth-apps/authorizing-oauth-apps/#web-application-flow">web application flow</a> for production applications.</p>
 <h3>
 <a id="oauth2-keysecret" class="anchor" href="#oauth2-keysecret" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>OAuth2 key/secret</h3>
-<pre class="command-line">
-<span class="command">curl 'http(s)://<em>[hostname]</em>/api/v3/users/whatever?client_id=xxxx&amp;client_secret=yyyy'</span>
-</pre>
+<pre class="highlight highlight-command-line"><code>curl -u my_client_id:my_client_secret 'http(s)://&lt;em&gt;[hostname]&lt;/em&gt;/api/v3/user/repos'
+</code></pre>
 <p>Using your <code>client_id</code> and <code>client_secret</code> does <em>not</em> authenticate as a user, it will only identify your OAuth application to increase your rate limit. Permissions are only granted to users, not applications, and you will only get back data that an unauthenticated user would see. For this reason, you should only use the OAuth2 key/secret in server-to-server scenarios. Don't leak your OAuth application's client secret to your users.</p>
 <p>You will be unable to authenticate using your OAuth2 key and secret while in private mode, and trying to authenticate will return <code>401 Unauthorized</code>. For more information, see "<a href="https://help.github.com/en/enterprise/2.16/admin/installation/enabling-private-mode">Enabling private mode</a>" in the GitHub Help documentation.</p>
 <h3>
@@ -680,9 +679,9 @@ Unauthenticated requests are associated with the originating IP address, and not
 <p>You can <a href="/enterprise/2.18/v3/rate_limit">check your rate limit status</a> without incurring an API hit.</p>
 <h3>
 <a id="increasing-the-unauthenticated-rate-limit-for-oauth-applications" class="anchor" href="#increasing-the-unauthenticated-rate-limit-for-oauth-applications" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Increasing the unauthenticated rate limit for OAuth applications</h3>
-<p>If your OAuth application needs to make unauthenticated calls with a higher rate limit, you can pass your app's client ID and secret as part of the query string.</p>
+<p>If your OAuth application needs to make unauthenticated calls with a higher rate limit, you can pass your app's client ID and secret before the endpoint route.</p>
 <pre class="command-line">
-<span class="command">curl -i 'http(s)://<em>[hostname]</em>/api/v3/users/whatever?client_id=xxxx&amp;client_secret=yyyy'</span>
+<span class="command">curl -u my_client_id:my_client_secret http(s)://<em>[hostname]</em>/api/v3/user/repos</span>
 <span class="output">HTTP/1.1 200 OK</span>
 <span class="output">Date: Mon, 01 Jul 2013 17:27:06 GMT</span>
 <span class="output">Status: 200 OK</span>
