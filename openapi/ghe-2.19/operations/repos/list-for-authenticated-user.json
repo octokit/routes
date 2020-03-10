@@ -1,0 +1,107 @@
+{
+  "summary": "List repositories for the authenticated user",
+  "description": "Lists repositories that the authenticated user has explicit permission (`:read`, `:write`, or `:admin`) to access.\n\nThe authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership.",
+  "operationId": "repos/list-for-authenticated-user",
+  "tags": ["repos"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.19/v3/repos/#list-repositories-for-the-authenticated-user"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "visibility",
+      "description": "Can be one of `all`, `public`, or `private`.",
+      "in": "query",
+      "required": false,
+      "schema": {
+        "type": "string",
+        "enum": ["all", "public", "private"],
+        "default": "all"
+      }
+    },
+    {
+      "name": "affiliation",
+      "description": "Comma-separated list of values. Can include:  \n\\* `owner`: Repositories that are owned by the authenticated user.  \n\\* `collaborator`: Repositories that the user has been added to as a collaborator.  \n\\* `organization_member`: Repositories that the user has access to through being a member of an organization. This includes every repository on every team that the user is on.",
+      "in": "query",
+      "required": false,
+      "schema": {
+        "type": "string",
+        "default": "owner,collaborator,organization_member"
+      }
+    },
+    {
+      "name": "type",
+      "description": "Can be one of `all`, `owner`, `public`, `private`, `member`. Default: `all`  \n  \nWill cause a `422` error if used in the same request as **visibility** or **affiliation**. Will cause a `422` error if used in the same request as **visibility** or **affiliation**.",
+      "in": "query",
+      "required": false,
+      "schema": {
+        "type": "string",
+        "enum": ["all", "owner", "public", "private", "member"],
+        "default": "all"
+      }
+    },
+    {
+      "name": "sort",
+      "description": "Can be one of `created`, `updated`, `pushed`, `full_name`.",
+      "in": "query",
+      "required": false,
+      "schema": {
+        "type": "string",
+        "enum": ["created", "updated", "pushed", "full_name"],
+        "default": "full_name"
+      }
+    },
+    {
+      "name": "direction",
+      "description": "Can be one of `asc` or `desc`. Default: `asc` when using `full_name`, otherwise `desc`",
+      "in": "query",
+      "required": false,
+      "schema": { "type": "string", "enum": ["asc", "desc"] }
+    },
+    {
+      "name": "per_page",
+      "description": "Results per page (max 100)",
+      "in": "query",
+      "schema": { "type": "integer", "default": 30 }
+    },
+    {
+      "name": "page",
+      "description": "Page number of the results to fetch.",
+      "in": "query",
+      "schema": { "type": "integer", "default": 1 }
+    }
+  ],
+  "responses": { "418": { "description": "Response definition missing" } },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/user/repos"
+    },
+    { "lang": "JS", "source": "octokit.repos.listForAuthenticatedUser()" },
+    { "lang": "Ruby", "source": "octokit.for_authenticated_user()" }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2020-03-04",
+      "note": "\"repos/list\" operation ID is now \"repos/list-for-authenticated-user\"",
+      "before": { "operationId": "repos/list" },
+      "after": { "operationId": "repos/list-for-authenticated-user" }
+    }
+  ]
+}
