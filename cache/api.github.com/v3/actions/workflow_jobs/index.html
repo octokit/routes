@@ -367,7 +367,7 @@
 <li><a href="#list-workflow-job-logs" id="markdown-toc-list-workflow-job-logs">List workflow job logs</a></li>
 </ul>
 
-<p>A workflow job is a defined task made up of steps. For more information, see "<a href="https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions">Workflow syntax for GitHub Actions</a>" in the GitHub Help documentation.</p>
+<p>A workflow job is a set of steps that execute on the same runner. For more information, see "<a href="https://help.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions">Workflow syntax for GitHub Actions</a>" in the GitHub Help documentation.</p>
 
 <p>This API is available for authenticated users, OAuth Apps, and GitHub Apps. Access tokens require <a href="/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/#available-scopes"><code>repo</code> scope</a> for private repos and <a href="/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/#available-scopes"><code>public_repo</code> scope</a> for public repos. GitHub Apps must have the <code>actions</code> permission to use this API.</p>
 
@@ -387,10 +387,31 @@ GitHub Actions is available with GitHub Free, GitHub Pro, GitHub Team, GitHub En
 <a id="list-jobs-for-a-workflow-run" class="anchor" href="#list-jobs-for-a-workflow-run" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List jobs for a workflow run<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
-<p>Lists jobs for a workflow run. Anyone with read access to the repository can use this endpoint. GitHub Apps must have the <code>actions</code> permission to use this endpoint.</p>
+<p>Lists jobs for a workflow run. Anyone with read access to the repository can use this endpoint. GitHub Apps must have the <code>actions</code> permission to use this endpoint. You can use parameters to narrow the list of results. For more information about using parameters, see <a href="/v3/#parameters">Parameters</a>.</p>
 
 <pre><code>GET /repos/:owner/:repo/actions/runs/:run_id/jobs
 </code></pre>
+
+<h3>
+<a id="parameters" class="anchor" href="#parameters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>filter</code></td>
+<td><code>string</code></td>
+<td>Filters jobs by their <code>completed_at</code> timestamp. Can be one of:<br>* <code>latest</code>: Returns jobs from the most recent execution of the workflow run.<br>* <code>all</code>: Returns all jobs for a workflow run, including from old executions of the workflow run.<br><br>Default: <code>latest</code>
+</td>
+</tr>
+</tbody>
+</table>
 
 <h3>
 <a id="response" class="anchor" href="#response" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>

@@ -1,11 +1,11 @@
 {
-  "summary": "Check if an account subscribes to a plan",
+  "summary": "Get a subscription plan for an account",
   "description": "Shows whether the user or organization account actively subscribes to a plan listed by the authenticated GitHub App. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change.\n\nGitHub Apps must use a [JWT](https://developer.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth Apps must use [basic authentication](https://developer.github.com/v3/auth/#basic-authentication) with their client ID and client secret to access this endpoint.",
-  "operationId": "apps/check-account-subscribes-to-plan",
+  "operationId": "apps/get-subscription-plan-for-account",
   "tags": ["apps"],
   "externalDocs": {
     "description": "API method documentation",
-    "url": "https://developer.github.com/v3/apps/marketplace/#check-if-an-account-subscribes-to-a-plan"
+    "url": "https://developer.github.com/v3/apps/marketplace/#get-a-subscription-plan-for-an-account"
   },
   "parameters": [
     {
@@ -23,18 +23,6 @@
       "in": "path",
       "required": true,
       "schema": { "type": "integer" }
-    },
-    {
-      "name": "per_page",
-      "description": "Results per page (max 100)",
-      "in": "query",
-      "schema": { "type": "integer", "default": 30 }
-    },
-    {
-      "name": "page",
-      "description": "Page number of the results to fetch.",
-      "in": "query",
-      "schema": { "type": "integer", "default": 1 }
     }
   ],
   "responses": {
@@ -182,11 +170,11 @@
     },
     {
       "lang": "JS",
-      "source": "octokit.apps.checkAccountSubscribesToPlan({\n  account_id: 42\n})"
+      "source": "octokit.apps.getSubscriptionPlanForAccount({\n  account_id: 42\n})"
     },
     {
       "lang": "Ruby",
-      "source": "octokit.check_account_subscribes_to_plan(\n  42\n)"
+      "source": "octokit.subscription_plan_for_account(\n  42\n)"
     }
   ],
   "x-github": {
@@ -204,6 +192,13 @@
       "after": {
         "operationId": "operations/apps/check-account-subscribes-to-plan"
       }
+    },
+    {
+      "type": "operation",
+      "date": "2020-03-08",
+      "note": "\"apps/check-account-subscribes-to-plan\" operation ID is now \"apps/get-subscription-plan-for-account\"",
+      "before": { "operationId": "apps/check-account-subscribes-to-plan" },
+      "after": { "operationId": "apps/get-subscription-plan-for-account" }
     }
   ]
 }
