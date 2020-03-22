@@ -6,35 +6,35 @@ const options = {
   cached: {
     describe: "Load HTML from local cache",
     type: "boolean",
-    default: false
+    default: false,
   },
   ghe: {
     describe:
       'GitHub Enterprise. To load a specific version set it the version, e.g. "2.20"',
-    type: "string"
-  }
+    type: "string",
+  },
 };
 
 const {
   cached,
   urls,
   ghe,
-  _: [command]
+  _: [command],
 } = require("yargs")
-  .command("update [urls..]", "Update route files", yargs => {
+  .command("update [urls..]", "Update route files", (yargs) => {
     yargs
       .positional("urls...", {
-        describe: "Optional selected REST API documentation URLs to check"
+        describe: "Optional selected REST API documentation URLs to check",
       })
       .options(options)
       .example(
         "$0 update https://developer.github.com/v3/git/commits/#create-a-commit --cached"
       );
   })
-  .command("check [urls..]", "Check if route files are up-to-date", yargs => {
+  .command("check [urls..]", "Check if route files are up-to-date", (yargs) => {
     yargs
       .positional("urls...", {
-        describe: "Optional selected REST API documentation URLs to check"
+        describe: "Optional selected REST API documentation URLs to check",
       })
       .options(options)
       .example(
@@ -55,8 +55,8 @@ checkOrUpdateRoutes({
   cached,
   urls,
   ghe,
-  checkOnly: command === "check"
-}).catch(error => {
+  checkOnly: command === "check",
+}).catch((error) => {
   console.log(error.stack);
   process.exit(1);
 });

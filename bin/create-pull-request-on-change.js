@@ -17,5 +17,5 @@ if (!process.env.GITHUB_TOKEN) {
 
 notifyAboutRoutesChanges({
   repoSlug: process.env.GITHUB_REPOSITORY,
-  token: process.env.GITHUB_TOKEN
+  token: process.env.GITHUB_TOKEN,
 });

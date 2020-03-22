@@ -7,7 +7,7 @@ const { spawn } = require("tap");
 console.log(`tap --no-coverage --timeout=60 test/unit/*-test.js`);
 spawn("tap", ["--no-coverage", "--timeout=60", "test/unit/*-test.js"], {
   name: "unit tests",
-  env: { PATH: process.env.PATH }
+  env: { PATH: process.env.PATH },
   //     ^ might be unnecessary in ci?
 });
 
@@ -23,7 +23,7 @@ for (const api of apis) {
     ["--no-coverage", "--timeout=60", "test/integration/*-test.js"],
     {
       name: `${api} integration tests`,
-      env: { GHE_VERSION: GHE_VERSION, PATH: process.env.PATH }
+      env: { GHE_VERSION: GHE_VERSION, PATH: process.env.PATH },
       //                               ^ might be unnecessary in ci?
     }
   );

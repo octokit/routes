@@ -16,19 +16,19 @@ async function main() {
     const octokit = new OctokitWithPagination({
       auth: {
         id: APP_ID,
-        privateKey: PRIVATE_KEY
+        privateKey: PRIVATE_KEY,
       },
-      authStrategy: createAppAuth
+      authStrategy: createAppAuth,
     });
 
     const installations = await octokit.paginate("GET /app/installations", {
       mediaType: { previews: ["machine-man"] },
-      per_page: 100
+      per_page: 100,
     });
 
     for (const {
       id,
-      account: { login }
+      account: { login },
     } of installations) {
       console.log("Installation found: %s (%d)", login, id);
 
@@ -36,16 +36,16 @@ async function main() {
         auth: {
           id: APP_ID,
           privateKey: PRIVATE_KEY,
-          installationId: id
+          installationId: id,
         },
-        authStrategy: createAppAuth
+        authStrategy: createAppAuth,
       });
 
       const repositories = await installationOctokit.paginate(
         "GET /installation/repositories",
         {
           mediaType: { previews: ["machine-man"] },
-          per_page: 100
+          per_page: 100,
         }
       );
 
@@ -63,8 +63,8 @@ async function main() {
             repo: name,
             event_type: EVENT_TYPE,
             client_payload: {
-              version: VERSION
-            }
+              version: VERSION,
+            },
           }
         );
         console.log(options);

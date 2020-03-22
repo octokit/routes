@@ -18,12 +18,12 @@ async function testEndpoints(urls) {
     baseUrl: baseUrl,
     folderName: routesDir,
     gheVersion: gheVersion,
-    memoryCache: {}
+    memoryCache: {},
   };
   const routeMap = await UTIL.getRouteMap(urls, state);
-  urls.forEach(url => {
+  urls.forEach((url) => {
     const jsonFile = `./${routesRoot}/${routesDir}/index.json`;
-    test(`${url} to JSON from ${jsonFile}`, async t => {
+    test(`${url} to JSON from ${jsonFile}`, async (t) => {
       const expected = UTIL.getRoutesForUrl(url).sort(sortByPathThenMethod);
       const actual = routeMap.get(url).sort(sortByPathThenMethod);
       t.deepEquals(actual, expected);

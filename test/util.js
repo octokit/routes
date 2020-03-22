@@ -15,7 +15,7 @@ module.exports = {
   getCacheDir,
   getRoutesRoot,
   getRoutesDir,
-  getRouteMap
+  getRouteMap,
 };
 
 const TEST_URLS = process.env.TEST_URL
@@ -169,7 +169,7 @@ function discardBadRoutes(route, i, routes) {
     [
       "/repos/{owner}/{repo}/labels/{current_name}",
       "/repos/{owner}/{repo}/git/refs/{namespace}",
-      "{url}"
+      "{url}",
     ].includes(route.path)
   ) {
     return false;
@@ -212,7 +212,7 @@ function discardBadRoutes(route, i, routes) {
 function formatRoute(route, allRoutes) {
   const path = route.path
     .split("/")
-    .map(segment => segment.replace(/:(\w+)/g, "{$1}"))
+    .map((segment) => segment.replace(/:(\w+)/g, "{$1}"))
     .join("/");
   const method = route.method.toLowerCase();
   return { path, method, operation: route.operation };

@@ -36,7 +36,7 @@ async function buildDistFiles() {
       "keywords",
       "license",
       "bugs",
-      "homepage"
+      "homepage",
     ]),
     { spaces: 2 }
   );
