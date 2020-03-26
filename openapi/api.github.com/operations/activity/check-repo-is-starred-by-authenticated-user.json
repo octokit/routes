@@ -1,11 +1,11 @@
 {
-  "summary": "Star a repository",
-  "description": "Requires for the user to be authenticated.\n\nNote that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](https://developer.github.com/v3/#http-verbs).\"",
-  "operationId": "activity/star-repo",
+  "summary": "Check if a repository is starred by the authenticated user",
+  "description": "",
+  "operationId": "activity/check-repo-is-starred-by-authenticated-user",
   "tags": ["activity"],
   "externalDocs": {
     "description": "API method documentation",
-    "url": "https://developer.github.com/v3/activity/starring/#star-a-repository"
+    "url": "https://developer.github.com/v3/activity/starring/#check-if-a-repository-is-starred-by-the-authenticated-user"
   },
   "parameters": [
     {
@@ -32,17 +32,25 @@
       "schema": { "type": "string" }
     }
   ],
-  "responses": { "204": { "description": "Empty response" } },
+  "responses": {
+    "204": { "description": "Response if this repository is starred by you" },
+    "404": {
+      "description": "Response if this repository is not starred by you"
+    }
+  },
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/user/starred/octocat/hello-world"
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/user/starred/octocat/hello-world"
     },
     {
       "lang": "JS",
-      "source": "octokit.activity.starRepo({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
+      "source": "octokit.activity.checkRepoIsStarredByAuthenticatedUser({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
     },
-    { "lang": "Ruby", "source": "octokit.star_repo(\n  'hello-world'\n)" }
+    {
+      "lang": "Ruby",
+      "source": "octokit.check_repo_is_starred_by_authenticated_user(\n  'hello-world'\n)"
+    }
   ],
   "x-github": {
     "legacy": false,
