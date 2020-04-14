@@ -260,13 +260,13 @@
 <a id="notifications" class="anchor" href="#notifications" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Notifications</h1>
 <ul id="markdown-toc">
 <li><a href="#notification-reasons" id="markdown-toc-notification-reasons">Notification reasons</a></li>
-<li><a href="#list-your-notifications" id="markdown-toc-list-your-notifications">List your notifications</a></li>
-<li><a href="#list-your-notifications-in-a-repository" id="markdown-toc-list-your-notifications-in-a-repository">List your notifications in a repository</a></li>
-<li><a href="#mark-as-read" id="markdown-toc-mark-as-read">Mark as read</a></li>
-<li><a href="#mark-notifications-as-read-in-a-repository" id="markdown-toc-mark-notifications-as-read-in-a-repository">Mark notifications as read in a repository</a></li>
-<li><a href="#view-a-single-thread" id="markdown-toc-view-a-single-thread">View a single thread</a></li>
+<li><a href="#list-notifications-for-the-authenticated-user" id="markdown-toc-list-notifications-for-the-authenticated-user">List notifications for the authenticated user</a></li>
+<li><a href="#list-repository-notifications-for-the-authenticated-user" id="markdown-toc-list-repository-notifications-for-the-authenticated-user">List repository notifications for the authenticated user</a></li>
+<li><a href="#mark-notifications-as-read" id="markdown-toc-mark-notifications-as-read">Mark notifications as read</a></li>
+<li><a href="#mark-repository-notifications-as-read" id="markdown-toc-mark-repository-notifications-as-read">Mark repository notifications as read</a></li>
+<li><a href="#get-a-thread" id="markdown-toc-get-a-thread">Get a thread</a></li>
 <li><a href="#mark-a-thread-as-read" id="markdown-toc-mark-a-thread-as-read">Mark a thread as read</a></li>
-<li><a href="#get-a-thread-subscription" id="markdown-toc-get-a-thread-subscription">Get a thread subscription</a></li>
+<li><a href="#get-a-thread-subscription-for-the-authenticated-user" id="markdown-toc-get-a-thread-subscription-for-the-authenticated-user">Get a thread subscription for the authenticated user</a></li>
 <li><a href="#set-a-thread-subscription" id="markdown-toc-set-a-thread-subscription">Set a thread subscription</a></li>
 <li><a href="#delete-a-thread-subscription" id="markdown-toc-delete-a-thread-subscription">Delete a thread subscription</a></li>
 </ul>
@@ -355,7 +355,7 @@ X-Poll-Interval: 60
 <p>Note that the <code>reason</code> is modified on a per-thread basis, and can change, if the <code>reason</code> on a later notification is different.</p>
 <p>For example, if you are the author of an issue, subsequent notifications on that issue will have a <code>reason</code> of <code>author</code>. If you're then  <strong>@mentioned</strong> on the same issue, the notifications you fetch thereafter will have a <code>reason</code> of <code>mention</code>. The <code>reason</code> remains as <code>mention</code>, regardless of whether you're ever mentioned again.</p>
 <h2>
-<a id="list-your-notifications" class="anchor" href="#list-your-notifications" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List your notifications</h2>
+<a id="list-notifications-for-the-authenticated-user" class="anchor" href="#list-notifications-for-the-authenticated-user" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List notifications for the authenticated user</h2>
 <p>List all notifications for the current user, sorted by most recently updated.</p>
 <pre><code>GET /notifications
 </code></pre>
@@ -492,7 +492,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <h2>
-<a id="list-your-notifications-in-a-repository" class="anchor" href="#list-your-notifications-in-a-repository" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List your notifications in a repository</h2>
+<a id="list-repository-notifications-for-the-authenticated-user" class="anchor" href="#list-repository-notifications-for-the-authenticated-user" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List repository notifications for the authenticated user</h2>
 <p>List all notifications for the current user.</p>
 <pre><code>GET /repos/:owner/:repo/notifications
 </code></pre>
@@ -623,8 +623,8 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <h2>
-<a id="mark-as-read" class="anchor" href="#mark-as-read" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Mark as read</h2>
-<p>Marks a notification as "read" removes it from the <a href="https://github.com/notifications">default view on GitHub Enterprise</a>. If the number of notifications is too large to complete in one request, you will receive a <code>202 Accepted</code> status and GitHub will run an asynchronous process to mark notifications as "read." To check whether any "unread" notifications remain, you can use the <a href="/enterprise/2.19/v3/activity/notifications/#list-your-notifications">List your notifications</a> endpoint and pass the query parameter <code>all=false</code>.</p>
+<a id="mark-notifications-as-read" class="anchor" href="#mark-notifications-as-read" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Mark notifications as read</h2>
+<p>Marks all notifications as "read" removes it from the <a href="https://github.com/notifications">default view on GitHub Enterprise</a>. If the number of notifications is too large to complete in one request, you will receive a <code>202 Accepted</code> status and GitHub will run an asynchronous process to mark notifications as "read." To check whether any "unread" notifications remain, you can use the <a href="/enterprise/2.19/v3/activity/notifications/#list-notifications-for-the-authenticated-user">List notifications for the authenticated user</a> endpoint and pass the query parameter <code>all=false</code>.</p>
 <pre><code>PUT /notifications
 </code></pre>
 <h3>
@@ -641,7 +641,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <tr>
 <td><code>last_read_at</code></td>
 <td><code>string</code></td>
-<td>Describes the last point that notifications were checked. Anything updated since this time will not be updated. This is a timestamp in <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> format: <code>YYYY-MM-DDTHH:MM:SSZ</code>. Default: The current timestamp.</td>
+<td>Describes the last point that notifications were checked. Anything updated since this time will not be marked as read. If you omit this parameter, all notifications are marked as read. This is a timestamp in <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> format: <code>YYYY-MM-DDTHH:MM:SSZ</code>. Default: The current timestamp.</td>
 </tr>
 </tbody>
 </table>
@@ -650,8 +650,8 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <pre class="highlight highlight-headers"><code>Status: 205 Reset Content
 </code></pre>
 <h2>
-<a id="mark-notifications-as-read-in-a-repository" class="anchor" href="#mark-notifications-as-read-in-a-repository" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Mark notifications as read in a repository</h2>
-<p>Marks all notifications in a repository as "read" removes them from the <a href="https://github.com/notifications">default view on GitHub Enterprise</a>. If the number of notifications is too large to complete in one request, you will receive a <code>202 Accepted</code> status and GitHub will run an asynchronous process to mark notifications as "read." To check whether any "unread" notifications remain, you can use the <a href="/enterprise/2.19/v3/activity/notifications/#list-your-notifications-in-a-repository">List your notifications in a repository</a> endpoint and pass the query parameter <code>all=false</code>.</p>
+<a id="mark-repository-notifications-as-read" class="anchor" href="#mark-repository-notifications-as-read" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Mark repository notifications as read</h2>
+<p>Marks all notifications in a repository as "read" removes them from the <a href="https://github.com/notifications">default view on GitHub Enterprise</a>. If the number of notifications is too large to complete in one request, you will receive a <code>202 Accepted</code> status and GitHub will run an asynchronous process to mark notifications as "read." To check whether any "unread" notifications remain, you can use the <a href="/enterprise/2.19/v3/activity/notifications/#list-repository-notifications-for-the-authenticated-user">List repository notifications for the authenticated user</a> endpoint and pass the query parameter <code>all=false</code>.</p>
 <pre><code>PUT /repos/:owner/:repo/notifications
 </code></pre>
 <h3>
@@ -668,7 +668,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <tr>
 <td><code>last_read_at</code></td>
 <td><code>string</code></td>
-<td>Describes the last point that notifications were checked. Anything updated since this time will not be updated. This is a timestamp in <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> format: <code>YYYY-MM-DDTHH:MM:SSZ</code>. Default: The current timestamp.</td>
+<td>Describes the last point that notifications were checked. Anything updated since this time will not be marked as read. If you omit this parameter, all notifications are marked as read. This is a timestamp in <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> format: <code>YYYY-MM-DDTHH:MM:SSZ</code>. Default: The current timestamp.</td>
 </tr>
 </tbody>
 </table>
@@ -677,7 +677,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <pre class="highlight highlight-headers"><code>Status: 205 Reset Content
 </code></pre>
 <h2>
-<a id="view-a-single-thread" class="anchor" href="#view-a-single-thread" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>View a single thread</h2>
+<a id="get-a-thread" class="anchor" href="#get-a-thread" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get a thread</h2>
 <pre><code>GET /notifications/threads/:thread_id
 </code></pre>
 <h3>
@@ -776,7 +776,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <pre class="highlight highlight-headers"><code>Status: 205 Reset Content
 </code></pre>
 <h2>
-<a id="get-a-thread-subscription" class="anchor" href="#get-a-thread-subscription" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get a thread subscription</h2>
+<a id="get-a-thread-subscription-for-the-authenticated-user" class="anchor" href="#get-a-thread-subscription-for-the-authenticated-user" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get a thread subscription for the authenticated user</h2>
 <p>This checks to see if the current user is subscribed to a thread. You can also <a href="/enterprise/2.19/v3/activity/watching/#get-a-repository-subscription">get a repository subscription</a>.</p>
 <div class="alert note">
 <p>Note that subscriptions are only generated if a user is participating in a conversation--for example, they've replied to the thread, were <strong>@mentioned</strong>, or manually subscribe to a thread.</p>
@@ -798,7 +798,9 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </span></code></pre>
 <h2>
 <a id="set-a-thread-subscription" class="anchor" href="#set-a-thread-subscription" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Set a thread subscription</h2>
-<p>This lets you subscribe or unsubscribe from a conversation.</p>
+<p>If you are watching a repository, you receive notifications for all threads by default. Use this endpoint to ignore future notifications for threads until you comment on the thread or get an <strong>@mention</strong>.</p>
+<p>You can also use this endpoint to subscribe to threads that you are currently not receiving notifications for or to subscribed to threads that you have previously ignored. </p>
+<p>Unsubscribing from a conversation in a repository that you are not watching is functionally equivalent to the <a href="#delete-a-thread-subscription">Delete a thread subscription</a> endpoint.</p>
 <pre><code>PUT /notifications/threads/:thread_id/subscription
 </code></pre>
 <h3>
@@ -835,7 +837,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </span></code></pre>
 <h2>
 <a id="delete-a-thread-subscription" class="anchor" href="#delete-a-thread-subscription" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Delete a thread subscription</h2>
-<p>Mutes all future notifications for a conversation until you comment on the thread or get <strong>@mention</strong>ed.</p>
+<p>Mutes all future notifications for a conversation until you comment on the thread or get an <strong>@mention</strong>. If you are watching the repository of the thread, you will still receive notifications. To ignore future notifications for a repository you are watching, use the <a href="#set-a-thread-subscription">Set a thread subscription</a> endpoint and set <code>ignore</code> to <code>true</code>.</p>
 <pre><code>DELETE /notifications/threads/:thread_id/subscription
 </code></pre>
 <h3>

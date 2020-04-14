@@ -266,11 +266,11 @@
         <h1>
 <a id="check-suites" class="anchor" href="#check-suites" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Check Suites</h1>
 <ul id="markdown-toc">
-<li><a href="#get-a-single-check-suite" id="markdown-toc-get-a-single-check-suite">Get a single check suite</a></li>
-<li><a href="#list-check-suites-for-a-specific-ref" id="markdown-toc-list-check-suites-for-a-specific-ref">List check suites for a specific ref</a></li>
-<li><a href="#set-preferences-for-check-suites-on-a-repository" id="markdown-toc-set-preferences-for-check-suites-on-a-repository">Set preferences for check suites on a repository</a></li>
+<li><a href="#get-a-check-suite" id="markdown-toc-get-a-check-suite">Get a check suite</a></li>
+<li><a href="#list-check-suites-for-a-git-reference" id="markdown-toc-list-check-suites-for-a-git-reference">List check suites for a Git reference</a></li>
+<li><a href="#update-repository-preferences-for-check-suites" id="markdown-toc-update-repository-preferences-for-check-suites">Update repository preferences for check suites</a></li>
 <li><a href="#create-a-check-suite" id="markdown-toc-create-a-check-suite">Create a check suite</a></li>
-<li><a href="#rerequest-check-suite" id="markdown-toc-rerequest-check-suite">Rerequest check suite</a></li>
+<li><a href="#rerequest-a-check-suite" id="markdown-toc-rerequest-a-check-suite">Rerequest a check suite</a></li>
 </ul>
 <p>A check suite is a collection of the <a href="/enterprise/2.17/v3/checks/runs/">check runs</a> created by a single GitHub App for a specific commit. Check suites summarize the status and conclusion of the check runs that a suite includes.</p>
 <div class="alert note">
@@ -278,11 +278,11 @@
 </div>
 <p><img src="https://github-images.s3.amazonaws.com/enterprise/developer-site/2.17/assets/images/check_suites.png" alt="Check suites workflow"></p>
 <p>The check suite reports the highest priority check run <code>conclusion</code> in the check suite's <code>conclusion</code>. For example, if three check runs have conclusions of <code>timed_out</code>, <code>success</code>, and <code>neutral</code> the check suite conclusion will be <code>timed_out</code>.</p>
-<p>By default, GitHub creates a check suite automatically when code is pushed to the repository. This default flow sends the <code>check_suite</code> event (with <code>requested</code> action) to all GitHub App's that have the <code>checks:write</code> permission. If you don't want to use the default automatic flow, you can control when you create check suites. To change the default settings for the creation of check suites, use the <a href="/enterprise/2.17/v3/checks/suites/#set-preferences-for-check-suites-on-a-repository">Set preferences for check suites on a repository</a> endpoint. All changes to the automatic flow settings are recorded in the audit log for the repository. If you have disabled the automatic flow, you can create a check suite using the <a href="/enterprise/2.17/v3/checks/suites/#create-a-check-suite">Create a check suite</a> endpoint. You should continue to use the <a href="/enterprise/2.17/v3/checks/runs/#create-a-check-run">Create a check run</a> endpoint to provide feedback on a commit.</p>
+<p>By default, GitHub creates a check suite automatically when code is pushed to the repository. This default flow sends the <code>check_suite</code> event (with <code>requested</code> action) to all GitHub App's that have the <code>checks:write</code> permission. If you don't want to use the default automatic flow, you can control when you create check suites. To change the default settings for the creation of check suites, use the <a href="/enterprise/2.17/v3/checks/suites/#update-repository-preferences-for-check-suites">Update repository preferences for check suites</a> endpoint. All changes to the automatic flow settings are recorded in the audit log for the repository. If you have disabled the automatic flow, you can create a check suite using the <a href="/enterprise/2.17/v3/checks/suites/#create-a-check-suite">Create a check suite</a> endpoint. You should continue to use the <a href="/enterprise/2.17/v3/checks/runs/#create-a-check-run">Create a check run</a> endpoint to provide feedback on a commit.</p>
 <p>Write permission for the Checks API is only available to GitHub Apps. OAuth Apps and authenticated users can view check runs and check suites, but they are not able to create them. If you aren't building a GitHub App, you might be interested in the <a href="/enterprise/2.17/v3/repos/statuses/">Statuses API</a>.</p>
 <p>To use the check suites API, the GitHub App must have the <code>checks:write</code> permission and can also subscribe to the <a href="/enterprise/2.17/v3/activity/events/types/#checksuiteevent">check_suite</a> webhook.</p>
 <h2>
-<a id="get-a-single-check-suite" class="anchor" href="#get-a-single-check-suite" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get a single check suite<a href="/enterprise/2.17/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+<a id="get-a-check-suite" class="anchor" href="#get-a-check-suite" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get a check suite<a href="/enterprise/2.17/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 <div class="alert note">
 <p><strong>Note:</strong> The Checks API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the <a href="/changes/2018-05-07-new-checks-api-public-beta/">blog post</a> for full details. To access the API during the preview period, you must provide a custom <a href="/enterprise/2.17/v3/media">media type</a> in the <code>Accept</code> header:</p>
@@ -459,7 +459,7 @@
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <h2>
-<a id="list-check-suites-for-a-specific-ref" class="anchor" href="#list-check-suites-for-a-specific-ref" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List check suites for a specific ref<a href="/enterprise/2.17/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+<a id="list-check-suites-for-a-git-reference" class="anchor" href="#list-check-suites-for-a-git-reference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List check suites for a Git reference<a href="/enterprise/2.17/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 <div class="alert note">
 <p><strong>Note:</strong> The Checks API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the <a href="/changes/2018-05-07-new-checks-api-public-beta/">blog post</a> for full details. To access the API during the preview period, you must provide a custom <a href="/enterprise/2.17/v3/media">media type</a> in the <code>Accept</code> header:</p>
@@ -672,7 +672,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <h2>
-<a id="set-preferences-for-check-suites-on-a-repository" class="anchor" href="#set-preferences-for-check-suites-on-a-repository" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Set preferences for check suites on a repository<a href="/enterprise/2.17/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+<a id="update-repository-preferences-for-check-suites" class="anchor" href="#update-repository-preferences-for-check-suites" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Update repository preferences for check suites<a href="/enterprise/2.17/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 <div class="alert note">
 <p><strong>Note:</strong> The Checks API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the <a href="/changes/2018-05-07-new-checks-api-public-beta/">blog post</a> for full details. To access the API during the preview period, you must provide a custom <a href="/enterprise/2.17/v3/media">media type</a> in the <code>Accept</code> header:</p>
@@ -878,7 +878,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <div class="alert note">
 <p><strong>Note:</strong> The Checks API only looks for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty <code>pull_requests</code> array and a <code>null</code> value for <code>head_branch</code>.</p>
 </div>
-<p>By default, check suites are automatically created when you create a <a href="/enterprise/2.17/v3/checks/runs/">check run</a>. You only need to use this endpoint for manually creating check suites when you've disabled automatic creation using "<a href="/enterprise/2.17/v3/checks/suites/#set-preferences-for-check-suites-on-a-repository">Set preferences for check suites on a repository</a>". Your GitHub App must have the <code>checks:write</code> permission to create check suites.</p>
+<p>By default, check suites are automatically created when you create a <a href="/enterprise/2.17/v3/checks/runs/">check run</a>. You only need to use this endpoint for manually creating check suites when you've disabled automatic creation using "<a href="/enterprise/2.17/v3/checks/suites/#update-repository-preferences-for-check-suites">Update repository preferences for check suites</a>". Your GitHub App must have the <code>checks:write</code> permission to create check suites.</p>
 <pre><code>POST /repos/:owner/:repo/check-suites
 </code></pre>
 <h3>
@@ -1067,7 +1067,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <h2>
-<a id="rerequest-check-suite" class="anchor" href="#rerequest-check-suite" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Rerequest check suite<a href="/enterprise/2.17/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+<a id="rerequest-a-check-suite" class="anchor" href="#rerequest-a-check-suite" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Rerequest a check suite<a href="/enterprise/2.17/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 <div class="alert note">
 <p><strong>Note:</strong> The Checks API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the <a href="/changes/2018-05-07-new-checks-api-public-beta/">blog post</a> for full details. To access the API during the preview period, you must provide a custom <a href="/enterprise/2.17/v3/media">media type</a> in the <code>Accept</code> header:</p>

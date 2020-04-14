@@ -1,0 +1,82 @@
+{
+  "summary": "Mark repository notifications as read",
+  "description": "Marks all notifications in a repository as \"read\" removes them from the [default view on GitHub Enterprise](https://github.com/notifications). If the number of notifications is too large to complete in one request, you will receive a `202 Accepted` status and GitHub will run an asynchronous process to mark notifications as \"read.\" To check whether any \"unread\" notifications remain, you can use the [List repository notifications for the authenticated user](https://developer.github.com/enterprise/2.20/v3/activity/notifications/#list-repository-notifications-for-the-authenticated-user) endpoint and pass the query parameter `all=false`.",
+  "operationId": "activity/mark-repo-notifications-as-read",
+  "tags": ["activity"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.20/v3/activity/notifications/#mark-repository-notifications-as-read"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "description": "owner parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "description": "repo parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": { "205": { "description": "response" } },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/repos/octocat/hello-world/notifications \\\n  -d '{\"last_read_at\":\"last_read_at\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.activity.markRepoNotificationsAsRead({\n  owner: 'octocat',\n  repo: 'hello-world',\n  last_read_at: 'last_read_at'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.mark_repo_notifications_as_read(\n  'hello-world',\n  'last_read_at'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2020-03-25",
+      "note": "\"activity/mark-notifications-as-read-for-repo\" operation ID is now \"activity/mark-repo-notifications-as-read\"",
+      "before": {
+        "operationId": "activity/mark-notifications-as-read-for-repo"
+      },
+      "after": { "operationId": "activity/mark-repo-notifications-as-read" }
+    }
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "last_read_at": {
+              "type": "string",
+              "description": "Describes the last point that notifications were checked. Anything updated since this time will not be marked as read. If you omit this parameter, all notifications are marked as read. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. Default: The current timestamp."
+            }
+          }
+        }
+      }
+    }
+  }
+}
