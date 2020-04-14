@@ -236,7 +236,7 @@
     "/events": {
       "get": { "$ref": "operations/activity/list-public-events.json" }
     },
-    "/feeds": { "get": { "$ref": "operations/activity/list-feeds.json" } },
+    "/feeds": { "get": { "$ref": "operations/activity/get-feeds.json" } },
     "/gists": {
       "get": { "$ref": "operations/gists/list.json" },
       "post": { "$ref": "operations/gists/create.json" }
@@ -313,15 +313,19 @@
       }
     },
     "/notifications": {
-      "get": { "$ref": "operations/activity/list-notifications.json" },
-      "put": { "$ref": "operations/activity/mark-as-read.json" }
+      "get": {
+        "$ref": "operations/activity/list-notifications-for-authenticated-user.json"
+      },
+      "put": { "$ref": "operations/activity/mark-notifications-as-read.json" }
     },
     "/notifications/threads/{thread_id}": {
       "get": { "$ref": "operations/activity/get-thread.json" },
       "patch": { "$ref": "operations/activity/mark-thread-as-read.json" }
     },
     "/notifications/threads/{thread_id}/subscription": {
-      "get": { "$ref": "operations/activity/get-thread-subscription.json" },
+      "get": {
+        "$ref": "operations/activity/get-thread-subscription-for-authenticated-user.json"
+      },
       "put": { "$ref": "operations/activity/set-thread-subscription.json" },
       "delete": {
         "$ref": "operations/activity/delete-thread-subscription.json"
@@ -333,7 +337,7 @@
       "patch": { "$ref": "operations/orgs/update.json" }
     },
     "/orgs/{org}/events": {
-      "get": { "$ref": "operations/activity/list-public-events-for-org.json" }
+      "get": { "$ref": "operations/activity/list-public-org-events.json" }
     },
     "/orgs/{org}/hooks": {
       "get": { "$ref": "operations/orgs/list-hooks.json" },
@@ -869,9 +873,11 @@
       "get": { "$ref": "operations/issues/list-labels-for-milestone.json" }
     },
     "/repos/{owner}/{repo}/notifications": {
-      "get": { "$ref": "operations/activity/list-notifications-for-repo.json" },
+      "get": {
+        "$ref": "operations/activity/list-repo-notifications-for-authenticated-user.json"
+      },
       "put": {
-        "$ref": "operations/activity/mark-notifications-as-read-for-repo.json"
+        "$ref": "operations/activity/mark-repo-notifications-as-read.json"
       }
     },
     "/repos/{owner}/{repo}/pages": {
@@ -1275,9 +1281,15 @@
       }
     },
     "/user/starred/{owner}/{repo}": {
-      "get": { "$ref": "operations/activity/check-starring-repo.json" },
-      "put": { "$ref": "operations/activity/star-repo.json" },
-      "delete": { "$ref": "operations/activity/unstar-repo.json" }
+      "get": {
+        "$ref": "operations/activity/check-repo-is-starred-by-authenticated-user.json"
+      },
+      "put": {
+        "$ref": "operations/activity/star-repo-for-authenticated-user.json"
+      },
+      "delete": {
+        "$ref": "operations/activity/unstar-repo-for-authenticated-user.json"
+      }
     },
     "/user/subscriptions": {
       "get": {
@@ -1297,10 +1309,14 @@
       "get": { "$ref": "operations/users/get-by-username.json" }
     },
     "/users/{username}/events": {
-      "get": { "$ref": "operations/activity/list-events-for-user.json" }
+      "get": {
+        "$ref": "operations/activity/list-events-for-authenticated-user.json"
+      }
     },
     "/users/{username}/events/orgs/{org}": {
-      "get": { "$ref": "operations/activity/list-events-for-org.json" }
+      "get": {
+        "$ref": "operations/activity/list-org-events-for-authenticated-user.json"
+      }
     },
     "/users/{username}/events/public": {
       "get": { "$ref": "operations/activity/list-public-events-for-user.json" }
