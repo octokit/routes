@@ -1,0 +1,69 @@
+{
+  "summary": "Create a remove token for an organization",
+  "description": "**Warning:** The self-hosted runners API for organizations is currently in public beta and subject to change.\n\nReturns a token that you can pass to the `config` script to remove a self-hosted runner from an organization. The token expires after one hour. Anyone with admin access to the organization can use this endpoint. GitHub Apps must have the `self-hosted runners:write` organization permission to use this endpoint.\n\nTo remove your self-hosted runner from an organization, replace `TOKEN` with the remove token provided by this endpoint.\n\n",
+  "operationId": "actions/create-remove-token-for-org",
+  "tags": ["actions"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/actions/self-hosted-runners/#create-a-remove-token-for-an-organization"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "org",
+      "description": "org parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": {
+    "201": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "token": { "type": "string" },
+              "expires_at": { "type": "string" }
+            }
+          },
+          "example": {
+            "token": "AABF3JGZDX3P5PMEXLND6TS6FCWO6",
+            "expires_at": "2020-01-29T12:13:35.123-08:00"
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/orgs/ORG/actions/runners/remove-token"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.actions.createRemoveTokenForOrg({\n  org: 'org'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.create_remove_token_for_org(\n  'org'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}
