@@ -1,11 +1,11 @@
 {
-  "summary": "Create a registration token",
-  "description": "Returns a token that you can pass to the `config` script. The token expires after one hour. Anyone with admin access to the repository can use this endpoint. GitHub Apps must have the `administration` permission to use this endpoint.\n\nConfigure your self-hosted runner, replacing TOKEN with the registration token provided by this endpoint.\n\n",
-  "operationId": "actions/create-registration-token",
+  "summary": "Create a registration token for an organization",
+  "description": "**Warning:** The self-hosted runners API for organizations is currently in public beta and subject to change.\n\nReturns a token that you can pass to the `config` script. The token expires after one hour. Anyone with admin access to the organization can use this endpoint. GitHub Apps must have the `self-hosted runners:write` organization permission to use this endpoint.\n\nConfigure your self-hosted runner, replacing `TOKEN` with the registration token provided by this endpoint.\n\n",
+  "operationId": "actions/create-registration-token-for-org",
   "tags": ["actions"],
   "externalDocs": {
     "description": "API method documentation",
-    "url": "https://developer.github.com/v3/actions/self_hosted_runners/#create-a-registration-token"
+    "url": "https://developer.github.com/v3/actions/self-hosted-runners/#create-a-registration-token-for-an-organization"
   },
   "parameters": [
     {
@@ -18,15 +18,8 @@
       }
     },
     {
-      "name": "owner",
-      "description": "owner parameter",
-      "in": "path",
-      "required": true,
-      "schema": { "type": "string" }
-    },
-    {
-      "name": "repo",
-      "description": "repo parameter",
+      "name": "org",
+      "description": "org parameter",
       "in": "path",
       "required": true,
       "schema": { "type": "string" }
@@ -55,15 +48,15 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/repos/octocat/hello-world/actions/runners/registration-token"
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/orgs/ORG/actions/runners/registration-token"
     },
     {
       "lang": "JS",
-      "source": "octokit.actions.createRegistrationToken({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
+      "source": "octokit.actions.createRegistrationTokenForOrg({\n  org: 'org'\n})"
     },
     {
       "lang": "Ruby",
-      "source": "octokit.create_registration_token(\n  'hello-world'\n)"
+      "source": "octokit.create_registration_token_for_org(\n  'org'\n)"
     }
   ],
   "x-github": {

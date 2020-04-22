@@ -1,0 +1,96 @@
+{
+  "summary": "List self-hosted runners for an organization",
+  "description": "**Warning:** The self-hosted runners API for organizations is currently in public beta and subject to change.\n\nLists all self-hosted runners for an organization. Anyone with admin access to the organization can use this endpoint. GitHub Apps must have the `self-hosted runners:read` organization permission to use this endpoint.",
+  "operationId": "actions/list-self-hosted-runners-for-org",
+  "tags": ["actions"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/actions/self-hosted-runners/#list-self-hosted-runners-for-an-organization"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "org",
+      "description": "org parameter",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "per_page",
+      "description": "Results per page (max 100)",
+      "in": "query",
+      "schema": { "type": "integer", "default": 30 }
+    },
+    {
+      "name": "page",
+      "description": "Page number of the results to fetch.",
+      "in": "query",
+      "schema": { "type": "integer", "default": 1 }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "total_count": { "type": "number" },
+              "runners": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "number" },
+                    "name": { "type": "string" },
+                    "os": { "type": "string" },
+                    "status": { "type": "string" }
+                  },
+                  "required": ["id", "name", "os", "status"]
+                }
+              }
+            }
+          },
+          "example": {
+            "total_count": 2,
+            "runners": [
+              { "id": 23, "name": "MBP", "os": "macos", "status": "online" },
+              { "id": 24, "name": "iMac", "os": "macos", "status": "offline" }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/orgs/ORG/actions/runners"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.actions.listSelfHostedRunnersForOrg({\n  org: 'org'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.self_hosted_runners_for_org(\n  'org'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}
