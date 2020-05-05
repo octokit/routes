@@ -370,6 +370,8 @@
 <li><a href="#get-the-authenticated-github-app" id="markdown-toc-get-the-authenticated-github-app">Get the authenticated GitHub App</a></li>
 <li><a href="#list-installations" id="markdown-toc-list-installations">List installations</a></li>
 <li><a href="#get-an-installation" id="markdown-toc-get-an-installation">Get an installation</a></li>
+<li><a href="#suspend-an-installation" id="markdown-toc-suspend-an-installation">Suspend an installation</a></li>
+<li><a href="#unsuspend-an-installation" id="markdown-toc-unsuspend-an-installation">Unsuspend an installation</a></li>
 <li><a href="#delete-an-installation" id="markdown-toc-delete-an-installation">Delete an installation</a></li>
 <li><a href="#create-a-new-installation-token" id="markdown-toc-create-a-new-installation-token">Create a new installation token</a></li>
 <li><a href="#get-an-organization-installation" id="markdown-toc-get-an-organization-installation">Get an organization installation</a></li>
@@ -678,6 +680,60 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 
 <h2>
+<a id="suspend-an-installation" class="anchor" href="#suspend-an-installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Suspend an installation</h2>
+
+<div class="alert note">
+
+<p><strong>Note:</strong> 
+Suspending a GitHub App installation is currently in beta and subject to change. Before you can suspend a GitHub App, the app owner must enable suspending installations for the app by opting-in to the beta.
+ For more information, see "<a href="/apps/managing-github-apps/suspending-a-github-app-installation/">Suspending a GitHub App installation</a>."</p>
+
+</div>
+
+<p>Suspends a GitHub App on a user, organization, or business account, which blocks the app from accessing the account's resources.  When a GitHub App is suspended, the app's access to the GitHub API or webhook events is blocked for that account.</p>
+
+<p>To suspend a GitHub App, you must be an account owner or have admin permissions in the repository or organization where the app is installed.</p>
+
+<p>You must use a <a href="/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app">JWT</a> to access this endpoint.</p>
+
+<pre><code>PUT /app/installations/:installation_id/suspended
+</code></pre>
+
+<h3>
+<a id="response-4" class="anchor" href="#response-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 204 No Content
+</code></pre>
+
+
+<h2>
+<a id="unsuspend-an-installation" class="anchor" href="#unsuspend-an-installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Unsuspend an installation</h2>
+
+<div class="alert note">
+
+<p><strong>Note:</strong> 
+Suspending a GitHub App installation is currently in beta and subject to change. Before you can suspend a GitHub App, the app owner must enable suspending installations for the app by opting-in to the beta.
+ For more information, see "<a href="/apps/managing-github-apps/suspending-a-github-app-installation/">Suspending a GitHub App installation</a>."</p>
+
+</div>
+
+<p>Removes a GitHub App installation suspension.</p>
+
+<p>To unsuspend a GitHub App, you must be an account owner or have admin permissions in the repository or organization where the app is installed and suspended.</p>
+
+<p>You must use a <a href="/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app">JWT</a> to access this endpoint.</p>
+
+<pre><code>DELETE /app/installations/:installation_id/suspended
+</code></pre>
+
+<h3>
+<a id="response-5" class="anchor" href="#response-5" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 204 No Content
+</code></pre>
+
+
+<h2>
 <a id="delete-an-installation" class="anchor" href="#delete-an-installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Delete an installation</h2>
 
 <div class="alert note">
@@ -694,7 +750,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 
 </div>
 
-<p>Uninstalls a GitHub App on a user, organization, or business account.</p>
+<p>Uninstalls a GitHub App on a user, organization, or business account.  If you prefer to temporarily suspend an app's access to your account's resources, then we recommend the "<a href="#suspend-an-installation">Suspend an installation</a>" endpoint.</p>
 
 <p>You must use a <a href="/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app">JWT</a> to access this endpoint.</p>
 
@@ -702,7 +758,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </code></pre>
 
 <h3>
-<a id="response-4" class="anchor" href="#response-4" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-6" class="anchor" href="#response-6" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 204 No Content
 </code></pre>
@@ -777,7 +833,7 @@ By default the installation token has access to all repositories that the instal
 
 
 <h3>
-<a id="response-5" class="anchor" href="#response-5" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-7" class="anchor" href="#response-7" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 201 Created
 </code></pre>
@@ -931,7 +987,7 @@ By default the installation token has access to all repositories that the instal
 </code></pre>
 
 <h3>
-<a id="response-6" class="anchor" href="#response-6" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-8" class="anchor" href="#response-8" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 200 OK
 </code></pre>
@@ -1006,7 +1062,7 @@ By default the installation token has access to all repositories that the instal
 </code></pre>
 
 <h3>
-<a id="response-7" class="anchor" href="#response-7" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-9" class="anchor" href="#response-9" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 200 OK
 </code></pre>
@@ -1081,7 +1137,7 @@ By default the installation token has access to all repositories that the instal
 </code></pre>
 
 <h3>
-<a id="response-8" class="anchor" href="#response-8" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-10" class="anchor" href="#response-10" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 200 OK
 </code></pre>
@@ -1140,7 +1196,7 @@ By default the installation token has access to all repositories that the instal
 </code></pre>
 
 <h3>
-<a id="response-9" class="anchor" href="#response-9" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<a id="response-11" class="anchor" href="#response-11" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
 
 <pre class="highlight highlight-headers"><code>Status: 200 OK
 </code></pre>
