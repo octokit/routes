@@ -6,10 +6,10 @@
   <meta http-equiv="imagetoolbar" content="false" />
   <meta name="MSSmartTagsPreventParsing" content="true" />
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Licenses | GitHub Developer Guide</title>
-  <meta property="og:url" content="https://developer.github.com/v3/licenses/" />
+  <title>Code Scanning | GitHub Developer Guide</title>
+  <meta property="og:url" content="https://developer.github.com/v3/code-scanning/" />
 <meta property="og:site_name" content="GitHub Developer" />
-<meta property="og:title" content="Licenses" />
+<meta property="og:title" content="Code Scanning" />
 <meta property="og:description" content="Get started with one of our guides, or jump straight into the API documentation." />
 <meta property="og:type" content="website" />
 <meta property="og:author" content="https://www.facebook.com/GitHub" />
@@ -27,7 +27,7 @@
 <meta property="twitter:site:id" content="13334762" />
 <meta property="twitter:creator" content="@githubapi" />
 <meta property="twitter:creator:id" content="@539153822" />
-<meta property="twitter:title" content="Licenses" />
+<meta property="twitter:title" content="Code Scanning" />
 <meta property="twitter:description" content="Get started with one of our guides, or jump straight into the API documentation." />
 <meta property="twitter:image:src" content="https://og.github.com/logo/github-logo@1200x1200.png" />
 <meta property="twitter:image:width" content="1200" />
@@ -365,45 +365,50 @@
     <section class="main pt-5 clearfix gut-3" role="main">
       <div class="content col-md-8">
         <h1>
-<a id="licenses" class="anchor" href="#licenses" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Licenses</h1>
+<a id="code-scanning" class="anchor" href="#code-scanning" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Code Scanning</h1>
 
 <ul id="markdown-toc">
-<li><a href="#list-commonly-used-licenses" id="markdown-toc-list-commonly-used-licenses">List commonly used licenses</a></li>
-<li><a href="#get-an-individual-license" id="markdown-toc-get-an-individual-license">Get an individual license</a></li>
-<li><a href="#get-the-contents-of-a-repositorys-license" id="markdown-toc-get-the-contents-of-a-repositorys-license">Get the contents of a repository's license</a></li>
+<li><a href="#list-code-scanning-alerts-for-a-repository" id="markdown-toc-list-code-scanning-alerts-for-a-repository">List code scanning alerts for a repository</a></li>
+<li><a href="#get-a-code-scanning-alert" id="markdown-toc-get-a-code-scanning-alert">Get a code scanning alert</a></li>
 </ul>
 
-<p>The Licenses API returns metadata about popular open source licenses and information about a particular project's license file.</p>
+<div class="alert note">
 
-<p>The Licenses API uses <a href="https://github.com/benbalter/licensee">the open source Ruby Gem Licensee</a> to attempt to identify the project's license. Licensee matches the contents of a project's <code>LICENSE</code> file (if it exists) against a short list of known licenses. As a result, the API does not take into account the licenses of project dependencies or other means of documenting a project's license such as references to the license name in the documentation.</p>
-
-<p>If a license is matched, the license key and name returned conforms to the <a href="https://spdx.org/">SPDX specification</a>.</p>
-
-<p><strong>Note:</strong> These endpoints will also return a repository's license information:</p>
-
-<ul>
-<li><a href="/v3/repos/#get-a-repository">Get a repository</a></li>
-<li><a href="/v3/repos/#list-repositories-for-a-user">List repositories for a user</a></li>
-<li><a href="/v3/repos/#list-organization-repositories">List organization repositories</a></li>
-<li><a href="/v3/repos/forks/#list-forks">List forks</a></li>
-<li><a href="/v3/activity/watching/#list-repositories-watched-by-a-user">List repositories watched by a user</a></li>
-<li><a href="/v3/teams/#list-team-repos">List team repos</a></li>
-</ul>
-
-<div class="alert warning">
-
-<p>GitHub is a lot of things, but it’s not a law firm. As such, GitHub does not provide legal advice. Using the Licenses API or sending us an email about it does not constitute legal advice nor does it create an attorney-client relationship. If you have any questions about what you can and can't do with a particular license, you should consult with your own legal counsel before moving forward. In fact, you should always consult with your own lawyer before making any decisions that might have legal ramifications or that may impact your legal rights.</p>
-
-<p>GitHub created the License API to help users get information about open source licenses and the projects that use them. We hope it helps, but please keep in mind that we’re not lawyers (at least not most of us aren't) and that we make mistakes like everyone else. For that reason, GitHub provides the API on an “as-is” basis and makes no warranties regarding any information or licenses provided on or through it, and disclaims liability for damages resulting from using the API.</p>
+<p><strong>Note:</strong> Code scanning for open source repositories and private repositories is currently in beta and subject to change. To sign up, see <a href="https://github.com/features/security/advanced-security/signup">Advanced Security beta</a>.</p>
 
 </div>
 
+<p>The code scanning API lets you retrieve code scanning alerts from a repository. You can use the endpoints to create automated reports for the code scanning alerts in an organization. For more information, see "<a href="https://help.github.com/github/finding-security-vulnerabilities-and-errors-in-your-code">Finding security vulnerabilities and errors in your code</a>" in the GitHub Help documentation.</p>
+
 <h2>
-<a id="list-commonly-used-licenses" class="anchor" href="#list-commonly-used-licenses" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List commonly used licenses<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+<a id="list-code-scanning-alerts-for-a-repository" class="anchor" href="#list-code-scanning-alerts-for-a-repository" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List code scanning alerts for a repository<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
-<pre><code>GET /licenses
+<p>Lists all open code scanning alerts for a repository. You must use an access token with the <code>security_events</code> scope to use this endpoint. GitHub Apps must have the <code>security_events</code> read permission to use this endpoint.</p>
+
+<pre><code>GET /repos/:owner/:repo/code-scanning/alerts
 </code></pre>
+
+<h3>
+<a id="parameters" class="anchor" href="#parameters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>state</code></td>
+<td><code>string</code></td>
+<td>Set to <code>closed</code> to list only closed code scanning alerts. Default: <code>open</code>
+</td>
+</tr>
+</tbody>
+</table>
 
 <h3>
 <a id="response" class="anchor" href="#response" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
@@ -414,57 +419,42 @@
 
 <pre class="highlight highlight-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mit"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MIT License"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"spdx_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MIT"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/licenses/mit"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDc6TGljZW5zZW1pdA=="</span><span class="w">
+    </span><span class="nt">"rule_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"js/trivial-conditional"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"rule_severity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"warning"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"rule_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Useless conditional"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"tool"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CodeQL"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-05-06T12:00:00Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"open"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"closed_by"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"closed_at"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/Octo-org/octo-repo/code-scanning/alerts/25"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/Octo-org/octo-repo/security/code-scanning/25"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"lgpl-3.0"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GNU Lesser General Public License v3.0"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"spdx_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LGPL-3.0"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/licenses/lgpl-3.0"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mpl-2.0"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mozilla Public License 2.0"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"spdx_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MPL-2.0"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/licenses/mpl-2.0"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"agpl-3.0"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GNU Affero General Public License v3.0"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"spdx_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AGPL-3.0"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/licenses/agpl-3.0"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unlicense"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The Unlicense"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"spdx_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Unlicense"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/licenses/unlicense"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"apache-2.0"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Apache License 2.0"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"spdx_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Apache-2.0"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/licenses/apache-2.0"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gpl-3.0"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GNU General Public License v3.0"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"spdx_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"GPL-3.0"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/licenses/gpl-3.0"</span><span class="w">
+    </span><span class="nt">"rule_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"js/useless-expression"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"rule_severity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"warning"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"rule_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Expression has no effect"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"tool"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CodeQL"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-05-06T12:00:00Z"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"open"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"closed_by"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"closed_at"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/Octo-org/octo-repo/code-scanning/alerts/88"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/Octo-org/octo-repo/security/code-scanning/88"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 
 
 <h2>
-<a id="get-an-individual-license" class="anchor" href="#get-an-individual-license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get an individual license<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+<a id="get-a-code-scanning-alert" class="anchor" href="#get-a-code-scanning-alert" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get a code scanning alert<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
-<pre><code>GET /licenses/:license
+<p>Gets a single code scanning alert. You must use an access token with the <code>security_events</code> scope to use this endpoint. GitHub Apps must have the <code>security_events</code> read permission to use this endpoint.</p>
+
+<p>The security <code>alert_id</code> is found at the end of the security alert's URL. For example, the security alert ID for <code>https://github.com/Octo-org/octo-repo/security/code-scanning/88</code> is <code>88</code>.</p>
+
+<pre><code>GET /repos/:owner/:repo/code-scanning/alerts/:alert_id
 </code></pre>
 
 <h3>
@@ -475,75 +465,16 @@
 
 
 <pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mit"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MIT License"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"spdx_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MIT"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/licenses/mit"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDc6TGljZW5zZW1pdA=="</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://choosealicense.com/licenses/mit/"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A permissive license that is short and to the point. It lets people do anything with your code with proper attribution and without warranty."</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"implementation"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Create a text file (typically named LICENSE or LICENSE.txt) in the root of your source code and copy the text of the license into the file. Replace [year] with the current year and [fullname] with the name (or names) of the copyright holders."</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"permissions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="s2">"commercial-use"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"modifications"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"distribution"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"sublicense"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"private-use"</span><span class="w">
-  </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"conditions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="s2">"include-copyright"</span><span class="w">
-  </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"limitations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="s2">"no-liability"</span><span class="w">
-  </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"body"</span><span class="p">:</span><span class="w"> </span><span class="s2">"\n\nThe MIT License (MIT)\n\nCopyright (c) [year] [fullname]\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"featured"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-
-
-<h2>
-<a id="get-the-contents-of-a-repositorys-license" class="anchor" href="#get-the-contents-of-a-repositorys-license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get the contents of a repository's license<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
-</h2>
-
-<p>This method returns the contents of the repository's license file, if one is detected.</p>
-
-<pre><code>GET /repos/:owner/:repo/license
-</code></pre>
-
-<p>Similar to <a href="/v3/repos/contents/#get-contents">the repository contents API</a>, this method also supports <a href="/v3/repos/contents/#custom-media-types">custom media types</a> for retrieving the raw license content or rendered license HTML.</p>
-
-<h3>
-<a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
-
-<pre class="highlight highlight-headers"><code>Status: 200 OK
-</code></pre>
-
-
-<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LICENSE"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LICENSE"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"sha"</span><span class="p">:</span><span class="w"> </span><span class="s2">"401c59dcc4570b954dd6d345e76199e1f4e76266"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">1077</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/benbalter/gman/contents/LICENSE?ref=master"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/benbalter/gman/blob/master/LICENSE"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"git_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/benbalter/gman/git/blobs/401c59dcc4570b954dd6d345e76199e1f4e76266"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"download_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://raw.githubusercontent.com/benbalter/gman/master/LICENSE?lab=true"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"file"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"VGhlIE1JVCBMaWNlbnNlIChNSVQpCgpDb3B5cmlnaHQgKGMpIDIwMTMgQmVu\nIEJhbHRlcgoKUGVybWlzc2lvbiBpcyBoZXJlYnkgZ3JhbnRlZCwgZnJlZSBv\nZiBjaGFyZ2UsIHRvIGFueSBwZXJzb24gb2J0YWluaW5nIGEgY29weSBvZgp0\naGlzIHNvZnR3YXJlIGFuZCBhc3NvY2lhdGVkIGRvY3VtZW50YXRpb24gZmls\nZXMgKHRoZSAiU29mdHdhcmUiKSwgdG8gZGVhbCBpbgp0aGUgU29mdHdhcmUg\nd2l0aG91dCByZXN0cmljdGlvbiwgaW5jbHVkaW5nIHdpdGhvdXQgbGltaXRh\ndGlvbiB0aGUgcmlnaHRzIHRvCnVzZSwgY29weSwgbW9kaWZ5LCBtZXJnZSwg\ncHVibGlzaCwgZGlzdHJpYnV0ZSwgc3VibGljZW5zZSwgYW5kL29yIHNlbGwg\nY29waWVzIG9mCnRoZSBTb2Z0d2FyZSwgYW5kIHRvIHBlcm1pdCBwZXJzb25z\nIHRvIHdob20gdGhlIFNvZnR3YXJlIGlzIGZ1cm5pc2hlZCB0byBkbyBzbywK\nc3ViamVjdCB0byB0aGUgZm9sbG93aW5nIGNvbmRpdGlvbnM6CgpUaGUgYWJv\ndmUgY29weXJpZ2h0IG5vdGljZSBhbmQgdGhpcyBwZXJtaXNzaW9uIG5vdGlj\nZSBzaGFsbCBiZSBpbmNsdWRlZCBpbiBhbGwKY29waWVzIG9yIHN1YnN0YW50\naWFsIHBvcnRpb25zIG9mIHRoZSBTb2Z0d2FyZS4KClRIRSBTT0ZUV0FSRSBJ\nUyBQUk9WSURFRCAiQVMgSVMiLCBXSVRIT1VUIFdBUlJBTlRZIE9GIEFOWSBL\nSU5ELCBFWFBSRVNTIE9SCklNUExJRUQsIElOQ0xVRElORyBCVVQgTk9UIExJ\nTUlURUQgVE8gVEhFIFdBUlJBTlRJRVMgT0YgTUVSQ0hBTlRBQklMSVRZLCBG\nSVRORVNTCkZPUiBBIFBBUlRJQ1VMQVIgUFVSUE9TRSBBTkQgTk9OSU5GUklO\nR0VNRU5ULiBJTiBOTyBFVkVOVCBTSEFMTCBUSEUgQVVUSE9SUyBPUgpDT1BZ\nUklHSFQgSE9MREVSUyBCRSBMSUFCTEUgRk9SIEFOWSBDTEFJTSwgREFNQUdF\nUyBPUiBPVEhFUiBMSUFCSUxJVFksIFdIRVRIRVIKSU4gQU4gQUNUSU9OIE9G\nIENPTlRSQUNULCBUT1JUIE9SIE9USEVSV0lTRSwgQVJJU0lORyBGUk9NLCBP\nVVQgT0YgT1IgSU4KQ09OTkVDVElPTiBXSVRIIFRIRSBTT0ZUV0FSRSBPUiBU\nSEUgVVNFIE9SIE9USEVSIERFQUxJTkdTIElOIFRIRSBTT0ZUV0FSRS4K\n"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"encoding"</span><span class="p">:</span><span class="w"> </span><span class="s2">"base64"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"_links"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"self"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/benbalter/gman/contents/LICENSE?ref=master"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"git"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/benbalter/gman/git/blobs/401c59dcc4570b954dd6d345e76199e1f4e76266"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"html"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/benbalter/gman/blob/master/LICENSE"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="nt">"license"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mit"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MIT License"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"spdx_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MIT"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/licenses/mit"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"node_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MDc6TGljZW5zZW1pdA=="</span><span class="w">
-  </span><span class="p">}</span><span class="w">
+  </span><span class="nt">"rule_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"js/useless-expression"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"rule_severity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"warning"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"rule_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Expression has no effect"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"tool"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CodeQL"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-05-06T12:00:00Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"open"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"closed_by"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"closed_at"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/Octo-org/octo-repo/code-scanning/alerts/88"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"html_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/Octo-org/octo-repo/security/code-scanning/88"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
