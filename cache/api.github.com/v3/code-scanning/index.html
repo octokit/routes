@@ -384,7 +384,7 @@
 <a id="list-code-scanning-alerts-for-a-repository" class="anchor" href="#list-code-scanning-alerts-for-a-repository" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List code scanning alerts for a repository<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
-<p>Lists all open code scanning alerts for a repository. You must use an access token with the <code>security_events</code> scope to use this endpoint. GitHub Apps must have the <code>security_events</code> read permission to use this endpoint.</p>
+<p>Lists all open code scanning alerts for the default branch (usually <code>master</code>) and protected branches in a repository. You must use an access token with the <code>security_events</code> scope to use this endpoint. GitHub Apps must have the <code>security_events</code> read permission to use this endpoint.</p>
 
 <pre><code>GET /repos/:owner/:repo/code-scanning/alerts
 </code></pre>
@@ -406,6 +406,11 @@
 <td><code>string</code></td>
 <td>Set to <code>closed</code> to list only closed code scanning alerts. Default: <code>open</code>
 </td>
+</tr>
+<tr>
+<td><code>ref</code></td>
+<td><code>string</code></td>
+<td>Returns a list of code scanning alerts for a specific brach reference. The <code>ref</code> must be formatted as <code>heads/&lt;branch name&gt;</code>.</td>
 </tr>
 </tbody>
 </table>
@@ -444,6 +449,13 @@
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
+
+
+<h3>
+<a id="response-if-the-ref-doesnt-match-an-existing-ref" class="anchor" href="#response-if-the-ref-doesnt-match-an-existing-ref" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if the <code>ref</code> doesn't match an existing ref</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 404 Not Found
+</code></pre>
 
 
 <h2>
