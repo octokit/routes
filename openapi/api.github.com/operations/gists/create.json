@@ -36,54 +36,16 @@
               "html_url": { "type": "string" },
               "files": {
                 "type": "object",
-                "properties": {
-                  "hello_world.rb": {
-                    "type": "object",
-                    "properties": {
-                      "filename": { "type": "string" },
-                      "type": { "type": "string" },
-                      "language": { "type": "string" },
-                      "raw_url": { "type": "string" },
-                      "size": { "type": "number" },
-                      "truncated": { "type": "boolean" },
-                      "content": { "type": "string" }
-                    }
-                  },
-                  "hello_world.py": {
-                    "type": "object",
-                    "properties": {
-                      "filename": { "type": "string" },
-                      "type": { "type": "string" },
-                      "language": { "type": "string" },
-                      "raw_url": { "type": "string" },
-                      "size": { "type": "number" },
-                      "truncated": { "type": "boolean" },
-                      "content": { "type": "string" }
-                    }
-                  },
-                  "hello_world_ruby.txt": {
-                    "type": "object",
-                    "properties": {
-                      "filename": { "type": "string" },
-                      "type": { "type": "string" },
-                      "language": { "type": "string" },
-                      "raw_url": { "type": "string" },
-                      "size": { "type": "number" },
-                      "truncated": { "type": "boolean" },
-                      "content": { "type": "string" }
-                    }
-                  },
-                  "hello_world_python.txt": {
-                    "type": "object",
-                    "properties": {
-                      "filename": { "type": "string" },
-                      "type": { "type": "string" },
-                      "language": { "type": "string" },
-                      "raw_url": { "type": "string" },
-                      "size": { "type": "number" },
-                      "truncated": { "type": "boolean" },
-                      "content": { "type": "string" }
-                    }
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "filename": { "type": "string" },
+                    "type": { "type": "string" },
+                    "language": { "type": "string" },
+                    "raw_url": { "type": "string" },
+                    "size": { "type": "number" },
+                    "truncated": { "type": "boolean" },
+                    "content": { "type": "string" }
                   }
                 }
               },
@@ -346,16 +308,10 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/gists \\\n  -d '{\"files\":{\"content\":\"content\"}}'"
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/gists \\\n  -d '{\"files\":{}}'"
     },
-    {
-      "lang": "JS",
-      "source": "octokit.gists.create({\n  files: {\n    content: 'content'\n  }\n})"
-    },
-    {
-      "lang": "Ruby",
-      "source": "octokit.create(\n  {\n    content: 'content'\n  }\n)"
-    }
+    { "lang": "JS", "source": "octokit.gists.create({\n  files: {}\n})" },
+    { "lang": "Ruby", "source": "octokit.create(\n  {}\n)" }
   ],
   "x-github": {
     "legacy": false,
@@ -373,10 +329,13 @@
             "files": {
               "type": "object",
               "description": "The filenames and content of each file in the gist. The keys in the `files` object represent the filename and have the type `string`.",
-              "properties": {
-                "content": {
-                  "type": "string",
-                  "description": "The content of the file."
+              "additionalProperties": {
+                "type": "object",
+                "properties": {
+                  "content": {
+                    "type": "string",
+                    "description": "The content of the file."
+                  }
                 }
               }
             },
