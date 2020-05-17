@@ -1,11 +1,11 @@
 {
-  "summary": "Get your public key",
-  "description": "Gets your public key, which you must store. You need your public key to use other secrets endpoints. Use the returned `key` to encrypt your secrets. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `secrets` permission to use this endpoint.",
-  "operationId": "actions/get-public-key",
+  "summary": "Get a repository public key",
+  "description": "Gets your public key, which you need to encrypt secrets. You need to encrypt a secret before you can create or update secrets. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `secrets` repository permission to use this endpoint.",
+  "operationId": "actions/get-repo-public-key",
   "tags": ["actions"],
   "externalDocs": {
     "description": "API method documentation",
-    "url": "https://developer.github.com/v3/actions/secrets/#get-your-public-key"
+    "url": "https://developer.github.com/v3/actions/secrets/#get-a-repository-public-key"
   },
   "parameters": [
     {
@@ -43,7 +43,7 @@
             }
           },
           "example": {
-            "key_id": "1234",
+            "key_id": "012345678912345678",
             "key": "2Sg8iYjAxxmI2LvUXpJjkYrMxURPc8r+dB7TJyvv1234"
           }
         }
@@ -57,9 +57,9 @@
     },
     {
       "lang": "JS",
-      "source": "octokit.actions.getPublicKey({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
+      "source": "octokit.actions.getRepoPublicKey({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
     },
-    { "lang": "Ruby", "source": "octokit.public_key(\n  'hello-world'\n)" }
+    { "lang": "Ruby", "source": "octokit.repo_public_key(\n  'hello-world'\n)" }
   ],
   "x-github": {
     "legacy": false,
@@ -67,5 +67,13 @@
     "githubCloudOnly": false,
     "previews": []
   },
-  "x-changes": []
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2020-05-14",
+      "note": "\"actions/get-public-key\" operation ID is now \"actions/get-repo-public-key\"",
+      "before": { "operationId": "actions/get-public-key" },
+      "after": { "operationId": "actions/get-repo-public-key" }
+    }
+  ]
 }
