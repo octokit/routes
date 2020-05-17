@@ -103,7 +103,7 @@
     <option value="/v3/activity/">Activity overview
     </option>
 <option value="/v3/activity/events/">Events</option>
-    <option value="/v3/activity/events/types/">Event Types &amp; Payloads</option>
+    <option value="/v3/activity/event_types/">Event Types and Payloads</option>
     <option value="/v3/activity/feeds/">Feeds</option>
     <option value="/v3/activity/notifications/">Notifications</option>
     <option value="/v3/activity/starring/">Starring</option>
@@ -268,13 +268,13 @@
 </ul>
 <p>The check runs API enables you to build GitHub Apps that run powerful checks against code changes in a repository. You can create apps that perform continuous integration, code linting, or code scanning services and provide detailed feedback on commits.</p>
 <p><img src="https://github-images.s3.amazonaws.com/enterprise/developer-site/2.20/assets/images/check_runs.png" alt="Check runs workflow"></p>
-<p>When someone pushes code to a repository, GitHub creates a check suite for the last commit. GitHub Apps with the <code>checks:write</code> permission receive a <a href="/enterprise/2.20/v3/activity/events/types/#checksuiteevent"><code>check_suite</code></a> webhook with the <code>requested</code> action. When your GitHub App receives the <code>check_suite</code> event, it can create new check runs for the latest commit. GitHub automatically adds new check runs to the correct <a href="/enterprise/2.20/v3/checks/suites/">check suite</a> based on the check run's repository and SHA. Check suites contain one or more check runs and report a summary conclusion for all the check runs in the suite.</p>
+<p>When someone pushes code to a repository, GitHub creates a check suite for the last commit. GitHub Apps with the <code>checks:write</code> permission receive a <a href="/enterprise/2.20/webhooks/event-payloads/#check_suite"><code>check_suite</code></a> webhook with the <code>requested</code> action. When your GitHub App receives the <code>check_suite</code> event, it can create new check runs for the latest commit. GitHub automatically adds new check runs to the correct <a href="/enterprise/2.20/v3/checks/suites/">check suite</a> based on the check run's repository and SHA. Check suites contain one or more check runs and report a summary conclusion for all the check runs in the suite.</p>
 <p>If a check run is in a incomplete state for more than 14 days, then the check run's <code>conclusion</code> becomes <code>stale</code> and appears on GitHub as stale with <span class="octicon octicon-issue-reopened" aria-label="The issue-reopened icon " title="The issue-reopened icon "></span>. Only GitHub can mark check runs as <code>stale</code>. For more information about possible conclusions of a check run, see the <a href="/enterprise/2.20/v3/checks/runs/#parameters"><code>conclusion</code> parameter</a>.</p>
-<p>As soon as you receive the <a href="/enterprise/2.20/v3/activity/events/types/#checksuiteevent"><code>check_suite</code></a> webhook, you can create the check run, even if the check is not complete. You can update the <code>status</code> of the check run as it completes with the values <code>queued</code>, <code>in_progress</code>, or <code>completed</code>, and you can update the <code>output</code> as more details become available. A check run can contain timestamps, a link to more details on your external site, detailed annotations for specific lines of code, and information about the analysis performed.</p>
+<p>As soon as you receive the <a href="/enterprise/2.20/webhooks/event-payloads/#check_suite"><code>check_suite</code></a> webhook, you can create the check run, even if the check is not complete. You can update the <code>status</code> of the check run as it completes with the values <code>queued</code>, <code>in_progress</code>, or <code>completed</code>, and you can update the <code>output</code> as more details become available. A check run can contain timestamps, a link to more details on your external site, detailed annotations for specific lines of code, and information about the analysis performed.</p>
 <p><img src="https://github-images.s3.amazonaws.com/enterprise/developer-site/2.20/assets/images/check_run_annotations.png" alt="Check run annotation"></p>
-<p>A check can also be manually re-run in the GitHub UI. See "<a href="https://help.github.com/articles/about-status-checks#checks">About status checks</a>" for more details. When this occurs, the GitHub App that created the check run will receive the <a href="/enterprise/2.20/v3/activity/events/types/#checkrunevent"><code>check_run</code></a> webhook requesting a new check run. If you create a check run without creating a check suite, GitHub creates the check suite for you automatically.</p>
+<p>A check can also be manually re-run in the GitHub UI. See "<a href="https://help.github.com/articles/about-status-checks#checks">About status checks</a>" for more details. When this occurs, the GitHub App that created the check run will receive the <a href="/enterprise/2.20/webhooks/event-payloads/#check_run"><code>check_run</code></a> webhook requesting a new check run. If you create a check run without creating a check suite, GitHub creates the check suite for you automatically.</p>
 <p>Write permission for the Checks API is only available to GitHub Apps. OAuth Apps and authenticated users can view check runs and check suites, but they are not able to create them. If you aren't building a GitHub App, you might be interested in the <a href="/enterprise/2.20/v3/repos/statuses/">Statuses API</a>.</p>
-<p>To use the check runs API, the GitHub App must have the <code>checks:write</code> permission and can also subscribe to the <a href="/enterprise/2.20/v3/activity/events/types/#checkrunevent">check_run</a> webhook.</p>
+<p>To use the check runs API, the GitHub App must have the <code>checks:write</code> permission and can also subscribe to the <a href="/enterprise/2.20/webhooks/event-payloads#check_run">check_run</a> webhook.</p>
 <h3>
 <a id="check-runs-and-requested-actions" class="anchor" href="#check-runs-and-requested-actions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Check runs and requested actions</h3>
 <p>When you set up a check run with requested actions (not to be confused with GitHub Actions), you can display a button in the pull request view on GitHub that allows people to request your GitHub App to perform additional tasks.</p>
@@ -287,7 +287,7 @@
     </span><span class="p">}]</span><span class="w">
 </span></code></pre>
 <p><img src="https://github-images.s3.amazonaws.com/enterprise/developer-site/2.20/assets/images/github-apps/github_apps_checks_fix_this_button.png" alt="Check run requested action button"></p>
-<p>When a user clicks the button, GitHub sends the <a href="/enterprise/2.20/v3/activity/events/types/#checkrunevent"><code>check_run.requested_action</code> webhook</a> to your app. When your app receives a <code>check_run.requested_action</code> webhook event, it can look for the <code>requested_action.identifier</code> key in the webhook payload to determine which button was clicked and perform the requested task.</p>
+<p>When a user clicks the button, GitHub sends the <a href="/enterprise/2.20/webhooks/event-payloads/#check_run"><code>check_run.requested_action</code> webhook</a> to your app. When your app receives a <code>check_run.requested_action</code> webhook event, it can look for the <code>requested_action.identifier</code> key in the webhook payload to determine which button was clicked and perform the requested task.</p>
 <p>For a detailed example of how to set up requested actions with the Checks API, see "<a href="/enterprise/2.20/apps/quickstart-guides/creating-ci-tests-with-the-checks-api/#part-2-creating-the-octo-rubocop-ci-test">Creating CI tests with the Checks API</a>."</p>
 <h2>
 <a id="create-a-check-run" class="anchor" href="#create-a-check-run" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a check run<a href="/enterprise/2.20/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
@@ -369,7 +369,7 @@
 <tr>
 <td><code>actions</code></td>
 <td><code>array of objects</code></td>
-<td>Displays a button on GitHub that can be clicked to alert your app to do additional tasks. For example, a code linting app can display a button that automatically fixes detected errors. The button created in this object is displayed after the check run completes. When a user clicks the button, GitHub sends the <a href="/enterprise/2.20/v3/activity/events/types/#checkrunevent"><code>check_run.requested_action</code> webhook</a> to your app. Each action includes a <code>label</code>, <code>identifier</code> and <code>description</code>. A maximum of three actions are accepted. See the <a href="#actions-object"><code>actions</code> object</a> description. To learn more about check runs and requested actions, see "<a href="/enterprise/2.20/v3/checks/runs/#check-runs-and-requested-actions">Check runs and requested actions</a>."</td>
+<td>Displays a button on GitHub that can be clicked to alert your app to do additional tasks. For example, a code linting app can display a button that automatically fixes detected errors. The button created in this object is displayed after the check run completes. When a user clicks the button, GitHub sends the <a href="/enterprise/2.20/webhooks/event-payloads/#check_run"><code>check_run.requested_action</code> webhook</a> to your app. Each action includes a <code>label</code>, <code>identifier</code> and <code>description</code>. A maximum of three actions are accepted. See the <a href="#actions-object"><code>actions</code> object</a> description. To learn more about check runs and requested actions, see "<a href="/enterprise/2.20/v3/checks/runs/#check-runs-and-requested-actions">Check runs and requested actions</a>."</td>
 </tr>
 </tbody>
 </table>
@@ -1591,7 +1591,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
     <option value="/v3/activity/">Activity overview
     </option>
 <option value="/v3/activity/events/">Events</option>
-    <option value="/v3/activity/events/types/">Event Types &amp; Payloads</option>
+    <option value="/v3/activity/event_types/">Event Types and Payloads</option>
     <option value="/v3/activity/feeds/">Feeds</option>
     <option value="/v3/activity/notifications/">Notifications</option>
     <option value="/v3/activity/starring/">Starring</option>
@@ -1764,7 +1764,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </h3>
         <ul class="js-guides">
           <li><a href="/enterprise/2.20/v3/activity/events/">Events</a></li>
-          <li><a href="/enterprise/2.20/v3/activity/events/types/">Event Types &amp; Payloads</a></li>
+          <li><a href="/enterprise/2.20/v3/activity/event_types/">Event Types and Payloads</a></li>
           <li><a href="/enterprise/2.20/v3/activity/feeds/">Feeds</a></li>
           <li><a href="/enterprise/2.20/v3/activity/notifications/">Notifications</a></li>
           <li><a href="/enterprise/2.20/v3/activity/starring/">Starring</a></li>

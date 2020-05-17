@@ -103,7 +103,7 @@
     <option value="/v3/activity/">Activity overview
     </option>
 <option value="/v3/activity/events/">Events</option>
-    <option value="/v3/activity/events/types/">Event Types &amp; Payloads</option>
+    <option value="/v3/activity/event_types/">Event Types and Payloads</option>
     <option value="/v3/activity/feeds/">Feeds</option>
     <option value="/v3/activity/notifications/">Notifications</option>
     <option value="/v3/activity/starring/">Starring</option>
@@ -257,7 +257,7 @@
       <div class="content col-md-8">
         <h1>
 <a id="events" class="anchor" href="#events" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events</h1>
-<p>This is a read-only API to the GitHub Enterprise events. These events power the various activity streams on the site. An events API for repository issues is also available. For more information, see the "<a href="/enterprise/2.19/v3/issues/events/">Issue Events API</a>."</p>
+<p>This is a read-only API to the GitHub Enterprise events. These events power the various activity streams on the site.</p>
 <ul id="markdown-toc">
 <li><a href="#list-public-events" id="markdown-toc-list-public-events">List public events</a></li>
 <li><a href="#list-repository-events" id="markdown-toc-list-repository-events">List repository events</a></li>
@@ -269,8 +269,8 @@
 <li><a href="#list-public-events-for-a-user" id="markdown-toc-list-public-events-for-a-user">List public events for a user</a></li>
 <li><a href="#list-organization-events-for-the-authenticated-user" id="markdown-toc-list-organization-events-for-the-authenticated-user">List organization events for the authenticated user</a></li>
 </ul>
-<p>Events are optimized for polling with the "ETag" header.  If no new events have been triggered, you will see a "304 Not Modified" response, and your current rate limit will be untouched.  There is also an "X-Poll-Interval" header that specifies how often (in seconds) you are allowed to poll.  In times of high
-server load, the time may increase.  Please obey the header.</p>
+<p>The Events API can return different types of events triggered by activity on GitHub. For more information about the specific events that you can receive from the Events API, see "<a href="/enterprise/2.19/v3/activity/event_types">Event types and payloads</a>." An events API for repository issues is also available. For more information, see the "<a href="/enterprise/2.19/v3/issues/events/">Issue Events API</a>."</p>
+<p>Events are optimized for polling with the "ETag" header. If no new events have been triggered, you will see a "304 Not Modified" response, and your current rate limit will be untouched. There is also an "X-Poll-Interval" header that specifies how often (in seconds) you are allowed to poll. In times of high server load, the time may increase. Please obey the header.</p>
 <pre class="command-line">
 <span class="command">curl -I http(s)://<em>[hostname]</em>/api/v3/users/tater/events</span>
 <span class="output">HTTP/1.1 200 OK</span>
@@ -284,41 +284,6 @@ server load, the time may increase.  Please obey the header.</p>
 </pre>
 <p>Events support <a href="/enterprise/2.19/v3/#pagination">pagination</a>, however the <code>per_page</code> option is unsupported. The fixed page size is 30 items. Fetching up to ten pages is supported, for a total of 300 events.</p>
 <p>Only events created within the past 90 days will be included in timelines. Events older than 90 days will not be included (even if the total number of events in the timeline is less than 300).</p>
-<p>All Events have the same response format:</p>
-<pre class="highlight highlight-headers"><code>Status: 200 OK
-Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
-      &lt;https://api.github.com/resource?page=5&gt;; rel="last"
-</code></pre>
-<pre class="highlight highlight-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Event"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"public"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"payload"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"repo"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat/Hello-World"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/repos/octocat/Hello-World"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"actor"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"octocat"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"gravatar_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"avatar_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/images/error/octocat_happy.gif"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/users/octocat"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"org"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"login"</span><span class="p">:</span><span class="w"> </span><span class="s2">"github"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"gravatar_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://api.github.com/orgs/github"</span><span class="p">,</span><span class="w">
-      </span><span class="nt">"avatar_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://github.com/images/error/octocat_happy.gif"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2011-09-06T17:26:27Z"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345"</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre>
 <h2>
 <a id="list-public-events" class="anchor" href="#list-public-events" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List public events<a href="/enterprise/2.19/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
@@ -385,7 +350,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
     <option value="/v3/activity/">Activity overview
     </option>
 <option value="/v3/activity/events/">Events</option>
-    <option value="/v3/activity/events/types/">Event Types &amp; Payloads</option>
+    <option value="/v3/activity/event_types/">Event Types and Payloads</option>
     <option value="/v3/activity/feeds/">Feeds</option>
     <option value="/v3/activity/notifications/">Notifications</option>
     <option value="/v3/activity/starring/">Starring</option>
@@ -557,7 +522,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 </h3>
         <ul class="js-guides">
           <li><a href="/enterprise/2.19/v3/activity/events/">Events</a></li>
-          <li><a href="/enterprise/2.19/v3/activity/events/types/">Event Types &amp; Payloads</a></li>
+          <li><a href="/enterprise/2.19/v3/activity/event_types/">Event Types and Payloads</a></li>
           <li><a href="/enterprise/2.19/v3/activity/feeds/">Feeds</a></li>
           <li><a href="/enterprise/2.19/v3/activity/notifications/">Notifications</a></li>
           <li><a href="/enterprise/2.19/v3/activity/starring/">Starring</a></li>

@@ -103,7 +103,7 @@
     <option value="/v3/activity/">Activity overview
     </option>
 <option value="/v3/activity/events/">Events</option>
-    <option value="/v3/activity/events/types/">Event Types &amp; Payloads</option>
+    <option value="/v3/activity/event_types/">Event Types and Payloads</option>
     <option value="/v3/activity/feeds/">Feeds</option>
     <option value="/v3/activity/notifications/">Notifications</option>
     <option value="/v3/activity/starring/">Starring</option>
@@ -275,7 +275,7 @@
 <div class="alert warning">
 <p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact your GitHub Enterprise site administrator.</p>
 </div>
-<p>Global webhooks are installed on a GitHub Enterprise instance. You can use global webhooks to automatically monitor, respond to, or enforce rules for users, organizations, teams, and repositories on your instance. Global webhooks can subscribe to the <a href="/enterprise/2.20/v3/activity/events/types/#organizationevent">organization</a>, <a href="/enterprise/2.20/v3/activity/events/types/#userevent-enterprise">user</a>, <a href="/enterprise/2.20/v3/activity/events/types/#repositoryevent">repository</a>, <a href="/enterprise/2.20/v3/activity/events/types/#teamevent">team</a>, <a href="/enterprise/2.20/v3/activity/events/types/#memberevent">member</a>, <a href="/enterprise/2.20/v3/activity/events/types/#membershipevent">membership</a>, <a href="/enterprise/2.20/v3/activity/events/types/#forkevent">fork</a> and <a href="/enterprise/2.20/webhooks/#ping-event">ping</a> event types.</p>
+<p>Global webhooks are installed on a GitHub Enterprise instance. You can use global webhooks to automatically monitor, respond to, or enforce rules for users, organizations, teams, and repositories on your instance. Global webhooks can subscribe to the <a href="/enterprise/2.20/webhooks/event-payloads/#organization">organization</a>, <a href="/enterprise/2.20/webhooks/event-payloads/#user">user</a>, <a href="/enterprise/2.20/webhooks/event-payloads/#repository">repository</a>, <a href="/enterprise/2.20/webhooks/event-payloads/#team">team</a>, <a href="/enterprise/2.20/webhooks/event-payloads/#member">member</a>, <a href="/enterprise/2.20/webhooks/event-payloads/#membership">membership</a>, <a href="/enterprise/2.20/webhooks/event-payloads/#fork">fork</a> and <a href="/enterprise/2.20/webhooks/#ping-event">ping</a> event types.</p>
 <p><em>This API is only available to <a href="/enterprise/2.20/v3/#authentication">authenticated</a> site administrators.</em> Normal users will receive a <code>404</code> response if they try to access it. To learn how to configure global webhooks, see <a href="https://help.github.com/enterprise/2.20/admin/guides/user-management/about-global-webhooks">about global webhooks</a> in the GitHub Help documentation.</p>
 <h2>
 <a id="list-global-hooks" class="anchor" href="#list-global-hooks" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List global hooks</h2>
@@ -393,7 +393,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <tr>
 <td><code>events</code></td>
 <td><code>array</code></td>
-<td>The <a href="/enterprise/2.20/v3/activity/events/types/">events</a> that trigger this webhook.  A global webhook can be triggered by <code>user</code> and <code>organization</code> events. Default: <code>user</code> and <code>organization</code>.</td>
+<td>The <a href="/enterprise/2.20/webhooks/event-payloads">events</a> that trigger this webhook.  A global webhook can be triggered by <code>user</code> and <code>organization</code> events. Default: <code>user</code> and <code>organization</code>.</td>
 </tr>
 <tr>
 <td><code>active</code></td>
@@ -427,7 +427,7 @@ The <code>config</code> object can accept the following keys:</p>
 <tr>
 <td><code>secret</code></td>
 <td><code>string</code></td>
-<td>If provided, the <code>secret</code> will be used as the <code>key</code> to generate the HMAC hex digest value in the <a href="/enterprise/2.20/webhooks/#delivery-headers"><code>X-Hub-Signature</code></a> header.</td>
+<td>If provided, the <code>secret</code> will be used as the <code>key</code> to generate the HMAC hex digest value in the <a href="/enterprise/2.20/webhooks/event-payloads/#delivery-headers"><code>X-Hub-Signature</code></a> header.</td>
 </tr>
 <tr>
 <td><code>insecure_ssl</code></td>
@@ -510,7 +510,7 @@ Location:
 <tr>
 <td><code>events</code></td>
 <td><code>array</code></td>
-<td>The <a href="/enterprise/2.20/v3/activity/events/types/">events</a> that trigger this webhook.  A global webhook can be triggered by <code>user</code> and <code>organization</code> events. Default: <code>user</code> and <code>organization</code>.</td>
+<td>The <a href="/enterprise/2.20/webhooks/event-payloads">events</a> that trigger this webhook.  A global webhook can be triggered by <code>user</code> and <code>organization</code> events. Default: <code>user</code> and <code>organization</code>.</td>
 </tr>
 <tr>
 <td><code>active</code></td>
@@ -544,7 +544,7 @@ The <code>config</code> object can accept the following keys:</p>
 <tr>
 <td><code>secret</code></td>
 <td><code>string</code></td>
-<td>If provided, the <code>secret</code> will be used as the <code>key</code> to generate the HMAC hex digest value in the <a href="/enterprise/2.20/webhooks/#delivery-headers"><code>X-Hub-Signature</code></a> header.</td>
+<td>If provided, the <code>secret</code> will be used as the <code>key</code> to generate the HMAC hex digest value in the <a href="/enterprise/2.20/webhooks/event-payloads/#delivery-headers"><code>X-Hub-Signature</code></a> header.</td>
 </tr>
 <tr>
 <td><code>insecure_ssl</code></td>
@@ -628,7 +628,7 @@ The <code>config</code> object can accept the following keys:</p>
 <p>For more best practices, <a href="/enterprise/2.20/guides/best-practices-for-integrators/">see our guide</a>.</p>
 <h3>
 <a id="webhook-headers" class="anchor" href="#webhook-headers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Webhook headers</h3>
-<p>GitHub Enterprise will send along several HTTP headers to differentiate between event types and payload identifiers. See <a href="/enterprise/2.20/webhooks/#delivery-headers">webhook headers</a> for details.</p>
+<p>GitHub Enterprise will send along several HTTP headers to differentiate between event types and payload identifiers. See <a href="/enterprise/2.20/webhooks/event-payloads/#delivery-headers">webhook headers</a> for details.</p>
       </div>
       <div class="nav-select nav-select-bottom hide-lg hide-xl">
         <select class="form-select mt-4" onchange="if (this.value) window.location.href=this.value">
@@ -647,7 +647,7 @@ The <code>config</code> object can accept the following keys:</p>
     <option value="/v3/activity/">Activity overview
     </option>
 <option value="/v3/activity/events/">Events</option>
-    <option value="/v3/activity/events/types/">Event Types &amp; Payloads</option>
+    <option value="/v3/activity/event_types/">Event Types and Payloads</option>
     <option value="/v3/activity/feeds/">Feeds</option>
     <option value="/v3/activity/notifications/">Notifications</option>
     <option value="/v3/activity/starring/">Starring</option>
@@ -820,7 +820,7 @@ The <code>config</code> object can accept the following keys:</p>
 </h3>
         <ul class="js-guides">
           <li><a href="/enterprise/2.20/v3/activity/events/">Events</a></li>
-          <li><a href="/enterprise/2.20/v3/activity/events/types/">Event Types &amp; Payloads</a></li>
+          <li><a href="/enterprise/2.20/v3/activity/event_types/">Event Types and Payloads</a></li>
           <li><a href="/enterprise/2.20/v3/activity/feeds/">Feeds</a></li>
           <li><a href="/enterprise/2.20/v3/activity/notifications/">Notifications</a></li>
           <li><a href="/enterprise/2.20/v3/activity/starring/">Starring</a></li>
