@@ -1,0 +1,98 @@
+{
+  "summary": "Get workflow usage",
+  "description": "**Warning:** This GitHub Actions usage endpoint is currently in public beta and subject to change. For more information, see \"[GitHub Actions API workflow usage](https://developer.github.com/changes/2020-05-15-actions-api-workflow-usage).\"\n\nGets the number of billable minutes used by a specific workflow during the current billing cycle. Billable minutes only apply to workflows in private repositories that use GitHub-hosted runners. Usage is listed for each GitHub-hosted runner operating system in milliseconds. The usage does not include the multiplier for macOS and Windows runners and is not rounded up to the nearest whole minute. For more information, see \"[Managing billing for GitHub Actions](https://help.github.com/github/setting-up-and-managing-billing-and-payments-on-github/managing-billing-for-github-actions)\" in the GitHub Help documentation.\n\nYou can also replace `:workflow_id` with `:workflow_file_name`. For example, you could use `main.yml`. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.",
+  "operationId": "actions/get-workflow-usage",
+  "tags": ["actions"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/actions/workflows/#get-workflow-usage"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "workflow_id",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "billable": {
+                "type": "object",
+                "properties": {
+                  "UBUNTU": {
+                    "type": "object",
+                    "properties": { "total_ms": { "type": "number" } }
+                  },
+                  "MACOS": {
+                    "type": "object",
+                    "properties": { "total_ms": { "type": "number" } }
+                  },
+                  "WINDOWS": {
+                    "type": "object",
+                    "properties": { "total_ms": { "type": "number" } }
+                  }
+                }
+              }
+            }
+          },
+          "example": {
+            "billable": {
+              "UBUNTU": { "total_ms": 180000 },
+              "MACOS": { "total_ms": 240000 },
+              "WINDOWS": { "total_ms": 300000 }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/repos/octocat/hello-world/actions/workflows/42/timing"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.actions.getWorkflowUsage({\n  owner: 'octocat',\n  repo: 'hello-world',\n  workflow_id: 42\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.workflow_usage(\n  'hello-world',\n  42\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}

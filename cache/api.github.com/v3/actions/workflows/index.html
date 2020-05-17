@@ -159,7 +159,7 @@
   <optgroup label="Activity">
     <option value="/v3/activity/">Activity overview</a></h3>
     <option value="/v3/activity/events/">Events</option>
-    <option value="/v3/activity/events/types/">Event Types &amp; Payloads</option>
+    <option value="/v3/activity/event_types/">Event Types and Payloads</option>
     <option value="/v3/activity/feeds/">Feeds</option>
     <option value="/v3/activity/notifications/">Notifications</option>
     <option value="/v3/activity/starring/">Starring</option>
@@ -369,6 +369,7 @@
 <ul id="markdown-toc">
 <li><a href="#list-repository-workflows" id="markdown-toc-list-repository-workflows">List repository workflows</a></li>
 <li><a href="#get-a-workflow" id="markdown-toc-get-a-workflow">Get a workflow</a></li>
+<li><a href="#get-workflow-usage" id="markdown-toc-get-workflow-usage">Get workflow usage</a></li>
 </ul>
 
 <p>Workflows automate your software development life cycle with a wide range of tools and services. For more information, see "<a href="https://help.github.com/en/actions/automating-your-workflow-with-github-actions">Automating your workflow with GitHub Actions</a>" in the GitHub Help documentation.</p>
@@ -385,7 +386,7 @@ GitHub Actions is available with GitHub Free, GitHub Pro, GitHub Free for organi
 <a id="list-repository-workflows" class="anchor" href="#list-repository-workflows" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List repository workflows<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
-<p>Lists the workflows in a repository. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the <code>repo</code> scope. GitHub Apps must have the <code>actions</code> permission to use this endpoint.</p>
+<p>Lists the workflows in a repository. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the <code>repo</code> scope. GitHub Apps must have the <code>actions:read</code> permission to use this endpoint.</p>
 
 <pre><code>GET /repos/:owner/:repo/actions/workflows
 </code></pre>
@@ -435,18 +436,10 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
 <a id="get-a-workflow" class="anchor" href="#get-a-workflow" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get a workflow<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
-<p>Gets a specific workflow. You can also replace <code>:workflow_id</code> with <code>:workflow_file_name</code>. For example, you could use <code>main.yml</code>. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the <code>repo</code> scope. GitHub Apps must have the <code>actions</code> permission to use this endpoint.</p>
+<p>Gets a specific workflow. You can also replace <code>:workflow_id</code> with <code>:workflow_file_name</code>. For example, you could use <code>main.yml</code>. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the <code>repo</code> scope. GitHub Apps must have the <code>actions:read</code> permission to use this endpoint.</p>
 
 <pre><code>GET /repos/:owner/:repo/actions/workflows/:workflow_id
 </code></pre>
-
-<h3>
-<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
-
-<pre class="command-line">
-curl -u username:token \
-"https://api.github.com/repos/octo-org/hello-world-javascript-action/actions/workflows/72844"
-</pre>
 
 <h3>
 <a id="response-1" class="anchor" href="#response-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
@@ -469,6 +462,45 @@ curl -u username:token \
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 
+
+<h2>
+<a id="get-workflow-usage" class="anchor" href="#get-workflow-usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get workflow usage</h2>
+
+<div class="alert warning">
+
+<p><strong>Warning:</strong> This GitHub Actions usage endpoint is currently in public beta and subject to change. For more information, see "<a href="/changes/2020-05-15-actions-api-workflow-usage">GitHub Actions API workflow usage</a>."</p>
+
+</div>
+
+<p>Gets the number of billable minutes used by a specific workflow during the current billing cycle. Billable minutes only apply to workflows in private repositories that use GitHub-hosted runners. Usage is listed for each GitHub-hosted runner operating system in milliseconds. The usage does not include the multiplier for macOS and Windows runners and is not rounded up to the nearest whole minute. For more information, see "<a href="https://help.github.com/github/setting-up-and-managing-billing-and-payments-on-github/managing-billing-for-github-actions">Managing billing for GitHub Actions</a>" in the GitHub Help documentation.</p>
+
+<p>You can also replace <code>:workflow_id</code> with <code>:workflow_file_name</code>. For example, you could use <code>main.yml</code>. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the <code>repo</code> scope. GitHub Apps must have the <code>actions:read</code> permission to use this endpoint. </p>
+
+<pre><code>GET /repos/:owner/:repo/actions/workflows/:workflow_id/timing
+</code></pre>
+
+<h3>
+<a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+
+
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">"billable"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"UBUNTU"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"total_ms"</span><span class="p">:</span><span class="w"> </span><span class="mi">180000</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"MACOS"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"total_ms"</span><span class="p">:</span><span class="w"> </span><span class="mi">240000</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">"WINDOWS"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">"total_ms"</span><span class="p">:</span><span class="w"> </span><span class="mi">300000</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+
       </div>
 
       <div class="nav-select nav-select-bottom hide-lg hide-xl">
@@ -488,7 +520,7 @@ curl -u username:token \
   <optgroup label="Activity">
     <option value="/v3/activity/">Activity overview</a></h3>
     <option value="/v3/activity/events/">Events</option>
-    <option value="/v3/activity/events/types/">Event Types &amp; Payloads</option>
+    <option value="/v3/activity/event_types/">Event Types and Payloads</option>
     <option value="/v3/activity/feeds/">Feeds</option>
     <option value="/v3/activity/notifications/">Notifications</option>
     <option value="/v3/activity/starring/">Starring</option>
@@ -708,7 +740,7 @@ curl -u username:token \
         <h3><a href="#" class="js-expand-btn collapsed arrow-btn" data-proofer-ignore></a><a href="/v3/activity/">Activity</a></h3>
         <ul class="js-guides">
           <li><a href="/v3/activity/events/">Events</a></li>
-          <li><a href="/v3/activity/events/types/">Event Types &amp; Payloads</a></li>
+          <li><a href="/v3/activity/event_types/">Event Types and Payloads</a></li>
           <li><a href="/v3/activity/feeds/">Feeds</a></li>
           <li><a href="/v3/activity/notifications/">Notifications</a></li>
           <li><a href="/v3/activity/starring/">Starring</a></li>

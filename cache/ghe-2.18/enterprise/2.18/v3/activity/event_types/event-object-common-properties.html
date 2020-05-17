@@ -1,0 +1,106 @@
+<h2>
+<a id="event-object-common-properties" class="anchor" href="#event-object-common-properties" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Event object common properties</h2>
+<p>The event objects returned from the Events API endpoints have the same structure.</p>
+<table>
+<thead>
+<tr>
+<th>Event API attribute name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>Unique identifier for the event.</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>The type of event. Events uses PascalCase for the name.</td>
+</tr>
+<tr>
+<td><code>actor</code></td>
+<td>The user that triggered the event.</td>
+</tr>
+<tr>
+<td><code>actor.id</code></td>
+<td>The unique identifier for the actor.</td>
+</tr>
+<tr>
+<td><code>actor.login</code></td>
+<td>The username of the actor.</td>
+</tr>
+<tr>
+<td><code>actor.display_login</code></td>
+<td>The specific display format of the username.</td>
+</tr>
+<tr>
+<td><code>actor.gravatar_id</code></td>
+<td>The unique indentifier of the Gravatar profile for the actor.</td>
+</tr>
+<tr>
+<td><code>actor.url</code></td>
+<td>The REST API URL used to retrieve the user object, which includes additional user information.</td>
+</tr>
+<tr>
+<td><code>actor.avatar_url</code></td>
+<td>The URL of the actor&apos;s profile image.</td>
+</tr>
+<tr>
+<td><code>repo</code></td>
+<td>The repository object where the event occurred.</td>
+</tr>
+<tr>
+<td><code>repo.id</code></td>
+<td>The unique identifier of the repository.</td>
+</tr>
+<tr>
+<td><code>repo.name</code></td>
+<td>The name of the repository, which includes the owner and repository name. For example, <code>octocat/hello-world</code> is the name of the <code>hello-world</code> repository owned by the <code>octocat</code> user account.</td>
+</tr>
+<tr>
+<td><code>repo.url</code></td>
+<td>The REST API URL used to retrive the repository object, which includes additional repository information.</td>
+</tr>
+<tr>
+<td><code>payload</code></td>
+<td>The event payload object is unique to the event type. See the event type below for the event API <code>payload</code> object.</td>
+</tr>
+</tbody>
+</table>
+<h3>
+<a id="example-watchevent-event-object" class="anchor" href="#example-watchevent-event-object" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example WatchEvent event object</h3>
+<p>This example shows the format of the <a href="#watchevent">WatchEvent</a> response when using the <a href="/enterprise/2.18/v3/activity/events">Events API</a>.</p>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+Link: &lt;https://api.github.com/resource?page=2&gt;; rel=&quot;next&quot;,
+      &lt;https://api.github.com/resource?page=5&gt;; rel=&quot;last&quot;
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;WatchEvent&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;public&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;payload&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">&quot;repo&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;octocat/Hello-World&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Hello-World&quot;</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">&quot;actor&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;login&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;octocat&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;gravatar_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;avatar_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/images/error/octocat_happy.gif&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/users/octocat&quot;</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">&quot;org&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;login&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;github&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;gravatar_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/orgs/github&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;avatar_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.com/images/error/octocat_happy.gif&quot;</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2011-09-06T17:26:27Z&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;12345&quot;</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
