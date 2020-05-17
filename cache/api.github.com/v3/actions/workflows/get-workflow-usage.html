@@ -1,0 +1,29 @@
+<h2>
+<a id="get-workflow-usage" class="anchor" href="#get-workflow-usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get workflow usage</h2>
+<div class="alert warning">
+
+<p><strong>Warning:</strong> This GitHub Actions usage endpoint is currently in public beta and subject to change. For more information, see &quot;<a href="/changes/2020-05-15-actions-api-workflow-usage">GitHub Actions API workflow usage</a>.&quot;</p>
+
+</div>
+<p>Gets the number of billable minutes used by a specific workflow during the current billing cycle. Billable minutes only apply to workflows in private repositories that use GitHub-hosted runners. Usage is listed for each GitHub-hosted runner operating system in milliseconds. The usage does not include the multiplier for macOS and Windows runners and is not rounded up to the nearest whole minute. For more information, see &quot;<a href="https://help.github.com/github/setting-up-and-managing-billing-and-payments-on-github/managing-billing-for-github-actions">Managing billing for GitHub Actions</a>&quot; in the GitHub Help documentation.</p>
+<p>You can also replace <code>:workflow_id</code> with <code>:workflow_file_name</code>. For example, you could use <code>main.yml</code>. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the <code>repo</code> scope. GitHub Apps must have the <code>actions:read</code> permission to use this endpoint. </p>
+<pre><code>GET /repos/:owner/:repo/actions/workflows/:workflow_id/timing
+</code></pre>
+<h3>
+<a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;billable&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;UBUNTU&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;total_ms&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">180000</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">&quot;MACOS&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;total_ms&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">240000</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">&quot;WINDOWS&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;total_ms&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">300000</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
