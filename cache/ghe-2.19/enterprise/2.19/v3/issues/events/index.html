@@ -161,6 +161,7 @@
     <option value="/v3/issues/labels/">Labels</option>
     <option value="/v3/issues/milestones/">Milestones</option>
     <option value="/v3/issues/timeline/">Timeline</option>
+    <option value="/v3/issues/issue-event-types/">Issue Event Types</option>
   </optgroup>
   <optgroup label="Miscellaneous">
     <option value="/v3/misc/">Miscellaneous overview
@@ -262,267 +263,7 @@
 <li><a href="#list-events-for-a-repository" id="markdown-toc-list-events-for-a-repository">List events for a repository</a></li>
 <li><a href="#get-a-single-event" id="markdown-toc-get-a-single-event">Get a single event</a></li>
 </ul>
-<p>Records various events that occur around an issue or pull request. This is
-useful both for display on issue/pull request information pages and also to
-determine who should be notified of comments.</p>
-<h3>
-<a id="events-1" class="anchor" href="#events-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Events</h3>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>added_to_project</code></td>
-<td>The issue was added to a project board. You only see this event in responses when project boards have been <a href="https://help.github.com/articles/disabling-project-boards-in-a-repository">enabled</a> in the repository.</td>
-</tr>
-<tr>
-<td><code>assigned</code></td>
-<td>The issue was assigned to the <code>actor</code>.</td>
-</tr>
-<tr>
-<td><code>closed</code></td>
-<td>The issue was closed by the <code>actor</code>. When the commit_id is present, it identifies the commit that closed the issue using "closes / fixes #NN" syntax.</td>
-</tr>
-<tr>
-<td><code>converted_note_to_issue</code></td>
-<td>The issue was created by converting a note in a project board to an issue. You only see this event in responses when project boards have been <a href="https://help.github.com/articles/disabling-project-boards-in-a-repository">enabled</a> in the repository.</td>
-</tr>
-<tr>
-<td><code>demilestoned</code></td>
-<td>The issue was removed from a milestone.</td>
-</tr>
-<tr>
-<td><code>head_ref_deleted</code></td>
-<td>The pull request's branch was deleted.</td>
-</tr>
-<tr>
-<td><code>head_ref_restored</code></td>
-<td>The pull request's branch was restored.</td>
-</tr>
-<tr>
-<td><code>labeled</code></td>
-<td>A label was added to the issue.</td>
-</tr>
-<tr>
-<td><code>locked</code></td>
-<td>The issue was locked by the <code>actor</code>.</td>
-</tr>
-<tr>
-<td><code>mentioned</code></td>
-<td>The <code>actor</code> was <code>@mentioned</code> in an issue body.</td>
-</tr>
-<tr>
-<td><code>marked_as_duplicate</code></td>
-<td>A user with write permissions marked an issue as a duplicate of another issue or a pull request as a duplicate of another pull request.</td>
-</tr>
-<tr>
-<td><code>merged</code></td>
-<td>The issue was merged by the <code>actor</code>. The <code>commit_id</code> attribute is the SHA1 of the HEAD commit that was merged.</td>
-</tr>
-<tr>
-<td><code>milestoned</code></td>
-<td>The issue was added to a milestone.</td>
-</tr>
-<tr>
-<td><code>moved_columns_in_project</code></td>
-<td>The issue was moved between columns in a project board. You only see this event in responses when project boards have been <a href="https://help.github.com/articles/disabling-project-boards-in-a-repository">enabled</a> in the repository.</td>
-</tr>
-<tr>
-<td><code>referenced</code></td>
-<td>The issue was referenced from a commit message. The <code>commit_id</code> attribute is the commit SHA1 of where that happened.</td>
-</tr>
-<tr>
-<td><code>removed_from_project</code></td>
-<td>The issue was removed from a project board. You only see this event in responses when project boards have been <a href="https://help.github.com/articles/disabling-project-boards-in-a-repository">enabled</a> in the repository.</td>
-</tr>
-<tr>
-<td><code>renamed</code></td>
-<td>The issue title was changed.</td>
-</tr>
-<tr>
-<td><code>reopened</code></td>
-<td>The issue was reopened by the <code>actor</code>.</td>
-</tr>
-<tr>
-<td><code>review_dismissed</code></td>
-<td>The <code>actor</code> dismissed a review from the pull request.</td>
-</tr>
-<tr>
-<td><code>review_requested</code></td>
-<td>The <code>actor</code> requested review from the subject on this pull request.</td>
-</tr>
-<tr>
-<td><code>review_request_removed</code></td>
-<td>The <code>actor</code> removed the review request for the subject on this pull request.</td>
-</tr>
-<tr>
-<td><code>subscribed</code></td>
-<td>The <code>actor</code> subscribed to receive notifications for an issue.</td>
-</tr>
-<tr>
-<td><code>transferred</code></td>
-<td>The issue was transferred to another repository.</td>
-</tr>
-<tr>
-<td><code>unassigned</code></td>
-<td>The <code>actor</code> was unassigned from the issue.</td>
-</tr>
-<tr>
-<td><code>unlabeled</code></td>
-<td>A label was removed from the issue.</td>
-</tr>
-<tr>
-<td><code>unlocked</code></td>
-<td>The issue was unlocked by the <code>actor</code>.</td>
-</tr>
-<tr>
-<td><code>unmarked_as_duplicate</code></td>
-<td>An issue that a user had previously marked as a duplicate of another issue is no longer considered a duplicate, or a pull request that a user had previously marked as a duplicate of another pull request is no longer considered a duplicate.</td>
-</tr>
-</tbody>
-</table>
-<h3>
-<a id="attributes" class="anchor" href="#attributes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Attributes</h3>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>actor</code></td>
-<td><code>object</code></td>
-<td>The person who generated the event.</td>
-</tr>
-<tr>
-<td><code>assignee</code></td>
-<td><code>object</code></td>
-<td>The person assigned to (or unassigned from) this issue. Only provided for <code>assigned</code> and <code>unassigned</code> events.</td>
-</tr>
-<tr>
-<td><code>assignees</code></td>
-<td><code>array</code></td>
-<td>An a array of people who are assigned to (or unassigned from) this issue. Only provided for <code>assigned</code> and <code>unassigned</code> events.</td>
-</tr>
-<tr>
-<td><code>assigner</code></td>
-<td><code>object</code></td>
-<td>The person who performed the assignment (or unassignment) for this issue. Only provided for <code>assigned</code> and <code>unassigned</code> events.</td>
-</tr>
-<tr>
-<td><code>commit_id</code></td>
-<td><code>string</code></td>
-<td>The string SHA of the commit that referenced this issue.</td>
-</tr>
-<tr>
-<td><code>commit_url</code></td>
-<td><code>string</code></td>
-<td>The GitHub API link to a commit that referenced this issue.</td>
-</tr>
-<tr>
-<td><code>created_at</code></td>
-<td><code>string</code></td>
-<td>The timestamp indicating when the event occurred.</td>
-</tr>
-<tr>
-<td><code>dismissed_review</code></td>
-<td><code>object</code></td>
-<td>A <code>dismissed_review</code> object that includes the <code>state</code>, <code>review_id</code>, <code>dismissal_message</code>, and <code>dismissal_commit_id</code> (the ID of the commit that dismissed the review) if one exists. Possible <code>state</code> strings include <code>commented</code>, <code>approved</code>, or <code>changes_requested</code>. Only provided for <code>review_dismissed</code> events.</td>
-</tr>
-<tr>
-<td><code>event</code></td>
-<td><code>string</code></td>
-<td>Identifies the actual type of event that occurred.</td>
-</tr>
-<tr>
-<td><code>id</code></td>
-<td><code>integer</code></td>
-<td>The ID of the event.</td>
-</tr>
-<tr>
-<td><code>labels</code></td>
-<td><code>array</code></td>
-<td>An array of labels. Each label includes a <code>name</code> and <code>color</code> attribute. Only provided for <code>labeled</code> and <code>unlabeled</code> events.</td>
-</tr>
-<tr>
-<td><code>lock_reason</code></td>
-<td><code>string</code></td>
-<td>The reason an issue or pull request conversation was locked, if one was provided. Only provided for <code>locked</code> events.</td>
-</tr>
-<tr>
-<td><code>milestone</code></td>
-<td><code>object</code></td>
-<td>The Milestone object including a <code>title</code> attribute. Only provided for <code>milestoned</code> and <code>demilestoned</code> events.</td>
-</tr>
-<tr>
-<td><code>node_id</code></td>
-<td><code>string</code></td>
-<td>The <a href="/enterprise/2.19/v4/guides/using-global-node-ids">Global Node ID</a> of the event.</td>
-</tr>
-<tr>
-<td><code>project_card</code></td>
-<td><code>object</code></td>
-<td>Information about the project card that triggered the event. The <code>project_card</code> attribute is not returned if someone deletes the project board, or if you do not have permission to view it. <strong>Note:</strong> The <code>project_card</code> object is part of the <a href="/changes/2018-09-05-project-card-events"><code>starfox-preview</code></a>, and will only be included when you pass the custom media type.</td>
-</tr>
-<tr>
-<td><code>project_card["id"]</code></td>
-<td><code>string</code></td>
-<td>The identification number of the project card.</td>
-</tr>
-<tr>
-<td><code>project_card["url"]</code></td>
-<td><code>string</code></td>
-<td>The API URL of the project card, if the card still exists. Not included for <code>removed_from_project</code> events.</td>
-</tr>
-<tr>
-<td><code>project_card["project_id"]</code></td>
-<td><code>integer</code></td>
-<td>The identification number of the project.</td>
-</tr>
-<tr>
-<td><code>project_card["project_url"]</code></td>
-<td><code>string</code></td>
-<td>The API URL of the project.</td>
-</tr>
-<tr>
-<td><code>project_card["column_name"]</code></td>
-<td><code>string</code></td>
-<td>The name of the column that the card is listed in.</td>
-</tr>
-<tr>
-<td><code>project_card["previous_column_name"]</code></td>
-<td><code>string</code></td>
-<td>The name of the column that the card was listed in prior to <code>column_name</code>. Only returned for <code>moved_columns_in_project</code> events.</td>
-</tr>
-<tr>
-<td><code>rename</code></td>
-<td><code>object</code></td>
-<td>The rename details including <code>from</code> and <code>to</code> attributes. Only provided for <code>renamed</code> events.</td>
-</tr>
-<tr>
-<td><code>requested_reviewers</code></td>
-<td><code>object</code></td>
-<td>The people who were requested to review an issue. Only provided for <code>review_requested</code> and <code>review_request_removed</code> events.</td>
-</tr>
-<tr>
-<td><code>review_requester</code></td>
-<td><code>object</code></td>
-<td>The person who requested a review. Only provided for <code>review_requested</code> and <code>review_request_removed</code> events.</td>
-</tr>
-<tr>
-<td><code>url</code></td>
-<td><code>string</code></td>
-<td>The API URL for fetching the event.</td>
-</tr>
-</tbody>
-</table>
+<p>The Issue Events API can return different types of events triggered by activity in issues and pull requests. For more information about the specific events that you can receive from the Issue Events API, see "<a href="/enterprise/2.19/v3/issues/issue-event-types">Issue event types</a>." An events API for GitHub activity outside of issues and pull requests is also available. For more information, see the "<a href="/enterprise/2.19/v3/activity/events/">Events API</a>."</p>
 <h2>
 <a id="list-events-for-an-issue" class="anchor" href="#list-events-for-an-issue" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List events for an issue<a href="/enterprise/2.19/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
@@ -1038,6 +779,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
     <option value="/v3/issues/labels/">Labels</option>
     <option value="/v3/issues/milestones/">Milestones</option>
     <option value="/v3/issues/timeline/">Timeline</option>
+    <option value="/v3/issues/issue-event-types/">Issue Event Types</option>
   </optgroup>
   <optgroup label="Miscellaneous">
     <option value="/v3/misc/">Miscellaneous overview
@@ -1228,6 +970,7 @@ Link: &lt;https://api.github.com/resource?page=2&gt;; rel="next",
           <li><a href="/enterprise/2.19/v3/issues/labels/">Labels</a></li>
           <li><a href="/enterprise/2.19/v3/issues/milestones/">Milestones</a></li>
           <li><a href="/enterprise/2.19/v3/issues/timeline/">Timeline</a></li>
+          <li><a href="/enterprise/2.19/v3/issues/issue-event-types/">Issue Event Types</a></li>
         </ul>
       </li>
       <li class="js-topic">
