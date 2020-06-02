@@ -453,26 +453,36 @@
       "get": { "$ref": "operations/teams/list-members-in-org.json" }
     },
     "/orgs/{org}/teams/{team_slug}/memberships/{username}": {
-      "get": { "$ref": "operations/teams/get-membership-in-org.json" },
+      "get": { "$ref": "operations/teams/get-membership-for-user-in-org.json" },
       "put": {
-        "$ref": "operations/teams/add-or-update-membership-in-org.json"
+        "$ref": "operations/teams/add-or-update-membership-for-user-in-org.json"
       },
-      "delete": { "$ref": "operations/teams/remove-membership-in-org.json" }
+      "delete": {
+        "$ref": "operations/teams/remove-membership-for-user-in-org.json"
+      }
     },
     "/orgs/{org}/teams/{team_slug}/projects": {
       "get": { "$ref": "operations/teams/list-projects-in-org.json" }
     },
     "/orgs/{org}/teams/{team_slug}/projects/{project_id}": {
-      "get": { "$ref": "operations/teams/review-project-in-org.json" },
-      "put": { "$ref": "operations/teams/add-or-update-project-in-org.json" },
+      "get": {
+        "$ref": "operations/teams/check-permissions-for-project-in-org.json"
+      },
+      "put": {
+        "$ref": "operations/teams/add-or-update-project-permissions-in-org.json"
+      },
       "delete": { "$ref": "operations/teams/remove-project-in-org.json" }
     },
     "/orgs/{org}/teams/{team_slug}/repos": {
       "get": { "$ref": "operations/teams/list-repos-in-org.json" }
     },
     "/orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}": {
-      "get": { "$ref": "operations/teams/check-manages-repo-in-org.json" },
-      "put": { "$ref": "operations/teams/add-or-update-repo-in-org.json" },
+      "get": {
+        "$ref": "operations/teams/check-permissions-for-repo-in-org.json"
+      },
+      "put": {
+        "$ref": "operations/teams/add-or-update-repo-permissions-in-org.json"
+      },
       "delete": { "$ref": "operations/teams/remove-repo-in-org.json" }
     },
     "/orgs/{org}/teams/{team_slug}/team-sync/group-mappings": {
@@ -626,7 +636,7 @@
       "get": { "$ref": "operations/issues/list-assignees.json" }
     },
     "/repos/{owner}/{repo}/assignees/{assignee}": {
-      "get": { "$ref": "operations/issues/check-assignee.json" }
+      "get": { "$ref": "operations/issues/check-user-can-be-assigned.json" }
     },
     "/repos/{owner}/{repo}/automated-security-fixes": {
       "put": {
@@ -951,7 +961,7 @@
     },
     "/repos/{owner}/{repo}/import": {
       "put": { "$ref": "operations/migrations/start-import.json" },
-      "get": { "$ref": "operations/migrations/get-import-progress.json" },
+      "get": { "$ref": "operations/migrations/get-import-status.json" },
       "patch": { "$ref": "operations/migrations/update-import.json" },
       "delete": { "$ref": "operations/migrations/cancel-import.json" }
     },
@@ -1031,7 +1041,7 @@
     "/repos/{owner}/{repo}/issues/{issue_number}/labels": {
       "get": { "$ref": "operations/issues/list-labels-on-issue.json" },
       "post": { "$ref": "operations/issues/add-labels.json" },
-      "put": { "$ref": "operations/issues/replace-all-labels.json" },
+      "put": { "$ref": "operations/issues/set-labels.json" },
       "delete": { "$ref": "operations/issues/remove-all-labels.json" }
     },
     "/repos/{owner}/{repo}/issues/{issue_number}/labels/{name}": {
@@ -1078,7 +1088,7 @@
       "post": { "$ref": "operations/repos/merge.json" }
     },
     "/repos/{owner}/{repo}/milestones": {
-      "get": { "$ref": "operations/issues/list-milestones-for-repo.json" },
+      "get": { "$ref": "operations/issues/list-milestones.json" },
       "post": { "$ref": "operations/issues/create-milestone.json" }
     },
     "/repos/{owner}/{repo}/milestones/{milestone_number}": {
