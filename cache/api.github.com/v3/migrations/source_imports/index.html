@@ -368,18 +368,18 @@
 
 <ul id="markdown-toc">
 <li><a href="#start-an-import" id="markdown-toc-start-an-import">Start an import</a></li>
-<li><a href="#get-import-progress" id="markdown-toc-get-import-progress">Get import progress</a></li>
-<li><a href="#update-existing-import" id="markdown-toc-update-existing-import">Update existing import</a></li>
+<li><a href="#get-an-import-status" id="markdown-toc-get-an-import-status">Get an import status</a></li>
+<li><a href="#update-an-import" id="markdown-toc-update-an-import">Update an import</a></li>
 <li><a href="#get-commit-authors" id="markdown-toc-get-commit-authors">Get commit authors</a></li>
 <li><a href="#map-a-commit-author" id="markdown-toc-map-a-commit-author">Map a commit author</a></li>
-<li><a href="#set-git-lfs-preference" id="markdown-toc-set-git-lfs-preference">Set Git LFS preference</a></li>
+<li><a href="#update-git-lfs-preference" id="markdown-toc-update-git-lfs-preference">Update Git LFS preference</a></li>
 <li><a href="#get-large-files" id="markdown-toc-get-large-files">Get large files</a></li>
 <li><a href="#cancel-an-import" id="markdown-toc-cancel-an-import">Cancel an import</a></li>
 </ul>
 
 <p>The Source Import API lets you start an import from a Git, Subversion, Mercurial, or Team Foundation Server source repository. This is the same functionality as <a href="https://help.github.com/articles/importing-a-repository-with-github-importer/">the GitHub Importer</a>.</p>
 
-<p>A typical source import would <a href="#start-an-import">start the import</a> and then (optionally) <a href="#map-a-commit-author">update the authors</a> and/or <a href="#set-git-lfs-preference">set the preference</a> for using Git LFS if large files exist in the import. You can also create a webhook that listens for the <a href="/webhooks/event-payloads/#repository_import"><code>RepositoryImportEvent</code></a> to find out the status of the import.</p>
+<p>A typical source import would <a href="#start-an-import">start the import</a> and then (optionally) <a href="#map-a-commit-author">update the authors</a> and/or <a href="#update-git-lfs-preference">update the preference</a> for using Git LFS if large files exist in the import. You can also create a webhook that listens for the <a href="/webhooks/event-payloads/#repository_import"><code>RepositoryImportEvent</code></a> to find out the status of the import.</p>
 
 <p>A more detailed example can be seen in this diagram:</p>
 
@@ -546,7 +546,7 @@ Location: https://api.github.com/repos/spraints/socm/import
 
 
 <h2>
-<a id="get-import-progress" class="anchor" href="#get-import-progress" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get import progress<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+<a id="get-an-import-status" class="anchor" href="#get-an-import-status" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get an import status<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
 <p>View the progress of an import.</p>
@@ -604,15 +604,15 @@ Location: https://api.github.com/repos/spraints/socm/import
 
 <ul>
 <li>
-<code>auth_failed</code> - the import requires authentication in order to connect to the original repository. To update authentication for the import, please see the <a href="#update-existing-import">Update Existing Import</a> section.</li>
+<code>auth_failed</code> - the import requires authentication in order to connect to the original repository. To update authentication for the import, please see the <a href="#update-an-import">Update an import</a> section.</li>
 <li>
 <code>error</code> - the import encountered an error. The import progress response will include the <code>failed_step</code> and an error message. Contact <a href="https://github.com/contact">GitHub Support</a> or <a href="https://premium.githubsupport.com">GitHub Premium Support</a> for more information.</li>
 <li>
-<code>detection_needs_auth</code> - the importer requires authentication for the originating repository to continue detection. To update authentication for the import, please see the <a href="#update-existing-import">Update Existing Import</a> section.</li>
+<code>detection_needs_auth</code> - the importer requires authentication for the originating repository to continue detection. To update authentication for the import, please see the <a href="#update-an-import">Update an import</a> section.</li>
 <li>
 <code>detection_found_nothing</code> - the importer didn't recognize any source control at the URL. To resolve, <a href="#cancel-an-import">Cancel the import</a> and <a href="#start-an-import">retry</a> with the correct URL.</li>
 <li>
-<code>detection_found_multiple</code> - the importer found several projects or repositories at the provided URL. When this is the case, the Import Progress response will also include a <code>project_choices</code> field with the possible project choices as values. To update project choice, please see the <a href="#update-existing-import">Update Existing Import</a> section.</li>
+<code>detection_found_multiple</code> - the importer found several projects or repositories at the provided URL. When this is the case, the Import Progress response will also include a <code>project_choices</code> field with the possible project choices as values. To update project choice, please see the <a href="#update-an-import">Update an import</a> section.</li>
 </ul>
 
 <h3>
@@ -662,7 +662,7 @@ Location: https://api.github.com/repos/spraints/socm/import
 </ul>
 
 <h2>
-<a id="update-existing-import" class="anchor" href="#update-existing-import" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Update existing import<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+<a id="update-an-import" class="anchor" href="#update-an-import" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Update an import<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
 <p>An import can be updated with credentials or a project choice by passing in the appropriate parameters in this API request. If no parameters are provided, the import will be restarted.</p>
@@ -835,7 +835,7 @@ Location: https://api.github.com/repos/spraints/socm/import
 
 <p>Each type of source control system represents authors in a different way. For example, a Git commit author has a display name and an email address, but a Subversion commit author just has a username. The GitHub Importer will make the author information valid, but the author might not be correct. For example, it will change the bare Subversion username <code>hubot</code> into something like <code>hubot &lt;hubot@12341234-abab-fefe-8787-fedcba987654&gt;</code>.</p>
 
-<p>This API method and the "Map a commit author" method allow you to provide correct Git author information.</p>
+<p>This endpoint and the <a href="#map-a-commit-author">Map a commit author</a> endpoint allow you to provide correct Git author information.</p>
 
 <pre><code>GET /repos/:owner/:repo/import/authors
 </code></pre>
@@ -963,7 +963,7 @@ Location: https://api.github.com/repos/spraints/socm/import
 
 
 <h2>
-<a id="set-git-lfs-preference" class="anchor" href="#set-git-lfs-preference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Set Git LFS preference<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+<a id="update-git-lfs-preference" class="anchor" href="#update-git-lfs-preference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Update Git LFS preference<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
 </h2>
 
 <p>You can import repositories from Subversion, Mercurial, and TFS that include files larger than 100MB. This ability is powered by <a href="https://git-lfs.github.com">Git LFS</a>. You can learn more about our LFS feature and working with large files <a href="https://help.github.com/articles/versioning-large-files/">on our help site</a>.</p>

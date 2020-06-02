@@ -1,6 +1,6 @@
 {
   "summary": "Get a tree",
-  "description": "Returns a single tree using the SHA1 value for that tree.\n\nIf `truncated` is `true` in the response then the number of items in the `tree` array exceeded our maximum limit. If you need to fetch more items, you can clone the repository and iterate over the Git data locally.",
+  "description": "Returns a single tree using the SHA1 value for that tree.\n\nIf `truncated` is `true` in the response then the number of items in the `tree` array exceeded our maximum limit. If you need to fetch more items, use the non-recursive method of fetching trees, and fetch one sub-tree at a time.",
   "operationId": "git/get-tree",
   "tags": ["git"],
   "externalDocs": {
@@ -19,35 +19,33 @@
     },
     {
       "name": "owner",
-      "description": "owner parameter",
       "in": "path",
       "required": true,
       "schema": { "type": "string" }
     },
     {
       "name": "repo",
-      "description": "repo parameter",
       "in": "path",
       "required": true,
       "schema": { "type": "string" }
     },
     {
       "name": "tree_sha",
-      "description": "tree_sha parameter",
       "in": "path",
       "required": true,
       "schema": { "type": "string" }
     },
     {
       "name": "recursive",
-      "description": "recursive parameter",
+      "description": "Setting this parameter to any value returns the objects or subtrees referenced by the tree specified in `:tree_sha`. For example, setting `recursive` to any of the following will enable returning objects or subtrees: `0`, `1`, `\"true\"`, and `\"false\"`. Omit this parameter to prevent recursively returning objects or subtrees.",
       "in": "query",
-      "schema": { "type": "integer", "enum": [1] }
+      "required": false,
+      "schema": { "type": "string" }
     }
   ],
   "responses": {
     "200": {
-      "description": "If `truncated` is `true` in the response then the number of items in the `tree` array exceeded our maximum limit. If you need to fetch more items, you can clone the repository and iterate over the Git data locally.",
+      "description": "response",
       "content": {
         "application/json": {
           "schema": {
@@ -73,35 +71,58 @@
               "truncated": { "type": "boolean" }
             }
           },
-          "example": {
-            "sha": "9fb037999f264ba9a7fc6274d15fa3ae2ab98312",
-            "url": "https://api.github.com/repos/octocat/Hello-World/trees/9fb037999f264ba9a7fc6274d15fa3ae2ab98312",
-            "tree": [
-              {
-                "path": "file.rb",
-                "mode": "100644",
-                "type": "blob",
-                "size": 30,
-                "sha": "44b4fc6d56897b048c772eb4087f854f46256132",
-                "url": "https://api.github.com/repos/octocat/Hello-World/git/blobs/44b4fc6d56897b048c772eb4087f854f46256132"
-              },
-              {
-                "path": "subdir",
-                "mode": "040000",
-                "type": "tree",
-                "sha": "f484d249c660418515fb01c2b9662073663c242e",
-                "url": "https://api.github.com/repos/octocat/Hello-World/git/blobs/f484d249c660418515fb01c2b9662073663c242e"
-              },
-              {
-                "path": "exec_file",
-                "mode": "100755",
-                "type": "blob",
-                "size": 75,
-                "sha": "45b983be36b73c0788dc9cbcb76cbb80fc7bb057",
-                "url": "https://api.github.com/repos/octocat/Hello-World/git/blobs/45b983be36b73c0788dc9cbcb76cbb80fc7bb057"
+          "examples": {
+            "default-response": {
+              "summary": "Default response",
+              "value": {
+                "sha": "9fb037999f264ba9a7fc6274d15fa3ae2ab98312",
+                "url": "https://api.github.com/repos/octocat/Hello-World/trees/9fb037999f264ba9a7fc6274d15fa3ae2ab98312",
+                "tree": [
+                  {
+                    "path": "file.rb",
+                    "mode": "100644",
+                    "type": "blob",
+                    "size": 30,
+                    "sha": "44b4fc6d56897b048c772eb4087f854f46256132",
+                    "url": "https://api.github.com/repos/octocat/Hello-World/git/blobs/44b4fc6d56897b048c772eb4087f854f46256132"
+                  },
+                  {
+                    "path": "subdir",
+                    "mode": "040000",
+                    "type": "tree",
+                    "sha": "f484d249c660418515fb01c2b9662073663c242e",
+                    "url": "https://api.github.com/repos/octocat/Hello-World/git/blobs/f484d249c660418515fb01c2b9662073663c242e"
+                  },
+                  {
+                    "path": "exec_file",
+                    "mode": "100755",
+                    "type": "blob",
+                    "size": 75,
+                    "sha": "45b983be36b73c0788dc9cbcb76cbb80fc7bb057",
+                    "url": "https://api.github.com/repos/octocat/Hello-World/git/blobs/45b983be36b73c0788dc9cbcb76cbb80fc7bb057"
+                  }
+                ],
+                "truncated": false
               }
-            ],
-            "truncated": false
+            },
+            "response-recursively-retrieving-a-tree": {
+              "summary": "Response recursively retrieving a tree",
+              "value": {
+                "sha": "fc6274d15fa3ae2ab983129fb037999f264ba9a7",
+                "url": "https://api.github.com/repos/octocat/Hello-World/trees/fc6274d15fa3ae2ab983129fb037999f264ba9a7",
+                "tree": [
+                  {
+                    "path": "subdir/file.txt",
+                    "mode": "100644",
+                    "type": "blob",
+                    "size": 132,
+                    "sha": "7c258a9869f33c1e1e1f74fbb32f07c86cb5a75b",
+                    "url": "https://api.github.com/repos/octocat/Hello-World/git/7c258a9869f33c1e1e1f74fbb32f07c86cb5a75b"
+                  }
+                ],
+                "truncated": false
+              }
+            }
           }
         }
       }
@@ -110,7 +131,7 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/repos/octocat/hello-world/git/trees/TREE_SHA"
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/repos/octocat/hello-world/git/trees/TREE_SHA"
     },
     {
       "lang": "JS",
@@ -125,8 +146,7 @@
     "legacy": false,
     "enabledForApps": true,
     "githubCloudOnly": false,
-    "previews": [],
-    "overridden": true
+    "previews": []
   },
   "x-changes": []
 }
