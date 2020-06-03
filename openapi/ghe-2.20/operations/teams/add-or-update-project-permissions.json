@@ -1,11 +1,11 @@
 {
-  "summary": "Add or update team project",
+  "summary": "Add or update team project permissions",
   "description": "Adds an organization project to a team. To add a project to a team or update the team's permission on a project, the authenticated user must have `admin` permissions for the project. The project and team must be part of the same organization.",
-  "operationId": "teams/add-or-update-project",
+  "operationId": "teams/add-or-update-project-permissions",
   "tags": ["teams"],
   "externalDocs": {
     "description": "API method documentation",
-    "url": "https://developer.github.com/enterprise/2.19/v3/teams/#add-or-update-team-project"
+    "url": "https://developer.github.com/enterprise/2.20/v3/teams/#add-or-update-team-project-permissions"
   },
   "parameters": [
     {
@@ -48,7 +48,7 @@
             "response-if-the-project-is-not-owned-by-the-organization": {
               "value": {
                 "message": "Must have admin rights to Repository.",
-                "documentation_url": "https://developer.github.com/enterprise/2.19/v3/teams/#add-or-update-team-project"
+                "documentation_url": "https://developer.github.com/enterprise/2.20/v3/teams/#add-or-update-team-project-permissions"
               }
             }
           }
@@ -63,11 +63,11 @@
     },
     {
       "lang": "JS",
-      "source": "octokit.teams.addOrUpdateProject({\n  team_id: 42,\n  project_id: 42,\n  permission: 'permission'\n})"
+      "source": "octokit.teams.addOrUpdateProjectPermissions({\n  team_id: 42,\n  project_id: 42,\n  permission: 'permission'\n})"
     },
     {
       "lang": "Ruby",
-      "source": "octokit.add_or_update_project(\n  42,\n  42,\n  'permission'\n)"
+      "source": "octokit.add_or_update_project_permissions(\n  42,\n  42,\n  'permission'\n)"
     }
   ],
   "x-github": {
@@ -78,12 +78,7 @@
       {
         "name": "inertia",
         "required": true,
-        "note": "The Projects API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the [blog post](https://developer.github.com/changes/2016-10-27-changes-to-projects-api) for full details. To access the API during the preview period, you must provide a custom [media type](https://developer.github.com/enterprise/2.19/v3/media) in the `Accept` header:\n```shell\napplication/vnd.github.inertia-preview+json\n```"
-      },
-      {
-        "name": "hellcat",
-        "required": false,
-        "note": "The Nested Teams API is currently available for developers to preview. See the [blog post](https://developer.github.com/changes/2017-08-30-preview-nested-teams) for full details. To access the API, you must provide a custom [media type](https://developer.github.com/enterprise/2.19/v3/media) in the `Accept` header:\n```shell\napplication/vnd.github.hellcat-preview+json\n```"
+        "note": "The Projects API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the [blog post](https://developer.github.com/changes/2016-10-27-changes-to-projects-api) for full details. To access the API during the preview period, you must provide a custom [media type](https://developer.github.com/enterprise/2.20/v3/media) in the `Accept` header:\n```shell\napplication/vnd.github.inertia-preview+json\n```"
       }
     ]
   },
@@ -96,7 +91,7 @@
           "properties": {
             "permission": {
               "type": "string",
-              "description": "The permission to grant to the team for this project. Can be one of:  \n\\* `read` - team members can read, but not write to or administer this project.  \n\\* `write` - team members can read and write, but not administer this project.  \n\\* `admin` - team members can read, write and administer this project.  \nDefault: the team's `permission` attribute will be used to determine what permission to grant the team on this project. Note that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](https://developer.github.com/enterprise/2.19/v3/#http-verbs).\"  \n**Note**: If you pass the `hellcat-preview` media type, you can promote—but not demote—a `permission` attribute inherited from a parent team.",
+              "description": "The permission to grant to the team for this project. Can be one of:  \n\\* `read` - team members can read, but not write to or administer this project.  \n\\* `write` - team members can read and write, but not administer this project.  \n\\* `admin` - team members can read, write and administer this project.  \nDefault: the team's `permission` attribute will be used to determine what permission to grant the team on this project. Note that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](https://developer.github.com/enterprise/2.20/v3/#http-verbs).\"",
               "enum": ["read", "write", "admin"]
             }
           }

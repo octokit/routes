@@ -1,0 +1,149 @@
+{
+  "summary": "List references",
+  "description": "Returns an array of all the references from your Git database, including notes and stashes if they exist on the server. Anything in the namespace is returned, not just `heads` and `tags`. If there are no references to list, a `404` is returned.\n\n**Note:** You need to explicitly [request a pull request](https://developer.github.com/enterprise/2.18/v3/pulls/#get-a-single-pull-request) to trigger a test merge commit, which checks the mergeability of pull requests. For more information, see \"[Checking mergeability of pull requests](https://developer.github.com/enterprise/2.18/v3/git/#checking-mergeability-of-pull-requests)\".\n\n```\nGET /repos/octocat/Hello-World/git/refs\n```\n\nYou can also request a sub-namespace. For example, to get all the tag references, you can call:\n\n```\nGET /repos/octocat/Hello-World/git/refs/tags\n```",
+  "operationId": "git/list-refs",
+  "tags": ["git"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.18/v3/git/refs/#list-references"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "per_page",
+      "description": "Results per page (max 100)",
+      "in": "query",
+      "schema": { "type": "integer", "default": 30 }
+    },
+    {
+      "name": "page",
+      "description": "Page number of the results to fetch.",
+      "in": "query",
+      "schema": { "type": "integer", "default": 1 }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "ref": { "type": "string" },
+                "node_id": { "type": "string" },
+                "url": { "type": "string" },
+                "object": {
+                  "type": "object",
+                  "properties": {
+                    "type": { "type": "string" },
+                    "sha": { "type": "string" },
+                    "url": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "examples": {
+            "response-1": {
+              "summary": "Response 1",
+              "value": [
+                {
+                  "ref": "refs/heads/master",
+                  "node_id": "MDM6UmVmcmVmcy9oZWFkcy9tYXN0ZXI=",
+                  "url": "https://api.github.com/repos/octocat/Hello-World/git/refs/heads/master",
+                  "object": {
+                    "type": "commit",
+                    "sha": "aa218f56b14c9653891f9e74264a383fa43fefbd",
+                    "url": "https://api.github.com/repos/octocat/Hello-World/git/commits/aa218f56b14c9653891f9e74264a383fa43fefbd"
+                  }
+                },
+                {
+                  "ref": "refs/heads/gh-pages",
+                  "node_id": "MDM6UmVmcmVmcy9oZWFkcy9naC1wYWdlcw==",
+                  "url": "https://api.github.com/repos/octocat/Hello-World/git/refs/heads/gh-pages",
+                  "object": {
+                    "type": "commit",
+                    "sha": "612077ae6dffb4d2fbd8ce0cccaa58893b07b5ac",
+                    "url": "https://api.github.com/repos/octocat/Hello-World/git/commits/612077ae6dffb4d2fbd8ce0cccaa58893b07b5ac"
+                  }
+                },
+                {
+                  "ref": "refs/tags/v0.0.1",
+                  "node_id": "MDM6UmVmcmVmcy90YWdzL3YwLjAuMQ==",
+                  "url": "https://api.github.com/repos/octocat/Hello-World/git/refs/tags/v0.0.1",
+                  "object": {
+                    "type": "tag",
+                    "sha": "940bd336248efae0f9ee5bc7b2d5c985887b16ac",
+                    "url": "https://api.github.com/repos/octocat/Hello-World/git/tags/940bd336248efae0f9ee5bc7b2d5c985887b16ac"
+                  }
+                }
+              ]
+            },
+            "response-2": {
+              "summary": "Response 2",
+              "value": [
+                {
+                  "ref": "refs/tags/v0.0.1",
+                  "node_id": "MDM6UmVmcmVmcy90YWdzL3YwLjAuMQ==",
+                  "url": "https://api.github.com/repos/octocat/Hello-World/git/refs/tags/v0.0.1",
+                  "object": {
+                    "type": "tag",
+                    "sha": "940bd336248efae0f9ee5bc7b2d5c985887b16ac",
+                    "url": "https://api.github.com/repos/octocat/Hello-World/git/tags/940bd336248efae0f9ee5bc7b2d5c985887b16ac"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "headers": {
+        "Link": {
+          "example": "<https://api.github.com/resource?page=2>; rel=\"next\", <https://api.github.com/resource?page=5>; rel=\"last\"",
+          "schema": { "type": "string" }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/repos/octocat/hello-world/git/refs"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.git.listRefs({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
+    },
+    { "lang": "Ruby", "source": "octokit.refs(\n  'hello-world'\n)" }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}
