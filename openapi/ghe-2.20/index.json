@@ -465,7 +465,7 @@
       "get": { "$ref": "operations/issues/list-assignees.json" }
     },
     "/repos/{owner}/{repo}/assignees/{assignee}": {
-      "get": { "$ref": "operations/issues/check-assignee.json" }
+      "get": { "$ref": "operations/issues/check-user-can-be-assigned.json" }
     },
     "/repos/{owner}/{repo}/branches": {
       "get": { "$ref": "operations/repos/list-branches.json" }
@@ -810,7 +810,7 @@
     "/repos/{owner}/{repo}/issues/{issue_number}/labels": {
       "get": { "$ref": "operations/issues/list-labels-on-issue.json" },
       "post": { "$ref": "operations/issues/add-labels.json" },
-      "put": { "$ref": "operations/issues/replace-all-labels.json" },
+      "put": { "$ref": "operations/issues/set-labels.json" },
       "delete": { "$ref": "operations/issues/remove-all-labels.json" }
     },
     "/repos/{owner}/{repo}/issues/{issue_number}/labels/{name}": {
@@ -854,7 +854,7 @@
       "post": { "$ref": "operations/repos/merge.json" }
     },
     "/repos/{owner}/{repo}/milestones": {
-      "get": { "$ref": "operations/issues/list-milestones-for-repo.json" },
+      "get": { "$ref": "operations/issues/list-milestones.json" },
       "post": { "$ref": "operations/issues/create-milestone.json" }
     },
     "/repos/{owner}/{repo}/milestones/{milestone_number}": {
@@ -1157,24 +1157,28 @@
       "delete": { "$ref": "operations/teams/remove-member-legacy.json" }
     },
     "/teams/{team_id}/memberships/{username}": {
-      "get": { "$ref": "operations/teams/get-membership.json" },
-      "put": { "$ref": "operations/teams/add-or-update-membership.json" },
-      "delete": { "$ref": "operations/teams/remove-membership.json" }
+      "get": { "$ref": "operations/teams/get-membership-for-user.json" },
+      "put": {
+        "$ref": "operations/teams/add-or-update-membership-for-user.json"
+      },
+      "delete": { "$ref": "operations/teams/remove-membership-for-user.json" }
     },
     "/teams/{team_id}/projects": {
       "get": { "$ref": "operations/teams/list-projects.json" }
     },
     "/teams/{team_id}/projects/{project_id}": {
-      "get": { "$ref": "operations/teams/review-project.json" },
-      "put": { "$ref": "operations/teams/add-or-update-project.json" },
+      "get": { "$ref": "operations/teams/check-permissions-for-project.json" },
+      "put": {
+        "$ref": "operations/teams/add-or-update-project-permissions.json"
+      },
       "delete": { "$ref": "operations/teams/remove-project.json" }
     },
     "/teams/{team_id}/repos": {
       "get": { "$ref": "operations/teams/list-repos.json" }
     },
     "/teams/{team_id}/repos/{owner}/{repo}": {
-      "get": { "$ref": "operations/teams/check-manages-repo.json" },
-      "put": { "$ref": "operations/teams/add-or-update-repo.json" },
+      "get": { "$ref": "operations/teams/check-permissions-for-repo.json" },
+      "put": { "$ref": "operations/teams/add-or-update-repo-permissions.json" },
       "delete": { "$ref": "operations/teams/remove-repo.json" }
     },
     "/teams/{team_id}/teams": {
