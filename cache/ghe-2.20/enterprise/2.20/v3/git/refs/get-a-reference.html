@@ -1,0 +1,29 @@
+<h2>
+<a id="get-a-reference" class="anchor" href="#get-a-reference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get a reference<a href="/enterprise/2.20/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+<p>Returns a single reference from your Git database. The <code>:ref</code> in the URL must be formatted as <code>heads/&lt;branch name&gt;</code> for branches and <code>tags/&lt;tag name&gt;</code> for tags. If the <code>:ref</code> doesn&apos;t match an existing ref, a <code>404</code> is returned.</p>
+<div class="alert note">
+<p><strong>Note:</strong> You need to explicitly <a href="/enterprise/2.20/v3/pulls/#get-a-single-pull-request">request a pull request</a> to trigger a test merge commit, which checks the mergeability of pull requests. For more information, see &quot;<a href="/enterprise/2.20/v3/git/#checking-mergeability-of-pull-requests">Checking mergeability of pull requests</a>&quot;.</p>
+</div>
+<pre><code>GET /repos/:owner/:repo/git/ref/:ref
+</code></pre>
+<h3>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+<p>To get the reference for a branch named <code>skunkworkz/featureA</code>, the endpoint route is:</p>
+<pre><code>GET /repos/octocat/Hello-World/git/ref/heads/skunkworkz/featureA
+</code></pre>
+<h3>
+<a id="response" class="anchor" href="#response" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;refs/heads/featureA&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MDM6UmVmcmVmcy9oZWFkcy9mZWF0dXJlQQ==&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Hello-World/git/refs/heads/featureA&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;object&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;commit&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;sha&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;aa218f56b14c9653891f9e74264a383fa43fefbd&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/Hello-World/git/commits/aa218f56b14c9653891f9e74264a383fa43fefbd&quot;</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
