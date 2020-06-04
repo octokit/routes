@@ -1,11 +1,11 @@
 {
-  "summary": "List repositories",
-  "description": "List repositories that an installation can access.\n\nYou must use an [installation access token](https://developer.github.com/enterprise/2.20/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-an-installation) to access this endpoint.",
-  "operationId": "apps/list-repos",
+  "summary": "List repositories accessible to the app installation",
+  "description": "List repositories that an app installation can access.\n\nYou must use an [installation access token](https://developer.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-an-installation) to access this endpoint.",
+  "operationId": "apps/list-repos-accessible-to-installation",
   "tags": ["apps"],
   "externalDocs": {
     "description": "API method documentation",
-    "url": "https://developer.github.com/enterprise/2.20/v3/apps/installations/#list-repositories"
+    "url": "https://developer.github.com/v3/apps/installations/#list-repositories-accessible-to-the-app-installation"
   },
   "parameters": [
     {
@@ -144,11 +144,11 @@
                     "updated_at": { "type": "string" },
                     "allow_rebase_merge": { "type": "boolean" },
                     "template_repository": { "type": "string" },
+                    "temp_clone_token": { "type": "string" },
                     "allow_squash_merge": { "type": "boolean" },
                     "allow_merge_commit": { "type": "boolean" },
                     "subscribers_count": { "type": "number" },
-                    "network_count": { "type": "number" },
-                    "anonymous_access_enabled": { "type": "boolean" }
+                    "network_count": { "type": "number" }
                   }
                 }
               }
@@ -251,11 +251,11 @@
                 "updated_at": "2011-01-26T19:14:43Z",
                 "allow_rebase_merge": true,
                 "template_repository": null,
+                "temp_clone_token": "ABTLWHOULUVAXGTRYU7OC2876QJ2O",
                 "allow_squash_merge": true,
                 "allow_merge_commit": true,
                 "subscribers_count": 42,
-                "network_count": 0,
-                "anonymous_access_enabled": false
+                "network_count": 0
               }
             ]
           }
@@ -272,10 +272,13 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -H\"Accept: application/vnd.github.machine-man-preview+json\" \\\n  http://{hostname}/installation/repositories"
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.machine-man-preview+json\" \\\n  https://api.github.com/installation/repositories"
     },
-    { "lang": "JS", "source": "octokit.apps.listRepos()" },
-    { "lang": "Ruby", "source": "octokit.repos()" }
+    {
+      "lang": "JS",
+      "source": "octokit.apps.listReposAccessibleToInstallation()"
+    },
+    { "lang": "Ruby", "source": "octokit.repos_accessible_to_installation()" }
   ],
   "x-github": {
     "legacy": false,
@@ -285,12 +288,12 @@
       {
         "name": "machine-man",
         "required": true,
-        "note": "To access the API with your GitHub App, you must provide a custom [media type](https://developer.github.com/enterprise/2.20/v3/media) in the `Accept` Header for your requests.\n```shell\napplication/vnd.github.machine-man-preview+json\n```"
+        "note": "To access the API with your GitHub App, you must provide a custom [media type](https://developer.github.com/v3/media) in the `Accept` Header for your requests.\n```shell\napplication/vnd.github.machine-man-preview+json\n```"
       },
       {
         "name": "mercy",
         "required": false,
-        "note": "The `topics` property for repositories on GitHub Enterprise is currently available for developers to preview. To view the `topics` property in calls that return repository results, you must provide a custom [media type](https://developer.github.com/enterprise/2.20/v3/media) in the `Accept` header:\n```shell\napplication/vnd.github.mercy-preview+json\n```"
+        "note": "The `topics` property for repositories on GitHub is currently available for developers to preview. To view the `topics` property in calls that return repository results, you must provide a custom [media type](https://developer.github.com/v3/media) in the `Accept` header:\n```shell\napplication/vnd.github.mercy-preview+json\n```"
       }
     ]
   },

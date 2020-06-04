@@ -1,11 +1,11 @@
 {
-  "summary": "List repositories",
-  "description": "List repositories that an installation can access.\n\nYou must use an [installation access token](https://developer.github.com/enterprise/2.18/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-an-installation) to access this endpoint.",
-  "operationId": "apps/list-repos",
+  "summary": "List repositories accessible to the app installation",
+  "description": "List repositories that an app installation can access.\n\nYou must use an [installation access token](https://developer.github.com/enterprise/2.20/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-an-installation) to access this endpoint.",
+  "operationId": "apps/list-repos-accessible-to-installation",
   "tags": ["apps"],
   "externalDocs": {
     "description": "API method documentation",
-    "url": "https://developer.github.com/enterprise/2.18/v3/apps/installations/#list-repositories"
+    "url": "https://developer.github.com/enterprise/2.20/v3/apps/installations/#list-repositories-accessible-to-the-app-installation"
   },
   "parameters": [
     {
@@ -138,6 +138,7 @@
                     "has_downloads": { "type": "boolean" },
                     "archived": { "type": "boolean" },
                     "disabled": { "type": "boolean" },
+                    "visibility": { "type": "string" },
                     "pushed_at": { "type": "string" },
                     "created_at": { "type": "string" },
                     "updated_at": { "type": "string" },
@@ -244,6 +245,7 @@
                 "has_downloads": true,
                 "archived": false,
                 "disabled": false,
+                "visibility": "public",
                 "pushed_at": "2011-01-26T19:06:43Z",
                 "created_at": "2011-01-26T19:01:12Z",
                 "updated_at": "2011-01-26T19:14:43Z",
@@ -272,8 +274,11 @@
       "lang": "Shell",
       "source": "curl \\\n  -H\"Accept: application/vnd.github.machine-man-preview+json\" \\\n  http://{hostname}/installation/repositories"
     },
-    { "lang": "JS", "source": "octokit.apps.listRepos()" },
-    { "lang": "Ruby", "source": "octokit.repos()" }
+    {
+      "lang": "JS",
+      "source": "octokit.apps.listReposAccessibleToInstallation()"
+    },
+    { "lang": "Ruby", "source": "octokit.repos_accessible_to_installation()" }
   ],
   "x-github": {
     "legacy": false,
@@ -283,12 +288,12 @@
       {
         "name": "machine-man",
         "required": true,
-        "note": "To access the API with your GitHub App, you must provide a custom [media type](https://developer.github.com/enterprise/2.18/v3/media) in the `Accept` Header for your requests.\n```shell\napplication/vnd.github.machine-man-preview+json\n```"
+        "note": "To access the API with your GitHub App, you must provide a custom [media type](https://developer.github.com/enterprise/2.20/v3/media) in the `Accept` Header for your requests.\n```shell\napplication/vnd.github.machine-man-preview+json\n```"
       },
       {
         "name": "mercy",
         "required": false,
-        "note": "The `topics` property for repositories on GitHub Enterprise is currently available for developers to preview. To view the `topics` property in calls that return repository results, you must provide a custom [media type](https://developer.github.com/enterprise/2.18/v3/media) in the `Accept` header:\n```shell\napplication/vnd.github.mercy-preview+json\n```"
+        "note": "The `topics` property for repositories on GitHub Enterprise is currently available for developers to preview. To view the `topics` property in calls that return repository results, you must provide a custom [media type](https://developer.github.com/enterprise/2.20/v3/media) in the `Accept` header:\n```shell\napplication/vnd.github.mercy-preview+json\n```"
       }
     ]
   },

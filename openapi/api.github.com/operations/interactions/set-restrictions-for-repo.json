@@ -1,11 +1,11 @@
 {
-  "summary": "Add or update interaction restrictions for an organization",
-  "description": "Temporarily restricts interactions to certain GitHub users in any public repository in the given organization. You must be an organization owner to set these restrictions.",
-  "operationId": "interactions/add-or-update-restrictions-for-org",
+  "summary": "Set interaction restrictions for a repository",
+  "description": "Temporarily restricts interactions to certain GitHub users within the given repository. You must have owner or admin access to set restrictions.",
+  "operationId": "interactions/set-restrictions-for-repo",
   "tags": ["interactions"],
   "externalDocs": {
     "description": "API method documentation",
-    "url": "https://developer.github.com/v3/interactions/orgs/#add-or-update-interaction-restrictions-for-an-organization"
+    "url": "https://developer.github.com/v3/interactions/repos/#set-interaction-restrictions-for-a-repository"
   },
   "parameters": [
     {
@@ -19,7 +19,13 @@
       "required": true
     },
     {
-      "name": "org",
+      "name": "owner",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
       "in": "path",
       "required": true,
       "schema": { "type": "string" }
@@ -40,7 +46,7 @@
           },
           "example": {
             "limit": "collaborators_only",
-            "origin": "organization",
+            "origin": "repository",
             "expires_at": "2018-08-17T04:18:39Z"
           }
         }
@@ -50,15 +56,15 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.sombra-preview+json\" \\\n  https://api.github.com/orgs/ORG/interaction-limits \\\n  -d '{\"limit\":\"limit\"}'"
+      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.sombra-preview+json\" \\\n  https://api.github.com/repos/octocat/hello-world/interaction-limits \\\n  -d '{\"limit\":\"limit\"}'"
     },
     {
       "lang": "JS",
-      "source": "octokit.interactions.addOrUpdateRestrictionsForOrg({\n  org: 'org',\n  limit: 'limit'\n})"
+      "source": "octokit.interactions.setRestrictionsForRepo({\n  owner: 'octocat',\n  repo: 'hello-world',\n  limit: 'limit'\n})"
     },
     {
       "lang": "Ruby",
-      "source": "octokit.add_or_update_restrictions_for_org(\n  'org',\n  'limit'\n)"
+      "source": "octokit.set_restrictions_for_repo(\n  'hello-world',\n  'limit'\n)"
     }
   ],
   "x-github": {
@@ -82,7 +88,7 @@
           "properties": {
             "limit": {
               "type": "string",
-              "description": "Specifies the group of GitHub users who can comment, open issues, or create pull requests in public repositories for the given organization. Must be one of: `existing_users`, `contributors_only`, or `collaborators_only`.",
+              "description": "Specifies the group of GitHub users who can comment, open issues, or create pull requests for the given repository. Must be one of: `existing_users`, `contributors_only`, or `collaborators_only`.",
               "enum": [
                 "existing_users",
                 "contributors_only",
