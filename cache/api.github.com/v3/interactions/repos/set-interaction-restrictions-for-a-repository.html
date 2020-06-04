@@ -1,0 +1,54 @@
+<h2>
+<a id="set-interaction-restrictions-for-a-repository" class="anchor" href="#set-interaction-restrictions-for-a-repository" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Set interaction restrictions for a repository<a href="/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+<div class="alert note">
+
+<p><strong>Note:</strong> The Interactions API is currently in public preview. See the <a href="/changes/2018-12-18-interactions-preview">blog post</a> preview for more details. To access the API during the preview period, you must provide a custom <a href="/v3/media">media type</a> in the <code>Accept</code> header:</p>
+
+<pre><code>application/vnd.github.sombra-preview
+</code></pre>
+
+</div>
+<div class="alert warning">
+
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact <a href="https://github.com/contact">GitHub Support</a> or <a href="https://premium.githubsupport.com">GitHub Premium Support</a>.</p>
+
+</div>
+<p>Temporarily restricts interactions to certain GitHub users within the given repository. You must have owner or admin access to set restrictions.</p>
+<pre><code>PUT /repos/:owner/:repo/interaction-limits
+</code></pre>
+<h3>
+<a id="parameters" class="anchor" href="#parameters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>limit</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required</strong>. Specifies the group of GitHub users who can comment, open issues, or create pull requests for the given repository. Must be one of: <code>existing_users</code>, <code>contributors_only</code>, or <code>collaborators_only</code>.</td>
+</tr>
+</tbody>
+</table>
+<h3>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;limit&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;collaborators_only&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="response-1" class="anchor" href="#response-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;limit&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;collaborators_only&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;origin&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;repository&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;expires_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2018-08-17T04:18:39Z&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
