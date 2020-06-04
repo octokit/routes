@@ -1,11 +1,11 @@
 {
-  "summary": "Create a new installation token",
-  "description": "Creates an installation access token that enables a GitHub App to make authenticated API requests for the app's installation on an organization or individual account. Installation tokens expire one hour from the time you create them. Using an expired token produces a status code of `401 - Unauthorized`, and requires creating a new installation token. By default the installation token has access to all repositories that the installation can access. To restrict the access to specific repositories, you can provide the `repository_ids` when creating the token. When you omit `repository_ids`, the response does not contain the `repositories` key.\n\nYou must use a [JWT](https://developer.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.\n\nThis example grants the token \"Read and write\" permission to `issues` and \"Read\" permission to `contents`, and restricts the token's access to the repository with an `id` of 1296269.",
-  "operationId": "apps/create-installation-token",
+  "summary": "Create an installation access token for an app",
+  "description": "Creates an installation access token that enables a GitHub App to make authenticated API requests for the app's installation on an organization or individual account. Installation tokens expire one hour from the time you create them. Using an expired token produces a status code of `401 - Unauthorized`, and requires creating a new installation token. By default the installation token has access to all repositories that the installation can access. To restrict the access to specific repositories, you can provide the `repository_ids` when creating the token. When you omit `repository_ids`, the response does not contain the `repositories` key.\n\nYou must use a [JWT](https://developer.github.com/enterprise/2.18/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.\n\nThis example grants the token \"Read and write\" permission to `issues` and \"Read\" permission to `contents`, and restricts the token's access to the repository with an `id` of 1296269.",
+  "operationId": "apps/create-installation-access-token",
   "tags": ["apps"],
   "externalDocs": {
     "description": "API method documentation",
-    "url": "https://developer.github.com/v3/apps/#create-a-new-installation-token"
+    "url": "https://developer.github.com/enterprise/2.18/v3/apps/#create-an-installation-access-token-for-an-app"
   },
   "parameters": [
     {
@@ -41,10 +41,6 @@
                   "issues": { "type": "string" },
                   "contents": { "type": "string" }
                 }
-              },
-              "repository_selection": {
-                "type": "string",
-                "enum": ["all", "selected"]
               },
               "repositories": {
                 "type": "array",
@@ -144,7 +140,6 @@
                     "has_downloads": { "type": "boolean" },
                     "archived": { "type": "boolean" },
                     "disabled": { "type": "boolean" },
-                    "visibility": { "type": "string" },
                     "pushed_at": { "type": "string" },
                     "created_at": { "type": "string" },
                     "updated_at": { "type": "string" },
@@ -158,11 +153,11 @@
                     },
                     "allow_rebase_merge": { "type": "boolean" },
                     "template_repository": { "type": "string" },
-                    "temp_clone_token": { "type": "string" },
                     "allow_squash_merge": { "type": "boolean" },
                     "allow_merge_commit": { "type": "boolean" },
                     "subscribers_count": { "type": "number" },
-                    "network_count": { "type": "number" }
+                    "network_count": { "type": "number" },
+                    "anonymous_access_enabled": { "type": "boolean" }
                   }
                 }
               }
@@ -172,7 +167,6 @@
             "token": "v1.1f699f1069f60xxx",
             "expires_at": "2016-07-11T22:14:10Z",
             "permissions": { "issues": "write", "contents": "read" },
-            "repository_selection": "selected",
             "repositories": [
               {
                 "id": 1296269,
@@ -262,18 +256,17 @@
                 "has_downloads": true,
                 "archived": false,
                 "disabled": false,
-                "visibility": "public",
                 "pushed_at": "2011-01-26T19:06:43Z",
                 "created_at": "2011-01-26T19:01:12Z",
                 "updated_at": "2011-01-26T19:14:43Z",
                 "permissions": { "admin": false, "push": false, "pull": true },
                 "allow_rebase_merge": true,
                 "template_repository": null,
-                "temp_clone_token": "ABTLWHOULUVAXGTRYU7OC2876QJ2O",
                 "allow_squash_merge": true,
                 "allow_merge_commit": true,
                 "subscribers_count": 42,
-                "network_count": 0
+                "network_count": 0,
+                "anonymous_access_enabled": false
               }
             ]
           }
@@ -284,15 +277,15 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.machine-man-preview+json\" \\\n  https://api.github.com/app/installations/42/access_tokens \\\n  -d '{\"repository_ids\":[42]}'"
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.machine-man-preview+json\" \\\n  http://{hostname}/app/installations/42/access_tokens \\\n  -d '{\"repository_ids\":[42]}'"
     },
     {
       "lang": "JS",
-      "source": "octokit.apps.createInstallationToken({\n  installation_id: 42,\n  repository_ids: [\n    42\n  ]\n})"
+      "source": "octokit.apps.createInstallationAccessToken({\n  installation_id: 42,\n  repository_ids: [\n    42\n  ]\n})"
     },
     {
       "lang": "Ruby",
-      "source": "octokit.create_installation_token(\n  42,\n  [\n    42\n  ]\n)"
+      "source": "octokit.create_installation_access_token(\n  42,\n  [\n    42\n  ]\n)"
     }
   ],
   "x-github": {
@@ -303,7 +296,7 @@
       {
         "name": "machine-man",
         "required": true,
-        "note": "To access the API with your GitHub App, you must provide a custom [media type](https://developer.github.com/v3/media) in the `Accept` Header for your requests.\n```shell\napplication/vnd.github.machine-man-preview+json\n```"
+        "note": "To access the API with your GitHub App, you must provide a custom [media type](https://developer.github.com/enterprise/2.18/v3/media) in the `Accept` Header for your requests.\n```shell\napplication/vnd.github.machine-man-preview+json\n```"
       }
     ]
   },
@@ -316,12 +309,12 @@
           "properties": {
             "repository_ids": {
               "type": "array",
-              "description": "The `id`s of the repositories that the installation token can access. Providing repository `id`s restricts the access of an installation token to specific repositories. You can use the \"[List repositories](https://developer.github.com/v3/apps/installations/#list-repositories)\" endpoint to get the `id` of all repositories that an installation can access. For example, you can select specific repositories when creating an installation token to restrict the number of repositories that can be cloned using the token.",
+              "description": "The `id`s of the repositories that the installation token can access. Providing repository `id`s restricts the access of an installation token to specific repositories. You can use the \"[List repositories accessible to the app installation](https://developer.github.com/enterprise/2.18/v3/apps/installations/#list-repositories-accessible-to-the-app-installation)\" endpoint to get the `id` of all repositories that an installation can access. For example, you can select specific repositories when creating an installation token to restrict the number of repositories that can be cloned using the token.",
               "items": { "type": "integer" }
             },
             "permissions": {
               "type": "object",
-              "description": "The permissions granted to the access token. The permissions object includes the permission names and their access type. For a complete list of permissions and allowable values, see \"[GitHub App permissions](https://developer.github.com/apps/building-github-apps/creating-github-apps-using-url-parameters/#github-app-permissions).\"",
+              "description": "The permissions granted to the access token. The permissions object includes the permission names and their access type. For a complete list of permissions and allowable values, see \"[GitHub App permissions](https://developer.github.com/enterprise/2.18/apps/building-github-apps/creating-github-apps-using-url-parameters/#github-app-permissions).\"",
               "properties": {}
             }
           }
