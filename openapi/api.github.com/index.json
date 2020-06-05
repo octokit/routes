@@ -537,7 +537,7 @@
       "delete": { "$ref": "operations/projects/remove-collaborator.json" }
     },
     "/projects/{project_id}/collaborators/{username}/permission": {
-      "get": { "$ref": "operations/projects/review-user-permission-level.json" }
+      "get": { "$ref": "operations/projects/get-permission-for-user.json" }
     },
     "/projects/{project_id}/columns": {
       "get": { "$ref": "operations/projects/list-columns.json" },
@@ -714,6 +714,7 @@
       "delete": { "$ref": "operations/repos/remove-status-check-contexts.json" }
     },
     "/repos/{owner}/{repo}/branches/{branch}/protection/restrictions": {
+      "get": { "$ref": "operations/repos/get-access-restrictions.json" },
       "delete": { "$ref": "operations/repos/delete-access-restrictions.json" }
     },
     "/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps": {
@@ -970,12 +971,12 @@
         "$ref": "operations/interactions/remove-restrictions-for-repo.json"
       }
     },
+    "/repos/{owner}/{repo}/invitations": {
+      "get": { "$ref": "operations/repos/list-invitations.json" }
+    },
     "/repos/{owner}/{repo}/invitations/{invitation_id}": {
       "delete": { "$ref": "operations/repos/delete-invitation.json" },
       "patch": { "$ref": "operations/repos/update-invitation.json" }
-    },
-    "/repos/{owner}/{repo}/invitationsList": {
-      "get": { "$ref": "operations/repos/list-invitations.json" }
     },
     "/repos/{owner}/{repo}/issues": {
       "get": { "$ref": "operations/issues/list-for-repo.json" },
@@ -1113,12 +1114,12 @@
       "post": { "$ref": "operations/pulls/create.json" }
     },
     "/repos/{owner}/{repo}/pulls/comments": {
-      "get": { "$ref": "operations/pulls/list-comments-for-repo.json" }
+      "get": { "$ref": "operations/pulls/list-review-comments-for-repo.json" }
     },
     "/repos/{owner}/{repo}/pulls/comments/{comment_id}": {
-      "get": { "$ref": "operations/pulls/get-comment.json" },
-      "patch": { "$ref": "operations/pulls/update-comment.json" },
-      "delete": { "$ref": "operations/pulls/delete-comment.json" }
+      "get": { "$ref": "operations/pulls/get-review-comment.json" },
+      "patch": { "$ref": "operations/pulls/update-review-comment.json" },
+      "delete": { "$ref": "operations/pulls/delete-review-comment.json" }
     },
     "/repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions": {
       "get": {
@@ -1138,11 +1139,13 @@
       "patch": { "$ref": "operations/pulls/update.json" }
     },
     "/repos/{owner}/{repo}/pulls/{pull_number}/comments": {
-      "get": { "$ref": "operations/pulls/list-comments.json" },
-      "post": { "$ref": "operations/pulls/create-comment.json" }
+      "get": { "$ref": "operations/pulls/list-review-comments.json" },
+      "post": { "$ref": "operations/pulls/create-review-comment.json" }
     },
     "/repos/{owner}/{repo}/pulls/{pull_number}/comments/{comment_id}/replies": {
-      "post": { "$ref": "operations/pulls/create-review-comment-reply.json" }
+      "post": {
+        "$ref": "operations/pulls/create-reply-for-review-comment.json"
+      }
     },
     "/repos/{owner}/{repo}/pulls/{pull_number}/commits": {
       "get": { "$ref": "operations/pulls/list-commits.json" }
@@ -1155,9 +1158,9 @@
       "put": { "$ref": "operations/pulls/merge.json" }
     },
     "/repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers": {
-      "get": { "$ref": "operations/pulls/list-review-requests.json" },
-      "post": { "$ref": "operations/pulls/create-review-request.json" },
-      "delete": { "$ref": "operations/pulls/delete-review-request.json" }
+      "get": { "$ref": "operations/pulls/list-requested-reviewers.json" },
+      "post": { "$ref": "operations/pulls/request-reviewers.json" },
+      "delete": { "$ref": "operations/pulls/remove-requested-reviewers.json" }
     },
     "/repos/{owner}/{repo}/pulls/{pull_number}/reviews": {
       "get": { "$ref": "operations/pulls/list-reviews.json" },
@@ -1169,7 +1172,7 @@
       "put": { "$ref": "operations/pulls/update-review.json" }
     },
     "/repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/comments": {
-      "get": { "$ref": "operations/pulls/get-comments-for-review.json" }
+      "get": { "$ref": "operations/pulls/list-review-comments.json" }
     },
     "/repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/dismissals": {
       "put": { "$ref": "operations/pulls/dismiss-review.json" }
