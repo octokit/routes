@@ -1,0 +1,123 @@
+{
+  "summary": "Provision and invite a SCIM user",
+  "description": "Provision organization membership for a user, and send an activation email to the email address.\n\nAs shown in the following example, you must at least provide the required values for the user: `userName`, `name`, and `emails`.",
+  "operationId": "scim/provision-and-invite-user",
+  "tags": ["scim"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/scim/#provision-and-invite-a-scim-user"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "org",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": {
+    "201": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "schemas": { "type": "array", "items": { "type": "string" } },
+              "id": { "type": "string" },
+              "externalId": { "type": "string" },
+              "userName": { "type": "string" },
+              "name": {
+                "type": "object",
+                "properties": {
+                  "givenName": { "type": "string" },
+                  "familyName": { "type": "string" }
+                }
+              },
+              "emails": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "value": { "type": "string" },
+                    "type": { "type": "string" },
+                    "primary": { "type": "boolean" }
+                  }
+                }
+              },
+              "active": { "type": "boolean" },
+              "meta": {
+                "type": "object",
+                "properties": {
+                  "resourceType": { "type": "string" },
+                  "created": { "type": "string" },
+                  "lastModified": { "type": "string" },
+                  "location": { "type": "string" }
+                }
+              }
+            }
+          },
+          "example": {
+            "schemas": ["urn:ietf:params:scim:schemas:core:2.0:User"],
+            "id": "edefdfedf-050c-11e7-8d32",
+            "externalId": "a7d0f98382",
+            "userName": "mona.octocat@okta.example.com",
+            "name": { "givenName": "Mona", "familyName": "Octocat" },
+            "emails": [
+              {
+                "value": "mona.octocat@okta.example.com",
+                "type": "work",
+                "primary": true
+              }
+            ],
+            "active": true,
+            "meta": {
+              "resourceType": "User",
+              "created": "2017-03-09T16:11:13-05:00",
+              "lastModified": "2017-03-09T16:11:13-05:00",
+              "location": "https://api.github.com/scim/v2/organizations/octo-org/Users/edefdfedf-050c-11e7-8d32"
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/scim/v2/organizations/ORG/Users"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.scim.provisionAndInviteUser({\n  org: 'org'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.provision_and_invite_user(\n  'org'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": true,
+    "previews": []
+  },
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2018-12-27",
+      "note": "`idName` changed for \"Provision and invite users\". It now includes `-and-`",
+      "before": { "operationId": "scim/provision-invite-users" },
+      "after": { "operationId": "scim/provision-and-invite-users" }
+    }
+  ]
+}

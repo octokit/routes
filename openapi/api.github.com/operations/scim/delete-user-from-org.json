@@ -1,0 +1,63 @@
+{
+  "summary": "Delete a SCIM user from an organization",
+  "description": "",
+  "operationId": "scim/delete-user-from-org",
+  "tags": ["scim"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/scim/#delete-a-scim-user-from-an-organization"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "org",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "scim_user_id",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    }
+  ],
+  "responses": { "204": { "description": "Empty response" } },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XDELETE \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/scim/v2/organizations/ORG/Users/42"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.scim.deleteUserFromOrg({\n  org: 'org',\n  scim_user_id: 42\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.delete_user_from_org(\n  'org',\n  42\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": true,
+    "previews": []
+  },
+  "x-changes": [
+    {
+      "type": "parameter",
+      "date": "2019-04-10",
+      "note": "\"external_identity_guid\" parameter renamed to \"scim_user_id\"",
+      "before": { "name": "external_identity_guid" },
+      "after": { "name": "scim_user_id" }
+    }
+  ]
+}

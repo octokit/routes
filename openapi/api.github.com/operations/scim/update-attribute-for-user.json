@@ -1,0 +1,131 @@
+{
+  "summary": "Update an attribute for a SCIM user",
+  "description": "Allows you to change a provisioned user's individual attributes. To change a user's values, you must provide a specific `Operations` JSON format that contains at least one of the `add`, `remove`, or `replace` operations.\n\nThe following example shows adding a new email address and updating the user's given name. For other examples and more information on the SCIM operations format, see the [SCIM specification](https://tools.ietf.org/html/rfc7644#section-3.5.2).\n\n**Note:** Complicated SCIM `path` selectors that include filters are not supported. For example, a `path` selector defined as `\"path\": \"emails[type eq \\\"work\\\"]\"` will not work.\n\n**Warning:** If you set `active:false` using the `replace` operation (as shown in the JSON example below), it removes the user from the organization, deletes the external identity, and deletes the associated `:scim_user_id`.\n\n```\n{\n  \"Operations\":[{\n    \"op\":\"replace\",\n    \"value\":{\n      \"active\":false\n    }\n  }]\n}\n```",
+  "operationId": "scim/update-attribute-for-user",
+  "tags": ["scim"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/scim/#update-an-attribute-for-a-scim-user"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "org",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "scim_user_id",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "schemas": { "type": "array", "items": { "type": "string" } },
+              "id": { "type": "string" },
+              "externalId": { "type": "string" },
+              "userName": { "type": "string" },
+              "name": {
+                "type": "object",
+                "properties": {
+                  "givenName": { "type": "string" },
+                  "familyName": { "type": "string" }
+                }
+              },
+              "emails": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "value": { "type": "string" },
+                    "type": { "type": "string" },
+                    "primary": { "type": "boolean" }
+                  },
+                  "required": ["value", "type"]
+                }
+              },
+              "active": { "type": "boolean" },
+              "meta": {
+                "type": "object",
+                "properties": {
+                  "resourceType": { "type": "string" },
+                  "created": { "type": "string" },
+                  "lastModified": { "type": "string" },
+                  "location": { "type": "string" }
+                }
+              }
+            }
+          },
+          "example": {
+            "schemas": ["urn:ietf:params:scim:schemas:core:2.0:User"],
+            "id": "edefdfedf-050c-11e7-8d32",
+            "externalId": "a7d0f98382",
+            "userName": "mona.octocat@okta.example.com",
+            "name": { "givenName": "Monalisa", "familyName": "Octocat" },
+            "emails": [
+              {
+                "value": "mona.octocat@okta.example.com",
+                "type": "work",
+                "primary": true
+              },
+              { "value": "monalisa@octocat.github.com", "type": "home" }
+            ],
+            "active": true,
+            "meta": {
+              "resourceType": "User",
+              "created": "2017-03-09T16:11:13-05:00",
+              "lastModified": "2017-03-09T16:11:13-05:00",
+              "location": "https://api.github.com/scim/v2/organizations/octo-org/Users/edefdfedf-050c-11e7-8d32"
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/scim/v2/organizations/ORG/Users/42"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.scim.updateAttributeForUser({\n  org: 'org',\n  scim_user_id: 42\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.update_attribute_for_user(\n  'org',\n  42\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": true,
+    "previews": []
+  },
+  "x-changes": [
+    {
+      "type": "parameter",
+      "date": "2019-04-10",
+      "note": "\"external_identity_guid\" parameter renamed to \"scim_user_id\"",
+      "before": { "name": "external_identity_guid" },
+      "after": { "name": "scim_user_id" }
+    }
+  ]
+}

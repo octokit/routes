@@ -1,0 +1,77 @@
+{
+  "summary": "Download a repository archive",
+  "description": "Gets a redirect URL to download an archive for a repository. The `:archive_format` can be either `tarball` or `zipball`. The `:ref` must be a valid Git reference. If you omit `:ref`, the repository’s default branch (usually `master`) will be used. Please make sure your HTTP framework is configured to follow redirects or you will need to use the `Location` header to make a second `GET` request.\n\n_Note_: For private repositories, these links are temporary and expire after five minutes.\n\nTo follow redirects with curl, use the `-L` switch:",
+  "operationId": "repos/download-archive",
+  "tags": ["repos"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/repos/contents/#download-a-repository-archive"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "archive_format",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "ref",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": {
+    "302": {
+      "description": "response",
+      "headers": {
+        "Location": {
+          "example": "https://codeload.github.com/me/myprivate/legacy.zip/master?login=me&token=thistokenexpires",
+          "schema": { "type": "string" }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/repos/octocat/hello-world/ARCHIVE_FORMAT/REF"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.repos.downloadArchive({\n  owner: 'octocat',\n  repo: 'hello-world',\n  archive_format: 'archive_format',\n  ref: 'ref'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.download_archive(\n  'hello-world',\n  'archive_format',\n  'ref'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}
