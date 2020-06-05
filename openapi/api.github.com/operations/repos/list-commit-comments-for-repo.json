@@ -1,11 +1,11 @@
 {
-  "summary": "List commit comments",
-  "description": "Use the `:commit_sha` to specify the commit that will have its comments listed.",
-  "operationId": "repos/list-commit-comments",
+  "summary": "List commit comments for a repository",
+  "description": "Commit Comments use [these custom media types](https://developer.github.com/v3/repos/comments/#custom-media-types). You can read more about the use of media types in the API [here](https://developer.github.com/v3/media/).\n\nComments are ordered by ascending ID.",
+  "operationId": "repos/list-commit-comments-for-repo",
   "tags": ["repos"],
   "externalDocs": {
     "description": "API method documentation",
-    "url": "https://developer.github.com/v3/repos/comments/#list-commit-comments"
+    "url": "https://developer.github.com/v3/repos/comments/#list-commit-comments-for-a-repository"
   },
   "parameters": [
     {
@@ -25,12 +25,6 @@
     },
     {
       "name": "repo",
-      "in": "path",
-      "required": true,
-      "schema": { "type": "string" }
-    },
-    {
-      "name": "commit_sha",
       "in": "path",
       "required": true,
       "schema": { "type": "string" }
@@ -143,15 +137,15 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/repos/octocat/hello-world/commits/COMMIT_SHA/comments"
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/repos/octocat/hello-world/comments"
     },
     {
       "lang": "JS",
-      "source": "octokit.repos.listCommitComments({\n  owner: 'octocat',\n  repo: 'hello-world',\n  commit_sha: 'commit_sha'\n})"
+      "source": "octokit.repos.listCommitCommentsForRepo({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
     },
     {
       "lang": "Ruby",
-      "source": "octokit.commit_comments(\n  'hello-world',\n  'commit_sha'\n)"
+      "source": "octokit.commit_comments_for_repo(\n  'hello-world'\n)"
     }
   ],
   "x-github": {
@@ -166,13 +160,5 @@
       }
     ]
   },
-  "x-changes": [
-    {
-      "type": "parameter",
-      "date": "2019-06-07",
-      "note": "\"ref\" parameter renamed to \"commit_sha\"",
-      "before": { "name": "ref" },
-      "after": { "name": "commit_sha" }
-    }
-  ]
+  "x-changes": []
 }
