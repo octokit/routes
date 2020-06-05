@@ -1,11 +1,11 @@
 {
-  "summary": "Edit a comment",
-  "description": "**Note:** Multi-line comments on pull requests are currently in public beta and subject to change.\n\nEnables you to edit a review comment.\n\n**Multi-line comment summary**\n\n**Note:** New parameters and response fields are available for developers to preview. During the preview period, these response fields may change without advance notice. Please see the [blog post](https://developer.github.com/changes/2019-10-03-multi-line-comments) for full details.\n\nUse the `comfort-fade` preview header and the `line` parameter to show multi-line comment-supported fields in the response.\n\nIf you use the `comfort-fade` preview header, your response will show:\n\n*   For multi-line comments, values for `start_line`, `original_start_line`, `start_side`, `line`, `original_line`, and `side`.\n*   For single-line comments, values for `line`, `original_line`, and `side` and a `null` value for `start_line`, `original_start_line`, and `start_side`.\n\nIf you don't use the `comfort-fade` preview header, multi-line and single-line comments will appear the same way in the response with a single `position` attribute. Your response will show:\n\n*   For multi-line comments, the last line of the comment range for the `position` attribute.\n*   For single-line comments, the diff-positioned way of referencing comments for the `position` attribute. For more information, see `position` in the [input parameters](https://developer.github.com/v3/pulls/comments/#parameters-2) table.",
-  "operationId": "pulls/update-comment",
+  "summary": "Create a reply for a review comment",
+  "description": "Creates a reply to a review comment for a pull request. For the `comment_id`, provide the ID of the review comment you are replying to. This must be the ID of a _top-level review comment_, not a reply to that comment. Replies to replies are not supported.\n\nThis endpoint triggers [notifications](https://help.github.com/articles/about-notifications/). Creating content too quickly using this endpoint may result in abuse rate limiting. See \"[Abuse rate limits](https://developer.github.com/v3/#abuse-rate-limits)\" and \"[Dealing with abuse rate limits](https://developer.github.com/v3/guides/best-practices-for-integrators/#dealing-with-abuse-rate-limits)\" for details.",
+  "operationId": "pulls/create-reply-for-review-comment",
   "tags": ["pulls"],
   "externalDocs": {
     "description": "API method documentation",
-    "url": "https://developer.github.com/v3/pulls/comments/#edit-a-comment"
+    "url": "https://developer.github.com/v3/pulls/comments/#create-a-reply-for-a-review-comment"
   },
   "parameters": [
     {
@@ -30,6 +30,12 @@
       "schema": { "type": "string" }
     },
     {
+      "name": "pull_number",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    },
+    {
       "name": "comment_id",
       "in": "path",
       "required": true,
@@ -37,7 +43,7 @@
     }
   ],
   "responses": {
-    "200": {
+    "201": {
       "description": "response",
       "content": {
         "application/json": {
@@ -45,16 +51,15 @@
             "type": "object",
             "properties": {
               "url": { "type": "string" },
+              "pull_request_review_id": { "type": "number" },
               "id": { "type": "number" },
               "node_id": { "type": "string" },
-              "pull_request_review_id": { "type": "number" },
               "diff_hunk": { "type": "string" },
               "path": { "type": "string" },
               "position": { "type": "number" },
               "original_position": { "type": "number" },
               "commit_id": { "type": "string" },
               "original_commit_id": { "type": "string" },
-              "in_reply_to_id": { "type": "number" },
               "user": {
                 "type": "object",
                 "properties": {
@@ -100,27 +105,20 @@
                     "properties": { "href": { "type": "string" } }
                   }
                 }
-              },
-              "start_line": { "type": "number" },
-              "original_start_line": { "type": "number" },
-              "start_side": { "type": "string" },
-              "line": { "type": "number" },
-              "original_line": { "type": "number" },
-              "side": { "type": "string" }
+              }
             }
           },
           "example": {
-            "url": "https://api.github.com/repos/octocat/Hello-World/pulls/comments/1",
-            "id": 10,
-            "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEw",
-            "pull_request_review_id": 42,
-            "diff_hunk": "@@ -16,33 +16,40 @@ public class Connection : IConnection...",
+            "url": "https://api.github.com/repos/octocat/Hello-World/comments/1",
+            "pull_request_review_id": 1,
+            "id": 2,
+            "node_id": "MDEzOkNvbW1pdENvbW1lbnQx",
+            "diff_hunk": "@@ -18,3 +18,5 @@ This is my amazing work.",
             "path": "file1.txt",
-            "position": 1,
+            "position": 4,
             "original_position": 4,
             "commit_id": "6dcb09b5b57875f334f61aebed695e2e4193db5e",
             "original_commit_id": "9c48853fa3dc5c1c3d6f1f1cd1f2743e72652840",
-            "in_reply_to_id": 8,
             "user": {
               "login": "octocat",
               "id": 1,
@@ -141,9 +139,9 @@
               "type": "User",
               "site_admin": false
             },
-            "body": "Great stuff!",
-            "created_at": "2011-04-14T16:00:49Z",
-            "updated_at": "2011-04-14T16:00:49Z",
+            "body": "I like this too!",
+            "created_at": "2019-08-11T16:00:49Z",
+            "updated_at": "2019-08-11T16:00:49Z",
             "html_url": "https://github.com/octocat/Hello-World/pull/1#discussion-diff-1",
             "pull_request_url": "https://api.github.com/repos/octocat/Hello-World/pulls/1",
             "author_association": "NONE",
@@ -157,14 +155,14 @@
               "pull_request": {
                 "href": "https://api.github.com/repos/octocat/Hello-World/pulls/1"
               }
-            },
-            "start_line": 1,
-            "original_start_line": 1,
-            "start_side": "RIGHT",
-            "line": 2,
-            "original_line": 2,
-            "side": "RIGHT"
+            }
           }
+        }
+      },
+      "headers": {
+        "Location": {
+          "example": "https://api.github.com/repos/octocat/Hello-World/comments/1",
+          "schema": { "type": "string" }
         }
       }
     }
@@ -172,28 +170,23 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/repos/octocat/hello-world/pulls/comments/42 \\\n  -d '{\"body\":\"body\"}'"
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/repos/octocat/hello-world/pulls/42/comments/42/replies \\\n  -d '{\"body\":\"body\"}'"
     },
     {
       "lang": "JS",
-      "source": "octokit.pulls.updateComment({\n  owner: 'octocat',\n  repo: 'hello-world',\n  comment_id: 42,\n  body: 'body'\n})"
+      "source": "octokit.pulls.createReplyForReviewComment({\n  owner: 'octocat',\n  repo: 'hello-world',\n  pull_number: 42,\n  comment_id: 42,\n  body: 'body'\n})"
     },
     {
       "lang": "Ruby",
-      "source": "octokit.update_comment(\n  'hello-world',\n  42,\n  'body'\n)"
+      "source": "octokit.create_reply_for_review_comment(\n  'hello-world',\n  42,\n  42,\n  'body'\n)"
     }
   ],
   "x-github": {
     "legacy": false,
-    "enabledForApps": true,
+    "enabledForApps": false,
     "githubCloudOnly": false,
-    "previews": [
-      {
-        "name": "comfort-fade",
-        "required": false,
-        "note": "Multi-line comments in a pull request diff is currently available for developers to preview. To access the new response fields during the preview period, you must provide a custom [media type](https://developer.github.com/v3/media) in the `Accept` header:\n```shell\napplication/vnd.github.comfort-fade-preview+json\n```"
-      }
-    ]
+    "previews": [],
+    "triggersNotification": true
   },
   "x-changes": [],
   "requestBody": {
@@ -204,12 +197,12 @@
           "properties": {
             "body": {
               "type": "string",
-              "description": "The text of the reply to the review comment."
+              "description": "The text of the review comment."
             }
           },
           "required": ["body"]
         },
-        "example": { "body": "I like this too!" }
+        "example": { "body": "Great stuff!" }
       }
     }
   }

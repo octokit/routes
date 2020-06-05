@@ -1,11 +1,11 @@
 {
-  "summary": "Get comments for a single review",
-  "description": "",
-  "operationId": "pulls/get-comments-for-review",
+  "summary": "List review comments in a repository",
+  "description": "**Note:** Multi-line comments on pull requests are currently in public beta and subject to change.\n\nLists review comments for all pull requests in a repository. By default, review comments are in ascending order by ID.\n\n**Multi-line comment summary**\n\n**Note:** New parameters and response fields are available for developers to preview. During the preview period, these response fields may change without advance notice. Please see the [blog post](https://developer.github.com/changes/2019-10-03-multi-line-comments) for full details.\n\nUse the `comfort-fade` preview header and the `line` parameter to show multi-line comment-supported fields in the response.\n\nIf you use the `comfort-fade` preview header, your response will show:\n\n*   For multi-line comments, values for `start_line`, `original_start_line`, `start_side`, `line`, `original_line`, and `side`.\n*   For single-line comments, values for `line`, `original_line`, and `side` and a `null` value for `start_line`, `original_start_line`, and `start_side`.\n\nIf you don't use the `comfort-fade` preview header, multi-line and single-line comments will appear the same way in the response with a single `position` attribute. Your response will show:\n\n*   For multi-line comments, the last line of the comment range for the `position` attribute.\n*   For single-line comments, the diff-positioned way of referencing comments for the `position` attribute. For more information, see `position` in the [input parameters](https://developer.github.com/v3/pulls/comments/#parameters-2) table.\n\nThe `reactions` key will have the following payload where `url` can be used to construct the API location for [listing and creating](https://developer.github.com/v3/reactions) reactions.",
+  "operationId": "pulls/list-review-comments-for-repo",
   "tags": ["pulls"],
   "externalDocs": {
     "description": "API method documentation",
-    "url": "https://developer.github.com/v3/pulls/reviews/#get-comments-for-a-single-review"
+    "url": "https://developer.github.com/v3/pulls/comments/#list-review-comments-in-a-repository"
   },
   "parameters": [
     {
@@ -30,16 +30,29 @@
       "schema": { "type": "string" }
     },
     {
-      "name": "pull_number",
-      "in": "path",
-      "required": true,
-      "schema": { "type": "integer" }
+      "name": "sort",
+      "description": "Can be either `created` or `updated` comments.",
+      "in": "query",
+      "required": false,
+      "schema": {
+        "type": "string",
+        "enum": ["created", "updated"],
+        "default": "created"
+      }
     },
     {
-      "name": "review_id",
-      "in": "path",
-      "required": true,
-      "schema": { "type": "integer" }
+      "name": "direction",
+      "description": "Can be either `asc` or `desc`. Ignored without `sort` parameter.",
+      "in": "query",
+      "required": false,
+      "schema": { "type": "string", "enum": ["asc", "desc"] }
+    },
+    {
+      "name": "since",
+      "description": "This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. Only returns comments `updated` at or after this time.",
+      "in": "query",
+      "required": false,
+      "schema": { "type": "string" }
     },
     {
       "name": "per_page",
@@ -120,7 +133,13 @@
                       "properties": { "href": { "type": "string" } }
                     }
                   }
-                }
+                },
+                "start_line": { "type": "number" },
+                "original_start_line": { "type": "number" },
+                "start_side": { "type": "string" },
+                "line": { "type": "number" },
+                "original_line": { "type": "number" },
+                "side": { "type": "string" }
               }
             }
           },
@@ -173,7 +192,13 @@
                 "pull_request": {
                   "href": "https://api.github.com/repos/octocat/Hello-World/pulls/1"
                 }
-              }
+              },
+              "start_line": 1,
+              "original_start_line": 1,
+              "start_side": "RIGHT",
+              "line": 2,
+              "original_line": 2,
+              "side": "RIGHT"
             }
           ]
         }
@@ -189,30 +214,33 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/repos/octocat/hello-world/pulls/42/reviews/42/comments"
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/repos/octocat/hello-world/pulls/comments"
     },
     {
       "lang": "JS",
-      "source": "octokit.pulls.getCommentsForReview({\n  owner: 'octocat',\n  repo: 'hello-world',\n  pull_number: 42,\n  review_id: 42\n})"
+      "source": "octokit.pulls.listReviewCommentsForRepo({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
     },
     {
       "lang": "Ruby",
-      "source": "octokit.comments_for_review(\n  'hello-world',\n  42,\n  42\n)"
+      "source": "octokit.review_comments_for_repo(\n  'hello-world'\n)"
     }
   ],
   "x-github": {
     "legacy": false,
     "enabledForApps": true,
     "githubCloudOnly": false,
-    "previews": []
+    "previews": [
+      {
+        "name": "comfort-fade",
+        "required": false,
+        "note": "Multi-line comments in a pull request diff is currently available for developers to preview. To access the new response fields during the preview period, you must provide a custom [media type](https://developer.github.com/v3/media) in the `Accept` header:\n```shell\napplication/vnd.github.comfort-fade-preview+json\n```"
+      },
+      {
+        "name": "squirrel-girl",
+        "required": false,
+        "note": "An additional `reactions` object in the review comment payload is currently available for developers to preview. During the preview period, the APIs may change without advance notice. Please see the [blog post](https://developer.github.com/changes/2016-05-12-reactions-api-preview) for full details.\n\nTo access the API you must provide a custom [media type](https://developer.github.com/v3/media) in the `Accept` header:\n```shell\napplication/vnd.github.squirrel-girl-preview\n```"
+      }
+    ]
   },
-  "x-changes": [
-    {
-      "type": "parameter",
-      "date": "2019-04-10",
-      "note": "\"number\" parameter renamed to \"pull_number\"",
-      "before": { "name": "number" },
-      "after": { "name": "pull_number" }
-    }
-  ]
+  "x-changes": []
 }
