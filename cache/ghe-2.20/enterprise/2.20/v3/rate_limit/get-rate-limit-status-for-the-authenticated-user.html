@@ -1,0 +1,62 @@
+<h2>
+<a id="get-rate-limit-status-for-the-authenticated-user" class="anchor" href="#get-rate-limit-status-for-the-authenticated-user" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get rate limit status for the authenticated user<a href="/enterprise/2.20/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+<div class="alert note">
+<p><strong>Note:</strong> Accessing this endpoint does not count against your REST API rate limit.</p>
+</div>
+<pre><code>GET /rate_limit
+</code></pre>
+<h3>
+<a id="response" class="anchor" href="#response" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+X-RateLimit-Limit: 5000
+X-RateLimit-Remaining: 4999
+X-RateLimit-Reset: 1372700873
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;resources&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;core&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;limit&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5000</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;remaining&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4999</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;reset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1372700873</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">&quot;search&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;limit&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;remaining&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;reset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1372697452</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">&quot;graphql&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;limit&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5000</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;remaining&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4993</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;reset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1372700389</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nt">&quot;integration_manifest&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;limit&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5000</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;remaining&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4999</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;reset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1551806725</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">&quot;rate&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;limit&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5000</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;remaining&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4999</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;reset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1372700873</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h4>
+<a id="understanding-your-rate-limit-status" class="anchor" href="#understanding-your-rate-limit-status" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Understanding your rate limit status</h4>
+<p>The Search API has a <a href="/enterprise/2.20/v3/search/#rate-limit">custom rate limit</a>, separate from the rate limit governing the rest of the REST API. The GraphQL API also has a <a href="/enterprise/2.20/v4/guides/resource-limitations/#rate-limit">custom rate limit</a> that is separate from and calculated differently than rate limits in the REST API.</p>
+<p>For these reasons, the Rate Limit API response categorizes your rate limit. Under <code>resources</code>, you&apos;ll see four objects:</p>
+<ul>
+<li>The <code>core</code> object provides your rate limit status for all non-search-related resources in the REST API.</li>
+<li>The <code>search</code> object provides your rate limit status for the <a href="/enterprise/2.20/v3/search/">Search API</a>.</li>
+<li>The <code>graphql</code> object provides your rate limit status for the <a href="/enterprise/2.20/v4/">GraphQL API</a>.</li>
+<li>The <code>integration_manifest</code> object provides your rate limit status for the <a href="/enterprise/2.20/apps/building-github-apps/creating-github-apps-from-a-manifest/#3-you-exchange-the-temporary-code-to-retrieve-the-app-configuration">GitHub App Manifest code conversion</a> endpoint.</li>
+</ul>
+<p>For more information on the headers and values in the rate limit response, see &quot;<a href="/enterprise/2.20/v3/#rate-limiting">Rate limiting</a>.&quot;</p>
+<h4>
+<a id="deprecation-notice" class="anchor" href="#deprecation-notice" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Deprecation notice</h4>
+<p>The <code>rate</code> object (shown at the bottom of the response above) is deprecated.</p>
+<p>If you&apos;re writing new API client code or updating existing code, you
+should use the <code>core</code> object instead of the <code>rate</code> object. The <code>core</code> object
+contains the same information that is present in the <code>rate</code> object.</p>

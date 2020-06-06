@@ -1,0 +1,98 @@
+<h2>
+<a id="update-an-organization-webhook" class="anchor" href="#update-an-organization-webhook" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Update an organization webhook<a href="/enterprise/2.18/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+<pre><code>PATCH /orgs/:org/hooks/:hook_id
+</code></pre>
+<h3>
+<a id="parameters-1" class="anchor" href="#parameters-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>config</code></td>
+<td><code>object</code></td>
+<td>Key/value pairs to provide settings for this webhook. <a href="#update-hook-config-params">These are defined below</a>.</td>
+</tr>
+<tr>
+<td><code>events</code></td>
+<td><code>array</code></td>
+<td>Determines what <a href="/enterprise/2.18/webhooks/event-payloads">events</a> the hook is triggered for.  Default: <code>[&quot;push&quot;]</code>.</td>
+</tr>
+<tr>
+<td><code>active</code></td>
+<td><code>boolean</code></td>
+<td>Determines if notifications are sent when the webhook is triggered. Set to <code>true</code> to send notifications. Default: <code>true</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="update-hook-config-params"></a>
+The <code>config</code> object can accept the following keys:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>url</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required</strong>. The URL to which the payloads will be delivered.</td>
+</tr>
+<tr>
+<td><code>content_type</code></td>
+<td><code>string</code></td>
+<td>The media type used to serialize the payloads. Supported values include <code>json</code> and <code>form</code>. The default is <code>form</code>.</td>
+</tr>
+<tr>
+<td><code>secret</code></td>
+<td><code>string</code></td>
+<td>If provided, the <code>secret</code> will be used as the <code>key</code> to generate the HMAC hex digest value in the <a href="/enterprise/2.18/webhooks/event-payloads/#delivery-headers"><code>X-Hub-Signature</code></a> header.</td>
+</tr>
+<tr>
+<td><code>insecure_ssl</code></td>
+<td><code>string</code></td>
+<td>Determines whether the SSL certificate of the host for <code>url</code> will be verified when delivering payloads. Supported values include <code>0</code> (verification is performed) and <code>1</code> (verification is not performed). The default is <code>0</code>. <strong>We strongly recommend not setting this to <code>1</code> as you are subject to man-in-the-middle and other attacks.</strong>
+</td>
+</tr>
+</tbody>
+</table>
+<h4>
+<a id="example-1" class="anchor" href="#example-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h4>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;events&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">&quot;pull_request&quot;</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="response-3" class="anchor" href="#response-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/orgs/octocat/hooks/1&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;ping_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/orgs/octocat/hooks/1/pings&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;web&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;events&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">&quot;pull_request&quot;</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nt">&quot;active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;config&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://example.com&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;content_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;json&quot;</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2011-09-06T20:39:23Z&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2011-09-06T17:26:27Z&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>

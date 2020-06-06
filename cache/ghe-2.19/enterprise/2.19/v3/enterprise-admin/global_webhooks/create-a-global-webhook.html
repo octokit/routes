@@ -1,0 +1,123 @@
+<h2>
+<a id="create-a-global-webhook" class="anchor" href="#create-a-global-webhook" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a global webhook</h2>
+<div class="alert note">
+<p><strong>Note:</strong> The <a href="/enterprise/2.19/v3/enterprise-admin/global_webhooks/">Global Webhooks API</a> is currently available for developers to preview. To access the API during the preview period, you must provide a custom <a href="/enterprise/2.19/v3/media">media type</a> in the <code>Accept</code> header:</p>
+<pre><code>application/vnd.github.superpro-preview+json
+</code></pre>
+</div>
+<div class="alert warning">
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact your GitHub Enterprise site administrator.</p>
+</div>
+<pre><code>POST /admin/hooks
+</code></pre>
+<h3>
+<a id="parameters" class="anchor" href="#parameters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required</strong>. Must be passed as &quot;web&quot;.</td>
+</tr>
+<tr>
+<td><code>config</code></td>
+<td><code>object</code></td>
+<td>
+<strong>Required</strong>. Key/value pairs to provide settings for this webhook. <a href="#create-hook-config-params">These are defined below</a>.</td>
+</tr>
+<tr>
+<td><code>events</code></td>
+<td><code>array</code></td>
+<td>The <a href="/enterprise/2.19/webhooks/event-payloads">events</a> that trigger this webhook.  A global webhook can be triggered by <code>user</code> and <code>organization</code> events. Default: <code>user</code> and <code>organization</code>.</td>
+</tr>
+<tr>
+<td><code>active</code></td>
+<td><code>boolean</code></td>
+<td>Determines if notifications are sent when the webhook is triggered. Set to <code>true</code> to send notifications. Default: <code>true</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="create-hook-config-params"></a>
+The <code>config</code> object can accept the following keys:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>url</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required</strong>. The URL to which the payloads will be delivered.</td>
+</tr>
+<tr>
+<td><code>content_type</code></td>
+<td><code>string</code></td>
+<td>The media type used to serialize the payloads. Supported values include <code>json</code> and <code>form</code>. The default is <code>form</code>.</td>
+</tr>
+<tr>
+<td><code>secret</code></td>
+<td><code>string</code></td>
+<td>If provided, the <code>secret</code> will be used as the <code>key</code> to generate the HMAC hex digest value in the <a href="/enterprise/2.19/webhooks/event-payloads/#delivery-headers"><code>X-Hub-Signature</code></a> header.</td>
+</tr>
+<tr>
+<td><code>insecure_ssl</code></td>
+<td><code>string</code></td>
+<td>Determines whether the SSL certificate of the host for <code>url</code> will be verified when delivering payloads. Supported values include <code>0</code> (verification is performed) and <code>1</code> (verification is not performed). The default is <code>0</code>. <strong>We strongly recommend not setting this to <code>1</code> as you are subject to man-in-the-middle and other attacks.</strong>
+</td>
+</tr>
+</tbody>
+</table>
+<h4>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h4>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;web&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;events&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">&quot;organization&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="s2">&quot;user&quot;</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nt">&quot;config&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://example.com/webhook&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;content_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;json&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;secret&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;secret&quot;</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="response-2" class="anchor" href="#response-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 201 Created
+Location: 
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Global&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;web&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;events&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">&quot;organization&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="s2">&quot;user&quot;</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nt">&quot;config&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://example.com&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;content_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;json&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;insecure_ssl&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;secret&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;********&quot;</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2017-12-07T00:14:59Z&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2017-12-07T00:14:59Z&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/admin/hooks/1&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;ping_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/admin/hooks/1/pings&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>

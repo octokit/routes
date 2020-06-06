@@ -274,7 +274,7 @@
 (branch heads and tags).</p>
 <p>This basically allows you to reimplement a lot of Git functionality over our API - by creating raw objects directly into the database and updating branch references you could technically do just about anything that Git can do without having Git installed.</p>
 <p>Git Database API functions will return a <code>409 Conflict</code> if the Git repository is empty
-or unavailable.  An unavailable repository typically means GitHub Enterprise is in the process of creating the repository. For an empty repository, you can use the <a href="/enterprise/2.18/v3/repos/contents/#create-or-update-a-file">Create a file</a> endpoint to create content and initialize the repository so you can use the Git Database API. Contact your GitHub Enterprise site administrator if this response status persists.</p>
+or unavailable.  An unavailable repository typically means GitHub Enterprise is in the process of creating the repository. For an empty repository, you can use the <a href="/enterprise/2.18/v3/repos/contents/#create-or-update-file-contents">Create or update file contents</a> endpoint to create content and initialize the repository so you can use the Git Database API. Contact your GitHub Enterprise site administrator if this response status persists.</p>
 <p><img src="https://git-scm.com/figures/18333fig0904-tn.png" alt="git db"></p>
 <p>For more information on the Git object database, please read the
 <a href="http://git-scm.com/book/en/v1/Git-Internals">Git Internals</a> chapter of
@@ -297,12 +297,12 @@ the model and it opens up a ton of things you could potentially do with the API.
 <div class="alert note">
 <p><strong>Warning!</strong> Please do not depend on using Git directly or <a href="/enterprise/2.18/v3/git/refs/#get-a-reference"><code>GET /repos/:owner/:repo/git/refs/:ref</code></a>  for updates to <code>merge</code> Git refs, because this content becomes outdated without warning.</p>
 </div>
-<p>A consuming API needs to explicitly request a pull request to create a <em>test</em> merge commit. A <em>test</em> merge commit is created when you view the pull request in the UI and the "Merge" button is displayed, or when you <a href="/enterprise/2.18/v3/pulls/#get-a-single-pull-request">get</a>, <a href="/enterprise/2.18/v3/pulls/#create-a-pull-request">create</a>, or <a href="/enterprise/2.18/v3/pulls/#update-a-pull-request">edit</a> a pull request using the REST API. Without this request, the <code>merge</code> Git refs will fall out of date until the next time someone views the pull request.</p>
+<p>A consuming API needs to explicitly request a pull request to create a <em>test</em> merge commit. A <em>test</em> merge commit is created when you view the pull request in the UI and the "Merge" button is displayed, or when you <a href="/enterprise/2.18/v3/pulls/#get-a-pull-request">get</a>, <a href="/enterprise/2.18/v3/pulls/#create-a-pull-request">create</a>, or <a href="/enterprise/2.18/v3/pulls/#update-a-pull-request">edit</a> a pull request using the REST API. Without this request, the <code>merge</code> Git refs will fall out of date until the next time someone views the pull request.</p>
 <p>If you are currently using polling methods that produce outdated <code>merge</code> Git refs, then GitHub recommends using the following steps to get the latest changes from the base branch (usually <code>master</code>):</p>
 <ol>
 <li>Receive the pull request webhook.</li>
-<li>Call <a href="/enterprise/2.18/v3/pulls/#get-a-single-pull-request"><code>GET /repos/:owner/:repo/pulls/:pull_number</code></a> to start background job for creating the merge commit candidate.</li>
-<li>Poll your repository using <a href="/enterprise/2.18/v3/pulls/#get-a-single-pull-request"><code>GET /repos/:owner/:repo/pulls/:pull_number</code></a> to see if the <code>mergeable</code> attribute is <code>true</code> or <code>false</code>. You can use Git directly or <a href="/enterprise/2.18/v3/git/refs/#get-a-reference"><code>GET /repos/:owner/:repo/git/refs/:ref</code></a> for updates to <code>merge</code> Git refs only after performing the previous steps.</li>
+<li>Call <a href="/enterprise/2.18/v3/pulls/#get-a-pull-request"><code>GET /repos/:owner/:repo/pulls/:pull_number</code></a> to start background job for creating the merge commit candidate.</li>
+<li>Poll your repository using <a href="/enterprise/2.18/v3/pulls/#get-a-pull-request"><code>GET /repos/:owner/:repo/pulls/:pull_number</code></a> to see if the <code>mergeable</code> attribute is <code>true</code> or <code>false</code>. You can use Git directly or <a href="/enterprise/2.18/v3/git/refs/#get-a-reference"><code>GET /repos/:owner/:repo/git/refs/:ref</code></a> for updates to <code>merge</code> Git refs only after performing the previous steps.</li>
 </ol>
       </div>
       <div class="nav-select nav-select-bottom hide-lg hide-xl">

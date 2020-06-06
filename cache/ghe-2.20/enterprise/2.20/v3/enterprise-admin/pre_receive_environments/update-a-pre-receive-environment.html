@@ -1,0 +1,64 @@
+<h2>
+<a id="update-a-pre-receive-environment" class="anchor" href="#update-a-pre-receive-environment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Update a pre-receive environment</h2>
+<pre><code>PATCH /admin/pre-receive-environments/:pre_receive_environment_id
+</code></pre>
+<h3>
+<a id="parameters-1" class="anchor" href="#parameters-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>This pre-receive environment&apos;s new name.</td>
+</tr>
+<tr>
+<td><code>image_url</code></td>
+<td><code>string</code></td>
+<td>URL from which to download a tarball of this environment.</td>
+</tr>
+</tbody>
+</table>
+<h3>
+<a id="response-1" class="anchor" href="#response-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;DevTools Hook Env&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;image_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://my_file_server/path/to/devtools_env.tar.gz&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.example.com/api/v3/admin/pre-receive-environments/2&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;html_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.example.com/admin/pre-receive-environments/2&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;default_environment&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2016-05-20T11:35:45-05:00&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;hooks_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;download&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.example.com/api/v3/admin/pre-receive-environments/2/downloads/latest&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;downloaded_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2016-05-26T07:42:53-05:00&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h4>
+<a id="client-errors" class="anchor" href="#client-errors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Client Errors</h4>
+<p>If you attempt to modify the default environment, you will get a response like this:</p>
+<pre class="highlight highlight-headers"><code>Status: 422 Unprocessable Entity
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Validation Failed&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;errors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PreReceiveEnvironment&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;custom&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Cannot modify or delete the default environment&quot;</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
