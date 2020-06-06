@@ -1,0 +1,246 @@
+{
+  "summary": "Update pull request review protection",
+  "description": "Protected branches are available in public repositories with GitHub Free and GitHub Free for organizations, and in public and private repositories with GitHub Pro, GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server.\n\nUpdating pull request review enforcement requires admin or owner permissions to the repository and branch protection to be enabled.\n\n**Note**: Passing new arrays of `users` and `teams` replaces their previous values.",
+  "operationId": "repos/update-pull-request-review-protection",
+  "tags": ["repos"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.18/v3/repos/branches/#update-pull-request-review-protection"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "This API is under preview and subject to change.",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.luke-cage-preview+json"
+      },
+      "required": false
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "branch",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "url": { "type": "string" },
+              "dismissal_restrictions": {
+                "type": "object",
+                "properties": {
+                  "url": { "type": "string" },
+                  "users_url": { "type": "string" },
+                  "teams_url": { "type": "string" },
+                  "users": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "login": { "type": "string" },
+                        "id": { "type": "number" },
+                        "node_id": { "type": "string" },
+                        "avatar_url": { "type": "string" },
+                        "gravatar_id": { "type": "string" },
+                        "url": { "type": "string" },
+                        "html_url": { "type": "string" },
+                        "followers_url": { "type": "string" },
+                        "following_url": { "type": "string" },
+                        "gists_url": { "type": "string" },
+                        "starred_url": { "type": "string" },
+                        "subscriptions_url": { "type": "string" },
+                        "organizations_url": { "type": "string" },
+                        "repos_url": { "type": "string" },
+                        "events_url": { "type": "string" },
+                        "received_events_url": { "type": "string" },
+                        "type": { "type": "string" },
+                        "site_admin": { "type": "boolean" }
+                      }
+                    }
+                  },
+                  "teams": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "number" },
+                        "node_id": { "type": "string" },
+                        "url": { "type": "string" },
+                        "html_url": { "type": "string" },
+                        "name": { "type": "string" },
+                        "slug": { "type": "string" },
+                        "description": { "type": "string" },
+                        "privacy": { "type": "string" },
+                        "permission": { "type": "string" },
+                        "members_url": { "type": "string" },
+                        "repositories_url": { "type": "string" },
+                        "parent": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "dismiss_stale_reviews": { "type": "boolean" },
+              "require_code_owner_reviews": { "type": "boolean" },
+              "required_approving_review_count": { "type": "number" }
+            }
+          },
+          "example": {
+            "url": "https://api.github.com/repos/octocat/Hello-World/branches/master/protection/required_pull_request_reviews",
+            "dismissal_restrictions": {
+              "url": "https://api.github.com/repos/octocat/Hello-World/branches/master/protection/dismissal_restrictions",
+              "users_url": "https://api.github.com/repos/octocat/Hello-World/branches/master/protection/dismissal_restrictions/users",
+              "teams_url": "https://api.github.com/repos/octocat/Hello-World/branches/master/protection/dismissal_restrictions/teams",
+              "users": [
+                {
+                  "login": "octocat",
+                  "id": 1,
+                  "node_id": "MDQ6VXNlcjE=",
+                  "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+                  "gravatar_id": "",
+                  "url": "https://api.github.com/users/octocat",
+                  "html_url": "https://github.com/octocat",
+                  "followers_url": "https://api.github.com/users/octocat/followers",
+                  "following_url": "https://api.github.com/users/octocat/following{/other_user}",
+                  "gists_url": "https://api.github.com/users/octocat/gists{/gist_id}",
+                  "starred_url": "https://api.github.com/users/octocat/starred{/owner}{/repo}",
+                  "subscriptions_url": "https://api.github.com/users/octocat/subscriptions",
+                  "organizations_url": "https://api.github.com/users/octocat/orgs",
+                  "repos_url": "https://api.github.com/users/octocat/repos",
+                  "events_url": "https://api.github.com/users/octocat/events{/privacy}",
+                  "received_events_url": "https://api.github.com/users/octocat/received_events",
+                  "type": "User",
+                  "site_admin": false
+                }
+              ],
+              "teams": [
+                {
+                  "id": 1,
+                  "node_id": "MDQ6VGVhbTE=",
+                  "url": "https://api.github.com/teams/1",
+                  "html_url": "https://api.github.com/teams/justice-league",
+                  "name": "Justice League",
+                  "slug": "justice-league",
+                  "description": "A great team.",
+                  "privacy": "closed",
+                  "permission": "admin",
+                  "members_url": "https://api.github.com/teams/1/members{/member}",
+                  "repositories_url": "https://api.github.com/teams/1/repos",
+                  "parent": null
+                }
+              ]
+            },
+            "dismiss_stale_reviews": true,
+            "require_code_owner_reviews": true,
+            "required_approving_review_count": 2
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.luke-cage-preview+json\" \\\n  http://{hostname}/repos/octocat/hello-world/branches/BRANCH/protection/required_pull_request_reviews \\\n  -d '{\"dismissal_restrictions\":{\"users\":[\"users\"],\"teams\":[\"teams\"]}}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.repos.updatePullRequestReviewProtection({\n  owner: 'octocat',\n  repo: 'hello-world',\n  branch: 'branch',\n  dismissal_restrictions: {\n    users: [\n      'users'\n    ],\n    teams: [\n      'teams'\n    ]\n  }\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.update_pull_request_review_protection(\n  'hello-world',\n  'branch',\n  {\n    users: [\n      'users'\n    ],\n    teams: [\n      'teams'\n    ]\n  }\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": [
+      {
+        "name": "luke-cage",
+        "required": false,
+        "note": "The Protected Branches API now has a setting for requiring a specified number of approving pull request reviews before merging. This feature is currently available for developers to preview. See the [blog post](https://developer.github.com/changes/2018-03-16-protected-branches-required-approving-reviews) for full details. To access the API during the preview period, you must provide a custom [media type](https://developer.github.com/enterprise/2.18/v3/media) in the `Accept` header:\n```shell\napplication/vnd.github.luke-cage-preview+json\n```"
+      }
+    ]
+  },
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2020-06-04",
+      "note": "\"repos/update-protected-branch-pull-request-review-enforcement\" operation ID is now \"repos/update-pull-request-review-protection\"",
+      "before": {
+        "operationId": "repos/update-protected-branch-pull-request-review-enforcement"
+      },
+      "after": { "operationId": "repos/update-pull-request-review-protection" }
+    }
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "dismissal_restrictions": {
+              "type": "object",
+              "description": "Specify which users and teams can dismiss pull request reviews. Pass an empty `dismissal_restrictions` object to disable. User and team `dismissal_restrictions` are only available for organization-owned repositories. Omit this parameter for personal repositories.",
+              "properties": {
+                "users": {
+                  "type": "array",
+                  "description": "The list of user `login`s with dismissal access",
+                  "items": { "type": "string" }
+                },
+                "teams": {
+                  "type": "array",
+                  "description": "The list of team `slug`s with dismissal access",
+                  "items": { "type": "string" }
+                }
+              }
+            },
+            "dismiss_stale_reviews": {
+              "type": "boolean",
+              "description": "Set to `true` if you want to automatically dismiss approving reviews when someone pushes a new commit."
+            },
+            "require_code_owner_reviews": {
+              "type": "boolean",
+              "description": "Blocks merging pull requests until [code owners](https://help.github.com/articles/about-code-owners/) have reviewed."
+            },
+            "required_approving_review_count": {
+              "type": "integer",
+              "description": "Specifies the number of reviewers required to approve pull requests. Use a number between 1 and 6."
+            }
+          }
+        },
+        "example": {
+          "dismissal_restrictions": {
+            "users": ["octocat"],
+            "teams": ["justice-league"]
+          },
+          "dismiss_stale_reviews": true,
+          "require_code_owner_reviews": true,
+          "required_approving_review_count": 2
+        }
+      }
+    }
+  }
+}
