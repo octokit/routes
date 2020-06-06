@@ -1,11 +1,11 @@
 {
-  "summary": "Remove pre-receive hook enforcement for a repository for repository",
-  "description": "Deletes any overridden enforcement on this repository for the specified hook.\n\nResponds with effective values inherited from owner and/or global level.",
-  "operationId": "enterprise-admin/remove-pre-receive-hook-enforcement-for-repo-for-repository",
+  "summary": "Remove pre-receive hook enforcement for an organization",
+  "description": "Removes any overrides for this hook at the org level for this org.",
+  "operationId": "enterprise-admin/remove-pre-receive-hook-enforcement-for-org",
   "tags": ["enterprise-admin"],
   "externalDocs": {
     "description": "API method documentation",
-    "url": "https://developer.github.com/enterprise/2.18/v3/enterprise-admin/repo_pre_receive_hooks/#remove-pre-receive-hook-enforcement-for-a-repository"
+    "url": "https://developer.github.com/enterprise/2.18/v3/enterprise-admin/org_pre_receive_hooks/#remove-pre-receive-hook-enforcement-for-an-organization"
   },
   "parameters": [
     {
@@ -18,13 +18,7 @@
       }
     },
     {
-      "name": "owner",
-      "in": "path",
-      "required": true,
-      "schema": { "type": "string" }
-    },
-    {
-      "name": "repo",
+      "name": "org",
       "in": "path",
       "required": true,
       "schema": { "type": "string" }
@@ -38,7 +32,7 @@
   ],
   "responses": {
     "200": {
-      "description": "Responds with effective values inherited from owner and/or global level.",
+      "description": "response",
       "content": {
         "application/json": {
           "schema": {
@@ -47,14 +41,16 @@
               "id": { "type": "number" },
               "name": { "type": "string" },
               "enforcement": { "type": "string" },
-              "configuration_url": { "type": "string" }
+              "configuration_url": { "type": "string" },
+              "allow_downstream_configuration": { "type": "boolean" }
             }
           },
           "example": {
             "id": 42,
             "name": "Check Commits",
             "enforcement": "disabled",
-            "configuration_url": "https://github.example.com/api/v3/orgs/octocat/pre-receive-hooks/42"
+            "configuration_url": "https://github.example.com/api/v3/admin/pre-receive-hooks/42",
+            "allow_downstream_configuration": true
           }
         }
       }
@@ -63,15 +59,15 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XDELETE \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/repos/octocat/hello-world/pre-receive-hooks/42"
+      "source": "curl \\\n  -XDELETE \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/orgs/ORG/pre-receive-hooks/42"
     },
     {
       "lang": "JS",
-      "source": "octokit.enterpriseAdmin.removePreReceiveHookEnforcementForRepoForRepository({\n  owner: 'octocat',\n  repo: 'hello-world',\n  pre_receive_hook_id: 42\n})"
+      "source": "octokit.enterpriseAdmin.removePreReceiveHookEnforcementForOrg({\n  org: 'org',\n  pre_receive_hook_id: 42\n})"
     },
     {
       "lang": "Ruby",
-      "source": "octokit.remove_pre_receive_hook_enforcement_for_repo_for_repository(\n  'hello-world',\n  42\n)"
+      "source": "octokit.remove_pre_receive_hook_enforcement_for_org(\n  'org',\n  42\n)"
     }
   ],
   "x-github": {

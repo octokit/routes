@@ -1,11 +1,11 @@
 {
-  "summary": "List pre-receive hooks for a repository for repository",
-  "description": "List all pre-receive hooks that are enabled or testing for this repository as well as any disabled hooks that are allowed to be enabled at the repository level. Pre-receive hooks that are disabled at a higher level and are not configurable will not be listed.",
-  "operationId": "enterprise-admin/list-pre-receive-hooks-for-repo-for-repository",
+  "summary": "List pre-receive hooks for an organization",
+  "description": "List all pre-receive hooks that are enabled or testing for this organization as well as any disabled hooks that can be configured at the organization level. Globally disabled pre-receive hooks that do not allow downstream configuration are not listed.",
+  "operationId": "enterprise-admin/list-pre-receive-hooks-for-org",
   "tags": ["enterprise-admin"],
   "externalDocs": {
     "description": "API method documentation",
-    "url": "https://developer.github.com/enterprise/2.19/v3/enterprise-admin/repo_pre_receive_hooks/#list-pre-receive-hooks-for-a-repository"
+    "url": "https://developer.github.com/enterprise/2.18/v3/enterprise-admin/org_pre_receive_hooks/#list-pre-receive-hooks-for-an-organization"
   },
   "parameters": [
     {
@@ -18,13 +18,7 @@
       }
     },
     {
-      "name": "owner",
-      "in": "path",
-      "required": true,
-      "schema": { "type": "string" }
-    },
-    {
-      "name": "repo",
+      "name": "org",
       "in": "path",
       "required": true,
       "schema": { "type": "string" }
@@ -55,7 +49,8 @@
                 "id": { "type": "number" },
                 "name": { "type": "string" },
                 "enforcement": { "type": "string" },
-                "configuration_url": { "type": "string" }
+                "configuration_url": { "type": "string" },
+                "allow_downstream_configuration": { "type": "boolean" }
               }
             }
           },
@@ -64,7 +59,8 @@
               "id": 42,
               "name": "Check Commits",
               "enforcement": "disabled",
-              "configuration_url": "https://github.example.com/api/v3/orgs/octocat/pre-receive-hooks/42"
+              "configuration_url": "https://github.example.com/api/v3/admin/pre-receive-hooks/42",
+              "allow_downstream_configuration": true
             }
           ]
         }
@@ -74,15 +70,15 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/repos/octocat/hello-world/pre-receive-hooks"
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/orgs/ORG/pre-receive-hooks"
     },
     {
       "lang": "JS",
-      "source": "octokit.enterpriseAdmin.listPreReceiveHooksForRepoForRepository({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
+      "source": "octokit.enterpriseAdmin.listPreReceiveHooksForOrg({\n  org: 'org'\n})"
     },
     {
       "lang": "Ruby",
-      "source": "octokit.pre_receive_hooks_for_repo_for_repository(\n  'hello-world'\n)"
+      "source": "octokit.pre_receive_hooks_for_org(\n  'org'\n)"
     }
   ],
   "x-github": {
