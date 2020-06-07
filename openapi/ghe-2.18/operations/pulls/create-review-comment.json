@@ -1,5 +1,5 @@
 {
-  "summary": "Create a review comment for a pull request",
+  "summary": "Create a review comment for a pull request (alternative)",
   "description": "Creates a review comment in the pull request diff. To add a regular comment to a pull request timeline, see \"[Create an issue comment](https://developer.github.com/enterprise/2.18/v3/issues/comments/#create-an-issue-comment).\"\n\n**Note:** The position value equals the number of lines down from the first \"@@\" hunk header in the file you want to add a comment. The line just below the \"@@\" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.\n\nThis endpoint triggers [notifications](https://help.github.com/articles/about-notifications/). Creating content too quickly using this endpoint may result in abuse rate limiting. See \"[Abuse rate limits](https://developer.github.com/enterprise/2.18/v3/#abuse-rate-limits)\" for details.",
   "operationId": "pulls/create-review-comment",
   "tags": ["pulls"],
@@ -45,9 +45,9 @@
             "type": "object",
             "properties": {
               "url": { "type": "string" },
+              "pull_request_review_id": { "type": "number" },
               "id": { "type": "number" },
               "node_id": { "type": "string" },
-              "pull_request_review_id": { "type": "number" },
               "diff_hunk": { "type": "string" },
               "path": { "type": "string" },
               "position": { "type": "number" },
@@ -105,9 +105,9 @@
           },
           "example": {
             "url": "https://api.github.com/repos/octocat/Hello-World/pulls/comments/1",
+            "pull_request_review_id": 42,
             "id": 10,
             "node_id": "MDI0OlB1bGxSZXF1ZXN0UmV2aWV3Q29tbWVudDEw",
-            "pull_request_review_id": 42,
             "diff_hunk": "@@ -16,33 +16,40 @@ public class Connection : IConnection...",
             "path": "file1.txt",
             "position": 1,
@@ -166,15 +166,15 @@
   "x-code-samples": [
     {
       "lang": "Shell",
-      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/repos/octocat/hello-world/pulls/42/comments \\\n  -d '{\"body\":\"body\",\"commit_id\":\"commit_id\",\"path\":\"path\",\"position\":42}'"
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/repos/octocat/hello-world/pulls/42/comments \\\n  -d '{\"body\":\"body\",\"in_reply_to\":42}'"
     },
     {
       "lang": "JS",
-      "source": "octokit.pulls.createReviewComment({\n  owner: 'octocat',\n  repo: 'hello-world',\n  pull_number: 42,\n  body: 'body',\n  commit_id: 'commit_id',\n  path: 'path',\n  position: 42\n})"
+      "source": "octokit.pulls.createReviewComment({\n  owner: 'octocat',\n  repo: 'hello-world',\n  pull_number: 42,\n  body: 'body',\n  in_reply_to: 42\n})"
     },
     {
       "lang": "Ruby",
-      "source": "octokit.create_review_comment(\n  'hello-world',\n  42,\n  'body',\n  'commit_id',\n  'path',\n  42\n)"
+      "source": "octokit.create_review_comment(\n  'hello-world',\n  42,\n  'body',\n  42\n)"
     }
   ],
   "x-github": {
@@ -191,18 +191,31 @@
       "note": "\"number\" parameter renamed to \"pull_number\"",
       "before": { "name": "number" },
       "after": { "name": "pull_number" }
-    },
-    {
-      "type": "operation",
-      "date": "2019-09-09",
-      "note": "\"Create a comment reply\" is now \"Create a comment\". To create a pull request review comment reply, use the new \"Create a review comment reply\" endpoint",
-      "before": { "operationId": "pulls/create-comment-reply" },
-      "after": { "operationId": "pulls/create-comment" }
-    },
-    {
-      "type": "parameter",
-      "date": "2019-09-09",
-      "note": "\"in_reply_to\" parameter is deprecated for \"Create a comment\". To create a pull request review comment reply, use the new \"Create a review comment reply\" endpoint",
+    }
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "body": {
+              "type": "string",
+              "description": "The text of the comment."
+            },
+            "in_reply_to": {
+              "type": "integer",
+              "description": "The comment ID to reply to. **Note**: This must be the ID of a _top-level comment_, not a reply to that comment. Replies to replies are not supported."
+            }
+          },
+          "required": ["body", "in_reply_to"]
+        },
+        "example": { "body": "Nice change" }
+      }
+    }
+  }
+}
+ew \"Create a review comment reply\" endpoint",
       "before": {
         "name": "in_reply_to",
         "description": "The comment ID to reply to. **Note**: This must be the ID of a top-level comment, not a reply to that comment. Replies to replies are not supported.",
@@ -243,6 +256,12 @@
             }
           },
           "required": ["body", "commit_id", "path", "position"]
+        },
+        "example": {
+          "body": "Nice change",
+          "commit_id": "6dcb09b5b57875f334f61aebed695e2e4193db5e",
+          "path": "file1.txt",
+          "position": 1
         }
       }
     }
