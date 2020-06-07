@@ -1,0 +1,79 @@
+{
+  "summary": "Create a GitHub Enterprise Server license",
+  "description": "When you boot a GitHub Enterprise Server instance for the first time, you can use the following endpoint to upload a license:\n\nNote that you need to POST to [`/setup/api/configure`](https://developer.github.com/enterprise/2.20/v3/enterprise-admin/management_console/#start-a-configuration-process) to start the actual configuration process.\n\nWhen using this endpoint, your GitHub Enterprise Server instance must have a password set. This can be accomplished two ways:\n\n1.  If you're working directly with the API before accessing the web interface, you must pass in the password parameter to set your password.\n2.  If you set up your instance via the web interface before accessing the API, your calls to this endpoint do not need the password parameter.\n\nFor a list of the available settings, see the [Get settings endpoint](https://developer.github.com/enterprise/2.20/v3/enterprise-admin/management_console/#get-settings).",
+  "operationId": "enterprise-admin/create-enterprise-server-license",
+  "tags": ["enterprise-admin"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.20/v3/enterprise-admin/management_console/#create-a-github-enterprise-server-license"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    }
+  ],
+  "responses": { "202": { "description": "response" } },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/setup/api/start \\\n  -d '{\"license\":\"license\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.enterpriseAdmin.createEnterpriseServerLicense({\n  license: 'license'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.create_enterprise_server_license(\n  'license'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2020-06-05",
+      "note": "\"enterprise-admin/upload-license-for-first-time\" operation ID is now \"enterprise-admin/create-enterprise-server-license\"",
+      "before": {
+        "operationId": "enterprise-admin/upload-license-for-first-time"
+      },
+      "after": {
+        "operationId": "enterprise-admin/create-enterprise-server-license"
+      }
+    }
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "license": {
+              "type": "string",
+              "description": "The content of your _.ghl_ license file."
+            },
+            "password": {
+              "type": "string",
+              "description": "You **must** provide a password _only if_ you are uploading your license for the first time. If you previously set a password through the web interface, you don't need this parameter."
+            },
+            "settings": {
+              "type": "string",
+              "description": "An optional JSON string containing the installation settings."
+            }
+          },
+          "required": ["license"]
+        }
+      }
+    }
+  }
+}

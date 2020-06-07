@@ -1,0 +1,169 @@
+{
+  "summary": "Get community profile metrics",
+  "description": "This endpoint will return all community profile metrics, including an overall health score, repository description, the presence of documentation, detected code of conduct, detected license, and the presence of ISSUE\\_TEMPLATE, PULL\\_REQUEST\\_TEMPLATE, README, and CONTRIBUTING files.",
+  "operationId": "repos/get-community-profile-metrics",
+  "tags": ["repos"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/repos/community/#get-community-profile-metrics"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "health_percentage": { "type": "number" },
+              "description": { "type": "string" },
+              "documentation": { "type": "boolean" },
+              "files": {
+                "type": "object",
+                "properties": {
+                  "code_of_conduct": {
+                    "type": "object",
+                    "properties": {
+                      "name": { "type": "string" },
+                      "key": { "type": "string" },
+                      "url": { "type": "string" },
+                      "html_url": { "type": "string" }
+                    }
+                  },
+                  "contributing": {
+                    "type": "object",
+                    "properties": {
+                      "url": { "type": "string" },
+                      "html_url": { "type": "string" }
+                    }
+                  },
+                  "issue_template": {
+                    "type": "object",
+                    "properties": {
+                      "url": { "type": "string" },
+                      "html_url": { "type": "string" }
+                    }
+                  },
+                  "pull_request_template": {
+                    "type": "object",
+                    "properties": {
+                      "url": { "type": "string" },
+                      "html_url": { "type": "string" }
+                    }
+                  },
+                  "license": {
+                    "type": "object",
+                    "properties": {
+                      "name": { "type": "string" },
+                      "key": { "type": "string" },
+                      "spdx_id": { "type": "string" },
+                      "url": { "type": "string" },
+                      "html_url": { "type": "string" }
+                    }
+                  },
+                  "readme": {
+                    "type": "object",
+                    "properties": {
+                      "url": { "type": "string" },
+                      "html_url": { "type": "string" }
+                    }
+                  }
+                }
+              },
+              "updated_at": { "type": "string" }
+            }
+          },
+          "example": {
+            "health_percentage": 100,
+            "description": "My first repository on GitHub!",
+            "documentation": true,
+            "files": {
+              "code_of_conduct": {
+                "name": "Contributor Covenant",
+                "key": "contributor_covenant",
+                "url": "https://api.github.com/codes_of_conduct/contributor_covenant",
+                "html_url": "https://github.com/octocat/Hello-World/blob/master/CODE_OF_CONDUCT.md"
+              },
+              "contributing": {
+                "url": "https://api.github.com/repos/octocat/Hello-World/contents/CONTRIBUTING",
+                "html_url": "https://github.com/octocat/Hello-World/blob/master/CONTRIBUTING"
+              },
+              "issue_template": {
+                "url": "https://api.github.com/repos/octocat/Hello-World/contents/ISSUE_TEMPLATE",
+                "html_url": "https://github.com/octocat/Hello-World/blob/master/ISSUE_TEMPLATE"
+              },
+              "pull_request_template": {
+                "url": "https://api.github.com/repos/octocat/Hello-World/contents/PULL_REQUEST_TEMPLATE",
+                "html_url": "https://github.com/octocat/Hello-World/blob/master/PULL_REQUEST_TEMPLATE"
+              },
+              "license": {
+                "name": "MIT License",
+                "key": "mit",
+                "spdx_id": "MIT",
+                "url": "https://api.github.com/licenses/mit",
+                "html_url": "https://github.com/octocat/Hello-World/blob/master/LICENSE"
+              },
+              "readme": {
+                "url": "https://api.github.com/repos/octocat/Hello-World/contents/README.md",
+                "html_url": "https://github.com/octocat/Hello-World/blob/master/README.md"
+              }
+            },
+            "updated_at": "2017-02-28T19:09:29Z"
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/repos/octocat/hello-world/community/profile"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.repos.getCommunityProfileMetrics({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.community_profile_metrics(\n  'hello-world'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2020-06-04",
+      "note": "\"repos/retrieve-community-profile-metrics\" operation ID is now \"repos/get-community-profile-metrics\"",
+      "before": { "operationId": "repos/retrieve-community-profile-metrics" },
+      "after": { "operationId": "repos/get-community-profile-metrics" }
+    }
+  ]
+}

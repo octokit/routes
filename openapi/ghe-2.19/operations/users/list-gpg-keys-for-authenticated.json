@@ -1,0 +1,155 @@
+{
+  "summary": "List GPG keys for the authenticated user",
+  "description": "Lists the current user's GPG keys. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:gpg_key` [scope](https://developer.github.com/enterprise/2.19/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).",
+  "operationId": "users/list-gpg-keys-for-authenticated",
+  "tags": ["users"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.19/v3/users/gpg_keys/#list-gpg-keys-for-the-authenticated-user"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "per_page",
+      "description": "Results per page (max 100)",
+      "in": "query",
+      "schema": { "type": "integer", "default": 30 }
+    },
+    {
+      "name": "page",
+      "description": "Page number of the results to fetch.",
+      "in": "query",
+      "schema": { "type": "integer", "default": 1 }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "number" },
+                "primary_key_id": { "type": "string" },
+                "key_id": { "type": "string" },
+                "public_key": { "type": "string" },
+                "emails": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "email": { "type": "string" },
+                      "verified": { "type": "boolean" }
+                    }
+                  }
+                },
+                "subkeys": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "number" },
+                      "primary_key_id": { "type": "number" },
+                      "key_id": { "type": "string" },
+                      "public_key": { "type": "string" },
+                      "emails": { "type": "array", "items": {} },
+                      "subkeys": { "type": "array", "items": {} },
+                      "can_sign": { "type": "boolean" },
+                      "can_encrypt_comms": { "type": "boolean" },
+                      "can_encrypt_storage": { "type": "boolean" },
+                      "can_certify": { "type": "boolean" },
+                      "created_at": { "type": "string" },
+                      "expires_at": { "type": "string" }
+                    }
+                  }
+                },
+                "can_sign": { "type": "boolean" },
+                "can_encrypt_comms": { "type": "boolean" },
+                "can_encrypt_storage": { "type": "boolean" },
+                "can_certify": { "type": "boolean" },
+                "created_at": { "type": "string" },
+                "expires_at": { "type": "string" }
+              }
+            }
+          },
+          "example": [
+            {
+              "id": 3,
+              "primary_key_id": null,
+              "key_id": "3262EFF25BA0D270",
+              "public_key": "xsBNBFayYZ...",
+              "emails": [
+                {
+                  "email": "mastahyeti@users.noreply.github.com",
+                  "verified": true
+                }
+              ],
+              "subkeys": [
+                {
+                  "id": 4,
+                  "primary_key_id": 3,
+                  "key_id": "4A595D4C72EE49C7",
+                  "public_key": "zsBNBFayYZ...",
+                  "emails": [],
+                  "subkeys": [],
+                  "can_sign": false,
+                  "can_encrypt_comms": true,
+                  "can_encrypt_storage": true,
+                  "can_certify": false,
+                  "created_at": "2016-03-24T11:31:04-06:00",
+                  "expires_at": null
+                }
+              ],
+              "can_sign": true,
+              "can_encrypt_comms": false,
+              "can_encrypt_storage": false,
+              "can_certify": true,
+              "created_at": "2016-03-24T11:31:04-06:00",
+              "expires_at": null
+            }
+          ]
+        }
+      },
+      "headers": {
+        "Link": {
+          "example": "<https://api.github.com/resource?page=2>; rel=\"next\", <https://api.github.com/resource?page=5>; rel=\"last\"",
+          "schema": { "type": "string" }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/user/gpg_keys"
+    },
+    { "lang": "JS", "source": "octokit.users.listGpgKeysForAuthenticated()" },
+    { "lang": "Ruby", "source": "octokit.gpg_keys_for_authenticated()" }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2020-06-04",
+      "note": "\"users/list-gpg-keys\" operation ID is now \"users/list-gpg-keys-for-authenticated\"",
+      "before": { "operationId": "users/list-gpg-keys" },
+      "after": { "operationId": "users/list-gpg-keys-for-authenticated" }
+    }
+  ]
+}

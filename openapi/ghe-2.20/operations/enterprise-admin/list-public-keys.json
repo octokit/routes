@@ -1,0 +1,91 @@
+{
+  "summary": "List public keys",
+  "description": "",
+  "operationId": "enterprise-admin/list-public-keys",
+  "tags": ["enterprise-admin"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.20/v3/enterprise-admin/users/#list-public-keys"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "per_page",
+      "description": "Results per page (max 100)",
+      "in": "query",
+      "schema": { "type": "integer", "default": 30 }
+    },
+    {
+      "name": "page",
+      "description": "Page number of the results to fetch.",
+      "in": "query",
+      "schema": { "type": "integer", "default": 1 }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "key_id": { "type": "string" },
+                "key": { "type": "string" },
+                "user_id": { "type": "number" },
+                "repository_id": { "type": "string" }
+              }
+            }
+          },
+          "example": [
+            {
+              "key_id": "012345678912345678",
+              "key": "2Sg8iYjAxxmI2LvUXpJjkYrMxURPc8r+dB7TJyvv1234",
+              "user_id": 232,
+              "repository_id": null
+            },
+            {
+              "key_id": "012345678912345678",
+              "key": "2Sg8iYjAxxmI2LvUXpJjkYrMxURPc8r+dB7TJyvv1234",
+              "user_id": null,
+              "repository_id": 2333,
+              "id": "2",
+              "url": "https://api.github.com/repos/octocat/Hello-World/keys/2"
+            }
+          ]
+        }
+      },
+      "headers": {
+        "Link": {
+          "example": "<https://api.github.com/resource?page=2>; rel=\"next\", <https://api.github.com/resource?page=5>; rel=\"last\"",
+          "schema": { "type": "string" }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/admin/keys"
+    },
+    { "lang": "JS", "source": "octokit.enterpriseAdmin.listPublicKeys()" },
+    { "lang": "Ruby", "source": "octokit.public_keys()" }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}

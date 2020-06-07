@@ -27,20 +27,27 @@
   },
   "paths": {
     "/admin/hooks": {
-      "get": { "$ref": "operations/enterprise-admin/list-global-hooks.json" },
-      "post": { "$ref": "operations/enterprise-admin/create-global-hook.json" }
+      "get": {
+        "$ref": "operations/enterprise-admin/list-global-webhooks.json"
+      },
+      "post": {
+        "$ref": "operations/enterprise-admin/create-global-webhook.json"
+      }
     },
     "/admin/hooks/{hook_id}": {
-      "get": { "$ref": "operations/enterprise-admin/get-global-hook.json" },
+      "get": { "$ref": "operations/enterprise-admin/get-global-webhook.json" },
       "patch": {
-        "$ref": "operations/enterprise-admin/update-global-hook.json"
+        "$ref": "operations/enterprise-admin/update-global-webhook.json"
       },
       "delete": {
-        "$ref": "operations/enterprise-admin/delete-global-hook.json"
+        "$ref": "operations/enterprise-admin/delete-global-webhook.json"
       }
     },
     "/admin/hooks/{hook_id}/pings": {
-      "post": { "$ref": "operations/enterprise-admin/ping-global-hook.json" }
+      "post": { "$ref": "operations/enterprise-admin/ping-global-webhook.json" }
+    },
+    "/admin/keys": {
+      "get": { "$ref": "operations/enterprise-admin/list-public-keys.json" }
     },
     "/admin/keys/{key_ids}": {
       "delete": { "$ref": "operations/enterprise-admin/delete-public-key.json" }
@@ -69,7 +76,7 @@
       "post": { "$ref": "operations/enterprise-admin/create-org.json" }
     },
     "/admin/organizations/{org}": {
-      "patch": { "$ref": "operations/enterprise-admin/rename-org.json" }
+      "patch": { "$ref": "operations/enterprise-admin/update-org-name.json" }
     },
     "/admin/pre-receive-environments": {
       "get": {
@@ -92,12 +99,12 @@
     },
     "/admin/pre-receive-environments/{pre_receive_environment_id}/downloads": {
       "post": {
-        "$ref": "operations/enterprise-admin/trigger-pre-receive-environment-download.json"
+        "$ref": "operations/enterprise-admin/start-pre-receive-environment-download.json"
       }
     },
     "/admin/pre-receive-environments/{pre_receive_environment_id}/downloads/latest": {
       "get": {
-        "$ref": "operations/enterprise-admin/get-pre-receive-environment-download-status.json"
+        "$ref": "operations/enterprise-admin/get-download-status-for-pre-receive-environment.json"
       }
     },
     "/admin/pre-receive-hooks": {
@@ -133,7 +140,9 @@
       "post": { "$ref": "operations/enterprise-admin/create-user.json" }
     },
     "/admin/users/{username}": {
-      "patch": { "$ref": "operations/enterprise-admin/rename-user.json" },
+      "patch": {
+        "$ref": "operations/enterprise-admin/update-username-for-user.json"
+      },
       "delete": { "$ref": "operations/enterprise-admin/delete-user.json" }
     },
     "/admin/users/{username}/authorizations": {
@@ -279,7 +288,7 @@
       "get": { "$ref": "operations/gists/get-revision.json" }
     },
     "/gitignore/templates": {
-      "get": { "$ref": "operations/gitignore/list-templates.json" }
+      "get": { "$ref": "operations/gitignore/get-all-templates.json" }
     },
     "/gitignore/templates/{name}": {
       "get": { "$ref": "operations/gitignore/get-template.json" }
@@ -296,7 +305,7 @@
     },
     "/issues": { "get": { "$ref": "operations/issues/list.json" } },
     "/licenses": {
-      "get": { "$ref": "operations/licenses/list-commonly-used.json" }
+      "get": { "$ref": "operations/licenses/get-all-commonly-used.json" }
     },
     "/licenses/{license}": {
       "get": { "$ref": "operations/licenses/get.json" }
@@ -339,22 +348,22 @@
       "get": { "$ref": "operations/activity/list-public-org-events.json" }
     },
     "/orgs/{org}/hooks": {
-      "get": { "$ref": "operations/orgs/list-hooks.json" },
-      "post": { "$ref": "operations/orgs/create-hook.json" }
+      "get": { "$ref": "operations/orgs/list-webhooks.json" },
+      "post": { "$ref": "operations/orgs/create-webhook.json" }
     },
     "/orgs/{org}/hooks/{hook_id}": {
-      "get": { "$ref": "operations/orgs/get-hook.json" },
-      "patch": { "$ref": "operations/orgs/update-hook.json" },
-      "delete": { "$ref": "operations/orgs/delete-hook.json" }
+      "get": { "$ref": "operations/orgs/get-webhook.json" },
+      "patch": { "$ref": "operations/orgs/update-webhook.json" },
+      "delete": { "$ref": "operations/orgs/delete-webhook.json" }
     },
     "/orgs/{org}/hooks/{hook_id}/pings": {
-      "post": { "$ref": "operations/orgs/ping-hook.json" }
+      "post": { "$ref": "operations/orgs/ping-webhook.json" }
     },
     "/orgs/{org}/installation": {
       "get": { "$ref": "operations/apps/get-org-installation.json" }
     },
     "/orgs/{org}/installations": {
-      "get": { "$ref": "operations/orgs/list-installations.json" }
+      "get": { "$ref": "operations/orgs/list-app-installations.json" }
     },
     "/orgs/{org}/issues": {
       "get": { "$ref": "operations/issues/list-for-org.json" }
@@ -363,13 +372,13 @@
       "get": { "$ref": "operations/orgs/list-members.json" }
     },
     "/orgs/{org}/members/{username}": {
-      "get": { "$ref": "operations/orgs/check-membership.json" },
+      "get": { "$ref": "operations/orgs/check-membership-for-user.json" },
       "delete": { "$ref": "operations/orgs/remove-member.json" }
     },
     "/orgs/{org}/memberships/{username}": {
-      "get": { "$ref": "operations/orgs/get-membership.json" },
-      "put": { "$ref": "operations/orgs/add-or-update-membership.json" },
-      "delete": { "$ref": "operations/orgs/remove-membership.json" }
+      "get": { "$ref": "operations/orgs/get-membership-for-user.json" },
+      "put": { "$ref": "operations/orgs/set-membership-for-user.json" },
+      "delete": { "$ref": "operations/orgs/remove-membership-for-user.json" }
     },
     "/orgs/{org}/outside_collaborators": {
       "get": { "$ref": "operations/orgs/list-outside-collaborators.json" }
@@ -393,7 +402,7 @@
         "$ref": "operations/enterprise-admin/update-pre-receive-hook-enforcement-for-org.json"
       },
       "delete": {
-        "$ref": "operations/enterprise-admin/remove-enforcement-overrides-for-pre-receive-hook-for-org.json"
+        "$ref": "operations/enterprise-admin/remove-pre-receive-hook-enforcement-for-org.json"
       }
     },
     "/orgs/{org}/projects": {
@@ -404,9 +413,15 @@
       "get": { "$ref": "operations/orgs/list-public-members.json" }
     },
     "/orgs/{org}/public_members/{username}": {
-      "get": { "$ref": "operations/orgs/check-public-membership.json" },
-      "put": { "$ref": "operations/orgs/publicize-membership.json" },
-      "delete": { "$ref": "operations/orgs/conceal-membership.json" }
+      "get": {
+        "$ref": "operations/orgs/check-public-membership-for-user.json"
+      },
+      "put": {
+        "$ref": "operations/orgs/set-public-membership-for-authenticated-user.json"
+      },
+      "delete": {
+        "$ref": "operations/orgs/remove-public-membership-for-authenticated-user.json"
+      }
     },
     "/orgs/{org}/repos": {
       "get": { "$ref": "operations/repos/list-for-org.json" },
@@ -452,7 +467,7 @@
       "delete": { "$ref": "operations/projects/remove-collaborator.json" }
     },
     "/projects/{project_id}/collaborators/{username}/permission": {
-      "get": { "$ref": "operations/projects/review-user-permission-level.json" }
+      "get": { "$ref": "operations/projects/get-permission-for-user.json" }
     },
     "/projects/{project_id}/columns": {
       "get": { "$ref": "operations/projects/list-columns.json" },
@@ -482,114 +497,84 @@
     "/repos/{owner}/{repo}/branches/{branch}/protection": {
       "get": { "$ref": "operations/repos/get-branch-protection.json" },
       "put": { "$ref": "operations/repos/update-branch-protection.json" },
-      "delete": { "$ref": "operations/repos/remove-branch-protection.json" }
+      "delete": { "$ref": "operations/repos/delete-branch-protection.json" }
     },
     "/repos/{owner}/{repo}/branches/{branch}/protection/enforce_admins": {
-      "get": {
-        "$ref": "operations/repos/get-protected-branch-admin-enforcement.json"
-      },
-      "post": {
-        "$ref": "operations/repos/add-protected-branch-admin-enforcement.json"
-      },
+      "get": { "$ref": "operations/repos/get-admin-branch-protection.json" },
+      "post": { "$ref": "operations/repos/set-admin-branch-protection.json" },
       "delete": {
-        "$ref": "operations/repos/remove-protected-branch-admin-enforcement.json"
+        "$ref": "operations/repos/delete-admin-branch-protection.json"
       }
     },
     "/repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews": {
       "get": {
-        "$ref": "operations/repos/get-protected-branch-pull-request-review-enforcement.json"
+        "$ref": "operations/repos/get-pull-request-review-protection.json"
       },
       "patch": {
-        "$ref": "operations/repos/update-protected-branch-pull-request-review-enforcement.json"
+        "$ref": "operations/repos/update-pull-request-review-protection.json"
       },
       "delete": {
-        "$ref": "operations/repos/remove-protected-branch-pull-request-review-enforcement.json"
+        "$ref": "operations/repos/delete-pull-request-review-protection.json"
       }
     },
     "/repos/{owner}/{repo}/branches/{branch}/protection/required_signatures": {
       "get": {
-        "$ref": "operations/repos/get-protected-branch-required-signatures.json"
+        "$ref": "operations/repos/get-commit-signature-protection.json"
       },
       "post": {
-        "$ref": "operations/repos/add-protected-branch-required-signatures.json"
+        "$ref": "operations/repos/create-commit-signature-protection.json"
       },
       "delete": {
-        "$ref": "operations/repos/remove-protected-branch-required-signatures.json"
+        "$ref": "operations/repos/delete-commit-signature-protection.json"
       }
     },
     "/repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks": {
-      "get": {
-        "$ref": "operations/repos/get-protected-branch-required-status-checks.json"
-      },
+      "get": { "$ref": "operations/repos/get-status-checks-protection.json" },
       "patch": {
-        "$ref": "operations/repos/update-protected-branch-required-status-checks.json"
+        "$ref": "operations/repos/update-status-check-potection.json"
       },
       "delete": {
-        "$ref": "operations/repos/remove-protected-branch-required-status-checks.json"
+        "$ref": "operations/repos/remove-status-check-protection.json"
       }
     },
     "/repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts": {
-      "get": {
-        "$ref": "operations/repos/list-protected-branch-required-status-checks-contexts.json"
-      },
-      "put": {
-        "$ref": "operations/repos/replace-protected-branch-required-status-checks-contexts.json"
-      },
-      "post": {
-        "$ref": "operations/repos/add-protected-branch-required-status-checks-contexts.json"
-      },
-      "delete": {
-        "$ref": "operations/repos/remove-protected-branch-required-status-checks-contexts.json"
-      }
+      "get": { "$ref": "operations/repos/get-all-status-check-contexts.json" },
+      "put": { "$ref": "operations/repos/set-status-check-contexts.json" },
+      "post": { "$ref": "operations/repos/add-status-check-contexts.json" },
+      "delete": { "$ref": "operations/repos/remove-status-check-contexts.json" }
     },
     "/repos/{owner}/{repo}/branches/{branch}/protection/restrictions": {
-      "get": {
-        "$ref": "operations/repos/get-protected-branch-restrictions.json"
-      },
-      "delete": {
-        "$ref": "operations/repos/remove-protected-branch-restrictions.json"
-      }
+      "get": { "$ref": "operations/repos/get-access-restrictions.json" },
+      "delete": { "$ref": "operations/repos/delete-access-restrictions.json" }
     },
     "/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps": {
       "get": {
         "$ref": "operations/repos/get-apps-with-access-to-protected-branch.json"
       },
-      "put": {
-        "$ref": "operations/repos/replace-protected-branch-app-restrictions.json"
-      },
-      "post": {
-        "$ref": "operations/repos/add-protected-branch-app-restrictions.json"
-      },
+      "put": { "$ref": "operations/repos/set-app-access-restrictions.json" },
+      "post": { "$ref": "operations/repos/add-app-access-restrictions.json" },
       "delete": {
-        "$ref": "operations/repos/remove-protected-branch-app-restrictions.json"
+        "$ref": "operations/repos/remove-app-access-restrictions.json"
       }
     },
     "/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams": {
       "get": {
         "$ref": "operations/repos/get-teams-with-access-to-protected-branch.json"
       },
-      "put": {
-        "$ref": "operations/repos/replace-protected-branch-team-restrictions.json"
-      },
-      "post": {
-        "$ref": "operations/repos/add-protected-branch-team-restrictions.json"
-      },
+      "put": { "$ref": "operations/repos/set-team-access-restrictions.json" },
+      "post": { "$ref": "operations/repos/add-team-access-restrictions.json" },
       "delete": {
-        "$ref": "operations/repos/remove-protected-branch-team-restrictions.json"
+        "$ref": "operations/repos/remove-team-access-restrictions.json"
       }
     },
     "/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users": {
       "get": {
         "$ref": "operations/repos/get-users-with-access-to-protected-branch.json"
       },
-      "put": {
-        "$ref": "operations/repos/replace-protected-branch-user-restrictions.json"
-      },
-      "post": {
-        "$ref": "operations/repos/add-protected-branch-user-restrictions.json"
-      },
+      "put": { "$ref": "operations/repos/set-user-access-restrictions.json" },
+      "post": { "$ref": "operations/repos/add-user-access-restrictions.json" },
       "delete": {
-        "$ref": "operations/repos/remove-protected-branch-user-restrictions.json"
+        "$ref": "operations/repos/remove-user-access-restrictions.json"
       }
     },
     "/repos/{owner}/{repo}/check-runs": {
@@ -631,7 +616,7 @@
       }
     },
     "/repos/{owner}/{repo}/comments": {
-      "get": { "$ref": "operations/repos/list-commit-comments.json" }
+      "get": { "$ref": "operations/repos/list-commit-comments-for-repo.json" }
     },
     "/repos/{owner}/{repo}/comments/{comment_id}": {
       "get": { "$ref": "operations/repos/get-commit-comment.json" },
@@ -670,7 +655,7 @@
       "get": { "$ref": "operations/repos/get-combined-status-for-ref.json" }
     },
     "/repos/{owner}/{repo}/commits/{ref}/statuses": {
-      "get": { "$ref": "operations/repos/list-statuses-for-ref.json" }
+      "get": { "$ref": "operations/repos/list-commit-statuses-for-ref.json" }
     },
     "/repos/{owner}/{repo}/community/code_of_conduct": {
       "get": { "$ref": "operations/codes-of-conduct/get-for-repo.json" }
@@ -679,8 +664,8 @@
       "get": { "$ref": "operations/repos/compare-commits.json" }
     },
     "/repos/{owner}/{repo}/contents/{path}": {
-      "get": { "$ref": "operations/repos/get-contents.json" },
-      "put": { "$ref": "operations/repos/create-or-update-file.json" },
+      "get": { "$ref": "operations/repos/get-content.json" },
+      "put": { "$ref": "operations/repos/create-or-update-file-contents.json" },
       "delete": { "$ref": "operations/repos/delete-file.json" }
     },
     "/repos/{owner}/{repo}/contributors": {
@@ -752,19 +737,19 @@
       "get": { "$ref": "operations/git/get-tree.json" }
     },
     "/repos/{owner}/{repo}/hooks": {
-      "get": { "$ref": "operations/repos/list-hooks.json" },
-      "post": { "$ref": "operations/repos/create-hook.json" }
+      "get": { "$ref": "operations/repos/list-webhooks.json" },
+      "post": { "$ref": "operations/repos/create-webhook.json" }
     },
     "/repos/{owner}/{repo}/hooks/{hook_id}": {
-      "get": { "$ref": "operations/repos/get-hook.json" },
-      "patch": { "$ref": "operations/repos/update-hook.json" },
-      "delete": { "$ref": "operations/repos/delete-hook.json" }
+      "get": { "$ref": "operations/repos/get-webhook.json" },
+      "patch": { "$ref": "operations/repos/update-webhook.json" },
+      "delete": { "$ref": "operations/repos/delete-webhook.json" }
     },
     "/repos/{owner}/{repo}/hooks/{hook_id}/pings": {
-      "post": { "$ref": "operations/repos/ping-hook.json" }
+      "post": { "$ref": "operations/repos/ping-webhook.json" }
     },
     "/repos/{owner}/{repo}/hooks/{hook_id}/tests": {
-      "post": { "$ref": "operations/repos/test-push-hook.json" }
+      "post": { "$ref": "operations/repos/test-push-webhook.json" }
     },
     "/repos/{owner}/{repo}/installation": {
       "get": { "$ref": "operations/apps/get-repo-installation.json" }
@@ -835,11 +820,11 @@
     },
     "/repos/{owner}/{repo}/keys": {
       "get": { "$ref": "operations/repos/list-deploy-keys.json" },
-      "post": { "$ref": "operations/repos/add-deploy-key.json" }
+      "post": { "$ref": "operations/repos/create-deploy-key.json" }
     },
     "/repos/{owner}/{repo}/keys/{key_id}": {
       "get": { "$ref": "operations/repos/get-deploy-key.json" },
-      "delete": { "$ref": "operations/repos/remove-deploy-key.json" }
+      "delete": { "$ref": "operations/repos/delete-deploy-key.json" }
     },
     "/repos/{owner}/{repo}/labels": {
       "get": { "$ref": "operations/issues/list-labels-for-repo.json" },
@@ -881,14 +866,14 @@
     },
     "/repos/{owner}/{repo}/pages": {
       "get": { "$ref": "operations/repos/get-pages.json" },
-      "post": { "$ref": "operations/repos/enable-pages-site.json" },
-      "delete": { "$ref": "operations/repos/disable-pages-site.json" },
+      "post": { "$ref": "operations/repos/create-pages-site.json" },
+      "delete": { "$ref": "operations/repos/delete-pages-site.json" },
       "put": {
         "$ref": "operations/repos/update-information-about-pages-site.json"
       }
     },
     "/repos/{owner}/{repo}/pages/builds": {
-      "post": { "$ref": "operations/repos/request-page-build.json" },
+      "post": { "$ref": "operations/repos/request-pages-build.json" },
       "get": { "$ref": "operations/repos/list-pages-builds.json" }
     },
     "/repos/{owner}/{repo}/pages/builds/latest": {
@@ -910,7 +895,7 @@
         "$ref": "operations/enterprise-admin/update-pre-receive-hook-enforcement-for-repo.json"
       },
       "delete": {
-        "$ref": "operations/enterprise-admin/remove-enforcement-overrides-for-pre-receive-hook-for-repo.json"
+        "$ref": "operations/enterprise-admin/remove-pre-receive-hook-enforcement-for-repo.json"
       }
     },
     "/repos/{owner}/{repo}/projects": {
@@ -922,12 +907,12 @@
       "post": { "$ref": "operations/pulls/create.json" }
     },
     "/repos/{owner}/{repo}/pulls/comments": {
-      "get": { "$ref": "operations/pulls/list-comments-for-repo.json" }
+      "get": { "$ref": "operations/pulls/list-review-comments-for-repo.json" }
     },
     "/repos/{owner}/{repo}/pulls/comments/{comment_id}": {
-      "get": { "$ref": "operations/pulls/get-comment.json" },
-      "patch": { "$ref": "operations/pulls/update-comment.json" },
-      "delete": { "$ref": "operations/pulls/delete-comment.json" }
+      "get": { "$ref": "operations/pulls/get-review-comment.json" },
+      "patch": { "$ref": "operations/pulls/update-review-comment.json" },
+      "delete": { "$ref": "operations/pulls/delete-review-comment.json" }
     },
     "/repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions": {
       "get": {
@@ -942,11 +927,13 @@
       "patch": { "$ref": "operations/pulls/update.json" }
     },
     "/repos/{owner}/{repo}/pulls/{pull_number}/comments": {
-      "get": { "$ref": "operations/pulls/list-comments.json" },
-      "post": { "$ref": "operations/pulls/create-comment.json" }
+      "get": { "$ref": "operations/pulls/list-review-comments.json" },
+      "post": { "$ref": "operations/pulls/create-review-comment.json" }
     },
     "/repos/{owner}/{repo}/pulls/{pull_number}/comments/{comment_id}/replies": {
-      "post": { "$ref": "operations/pulls/create-review-comment-reply.json" }
+      "post": {
+        "$ref": "operations/pulls/create-reply-for-review-comment.json"
+      }
     },
     "/repos/{owner}/{repo}/pulls/{pull_number}/commits": {
       "get": { "$ref": "operations/pulls/list-commits.json" }
@@ -959,9 +946,9 @@
       "put": { "$ref": "operations/pulls/merge.json" }
     },
     "/repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers": {
-      "get": { "$ref": "operations/pulls/list-review-requests.json" },
-      "post": { "$ref": "operations/pulls/create-review-request.json" },
-      "delete": { "$ref": "operations/pulls/delete-review-request.json" }
+      "get": { "$ref": "operations/pulls/list-requested-reviewers.json" },
+      "post": { "$ref": "operations/pulls/request-reviewers.json" },
+      "delete": { "$ref": "operations/pulls/remove-requested-reviewers.json" }
     },
     "/repos/{owner}/{repo}/pulls/{pull_number}/reviews": {
       "get": { "$ref": "operations/pulls/list-reviews.json" },
@@ -973,7 +960,7 @@
       "put": { "$ref": "operations/pulls/update-review.json" }
     },
     "/repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/comments": {
-      "get": { "$ref": "operations/pulls/get-comments-for-review.json" }
+      "get": { "$ref": "operations/pulls/list-comments-for-review.json" }
     },
     "/repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/dismissals": {
       "put": { "$ref": "operations/pulls/dismiss-review.json" }
@@ -1008,7 +995,7 @@
       "delete": { "$ref": "operations/repos/delete-release.json" }
     },
     "/repos/{owner}/{repo}/releases/{release_id}/assets": {
-      "get": { "$ref": "operations/repos/list-assets-for-release.json" },
+      "get": { "$ref": "operations/repos/list-release-assets.json" },
       "post": { "$ref": "operations/repos/upload-release-asset.json" }
     },
     "/repos/{owner}/{repo}/stargazers": {
@@ -1030,7 +1017,7 @@
       "get": { "$ref": "operations/repos/get-punch-card-stats.json" }
     },
     "/repos/{owner}/{repo}/statuses/{sha}": {
-      "post": { "$ref": "operations/repos/create-status.json" }
+      "post": { "$ref": "operations/repos/create-commit-status.json" }
     },
     "/repos/{owner}/{repo}/subscribers": {
       "get": { "$ref": "operations/activity/list-watchers-for-repo.json" }
@@ -1058,7 +1045,7 @@
       "delete": { "$ref": "operations/repos/disable-vulnerability-alerts.json" }
     },
     "/repos/{owner}/{repo}/{archive_format}/{ref}": {
-      "get": { "$ref": "operations/repos/get-archive-link.json" }
+      "get": { "$ref": "operations/repos/download-archive.json" }
     },
     "/repos/{template_owner}/{template_repo}/generate": {
       "post": { "$ref": "operations/repos/create-using-template.json" }
@@ -1077,7 +1064,7 @@
     "/search/users": { "get": { "$ref": "operations/search/users.json" } },
     "/setup/api/configcheck": {
       "get": {
-        "$ref": "operations/enterprise-admin/check-configuration-status.json"
+        "$ref": "operations/enterprise-admin/get-configuration-status.json"
       }
     },
     "/setup/api/configure": {
@@ -1087,19 +1074,19 @@
     },
     "/setup/api/maintenance": {
       "get": {
-        "$ref": "operations/enterprise-admin/check-maintenance-status.json"
+        "$ref": "operations/enterprise-admin/get-maintenance-status.json"
       },
       "post": {
         "$ref": "operations/enterprise-admin/enable-or-disable-maintenance-mode.json"
       }
     },
     "/setup/api/settings": {
-      "get": { "$ref": "operations/enterprise-admin/retrieve-settings.json" },
-      "put": { "$ref": "operations/enterprise-admin/modify-settings.json" }
+      "get": { "$ref": "operations/enterprise-admin/get-settings.json" },
+      "put": { "$ref": "operations/enterprise-admin/set-settings.json" }
     },
     "/setup/api/settings/authorized-keys": {
       "get": {
-        "$ref": "operations/enterprise-admin/retrieve-authorized-ssh-keys.json"
+        "$ref": "operations/enterprise-admin/get-all-authorized-ssh-keys.json"
       },
       "post": {
         "$ref": "operations/enterprise-admin/add-authorized-ssh-key.json"
@@ -1110,14 +1097,14 @@
     },
     "/setup/api/start": {
       "post": {
-        "$ref": "operations/enterprise-admin/upload-license-for-first-time.json"
+        "$ref": "operations/enterprise-admin/create-enterprise-server-license.json"
       }
     },
     "/setup/api/upgrade": {
       "post": { "$ref": "operations/enterprise-admin/upgrade-license.json" }
     },
     "/staff/indexing_jobs": {
-      "post": { "$ref": "operations/enterprise-admin/queue-indexing-job.json" }
+      "post": { "$ref": "operations/enterprise-admin/create-indexing-job.json" }
     },
     "/teams/{team_id}": {
       "get": { "$ref": "operations/teams/get.json" },
@@ -1195,9 +1182,11 @@
       "patch": { "$ref": "operations/users/update-authenticated.json" }
     },
     "/user/emails": {
-      "get": { "$ref": "operations/users/list-emails.json" },
-      "post": { "$ref": "operations/users/add-emails.json" },
-      "delete": { "$ref": "operations/users/delete-emails.json" }
+      "get": { "$ref": "operations/users/list-emails-for-authenticated.json" },
+      "post": { "$ref": "operations/users/add-email-for-authenticated.json" },
+      "delete": {
+        "$ref": "operations/users/delete-email-for-authenticated.json"
+      }
     },
     "/user/followers": {
       "get": {
@@ -1208,17 +1197,25 @@
       "get": { "$ref": "operations/users/list-followed-by-authenticated.json" }
     },
     "/user/following/{username}": {
-      "get": { "$ref": "operations/users/check-following.json" },
+      "get": {
+        "$ref": "operations/users/check-person-is-followed-by-authenticated.json"
+      },
       "put": { "$ref": "operations/users/follow.json" },
       "delete": { "$ref": "operations/users/unfollow.json" }
     },
     "/user/gpg_keys": {
-      "get": { "$ref": "operations/users/list-gpg-keys.json" },
-      "post": { "$ref": "operations/users/create-gpg-key.json" }
+      "get": {
+        "$ref": "operations/users/list-gpg-keys-for-authenticated.json"
+      },
+      "post": {
+        "$ref": "operations/users/create-gpg-key-for-authenticated.json"
+      }
     },
     "/user/gpg_keys/{gpg_key_id}": {
-      "get": { "$ref": "operations/users/get-gpg-key.json" },
-      "delete": { "$ref": "operations/users/delete-gpg-key.json" }
+      "get": { "$ref": "operations/users/get-gpg-key-for-authenticated.json" },
+      "delete": {
+        "$ref": "operations/users/delete-gpg-key-for-authenticated.json"
+      }
     },
     "/user/installations": {
       "get": {
@@ -1238,21 +1235,33 @@
       "get": { "$ref": "operations/issues/list-for-authenticated-user.json" }
     },
     "/user/keys": {
-      "get": { "$ref": "operations/users/list-public-keys.json" },
-      "post": { "$ref": "operations/users/create-public-key.json" }
+      "get": {
+        "$ref": "operations/users/list-public-ssh-keys-for-authenticated.json"
+      },
+      "post": {
+        "$ref": "operations/users/create-public-ssh-key-for-authenticated.json"
+      }
     },
     "/user/keys/{key_id}": {
-      "get": { "$ref": "operations/users/get-public-key.json" },
-      "delete": { "$ref": "operations/users/delete-public-key.json" }
+      "get": {
+        "$ref": "operations/users/get-public-ssh-key-for-authenticated.json"
+      },
+      "delete": {
+        "$ref": "operations/users/delete-public-ssh-key-for-authenticated.json"
+      }
     },
     "/user/memberships/orgs": {
-      "get": { "$ref": "operations/orgs/list-memberships.json" }
+      "get": {
+        "$ref": "operations/orgs/list-memberships-for-authenticated-user.json"
+      }
     },
     "/user/memberships/orgs/{org}": {
       "get": {
         "$ref": "operations/orgs/get-membership-for-authenticated-user.json"
       },
-      "patch": { "$ref": "operations/orgs/update-membership.json" }
+      "patch": {
+        "$ref": "operations/orgs/update-membership-for-authenticated-user.json"
+      }
     },
     "/user/orgs": {
       "get": { "$ref": "operations/orgs/list-for-authenticated-user.json" }
@@ -1263,7 +1272,9 @@
       }
     },
     "/user/public_emails": {
-      "get": { "$ref": "operations/users/list-public-emails.json" }
+      "get": {
+        "$ref": "operations/users/list-public-emails-for-authenticated.json"
+      }
     },
     "/user/repos": {
       "get": { "$ref": "operations/repos/list-for-authenticated-user.json" },
@@ -1364,10 +1375,10 @@
     },
     "/users/{username}/site_admin": {
       "put": {
-        "$ref": "operations/enterprise-admin/promote-ordinary-user-to-site-administrator.json"
+        "$ref": "operations/enterprise-admin/promote-user-to-be-site-administrator.json"
       },
       "delete": {
-        "$ref": "operations/enterprise-admin/demote-site-administrator-to-ordinary-user.json"
+        "$ref": "operations/enterprise-admin/demote-site-administrator.json"
       }
     },
     "/users/{username}/starred": {

@@ -1,0 +1,101 @@
+{
+  "summary": "Remove requested reviewers from a pull request",
+  "description": "",
+  "operationId": "pulls/remove-requested-reviewers",
+  "tags": ["pulls"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/pulls/review_requests/#remove-requested-reviewers-from-a-pull-request"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "pull_number",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    }
+  ],
+  "responses": { "200": { "description": "response" } },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XDELETE \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/repos/octocat/hello-world/pulls/42/requested_reviewers \\\n  -d '{\"reviewers\":[\"reviewers\"]}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.pulls.removeRequestedReviewers({\n  owner: 'octocat',\n  repo: 'hello-world',\n  pull_number: 42,\n  reviewers: [\n    'reviewers'\n  ]\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.remove_requested_reviewers(\n  'hello-world',\n  42,\n  [\n    'reviewers'\n  ]\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": [
+    {
+      "type": "parameter",
+      "date": "2019-04-10",
+      "note": "\"number\" parameter renamed to \"pull_number\"",
+      "before": { "name": "number" },
+      "after": { "name": "pull_number" }
+    },
+    {
+      "type": "operation",
+      "date": "2020-06-05",
+      "note": "\"pulls/delete-review-request\" operation ID is now \"pulls/remove-requested-reviewers\"",
+      "before": { "operationId": "pulls/delete-review-request" },
+      "after": { "operationId": "pulls/remove-requested-reviewers" }
+    }
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "reviewers": {
+              "type": "array",
+              "description": "An array of user `login`s that will be removed.",
+              "items": { "type": "string" }
+            },
+            "team_reviewers": {
+              "type": "array",
+              "description": "An array of team `slug`s that will be removed.",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "example": {
+          "reviewers": ["octocat", "hubot", "other_user"],
+          "team_reviewers": ["justice-league"]
+        }
+      }
+    }
+  }
+}

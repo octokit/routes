@@ -1,0 +1,133 @@
+{
+  "summary": "Set team access restrictions",
+  "description": "Protected branches are available in public repositories with GitHub Free and GitHub Free for organizations, and in public and private repositories with GitHub Pro, GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server.\n\nReplaces the list of teams that have push access to this branch. This removes all teams that previously had push access and grants push access to the new list of teams. If you pass the `hellcat-preview` media type, team restrictions include child teams.\n\n| Type    | Description                                                                                                                         |\n| ------- | ----------------------------------------------------------------------------------------------------------------------------------- |\n| `array` | The teams that can have push access. Use the team's `slug`. **Note**: The list of users and teams in total is limited to 100 items. |",
+  "operationId": "repos/set-team-access-restrictions",
+  "tags": ["repos"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.18/v3/repos/branches/#set-team-access-restrictions"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "branch",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "number" },
+                "node_id": { "type": "string" },
+                "url": { "type": "string" },
+                "html_url": { "type": "string" },
+                "name": { "type": "string" },
+                "slug": { "type": "string" },
+                "description": { "type": "string" },
+                "privacy": { "type": "string" },
+                "permission": { "type": "string" },
+                "members_url": { "type": "string" },
+                "repositories_url": { "type": "string" },
+                "parent": { "type": "string" }
+              }
+            }
+          },
+          "example": [
+            {
+              "id": 1,
+              "node_id": "MDQ6VGVhbTE=",
+              "url": "https://api.github.com/teams/1",
+              "html_url": "https://api.github.com/teams/justice-league",
+              "name": "Justice League",
+              "slug": "justice-league",
+              "description": "A great team.",
+              "privacy": "closed",
+              "permission": "admin",
+              "members_url": "https://api.github.com/teams/1/members{/member}",
+              "repositories_url": "https://api.github.com/teams/1/repos",
+              "parent": null
+            }
+          ]
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/repos/octocat/hello-world/branches/BRANCH/protection/restrictions/teams \\\n  -d '{\"teams\":[\"teams\"]}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.repos.setTeamAccessRestrictions({\n  owner: 'octocat',\n  repo: 'hello-world',\n  branch: 'branch',\n  teams: [\n    'teams'\n  ]\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.set_team_access_restrictions(\n  'hello-world',\n  'branch',\n  [\n    'teams'\n  ]\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "requestBodyParameterName": "teams",
+    "previews": [
+      {
+        "name": "hellcat",
+        "required": false,
+        "note": "The Nested Teams API is currently available for developers to preview. See the [blog post](https://developer.github.com/changes/2017-08-30-preview-nested-teams) for full details. To access the API, you must provide a custom [media type](https://developer.github.com/enterprise/2.18/v3/media) in the `Accept` header:\n```shell\napplication/vnd.github.hellcat-preview+json\n```"
+      }
+    ]
+  },
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2020-06-04",
+      "note": "\"repos/replace-protected-branch-team-restrictions\" operation ID is now \"repos/set-team-access-restrictions\"",
+      "before": {
+        "operationId": "repos/replace-protected-branch-team-restrictions"
+      },
+      "after": { "operationId": "repos/set-team-access-restrictions" }
+    }
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "array",
+          "description": "teams parameter",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

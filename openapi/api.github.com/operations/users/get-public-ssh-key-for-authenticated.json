@@ -1,0 +1,76 @@
+{
+  "summary": "Get a public SSH key for the authenticated user",
+  "description": "View extended details for a single public SSH key. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:public_key` [scope](https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).",
+  "operationId": "users/get-public-ssh-key-for-authenticated",
+  "tags": ["users"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/users/keys/#get-a-public-ssh-key-for-the-authenticated-user"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "key_id",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "key_id": { "type": "string" },
+              "key": { "type": "string" }
+            }
+          },
+          "example": {
+            "key_id": "012345678912345678",
+            "key": "2Sg8iYjAxxmI2LvUXpJjkYrMxURPc8r+dB7TJyvv1234"
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/user/keys/42"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.users.getPublicSshKeyForAuthenticated({\n  key_id: 42\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.public_ssh_key_for_authenticated(\n  42\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2020-06-04",
+      "note": "\"users/get-public-key\" operation ID is now \"users/get-public-ssh-key-for-authenticated\"",
+      "before": { "operationId": "users/get-public-key" },
+      "after": { "operationId": "users/get-public-ssh-key-for-authenticated" }
+    }
+  ]
+}

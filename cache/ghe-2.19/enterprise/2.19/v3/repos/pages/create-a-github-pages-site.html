@@ -1,0 +1,61 @@
+<h2>
+<a id="create-a-github-pages-site" class="anchor" href="#create-a-github-pages-site" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a GitHub Pages site<a href="/enterprise/2.19/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+<div class="alert note">
+<p><strong>Note:</strong> Enabling and disabling Pages in the Pages API is currently available for developers to preview. See the <a href="/changes/2019-03-14-enabling-disabling-pages/">blog post</a> preview for more details. To access the new endpoints during the preview period, you must provide a custom <a href="/enterprise/2.19/v3/media">media type</a> in the <code>Accept</code> header:</p>
+<pre><code>application/vnd.github.switcheroo-preview+json
+</code></pre>
+</div>
+<div class="alert warning">
+<p><strong>Warning:</strong> The API may change without advance notice during the preview period. Preview features are not supported for production use. If you experience any issues, contact your GitHub Enterprise site administrator.</p>
+</div>
+<pre><code>POST /repos/:owner/:repo/pages
+</code></pre>
+<h3>
+<a id="parameters" class="anchor" href="#parameters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>source[branch]</code></td>
+<td><code>string</code></td>
+<td>The repository branch used to publish your <a href="https://help.github.com/articles/configuring-a-publishing-source-for-github-pages/">site&apos;s source files</a>. Can be either <code>master</code> or <code>gh-pages</code>.</td>
+</tr>
+<tr>
+<td><code>source[path]</code></td>
+<td><code>string</code></td>
+<td>The repository directory that includes the source files for the Pages site. When <code>branch</code> is <code>master</code>, you can change <code>path</code> to <code>/docs</code>. When <code>branch</code> is <code>gh-pages</code>, you are unable to specify a <code>path</code> other than <code>/</code>.</td>
+</tr>
+</tbody>
+</table>
+<h4>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h4>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">&quot;branch&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;master&quot;</span><span class="p">,</span><span class="w">
+        </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/docs&quot;</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="response-1" class="anchor" href="#response-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 201 Created
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/github/developer.github.com/pages&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;built&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;cname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;developer.github.com&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;custom_404&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;html_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://developer.github.com&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nt">&quot;branch&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;master&quot;</span><span class="p">,</span><span class="w">
+    </span><span class="nt">&quot;directory&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/&quot;</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>

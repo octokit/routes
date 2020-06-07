@@ -1,0 +1,127 @@
+{
+  "summary": "Get a repository webhook",
+  "description": "",
+  "operationId": "repos/get-webhook",
+  "tags": ["repos"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.18/v3/repos/hooks/#get-a-repository-webhook"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "hook_id",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "type": { "type": "string" },
+              "id": { "type": "number" },
+              "name": { "type": "string" },
+              "active": { "type": "boolean" },
+              "events": { "type": "array", "items": { "type": "string" } },
+              "config": {
+                "type": "object",
+                "properties": {
+                  "content_type": { "type": "string" },
+                  "insecure_ssl": { "type": "string" },
+                  "url": { "type": "string" }
+                }
+              },
+              "updated_at": { "type": "string" },
+              "created_at": { "type": "string" },
+              "url": { "type": "string" },
+              "test_url": { "type": "string" },
+              "ping_url": { "type": "string" },
+              "last_response": {
+                "type": "object",
+                "properties": {
+                  "code": { "type": "string" },
+                  "status": { "type": "string" },
+                  "message": { "type": "string" }
+                }
+              }
+            }
+          },
+          "example": {
+            "type": "Repository",
+            "id": 12345678,
+            "name": "web",
+            "active": true,
+            "events": ["push", "pull_request"],
+            "config": {
+              "content_type": "json",
+              "insecure_ssl": "0",
+              "url": "https://example.com/webhook"
+            },
+            "updated_at": "2019-06-03T00:57:16Z",
+            "created_at": "2019-06-03T00:57:16Z",
+            "url": "https://api.github.com/repos/octocat/Hello-World/hooks/12345678",
+            "test_url": "https://api.github.com/repos/octocat/Hello-World/hooks/12345678/test",
+            "ping_url": "https://api.github.com/repos/octocat/Hello-World/hooks/12345678/pings",
+            "last_response": {
+              "code": null,
+              "status": "unused",
+              "message": null
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/repos/octocat/hello-world/hooks/42"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.repos.getWebhook({\n  owner: 'octocat',\n  repo: 'hello-world',\n  hook_id: 42\n})"
+    },
+    { "lang": "Ruby", "source": "octokit.webhook(\n  'hello-world',\n  42\n)" }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2020-06-04",
+      "note": "\"repos/get-hook\" operation ID is now \"repos/get-webhook\"",
+      "before": { "operationId": "repos/get-hook" },
+      "after": { "operationId": "repos/get-webhook" }
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "summary": "Create a deploy key",
+  "description": "Here's how you can create a read-only deploy key:",
+  "operationId": "repos/create-deploy-key",
+  "tags": ["repos"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/v3/repos/keys/#create-a-deploy-key"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": {
+    "201": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "number" },
+              "key": { "type": "string" },
+              "url": { "type": "string" },
+              "title": { "type": "string" },
+              "verified": { "type": "boolean" },
+              "created_at": { "type": "string" },
+              "read_only": { "type": "boolean" }
+            }
+          },
+          "example": {
+            "id": 1,
+            "key": "ssh-rsa AAA...",
+            "url": "https://api.github.com/repos/octocat/Hello-World/keys/1",
+            "title": "octocat@octomac",
+            "verified": true,
+            "created_at": "2014-12-10T15:53:42Z",
+            "read_only": true
+          }
+        }
+      },
+      "headers": {
+        "Location": {
+          "example": "https://api.github.com/repos/octocat/Hello-World/keys/1",
+          "schema": { "type": "string" }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  https://api.github.com/repos/octocat/hello-world/keys \\\n  -d '{\"key\":\"key\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.repos.createDeployKey({\n  owner: 'octocat',\n  repo: 'hello-world',\n  key: 'key'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.create_deploy_key(\n  'hello-world',\n  'key'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2020-06-04",
+      "note": "\"repos/add-deploy-key\" operation ID is now \"repos/create-deploy-key\"",
+      "before": { "operationId": "repos/add-deploy-key" },
+      "after": { "operationId": "repos/create-deploy-key" }
+    }
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "title": { "type": "string", "description": "A name for the key." },
+            "key": {
+              "type": "string",
+              "description": "The contents of the key."
+            },
+            "read_only": {
+              "type": "boolean",
+              "description": "If `true`, the key will only be able to read repository contents. Otherwise, the key will be able to read and write.  \n  \nDeploy keys with write access can perform the same actions as an organization member with admin access, or a collaborator on a personal repository. For more information, see \"[Repository permission levels for an organization](https://help.github.com/articles/repository-permission-levels-for-an-organization/)\" and \"[Permission levels for a user account repository](https://help.github.com/articles/permission-levels-for-a-user-account-repository/).\""
+            }
+          },
+          "required": ["key"]
+        },
+        "example": {
+          "title": "octocat@octomac",
+          "key": "ssh-rsa AAA...",
+          "read_only": true
+        }
+      }
+    }
+  }
+}

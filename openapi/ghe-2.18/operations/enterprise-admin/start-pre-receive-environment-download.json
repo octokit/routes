@@ -1,0 +1,126 @@
+{
+  "summary": "Start a pre-receive environment download",
+  "description": "Triggers a new download of the environment tarball from the environment's `image_url`. When the download is finished, the newly downloaded tarball will overwrite the existing environment.\n\nIf a download cannot be triggered, you will get a reponse like this:\n\nThe possible error messages are:\n\n*   _Cannot modify or delete the default environment_\n*   _Can not start a new download when a download is in progress_",
+  "operationId": "enterprise-admin/start-pre-receive-environment-download",
+  "tags": ["enterprise-admin"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.18/v3/enterprise-admin/pre_receive_environments/#start-a-pre-receive-environment-download"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "pre_receive_environment_id",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    }
+  ],
+  "responses": {
+    "202": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "url": { "type": "string" },
+              "state": { "type": "string" },
+              "downloaded_at": { "type": "string" },
+              "message": { "type": "string" }
+            }
+          },
+          "examples": {
+            "default-response": {
+              "value": {
+                "url": "https://github.example.com/api/v3/admin/pre-receive-environments/3/downloads/latest",
+                "state": "not_started",
+                "downloaded_at": null,
+                "message": null
+              }
+            }
+          }
+        }
+      }
+    },
+    "422": {
+      "description": "Client Errors",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "message": { "type": "string" },
+              "errors": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "resource": { "type": "string" },
+                    "code": { "type": "string" },
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "examples": {
+            "client-errors": {
+              "value": {
+                "message": "Validation Failed",
+                "errors": [
+                  {
+                    "resource": "PreReceiveEnvironment",
+                    "code": "custom",
+                    "message": "Can not start a new download when a download is in progress"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/admin/pre-receive-environments/42/downloads"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.enterpriseAdmin.startPreReceiveEnvironmentDownload({\n  pre_receive_environment_id: 42\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.start_pre_receive_environment_download(\n  42\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2020-06-05",
+      "note": "\"enterprise-admin/trigger-pre-receive-environment-download\" operation ID is now \"enterprise-admin/start-pre-receive-environment-download\"",
+      "before": {
+        "operationId": "enterprise-admin/trigger-pre-receive-environment-download"
+      },
+      "after": {
+        "operationId": "enterprise-admin/start-pre-receive-environment-download"
+      }
+    }
+  ]
+}
