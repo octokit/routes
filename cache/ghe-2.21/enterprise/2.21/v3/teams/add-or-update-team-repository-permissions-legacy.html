@@ -1,0 +1,32 @@
+<h2>
+<a id="add-or-update-team-repository-permissions-legacy" class="anchor" href="#add-or-update-team-repository-permissions-legacy" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Add or update team repository permissions (Legacy)<a href="/enterprise/2.21/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+<div class="alert warning">
+<p><strong>Deprecation Notice:</strong> This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new <a href="/enterprise/2.21/v3/teams/#add-or-update-team-repository-permissions">Add or update team repository permissions</a> endpoint.</p>
+</div>
+<p>To add a repository to a team or update the team&apos;s permission on a repository, the authenticated user must have admin access to the repository, and must be able to see the team. The repository must be owned by the organization, or a direct fork of a repository owned by the organization. You will get a <code>422 Unprocessable Entity</code> status if you attempt to add a repository to a team that is not owned by the organization.</p>
+<pre><code>PUT /teams/:team_id/repos/:owner/:repo
+</code></pre>
+<h3>
+<a id="parameters-5" class="anchor" href="#parameters-5" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>permission</code></td>
+<td><code>string</code></td>
+<td>The permission to grant the team on this repository. Can be one of:<br> * <code>pull</code> - team members can pull, but not push to or administer this repository.<br> * <code>push</code> - team members can pull and push, but not administer this repository.<br> * <code>admin</code> - team members can pull, push and administer this repository.<br><br>If no permission is specified, the team&apos;s <code>permission</code> attribute will be used to determine what permission to grant the team on this repository.</td>
+</tr>
+</tbody>
+</table>
+<p>Note that, if you choose not to pass any parameters, you&apos;ll need to set <code>Content-Length</code> to zero when calling out to this endpoint. For more information, see &quot;<a href="/enterprise/2.21/v3/#http-verbs">HTTP verbs</a>.&quot;</p>
+<h3>
+<a id="response-17" class="anchor" href="#response-17" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 204 No Content
+</code></pre>

@@ -1,0 +1,47 @@
+<h2>
+<a id="get-team-membership-for-a-user" class="anchor" href="#get-team-membership-for-a-user" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get team membership for a user<a href="/enterprise/2.21/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+<p>Team members will include the members of child teams.</p>
+<p>To get a user&apos;s membership with a team, the team must be visible to the authenticated user.</p>
+<div class="alert note">
+<p><strong>Note:</strong> You can also specify a team by <code>org_id</code> and <code>team_id</code> using the route <code>GET /organizations/:org_id/team/:team_id/memberships/:username</code>.</p>
+</div>
+<pre><code>GET /orgs/:org/teams/:team_slug/memberships/:username
+</code></pre>
+<div class="alert tip">
+<p><strong>Note:</strong> The <code>role</code> for organization owners returns as <code>maintainer</code>. For more information about <code>maintainer</code> roles, see <a href="/enterprise/2.21/v3/teams/#create-a-team">Create a team</a>.</p>
+</div>
+<h3>
+<a id="response-if-user-has-an-active-membership-with-team" class="anchor" href="#response-if-user-has-an-active-membership-with-team" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if user has an active membership with team</h3>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/teams/1/memberships/octocat&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;member&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;active&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="response-if-user-is-a-team-maintainer" class="anchor" href="#response-if-user-is-a-team-maintainer" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if user is a team maintainer</h3>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/teams/1/memberships/octocat&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;maintainer&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;active&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="response-if-user-has-a-pending-membership-with-team" class="anchor" href="#response-if-user-has-a-pending-membership-with-team" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if user has a pending membership with team</h3>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/teams/1/memberships/octocat&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;member&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pending&quot;</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h3>
+<a id="response-if-user-has-no-team-membership" class="anchor" href="#response-if-user-has-no-team-membership" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response if user has no team membership</h3>
+<pre class="highlight highlight-headers"><code>Status: 404 Not Found
+</code></pre>

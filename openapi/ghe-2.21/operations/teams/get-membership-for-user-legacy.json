@@ -1,0 +1,120 @@
+{
+  "summary": "Get team membership for a user (Legacy)",
+  "description": "**Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Get team membership for a user](https://developer.github.com/enterprise/2.21/v3/teams/members/#get-team-membership-for-a-user) endpoint.\n\nTeam members will include the members of child teams.\n\nTo get a user's membership with a team, the team must be visible to the authenticated user.\n\n**Note:** The `role` for organization owners returns as `maintainer`. For more information about `maintainer` roles, see [Create a team](https://developer.github.com/enterprise/2.21/v3/teams/#create-a-team).",
+  "operationId": "teams/get-membership-for-user-legacy",
+  "tags": ["teams"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.21/v3/teams/members/#get-team-membership-for-a-user-legacy"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "team_id",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    },
+    {
+      "name": "username",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "url": { "type": "string" },
+              "role": { "type": "string" },
+              "state": { "type": "string" }
+            }
+          },
+          "examples": {
+            "response-if-user-has-an-active-membership-with-team": {
+              "summary": "Response if user has an active membership with team",
+              "value": {
+                "url": "https://api.github.com/teams/1/memberships/octocat",
+                "role": "member",
+                "state": "active"
+              }
+            },
+            "response-if-user-is-a-team-maintainer": {
+              "summary": "Response if user is a team maintainer",
+              "value": {
+                "url": "https://api.github.com/teams/1/memberships/octocat",
+                "role": "maintainer",
+                "state": "active"
+              }
+            },
+            "response-if-user-has-a-pending-membership-with-team": {
+              "summary": "Response if user has a pending membership with team",
+              "value": {
+                "url": "https://api.github.com/teams/1/memberships/octocat",
+                "role": "member",
+                "state": "pending"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/teams/42/memberships/USERNAME"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.teams.getMembershipForUserLegacy({\n  team_id: 42,\n  username: 'username'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.membership_for_user_legacy(\n  42,\n  'username'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": true,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2020-01-16",
+      "note": "The path for \"Get team membership for a user\" changed  from \"/teams/{team_id}*\" to \"/orgs/{org}/teams/{team_slug}*\"). The operation ID for the old path now has a \"-legacy\" suffix. The route with the new path has a \"-for-org\" suffix in the operation ID to avoid breaking changes",
+      "before": { "operationId": "teams/get-membership-for-user" },
+      "after": { "operationId": "teams/get-membership-for-user-legacy" }
+    },
+    {
+      "type": "operation",
+      "date": "2020-06-03",
+      "note": "\"teams/get-membership-legacy\" operation ID is now \"teams/get-membership-for-user-legacy\"",
+      "before": { "operationId": "teams/get-membership-legacy" },
+      "after": { "operationId": "teams/get-membership-for-user-legacy" }
+    },
+    {
+      "type": "operation",
+      "date": "2020-06-04",
+      "note": "\"teams/get-membership\" operation ID is now \"teams/get-membership-for-user\"",
+      "before": { "operationId": "teams/get-membership" },
+      "after": { "operationId": "teams/get-membership-for-user" }
+    }
+  ],
+  "deprecated": true
+}

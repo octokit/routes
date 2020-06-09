@@ -1,0 +1,92 @@
+{
+  "summary": "Get a reference",
+  "description": "Returns a single reference from your Git database. The `:ref` in the URL must be formatted as `heads/<branch name>` for branches and `tags/<tag name>` for tags. If the `:ref` doesn't match an existing ref, a `404` is returned.\n\n**Note:** You need to explicitly [request a pull request](https://developer.github.com/enterprise/2.21/v3/pulls/#get-a-pull-request) to trigger a test merge commit, which checks the mergeability of pull requests. For more information, see \"[Checking mergeability of pull requests](https://developer.github.com/enterprise/2.21/v3/git/#checking-mergeability-of-pull-requests)\".\n\nTo get the reference for a branch named `skunkworkz/featureA`, the endpoint route is:",
+  "operationId": "git/get-ref",
+  "tags": ["git"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.21/v3/git/refs/#get-a-reference"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "ref",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "ref": { "type": "string" },
+              "node_id": { "type": "string" },
+              "url": { "type": "string" },
+              "object": {
+                "type": "object",
+                "properties": {
+                  "type": { "type": "string" },
+                  "sha": { "type": "string" },
+                  "url": { "type": "string" }
+                }
+              }
+            }
+          },
+          "example": {
+            "ref": "refs/heads/featureA",
+            "node_id": "MDM6UmVmcmVmcy9oZWFkcy9mZWF0dXJlQQ==",
+            "url": "https://api.github.com/repos/octocat/Hello-World/git/refs/heads/featureA",
+            "object": {
+              "type": "commit",
+              "sha": "aa218f56b14c9653891f9e74264a383fa43fefbd",
+              "url": "https://api.github.com/repos/octocat/Hello-World/git/commits/aa218f56b14c9653891f9e74264a383fa43fefbd"
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/repos/octocat/hello-world/git/ref/REF"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.git.getRef({\n  owner: 'octocat',\n  repo: 'hello-world',\n  ref: 'ref'\n})"
+    },
+    { "lang": "Ruby", "source": "octokit.ref(\n  'hello-world',\n  'ref'\n)" }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}

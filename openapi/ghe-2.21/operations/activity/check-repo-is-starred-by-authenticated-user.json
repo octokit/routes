@@ -1,0 +1,70 @@
+{
+  "summary": "Check if a repository is starred by the authenticated user",
+  "description": "",
+  "operationId": "activity/check-repo-is-starred-by-authenticated-user",
+  "tags": ["activity"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.21/v3/activity/starring/#check-if-a-repository-is-starred-by-the-authenticated-user"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": {
+    "204": { "description": "Response if this repository is starred by you" },
+    "404": {
+      "description": "Response if this repository is not starred by you"
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/user/starred/octocat/hello-world"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.activity.checkRepoIsStarredByAuthenticatedUser({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.check_repo_is_starred_by_authenticated_user(\n  'hello-world'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2020-03-25",
+      "note": "\"activity/check-starring-repo\" operation ID is now \"activity/check-repo-is-starred-by-authenticated-user\"",
+      "before": { "operationId": "activity/check-starring-repo" },
+      "after": {
+        "operationId": "activity/check-repo-is-starred-by-authenticated-user"
+      }
+    }
+  ]
+}

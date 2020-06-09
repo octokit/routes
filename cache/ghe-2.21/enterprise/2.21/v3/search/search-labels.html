@@ -1,0 +1,81 @@
+<h2>
+<a id="search-labels" class="anchor" href="#search-labels" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Search labels<a href="/enterprise/2.21/apps/" class="tooltip-link github-apps-marker octicon octicon-info" title="Enabled for GitHub Apps"></a>
+</h2>
+<p>Find labels in a repository with names or descriptions that match search keywords. Returns up to 100 results <a href="/enterprise/2.21/v3/#pagination">per page</a>.</p>
+<p>When searching for labels, you can get text match metadata for the label <strong>name</strong>
+and <strong>description</strong> fields when you pass the <code>text-match</code> media type.
+For more details about how to receive highlighted search results, see <a href="#text-match-metadata">Text match metadata</a>.</p>
+<pre><code>GET /search/labels
+</code></pre>
+<h3>
+<a id="parameters-6" class="anchor" href="#parameters-6" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>repository_id</code></td>
+<td><code>integer</code></td>
+<td>
+<strong>Required</strong>. The id of the repository.</td>
+</tr>
+<tr>
+<td><code>q</code></td>
+<td><code>string</code></td>
+<td>
+<strong>Required</strong>. The search keywords. This endpoint does not accept qualifiers in the query. To learn more about the format of the query, see <a href="#constructing-a-search-query">Constructing a search query</a>.</td>
+</tr>
+<tr>
+<td><code>sort</code></td>
+<td><code>string</code></td>
+<td>Sorts the results of your query by when the label was <code>created</code> or <code>updated</code>. Default: <a href="#ranking-search-results">best match</a>
+</td>
+</tr>
+<tr>
+<td><code>order</code></td>
+<td><code>string</code></td>
+<td>Determines whether the first search result returned is the highest number of matches (<code>desc</code>) or lowest number of matches (<code>asc</code>). This parameter is ignored unless you provide <code>sort</code>. Default: <code>desc</code>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>
+<a id="example-6" class="anchor" href="#example-6" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+<p>Suppose you want to find labels in the <code>linguist</code> repository that match <code>bug</code>, <code>defect</code>, or <code>enhancement</code>. Your query might look like this:</p>
+<pre class="command-line">curl &apos;https://api.github.com/search/labels?repository_id=64778136&amp;q=bug+defect+enhancement&apos;
+</pre>
+<p>The labels that best match for the query appear first in the search results.</p>
+<pre class="highlight highlight-headers"><code>Status: 200 OK
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;total_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;incomplete_results&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">418327088</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MDU6TGFiZWw0MTgzMjcwODg=&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/linguist/labels/enhancement&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;enhancement&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;84b6eb&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;New feature or request.&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;score&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">418327086</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;node_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MDU6TGFiZWw0MTgzMjcwODY=&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://api.github.com/repos/octocat/linguist/labels/bug&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;bug&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ee0701&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Something isn&apos;t working.&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;score&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>

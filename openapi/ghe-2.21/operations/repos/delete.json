@@ -1,0 +1,84 @@
+{
+  "summary": "Delete a repository",
+  "description": "Deleting a repository requires admin access. If OAuth is used, the `delete_repo` scope is required.\n\nIf an organization owner has configured the organization to prevent members from deleting organization-owned repositories, a member will get this response:\n\nIf a site admin has configured the enterprise appliance to prevent users from deleting organization-owned repositories, a user will get this response:",
+  "operationId": "repos/delete",
+  "tags": ["repos"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.21/v3/repos/#delete-a-repository"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": {
+    "204": { "description": "Empty response" },
+    "403": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "message": { "type": "string" },
+              "documentation_url": { "type": "string" }
+            }
+          },
+          "examples": {
+            "response-1": {
+              "summary": "Response 1",
+              "value": {
+                "message": "Organization members cannot delete repositories.",
+                "documentation_url": "https://developer.github.com/enterprise/2.21/v3/repos/#delete-a-repository"
+              }
+            },
+            "response-2": {
+              "summary": "Response 2",
+              "value": {
+                "message": "Users cannot delete repositories on this appliance.",
+                "documentation_url": "https://developer.github.com/enterprise/2.21/v3/repos/#delete-a-repository"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XDELETE \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/repos/octocat/hello-world"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.repos.delete({\n  owner: 'octocat',\n  repo: 'hello-world'\n})"
+    },
+    { "lang": "Ruby", "source": "octokit.delete(\n  'hello-world'\n)" }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}

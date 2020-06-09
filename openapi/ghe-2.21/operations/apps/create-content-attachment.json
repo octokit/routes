@@ -1,0 +1,101 @@
+{
+  "summary": "Create a content attachment",
+  "description": "Creates an attachment under a content reference URL in the body or comment of an issue or pull request. Use the `id` of the content reference from the [`content_reference` event](https://developer.github.com/enterprise/2.21/webhooks/event-payloads/#content_reference) to create an attachment.\n\nThe app must create a content attachment within six hours of the content reference URL being posted. See \"[Using content attachments](https://developer.github.com/enterprise/2.21/apps/using-content-attachments/)\" for details about content attachments.\n\nYou must use an [installation access token](https://developer.github.com/enterprise/2.21/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-an-installation) to access this endpoint.\n\nThis example creates a content attachment for the domain `https://errors.ai/`.",
+  "operationId": "apps/create-content-attachment",
+  "tags": ["apps"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.21/v3/apps/installations/#create-a-content-attachment"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "This API is under preview and subject to change.",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.corsair-preview+json"
+      },
+      "required": true
+    },
+    {
+      "name": "content_reference_id",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "number" },
+              "title": { "type": "string" },
+              "body": { "type": "string" }
+            }
+          },
+          "example": {
+            "id": 101,
+            "title": "[A-1234] Error found in core/models.py file'",
+            "body": "You have used an email that already exists for the user_email_uniq field.\n ## DETAILS:\n\nThe (email)=(Octocat@github.com) already exists.\n\n The error was found in core/models.py in get_or_create_user at line 62.\n\n self.save()"
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.corsair-preview+json\" \\\n  http://{hostname}/content_references/42/attachments \\\n  -d '{\"title\":\"title\",\"body\":\"body\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.apps.createContentAttachment({\n  content_reference_id: 42,\n  title: 'title',\n  body: 'body'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.create_content_attachment(\n  42,\n  'title',\n  'body'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": [
+      {
+        "name": "corsair",
+        "required": true,
+        "note": "To access the Content Attachments API during the preview period, you must provide a custom [media type](https://developer.github.com/enterprise/2.21/v3/media) in the `Accept` header:\n```shell\napplication/vnd.github.corsair-preview+json\n```"
+      }
+    ]
+  },
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "The title of the content attachment displayed in the body or comment of an issue or pull request."
+            },
+            "body": {
+              "type": "string",
+              "description": "The body text of the content attachment displayed in the body or comment of an issue or pull request. This parameter supports markdown."
+            }
+          },
+          "required": ["title", "body"]
+        },
+        "example": {
+          "title": "[A-1234] Error found in core/models.py file",
+          "body": "You have used an email that already exists for the user_email_uniq field.\n ## DETAILS:\n\nThe (email)=(Octocat@github.com) already exists.\n\n The error was found in core/models.py in get_or_create_user at line 62.\n\nself.save()"
+        }
+      }
+    }
+  }
+}

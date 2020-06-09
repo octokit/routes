@@ -1,0 +1,62 @@
+{
+  "summary": "Remove project collaborator",
+  "description": "Removes a collaborator from an organization project. You must be an organization owner or a project `admin` to remove a collaborator.",
+  "operationId": "projects/remove-collaborator",
+  "tags": ["projects"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.21/v3/projects/collaborators/#remove-project-collaborator"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "This API is under preview and subject to change.",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.inertia-preview+json"
+      },
+      "required": true
+    },
+    {
+      "name": "project_id",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    },
+    {
+      "name": "username",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": { "204": { "description": "Empty response" } },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XDELETE \\\n  -H\"Accept: application/vnd.github.inertia-preview+json\" \\\n  http://{hostname}/projects/42/collaborators/USERNAME"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.projects.removeCollaborator({\n  project_id: 42,\n  username: 'username'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.remove_collaborator(\n  42,\n  'username'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": [
+      {
+        "name": "inertia",
+        "required": true,
+        "note": "The Projects API is currently available for developers to preview. During the preview period, the API may change without advance notice. Please see the [blog post](https://developer.github.com/changes/2016-10-27-changes-to-projects-api) for full details. To access the API during the preview period, you must provide a custom [media type](https://developer.github.com/enterprise/2.21/v3/media) in the `Accept` header:\n```shell\napplication/vnd.github.inertia-preview+json\n```"
+      }
+    ]
+  },
+  "x-changes": []
+}

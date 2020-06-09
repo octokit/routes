@@ -1,0 +1,91 @@
+{
+  "summary": "List pre-receive hooks for an organization",
+  "description": "List all pre-receive hooks that are enabled or testing for this organization as well as any disabled hooks that can be configured at the organization level. Globally disabled pre-receive hooks that do not allow downstream configuration are not listed.",
+  "operationId": "enterprise-admin/list-pre-receive-hooks-for-org",
+  "tags": ["enterprise-admin"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.21/v3/enterprise-admin/org_pre_receive_hooks/#list-pre-receive-hooks-for-an-organization"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "org",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "per_page",
+      "description": "Results per page (max 100)",
+      "in": "query",
+      "schema": { "type": "integer", "default": 30 }
+    },
+    {
+      "name": "page",
+      "description": "Page number of the results to fetch.",
+      "in": "query",
+      "schema": { "type": "integer", "default": 1 }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "number" },
+                "name": { "type": "string" },
+                "enforcement": { "type": "string" },
+                "configuration_url": { "type": "string" },
+                "allow_downstream_configuration": { "type": "boolean" }
+              }
+            }
+          },
+          "example": [
+            {
+              "id": 42,
+              "name": "Check Commits",
+              "enforcement": "disabled",
+              "configuration_url": "https://github.example.com/api/v3/admin/pre-receive-hooks/42",
+              "allow_downstream_configuration": true
+            }
+          ]
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/orgs/ORG/pre-receive-hooks"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.enterpriseAdmin.listPreReceiveHooksForOrg({\n  org: 'org'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.pre_receive_hooks_for_org(\n  'org'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}

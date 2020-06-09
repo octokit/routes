@@ -1,0 +1,61 @@
+{
+  "summary": "Remove a project from a team",
+  "description": "Removes an organization project from a team. An organization owner or a team maintainer can remove any project from the team. To remove a project from a team as an organization member, the authenticated user must have `read` access to both the team and project, or `admin` access to the team or project. This endpoint removes the project from the team, but does not delete the project.\n\n**Note:** You can also specify a team by `org_id` and `team_id` using the route `DELETE /organizations/:org_id/team/:team_id/projects/:project_id`.",
+  "operationId": "teams/remove-project-in-org",
+  "tags": ["teams"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.21/v3/teams/#remove-a-project-from-a-team"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "org",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "team_slug",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "project_id",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    }
+  ],
+  "responses": { "204": { "description": "Empty response" } },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XDELETE \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/orgs/ORG/teams/TEAM_SLUG/projects/42"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.teams.removeProjectInOrg({\n  org: 'org',\n  team_slug: 'team_slug',\n  project_id: 42\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.remove_project_in_org(\n  'org',\n  'team_slug',\n  42\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}
