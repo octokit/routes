@@ -1,0 +1,156 @@
+{
+  "summary": "Add or update team membership for a user",
+  "description": "Adds an organization member to a team. An authenticated organization owner or team maintainer can add organization members to a team.\n\nAn organization owner can add someone who is not part of the team's organization to a team. When an organization owner adds someone to a team who is not an organization member, this endpoint will send an invitation to the person via email. This newly-created membership will be in the \"pending\" state until the person accepts the invitation, at which point the membership will transition to the \"active\" state and the user will be added as a member of the team.\n\nIf the user is already a member of the team, this endpoint will update the role of the team member's role. To update the membership of a team member, the authenticated user must be an organization owner or a team maintainer.\n\n**Note:** You can also specify a team by `org_id` and `team_id` using the route `PUT /organizations/:org_id/team/:team_id/memberships/:username`.",
+  "operationId": "teams/add-or-update-membership-for-user-in-org",
+  "tags": ["teams"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.21/v3/teams/members/#add-or-update-team-membership-for-a-user"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "org",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "team_slug",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "username",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "url": { "type": "string" },
+              "role": { "type": "string" },
+              "state": { "type": "string" }
+            }
+          },
+          "examples": {
+            "response-if-users-membership-with-team-is-now-active": {
+              "summary": "Response if user's membership with team is now active",
+              "value": {
+                "url": "https://api.github.com/teams/1/memberships/octocat",
+                "role": "member",
+                "state": "active"
+              }
+            },
+            "response-if-users-membership-with-team-is-now-pending": {
+              "summary": "Response if user's membership with team is now pending",
+              "value": {
+                "url": "https://api.github.com/teams/1/memberships/octocat",
+                "role": "member",
+                "state": "pending"
+              }
+            }
+          }
+        }
+      }
+    },
+    "422": {
+      "description": "Response if you attempt to add an organization to a team",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "message": { "type": "string" },
+              "errors": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "code": { "type": "string" },
+                    "field": { "type": "string" },
+                    "resource": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "examples": {
+            "response-if-you-attempt-to-add-an-organization-to-a-team": {
+              "value": {
+                "message": "Cannot add an organization as a member.",
+                "errors": [
+                  { "code": "org", "field": "user", "resource": "TeamMember" }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/orgs/ORG/teams/TEAM_SLUG/memberships/USERNAME \\\n  -d '{\"role\":\"role\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.teams.addOrUpdateMembershipForUserInOrg({\n  org: 'org',\n  team_slug: 'team_slug',\n  username: 'username',\n  role: 'role'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.add_or_update_membership_for_user_in_org(\n  'org',\n  'team_slug',\n  'username',\n  'role'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2020-06-01",
+      "note": "\"teams/add-or-update-membership-in-org\" operation ID is now \"teams/add-or-update-membership-for-user-in-org\"",
+      "before": { "operationId": "teams/add-or-update-membership-in-org" },
+      "after": {
+        "operationId": "teams/add-or-update-membership-for-user-in-org"
+      }
+    }
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "role": {
+              "type": "string",
+              "description": "The role that this user should have in the team. Can be one of:  \n\\* `member` - a normal member of the team.  \n\\* `maintainer` - a team maintainer. Able to add/remove other team members, promote other team members to team maintainer, and edit the team's name and description.",
+              "enum": ["member", "maintainer"],
+              "default": "member"
+            }
+          }
+        }
+      }
+    }
+  }
+}

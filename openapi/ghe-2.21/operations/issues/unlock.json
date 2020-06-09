@@ -1,0 +1,66 @@
+{
+  "summary": "Unlock an issue",
+  "description": "Users with push access can unlock an issue's conversation.",
+  "operationId": "issues/unlock",
+  "tags": ["issues"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.21/v3/issues/#unlock-an-issue"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "issue_number",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    }
+  ],
+  "responses": { "204": { "description": "Empty response" } },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XDELETE \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/repos/octocat/hello-world/issues/42/lock"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.issues.unlock({\n  owner: 'octocat',\n  repo: 'hello-world',\n  issue_number: 42\n})"
+    },
+    { "lang": "Ruby", "source": "octokit.unlock(\n  'hello-world',\n  42\n)" }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": [
+    {
+      "type": "parameter",
+      "date": "2019-04-10",
+      "note": "\"number\" parameter renamed to \"issue_number\"",
+      "before": { "name": "number" },
+      "after": { "name": "issue_number" }
+    }
+  ]
+}

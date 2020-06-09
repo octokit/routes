@@ -1,0 +1,93 @@
+{
+  "summary": "Update the username for a user",
+  "description": "",
+  "operationId": "enterprise-admin/update-username-for-user",
+  "tags": ["enterprise-admin"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.21/v3/enterprise-admin/users/#update-the-username-for-a-user"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "username",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": {
+    "202": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "message": { "type": "string" },
+              "url": { "type": "string" }
+            }
+          },
+          "example": {
+            "message": "Job queued to rename user. It may take a few minutes to complete.",
+            "url": "https://api.github.com/user/1"
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPATCH \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/admin/users/USERNAME \\\n  -d '{\"login\":\"login\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.enterpriseAdmin.updateUsernameForUser({\n  username: 'username',\n  login: 'login'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.update_username_for_user(\n  'username',\n  'login'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2020-06-05",
+      "note": "\"enterprise-admin/rename-user\" operation ID is now \"enterprise-admin/update-username-for-user\"",
+      "before": { "operationId": "enterprise-admin/rename-user" },
+      "after": { "operationId": "enterprise-admin/update-username-for-user" }
+    }
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "login": {
+              "type": "string",
+              "description": "The user's new username."
+            }
+          },
+          "required": ["login"]
+        },
+        "example": { "login": "thenewmonalisa" }
+      }
+    }
+  }
+}

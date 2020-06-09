@@ -1,0 +1,127 @@
+{
+  "summary": "Remove team access restrictions",
+  "description": "Protected branches are available in public repositories with GitHub Free and GitHub Free for organizations, and in public and private repositories with GitHub Pro, GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server.\n\nRemoves the ability of a team to push to this branch. You can also remove push access for child teams.\n\n| Type    | Description                                                                                                                                         |\n| ------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |\n| `array` | Teams that should no longer have push access. Use the team's `slug`. **Note**: The list of users, apps, and teams in total is limited to 100 items. |",
+  "operationId": "repos/remove-team-access-restrictions",
+  "tags": ["repos"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.21/v3/repos/branches/#remove-team-access-restrictions"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "branch",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "number" },
+                "node_id": { "type": "string" },
+                "url": { "type": "string" },
+                "html_url": { "type": "string" },
+                "name": { "type": "string" },
+                "slug": { "type": "string" },
+                "description": { "type": "string" },
+                "privacy": { "type": "string" },
+                "permission": { "type": "string" },
+                "members_url": { "type": "string" },
+                "repositories_url": { "type": "string" },
+                "parent": { "type": "string" }
+              }
+            }
+          },
+          "example": [
+            {
+              "id": 1,
+              "node_id": "MDQ6VGVhbTE=",
+              "url": "https://api.github.com/teams/1",
+              "html_url": "https://api.github.com/teams/justice-league",
+              "name": "Justice League",
+              "slug": "justice-league",
+              "description": "A great team.",
+              "privacy": "closed",
+              "permission": "admin",
+              "members_url": "https://api.github.com/teams/1/members{/member}",
+              "repositories_url": "https://api.github.com/teams/1/repos",
+              "parent": null
+            }
+          ]
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XDELETE \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/repos/octocat/hello-world/branches/BRANCH/protection/restrictions/teams \\\n  -d '{\"teams\":[\"teams\"]}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.repos.removeTeamAccessRestrictions({\n  owner: 'octocat',\n  repo: 'hello-world',\n  branch: 'branch',\n  teams: [\n    'teams'\n  ]\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.remove_team_access_restrictions(\n  'hello-world',\n  'branch',\n  [\n    'teams'\n  ]\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "requestBodyParameterName": "teams",
+    "previews": []
+  },
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2020-06-04",
+      "note": "\"repos/remove-protected-branch-team-restrictions\" operation ID is now \"repos/remove-team-access-restrictions\"",
+      "before": {
+        "operationId": "repos/remove-protected-branch-team-restrictions"
+      },
+      "after": { "operationId": "repos/remove-team-access-restrictions" }
+    }
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "array",
+          "description": "teams parameter",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

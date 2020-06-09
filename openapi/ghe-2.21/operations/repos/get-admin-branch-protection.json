@@ -1,0 +1,90 @@
+{
+  "summary": "Get admin branch protection",
+  "description": "Protected branches are available in public repositories with GitHub Free and GitHub Free for organizations, and in public and private repositories with GitHub Pro, GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server.",
+  "operationId": "repos/get-admin-branch-protection",
+  "tags": ["repos"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.21/v3/repos/branches/#get-admin-branch-protection"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "branch",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "url": { "type": "string" },
+              "enabled": { "type": "boolean" }
+            }
+          },
+          "example": {
+            "url": "https://api.github.com/repos/octocat/Hello-World/branches/master/protection/enforce_admins",
+            "enabled": true
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/repos/octocat/hello-world/branches/BRANCH/protection/enforce_admins"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.repos.getAdminBranchProtection({\n  owner: 'octocat',\n  repo: 'hello-world',\n  branch: 'branch'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.admin_branch_protection(\n  'hello-world',\n  'branch'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2020-06-04",
+      "note": "\"repos/get-protected-branch-admin-enforcement\" operation ID is now \"repos/get-admin-branch-protection\"",
+      "before": {
+        "operationId": "repos/get-protected-branch-admin-enforcement"
+      },
+      "after": { "operationId": "repos/get-admin-branch-protection" }
+    }
+  ]
+}

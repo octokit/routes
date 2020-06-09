@@ -1,0 +1,99 @@
+{
+  "summary": "List organizations for the authenticated user",
+  "description": "List organizations for the authenticated user.\n\n**OAuth scope requirements**\n\nThis only lists organizations that your authorization allows you to operate on in some way (e.g., you can list teams with `read:org` scope, you can publicize your organization membership with `user` scope, etc.). Therefore, this API requires at least `user` or `read:org` scope. OAuth requests with insufficient scope receive a `403 Forbidden` response.",
+  "operationId": "orgs/list-for-authenticated-user",
+  "tags": ["orgs"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.21/v3/orgs/#list-organizations-for-the-authenticated-user"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "per_page",
+      "description": "Results per page (max 100)",
+      "in": "query",
+      "schema": { "type": "integer", "default": 30 }
+    },
+    {
+      "name": "page",
+      "description": "Page number of the results to fetch.",
+      "in": "query",
+      "schema": { "type": "integer", "default": 1 }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "login": { "type": "string" },
+                "id": { "type": "number" },
+                "node_id": { "type": "string" },
+                "url": { "type": "string" },
+                "repos_url": { "type": "string" },
+                "events_url": { "type": "string" },
+                "hooks_url": { "type": "string" },
+                "issues_url": { "type": "string" },
+                "members_url": { "type": "string" },
+                "public_members_url": { "type": "string" },
+                "avatar_url": { "type": "string" },
+                "description": { "type": "string" }
+              }
+            }
+          },
+          "example": [
+            {
+              "login": "github",
+              "id": 1,
+              "node_id": "MDEyOk9yZ2FuaXphdGlvbjE=",
+              "url": "https://api.github.com/orgs/github",
+              "repos_url": "https://api.github.com/orgs/github/repos",
+              "events_url": "https://api.github.com/orgs/github/events",
+              "hooks_url": "https://api.github.com/orgs/github/hooks",
+              "issues_url": "https://api.github.com/orgs/github/issues",
+              "members_url": "https://api.github.com/orgs/github/members{/member}",
+              "public_members_url": "https://api.github.com/orgs/github/public_members{/member}",
+              "avatar_url": "https://github.com/images/error/octocat_happy.gif",
+              "description": "A great organization"
+            }
+          ]
+        }
+      },
+      "headers": {
+        "Link": {
+          "example": "<https://api.github.com/resource?page=2>; rel=\"next\", <https://api.github.com/resource?page=5>; rel=\"last\"",
+          "schema": { "type": "string" }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/user/orgs"
+    },
+    { "lang": "JS", "source": "octokit.orgs.listForAuthenticatedUser()" },
+    { "lang": "Ruby", "source": "octokit.for_authenticated_user()" }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}

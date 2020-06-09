@@ -1,0 +1,65 @@
+{
+  "summary": "Set public organization membership for the authenticated user",
+  "description": "The user can publicize their own membership. (A user cannot publicize the membership for another user.)\n\nNote that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see \"[HTTP verbs](https://developer.github.com/enterprise/2.21/v3/#http-verbs).\"",
+  "operationId": "orgs/set-public-membership-for-authenticated-user",
+  "tags": ["orgs"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.21/v3/orgs/members/#set-public-organization-membership-for-the-authenticated-user"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "org",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "username",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": { "204": { "description": "Empty response" } },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/orgs/ORG/public_members/USERNAME"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.orgs.setPublicMembershipForAuthenticatedUser({\n  org: 'org',\n  username: 'username'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.set_public_membership_for_authenticated_user(\n  'org',\n  'username'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": [
+    {
+      "type": "operation",
+      "date": "2020-06-04",
+      "note": "\"orgs/publicize-membership\" operation ID is now \"orgs/set-public-membership-for-authenticated-user\"",
+      "before": { "operationId": "orgs/publicize-membership" },
+      "after": {
+        "operationId": "orgs/set-public-membership-for-authenticated-user"
+      }
+    }
+  ]
+}

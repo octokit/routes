@@ -1,0 +1,67 @@
+{
+  "summary": "Delete an app token",
+  "description": "OAuth application owners can revoke a single token for an OAuth application. You must use [Basic Authentication](https://developer.github.com/enterprise/2.21/v3/auth#basic-authentication) when accessing this endpoint, using the OAuth application's `client_id` and `client_secret` as the username and password.",
+  "operationId": "apps/delete-token",
+  "tags": ["apps"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.21/v3/apps/oauth_applications/#delete-an-app-token"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "client_id",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    }
+  ],
+  "responses": { "204": { "description": "Empty response" } },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XDELETE \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/applications/CLIENT_ID/token \\\n  -d '{\"access_token\":\"access_token\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.apps.deleteToken({\n  client_id: 'client_id',\n  access_token: 'access_token'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.delete_token(\n  'client_id',\n  'access_token'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "access_token": {
+              "type": "string",
+              "description": "The OAuth access token used to authenticate to the GitHub API."
+            }
+          }
+        },
+        "example": {
+          "access_token": "e72e16c7e42f292c6912e7710c838347ae178b4a"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "summary": "Set labels for an issue",
+  "description": "Removes any previous labels and sets the new labels for an issue.",
+  "operationId": "issues/set-labels",
+  "tags": ["issues"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.21/v3/issues/labels/#set-labels-for-an-issue"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "issue_number",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "number" },
+                "node_id": { "type": "string" },
+                "url": { "type": "string" },
+                "name": { "type": "string" },
+                "description": { "type": "string" },
+                "color": { "type": "string" },
+                "default": { "type": "boolean" }
+              }
+            }
+          },
+          "example": [
+            {
+              "id": 208045946,
+              "node_id": "MDU6TGFiZWwyMDgwNDU5NDY=",
+              "url": "https://api.github.com/repos/octocat/Hello-World/labels/bug",
+              "name": "bug",
+              "description": "Something isn't working",
+              "color": "f29513",
+              "default": true
+            },
+            {
+              "id": 208045947,
+              "node_id": "MDU6TGFiZWwyMDgwNDU5NDc=",
+              "url": "https://api.github.com/repos/octocat/Hello-World/labels/enhancement",
+              "name": "enhancement",
+              "description": "New feature or request",
+              "color": "a2eeef",
+              "default": false
+            }
+          ]
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPUT \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/repos/octocat/hello-world/issues/42/labels \\\n  -d '{\"labels\":[\"labels\"]}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.issues.setLabels({\n  owner: 'octocat',\n  repo: 'hello-world',\n  issue_number: 42,\n  labels: [\n    'labels'\n  ]\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.set_labels(\n  'hello-world',\n  42,\n  [\n    'labels'\n  ]\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": [
+    {
+      "type": "parameter",
+      "date": "2019-04-10",
+      "note": "\"number\" parameter renamed to \"issue_number\"",
+      "before": { "name": "number" },
+      "after": { "name": "issue_number" }
+    },
+    {
+      "type": "operation",
+      "date": "2020-03-04",
+      "note": "\"issues/replace-labels\" operation ID is now \"issues/replace-all-labels\"",
+      "before": { "operationId": "issues/replace-labels" },
+      "after": { "operationId": "issues/replace-all-labels" }
+    },
+    {
+      "type": "operation",
+      "date": "2020-06-04",
+      "note": "\"issues/replace-all-labels\" operation ID is now \"issues/set-labels\"",
+      "before": { "operationId": "issues/replace-all-labels" },
+      "after": { "operationId": "issues/set-labels" }
+    }
+  ],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "labels": {
+              "type": "array",
+              "description": "The names of the labels to add to the issue. You can pass an empty array to remove all labels. **Note:** Alternatively, you can pass a single label as a `string` or an `array` of labels directly, but GitHub recommends passing an object with the `labels` key.",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "example": { "labels": ["bug", "enhancement"] }
+      }
+    }
+  }
+}

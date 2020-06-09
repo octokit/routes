@@ -1,0 +1,128 @@
+{
+  "summary": "List matching references",
+  "description": "Returns an array of references from your Git database that match the supplied name. The `:ref` in the URL must be formatted as `heads/<branch name>` for branches and `tags/<tag name>` for tags. If the `:ref` doesn't exist in the repository, but existing refs start with `:ref`, they will be returned as an array.\n\nWhen you use this endpoint without providing a `:ref`, it will return an array of all the references from your Git database, including notes and stashes if they exist on the server. Anything in the namespace is returned, not just `heads` and `tags`.\n\n**Note:** You need to explicitly [request a pull request](https://developer.github.com/enterprise/2.21/v3/pulls/#get-a-pull-request) to trigger a test merge commit, which checks the mergeability of pull requests. For more information, see \"[Checking mergeability of pull requests](https://developer.github.com/enterprise/2.21/v3/git/#checking-mergeability-of-pull-requests)\".\n\nIf you request matching references for a branch named `feature` but the branch `feature` doesn't exist, the response can still include other matching head refs that start with the word `feature`, such as `featureA` and `featureB`.",
+  "operationId": "git/list-matching-refs",
+  "tags": ["git"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.21/v3/git/refs/#list-matching-references"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "owner",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "repo",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "ref",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "per_page",
+      "description": "Results per page (max 100)",
+      "in": "query",
+      "schema": { "type": "integer", "default": 30 }
+    },
+    {
+      "name": "page",
+      "description": "Page number of the results to fetch.",
+      "in": "query",
+      "schema": { "type": "integer", "default": 1 }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "ref": { "type": "string" },
+                "node_id": { "type": "string" },
+                "url": { "type": "string" },
+                "object": {
+                  "type": "object",
+                  "properties": {
+                    "type": { "type": "string" },
+                    "sha": { "type": "string" },
+                    "url": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "example": [
+            {
+              "ref": "refs/heads/feature-a",
+              "node_id": "MDM6UmVmcmVmcy9oZWFkcy9mZWF0dXJlLWE=",
+              "url": "https://api.github.com/repos/octocat/Hello-World/git/refs/heads/feature-a",
+              "object": {
+                "type": "commit",
+                "sha": "aa218f56b14c9653891f9e74264a383fa43fefbd",
+                "url": "https://api.github.com/repos/octocat/Hello-World/git/commits/aa218f56b14c9653891f9e74264a383fa43fefbd"
+              }
+            },
+            {
+              "ref": "refs/heads/feature-b",
+              "node_id": "MDM6UmVmcmVmcy9oZWFkcy9mZWF0dXJlLWI=",
+              "url": "https://api.github.com/repos/octocat/Hello-World/git/refs/heads/feature-b",
+              "object": {
+                "type": "commit",
+                "sha": "612077ae6dffb4d2fbd8ce0cccaa58893b07b5ac",
+                "url": "https://api.github.com/repos/octocat/Hello-World/git/commits/612077ae6dffb4d2fbd8ce0cccaa58893b07b5ac"
+              }
+            }
+          ]
+        }
+      },
+      "headers": {
+        "Link": {
+          "example": "<https://api.github.com/resource?page=2>; rel=\"next\", <https://api.github.com/resource?page=5>; rel=\"last\"",
+          "schema": { "type": "string" }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/repos/octocat/hello-world/git/matching-refs/REF"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.git.listMatchingRefs({\n  owner: 'octocat',\n  repo: 'hello-world',\n  ref: 'ref'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.matching_refs(\n  'hello-world',\n  'ref'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}

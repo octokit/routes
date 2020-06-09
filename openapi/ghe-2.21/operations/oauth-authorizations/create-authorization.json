@@ -1,0 +1,135 @@
+{
+  "summary": "Create a new authorization",
+  "description": "**Deprecation Notice:** GitHub will discontinue the [OAuth Authorizations API](https://developer.github.com/enterprise/2.21/v3/oauth_authorizations/), which is used by integrations to create personal access tokens and OAuth tokens, and you must now create these tokens using our [web application flow](https://developer.github.com/enterprise/2.21/apps/building-oauth-apps/authorizing-oauth-apps/#web-application-flow). For more information, see the [blog post](https://developer.github.com/changes/2020-02-14-deprecating-oauth-auth-endpoint/).\n\nThe OAuth Authorizations API is currently available and not yet deprecated in GitHub Enterprise Server. GitHub will announce the deprecation and provide advanced notice before removing support for this feature.\n\n**Warning:** Apps must use the [web application flow](https://developer.github.com/enterprise/2.21/apps/building-oauth-apps/authorizing-oauth-apps/#web-application-flow) to obtain OAuth tokens that work with GitHub SAML organizations. OAuth tokens created using the Authorizations API will be unable to access GitHub SAML organizations. For more information, see the [blog post](https://developer.github.com/changes/2019-11-05-deprecated-passwords-and-authorizations-api).\n\nCreates OAuth tokens using [Basic Authentication](https://developer.github.com/enterprise/2.21/v3/auth#basic-authentication). If you have two-factor authentication setup, Basic Authentication for this endpoint requires that you use a one-time password (OTP) and your username and password instead of tokens. For more information, see \"[Working with two-factor authentication](https://developer.github.com/enterprise/2.21/v3/auth/#working-with-two-factor-authentication).\"\n\nTo create tokens for a particular OAuth application using this endpoint, you must authenticate as the user you want to create an authorization for and provide the app's client ID and secret, found on your OAuth application's settings page. If your OAuth application intends to create multiple tokens for one user, use `fingerprint` to differentiate between them.\n\nYou can also create tokens on GitHub from the [personal access tokens settings](https://github.com/settings/tokens) page. Read more about these tokens in [the GitHub Help documentation](https://help.github.com/articles/creating-an-access-token-for-command-line-use).",
+  "operationId": "oauth-authorizations/create-authorization",
+  "tags": ["oauth-authorizations"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.21/v3/oauth_authorizations/#create-a-new-authorization"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    }
+  ],
+  "responses": {
+    "201": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "number" },
+              "url": { "type": "string" },
+              "scopes": { "type": "array", "items": { "type": "string" } },
+              "token": { "type": "string" },
+              "token_last_eight": { "type": "string" },
+              "hashed_token": { "type": "string" },
+              "app": {
+                "type": "object",
+                "properties": {
+                  "url": { "type": "string" },
+                  "name": { "type": "string" },
+                  "client_id": { "type": "string" }
+                }
+              },
+              "note": { "type": "string" },
+              "note_url": { "type": "string" },
+              "updated_at": { "type": "string" },
+              "created_at": { "type": "string" },
+              "fingerprint": { "type": "string" }
+            }
+          },
+          "example": {
+            "id": 1,
+            "url": "https://api.github.com/authorizations/1",
+            "scopes": ["public_repo"],
+            "token": "abcdefgh12345678",
+            "token_last_eight": "12345678",
+            "hashed_token": "25f94a2a5c7fbaf499c665bc73d67c1c87e496da8985131633ee0a95819db2e8",
+            "app": {
+              "url": "http://my-github-app.com",
+              "name": "my github app",
+              "client_id": "abcde12345fghij67890"
+            },
+            "note": "optional note",
+            "note_url": "http://optional/note/url",
+            "updated_at": "2011-09-06T20:39:23Z",
+            "created_at": "2011-09-06T17:26:27Z",
+            "fingerprint": ""
+          }
+        }
+      },
+      "headers": {
+        "Location": {
+          "example": "https://api.github.com/authorizations/1",
+          "schema": { "type": "string" }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -XPOST \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/authorizations \\\n  -d '{\"note\":\"note\"}'"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.oauthAuthorizations.createAuthorization({\n  note: 'note'\n})"
+    },
+    { "lang": "Ruby", "source": "octokit.create_authorization(\n  'note'\n)" }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": [],
+  "requestBody": {
+    "content": {
+      "application/json": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "scopes": {
+              "type": "array",
+              "description": "A list of scopes that this authorization is in.",
+              "items": { "type": "string" }
+            },
+            "note": {
+              "type": "string",
+              "description": "A note to remind you what the OAuth token is for. Tokens not associated with a specific OAuth application (i.e. personal access tokens) must have a unique note."
+            },
+            "note_url": {
+              "type": "string",
+              "description": "A URL to remind you what app the OAuth token is for."
+            },
+            "client_id": {
+              "type": "string",
+              "description": "The 20 character OAuth app client key for which to create the token."
+            },
+            "client_secret": {
+              "type": "string",
+              "description": "The 40 character OAuth app client secret for which to create the token."
+            },
+            "fingerprint": {
+              "type": "string",
+              "description": "A unique string to distinguish an authorization from others created for the same client ID and user."
+            }
+          },
+          "required": ["note"]
+        },
+        "example": { "scopes": ["public_repo"], "note": "admin script" }
+      }
+    }
+  },
+  "deprecated": true
+}

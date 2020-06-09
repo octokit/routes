@@ -1,0 +1,146 @@
+{
+  "summary": "List child teams",
+  "description": "Lists the child teams of the team requested by `:team_slug`.\n\n**Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/:org_id/team/:team_id/teams`.",
+  "operationId": "teams/list-child-in-org",
+  "tags": ["teams"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.21/v3/teams/#list-child-teams"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "org",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "team_slug",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "string" }
+    },
+    {
+      "name": "per_page",
+      "description": "Results per page (max 100)",
+      "in": "query",
+      "schema": { "type": "integer", "default": 30 }
+    },
+    {
+      "name": "page",
+      "description": "Page number of the results to fetch.",
+      "in": "query",
+      "schema": { "type": "integer", "default": 1 }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "Response if child teams exist",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "number" },
+                "node_id": { "type": "string" },
+                "url": { "type": "string" },
+                "name": { "type": "string" },
+                "slug": { "type": "string" },
+                "description": { "type": "string" },
+                "privacy": { "type": "string" },
+                "permission": { "type": "string" },
+                "members_url": { "type": "string" },
+                "repositories_url": { "type": "string" },
+                "parent": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "number" },
+                    "node_id": { "type": "string" },
+                    "url": { "type": "string" },
+                    "html_url": { "type": "string" },
+                    "name": { "type": "string" },
+                    "slug": { "type": "string" },
+                    "description": { "type": "string" },
+                    "privacy": { "type": "string" },
+                    "permission": { "type": "string" },
+                    "members_url": { "type": "string" },
+                    "repositories_url": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "examples": {
+            "response-if-child-teams-exist": {
+              "value": [
+                {
+                  "id": 2,
+                  "node_id": "MDQ6VGVhbTI=",
+                  "url": "https://api.github.com/teams/2",
+                  "name": "Original Roster",
+                  "slug": "original-roster",
+                  "description": "Started it all.",
+                  "privacy": "closed",
+                  "permission": "admin",
+                  "members_url": "https://api.github.com/teams/2/members{/member}",
+                  "repositories_url": "https://api.github.com/teams/2/repos",
+                  "parent": {
+                    "id": 1,
+                    "node_id": "MDQ6VGVhbTE=",
+                    "url": "https://api.github.com/teams/1",
+                    "html_url": "https://api.github.com/teams/justice-league",
+                    "name": "Justice League",
+                    "slug": "justice-league",
+                    "description": "A great team.",
+                    "privacy": "closed",
+                    "permission": "admin",
+                    "members_url": "https://api.github.com/teams/1/members{/member}",
+                    "repositories_url": "https://api.github.com/teams/1/repos"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "headers": {
+        "Link": {
+          "example": "<https://api.github.com/resource?page=2>; rel=\"next\", <https://api.github.com/resource?page=5>; rel=\"last\"",
+          "schema": { "type": "string" }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/orgs/ORG/teams/TEAM_SLUG/teams"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.teams.listChildInOrg({\n  org: 'org',\n  team_slug: 'team_slug'\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.child_in_org(\n  'org',\n  'team_slug'\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": true,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}

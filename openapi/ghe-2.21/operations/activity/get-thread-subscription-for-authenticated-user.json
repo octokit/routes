@@ -1,0 +1,76 @@
+{
+  "summary": "Get a thread subscription for the authenticated user",
+  "description": "This checks to see if the current user is subscribed to a thread. You can also [get a repository subscription](https://developer.github.com/enterprise/2.21/v3/activity/watching/#get-a-repository-subscription).\n\nNote that subscriptions are only generated if a user is participating in a conversation--for example, they've replied to the thread, were **@mentioned**, or manually subscribe to a thread.",
+  "operationId": "activity/get-thread-subscription-for-authenticated-user",
+  "tags": ["activity"],
+  "externalDocs": {
+    "description": "API method documentation",
+    "url": "https://developer.github.com/enterprise/2.21/v3/activity/notifications/#get-a-thread-subscription-for-the-authenticated-user"
+  },
+  "parameters": [
+    {
+      "name": "accept",
+      "description": "Setting to `application/vnd.github.v3+json` is recommended",
+      "in": "header",
+      "schema": {
+        "type": "string",
+        "default": "application/vnd.github.v3+json"
+      }
+    },
+    {
+      "name": "thread_id",
+      "in": "path",
+      "required": true,
+      "schema": { "type": "integer" }
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "response",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "subscribed": { "type": "boolean" },
+              "ignored": { "type": "boolean" },
+              "reason": { "type": "string" },
+              "created_at": { "type": "string" },
+              "url": { "type": "string" },
+              "thread_url": { "type": "string" }
+            }
+          },
+          "example": {
+            "subscribed": true,
+            "ignored": false,
+            "reason": null,
+            "created_at": "2012-10-06T21:34:12Z",
+            "url": "https://api.github.com/notifications/threads/1/subscription",
+            "thread_url": "https://api.github.com/notifications/threads/1"
+          }
+        }
+      }
+    }
+  },
+  "x-code-samples": [
+    {
+      "lang": "Shell",
+      "source": "curl \\\n  -H\"Accept: application/vnd.github.v3+json\" \\\n  http://{hostname}/notifications/threads/42/subscription"
+    },
+    {
+      "lang": "JS",
+      "source": "octokit.activity.getThreadSubscriptionForAuthenticatedUser({\n  thread_id: 42\n})"
+    },
+    {
+      "lang": "Ruby",
+      "source": "octokit.thread_subscription_for_authenticated_user(\n  42\n)"
+    }
+  ],
+  "x-github": {
+    "legacy": false,
+    "enabledForApps": false,
+    "githubCloudOnly": false,
+    "previews": []
+  },
+  "x-changes": []
+}
