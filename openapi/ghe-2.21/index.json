@@ -432,7 +432,100 @@
       "post": { "$ref": "operations/teams/create.json" }
     },
     "/orgs/{org}/teams/{team_slug}": {
-      "get": { "$ref": "operations/teams/get-by-name.json" }
+      "get": { "$ref": "operations/teams/get-by-name.json" },
+      "patch": { "$ref": "operations/teams/update-in-org.json" },
+      "delete": { "$ref": "operations/teams/delete-in-org.json" }
+    },
+    "/orgs/{org}/teams/{team_slug}/discussions": {
+      "get": { "$ref": "operations/teams/list-discussions-in-org.json" },
+      "post": { "$ref": "operations/teams/create-discussion-in-org.json" }
+    },
+    "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}": {
+      "get": { "$ref": "operations/teams/get-discussion-in-org.json" },
+      "patch": { "$ref": "operations/teams/update-discussion-in-org.json" },
+      "delete": { "$ref": "operations/teams/delete-discussion-in-org.json" }
+    },
+    "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments": {
+      "get": {
+        "$ref": "operations/teams/list-discussion-comments-in-org.json"
+      },
+      "post": {
+        "$ref": "operations/teams/create-discussion-comment-in-org.json"
+      }
+    },
+    "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}": {
+      "get": { "$ref": "operations/teams/get-discussion-comment-in-org.json" },
+      "patch": {
+        "$ref": "operations/teams/update-discussion-comment-in-org.json"
+      },
+      "delete": {
+        "$ref": "operations/teams/delete-discussion-comment-in-org.json"
+      }
+    },
+    "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}/reactions": {
+      "get": {
+        "$ref": "operations/reactions/list-for-team-discussion-comment-in-org.json"
+      },
+      "post": {
+        "$ref": "operations/reactions/create-for-team-discussion-comment-in-org.json"
+      }
+    },
+    "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}/reactions/{reaction_id}": {
+      "delete": {
+        "$ref": "operations/reactions/delete-for-team-discussion-comment.json"
+      }
+    },
+    "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/reactions": {
+      "get": {
+        "$ref": "operations/reactions/list-for-team-discussion-in-org.json"
+      },
+      "post": {
+        "$ref": "operations/reactions/create-for-team-discussion-in-org.json"
+      }
+    },
+    "/orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/reactions/{reaction_id}": {
+      "delete": {
+        "$ref": "operations/reactions/delete-for-team-discussion.json"
+      }
+    },
+    "/orgs/{org}/teams/{team_slug}/members": {
+      "get": { "$ref": "operations/teams/list-members-in-org.json" }
+    },
+    "/orgs/{org}/teams/{team_slug}/memberships/{username}": {
+      "get": { "$ref": "operations/teams/get-membership-for-user-in-org.json" },
+      "put": {
+        "$ref": "operations/teams/add-or-update-membership-for-user-in-org.json"
+      },
+      "delete": {
+        "$ref": "operations/teams/remove-membership-for-user-in-org.json"
+      }
+    },
+    "/orgs/{org}/teams/{team_slug}/projects": {
+      "get": { "$ref": "operations/teams/list-projects-in-org.json" }
+    },
+    "/orgs/{org}/teams/{team_slug}/projects/{project_id}": {
+      "get": {
+        "$ref": "operations/teams/check-permissions-for-project-in-org.json"
+      },
+      "put": {
+        "$ref": "operations/teams/add-or-update-project-permissions-in-org.json"
+      },
+      "delete": { "$ref": "operations/teams/remove-project-in-org.json" }
+    },
+    "/orgs/{org}/teams/{team_slug}/repos": {
+      "get": { "$ref": "operations/teams/list-repos-in-org.json" }
+    },
+    "/orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}": {
+      "get": {
+        "$ref": "operations/teams/check-permissions-for-repo-in-org.json"
+      },
+      "put": {
+        "$ref": "operations/teams/add-or-update-repo-permissions-in-org.json"
+      },
+      "delete": { "$ref": "operations/teams/remove-repo-in-org.json" }
+    },
+    "/orgs/{org}/teams/{team_slug}/teams": {
+      "get": { "$ref": "operations/teams/list-child-in-org.json" }
     },
     "/projects/columns/cards/{card_id}": {
       "get": { "$ref": "operations/projects/get-card.json" },
@@ -475,7 +568,7 @@
     },
     "/rate_limit": { "get": { "$ref": "operations/rate-limit/get.json" } },
     "/reactions/{reaction_id}": {
-      "delete": { "$ref": "operations/reactions/delete.json" }
+      "delete": { "$ref": "operations/reactions/delete-legacy.json" }
     },
     "/repos/{owner}/{repo}": {
       "get": { "$ref": "operations/repos/get.json" },
@@ -627,6 +720,11 @@
       "get": { "$ref": "operations/reactions/list-for-commit-comment.json" },
       "post": { "$ref": "operations/reactions/create-for-commit-comment.json" }
     },
+    "/repos/{owner}/{repo}/comments/{comment_id}/reactions/{reaction_id}": {
+      "delete": {
+        "$ref": "operations/reactions/delete-for-commit-comment.json"
+      }
+    },
     "/repos/{owner}/{repo}/commits": {
       "get": { "$ref": "operations/repos/list-commits.json" }
     },
@@ -676,7 +774,8 @@
       "post": { "$ref": "operations/repos/create-deployment.json" }
     },
     "/repos/{owner}/{repo}/deployments/{deployment_id}": {
-      "get": { "$ref": "operations/repos/get-deployment.json" }
+      "get": { "$ref": "operations/repos/get-deployment.json" },
+      "delete": { "$ref": "operations/repos/delete-deployment.json" }
     },
     "/repos/{owner}/{repo}/deployments/{deployment_id}/statuses": {
       "get": { "$ref": "operations/repos/list-deployment-statuses.json" },
@@ -777,6 +876,9 @@
       "get": { "$ref": "operations/reactions/list-for-issue-comment.json" },
       "post": { "$ref": "operations/reactions/create-for-issue-comment.json" }
     },
+    "/repos/{owner}/{repo}/issues/comments/{comment_id}/reactions/{reaction_id}": {
+      "delete": { "$ref": "operations/reactions/delete-for-issue-comment.json" }
+    },
     "/repos/{owner}/{repo}/issues/events": {
       "get": { "$ref": "operations/issues/list-events-for-repo.json" }
     },
@@ -814,6 +916,9 @@
     "/repos/{owner}/{repo}/issues/{issue_number}/reactions": {
       "get": { "$ref": "operations/reactions/list-for-issue.json" },
       "post": { "$ref": "operations/reactions/create-for-issue.json" }
+    },
+    "/repos/{owner}/{repo}/issues/{issue_number}/reactions/{reaction_id}": {
+      "delete": { "$ref": "operations/reactions/delete-for-issue.json" }
     },
     "/repos/{owner}/{repo}/issues/{issue_number}/timeline": {
       "get": { "$ref": "operations/issues/list-events-for-timeline.json" }
@@ -920,6 +1025,11 @@
       },
       "post": {
         "$ref": "operations/reactions/create-for-pull-request-review-comment.json"
+      }
+    },
+    "/repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions/{reaction_id}": {
+      "delete": {
+        "$ref": "operations/reactions/delete-for-pull-request-comment.json"
       }
     },
     "/repos/{owner}/{repo}/pulls/{pull_number}": {
@@ -1107,42 +1217,54 @@
       "post": { "$ref": "operations/enterprise-admin/create-indexing-job.json" }
     },
     "/teams/{team_id}": {
-      "get": { "$ref": "operations/teams/get.json" },
-      "patch": { "$ref": "operations/teams/update.json" },
-      "delete": { "$ref": "operations/teams/delete.json" }
+      "get": { "$ref": "operations/teams/get-legacy.json" },
+      "patch": { "$ref": "operations/teams/update-legacy.json" },
+      "delete": { "$ref": "operations/teams/delete-legacy.json" }
     },
     "/teams/{team_id}/discussions": {
-      "get": { "$ref": "operations/teams/list-discussions.json" },
-      "post": { "$ref": "operations/teams/create-discussion.json" }
+      "get": { "$ref": "operations/teams/list-discussions-legacy.json" },
+      "post": { "$ref": "operations/teams/create-discussion-legacy.json" }
     },
     "/teams/{team_id}/discussions/{discussion_number}": {
-      "get": { "$ref": "operations/teams/get-discussion.json" },
-      "patch": { "$ref": "operations/teams/update-discussion.json" },
-      "delete": { "$ref": "operations/teams/delete-discussion.json" }
+      "get": { "$ref": "operations/teams/get-discussion-legacy.json" },
+      "patch": { "$ref": "operations/teams/update-discussion-legacy.json" },
+      "delete": { "$ref": "operations/teams/delete-discussion-legacy.json" }
     },
     "/teams/{team_id}/discussions/{discussion_number}/comments": {
-      "get": { "$ref": "operations/teams/list-discussion-comments.json" },
-      "post": { "$ref": "operations/teams/create-discussion-comment.json" }
+      "get": {
+        "$ref": "operations/teams/list-discussion-comments-legacy.json"
+      },
+      "post": {
+        "$ref": "operations/teams/create-discussion-comment-legacy.json"
+      }
     },
     "/teams/{team_id}/discussions/{discussion_number}/comments/{comment_number}": {
-      "get": { "$ref": "operations/teams/get-discussion-comment.json" },
-      "patch": { "$ref": "operations/teams/update-discussion-comment.json" },
-      "delete": { "$ref": "operations/teams/delete-discussion-comment.json" }
+      "get": { "$ref": "operations/teams/get-discussion-comment-legacy.json" },
+      "patch": {
+        "$ref": "operations/teams/update-discussion-comment-legacy.json"
+      },
+      "delete": {
+        "$ref": "operations/teams/delete-discussion-comment-legacy.json"
+      }
     },
     "/teams/{team_id}/discussions/{discussion_number}/comments/{comment_number}/reactions": {
       "get": {
-        "$ref": "operations/reactions/list-for-team-discussion-comment.json"
+        "$ref": "operations/reactions/list-for-team-discussion-comment-legacy.json"
       },
       "post": {
-        "$ref": "operations/reactions/create-for-team-discussion-comment.json"
+        "$ref": "operations/reactions/create-for-team-discussion-comment-legacy.json"
       }
     },
     "/teams/{team_id}/discussions/{discussion_number}/reactions": {
-      "get": { "$ref": "operations/reactions/list-for-team-discussion.json" },
-      "post": { "$ref": "operations/reactions/create-for-team-discussion.json" }
+      "get": {
+        "$ref": "operations/reactions/list-for-team-discussion-legacy.json"
+      },
+      "post": {
+        "$ref": "operations/reactions/create-for-team-discussion-legacy.json"
+      }
     },
     "/teams/{team_id}/members": {
-      "get": { "$ref": "operations/teams/list-members.json" }
+      "get": { "$ref": "operations/teams/list-members-legacy.json" }
     },
     "/teams/{team_id}/members/{username}": {
       "get": { "$ref": "operations/teams/get-member-legacy.json" },
@@ -1150,32 +1272,40 @@
       "delete": { "$ref": "operations/teams/remove-member-legacy.json" }
     },
     "/teams/{team_id}/memberships/{username}": {
-      "get": { "$ref": "operations/teams/get-membership-for-user.json" },
+      "get": { "$ref": "operations/teams/get-membership-for-user-legacy.json" },
       "put": {
-        "$ref": "operations/teams/add-or-update-membership-for-user.json"
+        "$ref": "operations/teams/add-or-update-membership-for-user-legacy.json"
       },
-      "delete": { "$ref": "operations/teams/remove-membership-for-user.json" }
+      "delete": {
+        "$ref": "operations/teams/remove-membership-for-user-legacy.json"
+      }
     },
     "/teams/{team_id}/projects": {
-      "get": { "$ref": "operations/teams/list-projects.json" }
+      "get": { "$ref": "operations/teams/list-projects-legacy.json" }
     },
     "/teams/{team_id}/projects/{project_id}": {
-      "get": { "$ref": "operations/teams/check-permissions-for-project.json" },
-      "put": {
-        "$ref": "operations/teams/add-or-update-project-permissions.json"
+      "get": {
+        "$ref": "operations/teams/check-permissions-for-project-legacy.json"
       },
-      "delete": { "$ref": "operations/teams/remove-project.json" }
+      "put": {
+        "$ref": "operations/teams/add-or-update-project-permissions-legacy.json"
+      },
+      "delete": { "$ref": "operations/teams/remove-project-legacy.json" }
     },
     "/teams/{team_id}/repos": {
-      "get": { "$ref": "operations/teams/list-repos.json" }
+      "get": { "$ref": "operations/teams/list-repos-legacy.json" }
     },
     "/teams/{team_id}/repos/{owner}/{repo}": {
-      "get": { "$ref": "operations/teams/check-permissions-for-repo.json" },
-      "put": { "$ref": "operations/teams/add-or-update-repo-permissions.json" },
-      "delete": { "$ref": "operations/teams/remove-repo.json" }
+      "get": {
+        "$ref": "operations/teams/check-permissions-for-repo-legacy.json"
+      },
+      "put": {
+        "$ref": "operations/teams/add-or-update-repo-permissions-legacy.json"
+      },
+      "delete": { "$ref": "operations/teams/remove-repo-legacy.json" }
     },
     "/teams/{team_id}/teams": {
-      "get": { "$ref": "operations/teams/list-child.json" }
+      "get": { "$ref": "operations/teams/list-child-legacy.json" }
     },
     "/user": {
       "get": { "$ref": "operations/users/get-authenticated.json" },
