@@ -1,0 +1,37 @@
+<h2>
+<a id="start-a-pre-receive-environment-download" class="anchor" href="#start-a-pre-receive-environment-download" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Start a pre-receive environment download</h2>
+<p>Triggers a new download of the environment tarball from the environment&apos;s <code>image_url</code>.  When the download is finished, the newly downloaded tarball will overwrite the existing environment.</p>
+<pre><code>POST /admin/pre-receive-environments/:pre_receive_environment_id/downloads
+</code></pre>
+<h3>
+<a id="response-3" class="anchor" href="#response-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response</h3>
+<pre class="highlight highlight-headers"><code>Status: 202 Accepted
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://github.example.com/api/v3/admin/pre-receive-environments/3/downloads/latest&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;not_started&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;downloaded_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<h4>
+<a id="client-errors-2" class="anchor" href="#client-errors-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Client Errors</h4>
+<p>If a download cannot be triggered, you will get a reponse like this:</p>
+<pre class="highlight highlight-headers"><code>Status: 422 Unprocessable Entity
+</code></pre>
+<pre class="highlight highlight-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Validation Failed&quot;</span><span class="p">,</span><span class="w">
+  </span><span class="nt">&quot;errors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nt">&quot;resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;PreReceiveEnvironment&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;custom&quot;</span><span class="p">,</span><span class="w">
+      </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Can not start a new download when a download is in progress&quot;</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>The possible error messages are:</p>
+<ul>
+<li><em>Cannot modify or delete the default environment</em></li>
+<li><em>Can not start a new download when a download is in progress</em></li>
+</ul>
