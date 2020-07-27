@@ -1,3 +1,7 @@
+# ⚠️ This repository is deprecated.
+
+GitHub has an official [OpenAPI Description](https://github.com/github/rest-api-description/) now
+
 # Octokit routes
 
 > machine-readable, always up-to-date GitHub REST API route specifications
